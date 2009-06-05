@@ -103,6 +103,10 @@ MainWindow::MainWindow(QWidget *parent):
 
                 Load(path);
         }
+        else
+        {
+                on_actionNouveau_projet_triggered();
+        }
 }
 
 MainWindow::~MainWindow()
@@ -820,7 +824,7 @@ void MainWindow::showPropertiesItem()
 {
         Params *p = NULL;
         Params proom;
-        int type;
+        int type = OBJ_NONE;
 
         QTreeWidgetItemInput *itinput = dynamic_cast<QTreeWidgetItemInput *>(treeItem);
         if (itinput)
