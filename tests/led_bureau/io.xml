@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<calaos:ioconfig xmlns:calaos="http://www.calaos.fr">
+    <calaos:home>
+        <calaos:room name="salon" type="salon" hits="0">
+            <calaos:input host="10.0.0.124" id="input_0" name="inter1" port="502" type="WIDigitalBP" var="2"/>
+            <calaos:input host="10.0.0.124" id="input_2" name="inter3" port="502" type="WIDigitalBP" var="0"/>
+            <calaos:input host="10.0.0.124" id="input_3" name="inter4" port="502" type="WIDigitalBP" var="3"/>
+            <calaos:input host="10.0.0.124" id="input_4" name="inter5" port="502" type="WIDigitalBP" var="4"/>
+            <calaos:input host="10.0.0.124" id="input_5" name="inter6" port="502" type="WIDigitalBP" var="1"/>
+            <calaos:output gtype="light" host="10.0.0.124" id="output_0" name="led1" port="502" type="WODigital" var="2"/>
+            <calaos:output gtype="light" host="10.0.0.124" id="output_1" name="led2" port="502" type="WODigital" var="3"/>
+            <calaos:output gtype="light" host="10.0.0.124" id="output_2" name="led3" port="502" type="WODigital" var="4"/>
+            <calaos:output gtype="light" host="10.0.0.124" id="output_4" name="led5" port="502" type="WODigital" var="0"/>
+            <calaos:output gtype="light" host="10.0.0.124" id="output_5" name="led6" port="502" type="WODigital" var="1"/>
+        </calaos:room>
+        <calaos:room name="Cuisine" type="salon" hits="0">
+            <calaos:input host="10.0.0.124" id="input_1" name="inter2" port="502" type="WIDigitalBP" var="5"/>
+            <calaos:output gtype="light" host="10.0.0.124" id="output_3" name="led4" port="502" type="WODigital" var="5"/>
+        </calaos:room>
+    </calaos:home>
+</calaos:ioconfig>

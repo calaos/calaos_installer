@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<calaos:ioconfig xmlns:calaos="http://www.calaos.fr">
+    <calaos:home>
+        <calaos:room name="test1" type="salon" hits="0">
+            <calaos:input host="10.0.0.124" id="in0" name="Inter du bas droite de la porte" port="502" type="WIDigitalBP" var="54"/>
+            <calaos:output gtype="light" host="10.0.0.124" id="out0" name="lumiere" port="502" type="WODigital" var="54"/>
+            <calaos:output host="10.0.0.124" id="out1" name="prise" port="502" type="WODigital" var="54"/>
+        </calaos:room>
+        <calaos:room name="test2" type="cuisine" hits="0">
+            <calaos:input host="10.0.0.124" id="input_0" name="nhn" port="502" type="WIDigitalBP" var="0"/>
+        </calaos:room>
+        <calaos:room name="test3" type="salon" hits="0"/>
+    </calaos:home>
+</calaos:ioconfig>

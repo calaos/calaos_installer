@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<calaos:ioconfig xmlns:calaos="http://www.calaos.fr">
+    <calaos:home>
+        <calaos:room name="Cuisine" type="cuisine" hits="0">
+            <calaos:input chauffage_id="ch95" host="10.0.0.123" id="temp1" name="Chauffage" port="502" type="WITemp" var="0"/>
+            <calaos:input host="10.0.0.123" id="input_2" name="Inter salon" port="502" type="WIDigitalTriple" var="2" visible="false"/>
+            <calaos:input host="10.0.0.123" id="input_3" name="Inter showroom haut gauche" port="502" type="WIDigitalTriple" var="4" visible="false"/>
+            <calaos:input host="10.0.0.123" id="input_4" name="Inter showroom haut droit" port="502" type="WIDigitalBP" var="5" visible="false"/>
+            <calaos:input host="10.0.0.123" id="input_5" name="Inter showroom bas gauche" port="502" type="WIDigitalBP" var="0" visible="false"/>
+            <calaos:input host="10.0.0.123" id="input_6" name="Inter showroom bas droit" port="502" type="WIDigitalBP" var="1" visible="false"/>
+            <calaos:input id="input_8" name="Tout eteindre" type="scenario" visible="true"/>
+            <calaos:input host="10.0.0.123" hour="0" id="input_9" min="0" msec="0" name="timer_rgb" port="502" sec="6" type="InputTimer" var="0" visible="false"/>
+            <calaos:input host="10.0.0.123" hour="0" id="input_999" min="0" msec="0" name="timer_rgb_leds" port="502" sec="2" type="InputTimer" var="0" visible="false"/>
+            <calaos:input id="input_11" name="Animation RGB Exterieur" type="scenario" visible="true"/>
+            <calaos:input id="input_111" name="Animation RGB Leds" type="scenario" visible="true"/>
+            <calaos:internal id="intern_0" name="counter_rgb" rw="false" type="InternalInt" visible="false"/>
+            <calaos:internal id="intern_000" name="counter_rgb_leds" rw="false" type="InternalInt" visible="false"/>
+            <calaos:internal id="intern_1" name="toggle_rgb" rw="false" type="InternalBool" visible="false"/>
+            <calaos:internal id="intern_111" name="toggle_rgb_leds" rw="false" type="InternalBool" visible="false"/>
+            <calaos:output host="10.0.0.123" id="output_0" name="Ecran videoprojecteur" port="502" time="48" time_down="28" time_up="30" type="WOVoletSmart" var_down="1" var_save="0" var_up="0" visible="true"/>
+            <calaos:output address="1" fade_time="2" group="0" host="10.0.0.123" id="output_1" line="1" name="Spots Salon" port="502" type="WODali" visible="true"/>
+            <calaos:output address="3" fade_time="2" group="0" host="10.0.0.123" id="output_2" line="1" name="Spots Showroom" port="502" type="WODali" visible="true"/>
+            <calaos:camera host="10.0.0.26" id="input_1_output_4" iid="input_1" model="ICA-300" name="Camera Bureau" oid="output_4" port="80" type="planet"/>
+            <calaos:output gtype="light" host="10.0.0.123" id="output_5" name="Bague lumineuse" port="502" type="WODigital" var="6" visible="true"/>
+            <calaos:camera host="10.0.0.25" id="input_7_output_6" iid="input_7" model="ICA-500" name="Camera 2" oid="output_6" port="80" type="planet"/>
+            <calaos:output gtype="light" host="10.0.0.123" id="output_7" name="Lumiere ecran" port="502" type="WODigital" var="3" visible="true"/>
+            <calaos:output gtype="light" host="10.0.0.123" id="output_9" name="Prise Ecran" port="502" type="WODigital" var="2" visible="true"/>
+            <calaos:output gtype="light" host="10.0.0.123" id="output_10" name="Lumiere table" port="502" type="WODigital" var="14" visible="true"/>
+            <calaos:output gtype="light" host="10.0.0.123" id="output_11" name="Prise Salon" port="502" type="WODigital" var="10" visible="true"/>
+            <calaos:output gtype="light" host="10.0.0.123" id="output_17" name="Carre Neon" port="502" type="WODigital" var="18" visible="true"/>
+            <calaos:output gtype="light" host="10.0.0.123" id="output_18" name="Tablette 1" port="502" type="WODigital" var="9" visible="true"/>
+            <calaos:output gtype="light" host="10.0.0.123" id="output_19" name="Tablette 2" port="502" type="WODigital" var="20" visible="true"/>
+            <calaos:output baddress="5" bfade_time="1" bgroup="0" bline="1" gaddress="4" gfade_time="1" ggroup="0" gline="1" host="10.0.0.123" id="output_20" name="Dali RGB" port="502" raddress="2" rfade_time="1" rgroup="0" rline="1" type="WODaliRVB" visible="true"/>
+            <calaos:camera host="10.0.0.28" id="input_10_output_23" iid="input_10" model="ICA-300" name="Camera Expo etage" oid="output_23" port="80" type="planet"/>
+            <calaos:audio host="10.0.0.1" id="00:04:20:06:0b:31" iid="input_0" name="squeezebox" oid="output_3" pid="0" port="9090" type="slim"/>
+        </calaos:room>
+        <calaos:room name="Showroom" type="chambre" hits="0">
+            <calaos:input id="input_20" name="test1" type="scenario" visible="true"/>
+            <calaos:input id="input_21" name="test2" type="scenario" visible="true"/>
+            <calaos:input id="input_26" ioBoolState="intern_7" name="Mon nouveau scénario" rw="true" type="scenario" visible="true"/>
+            <calaos:input id="input_48" ioBoolState="intern_27" name="Mon nouveau scénario test" rw="true" type="scenario" visible="true"/>
+            <calaos:input id="input_51" ioBoolState="intern_29" name="Mon nouveau test" rw="true" type="scenario" visible="true"/>
+            <calaos:output gtype="light" host="10.0.0.123" id="output_8" name="Lumiere bleu " port="502" type="WODigital" var="7" visible="true"/>
+            <calaos:output gtype="light" host="10.0.0.123" id="output_12" name="Lumiere Tableau Elec" port="502" type="WODigital" var="13" visible="true"/>
+            <calaos:output gtype="light" host="10.0.0.123" id="output_13" name="3 Leds" port="502" type="WODigital" var="12" visible="true"/>
+            <calaos:output gtype="light" host="10.0.0.123" id="output_14" name="Leds couleur" port="502" type="WODigital" var="11" visible="true"/>
+            <calaos:output gtype="light" host="10.0.0.123" id="output_15" name="Neon Led" port="502" type="WODigital" var="16" visible="true"/>
+            <calaos:output gtype="light" host="10.0.0.123" id="output_16" name="Led Escalier" port="502" type="WODigital" var="19" visible="true"/>
+        </calaos:room>
+        <calaos:room name="Salon" type="salon" hits="0">
+            <calaos:input id="input_12" name="Ambiance soir" type="scenario" visible="true"/>
+            <calaos:input hour="17" id="input_13" min="59" name="Horaire 17h59" sec="0" type="InputTime" visible="false"/>
+            <calaos:input hour="18" id="input_14" min="0" name="horaire 18h" sec="0" type="InputTime" visible="false"/>
+            <calaos:input hour="23" id="input_15" min="30" name="horaire 23h30" sec="0" type="InputTime" visible="false"/>
+            <calaos:input hour="5" id="input_16" min="0" name="horaire 5h" sec="0" type="InputTime" visible="false"/>
+            <calaos:input hour="8" id="input_17" min="0" name="horaire 8h" sec="0" type="InputTime" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_18" name="Plage horaire" port="502" type="InPlageHoraire" var="0">
+                <calaos:lundi/>
+                <calaos:mardi/>
+                <calaos:mercredi/>
+                <calaos:jeudi/>
+                <calaos:vendredi/>
+                <calaos:samedi/>
+                <calaos:dimanche/>
+            </calaos:input>
+            <calaos:input host="10.0.0.124" id="input_19" name="Plage horaire" port="502" type="InPlageHoraire" var="0">
+                <calaos:lundi/>
+                <calaos:mardi/>
+                <calaos:mercredi/>
+                <calaos:jeudi/>
+                <calaos:vendredi/>
+                <calaos:samedi/>
+                <calaos:dimanche/>
+            </calaos:input>
+            <calaos:internal id="intern_2" name="Variable" rw="true" type="InternalString" visible="true"/>
+            <calaos:output gtype="light" host="10.0.0.123" id="output_21" name="spot double" port="502" type="WODigital" var="22" visible="true"/>
+            <calaos:output gtype="light" host="10.0.0.123" id="output_22" name="double neon" port="502" type="WODigital" var="23" visible="true"/>
+            <calaos:output baddress="6" bfade_time="1" bgroup="0" bline="1" gaddress="7" gfade_time="1" ggroup="0" gline="1" host="10.0.0.123" id="output_25" name="Neon facade" port="502" raddress="8" rfade_time="1" rgroup="0" rline="1" type="WODaliRVB" visible="true"/>
+        </calaos:room>
+        <calaos:room name="SimpleScenario" type="Internal" hits="0">
+            <calaos:internal id="intern_3" name="Clignoter lumieres_isActivated" rw="true" scenarioID="input_22" type="InternalBool" visible="false"/>
+            <calaos:input id="input_22" ioBoolState="intern_3" name="Clignoter lumieres" rw="true" type="scenario" visible="true"/>
+            <calaos:internal id="intern_4" name="Clignoter lumieres_step" rw="true" type="InternalInt" visible="false"/>
+            <calaos:input host="10.0.0.123" hour="0" id="input_23" min="0" msec="1000" name="Clignoter lumieres_timer" port="502" rw="true" sec="0" type="InputTimer" var="0" visible="false"/>
+            <calaos:internal id="intern_5" name="ambiance night_isActivated" rw="true" scenarioID="input_24" type="InternalBool" visible="false"/>
+            <calaos:input id="input_24" ioBoolState="intern_5" name="ambiance night" rw="true" type="scenario" visible="true"/>
+            <calaos:internal id="intern_6" name="ambiance night_step" rw="true" type="InternalInt" visible="false"/>
+            <calaos:input host="10.0.0.123" hour="0" id="input_25" min="0" msec="1000" name="ambiance night_timer" port="502" rw="true" sec="0" type="InputTimer" var="0" visible="false"/>
+            <calaos:internal id="intern_9" name="Mon nouveau scénario 1_isActivated" rw="true" scenarioID="input_28" type="InternalBool" visible="false"/>
+            <calaos:input id="input_28" ioBoolState="intern_9" name="Mon nouveau scénario 1" rw="true" type="scenario" visible="true"/>
+            <calaos:internal id="intern_10" name="Mon nouveau scénario 1_step" rw="true" type="InternalInt" visible="false"/>
+            <calaos:input host="10.0.0.123" hour="0" id="input_29" min="0" msec="1000" name="Mon nouveau scénario 1_timer" port="502" rw="true" sec="0" type="InputTimer" var="0" visible="false"/>
+            <calaos:internal id="intern_11" name="Mon nouveau scénario 2_isActivated" rw="true" scenarioID="input_30" type="InternalBool" visible="false"/>
+            <calaos:input id="input_30" ioBoolState="intern_11" name="Mon nouveau scénario 2" rw="true" type="scenario" visible="true"/>
+            <calaos:internal id="intern_12" name="Mon nouveau scénario 2_step" rw="true" type="InternalInt" visible="false"/>
+            <calaos:input host="10.0.0.123" hour="0" id="input_31" min="0" msec="1000" name="Mon nouveau scénario 2_timer" port="502" rw="true" sec="0" type="InputTimer" var="0" visible="false"/>
+            <calaos:internal id="intern_13" name="Mon nouveau scénario 2_isActivated" rw="true" scenarioID="input_32" type="InternalBool" visible="false"/>
+            <calaos:input id="input_32" ioBoolState="intern_13" name="Mon nouveau scénario 2" rw="true" type="scenario" visible="true"/>
+            <calaos:internal id="intern_14" name="Mon nouveau scénario 2_step" rw="true" type="InternalInt" visible="false"/>
+            <calaos:input host="10.0.0.123" hour="0" id="input_33" min="0" msec="1000" name="Mon nouveau scénario 2_timer" port="502" rw="true" sec="0" type="InputTimer" var="0" visible="false"/>
+            <calaos:internal id="intern_15" name="david_isActivated" rw="true" scenarioID="input_34" type="InternalBool" visible="false"/>
+            <calaos:input id="input_34" ioBoolState="intern_15" name="david" rw="true" type="scenario" visible="true"/>
+            <calaos:internal id="intern_16" name="david_step" rw="true" type="InternalInt" visible="false"/>
+            <calaos:input host="10.0.0.123" hour="0" id="input_35" min="0" msec="0" name="david_timer" port="502" rw="true" sec="0" type="InputTimer" var="0" visible="false"/>
+            <calaos:internal id="intern_17" name="Mon nouveau scénario 3_isActivated" rw="true" scenarioID="input_36" type="InternalBool" visible="false"/>
+            <calaos:input id="input_36" ioBoolState="intern_17" name="Mon nouveau scénario 3" rw="true" type="scenario" visible="true"/>
+            <calaos:internal id="intern_18" name="Mon nouveau scénario 3_step" rw="true" type="InternalInt" visible="false"/>
+            <calaos:input host="10.0.0.123" hour="0" id="input_37" min="0" msec="1000" name="Mon nouveau scénario 3_timer" port="502" rw="true" sec="0" type="InputTimer" var="0" visible="false"/>
+            <calaos:internal id="intern_19" name="Mon nouveau scénario 4_isActivated" rw="true" scenarioID="input_38" type="InternalBool" visible="false"/>
+            <calaos:input id="input_38" ioBoolState="intern_19" name="Mon nouveau scénario 4" rw="true" type="scenario" visible="true"/>
+            <calaos:internal id="intern_20" name="Mon nouveau scénario 4_step" rw="true" type="InternalInt" visible="false"/>
+            <calaos:input host="10.0.0.123" hour="0" id="input_39" min="0" msec="650" name="Mon nouveau scénario 4_timer" port="502" rw="true" sec="0" type="InputTimer" var="0" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_40" name="Plage horaire" port="502" type="InPlageHoraire" var="0">
+                <calaos:lundi/>
+                <calaos:mardi/>
+                <calaos:mercredi/>
+                <calaos:jeudi/>
+                <calaos:vendredi/>
+                <calaos:samedi/>
+                <calaos:dimanche/>
+            </calaos:input>
+            <calaos:internal id="intern_21" name="Mon nouveau scénario 5_isActivated" rw="true" scenarioID="input_41" type="InternalBool" visible="false"/>
+            <calaos:input id="input_41" ioBoolState="intern_21" name="Mon nouveau scénario 5" rw="true" type="scenario" visible="true"/>
+            <calaos:internal id="intern_22" name="Mon nouveau scénario 5_step" rw="true" type="InternalInt" visible="false"/>
+            <calaos:input host="10.0.0.123" hour="0" id="input_42" min="0" msec="0" name="Mon nouveau scénario 5_timer" port="502" rw="true" sec="0" type="InputTimer" var="0" visible="false"/>
+            <calaos:internal id="intern_23" name="Mon nouveau scénario 6hhh_isActivated" rw="true" scenarioID="input_43" type="InternalBool" visible="false"/>
+            <calaos:input id="input_43" ioBoolState="intern_23" name="Mon nouveau scénario 6hhh" rw="true" type="scenario" visible="true"/>
+            <calaos:internal id="intern_24" name="Mon nouveau scénario 6hhh_step" rw="true" type="InternalInt" visible="false"/>
+            <calaos:input host="10.0.0.123" hour="0" id="input_44" min="0" msec="0" name="Mon nouveau scénario 6hhh_timer" port="502" rw="true" sec="0" type="InputTimer" var="0" visible="false"/>
+            <calaos:internal id="intern_25" name="tout allumer_isActivated" rw="true" scenarioID="input_45" type="InternalBool" visible="false"/>
+            <calaos:input id="input_45" ioBoolState="intern_25" name="tout allumer" rw="true" type="scenario" visible="true"/>
+            <calaos:internal id="intern_26" name="tout allumer_step" rw="true" type="InternalInt" visible="false"/>
+            <calaos:input host="10.0.0.123" hour="0" id="input_46" min="0" msec="1000" name="tout allumer_timer" port="502" rw="true" sec="0" type="InputTimer" var="0" visible="false"/>
+            <calaos:internal id="intern_7" name="Mon nouveau scénario_isActivated" rw="true" scenarioID="input_26" type="InternalBool" visible="false"/>
+            <calaos:internal id="intern_8" name="Mon nouveau scénario_step" rw="true" type="InternalInt" visible="false"/>
+            <calaos:input host="10.0.0.123" hour="0" id="input_27" min="0" msec="0" name="Mon nouveau scénario_timer" port="502" rw="true" sec="0" type="InputTimer" var="0" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_47" name="Mon nouveau scénario_plageHoraire" port="502" type="InPlageHoraire" var="0">
+                <calaos:lundi/>
+                <calaos:mardi/>
+                <calaos:mercredi/>
+                <calaos:jeudi/>
+                <calaos:vendredi/>
+                <calaos:samedi/>
+                <calaos:dimanche/>
+            </calaos:input>
+            <calaos:internal id="intern_27" name="Mon nouveau scénario test_isActivated" rw="true" scenarioID="input_48" type="InternalBool" visible="false"/>
+            <calaos:internal id="intern_28" name="Mon nouveau scénario test_step" rw="true" type="InternalInt" visible="false"/>
+            <calaos:input host="10.0.0.123" hour="0" id="input_49" min="0" msec="0" name="Mon nouveau scénario test_timer" port="502" rw="true" sec="0" type="InputTimer" var="0" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_50" name="Mon nouveau scénario test_plageHoraire" port="502" type="InPlageHoraire" var="0">
+                <calaos:lundi/>
+                <calaos:mardi/>
+                <calaos:mercredi/>
+                <calaos:jeudi/>
+                <calaos:vendredi/>
+                <calaos:samedi/>
+                <calaos:dimanche/>
+            </calaos:input>
+            <calaos:internal id="intern_29" name="Mon nouveau test_isActivated" rw="true" scenarioID="input_51" type="InternalBool" visible="false"/>
+            <calaos:internal id="intern_30" name="Mon nouveau test_step" rw="true" type="InternalInt" visible="false"/>
+            <calaos:input host="10.0.0.123" hour="0" id="input_52" min="0" msec="0" name="Mon nouveau test_timer" port="502" rw="true" sec="0" type="InputTimer" var="0" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_53" name="Mon nouveau test_plageHoraire" port="502" type="InPlageHoraire" var="0">
+                <calaos:lundi>
+                    <calaos:plage start_hour="6" start_min="0" start_sec="0" end_hour="18" end_min="0" end_sec="0"/>
+                </calaos:lundi>
+                <calaos:mardi>
+                    <calaos:plage start_hour="7" start_min="0" start_sec="0" end_hour="15" end_min="45" end_sec="0"/>
+                </calaos:mardi>
+                <calaos:mercredi/>
+                <calaos:jeudi/>
+                <calaos:vendredi/>
+                <calaos:samedi/>
+                <calaos:dimanche/>
+            </calaos:input>
+        </calaos:room>
+    </calaos:home>
+</calaos:ioconfig>

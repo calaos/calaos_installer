@@ -1,0 +1,1039 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<calaos:rules xmlns:calaos="http://www.calaos.fr">
+    <calaos:rule name="showroom" type="inter_triple">
+        <calaos:condition>
+            <calaos:input id="input_3" oper="==" val="2"/>
+        </calaos:condition>
+        <calaos:action>
+            <calaos:output id="output_1" val="toggle"/>
+        </calaos:action>
+    </calaos:rule>
+    <calaos:rule name="Clignoter lumieres_step_6" type="SimpleScenarioRules">
+        <calaos:condition>
+            <calaos:input id="intern_3" oper="==" val="true"/>
+        </calaos:condition>
+        <calaos:condition>
+            <calaos:input id="intern_4" oper="==" val="6"/>
+        </calaos:condition>
+        <calaos:condition>
+            <calaos:input id="input_23" oper="==" val="true"/>
+        </calaos:condition>
+        <calaos:action>
+            <calaos:output id="intern_4" val="0"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="input_23" val="1000"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="input_23" val="start"/>
+        </calaos:action>
+    </calaos:rule>
+    <calaos:rule name="ambiance night_button" type="SimpleScenarioRules">
+        <calaos:condition>
+            <calaos:input id="input_24" oper="==" val="true"/>
+        </calaos:condition>
+        <calaos:condition>
+            <calaos:input id="intern_5" oper="==" val="false"/>
+        </calaos:condition>
+        <calaos:action>
+            <calaos:output id="intern_5" val="true"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="input_24" val="false"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="intern_6" val="0"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="input_25" val="0"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="input_25" val="start"/>
+        </calaos:action>
+    </calaos:rule>
+    <calaos:rule name="ambiance night_button" type="SimpleScenarioRules">
+        <calaos:condition>
+            <calaos:input id="input_24" oper="==" val="true"/>
+        </calaos:condition>
+        <calaos:condition>
+            <calaos:input id="intern_5" oper="==" val="true"/>
+        </calaos:condition>
+        <calaos:action>
+            <calaos:output id="intern_5" val="false"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="input_24" val="false"/>
+        </calaos:action>
+    </calaos:rule>
+    <calaos:rule name="ambiance night_step_0" type="SimpleScenarioRules">
+        <calaos:condition>
+            <calaos:input id="intern_5" oper="==" val="true"/>
+        </calaos:condition>
+        <calaos:condition>
+            <calaos:input id="intern_6" oper="==" val="0"/>
+        </calaos:condition>
+        <calaos:condition>
+            <calaos:input id="input_25" oper="==" val="true"/>
+        </calaos:condition>
+        <calaos:action>
+            <calaos:output id="intern_6" val="1"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="input_25" val="1000"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="intern_5" val="false"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="input_25" val="start"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="output_8" val="true"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="output_14" val="true"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="output_0" val="set 100"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="output_9" val="true"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="output_7" val="true"/>
+        </calaos:action>
+    </calaos:rule>
+    <calaos:rule name="ambiance night_button" type="SimpleScenarioRules">
+        <calaos:condition>
+            <calaos:input id="input_24" oper="==" val="true"/>
+        </calaos:condition>
+        <calaos:condition>
+            <calaos:input id="intern_5" oper="==" val="false"/>
+        </calaos:condition>
+        <calaos:action>
+            <calaos:output id="intern_5" val="true"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="input_24" val="false"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="intern_6" val="0"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="input_25" val="0"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="input_25" val="start"/>
+        </calaos:action>
+    </calaos:rule>
+    <calaos:rule name="ambiance night_button" type="SimpleScenarioRules">
+        <calaos:condition>
+            <calaos:input id="input_24" oper="==" val="true"/>
+        </calaos:condition>
+        <calaos:condition>
+            <calaos:input id="intern_5" oper="==" val="true"/>
+        </calaos:condition>
+        <calaos:action>
+            <calaos:output id="intern_5" val="false"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="input_24" val="false"/>
+        </calaos:action>
+    </calaos:rule>
+    <calaos:rule name="ambiance night_step_0" type="SimpleScenarioRules">
+        <calaos:condition>
+            <calaos:input id="intern_5" oper="==" val="true"/>
+        </calaos:condition>
+        <calaos:condition>
+            <calaos:input id="intern_6" oper="==" val="0"/>
+        </calaos:condition>
+        <calaos:condition>
+            <calaos:input id="input_25" oper="==" val="true"/>
+        </calaos:condition>
+        <calaos:action>
+            <calaos:output id="intern_6" val="1"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="input_25" val="1000"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="intern_5" val="false"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="input_25" val="start"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="output_8" val="true"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="output_14" val="true"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="output_0" val="set 100"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="output_9" val="true"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="output_7" val="true"/>
+        </calaos:action>
+    </calaos:rule>
+    <calaos:rule name="Mon nouveau scénario_button" type="SimpleScenarioRules">
+        <calaos:condition>
+            <calaos:input id="input_26" oper="==" val="true"/>
+        </calaos:condition>
+        <calaos:condition>
+            <calaos:input id="intern_7" oper="==" val="false"/>
+        </calaos:condition>
+        <calaos:action>
+            <calaos:output id="intern_7" val="true"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="input_26" val="false"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="intern_8" val="0"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="input_27" val="0"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="input_27" val="start"/>
+        </calaos:action>
+    </calaos:rule>
+    <calaos:rule name="Mon nouveau scénario_button" type="SimpleScenarioRules">
+        <calaos:condition>
+            <calaos:input id="input_26" oper="==" val="true"/>
+        </calaos:condition>
+        <calaos:condition>
+            <calaos:input id="intern_7" oper="==" val="true"/>
+        </calaos:condition>
+        <calaos:action>
+            <calaos:output id="intern_7" val="false"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="input_26" val="false"/>
+        </calaos:action>
+    </calaos:rule>
+    <calaos:rule name="Mon nouveau scénario_step_0" type="SimpleScenarioRules">
+        <calaos:condition>
+            <calaos:input id="intern_7" oper="==" val="true"/>
+        </calaos:condition>
+        <calaos:condition>
+            <calaos:input id="intern_8" oper="==" val="0"/>
+        </calaos:condition>
+        <calaos:condition>
+            <calaos:input id="input_27" oper="==" val="true"/>
+        </calaos:condition>
+        <calaos:action>
+            <calaos:output id="intern_8" val="1"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="input_27" val="1000"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="intern_7" val="false"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="input_27" val="start"/>
+        </calaos:action>
+    </calaos:rule>
+    <calaos:rule name="Mon nouveau scénario 1_button" type="SimpleScenarioRules">
+        <calaos:condition>
+            <calaos:input id="input_28" oper="==" val="true"/>
+        </calaos:condition>
+        <calaos:condition>
+            <calaos:input id="intern_9" oper="==" val="false"/>
+        </calaos:condition>
+        <calaos:action>
+            <calaos:output id="intern_9" val="true"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="input_28" val="false"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="intern_10" val="0"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="input_29" val="0"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="input_29" val="start"/>
+        </calaos:action>
+    </calaos:rule>
+    <calaos:rule name="Mon nouveau scénario 1_button" type="SimpleScenarioRules">
+        <calaos:condition>
+            <calaos:input id="input_28" oper="==" val="true"/>
+        </calaos:condition>
+        <calaos:condition>
+            <calaos:input id="intern_9" oper="==" val="true"/>
+        </calaos:condition>
+        <calaos:action>
+            <calaos:output id="intern_9" val="false"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="input_28" val="false"/>
+        </calaos:action>
+    </calaos:rule>
+    <calaos:rule name="Mon nouveau scénario 1_step_0" type="SimpleScenarioRules">
+        <calaos:condition>
+            <calaos:input id="intern_9" oper="==" val="true"/>
+        </calaos:condition>
+        <calaos:condition>
+            <calaos:input id="intern_10" oper="==" val="0"/>
+        </calaos:condition>
+        <calaos:condition>
+            <calaos:input id="input_29" oper="==" val="true"/>
+        </calaos:condition>
+        <calaos:action>
+            <calaos:output id="intern_10" val="1"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="input_29" val="1000"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="intern_9" val="false"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="input_29" val="start"/>
+        </calaos:action>
+    </calaos:rule>
+    <calaos:rule name="Mon nouveau scénario 2_button" type="SimpleScenarioRules">
+        <calaos:condition>
+            <calaos:input id="input_30" oper="==" val="true"/>
+        </calaos:condition>
+        <calaos:condition>
+            <calaos:input id="intern_11" oper="==" val="false"/>
+        </calaos:condition>
+        <calaos:action>
+            <calaos:output id="intern_11" val="true"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="input_30" val="false"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="intern_12" val="0"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="input_31" val="0"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="input_31" val="start"/>
+        </calaos:action>
+    </calaos:rule>
+    <calaos:rule name="Mon nouveau scénario 2_button" type="SimpleScenarioRules">
+        <calaos:condition>
+            <calaos:input id="input_30" oper="==" val="true"/>
+        </calaos:condition>
+        <calaos:condition>
+            <calaos:input id="intern_11" oper="==" val="true"/>
+        </calaos:condition>
+        <calaos:action>
+            <calaos:output id="intern_11" val="false"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="input_30" val="false"/>
+        </calaos:action>
+    </calaos:rule>
+    <calaos:rule name="Mon nouveau scénario 2_step_0" type="SimpleScenarioRules">
+        <calaos:condition>
+            <calaos:input id="intern_11" oper="==" val="true"/>
+        </calaos:condition>
+        <calaos:condition>
+            <calaos:input id="intern_12" oper="==" val="0"/>
+        </calaos:condition>
+        <calaos:condition>
+            <calaos:input id="input_31" oper="==" val="true"/>
+        </calaos:condition>
+        <calaos:action>
+            <calaos:output id="intern_12" val="1"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="input_31" val="1000"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="intern_11" val="false"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="input_31" val="start"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="output_1" val="set 39.8148"/>
+        </calaos:action>
+    </calaos:rule>
+    <calaos:rule name="Mon nouveau scénario 2_button" type="SimpleScenarioRules">
+        <calaos:condition>
+            <calaos:input id="input_32" oper="==" val="true"/>
+        </calaos:condition>
+        <calaos:condition>
+            <calaos:input id="intern_13" oper="==" val="false"/>
+        </calaos:condition>
+        <calaos:action>
+            <calaos:output id="intern_13" val="true"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="input_32" val="false"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="intern_14" val="0"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="input_33" val="0"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="input_33" val="start"/>
+        </calaos:action>
+    </calaos:rule>
+    <calaos:rule name="Mon nouveau scénario 2_button" type="SimpleScenarioRules">
+        <calaos:condition>
+            <calaos:input id="input_32" oper="==" val="true"/>
+        </calaos:condition>
+        <calaos:condition>
+            <calaos:input id="intern_13" oper="==" val="true"/>
+        </calaos:condition>
+        <calaos:action>
+            <calaos:output id="intern_13" val="false"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="input_32" val="false"/>
+        </calaos:action>
+    </calaos:rule>
+    <calaos:rule name="Mon nouveau scénario 2_step_0" type="SimpleScenarioRules">
+        <calaos:condition>
+            <calaos:input id="intern_13" oper="==" val="true"/>
+        </calaos:condition>
+        <calaos:condition>
+            <calaos:input id="intern_14" oper="==" val="0"/>
+        </calaos:condition>
+        <calaos:condition>
+            <calaos:input id="input_33" oper="==" val="true"/>
+        </calaos:condition>
+        <calaos:action>
+            <calaos:output id="intern_14" val="1"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="input_33" val="1000"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="intern_13" val="false"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="input_33" val="start"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="output_20" val="set 65280"/>
+        </calaos:action>
+    </calaos:rule>
+    <calaos:rule name="david_button" type="SimpleScenarioRules">
+        <calaos:condition>
+            <calaos:input id="input_34" oper="==" val="true"/>
+        </calaos:condition>
+        <calaos:condition>
+            <calaos:input id="intern_15" oper="==" val="false"/>
+        </calaos:condition>
+        <calaos:action>
+            <calaos:output id="intern_15" val="true"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="input_34" val="false"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="intern_16" val="0"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="input_35" val="0"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="input_35" val="start"/>
+        </calaos:action>
+    </calaos:rule>
+    <calaos:rule name="david_button" type="SimpleScenarioRules">
+        <calaos:condition>
+            <calaos:input id="input_34" oper="==" val="true"/>
+        </calaos:condition>
+        <calaos:condition>
+            <calaos:input id="intern_15" oper="==" val="true"/>
+        </calaos:condition>
+        <calaos:action>
+            <calaos:output id="intern_15" val="false"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="input_34" val="false"/>
+        </calaos:action>
+    </calaos:rule>
+    <calaos:rule name="david_step_0" type="SimpleScenarioRules">
+        <calaos:condition>
+            <calaos:input id="intern_15" oper="==" val="true"/>
+        </calaos:condition>
+        <calaos:condition>
+            <calaos:input id="intern_16" oper="==" val="0"/>
+        </calaos:condition>
+        <calaos:condition>
+            <calaos:input id="input_35" oper="==" val="true"/>
+        </calaos:condition>
+        <calaos:action>
+            <calaos:output id="intern_16" val="1"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="input_35" val="1000"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="intern_15" val="false"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="input_35" val="start"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="output_12" val="true"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="output_15" val="true"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="output_16" val="true"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="output_14" val="true"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="output_8" val="true"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="output_13" val="true"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="input_21" val="true"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="input_20" val="false"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="output_1" val="set 100.0"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="output_5" val="true"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="output_2" val="set 100.0"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="output_7" val="true"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="output_9" val="true"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="output_10" val="true"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="output_11" val="true"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="output_17" val="true"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="output_18" val="true"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="output_19" val="true"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="output_20" val="set 0"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="output_21" val="true"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="output_22" val="true"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="output_25" val="set 15361745"/>
+        </calaos:action>
+    </calaos:rule>
+    <calaos:rule name="Mon nouveau scénario 3_button" type="SimpleScenarioRules">
+        <calaos:condition>
+            <calaos:input id="input_36" oper="==" val="true"/>
+        </calaos:condition>
+        <calaos:condition>
+            <calaos:input id="intern_17" oper="==" val="false"/>
+        </calaos:condition>
+        <calaos:action>
+            <calaos:output id="intern_17" val="true"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="input_36" val="false"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="intern_18" val="0"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="input_37" val="0"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="input_37" val="start"/>
+        </calaos:action>
+    </calaos:rule>
+    <calaos:rule name="Mon nouveau scénario 3_button" type="SimpleScenarioRules">
+        <calaos:condition>
+            <calaos:input id="input_36" oper="==" val="true"/>
+        </calaos:condition>
+        <calaos:condition>
+            <calaos:input id="intern_17" oper="==" val="true"/>
+        </calaos:condition>
+        <calaos:action>
+            <calaos:output id="intern_17" val="false"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="input_36" val="false"/>
+        </calaos:action>
+    </calaos:rule>
+    <calaos:rule name="Mon nouveau scénario 3_step_0" type="SimpleScenarioRules">
+        <calaos:condition>
+            <calaos:input id="intern_17" oper="==" val="true"/>
+        </calaos:condition>
+        <calaos:condition>
+            <calaos:input id="intern_18" oper="==" val="0"/>
+        </calaos:condition>
+        <calaos:condition>
+            <calaos:input id="input_37" oper="==" val="true"/>
+        </calaos:condition>
+        <calaos:action>
+            <calaos:output id="intern_18" val="1"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="input_37" val="1000"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="intern_17" val="false"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="input_37" val="start"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="output_8" val="false"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="output_13" val="false"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="output_15" val="false"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="output_14" val="false"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="output_16" val="false"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="output_12" val="false"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="output_1" val="set 0.0"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="output_5" val="false"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="output_9" val="false"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="output_7" val="false"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="output_17" val="false"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="output_11" val="false"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="output_20" val="set 0"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="output_19" val="false"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="output_18" val="false"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="output_10" val="false"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="output_21" val="false"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="output_25" val="set 0"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="output_22" val="false"/>
+        </calaos:action>
+    </calaos:rule>
+    <calaos:rule name="Mon nouveau scénario 4_button" type="SimpleScenarioRules">
+        <calaos:condition>
+            <calaos:input id="input_38" oper="==" val="true"/>
+        </calaos:condition>
+        <calaos:condition>
+            <calaos:input id="intern_19" oper="==" val="false"/>
+        </calaos:condition>
+        <calaos:action>
+            <calaos:output id="intern_19" val="true"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="input_38" val="false"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="intern_20" val="0"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="input_39" val="0"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="input_39" val="start"/>
+        </calaos:action>
+    </calaos:rule>
+    <calaos:rule name="Mon nouveau scénario 4_button" type="SimpleScenarioRules">
+        <calaos:condition>
+            <calaos:input id="input_38" oper="==" val="true"/>
+        </calaos:condition>
+        <calaos:condition>
+            <calaos:input id="intern_19" oper="==" val="true"/>
+        </calaos:condition>
+        <calaos:action>
+            <calaos:output id="intern_19" val="false"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="input_38" val="false"/>
+        </calaos:action>
+    </calaos:rule>
+    <calaos:rule name="Mon nouveau scénario 4_step_0" type="SimpleScenarioRules">
+        <calaos:condition>
+            <calaos:input id="intern_19" oper="==" val="true"/>
+        </calaos:condition>
+        <calaos:condition>
+            <calaos:input id="intern_20" oper="==" val="0"/>
+        </calaos:condition>
+        <calaos:condition>
+            <calaos:input id="input_39" oper="==" val="true"/>
+        </calaos:condition>
+        <calaos:action>
+            <calaos:output id="intern_20" val="1"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="input_39" val="650"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="input_39" val="start"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="output_12" val="true"/>
+        </calaos:action>
+    </calaos:rule>
+    <calaos:rule name="Mon nouveau scénario 4_step_1" type="SimpleScenarioRules">
+        <calaos:condition>
+            <calaos:input id="intern_19" oper="==" val="true"/>
+        </calaos:condition>
+        <calaos:condition>
+            <calaos:input id="intern_20" oper="==" val="1"/>
+        </calaos:condition>
+        <calaos:condition>
+            <calaos:input id="input_39" oper="==" val="true"/>
+        </calaos:condition>
+        <calaos:action>
+            <calaos:output id="intern_20" val="0"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="input_39" val="650"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="input_39" val="start"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="output_12" val="false"/>
+        </calaos:action>
+    </calaos:rule>
+    <calaos:rule name="Mon nouveau scénario 5_button" type="SimpleScenarioRules">
+        <calaos:condition>
+            <calaos:input id="input_41" oper="==" val="true"/>
+        </calaos:condition>
+        <calaos:condition>
+            <calaos:input id="intern_21" oper="==" val="false"/>
+        </calaos:condition>
+        <calaos:action>
+            <calaos:output id="intern_21" val="true"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="input_41" val="false"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="intern_22" val="0"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="input_42" val="0"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="input_42" val="start"/>
+        </calaos:action>
+    </calaos:rule>
+    <calaos:rule name="Mon nouveau scénario 5_button" type="SimpleScenarioRules">
+        <calaos:condition>
+            <calaos:input id="input_41" oper="==" val="true"/>
+        </calaos:condition>
+        <calaos:condition>
+            <calaos:input id="intern_21" oper="==" val="true"/>
+        </calaos:condition>
+        <calaos:action>
+            <calaos:output id="intern_21" val="false"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="input_41" val="false"/>
+        </calaos:action>
+    </calaos:rule>
+    <calaos:rule name="Mon nouveau scénario 5_step_0" type="SimpleScenarioRules">
+        <calaos:condition>
+            <calaos:input id="intern_21" oper="==" val="true"/>
+        </calaos:condition>
+        <calaos:condition>
+            <calaos:input id="intern_22" oper="==" val="0"/>
+        </calaos:condition>
+        <calaos:condition>
+            <calaos:input id="input_42" oper="==" val="true"/>
+        </calaos:condition>
+        <calaos:action>
+            <calaos:output id="intern_22" val="1"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="input_42" val="1000"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="intern_21" val="false"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="input_42" val="start"/>
+        </calaos:action>
+    </calaos:rule>
+    <calaos:rule name="Mon nouveau scénario 6hhh_button" type="SimpleScenarioRules">
+        <calaos:condition>
+            <calaos:input id="input_43" oper="==" val="true"/>
+        </calaos:condition>
+        <calaos:condition>
+            <calaos:input id="intern_23" oper="==" val="false"/>
+        </calaos:condition>
+        <calaos:action>
+            <calaos:output id="intern_23" val="true"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="input_43" val="false"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="intern_24" val="0"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="input_44" val="0"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="input_44" val="start"/>
+        </calaos:action>
+    </calaos:rule>
+    <calaos:rule name="Mon nouveau scénario 6hhh_button" type="SimpleScenarioRules">
+        <calaos:condition>
+            <calaos:input id="input_43" oper="==" val="true"/>
+        </calaos:condition>
+        <calaos:condition>
+            <calaos:input id="intern_23" oper="==" val="true"/>
+        </calaos:condition>
+        <calaos:action>
+            <calaos:output id="intern_23" val="false"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="input_43" val="false"/>
+        </calaos:action>
+    </calaos:rule>
+    <calaos:rule name="Mon nouveau scénario 6hhh_step_0" type="SimpleScenarioRules">
+        <calaos:condition>
+            <calaos:input id="intern_23" oper="==" val="true"/>
+        </calaos:condition>
+        <calaos:condition>
+            <calaos:input id="intern_24" oper="==" val="0"/>
+        </calaos:condition>
+        <calaos:condition>
+            <calaos:input id="input_44" oper="==" val="true"/>
+        </calaos:condition>
+        <calaos:action>
+            <calaos:output id="intern_24" val="1"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="input_44" val="5000"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="input_44" val="start"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="output_20" val="set 15008256"/>
+        </calaos:action>
+    </calaos:rule>
+    <calaos:rule name="Mon nouveau scénario 6hhh_step_1" type="SimpleScenarioRules">
+        <calaos:condition>
+            <calaos:input id="intern_23" oper="==" val="true"/>
+        </calaos:condition>
+        <calaos:condition>
+            <calaos:input id="intern_24" oper="==" val="1"/>
+        </calaos:condition>
+        <calaos:condition>
+            <calaos:input id="input_44" oper="==" val="true"/>
+        </calaos:condition>
+        <calaos:action>
+            <calaos:output id="intern_24" val="2"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="input_44" val="1000"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="input_44" val="start"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="output_20" val="set 387072"/>
+        </calaos:action>
+    </calaos:rule>
+    <calaos:rule name="Mon nouveau scénario 6hhh_step_2" type="SimpleScenarioRules">
+        <calaos:condition>
+            <calaos:input id="intern_23" oper="==" val="true"/>
+        </calaos:condition>
+        <calaos:condition>
+            <calaos:input id="intern_24" oper="==" val="2"/>
+        </calaos:condition>
+        <calaos:condition>
+            <calaos:input id="input_44" oper="==" val="true"/>
+        </calaos:condition>
+        <calaos:action>
+            <calaos:output id="intern_24" val="0"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="input_44" val="3000"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="input_44" val="start"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="output_20" val="set 226"/>
+        </calaos:action>
+    </calaos:rule>
+    <calaos:rule name="tout allumer_button" type="SimpleScenarioRules">
+        <calaos:condition>
+            <calaos:input id="input_45" oper="==" val="true"/>
+        </calaos:condition>
+        <calaos:condition>
+            <calaos:input id="intern_25" oper="==" val="false"/>
+        </calaos:condition>
+        <calaos:action>
+            <calaos:output id="intern_25" val="true"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="input_45" val="false"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="intern_26" val="0"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="input_46" val="0"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="input_46" val="start"/>
+        </calaos:action>
+    </calaos:rule>
+    <calaos:rule name="tout allumer_button" type="SimpleScenarioRules">
+        <calaos:condition>
+            <calaos:input id="input_45" oper="==" val="true"/>
+        </calaos:condition>
+        <calaos:condition>
+            <calaos:input id="intern_25" oper="==" val="true"/>
+        </calaos:condition>
+        <calaos:action>
+            <calaos:output id="intern_25" val="false"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="input_45" val="false"/>
+        </calaos:action>
+    </calaos:rule>
+    <calaos:rule name="tout allumer_step_0" type="SimpleScenarioRules">
+        <calaos:condition>
+            <calaos:input id="intern_25" oper="==" val="true"/>
+        </calaos:condition>
+        <calaos:condition>
+            <calaos:input id="intern_26" oper="==" val="0"/>
+        </calaos:condition>
+        <calaos:condition>
+            <calaos:input id="input_46" oper="==" val="true"/>
+        </calaos:condition>
+        <calaos:action>
+            <calaos:output id="intern_26" val="1"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="input_46" val="1000"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="intern_25" val="false"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="input_46" val="start"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="output_8" val="true"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="output_13" val="true"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="output_14" val="true"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="output_12" val="true"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="output_15" val="true"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="output_16" val="true"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="output_1" val="set 100"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="output_5" val="true"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="output_7" val="true"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="output_2" val="set 100.0"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="output_9" val="true"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="output_10" val="true"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="output_11" val="true"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="output_17" val="true"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="output_18" val="true"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="output_19" val="true"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="output_20" val="set 229"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="output_21" val="true"/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="output_25" val="set "/>
+        </calaos:action>
+        <calaos:action>
+            <calaos:output id="output_22" val="true"/>
+        </calaos:action>
+    </calaos:rule>
+</calaos:rules>

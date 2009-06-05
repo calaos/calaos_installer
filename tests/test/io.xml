@@ -1,0 +1,442 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<calaos:ioconfig xmlns:calaos="http://www.calaos.fr">
+    <calaos:home>
+        <calaos:room name="Dégagement" type="divers" hits="80">
+            <calaos:input host="10.0.0.124" id="input_0" name="DEG-OGM-1-BP" port="502" type="WIDigitalTriple" var="0" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_1" name="DEG-OGM-2-BP" port="502" type="WIDigitalTriple" var="1" visible="false"/>
+            <calaos:internal hits="30" id="intern_45" name="DEG-OGM-1-CL.csg" rw="true" type="InternalBool" visible="true"/>
+            <calaos:output gtype="light" host="10.0.0.124" id="output_0" name="DEG-OGM-1-CL" port="502" type="WODigital" var="128" visible="false"/>
+            <calaos:output gtype="light" hits="90" host="10.0.0.124" id="output_1" name="Applique" port="502" type="WODigital" var="100" visible="true"/>
+        </calaos:room>
+        <calaos:room name="Salle de bain étage" type="divers" hits="40">
+            <calaos:input host="10.0.0.124" id="input_100" name="EB-SPM-G-BP" port="502" type="WIDigitalTriple" var="2" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_101" name="EB-SPM-D-BP" port="502" type="WIDigitalTriple" var="3" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_102" name="EB-NMM-1-CV-M" port="502" type="WIDigitalTriple" var="4" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_103" name="EB-NMM-1-CV-D" port="502" type="WIDigitalTriple" var="5" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_104" name="EB-NMM-2-CV-M" port="502" type="WIDigitalTriple" var="6" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_105" name="EB-NMM-2-CV-D" port="502" type="WIDigitalTriple" var="7" visible="false"/>
+            <calaos:output gtype="light" hits="90" host="10.0.0.124" id="output_100" name="Plafonnier" port="502" type="WODigital" var="65" visible="true"/>
+            <calaos:output gtype="light" hits="80" host="10.0.0.124" id="output_101" name="Armoire à glace" port="502" type="WODigital" var="103" visible="true"/>
+            <calaos:output gtype="light" hits="70" host="10.0.0.124" id="output_102" name="Veilleuse" port="502" type="WODigital" var="54" visible="true"/>
+            <calaos:output hits="110" host="10.0.0.124" id="output_103" name="Volet gauche" port="502" time="30" time_down="28" time_up="30" type="WOVoletSmart" var_down="1" var_save="0" var_up="0" visible="true"/>
+            <calaos:output hits="100" host="10.0.0.124" id="output_104" name="Volet droit" port="502" time="30" time_down="28" time_up="30" type="WOVoletSmart" var_down="3" var_save="1" var_up="2" visible="true"/>
+        </calaos:room>
+        <calaos:room name="Chambre PPP" type="chambre" hits="0">
+            <calaos:input host="10.0.0.124" id="input_2" name="E1-EPM-G-BP" port="502" type="WIDigitalTriple" var="8" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_3" name="E1-EPM-D-BP" port="502" type="WIDigitalTriple" var="9" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_4" name="E1-OFM-CV-M" port="502" type="WIDigitalTriple" var="10" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_5" name="E1-OFM-CV-D" port="502" type="WIDigitalTriple" var="11" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_6" name="E1-NFM-CV-M" port="502" type="WIDigitalTriple" var="12" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_7" name="E1-NFM-CV-D" port="502" type="WIDigitalTriple" var="13" visible="false"/>
+            <calaos:output hits="100" host="10.0.0.124" id="output_3" name="Volet Ouest" port="502" time="30" time_down="28" time_up="30" type="WOVoletSmart" var_down="7" var_save="2" var_up="6" visible="true"/>
+            <calaos:output hits="110" host="10.0.0.124" id="output_4" name="Volet Nord" port="502" time="30" time_down="28" time_up="30" type="WOVoletSmart" var_down="5" var_save="3" var_up="4" visible="true"/>
+            <calaos:output gtype="light" hits="90" host="10.0.0.124" id="output_47" name="Plafonnier" port="502" type="WODigital" var="66" visible="true"/>
+            <calaos:output host="10.0.0.124" id="output_74" name="TV (E1-NFB-2-PC)" port="502" type="WODigital" var="112" visible="true"/>
+        </calaos:room>
+        <calaos:room name="Ancienne Chambre Parents" type="chambre" hits="0">
+            <calaos:input host="10.0.0.124" id="input_106" name="E2-NPM-G-BP" port="502" type="WIDigitalTriple" var="14" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_107" name="E2-NPM-D-BP" port="502" type="WIDigitalTriple" var="15" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_108" name="E2-OFM-CV-M" port="502" type="WIDigitalTriple" var="16" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_109" name="E2-OFM-CV-D" port="502" type="WIDigitalTriple" var="17" visible="false"/>
+            <calaos:output gtype="light" hits="90" host="10.0.0.124" id="output_105" name="Plafonnier" port="502" type="WODigital" var="67" visible="true"/>
+            <calaos:output hits="100" host="10.0.0.124" id="output_106" name="Volet" port="502" time="30" time_down="28" time_up="30" type="WOVoletSmart" var_down="9" var_save="4" var_up="8" visible="true"/>
+        </calaos:room>
+        <calaos:room name="Chambre Vincent" type="chambre" hits="0">
+            <calaos:input host="10.0.0.124" id="input_110" name="E4-NPM-G-BP" port="502" type="WIDigitalTriple" var="24" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_111" name="E4-NPM-D-BP" port="502" type="WIDigitalTriple" var="25" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_112" name="E4-SFM-CV-M" port="502" type="WIDigitalTriple" var="26" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_113" name="E4-SFM-CV-D" port="502" type="WIDigitalTriple" var="27" visible="false"/>
+            <calaos:output gtype="light" hits="90" host="10.0.0.124" id="output_107" name="Plafonnier" port="502" type="WODigital" var="69" visible="true"/>
+            <calaos:output hits="100" host="10.0.0.124" id="output_108" name="Volet" port="502" time="30" time_down="28" time_up="30" type="WOVoletSmart" var_down="13" var_save="6" var_up="12" visible="true"/>
+            <calaos:output gtype="light" hits="30" host="10.0.0.124" id="output_75" name="Lampes de chevet (E4-EDB-2-PC)" port="502" type="WODigital" var="113" visible="true"/>
+        </calaos:room>
+        <calaos:room name="Bureau Vincent" type="bureau" hits="20">
+            <calaos:input host="10.0.0.124" id="input_8" name="E3-NPM-1G-BP" port="502" type="WIDigitalTriple" var="18" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_9" name="E3-NPM-1D-BP" port="502" type="WIDigitalTriple" var="19" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_10" name="E3-NPM-2-BP" port="502" type="WIDigitalTriple" var="20" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_11" name="E3-NPM-3-BP" port="502" type="WIDigitalTriple" var="21" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_89" name="E3-SFM-CV-M" port="502" type="WIDigitalTriple" var="22" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_90" name="E3-SFM-CV-D" port="502" type="WIDigitalTriple" var="23" visible="false"/>
+            <calaos:output gtype="light" hits="90" host="10.0.0.124" id="output_6" name="Plafonnier" port="502" type="WODigital" var="68" visible="true"/>
+            <calaos:output hits="100" host="10.0.0.124" id="output_2" name="Volet" port="502" time="30" time_down="28" time_up="30" type="WOVoletSmart" var_down="11" var_save="5" var_up="10" visible="true"/>
+            <calaos:output gtype="light" hits="50" host="10.0.0.124" id="output_5" name="Applique circulation" port="502" type="WODigital" var="101" visible="true"/>
+            <calaos:output gtype="light" hits="40" host="10.0.0.124" id="output_46" name="Veilleuse" port="502" type="WODigital" var="52" visible="true"/>
+        </calaos:room>
+        <calaos:room name="Centre de Calcul" type="bureau" hits="30">
+            <calaos:input host="10.0.0.124" id="input_12" name="E5-OPM-G-BP" port="502" type="WIDigitalTriple" var="28" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_13" name="E5-OPM-D-BP" port="502" type="WIDigitalTriple" var="29" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_14" name="E5-NFM-1-CV-M" port="502" type="WIDigitalTriple" var="30" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_15" name="E5-NFM-1-CV-D" port="502" type="WIDigitalTriple" var="31" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_16" name="E5-NFM-2G-BP" port="502" type="WIDigitalTriple" var="32" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_17" name="E5-NFM-2D-BP" port="502" type="WIDigitalTriple" var="33" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_18" name="E5-NFM-3-BP" port="502" type="WIDigitalTriple" var="34" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_19" name="E5-EFM-CV-M" port="502" type="WIDigitalTriple" var="35" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_20" name="E5-EFM-CV-D" port="502" type="WIDigitalTriple" var="36" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_21" name="E5-SFM-CV-M" port="502" type="WIDigitalTriple" var="37" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_22" name="E5-SFM-CV-D" port="502" type="WIDigitalTriple" var="38" visible="false"/>
+            <calaos:output gtype="light" hits="90" host="10.0.0.124" id="output_7" name="Plafonnier" port="502" type="WODigital" var="70" visible="true"/>
+            <calaos:output hits="100" host="10.0.0.124" id="output_8" name="Volet Sud" port="502" time="30" time_down="28" time_up="30" type="WOVoletSmart" var_down="15" var_save="7" var_up="14" visible="true"/>
+            <calaos:output hits="110" host="10.0.0.124" id="output_9" name="Volet Est" port="502" time="30" time_down="28" time_up="30" type="WOVoletSmart" var_down="17" var_save="8" var_up="16" visible="true"/>
+            <calaos:output hits="120" host="10.0.0.124" id="output_10" name="Volet Nord" port="502" time="30" time_down="28" time_up="30" type="WOVoletSmart" var_down="19" var_save="9" var_up="18" visible="true"/>
+            <calaos:output gtype="light" hits="30" host="10.0.0.124" id="output_76" name="Lampes (E5-SGB-2-PC)" port="502" type="WODigital" var="114" visible="true"/>
+        </calaos:room>
+        <calaos:room name="Débarras" type="divers" hits="10">
+            <calaos:input host="10.0.0.124" id="input_114" name="E6-SPM-G-BP" port="502" type="WIDigitalTriple" var="39" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_115" name="E6-SPM-D-BP" port="502" type="WIDigitalTriple" var="40" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_116" name="E6-NFM-CV-M" port="502" type="WIDigitalTriple" var="41" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_117" name="E6-NFM-CV-D" port="502" type="WIDigitalTriple" var="42" visible="false"/>
+            <calaos:output gtype="light" hits="90" host="10.0.0.124" id="output_109" name="Plafonnier" port="502" type="WODigital" var="71" visible="true"/>
+            <calaos:output hits="100" host="10.0.0.124" id="output_110" name="Volet" port="502" time="30" time_down="28" time_up="30" type="WOVoletSmart" var_down="21" var_save="10" var_up="20" visible="true"/>
+            <calaos:camera host="192.168.68.171" id="input_181_output_85" iid="input_181" model="" name="Débarras 212PTZ" oid="output_85" port="80" type="axis"/>
+        </calaos:room>
+        <calaos:room name="WC étage" type="divers" hits="20">
+            <calaos:input host="10.0.0.124" id="input_23" name="EWC-EDM-BP" port="502" type="WIDigitalTriple" var="43" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_24" name="EWC-EGM-CV-M" port="502" type="WIDigitalTriple" var="44" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_25" name="EWC-EGM-CV-D" port="502" type="WIDigitalTriple" var="45" visible="false"/>
+            <calaos:output gtype="light" hits="90" host="10.0.0.124" id="output_11" name="Plafonnier" port="502" type="WODigital" var="72" visible="true"/>
+            <calaos:output hits="100" host="10.0.0.124" id="output_12" name="Volet" port="502" time="30" time_down="28" time_up="30" type="WOVoletSmart" var_down="23" var_save="11" var_up="22" visible="true"/>
+        </calaos:room>
+        <calaos:room name="Couloir étage" type="divers" hits="60">
+            <calaos:input host="10.0.0.124" id="input_118" name="EC-OPM-1-BP" port="502" type="WIDigitalTriple" var="46" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_119" name="EC-OPM-2-BP" port="502" type="WIDigitalTriple" var="47" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_120" name="EC-EDM-1G-BP" port="502" type="WIDigitalTriple" var="48" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_121" name="EC-EDM-1D-BP" port="502" type="WIDigitalTriple" var="49" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_122" name="EC-OGM-G-BP" port="502" type="WIDigital" var="50" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_123" name="EC-OGM-D-BP" port="502" type="WIDigital" var="51" visible="false"/>
+            <calaos:internal hits="50" id="intern_46" name="EC--CL.csg" rw="true" type="InternalBool" visible="true"/>
+            <calaos:output gtype="light" hits="90" host="10.0.0.124" id="output_111" name="Plafonniers" port="502" type="WODigital" var="102" visible="true"/>
+            <calaos:output gtype="light" hits="80" host="10.0.0.124" id="output_112" name="Veilleuses" port="502" type="WODigital" var="53" visible="true"/>
+            <calaos:output gtype="light" host="10.0.0.124" id="output_48" name="EC--CL" port="502" type="WODigital" var="129" visible="false"/>
+            <calaos:output gtype="light" host="10.0.0.124" id="output_63" name="EC-EDM-1D-TL" port="502" type="WODigital" var="145" visible="false"/>
+        </calaos:room>
+        <calaos:room name="Escalier" type="divers" hits="90">
+            <calaos:input host="10.0.0.124" id="input_26" name="ESC-SDM-1-BP" port="502" type="WIDigitalTriple" var="52" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_27" name="ESC-SDM-2-BP" port="502" type="WIDigitalTriple" var="53" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_28" name="ESC-NDM-1-BP" port="502" type="WIDigitalTriple" var="54" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_29" name="ESC-NDM-2-BP" port="502" type="WIDigitalTriple" var="55" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_30" name="ESC-NGM-1-BP" port="502" type="WIDigitalTriple" var="56" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_31" name="ESC-NGM-2-BP" port="502" type="WIDigitalTriple" var="57" visible="false"/>
+            <calaos:output gtype="light" hits="90" host="10.0.0.124" id="output_13" name="Appliques" port="502" type="WODigital" var="73" visible="true"/>
+            <calaos:output gtype="light" hits="50" host="10.0.0.124" id="output_14" name="Veilleuse" port="502" type="WODigital" var="48" visible="true"/>
+        </calaos:room>
+        <calaos:room name="Entrée" type="salon" hits="1050">
+            <calaos:input host="10.0.0.124" id="input_124" name="RE-EPM-4-BP" port="502" type="WIDigitalTriple" var="58" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_125" name="RE-EPM-3-BP" port="502" type="WIDigitalTriple" var="59" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_126" name="RE-EPM-2-BP" port="502" type="WIDigitalTriple" var="60" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_127" name="RE-EPM-1G-BP" port="502" type="WIDigitalTriple" var="61" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_128" name="RE-EPM-1D-BP" port="502" type="WIDigitalTriple" var="62" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_129" name="RE-EDM-BP" port="502" type="WIDigitalTriple" var="63" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_130" name="RE-SPM-1-BP" port="502" type="WIDigitalTriple" var="64" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_131" name="RE-SPM-2-BP" port="502" type="WIDigitalTriple" var="65" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_132" name="RE-OPM-1-BP" port="502" type="WIDigitalTriple" var="66" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_133" name="RE-OPM-2-BP" port="502" type="WIDigitalTriple" var="67" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_94" name="RE-CAME-CS-1" port="502" type="WIDigitalBP" var="167" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_95" name="RE-CAME-CS-2" port="502" type="WIDigitalBP" var="168" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_96" name="RE-CAME-CS-3" port="502" type="WIDigitalBP" var="169" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_97" name="RE-CAME-CS-4" port="502" type="WIDigitalBP" var="170" visible="false"/>
+            <calaos:input id="input_179" name="Cocorico" type="scenario" visible="true"/>
+            <calaos:input id="input_183" name="Poudre d\'escampette" type="scenario" visible="true"/>
+            <calaos:internal gtype="light" id="intern_47" name="RE--CL.csg" rw="true" type="InternalBool" visible="true"/>
+            <calaos:internal id="intern_50" name="RE-EPM-2-TL.csg" rw="false" type="InternalBool" visible="false"/>
+            <calaos:internal id="intern_51" name="RE-EPM-1G-TL.csg" rw="false" type="InternalBool" visible="false"/>
+            <calaos:internal id="intern_52" name="RE-EPM-1D-TL.csg" rw="false" type="InternalBool" visible="false"/>
+            <calaos:internal id="intern_54" name="RE-CAME-CS-3.EnCours" rw="false" type="InternalBool" visible="false"/>
+            <calaos:output gtype="light" hits="90" host="10.0.0.124" id="output_113" name="Plafonnier entrée" port="502" type="WODigital" var="74" visible="true"/>
+            <calaos:output gtype="light" hits="80" host="10.0.0.124" id="output_114" name="Plafonniers vestibule" port="502" type="WODigital" var="104" visible="true"/>
+            <calaos:output gtype="light" hits="70" host="10.0.0.124" id="output_116" name="Appliques commode" port="502" type="WODigital" var="105" visible="true"/>
+            <calaos:output gtype="light" hits="60" host="10.0.0.124" id="output_117" name="Veilleuse" port="502" type="WODigital" var="49" visible="true"/>
+            <calaos:output gtype="light" host="10.0.0.124" id="output_15" name="RE--CL" port="502" type="WODigital" var="130" visible="false"/>
+            <calaos:output gtype="light" host="10.0.0.124" id="output_65" name="RE-EPM-3-TL" port="502" type="WODigital" var="139" visible="false"/>
+            <calaos:output gtype="light" host="10.0.0.124" id="output_69" name="dysfonction-TL" port="502" type="WODigital" var="133" visible="false"/>
+            <calaos:output gtype="light" host="10.0.0.124" id="output_71" name="RE-EPM-2-TL" port="502" type="WODigital" var="136" visible="false"/>
+            <calaos:output gtype="light" host="10.0.0.124" id="output_72" name="RE-EPM-1G-TL" port="502" type="WODigital" var="137" visible="false"/>
+            <calaos:output gtype="light" host="10.0.0.124" id="output_73" name="RE-EPM-1D-TL" port="502" type="WODigital" var="138" visible="false"/>
+        </calaos:room>
+        <calaos:room name="Cuisine" type="salon" hits="50">
+            <calaos:input host="10.0.0.124" id="input_32" name="CUI-EPM-1G-BP" port="502" type="WIDigitalTriple" var="68" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_33" name="CUI-EPM-1D-BP" port="502" type="WIDigitalTriple" var="69" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_34" name="CUI-EPM-2G-BP" port="502" type="WIDigitalTriple" var="70" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_35" name="CUI-EPM-2D-BP" port="502" type="WIDigitalTriple" var="71" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_36" name="CUI-SGM-4G-BP" port="502" type="WIDigitalTriple" var="72" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_37" name="CUI-SGM-4D-BP" port="502" type="WIDigitalTriple" var="73" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_38" name="CUI-SDM-1G-BP" port="502" type="WIDigitalTriple" var="74" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_39" name="CUI-SDM-1D-BP" port="502" type="WIDigitalTriple" var="75" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_40" name="CUI-OFM1-1-CV-M" port="502" type="WIDigitalTriple" var="77" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_41" name="CUI-OFM1-1-CV-D" port="502" type="WIDigitalTriple" var="78" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_42" name="CUI-OFM1-3-CV-M" port="502" type="WIDigitalTriple" var="81" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_43" name="CUI-OFM1-3-CV-D" port="502" type="WIDigitalTriple" var="82" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_44" name="CUI-OFM1-4G-BP" port="502" type="WIDigitalTriple" var="83" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_45" name="CUI-OFM1-4D-BP" port="502" type="WIDigitalTriple" var="84" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_46" name="CUI-OFM1-2G-BP" port="502" type="WIDigitalTriple" var="79" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_47" name="CUI-OFM1-2D-BP" port="502" type="WIDigitalTriple" var="80" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_48" name="CUI-NGM2-G-BP" port="502" type="WIDigitalTriple" var="85" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_49" name="CUI-NGM2-D-BP" port="502" type="WIDigitalTriple" var="86" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_50" name="CUI-NFM-CV-M" port="502" type="WIDigitalTriple" var="87" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_51" name="CUI-NFM-CV-D" port="502" type="WIDigitalTriple" var="88" visible="false"/>
+            <calaos:output gtype="light" hits="80" host="10.0.0.124" id="output_16" name="Plafonnier coin repas" port="502" type="WODigital" var="89" visible="true"/>
+            <calaos:output gtype="light" hits="90" host="10.0.0.124" id="output_17" name="Plafonnier cuisine" port="502" type="WODigital" var="90" visible="true"/>
+            <calaos:output gtype="light" hits="50" host="10.0.0.124" id="output_18" name="Eclairage hotte" port="502" type="WODigital" var="78" visible="true"/>
+            <calaos:output gtype="light" hits="60" host="10.0.0.124" id="output_19" name="Applique évier" port="502" type="WODigital" var="77" visible="true"/>
+            <calaos:output hits="100" host="10.0.0.124" id="output_21" name="Volet Porte fenêtre" port="502" time="30" time_down="28" time_up="30" type="WOVoletSmart" var_down="27" var_save="12" var_up="26" visible="true"/>
+            <calaos:output gtype="light" hits="70" host="10.0.0.124" id="output_22" name="Applique coin repas" port="502" type="WODigital" var="76" visible="true"/>
+            <calaos:output hits="110" host="10.0.0.124" id="output_23" name="Volet fenêtre" port="502" time="30" time_down="28" time_up="30" type="WOVoletSmart" var_down="25" var_save="13" var_up="24" visible="true"/>
+            <calaos:output gtype="light" host="10.0.0.124" id="output_59" name="CUI-OFM1-2D-TL" port="502" type="WODigital" var="140" visible="false"/>
+            <calaos:output gtype="light" hits="40" host="10.0.0.124" id="output_77" name="Lampe (CUI-NGM1-2-PC)" port="502" type="WODigital" var="115" visible="true"/>
+            <calaos:output gtype="light" host="10.0.0.124" id="output_78" name="Hotte" port="502" type="WODigital" var="116" visible="true"/>
+        </calaos:room>
+        <calaos:room name="Séjour" type="salon" hits="40">
+            <calaos:input host="10.0.0.124" id="input_134" name="SEJ-NPM1-1G-BP" port="502" type="WIDigitalTriple" var="89" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_135" name="SEJ-NPM1-1D-BP" port="502" type="WIDigitalTriple" var="90" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_136" name="SEJ-NPM1-2G-BP" port="502" type="WIDigitalTriple" var="91" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_137" name="SEJ-NPM1-2D-BP" port="502" type="WIDigitalTriple" var="92" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_138" name="SEJ-NPM2-1-BP" port="502" type="WIDigitalTriple" var="93" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_139" name="SEJ-NPM2-2-BP" port="502" type="WIDigitalTriple" var="94" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_140" name="SEJ-SFM-1-CV-M" port="502" type="WIDigitalTriple" var="95" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_141" name="SEJ-SFM-1-CV-D" port="502" type="WIDigitalTriple" var="96" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_142" name="SEJ-SFM-2G-BP" port="502" type="WIDigitalTriple" var="97" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_143" name="SEJ-SFM-2D-BP" port="502" type="WIDigitalTriple" var="98" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_144" name="SEJ-SFM-3-CV-M" port="502" type="WIDigitalTriple" var="99" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_145" name="SEJ-SFM-3-CV-D" port="502" type="WIDigitalTriple" var="100" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_146" name="SEJ-SFM-4G-BP" port="502" type="WIDigitalTriple" var="101" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_147" name="SEJ-SFM-4D-BP" port="502" type="WIDigitalTriple" var="102" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_148" name="SEJ-OFM-1G-BP" port="502" type="WIDigitalTriple" var="103" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_149" name="SEJ-OFM-1D-BP" port="502" type="WIDigitalTriple" var="104" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_150" name="SEJ-OFM-2-CV-M" port="502" type="WIDigitalTriple" var="105" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_151" name="SEJ-OFM-2-CV-D" port="502" type="WIDigitalTriple" var="106" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_152" name="SEJ-OFM-3G-BP" port="502" type="WIDigitalTriple" var="107" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_153" name="SEJ-OFM-3D-BP" port="502" type="WIDigitalTriple" var="108" visible="false"/>
+            <calaos:internal id="intern_1" name="SEJ-PO-VAR_DblAll1" rw="false" type="InternalBool" visible="false"/>
+            <calaos:internal id="intern_2" name="SEJ-PE-VAR_DblAll1" rw="false" type="InternalBool" visible="false"/>
+            <calaos:internal id="intern_6" name="SEJ-PO-VAR_DblAll2" rw="false" type="InternalBool" visible="false"/>
+            <calaos:internal id="intern_7" name="SEJ-PE-VAR_DblAll2" rw="false" type="InternalBool" visible="false"/>
+            <calaos:internal hits="40" id="intern_48" name="SEJ-NPM2-1-CL.csg" rw="true" type="InternalBool" visible="true"/>
+            <calaos:output gtype="light" hits="95" host="10.0.0.124" id="output_118" name="Plafonnier est 1/2" port="502" type="WODigital" var="93" visible="true"/>
+            <calaos:output gtype="light" hits="90" host="10.0.0.124" id="output_119" name="Plafonnier est 2/2" port="502" type="WODigital" var="94" visible="true"/>
+            <calaos:output gtype="light" hits="85" host="10.0.0.124" id="output_120" name="Plafonnier ouest 1/2" port="502" type="WODigital" var="91" visible="true"/>
+            <calaos:output gtype="light" hits="80" host="10.0.0.124" id="output_121" name="Plafonnier ouest 2/2" port="502" type="WODigital" var="92" visible="true"/>
+            <calaos:output gtype="light" hits="60" host="10.0.0.124" id="output_122" name="Veilleuse" port="502" type="WODigital" var="50" visible="true"/>
+            <calaos:output hits="100" host="10.0.0.124" id="output_123" name="Volet sud" port="502" time="30" time_down="28" time_up="30" type="WOVoletSmart" var_down="31" var_save="14" var_up="30" visible="true"/>
+            <calaos:output hits="110" host="10.0.0.124" id="output_126" name="Volet ouest" port="502" time="30" time_down="28" time_up="30" type="WOVoletSmart" var_down="29" var_save="15" var_up="28" visible="true"/>
+            <calaos:output gtype="light" hits="70" host="10.0.0.124" id="output_127" name="Applique niche" port="502" type="WODigital" var="79" visible="true"/>
+            <calaos:output gtype="light" host="10.0.0.124" id="output_60" name="SEJ-SFM-2D-TL" port="502" type="WODigital" var="142" visible="false"/>
+            <calaos:output gtype="light" host="10.0.0.124" id="output_61" name="SEJ-OFM-1D-TL" port="502" type="WODigital" var="141" visible="false"/>
+            <calaos:output gtype="light" host="10.0.0.124" id="output_67" name="SEJ-NPM2-1-CL" port="502" type="WODigital" var="131" visible="false"/>
+            <calaos:output host="10.0.0.124" id="output_79" name="TV (SEJ-EDB-2-PC)" port="502" type="WODigital" var="117" visible="true"/>
+            <calaos:output host="10.0.0.124" id="output_80" name="SEJ-SMB-2-PC" port="502" type="WODigital" var="118" visible="true"/>
+            <calaos:output host="10.0.0.124" id="output_81" name="SEJ-NGB-2-PC" port="502" type="WODigital" var="119" visible="true"/>
+        </calaos:room>
+        <calaos:room name="Bureau Maman" type="bureau" hits="40">
+            <calaos:input host="10.0.0.124" id="input_52" name="R1-NPM-G-BP" port="502" type="WIDigitalTriple" var="109" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_53" name="R1-NPM-D-BP" port="502" type="WIDigitalTriple" var="110" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_54" name="R1-SFM-2-CV-M" port="502" type="WIDigitalTriple" var="113" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_55" name="R1-SFM-2-CV-D" port="502" type="WIDigitalTriple" var="114" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_56" name="R1-SFM-1G-BP" port="502" type="WIDigitalTriple" var="111" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_57" name="R1-SFM-1D-BP" port="502" type="WIDigitalTriple" var="112" visible="false"/>
+            <calaos:output gtype="light" hits="90" host="10.0.0.124" id="output_24" name="Plafonnier" port="502" type="WODigital" var="95" visible="true"/>
+            <calaos:output hits="100" host="10.0.0.124" id="output_26" name="Volet" port="502" time="30" time_down="28" time_up="30" type="WOVoletSmart" var_down="33" var_save="16" var_up="32" visible="true"/>
+            <calaos:output gtype="light" host="10.0.0.124" id="output_62" name="R1-SFM-1D-TL" port="502" type="WODigital" var="143" visible="false"/>
+            <calaos:output host="10.0.0.124" id="output_82" name="TV (R1-SDB-2-PC)" port="502" type="WODigital" var="120" visible="true"/>
+        </calaos:room>
+        <calaos:room name="Chambre Parents" type="chambre" hits="0">
+            <calaos:input host="10.0.0.124" id="input_154" name="R2-OPM-G-BP" port="502" type="WIDigitalTriple" var="115" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_155" name="R2-OPM-D-BP" port="502" type="WIDigitalTriple" var="116" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_156" name="R2-NFM-CV-M" port="502" type="WIDigitalTriple" var="117" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_157" name="R2-NFM-CV-D" port="502" type="WIDigitalTriple" var="118" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_158" name="R2-EFM-CV-M" port="502" type="WIDigitalTriple" var="119" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_159" name="R2-EFM-CV-D" port="502" type="WIDigitalTriple" var="120" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_160" name="R2-SGM-G-BP" port="502" type="WIDigitalTriple" var="121" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_161" name="R2-SGM-D-BP" port="502" type="WIDigitalTriple" var="122" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_162" name="R2-SDM-G-BP" port="502" type="WIDigitalTriple" var="123" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_163" name="R2-SDM-D-BP" port="502" type="WIDigitalTriple" var="124" visible="false"/>
+            <calaos:internal id="intern_4" name="R2-P-VAR_DblAll1" rw="false" type="InternalBool" visible="false"/>
+            <calaos:internal id="intern_5" name="R2-P-VAR_DblAll2" rw="false" type="InternalBool" visible="false"/>
+            <calaos:output gtype="light" hits="95" host="10.0.0.124" id="output_128" name="Plafonnier 1/2" port="502" type="WODigital" var="96" visible="true"/>
+            <calaos:output gtype="light" hits="90" host="10.0.0.124" id="output_129" name="Plafonnier 2/2" port="502" type="WODigital" var="97" visible="true"/>
+            <calaos:output hits="110" host="10.0.0.124" id="output_130" name="Volet nord" port="502" time="30" time_down="28" time_up="30" type="WOVoletSmart" var_down="37" var_save="17" var_up="36" visible="true"/>
+            <calaos:output hits="100" host="10.0.0.124" id="output_131" name="Volet est" port="502" time="30" time_down="28" time_up="30" type="WOVoletSmart" var_down="35" var_save="18" var_up="34" visible="true"/>
+            <calaos:output gtype="light" hits="80" host="10.0.0.124" id="output_132" name="Applique gauche" port="502" type="WODigital" var="81" visible="true"/>
+            <calaos:output gtype="light" hits="70" host="10.0.0.124" id="output_133" name="Applique droite" port="502" type="WODigital" var="82" visible="true"/>
+            <calaos:output host="10.0.0.124" id="output_83" name="TV (R2-NDB-2-PC)" port="502" type="WODigital" var="121" visible="true"/>
+        </calaos:room>
+        <calaos:room name="Salle de bain RdC" type="divers" hits="50">
+            <calaos:input host="10.0.0.124" id="input_58" name="RB-SPM-G-BP" port="502" type="WIDigitalTriple" var="125" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_59" name="RB-SPM-D-BP" port="502" type="WIDigitalTriple" var="126" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_60" name="RB-NFM-CV-M" port="502" type="WIDigitalTriple" var="127" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_61" name="RB-NFM-CV-D" port="502" type="WIDigitalTriple" var="128" visible="false"/>
+            <calaos:output gtype="light" hits="90" host="10.0.0.124" id="output_27" name="Plafonnier" port="502" type="WODigital" var="98" visible="true"/>
+            <calaos:output hits="100" host="10.0.0.124" id="output_28" name="Volet" port="502" time="30" time_down="28" time_up="30" type="WOVoletSmart" var_down="39" var_save="19" var_up="38" visible="true"/>
+            <calaos:output gtype="light" hits="80" host="10.0.0.124" id="output_29" name="Armoire à glace" port="502" type="WODigital" var="80" visible="true"/>
+        </calaos:room>
+        <calaos:room name="WC RdC" type="divers" hits="30">
+            <calaos:input host="10.0.0.124" id="input_66" name="RWC-EDM-BP" port="502" type="WIDigitalTriple" var="129" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_67" name="RWC-NFM-CV-M" port="502" type="WIDigitalTriple" var="130" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_68" name="RWC-NFM-CV-D" port="502" type="WIDigitalTriple" var="131" visible="false"/>
+            <calaos:output gtype="light" hits="90" host="10.0.0.124" id="output_32" name="Plafonnier" port="502" type="WODigital" var="99" visible="true"/>
+            <calaos:output hits="100" host="10.0.0.124" id="output_33" name="Volet" port="502" time="30" time_down="28" time_up="30" type="WOVoletSmart" var_down="41" var_save="20" var_up="40" visible="true"/>
+        </calaos:room>
+        <calaos:room name="Couloir RdC" type="divers" hits="70">
+            <calaos:input host="10.0.0.124" id="input_62" name="RC-OPM-1-BP" port="502" type="WIDigitalTriple" var="132" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_63" name="RC-OPM-2-BP" port="502" type="WIDigitalTriple" var="133" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_64" name="RC-EDM-1G-BP" port="502" type="WIDigitalTriple" var="134" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_65" name="RC-EDM-1D-BP" port="502" type="WIDigitalTriple" var="135" visible="false"/>
+            <calaos:internal hits="30" id="intern_49" name="RC--CL.csg" rw="true" type="InternalBool" visible="true"/>
+            <calaos:output gtype="light" hits="90" host="10.0.0.124" id="output_30" name="Plafonniers" port="502" type="WODigital" var="75" visible="true"/>
+            <calaos:output gtype="light" hits="80" host="10.0.0.124" id="output_31" name="Veilleuses" port="502" type="WODigital" var="51" visible="true"/>
+            <calaos:output gtype="light" host="10.0.0.124" id="output_64" name="RC-EDM-1D-TL" port="502" type="WODigital" var="144" visible="false"/>
+            <calaos:output gtype="light" host="10.0.0.124" id="output_68" name="RC--CL" port="502" type="WODigital" var="132" visible="false"/>
+        </calaos:room>
+        <calaos:room name="Chaufferie" type="cave" hits="1040">
+            <calaos:input host="10.0.0.124" id="input_164" name="CHF-1-G-BP" port="502" type="WIDigitalTriple" var="136" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_165" name="CHF-1-D-BP" port="502" type="WIDigitalTriple" var="137" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_166" name="CHF-EDH1-BP" port="502" type="WIDigitalTriple" var="138" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_167" name="CHF-SPM-1-BP" port="502" type="WIDigitalTriple" var="139" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_168" name="CHF-OPM-1-BP" port="502" type="WIDigitalTriple" var="141" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_169" name="CHF-OPM-2-BP" port="502" type="WIDigitalTriple" var="142" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_170" name="CHF-NGM-G-BP" port="502" type="WIDigitalTriple" var="143" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_171" name="CHF-NGM-D-BP" port="502" type="WIDigitalTriple" var="144" visible="false"/>
+            <calaos:internal id="intern_33" name="CHF-1-D-TL.csg" rw="false" type="InternalBool" visible="true"/>
+            <calaos:internal hits="80" id="intern_34" name="Plafonnier" rw="true" type="InternalBool" visible="true"/>
+            <calaos:internal hits="90" id="intern_35" name="Appliques circulation" rw="true" type="InternalBool" visible="true"/>
+            <calaos:internal hits="50" id="intern_36" name="Applique baie" rw="true" type="InternalBool" visible="true"/>
+            <calaos:internal hits="60" id="intern_37" name="Applique évier" rw="true" type="InternalBool" visible="true"/>
+            <calaos:internal id="intern_31" name="Voyants du sous-sol" rw="true" type="InternalBool" visible="true"/>
+            <calaos:output gtype="light" host="10.0.0.124" id="output_134" name="CHF-P-PL" port="502" type="WODigital" var="84" visible="false"/>
+            <calaos:output gtype="light" host="10.0.0.124" id="output_135" name="CHF-OPH-AP" port="502" type="WODigital" var="106" visible="false"/>
+            <calaos:output gtype="light" host="10.0.0.124" id="output_66" name="CHF-1-D-TL" port="502" rw="false" type="WODigital" var="135" visible="false"/>
+            <calaos:output gtype="light" host="10.0.0.124" id="output_136" name="CHF-EDH2-AP" port="502" type="WODigital" var="83" visible="false"/>
+            <calaos:output gtype="light" host="10.0.0.124" id="output_137" name="CHF-ODH-AP" port="502" type="WODigital" var="85" visible="false"/>
+            <calaos:output gtype="light" host="10.0.0.124" id="output_70" name="CHF--CL" port="502" type="WODigital" var="134" visible="false"/>
+        </calaos:room>
+        <calaos:room name="Pièce Congélateur" type="cave" hits="40">
+            <calaos:input host="10.0.0.124" id="input_69" name="CON-NPM-BP" port="502" type="WIDigitalTriple" var="145" visible="false"/>
+            <calaos:internal id="intern_38" name="Plafonnier" rw="true" type="InternalBool" visible="true"/>
+            <calaos:internal id="intern_39" name="Applique circulation" rw="true" type="InternalBool" visible="true"/>
+            <calaos:output gtype="light" host="10.0.0.124" id="output_34" name="CON-P-PL" port="502" type="WODigital" var="87" visible="false"/>
+            <calaos:output gtype="light" host="10.0.0.124" id="output_35" name="CON-NPH-AP" port="502" type="WODigital" var="107" visible="false"/>
+        </calaos:room>
+        <calaos:room name="Cave" type="cave" hits="30">
+            <calaos:input host="10.0.0.124" id="input_70" name="CAV-EPM-1-BP" port="502" type="WIDigitalTriple" var="146" visible="false"/>
+            <calaos:internal id="intern_40" name="Plafonnier" rw="true" type="InternalBool" visible="true"/>
+            <calaos:output gtype="light" host="10.0.0.124" id="output_36" name="CAV-P-PL" port="502" type="WODigital" var="86" visible="false"/>
+        </calaos:room>
+        <calaos:room name="Petit Garage" type="exterieur" hits="40">
+            <calaos:input host="10.0.0.124" id="input_71" name="PG-ODM-BP" port="502" type="WIDigitalTriple" var="147" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_72" name="PG-EGM1-1G-BP" port="502" type="WIDigitalTriple" var="149" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_73" name="PG-EGM1-1D-BP" port="502" type="WIDigitalTriple" var="150" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_74" name="PG-EGM1-2G-BP" port="502" type="WIDigitalTriple" var="151" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_75" name="PG-EGM1-2D-BP" port="502" type="WIDigitalTriple" var="152" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_76" name="PG-EGM2-1-BP" port="502" type="WIDigitalTriple" var="148" visible="false"/>
+            <calaos:internal hits="90" id="intern_41" name="Plafonniers" rw="true" type="InternalBool" visible="true"/>
+            <calaos:internal hits="80" id="intern_42" name="Applique établi" rw="true" type="InternalBool" visible="true"/>
+            <calaos:internal hits="100" id="intern_66" name="Porte du petit garage" rw="true" type="InternalBool" visible="true"/>
+            <calaos:output gtype="light" host="10.0.0.124" id="output_37" name="PG-P-PL" port="502" type="WODigital" var="108" visible="false"/>
+            <calaos:output gtype="light" host="10.0.0.124" id="output_38" name="PG-SMH-AP" port="502" type="WODigital" var="109" visible="false"/>
+            <calaos:output hits="100" host="10.0.0.124" id="output_55" name="PG-NMH-PG-CS-1" port="502" type="WODigital" var="149" visible="false"/>
+        </calaos:room>
+        <calaos:room name="Grand Garage" type="exterieur" hits="1060">
+            <calaos:input host="10.0.0.124" id="input_77" name="GG-OPM1-1G-BP" port="502" type="WIDigitalTriple" var="153" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_78" name="GG-OPM1-1D-BP" port="502" type="WIDigitalTriple" var="154" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_79" name="GG-OPM1-2G-BP" port="502" type="WIDigitalTriple" var="155" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_80" name="GG-OPM1-2D-BP" port="502" type="WIDigitalTriple" var="156" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_81" name="GG-OPM2-1-BP" port="502" type="WIDigitalTriple" var="157" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_82" name="GG-OPM2-2-BP" port="502" type="WIDigitalTriple" var="158" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_88" name="GG-EDH-G-BP" port="502" type="WIDigitalTriple" var="159" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_180" name="GG-EDH-D-BP" port="502" type="WIDigitalTriple" var="160" visible="false"/>
+            <calaos:internal hits="90" id="intern_43" name="Plafonniers" rw="true" type="InternalBool" visible="true"/>
+            <calaos:internal hits="100" id="intern_58" name="Porte du grand garage" rw="true" type="InternalBool" visible="true"/>
+            <calaos:internal id="intern_3" name="Porte du grand garage_valide" rw="false" type="InternalBool" visible="false"/>
+            <calaos:output gtype="light" host="10.0.0.124" id="output_39" name="GG-P-PL" port="502" type="WODigital" var="110" visible="false"/>
+            <calaos:output host="10.0.0.124" id="output_56" name="Porte du grand garage - ouverture" port="502" type="WODigital" var="150" visible="false"/>
+            <calaos:output host="10.0.0.124" id="output_57" name="Porte du grand garage - fermeture" port="502" type="WODigital" var="151" visible="false"/>
+            <calaos:output gtype="light" host="10.0.0.124" id="output_84" name="GG-EDH-D-TL" port="502" type="WODigital" var="146" visible="false"/>
+        </calaos:room>
+        <calaos:room name="Vide Sanitaire" type="cave" hits="20">
+            <calaos:input host="10.0.0.124" id="input_83" name="VS-SPM-1-BP" port="502" type="WIDigitalTriple" var="161" visible="false"/>
+            <calaos:internal id="intern_44" name="Plafonnier" rw="true" type="InternalBool" visible="true"/>
+            <calaos:output gtype="light" host="10.0.0.124" id="output_40" name="VS-P-PL" port="502" type="WODigital" var="88" visible="false"/>
+        </calaos:room>
+        <calaos:room name="Remise" type="exterieur" hits="20">
+            <calaos:input host="10.0.0.124" id="input_84" name="REMM-NPM-BP" port="502" type="WIDigitalTriple" var="162" visible="false"/>
+        </calaos:room>
+        <calaos:room name="Jardin (éclairage)" type="exterieur" hits="30">
+            <calaos:input host="10.0.0.124" id="input_85" name="JAR-ECL6BP-BP" port="502" type="WIDigitalTriple" var="163" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_86" name="JAR-ECL7BP-BP" port="502" type="WIDigitalTriple" var="164" visible="false"/>
+            <calaos:input host="10.0.0.124" hour="0" id="input_91" min="0" msec="0" name="JAR-ECL-TIMER_CircEst" port="502" sec="10" type="InputTimer" var="0" visible="false"/>
+            <calaos:input host="10.0.0.124" hour="0" id="input_92" min="0" msec="0" name="JAR-ECL-TIMER_TLclign1" port="502" sec="4" type="InputTimer" var="0" visible="false"/>
+            <calaos:input host="10.0.0.124" hour="0" id="input_93" min="0" msec="0" name="JAR-ECL-TIMER_TLclign2" port="502" sec="1" type="InputTimer" var="0" visible="false"/>
+            <calaos:internal hits="90" id="intern_8" name="Terrasse cuisine (local)" rw="true" type="InternalBool" visible="true"/>
+            <calaos:internal hits="85" id="intern_9" name="Loggia (local)" rw="true" type="InternalBool" visible="true"/>
+            <calaos:internal hits="80" id="intern_10" name="Terrasse séjour (local)" rw="true" type="InternalBool" visible="true"/>
+            <calaos:internal hits="75" id="intern_11" name="Remise (local)" rw="true" type="InternalBool" visible="true"/>
+            <calaos:internal hits="70" id="intern_12" name="Terrasse bureau Maman (local)" rw="true" type="InternalBool" visible="true"/>
+            <calaos:internal hits="65" id="intern_13" name="Escalier arrière étage (local)" rw="true" type="InternalBool" visible="true"/>
+            <calaos:internal hits="60" id="intern_14" name="Escalier arrière RdC (local)" rw="true" type="InternalBool" visible="true"/>
+            <calaos:internal hits="55" id="intern_15" name="Escalier arrière sous-sol (local)" rw="true" type="InternalBool" visible="true"/>
+            <calaos:internal hits="50" id="intern_16" name="Applique Est et lampadaire (local)" rw="true" type="InternalBool" visible="true"/>
+            <calaos:internal hits="101" id="intern_17" name="Circulation Est" rw="true" type="InternalBool" visible="true"/>
+            <calaos:internal hits="100" id="intern_18" name="Circulation Ouest" rw="true" type="InternalBool" visible="true"/>
+            <calaos:internal id="intern_19" name="JAR-ECL1-TL.csg" rw="false" type="InternalBool" visible="false"/>
+            <calaos:internal id="intern_20" name="JAR-ECL2-TL.csg" rw="false" type="InternalBool" visible="false"/>
+            <calaos:internal id="intern_21" name="JAR-ECL3-TL.csg" rw="false" type="InternalBool" visible="false"/>
+            <calaos:internal id="intern_22" name="JAR-ECL4-TL.csg" rw="false" type="InternalBool" visible="false"/>
+            <calaos:internal id="intern_23" name="JAR-ECL5-TL.csg" rw="false" type="InternalBool" visible="false"/>
+            <calaos:internal id="intern_24" name="JAR-ECL6-TL.csg" rw="false" type="InternalBool" visible="false"/>
+            <calaos:internal id="intern_25" name="JAR-ECLE-TL.csg" rw="false" type="InternalBool" visible="false"/>
+            <calaos:internal id="intern_26" name="JAR-ECL-TLcirc.csg" rw="false" type="InternalBool" visible="false"/>
+            <calaos:internal id="intern_27" name="JAR-ECL-CircEst_Tempo-demande" rw="false" type="InternalBool" visible="false"/>
+            <calaos:internal id="intern_28" name="JAR-ECL-CircEst_Tempo-on" rw="false" type="InternalBool" visible="false"/>
+            <calaos:internal id="intern_29" name="JAR-ECL_Extinction_generale" rw="false" type="InternalBool" visible="false"/>
+            <calaos:internal id="intern_30" name="JAR-ECL-TLcirc_local-on" rw="false" type="InternalBool" visible="false"/>
+            <calaos:internal id="intern_32" name="JAR-ECL-TLcirc_local-clign" rw="false" type="InternalInt" visible="false"/>
+            <calaos:internal hits="95" id="intern_59" name="Perron" rw="true" type="InternalBool" visible="true"/>
+            <calaos:internal id="intern_0" name="JAR-ECL7-TL.csg" rw="false" type="InternalBool" visible="false"/>
+            <calaos:output gtype="light" host="10.0.0.124" id="output_49" name="ECLE Entrée" port="502" rw="false" type="WODigital" var="55" visible="false"/>
+            <calaos:output gtype="light" host="10.0.0.124" id="output_20" name="ECL1 Cuisine" port="502" type="WODigital" var="56" visible="false"/>
+            <calaos:output gtype="light" host="10.0.0.124" id="output_51" name="ECL2 Loggia" port="502" type="WODigital" var="57" visible="false"/>
+            <calaos:output gtype="light" host="10.0.0.124" id="output_50" name="ECL3 Sejour sud" port="502" type="WODigital" var="58" visible="false"/>
+            <calaos:output gtype="light" host="10.0.0.124" id="output_41" name="ECLR1 Remise" port="502" type="WODigital" var="59" visible="false"/>
+            <calaos:output gtype="light" host="10.0.0.124" id="output_25" name="ECL4 Bureau Maman" port="502" type="WODigital" var="60" visible="false"/>
+            <calaos:output gtype="light" host="10.0.0.124" id="output_42" name="ECL5 Esc. ext. arr. etg." port="502" type="WODigital" var="61" visible="false"/>
+            <calaos:output gtype="light" host="10.0.0.124" id="output_43" name="ECL6 Esc. ext. arr. Rdc" port="502" type="WODigital" var="62" visible="false"/>
+            <calaos:output gtype="light" host="10.0.0.124" id="output_44" name="ECL7 Esc. ext. arr. sous-sol" port="502" type="WODigital" var="63" visible="false"/>
+            <calaos:output gtype="light" host="10.0.0.124" id="output_45" name="ECL8 Lampadaire et applique est" port="502" type="WODigital" var="64" visible="false"/>
+            <calaos:output gtype="light" host="10.0.0.124" id="output_58" name="JAR-ECL-TLcirc" port="502" type="WODigital" var="147" visible="false"/>
+        </calaos:room>
+        <calaos:room name="Salle des machines" type="divers" hits="0">
+            <calaos:internal id="intern_55" name="Demarrage" rw="false" type="InternalBool" visible="false"/>
+            <calaos:internal id="intern_56" name="Test des temoins" rw="true" type="InternalBool" visible="true"/>
+            <calaos:internal id="intern_57" name="dysfonction-TL.csg" rw="true" type="InternalBool" visible="true"/>
+        </calaos:room>
+        <calaos:room name="Jardin (ouvertures)" type="exterieur" hits="35">
+            <calaos:input host="10.0.0.124" id="input_87" name="BP Sonnette" port="502" type="WIDigitalTriple" var="163" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_98" name="JAR-PP-CO-F" port="502" type="WIDigitalBP" var="5" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_99" name="JAR-PP-CO-O" port="502" type="WIDigitalBP" var="0" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_172" name="JAR-PP-CO-S" port="502" type="WIDigitalBP" var="2" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_173" name="JAR-GP-CO-F" port="502" type="WIDigitalBP" var="174" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_174" name="JAR-GP-CO-O" port="502" type="WIDigitalBP" var="175" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_175" name="JAR-GP-CO-S" port="502" type="WIDigitalBP" var="176" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_176" name="JAR-PO-CO-F" port="502" type="WIDigitalBP" var="177" visible="true"/>
+            <calaos:input host="10.0.0.124" id="input_177" name="JAR-BAL-CO-E" port="502" type="WIDigitalBP" var="178" visible="false"/>
+            <calaos:input host="10.0.0.124" id="input_178" name="JAR-BAL-CO-I" port="502" type="WIDigitalBP" var="179" visible="false"/>
+            <calaos:internal hits="10" id="intern_60" name="Portillon" rw="true" type="InternalBool" visible="true"/>
+            <calaos:internal hits="20" id="intern_61" name="Petit portail" rw="true" type="InternalBool" visible="true"/>
+            <calaos:internal hits="40" id="intern_62" name="Grand portail" rw="true" type="InternalBool" visible="true"/>
+            <calaos:internal hits="30" id="intern_63" name="Etat du petit portail" rw="false" type="InternalString" visible="true"/>
+            <calaos:internal hits="50" id="intern_64" name="Etat du grand portail" rw="false" type="InternalString" visible="true"/>
+            <calaos:internal hits="15" id="intern_65" name="Etat du portillon" rw="false" type="InternalString" visible="true"/>
+            <calaos:internal id="intern_67" name="JAR-PO-CO-F_valide" rw="false" type="InternalBool" visible="false"/>
+            <calaos:internal id="intern_68" name="JAR-PP-CO-F_valide" rw="false" type="InternalBool" visible="false"/>
+            <calaos:internal id="intern_69" name="JAR-PP-CO-O_valide" rw="false" type="InternalBool" visible="false"/>
+            <calaos:internal id="intern_70" name="JAR-PP-CO-S_valide" rw="false" type="InternalBool" visible="false"/>
+            <calaos:internal id="intern_71" name="JAR-GP-CO-F_valide" rw="false" type="InternalBool" visible="false"/>
+            <calaos:internal id="intern_72" name="JAR-GP-CO-O_valide" rw="false" type="InternalBool" visible="false"/>
+            <calaos:internal id="intern_73" name="JAR-GP-CO-S_valide" rw="false" type="InternalBool" visible="false"/>
+            <calaos:internal id="intern_53" name="JAR-GP_GestionEtat" rw="false" type="InternalBool" visible="false"/>
+            <calaos:internal id="intern_74" name="JAR-GP_Etat" rw="false" type="InternalInt" visible="false"/>
+            <calaos:internal id="intern_75" name="JAR-GP_Etat.txt" rw="false" type="InternalString" visible="true"/>
+            <calaos:output host="10.0.0.124" id="output_52" name="JAR-PO-GACHE" port="502" type="WODigital" var="148" visible="false"/>
+            <calaos:output host="10.0.0.124" id="output_53" name="JAR-PP-CS-1" port="502" type="WODigital" var="152" visible="false"/>
+            <calaos:output host="10.0.0.124" id="output_54" name="JAR-GP-CS-1" port="502" type="WODigital" var="153" visible="false"/>
+        </calaos:room>
+    </calaos:home>
+</calaos:ioconfig>

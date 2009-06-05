@@ -1,0 +1,43 @@
+<RCC>
+    <qresource prefix="/" >
+        <file>img/calaos.png</file>
+        <file>img/dali.png</file>
+        <file>img/edit_add.png</file>
+        <file>img/edit_remove.png</file>
+        <file>img/exit.png</file>
+        <file>img/help.png</file>
+        <file>img/prog.png</file>
+        <file>img/transfert.png</file>
+        <file>img/room_24.png</file>
+        <file>img/salon_24.png</file>
+        <file>img/audio.png</file>
+        <file>img/camera.png</file>
+        <file>img/inter.png</file>
+        <file>img/light.png</file>
+        <file>img/prise.png</file>
+        <file>img/volet.png</file>
+        <file>img/document-properties.png</file>
+        <file>img/edit-rename.png</file>
+        <file>img/user-trash.png</file>
+        <file>img/camera2.png</file>
+        <file>img/document-new.png</file>
+        <file>img/document-open.png</file>
+        <file>img/document-save.png</file>
+        <file>img/logo_huge.png</file>
+        <file>img/icon_bool_on.png</file>
+        <file>img/icon_camera_on.png</file>
+        <file>img/icon_light_on.png</file>
+        <file>img/icon_scenario.png</file>
+        <file>img/icon_shutter.png</file>
+        <file>img/icon_sound.png</file>
+        <file>img/temp.png</file>
+        <file>img/text.png</file>
+        <file>img/icon_int.png</file>
+        <file>img/icon_clock.png</file>
+        <file>img/icon_tor_on.png</file>
+        <file>img/icon_inter.png</file>
+        <file>img/go-last.png</file>
+        <file>img/process-stop.png</file>
+        <file>img/system-software-update.png</file>
+    </qresource>
+</RCC>

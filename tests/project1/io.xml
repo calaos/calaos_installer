@@ -1,0 +1,136 @@
+<?xml version="1.0"?>
+<calaos:ioconfig xmlns:calaos="http://www.calaos.fr">
+  <calaos:home>
+    <calaos:room name="cave" type="cave" hits="0">
+      <calaos:input host="10.0.0.123" id="input_0" name="chaufferie haut" port="502" type="WIDigitalBP" var="0" visible="false"/>
+      <calaos:input host="10.0.0.123" id="input_1" name="couloir general" port="502" type="WIDigitalBP" var="1" visible="false"/>
+      <calaos:input host="10.0.0.123" id="input_2" name="cagibi" port="502" type="WIDigitalBP" var="2" visible="false"/>
+      <calaos:input host="10.0.0.123" id="input_3" name="escalier haut" port="502" type="WIDigitalBP" var="3" visible="false"/>
+      <calaos:input host="10.0.0.123" id="input_4" name="cave a vin" port="502" type="WIDigitalBP" var="4" visible="false"/>
+      <calaos:input host="10.0.0.123" id="input_5" name="palier haut" port="502" type="WIDigitalBP" var="5" visible="false"/>
+      <calaos:input host="10.0.0.123" id="input_6" name="palier bas" port="502" type="WIDigitalBP" var="6" visible="false"/>
+      <calaos:input host="10.0.0.123" id="input_7" name="atilelier haut" port="502" type="WIDigitalBP" var="7" visible="false"/>
+      <calaos:input host="10.0.0.123" id="input_8" name="garage haut" port="502" type="WIDigitalBP" var="8" visible="false"/>
+      <calaos:input host="10.0.0.123" id="input_9" name="entree haut droite" port="502" type="WIDigitalBP" var="9" visible="false"/>
+      <calaos:input host="10.0.0.123" id="input_10" name="entree bas" port="502" type="WIDigitalBP" var="10" visible="false"/>
+      <calaos:input host="10.0.0.123" id="input_11" name="entree haut gauche" port="502" type="WIDigitalBP" var="11" visible="false"/>
+      <calaos:input host="10.0.0.123" id="input_12" name="chaufferie bas" port="502" type="WIDigitalBP" var="12" visible="false"/>
+      <calaos:input host="10.0.0.123" id="input_13" name="entree grande piece bas" port="502" type="WIDigitalBP" var="13" visible="false"/>
+      <calaos:input host="10.0.0.123" id="input_14" name="entree grande piece haut" port="502" type="WIDigitalBP" var="14" visible="false"/>
+      <calaos:input host="10.0.0.123" id="input_35" name="escalier rdc" port="502" type="WIDigitalBP" var="37" visible="false"/>
+      <calaos:output host="10.0.0.123" id="output_12" name="volet" port="502" time="40" type="WOVolet" var_down="25" var_up="24" visible="true"/>
+      <calaos:output gtype="light" host="10.0.0.123" id="output_32" name="Lum couloir" port="502" type="WODigital" var="51" visible="true"/>
+      <calaos:output gtype="light" host="10.0.0.123" id="output_33" name="Lum cave a vin" port="502" type="WODigital" var="52" visible="true"/>
+      <calaos:output gtype="light" host="10.0.0.123" id="output_34" name="Lum sous escalier" port="502" type="WODigital" var="53" visible="true"/>
+      <calaos:output gtype="light" host="10.0.0.123" id="output_35" name="Lum atelier" port="502" type="WODigital" var="54" visible="true"/>
+      <calaos:output gtype="light" host="10.0.0.123" id="output_36" name="Lum grande piece avant" port="502" type="WODigital" var="55" visible="true"/>
+      <calaos:output gtype="light" host="10.0.0.123" id="output_37" name="Lum grande piece fond" port="502" type="WODigital" var="56" visible="true"/>
+      <calaos:output gtype="light" host="10.0.0.123" id="output_38" name="Lum cagibi" port="502" type="WODigital" var="57" visible="true"/>
+      <calaos:output gtype="light" host="10.0.0.123" id="output_39" name="Lum chaufferie" port="502" type="WODigital" var="58" visible="true"/>
+      <calaos:output gtype="light" host="10.0.0.123" id="output_41" name="Lum garage" port="502" type="WODigital" var="60" visible="true"/>
+    </calaos:room>
+    <calaos:room name="salon" type="salon" hits="0">
+      <calaos:input host="10.0.0.123" id="input_15" name="salon haut gauche" port="502" type="WIDigitalBP" var="17" visible="false"/>
+      <calaos:input host="10.0.0.123" id="input_20" name="baie haut droite" port="502" type="WIDigitalBP" var="22" visible="false"/>
+      <calaos:input host="10.0.0.123" id="input_21" name="baie haut gauche" port="502" type="WIDigitalBP" var="23" visible="false"/>
+      <calaos:input host="10.0.0.123" id="input_23" name="biae bas" port="502" type="WIDigitalBP" var="25" visible="false"/>
+      <calaos:input host="10.0.0.123" id="input_29" name="salon bas" port="502" type="WIDigitalBP" var="31" visible="false"/>
+      <calaos:input host="10.0.0.123" id="input_30" name="salon haut droite" port="502" type="WIDigitalBP" var="32" visible="false"/>
+      <calaos:output host="10.0.0.123" id="output_0" name="volet" port="502" time="40" type="WOVolet" var_down="1" var_up="0" visible="true"/>
+      <calaos:output host="10.0.0.123" id="output_2" name="baie" port="502" time="40" type="WOVolet" var_down="5" var_up="4" visible="true"/>
+      <calaos:output gtype="light" host="10.0.0.123" id="output_17" name="Applique" port="502" type="WODigital" var="36" visible="true"/>
+      <calaos:output address="2" fade_time="2" group="1" host="10.0.0.123" id="output_44" line="1" name="Spot" type="WODali" visible="true"/>
+    </calaos:room>
+    <calaos:room name="cuisine" type="cuisine" hits="0">
+      <calaos:input host="10.0.0.123" id="input_16" name="petite baie bas" port="502" type="WIDigitalBP" var="18" visible="false"/>
+      <calaos:input host="10.0.0.123" id="input_17" name="petie baie haut gauche" port="502" type="WIDigitalBP" var="19" visible="false"/>
+      <calaos:input host="10.0.0.123" id="input_18" name="petite baie haut droite" port="502" type="WIDigitalBP" var="20" visible="false"/>
+      <calaos:input host="10.0.0.123" id="input_19" name="grande baie haut gauche" port="502" type="WIDigitalBP" var="21" visible="false"/>
+      <calaos:input host="10.0.0.123" id="input_22" name="grande baie haut droite" port="502" type="WIDigitalBP" var="24" visible="false"/>
+      <calaos:input host="10.0.0.123" id="input_24" name="grande baie bas" port="502" type="WIDigitalBP" var="26" visible="false"/>
+      <calaos:input host="10.0.0.123" id="input_25" name="evier" port="502" type="WIDigitalBP" var="27" visible="false"/>
+      <calaos:output host="10.0.0.123" id="output_1" name="grande baie" port="502" time="40" type="WOVolet" var_down="3" var_up="2" visible="true"/>
+      <calaos:output host="10.0.0.123" id="output_3" name="petite baie" port="502" time="40" type="WOVolet" var_down="7" var_up="6" visible="true"/>
+      <calaos:output host="10.0.0.123" id="output_5" name="volet" port="502" time="40" type="WOVolet" var_down="11" var_up="10" visible="true"/>
+      <calaos:output gtype="light" host="10.0.0.123" id="output_21" name="Spot" port="502" type="WODigital" var="40" visible="true"/>
+      <calaos:output gtype="light" host="10.0.0.123" id="output_23" name="Lum ilot" port="502" type="WODigital" var="42" visible="true"/>
+      <calaos:output address="3" fade_time="2" group="1" host="10.0.0.123" id="output_45" line="1" name="Spot SAM G1" type="WODali" visible="true"/>
+      <calaos:output address="4" fade_time="2" group="1" host="10.0.0.123" id="output_46" line="1" name="Spot SAM G2" type="WODali" visible="true"/>
+      <calaos:output address="5" fade_time="2" group="1" host="10.0.0.123" id="output_47" line="1" name="Spot SAM" type="WODali" visible="true"/>
+    </calaos:room>
+    <calaos:room name="couloir" type="couloir" hits="0">
+      <calaos:input host="10.0.0.123" id="input_26" name="entree cuisine haut droite" port="502" type="WIDigitalBP" var="28" visible="false"/>
+      <calaos:input host="10.0.0.123" id="input_27" name="entree cuisine haut gauche" port="502" type="WIDigitalBP" var="29" visible="false"/>
+      <calaos:input host="10.0.0.123" id="input_28" name="entree cuisine bas gauche" port="502" type="WIDigitalBP" var="30" visible="false"/>
+      <calaos:input host="10.0.0.123" id="input_31" name="entree cuisine bas droite" port="502" type="WIDigitalBP" var="33" visible="false"/>
+      <calaos:input host="10.0.0.123" id="input_32" name="escalier rdc droite" port="502" type="WIDigitalBP" var="34" visible="false"/>
+      <calaos:input host="10.0.0.123" id="input_36" name="escalier rdc gauche" port="502" type="WIDigitalBP" var="38" visible="false"/>
+      <calaos:input host="10.0.0.123" id="input_39" name="entree haut" port="502" type="WIDigitalBP" var="41" visible="false"/>
+      <calaos:input host="10.0.0.123" id="input_41" name="entree bas" port="502" type="WIDigitalBP" var="43" visible="false"/>
+      <calaos:input host="10.0.0.123" id="input_43" name="porte vitree" port="502" type="WIDigitalBP" var="45" visible="false"/>
+      <calaos:input host="10.0.0.123" id="input_55" name="escalier etage gauche" port="502" type="WIDigitalBP" var="57" visible="false"/>
+      <calaos:input host="10.0.0.123" id="input_56" name="escalier etage droite" port="502" type="WIDigitalBP" var="58" visible="false"/>
+      <calaos:output gtype="light" host="10.0.0.123" id="output_13" name="Lum couloir entree" port="502" type="WODigital" var="32" visible="true"/>
+      <calaos:output gtype="light" host="10.0.0.123" id="output_15" name="Lum escalier cave" port="502" type="WODigital" var="34" visible="true"/>
+      <calaos:output gtype="light" host="10.0.0.123" id="output_18" name="Lum passage rdc" port="502" type="WODigital" var="37" visible="true"/>
+      <calaos:output gtype="light" host="10.0.0.123" id="output_19" name="Lum escalier LED" port="502" type="WODigital" var="38" visible="true"/>
+      <calaos:output gtype="light" host="10.0.0.123" id="output_24" name="Lum hall etage" port="502" type="WODigital" var="43" visible="true"/>
+      <calaos:output gtype="light" host="10.0.0.123" id="output_25" name="Lum escalier etage" port="502" type="WODigital" var="44" visible="true"/>
+    </calaos:room>
+    <calaos:room name="celier" type="cuisine" hits="0">
+      <calaos:input host="10.0.0.123" id="input_33" name="porte bas" port="502" type="WIDigitalBP" var="35" visible="false"/>
+      <calaos:input host="10.0.0.123" id="input_34" name="porte haut" port="502" type="WIDigitalBP" var="36" visible="false"/>
+      <calaos:output host="10.0.0.123" id="output_4" name="volet" port="502" time="40" type="WOVolet" var_down="9" var_up="8" visible="true"/>
+      <calaos:output gtype="light" host="10.0.0.123" id="output_22" name="Lumiere" port="502" type="WODigital" var="41" visible="true"/>
+    </calaos:room>
+    <calaos:room name="wc" type="cuisine" hits="0">
+      <calaos:input host="10.0.0.123" id="input_37" name="porte" port="502" type="WIDigitalBP" var="39" visible="false"/>
+      <calaos:output gtype="light" host="10.0.0.123" id="output_20" name="Lumiere" port="502" type="WODigital" var="39" visible="true"/>
+    </calaos:room>
+    <calaos:room name="bureau" type="bureau" hits="0">
+      <calaos:input host="10.0.0.123" id="input_38" name="porte bas" port="502" type="WIDigitalBP" var="40" visible="false"/>
+      <calaos:input host="10.0.0.123" id="input_40" name="porte haut gauche" port="502" type="WIDigitalBP" var="42" visible="false"/>
+      <calaos:input host="10.0.0.123" id="input_42" name="porte haut droite" port="502" type="WIDigitalBP" var="44" visible="false"/>
+      <calaos:output host="10.0.0.123" id="output_6" name="volet" port="502" time="40" type="WOVolet" var_down="13" var_up="12" visible="true"/>
+      <calaos:output gtype="light" host="10.0.0.123" id="output_14" name="Lum table bureau" port="502" type="WODigital" var="33" visible="true"/>
+      <calaos:output address="1" fade_time="2" group="1" host="10.0.0.123" id="output_43" line="1" name="Spot" type="WODali" visible="true"/>
+    </calaos:room>
+    <calaos:room name="ch jade" type="chambre" hits="0">
+      <calaos:input host="10.0.0.123" id="input_44" name="porte bas" port="502" type="WIDigitalBP" var="46" visible="false"/>
+      <calaos:input host="10.0.0.123" id="input_47" name="porte haut" port="502" type="WIDigitalBP" var="49" visible="false"/>
+      <calaos:output host="10.0.0.123" id="output_8" name="volet" port="502" time="40" type="WOVolet" var_down="17" var_up="16" visible="true"/>
+      <calaos:output gtype="light" host="10.0.0.123" id="output_29" name="Lumiere" port="502" type="WODigital" var="48" visible="true"/>
+    </calaos:room>
+    <calaos:room name="ch vicken" type="chambre" hits="0">
+      <calaos:input host="10.0.0.123" id="input_45" name="porte haut" port="502" type="WIDigitalBP" var="47" visible="false"/>
+      <calaos:input host="10.0.0.123" id="input_46" name="porte bas" port="502" type="WIDigitalBP" var="48" visible="false"/>
+      <calaos:output host="10.0.0.123" id="output_10" name="volet" port="502" time="40" type="WOVolet" var_down="21" var_up="20" visible="true"/>
+      <calaos:output gtype="light" host="10.0.0.123" id="output_27" name="Lumiere" port="502" type="WODigital" var="46" visible="true"/>
+    </calaos:room>
+    <calaos:room name="sdb" type="sdb" hits="0">
+      <calaos:input host="10.0.0.123" id="input_48" name="porte bas" port="502" type="WIDigitalBP" var="50" visible="false"/>
+      <calaos:input host="10.0.0.123" id="input_50" name="porte haut gauche" port="502" type="WIDigitalBP" var="52" visible="false"/>
+      <calaos:input host="10.0.0.123" id="input_51" name="porte haut droite" port="502" type="WIDigitalBP" var="53" visible="false"/>
+      <calaos:output host="10.0.0.123" id="output_11" name="volet" port="502" time="40" type="WOVolet" var_down="23" var_up="22" visible="true"/>
+      <calaos:output gtype="light" host="10.0.0.123" id="output_30" name="Lumiere" port="502" type="WODigital" var="49" visible="true"/>
+      <calaos:output gtype="light" host="10.0.0.123" id="output_31" name="Lum wc" port="502" type="WODigital" var="50" visible="true"/>
+    </calaos:room>
+    <calaos:room name="ch parents" type="chambre" hits="0">
+      <calaos:input host="10.0.0.123" id="input_49" name="porte haut" port="502" type="WIDigitalBP" var="51" visible="false"/>
+      <calaos:input host="10.0.0.123" id="input_52" name="porte bas" port="502" type="WIDigitalBP" var="54" visible="false"/>
+      <calaos:output host="10.0.0.123" id="output_9" name="volet" port="502" time="40" type="WOVolet" var_down="19" var_up="18" visible="true"/>
+      <calaos:output gtype="light" host="10.0.0.123" id="output_28" name="Lumiere" port="502" type="WODigital" var="47" visible="true"/>
+    </calaos:room>
+    <calaos:room name="ch johannes" type="chambre" hits="0">
+      <calaos:input host="10.0.0.123" id="input_53" name="porte haut" port="502" type="WIDigitalBP" var="55" visible="false"/>
+      <calaos:input host="10.0.0.123" id="input_54" name="porte bas" port="502" type="WIDigitalBP" var="56" visible="false"/>
+      <calaos:output host="10.0.0.123" id="output_7" name="volet" port="502" time="40" type="WOVolet" var_down="15" var_up="14" visible="true"/>
+      <calaos:output gtype="light" host="10.0.0.123" id="output_26" name="Lumiere" port="502" type="WODigital" var="45" visible="true"/>
+      <calaos:output address="3" fade_time="2" group="0" host="10.0.0.123" id="output_42" line="1" name="spot" type="WODali" visible="true"/>
+    </calaos:room>
+    <calaos:room name="exterieur" type="exterieur" hits="0">
+      <calaos:output gtype="light" host="10.0.0.123" id="output_16" name="Lum exterieur entree" port="502" type="WODigital" var="35" visible="true"/>
+      <calaos:output gtype="light" host="10.0.0.123" id="output_40" name="Lum exterieur garage" port="502" type="WODigital" var="59" visible="true"/>
+    </calaos:room>
+  </calaos:home>
+</calaos:ioconfig>

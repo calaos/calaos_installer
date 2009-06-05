@@ -1,0 +1,427 @@
+<?xml version="1.0"?>
+<calaos:rules xmlns:calaos="http://www.calaos.fr">
+  <calaos:rule name="lumiere_0" type="cave" spacialType="">
+    <calaos:condition>
+      <calaos:input id="input_0" oper="==" val="true"/>
+    </calaos:condition>
+    <calaos:action>
+      <calaos:output id="output_39" val="toggle"/>
+    </calaos:action>
+  </calaos:rule>
+  <calaos:rule name="lumiere_1" type="cave" spacialType="">
+    <calaos:condition>
+      <calaos:input id="input_1" oper="==" val="true"/>
+    </calaos:condition>
+    <calaos:action>
+      <calaos:output id="output_32" val="toggle"/>
+    </calaos:action>
+  </calaos:rule>
+  <calaos:rule name="lumiere_2" type="cave" spacialType="">
+    <calaos:condition>
+      <calaos:input id="input_2" oper="==" val="true"/>
+    </calaos:condition>
+    <calaos:action>
+      <calaos:output id="output_38" val="toggle"/>
+    </calaos:action>
+  </calaos:rule>
+  <calaos:rule name="lumiere_4" type="cave" spacialType="">
+    <calaos:condition>
+      <calaos:input id="input_4" oper="==" val="true"/>
+    </calaos:condition>
+    <calaos:action>
+      <calaos:output id="output_33" val="toggle"/>
+    </calaos:action>
+  </calaos:rule>
+  <calaos:rule name="lumiere_7" type="cave" spacialType="">
+    <calaos:condition>
+      <calaos:input id="input_7" oper="==" val="true"/>
+    </calaos:condition>
+    <calaos:action>
+      <calaos:output id="output_35" val="toggle"/>
+    </calaos:action>
+  </calaos:rule>
+  <calaos:rule name="lumiere_8" type="cave" spacialType="">
+    <calaos:condition>
+      <calaos:input id="input_8" oper="==" val="true"/>
+    </calaos:condition>
+    <calaos:action>
+      <calaos:output id="output_41" val="toggle"/>
+    </calaos:action>
+  </calaos:rule>
+  <calaos:rule name="volet_10" type="cave" spacialType="">
+    <calaos:condition>
+      <calaos:input id="input_10" oper="==" val="true"/>
+    </calaos:condition>
+    <calaos:action>
+      <calaos:output id="output_12" val="toggle"/>
+    </calaos:action>
+  </calaos:rule>
+  <calaos:rule name="lumiere_11" type="cave" spacialType="">
+    <calaos:condition>
+      <calaos:input id="input_11" oper="==" val="true"/>
+    </calaos:condition>
+    <calaos:action>
+      <calaos:output id="output_36" val="toggle"/>
+    </calaos:action>
+  </calaos:rule>
+  <calaos:rule name="lumiere_12" type="cave" spacialType="">
+    <calaos:condition>
+      <calaos:input id="input_12" oper="==" val="true"/>
+    </calaos:condition>
+    <calaos:action>
+      <calaos:output id="output_34" val="toggle"/>
+    </calaos:action>
+  </calaos:rule>
+  <calaos:rule name="lumiere_17" type="salon" spacialType="">
+    <calaos:condition>
+      <calaos:input id="input_15" oper="==" val="true"/>
+    </calaos:condition>
+    <calaos:action>
+      <calaos:output id="output_44" val="toggle"/>
+    </calaos:action>
+  </calaos:rule>
+  <calaos:rule name="volet_18" type="cuisine" spacialType="">
+    <calaos:condition>
+      <calaos:input id="input_16" oper="==" val="true"/>
+    </calaos:condition>
+    <calaos:action>
+      <calaos:output id="output_3" val="toggle"/>
+    </calaos:action>
+  </calaos:rule>
+  <calaos:rule name="lumiere_19" type="cuisine" spacialType="">
+    <calaos:condition>
+      <calaos:input id="input_17" oper="==" val="true"/>
+    </calaos:condition>
+    <calaos:action>
+      <calaos:output id="output_23" val="toggle"/>
+    </calaos:action>
+  </calaos:rule>
+  <calaos:rule name="lumiere_21" type="cuisine" spacialType="">
+    <calaos:condition>
+      <calaos:input id="input_19" oper="==" val="true"/>
+    </calaos:condition>
+    <calaos:action>
+      <calaos:output id="output_46" val="toggle"/>
+    </calaos:action>
+  </calaos:rule>
+  <calaos:rule name="lumiere_23" type="salon" spacialType="">
+    <calaos:condition>
+      <calaos:input id="input_21" oper="==" val="true"/>
+    </calaos:condition>
+    <calaos:action>
+      <calaos:output id="output_45" val="toggle"/>
+    </calaos:action>
+  </calaos:rule>
+  <calaos:rule name="volet_25" type="salon" spacialType="">
+    <calaos:condition>
+      <calaos:input id="input_23" oper="==" val="true"/>
+    </calaos:condition>
+    <calaos:action>
+      <calaos:output id="output_2" val="toggle"/>
+    </calaos:action>
+  </calaos:rule>
+  <calaos:rule name="volet_26" type="cuisine" spacialType="">
+    <calaos:condition>
+      <calaos:input id="input_24" oper="==" val="true"/>
+    </calaos:condition>
+    <calaos:action>
+      <calaos:output id="output_1" val="toggle"/>
+    </calaos:action>
+  </calaos:rule>
+  <calaos:rule name="lumiere_27" type="cuisine" spacialType="">
+    <calaos:condition>
+      <calaos:input id="input_25" oper="==" val="true"/>
+    </calaos:condition>
+    <calaos:action>
+      <calaos:output id="output_21" val="toggle"/>
+    </calaos:action>
+  </calaos:rule>
+  <calaos:rule name="volet_31" type="salon" spacialType="">
+    <calaos:condition>
+      <calaos:input id="input_29" oper="==" val="true"/>
+    </calaos:condition>
+    <calaos:action>
+      <calaos:output id="output_0" val="toggle"/>
+    </calaos:action>
+  </calaos:rule>
+  <calaos:rule name="lumiere_32" type="salon" spacialType="">
+    <calaos:condition>
+      <calaos:input id="input_30" oper="==" val="true"/>
+    </calaos:condition>
+    <calaos:action>
+      <calaos:output id="output_17" val="toggle"/>
+    </calaos:action>
+  </calaos:rule>
+  <calaos:rule name="lumiere_34" type="couloir" spacialType="">
+    <calaos:condition>
+      <calaos:input id="input_32" oper="==" val="true"/>
+    </calaos:condition>
+    <calaos:action>
+      <calaos:output id="output_25" val="toggle"/>
+    </calaos:action>
+  </calaos:rule>
+  <calaos:rule name="volet_35" type="cuisine" spacialType="">
+    <calaos:condition>
+      <calaos:input id="input_33" oper="==" val="true"/>
+    </calaos:condition>
+    <calaos:action>
+      <calaos:output id="output_4" val="toggle"/>
+    </calaos:action>
+  </calaos:rule>
+  <calaos:rule name="lumiere_36" type="cuisine" spacialType="">
+    <calaos:condition>
+      <calaos:input id="input_34" oper="==" val="true"/>
+    </calaos:condition>
+    <calaos:action>
+      <calaos:output id="output_22" val="toggle"/>
+    </calaos:action>
+  </calaos:rule>
+  <calaos:rule name="lumiere_37" type="cave" spacialType="">
+    <calaos:condition>
+      <calaos:input id="input_35" oper="==" val="true"/>
+    </calaos:condition>
+    <calaos:action>
+      <calaos:output id="output_15" val="toggle"/>
+    </calaos:action>
+  </calaos:rule>
+  <calaos:rule name="lumiere_38" type="couloir" spacialType="">
+    <calaos:condition>
+      <calaos:input id="input_36" oper="==" val="true"/>
+    </calaos:condition>
+    <calaos:action>
+      <calaos:output id="output_18" val="toggle"/>
+    </calaos:action>
+  </calaos:rule>
+  <calaos:rule name="lumiere_39" type="cuisine" spacialType="">
+    <calaos:condition>
+      <calaos:input id="input_37" oper="==" val="true"/>
+    </calaos:condition>
+    <calaos:action>
+      <calaos:output id="output_20" val="toggle"/>
+    </calaos:action>
+  </calaos:rule>
+  <calaos:rule name="volet_40" type="bureau" spacialType="">
+    <calaos:condition>
+      <calaos:input id="input_38" oper="==" val="true"/>
+    </calaos:condition>
+    <calaos:action>
+      <calaos:output id="output_6" val="toggle"/>
+    </calaos:action>
+  </calaos:rule>
+  <calaos:rule name="lumiere_42" type="bureau" spacialType="">
+    <calaos:condition>
+      <calaos:input id="input_40" oper="==" val="true"/>
+    </calaos:condition>
+    <calaos:action>
+      <calaos:output id="output_43" val="toggle"/>
+    </calaos:action>
+  </calaos:rule>
+  <calaos:rule name="lumiere_43" type="couloir" spacialType="">
+    <calaos:condition>
+      <calaos:input id="input_41" oper="==" val="true"/>
+    </calaos:condition>
+    <calaos:action>
+      <calaos:output id="output_16" val="toggle"/>
+    </calaos:action>
+  </calaos:rule>
+  <calaos:rule name="lumiere_44" type="bureau" spacialType="">
+    <calaos:condition>
+      <calaos:input id="input_42" oper="==" val="true"/>
+    </calaos:condition>
+    <calaos:action>
+      <calaos:output id="output_14" val="toggle"/>
+    </calaos:action>
+  </calaos:rule>
+  <calaos:rule name="lumiere_45" type="couloir" spacialType="">
+    <calaos:condition>
+      <calaos:input id="input_43" oper="==" val="true"/>
+    </calaos:condition>
+    <calaos:action>
+      <calaos:output id="output_13" val="toggle"/>
+    </calaos:action>
+  </calaos:rule>
+  <calaos:rule name="volet_46" type="chambre" spacialType="">
+    <calaos:condition>
+      <calaos:input id="input_44" oper="==" val="true"/>
+    </calaos:condition>
+    <calaos:action>
+      <calaos:output id="output_8" val="toggle"/>
+    </calaos:action>
+  </calaos:rule>
+  <calaos:rule name="lumiere_47" type="chambre" spacialType="">
+    <calaos:condition>
+      <calaos:input id="input_45" oper="==" val="true"/>
+    </calaos:condition>
+    <calaos:action>
+      <calaos:output id="output_27" val="toggle"/>
+    </calaos:action>
+  </calaos:rule>
+  <calaos:rule name="volet_48" type="chambre" spacialType="">
+    <calaos:condition>
+      <calaos:input id="input_46" oper="==" val="true"/>
+    </calaos:condition>
+    <calaos:action>
+      <calaos:output id="output_10" val="toggle"/>
+    </calaos:action>
+  </calaos:rule>
+  <calaos:rule name="lumiere_49" type="chambre" spacialType="">
+    <calaos:condition>
+      <calaos:input id="input_47" oper="==" val="true"/>
+    </calaos:condition>
+    <calaos:action>
+      <calaos:output id="output_29" val="toggle"/>
+    </calaos:action>
+  </calaos:rule>
+  <calaos:rule name="volet_50" type="sdb" spacialType="">
+    <calaos:condition>
+      <calaos:input id="input_48" oper="==" val="true"/>
+    </calaos:condition>
+    <calaos:action>
+      <calaos:output id="output_11" val="toggle"/>
+    </calaos:action>
+  </calaos:rule>
+  <calaos:rule name="lumiere_51" type="chambre" spacialType="">
+    <calaos:condition>
+      <calaos:input id="input_49" oper="==" val="true"/>
+    </calaos:condition>
+    <calaos:action>
+      <calaos:output id="output_28" val="toggle"/>
+    </calaos:action>
+  </calaos:rule>
+  <calaos:rule name="lumiere_52" type="sdb" spacialType="">
+    <calaos:condition>
+      <calaos:input id="input_50" oper="==" val="true"/>
+    </calaos:condition>
+    <calaos:action>
+      <calaos:output id="output_30" val="toggle"/>
+    </calaos:action>
+  </calaos:rule>
+  <calaos:rule name="lumiere_53" type="sdb" spacialType="">
+    <calaos:condition>
+      <calaos:input id="input_51" oper="==" val="true"/>
+    </calaos:condition>
+    <calaos:action>
+      <calaos:output id="output_31" val="toggle"/>
+    </calaos:action>
+  </calaos:rule>
+  <calaos:rule name="volet_54" type="chambre" spacialType="">
+    <calaos:condition>
+      <calaos:input id="input_52" oper="==" val="true"/>
+    </calaos:condition>
+    <calaos:action>
+      <calaos:output id="output_9" val="toggle"/>
+    </calaos:action>
+  </calaos:rule>
+  <calaos:rule name="lumiere_55" type="chambre" spacialType="">
+    <calaos:condition>
+      <calaos:input id="input_53" oper="==" val="true"/>
+    </calaos:condition>
+    <calaos:action>
+      <calaos:output id="output_26" val="toggle"/>
+    </calaos:action>
+  </calaos:rule>
+  <calaos:rule name="volet_56" type="chambre" spacialType="">
+    <calaos:condition>
+      <calaos:input id="input_54" oper="==" val="true"/>
+    </calaos:condition>
+    <calaos:action>
+      <calaos:output id="output_7" val="toggle"/>
+    </calaos:action>
+  </calaos:rule>
+  <calaos:rule name="lumiere_57" type="couloir" spacialType="">
+    <calaos:condition>
+      <calaos:input id="input_55" oper="==" val="true"/>
+    </calaos:condition>
+    <calaos:action>
+      <calaos:output id="output_24" val="toggle"/>
+    </calaos:action>
+  </calaos:rule>
+  <calaos:rule name="lumiere_3" type="cave" spacialType="">
+    <calaos:condition>
+      <calaos:input id="input_3" oper="==" val="true"/>
+    </calaos:condition>
+    <calaos:action>
+      <calaos:output id="output_15" val="toggle"/>
+    </calaos:action>
+  </calaos:rule>
+  <calaos:rule name="lumiere_6" type="cave" spacialType="">
+    <calaos:condition>
+      <calaos:input id="input_6" oper="==" val="true"/>
+    </calaos:condition>
+    <calaos:action>
+      <calaos:output id="output_15" val="toggle"/>
+    </calaos:action>
+  </calaos:rule>
+  <calaos:rule name="lumiere_13" type="cave" spacialType="">
+    <calaos:condition>
+      <calaos:input id="input_13" oper="==" val="true"/>
+    </calaos:condition>
+    <calaos:action>
+      <calaos:output id="output_32" val="toggle"/>
+    </calaos:action>
+  </calaos:rule>
+  <calaos:rule name="lumiere_14" type="cave" spacialType="">
+    <calaos:condition>
+      <calaos:input id="input_14" oper="==" val="true"/>
+    </calaos:condition>
+    <calaos:action>
+      <calaos:output id="output_36" val="toggle"/>
+    </calaos:action>
+  </calaos:rule>
+  <calaos:rule name="lumiere_20" type="cuisine" spacialType="">
+    <calaos:condition>
+      <calaos:input id="input_18" oper="==" val="true"/>
+    </calaos:condition>
+    <calaos:action>
+      <calaos:output id="output_21" val="toggle"/>
+    </calaos:action>
+  </calaos:rule>
+  <calaos:rule name="lumiere_28" type="couloir" spacialType="">
+    <calaos:condition>
+      <calaos:input id="input_26" oper="==" val="true"/>
+    </calaos:condition>
+    <calaos:action>
+      <calaos:output id="output_21" val="toggle"/>
+    </calaos:action>
+  </calaos:rule>
+  <calaos:rule name="lumiere_29" type="couloir" spacialType="">
+    <calaos:condition>
+      <calaos:input id="input_27" oper="==" val="true"/>
+    </calaos:condition>
+    <calaos:action>
+      <calaos:output id="output_23" val="toggle"/>
+    </calaos:action>
+  </calaos:rule>
+  <calaos:rule name="lumiere_30" type="couloir" spacialType="">
+    <calaos:condition>
+      <calaos:input id="input_28" oper="==" val="true"/>
+    </calaos:condition>
+    <calaos:action>
+      <calaos:output id="output_45" val="toggle"/>
+    </calaos:action>
+  </calaos:rule>
+  <calaos:rule name="lumiere_33" type="couloir" spacialType="">
+    <calaos:condition>
+      <calaos:input id="input_31" oper="==" val="true"/>
+    </calaos:condition>
+    <calaos:action>
+      <calaos:output id="output_46" val="toggle"/>
+    </calaos:action>
+  </calaos:rule>
+  <calaos:rule name="lumiere_41" type="couloir" spacialType="">
+    <calaos:condition>
+      <calaos:input id="input_39" oper="==" val="true"/>
+    </calaos:condition>
+    <calaos:action>
+      <calaos:output id="output_13" val="toggle"/>
+    </calaos:action>
+  </calaos:rule>
+  <calaos:rule name="lumiere_58" type="couloir" spacialType="">
+    <calaos:condition>
+      <calaos:input id="input_56" oper="==" val="true"/>
+    </calaos:condition>
+    <calaos:action>
+      <calaos:output id="output_25" val="toggle"/>
+    </calaos:action>
+  </calaos:rule>
+</calaos:rules>
