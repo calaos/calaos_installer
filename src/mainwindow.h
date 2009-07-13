@@ -213,6 +213,12 @@ class MainWindow : public QMainWindow
                 void showPropertiesItem();
                 void wagoStatusProgress(int status);
 
+                void itemLightOn();
+                void itemLightOff();
+                void itemVoletUp();
+                void itemVoletDown();
+                void itemVoletStop();
+
         private slots:
                 void on_button_wagostop_clicked();
                 void on_button_wagostart_clicked();

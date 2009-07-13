@@ -253,15 +253,28 @@ void MainWindow::addCalaosItem(int item)
 
           case ITEM_INTER:
                 {
-                        DialogNewWago dialog(item, current_room);
-                        if (dialog.exec() == QDialog::Accepted)
+                        bool another;
+
+                        do
                         {
-                                Input *input = dialog.getInput();
-                                if (input)
-                                        addItemInput(input, current_room, true);
+                                DialogNewWago dialog(item, current_room);
+                                if (dialog.exec() == QDialog::Accepted)
+                                {
+                                        another = dialog.wantAnother();
+
+                                        Input *input = dialog.getInput();
+                                        if (input)
+                                                addItemInput(input, current_room, true);
+                                        else
+                                        {
+                                                QMessageBox::critical(this, tr("Calaos Installer"), QString::fromUtf8("Erreur lors de la création de l'objet !"));
+                                                another = false;
+                                        }
+                                }
                                 else
-                                        QMessageBox::critical(this, tr("Calaos Installer"), QString::fromUtf8("Erreur lors de la création de l'objet !"));
-                        }
+                                        another = false;
+
+                        } while (another);
                 }
                 break;
 
@@ -660,6 +673,43 @@ void MainWindow::showPopup_tree(const QPoint point)
                 connect(action, SIGNAL(triggered()), this, SLOT(deleteItem()));
 
                 item_menu.addSeparator();
+
+                //Here we have to add Item action (ON/OFF/UP/DOWN/...)
+                QTreeWidgetItemOutput *itoutput = dynamic_cast<QTreeWidgetItemOutput *>(treeItem);
+                if (itoutput)
+                {
+                        Output *o = itoutput->getOutput();
+
+                        if (o->get_param("type") == "WODigital" || o->get_param("type") == "WODali" || o->get_param("type") == "WODaliRVB")
+                        {
+                                action = item_menu.addAction(QString::fromUtf8("Allumer"));
+                                action->setIcon(QIcon(":/img/icon_light_on.png"));
+                                connect(action, SIGNAL(triggered()), this, SLOT(itemLightOn()));
+
+                                action = item_menu.addAction(QString::fromUtf8("Eteindre"));
+                                action->setIcon(QIcon(":/img/icon_light_on.png"));
+                                connect(action, SIGNAL(triggered()), this, SLOT(itemLightOff()));
+
+                                item_menu.addSeparator();
+                        }
+
+                        if (o->get_param("type") == "WOVolet" || o->get_param("type") == "WOVoletSmart")
+                        {
+                                action = item_menu.addAction(QString::fromUtf8("Monter"));
+                                action->setIcon(QIcon(":/img/icon_shutter.png"));
+                                connect(action, SIGNAL(triggered()), this, SLOT(itemVoletUp()));
+
+                                action = item_menu.addAction(QString::fromUtf8("Descendre"));
+                                action->setIcon(QIcon(":/img/icon_shutter.png"));
+                                connect(action, SIGNAL(triggered()), this, SLOT(itemVoletDown()));
+
+                                action = item_menu.addAction(QString::fromUtf8("Arrêter"));
+                                action->setIcon(QIcon(":/img/icon_shutter.png"));
+                                connect(action, SIGNAL(triggered()), this, SLOT(itemVoletStop()));
+
+                                item_menu.addSeparator();
+                        }
+                }
 
                 action = item_menu.addAction(QString::fromUtf8("Propriétés"));
                 action->setIcon(QIcon(":/img/document-properties.png"));
@@ -1165,5 +1215,57 @@ void MainWindow::wagoStatusProgress(int status)
                 ui->button_wagostop->setEnabled(false);
                 ui->edit_wagoip->setEnabled(true);
         }
+}
+
+void MainWindow::itemLightOn()
+{
+        if (!treeItem) return;
+
+        QTreeWidgetItemOutput *itoutput = dynamic_cast<QTreeWidgetItemOutput *>(treeItem);
+        if (itoutput)
+        {
+                QUdpSocket *udpSocket = new QUdpSocket(this);
+                QByteArray datagram = "WAGO_SET_OUTPUT ";
+
+                datagram += itoutput->getOutput()->get_param("var").c_str();
+                datagram += " 1";
+
+                udpSocket->writeDatagram(datagram.data(), datagram.size(),
+                                         QHostAddress(QString(WAGO_HOST)), WAGO_LISTEN_PORT);
+
+                delete udpSocket;
+        }
+}
+
+void MainWindow::itemLightOff()
+{
+        if (!treeItem) return;
+
+        QTreeWidgetItemOutput *itoutput = dynamic_cast<QTreeWidgetItemOutput *>(treeItem);
+        if (itoutput)
+        {
+                QUdpSocket *udpSocket = new QUdpSocket(this);
+                QByteArray datagram = "WAGO_SET_OUTPUT ";
+
+                datagram += itoutput->getOutput()->get_param("var").c_str();
+                datagram += " 0";
+
+                udpSocket->writeDatagram(datagram.data(), datagram.size(),
+                                         QHostAddress(QString(WAGO_HOST)), WAGO_LISTEN_PORT);
+
+                delete udpSocket;
+        }
+}
+
+void MainWindow::itemVoletUp()
+{
+}
+
+void MainWindow::itemVoletDown()
+{
+}
+
+void MainWindow::itemVoletStop()
+{
 }
 

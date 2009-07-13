@@ -4,9 +4,14 @@
 
 DialogNewWago::DialogNewWago(int t, Room *r, QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::DialogNewWago), io(NULL), room(r), udp_server(NULL)
+    ui(new Ui::DialogNewWago), io(NULL), room(r), udp_server(NULL),
+    another(false)
 {
         ui->setupUi(this);
+
+        moreButton = new QPushButton(QString::fromUtf8("Ok, suivant"), this);
+        moreButton->setAutoDefault(true);
+        ui->buttonBox->addButton(moreButton, QDialogButtonBox::ActionRole);
 
         //hide error labels by default.
         ui->label_error_empty->hide();
@@ -155,4 +160,13 @@ void DialogNewWago::on_button_test_enable_clicked()
 void DialogNewWago::on_button_test_disable_clicked()
 {
         setWagoOutput(false);
+}
+
+void DialogNewWago::on_buttonBox_clicked(QAbstractButton* button)
+{
+        if (button == moreButton)
+        {
+                another = true;
+                on_buttonBox_accepted();
+        }
 }

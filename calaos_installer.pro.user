@@ -116,7 +116,6 @@
     <value type="QString" >LC_MESSAGES=fr_FR.UTF-8</value>
     <value type="QString" >LD_LIBRARY_PATH=/home/raoul/qtcreator-1.1.0/lib/qtcreator:</value>
     <value type="QString" >LOGNAME=raoul</value>
-    <value type="QString" >ORBIT_SOCKETDIR=/tmp/orbit-raoul</value>
     <value type="QString" >PANTS=ON</value>
     <value type="QString" >PATH=/usr/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games</value>
     <value type="QString" >PWD=/home/raoul</value>
@@ -177,7 +176,6 @@
     <value type="QString" >LC_MESSAGES=fr_FR.UTF-8</value>
     <value type="QString" >LD_LIBRARY_PATH=/home/raoul/qtcreator-1.1.0/lib/qtcreator:</value>
     <value type="QString" >LOGNAME=raoul</value>
-    <value type="QString" >ORBIT_SOCKETDIR=/tmp/orbit-raoul</value>
     <value type="QString" >PANTS=ON</value>
     <value type="QString" >PATH=/usr/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games</value>
     <value type="QString" >PWD=/home/raoul</value>
@@ -233,7 +231,6 @@
     <value type="QString" >LC_MESSAGES=fr_FR.UTF-8</value>
     <value type="QString" >LD_LIBRARY_PATH=/home/raoul/qtcreator-1.1.0/lib/qtcreator:</value>
     <value type="QString" >LOGNAME=raoul</value>
-    <value type="QString" >ORBIT_SOCKETDIR=/tmp/orbit-raoul</value>
     <value type="QString" >PANTS=ON</value>
     <value type="QString" >PATH=/usr/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games</value>
     <value type="QString" >PWD=/home/raoul</value>

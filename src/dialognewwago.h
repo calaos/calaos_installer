@@ -2,6 +2,7 @@
 #define DIALOGNEWWAGO_H
 
 #include <QtGui/QDialog>
+#include <QtGui/QAbstractButton>
 #include <QUdpSocket>
 #include <iostream>
 
@@ -25,6 +26,8 @@ class DialogNewWago : public QDialog
                 Input *getInput() { return dynamic_cast<Input *>(io); }
                 Output *getOutput() { return dynamic_cast<Output *>(io); }
 
+                bool wantAnother() { return another; }
+
         protected:
                 virtual void changeEvent(QEvent *e);
 
@@ -34,10 +37,13 @@ class DialogNewWago : public QDialog
                 IOBase *io;
                 Room *room;
                 QUdpSocket *udp_server;
+                bool another;
+                QPushButton *moreButton;
 
                 void setWagoOutput(bool enable);
 
         private slots:
+                void on_buttonBox_clicked(QAbstractButton* button);
                 void on_button_test_disable_clicked();
                 void on_button_test_enable_clicked();
                 void on_button_detect_clicked();

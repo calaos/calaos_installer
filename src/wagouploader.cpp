@@ -106,7 +106,7 @@ void WagoUploader::createConfig()
                         int impulse;
                         from_string(output->get_param("impulse_time"), impulse);
 
-                        if (impulse > 0)
+                        if (impulse > 0 && output->get_param("impulse_time") != "")
                                 wcommand.type = TWAGO_VOLETIMPULSE;
                         else
                                 wcommand.type = TWAGO_VOLET;
@@ -184,6 +184,8 @@ void WagoUploader::timerUpload()
                 datagram += QByteArray::number(cmd.addr2) + " ";
                 datagram += QByteArray::number(cmd.sameas);
         }
+
+//        cout << datagram.constData() << endl;
 
         udpSocket->writeDatagram(datagram.data(), datagram.size(),
                               QHostAddress(wago_ip), WAGO_LISTEN_PORT);
