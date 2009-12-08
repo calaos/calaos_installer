@@ -1,6 +1,11 @@
 #include "detectip.h"
+#include "wagoconnect.h"
 
-DetectIP::DetectIP(): QObject(NULL), tcpSocket(NULL), udpSocket(NULL)
+DetectIP::DetectIP(): QObject(NULL), tcpSocket(NULL)
+{
+}
+
+void DetectIP::startDetectIP()
 {
         //Detect our own ip address
         tcpSocket = new QTcpSocket();
@@ -17,22 +22,14 @@ void DetectIP::sock_connected()
         QHostAddress myHost = tcpSocket->localAddress();
         delete tcpSocket;
 
+        QString cmd = "WAGO_SET_SERVER_IP " + myHost.toString();
+
         //Send a WAGO_SET_SERVER_IP to the wago, so we can receive WAGO INT datagrams
-        QUdpSocket *udpSocket = new QUdpSocket();
-
-        QByteArray datagram = "WAGO_SET_SERVER_IP ";
-        datagram += myHost.toString().toLocal8Bit().data();
-
-        ip = myHost.toString().toLocal8Bit().data();
-
-        udpSocket->writeDatagram(datagram.data(), datagram.size(),
-                              QHostAddress(QString(WAGO_HOST)), WAGO_LISTEN_PORT);
-
-        delete udpSocket;
+        WagoConnect::Instance().SendCommand(cmd);
 }
 
 void DetectIP::sock_error(QAbstractSocket::SocketError)
 {
-        cout << "socket error" << endl;
+        cout << "DetectIP: socket error" << endl;
 }
 

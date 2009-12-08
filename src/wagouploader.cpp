@@ -41,7 +41,7 @@ void WagoUploader::createConfig()
         {
                 Rule *rule = ListeRule::Instance().get_rule(i);
 
-                WagoCommand wcommand;
+                WagoRuleCommand wcommand;
 
                 //some security checks...
                 if (rule->get_size_conds() <= 0) continue;
@@ -116,7 +116,7 @@ void WagoUploader::createConfig()
                 //and set the sameas value if any
                 for (int j = 0; j < commands.size(); ++j)
                 {
-                        const WagoCommand &cmd = commands.at(j);
+                        const WagoRuleCommand &cmd = commands.at(j);
 
                         if (cmd.addr1 == wcommand.addr1 &&
                             cmd.addr2 == wcommand.addr2 &&
@@ -165,32 +165,25 @@ void WagoUploader::timerUpload()
                 return;
         }
 
-        QUdpSocket *udpSocket = new QUdpSocket(this);
-
-        WagoCommand &cmd = commands[upload_num];
-        QByteArray datagram;
+        WagoRuleCommand &cmd = commands[upload_num];
+        QString datagram;
 
         if (!cmd.type_sent)
         {
                 datagram = "WAGO_SET_OUTTYPE ";
-                datagram += QByteArray::number(cmd.input) + " ";
-                datagram += QByteArray::number(cmd.type);
+                datagram += QString::number(cmd.input) + " ";
+                datagram += QString::number(cmd.type);
         }
         else
         {
                 datagram = "WAGO_SET_OUTADDR ";
-                datagram += QByteArray::number(cmd.input) + " ";
-                datagram += QByteArray::number(cmd.addr1) + " ";
-                datagram += QByteArray::number(cmd.addr2) + " ";
-                datagram += QByteArray::number(cmd.sameas);
+                datagram += QString::number(cmd.input) + " ";
+                datagram += QString::number(cmd.addr1) + " ";
+                datagram += QString::number(cmd.addr2) + " ";
+                datagram += QString::number(cmd.sameas);
         }
 
-//        cout << datagram.constData() << endl;
-
-        udpSocket->writeDatagram(datagram.data(), datagram.size(),
-                              QHostAddress(wago_ip), WAGO_LISTEN_PORT);
-
-        delete udpSocket;
+        WagoConnect::Instance().SendCommand(datagram);
 
         int percent = (upload_num * 100) / commands.size();
         emit progressUpdate(percent);

@@ -31,7 +31,21 @@ SOURCES += src/main.cpp \
     src/ioeditorselection.cpp \
     src/actiondelegate.cpp \
     src/dialognewdali.cpp \
-    src/wagouploader.cpp
+    src/wagouploader.cpp \
+    src/dialognewdalirgb.cpp \
+    src/dialognewtemp.cpp \
+    src/dialognewcamera.cpp \
+    src/dialognewaudio.cpp \
+    src/dialognewinternal.cpp \
+    src/dialognewscenario.cpp \
+    src/dialognewtime.cpp \
+    src/dialogcameraview.cpp \
+    src/wagoconnect.cpp \
+    src/dialogconnect.cpp \
+    src/dialogopenonline.cpp \
+    src/qanimationlabel.cpp \
+    src/dialogsaveonline.cpp \
+    src/formpost.cpp
 HEADERS += src/mainwindow.h \
     ../calaos_common/Utils.h \
     ../calaos_common/base64.h \
@@ -59,14 +73,39 @@ HEADERS += src/mainwindow.h \
     src/ioeditorselection.h \
     src/actiondelegate.h \
     src/dialognewdali.h \
-    src/wagouploader.h
+    src/wagouploader.h \
+    src/dialognewdalirgb.h \
+    src/dialognewtemp.h \
+    src/dialognewcamera.h \
+    src/dialognewaudio.h \
+    src/dialognewinternal.h \
+    src/dialognewscenario.h \
+    src/dialognewtime.h \
+    src/dialogcameraview.h \
+    src/wagoconnect.h \
+    src/dialogconnect.h \
+    src/dialogopenonline.h \
+    src/qanimationlabel.h \
+    src/dialogsaveonline.h \
+    src/formpost.h
 FORMS += data/mainwindow.ui \
     data/dialognewroom.ui \
     data/dialognewwago.ui \
     data/dialogioproperties.ui \
     data/dialognewvolet.ui \
     data/dialognewrule.ui \
-    data/dialognewdali.ui
+    data/dialognewdali.ui \
+    data/dialognewdalirgb.ui \
+    data/dialognewtemp.ui \
+    data/dialognewcamera.ui \
+    data/dialognewaudio.ui \
+    data/dialognewinternal.ui \
+    data/dialognewscenario.ui \
+    data/dialognewtime.ui \
+    data/dialogcameraview.ui \
+    data/dialogconnect.ui \
+    data/dialogopenonline.ui \
+    data/dialogsaveonline.ui
 RESOURCES += data/resources.qrc
 INCLUDEPATH += ../calaos_common/ \
     Calaos/ \

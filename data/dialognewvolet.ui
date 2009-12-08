@@ -37,6 +37,10 @@
   <property name="windowTitle">
    <string>Nouveau volet...</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="resources.qrc">
+    <normaloff>:/img/icon_shutter.png</normaloff>:/img/icon_shutter.png</iconset>
+  </property>
   <property name="modal">
    <bool>true</bool>
   </property>
@@ -390,7 +394,9 @@ p, li { white-space: pre-wrap; }
    </widget>
   </widget>
  </widget>
- <resources/>
+ <resources>
+  <include location="resources.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>buttonBox</sender>

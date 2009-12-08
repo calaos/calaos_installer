@@ -2,7 +2,7 @@
 #define DIALOGNEWDALI_H
 
 #include <QtGui/QDialog>
-#include <QUdpSocket>
+#include <wagoconnect.h>
 #include <iostream>
 
 #include <ListeRoom.h>

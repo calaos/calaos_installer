@@ -12,8 +12,19 @@
 #include <dialognewwago.h>
 #include <dialognewvolet.h>
 #include <dialognewdali.h>
+#include <dialognewdalirgb.h>
+#include <dialognewtemp.h>
+#include <dialognewcamera.h>
+#include <dialognewaudio.h>
+#include <dialognewinternal.h>
+#include <dialognewscenario.h>
+#include <dialognewtime.h>
+#include <dialogcameraview.h>
 #include <dialogioproperties.h>
 #include <dialognewrule.h>
+#include <dialogconnect.h>
+#include <dialogopenonline.h>
+#include <dialogsaveonline.h>
 
 #include <conditiondelegate.h>
 #include <actiondelegate.h>
@@ -36,7 +47,7 @@ namespace Ui
 enum { PAGE_PROG=0, PAGE_TRANSFERT, PAGE_ABOUT };
 enum { ITEM_ROOM=0, ITEM_INTER, ITEM_LIGHT, ITEM_VOLET, ITEM_DALI,
        ITEM_DALIRGB, ITEM_TEMP, ITEM_CAMERA, ITEM_MUSIC, ITEM_INTERN,
-       ITEM_TIME };
+       ITEM_SCENARIO, ITEM_TIME };
 
 class QTreeWidgetItemRoom: public QTreeWidgetItem
 {
@@ -197,6 +208,13 @@ class MainWindow : public QMainWindow
                 bool project_changed;
                 QString project_path;
 
+                QMessageBox messageBox;
+                QLabel *statusConnectIcon;
+                QLabel *statusConnectText;
+                QProgressBar *progressBar;
+                QPushButton *buttonStopProcess;
+
+                QDir tempDir;
 
                 void onShowProg();
                 void onShowTransfert();
@@ -218,10 +236,20 @@ class MainWindow : public QMainWindow
                 void itemVoletUp();
                 void itemVoletDown();
                 void itemVoletStop();
+                void itemShowCamera();
+
+                void wagoConnected(QString &ip, bool proxy);
+                void wagoDisconnected();
+                void wagoUpdateNeeded(QString &version);
+                void wagoError(int error);
 
         private slots:
-                void on_button_wagostop_clicked();
-                void on_button_wagostart_clicked();
+                void on_actionSauvegarder_un_projet_en_ligne_triggered();
+                void on_actionOuvrir_un_projet_en_ligne_triggered();
+                void on_actionSe_d_connecter_triggered();
+                void on_actionProgrammer_l_automate_triggered();
+                void on_actionSe_connecter_triggered();
+                void button_wagostop_clicked();
                 void on_bt_rules_del_clicked();
                 void on_tree_rules_currentItemChanged(QTreeWidgetItem* current, QTreeWidgetItem* previous);
                 void on_bt_rules_add_clicked();

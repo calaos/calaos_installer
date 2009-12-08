@@ -1,5 +1,5 @@
 <RCC>
-    <qresource prefix="/" >
+    <qresource prefix="/">
         <file>img/calaos.png</file>
         <file>img/dali.png</file>
         <file>img/edit_add.png</file>
@@ -39,5 +39,25 @@
         <file>img/go-last.png</file>
         <file>img/process-stop.png</file>
         <file>img/system-software-update.png</file>
+        <file>img/camera_big_border.png</file>
+        <file>img/user-offline.png</file>
+        <file>img/user-online.png</file>
+        <file>img/user-invisible.png</file>
+        <file>img/user-online_16x16.png</file>
+        <file>img/user-invisible_16x16.png</file>
+        <file>img/process-stop_16x16.png</file>
+        <file>img/rooms/bathroom_small.png</file>
+        <file>img/rooms/bedroom_small.png</file>
+        <file>img/rooms/cellar_small.png</file>
+        <file>img/rooms/corridor_small.png</file>
+        <file>img/rooms/diningroom_small.png</file>
+        <file>img/rooms/garage_small.png</file>
+        <file>img/rooms/kitchen_small.png</file>
+        <file>img/rooms/lounge_small.png</file>
+        <file>img/rooms/office_small.png</file>
+        <file>img/rooms/outside_small.png</file>
+        <file>img/rooms/various_small.png</file>
+        <file>img/go-first.png</file>
+        <file>img/loader.gif</file>
     </qresource>
 </RCC>

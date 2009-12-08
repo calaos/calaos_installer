@@ -4,7 +4,8 @@
 MainWindow::MainWindow(QWidget *parent):
     QMainWindow(parent), ui(new Ui::MainWindow), current_room(NULL),
     wuploader(parent),
-    project_changed(false)
+    project_changed(false),
+    messageBox(QMessageBox::Information, tr("Calaos Installer"), "")
 {
         ui->setupUi(this);
 
@@ -17,7 +18,7 @@ MainWindow::MainWindow(QWidget *parent):
         QSignalMapper *sig = new QSignalMapper(this);
 
         action = add_menu->addAction(QString::fromUtf8("Pièce"));
-        action->setIcon(QIcon(":/img/room_24.png"));
+        action->setIcon(QIcon(":/img/rooms/various_small.png"));
         sig->setMapping(action, ITEM_ROOM);
         connect(action, SIGNAL(triggered()), sig, SLOT(map()));
 
@@ -72,6 +73,11 @@ MainWindow::MainWindow(QWidget *parent):
         sig->setMapping(action, ITEM_INTERN);
         connect(action, SIGNAL(triggered()), sig, SLOT(map()));
 
+        action = add_menu->addAction(QString::fromUtf8("Variable Scénario"));
+        action->setIcon(QIcon(":/img/icon_scenario.png"));
+        sig->setMapping(action, ITEM_SCENARIO);
+        connect(action, SIGNAL(triggered()), sig, SLOT(map()));
+
         action = add_menu->addAction(QString::fromUtf8("Variable Horaire"));
         action->setIcon(QIcon(":/img/icon_clock.png"));
         sig->setMapping(action, ITEM_TIME);
@@ -83,18 +89,53 @@ MainWindow::MainWindow(QWidget *parent):
         connect(ui->tree_condition, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(showPopup_condition(QPoint)));
         connect(ui->tree_action, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(showPopup_action(QPoint)));
 
-        connect(&wuploader, SIGNAL(progressUpdate(int)), ui->progress_wago, SLOT(setValue(int)));
-        connect(&wuploader, SIGNAL(statusUpdate(int)), this, SLOT(wagoStatusProgress(int)));
-
         //Add toolbar
         ui->toolBar->addAction(ui->actionNouveau_projet);
         ui->toolBar->addAction(ui->actionCharger_un_projet);
         ui->toolBar->addAction(ui->actionSauvegarder);
         ui->toolBar->addSeparator();
+        ui->toolBar->addAction(ui->actionSe_connecter);
+        ui->toolBar->addAction(ui->actionSe_d_connecter);
+        ui->toolBar->addSeparator();
         ui->toolBar->addAction(ui->actionQuit);
 
         ui->label_current_room->setText("<aucun>");
-        ui->button_wagostop->setEnabled(false);
+
+        //WagoConnect
+        connect(&WagoConnect::Instance(), SIGNAL(connected(QString&,bool)), this, SLOT(wagoConnected(QString&,bool)));
+        connect(&WagoConnect::Instance(), SIGNAL(disconnected()), this, SLOT(wagoDisconnected()));
+        connect(&WagoConnect::Instance(), SIGNAL(updateNeeded(QString&)), this, SLOT(wagoUpdateNeeded(QString&)));
+        connect(&WagoConnect::Instance(), SIGNAL(error(int)), this, SLOT(wagoError(int)));
+
+        buttonStopProcess = new QPushButton(QIcon(":/img/process-stop_16x16.png"), "", this);
+        statusBar()->addPermanentWidget(buttonStopProcess);
+        buttonStopProcess->hide();
+
+        progressBar = new QProgressBar(this);
+        statusBar()->addPermanentWidget(progressBar);
+        progressBar->hide();
+
+        statusConnectText = new QLabel(QString::fromUtf8("Déconnecté."), this);
+        statusBar()->addPermanentWidget(statusConnectText);
+
+        statusConnectIcon = new QLabel(this);
+        statusConnectIcon->setPixmap(QPixmap(":/img/user-invisible_16x16.png"));
+        statusBar()->addPermanentWidget(statusConnectIcon);
+
+        connect(&wuploader, SIGNAL(progressUpdate(int)), progressBar, SLOT(setValue(int)));
+        connect(&wuploader, SIGNAL(statusUpdate(int)), this, SLOT(wagoStatusProgress(int)));
+
+        /* Search and create a new temp dir */
+        tempDir.setPath(QDir::tempPath());
+        int cpt = 0;
+
+        do
+        {
+                tempDir.setPath(QDir::tempPath() + "/calaos_installer_" + QString::number(cpt));
+                cpt++;
+        } while (tempDir.exists());
+
+        tempDir.mkdir(tempDir.path());
 
         const QStringList args = QCoreApplication::arguments();
         if(args.count() > 1)
@@ -111,6 +152,10 @@ MainWindow::MainWindow(QWidget *parent):
 
 MainWindow::~MainWindow()
 {
+        tempDir.remove("io.xml");
+        tempDir.remove("rules.xml");
+        tempDir.rmdir(tempDir.path());
+
         delete ui;
 }
 
@@ -317,6 +362,102 @@ void MainWindow::addCalaosItem(int item)
                         }
                 }
                 break;
+          case ITEM_DALIRGB:
+                {
+                        DialogNewDaliRGB dialog(current_room);
+                        if (dialog.exec() == QDialog::Accepted)
+                        {
+                                Output *output = dialog.getOutput();
+                                if (output)
+                                        addItemOutput(output, current_room, true);
+                                else
+                                        QMessageBox::critical(this, tr("Calaos Installer"), QString::fromUtf8("Erreur lors de la création de l'objet !"));
+                        }
+                }
+                break;
+          case ITEM_TEMP:
+                {
+                        DialogNewTemp dialog(current_room);
+                        if (dialog.exec() == QDialog::Accepted)
+                        {
+                                Input *input = dialog.getInput();
+                                if (input)
+                                        addItemInput(input, current_room, true);
+                                else
+                                        QMessageBox::critical(this, tr("Calaos Installer"), QString::fromUtf8("Erreur lors de la création de l'objet !"));
+                        }
+                }
+                break;
+          case ITEM_CAMERA:
+                {
+                        DialogNewCamera dialog(current_room);
+                        if (dialog.exec() == QDialog::Accepted)
+                        {
+                                Output *output = dialog.getOutput();
+                                if (output)
+                                        addItemOutput(output, current_room, true);
+                                else
+                                        QMessageBox::critical(this, tr("Calaos Installer"), QString::fromUtf8("Erreur lors de la création de l'objet !"));
+                        }
+                }
+                break;
+          case ITEM_MUSIC:
+                {
+                        DialogNewAudio dialog(current_room);
+                        if (dialog.exec() == QDialog::Accepted)
+                        {
+                                Output *output = dialog.getOutput();
+                                if (output)
+                                        addItemOutput(output, current_room, true);
+                                else
+                                        QMessageBox::critical(this, tr("Calaos Installer"), QString::fromUtf8("Erreur lors de la création de l'objet !"));
+                        }
+                }
+                break;
+          case ITEM_INTERN:
+                {
+                        DialogNewInternal dialog(current_room);
+                        if (dialog.exec() == QDialog::Accepted)
+                        {
+                                Output *output = dialog.getOutput();
+                                if (output)
+                                        addItemOutput(output, current_room, true);
+                                else
+                                        QMessageBox::critical(this, tr("Calaos Installer"), QString::fromUtf8("Erreur lors de la création de l'objet !"));
+                        }
+                }
+                break;
+          case ITEM_SCENARIO:
+                {
+                        DialogNewScenario dialog(current_room);
+                        if (dialog.exec() == QDialog::Accepted)
+                        {
+                                Output *output = dialog.getOutput();
+                                if (output)
+                                        addItemOutput(output, current_room, true);
+                                else
+                                        QMessageBox::critical(this, tr("Calaos Installer"), QString::fromUtf8("Erreur lors de la création de l'objet !"));
+                        }
+                }
+                break;
+          case ITEM_TIME:
+                {
+                        DialogNewTime dialog(current_room);
+                        if (dialog.exec() == QDialog::Accepted)
+                        {
+                                Input *input = dialog.getInput();
+                                if (input)
+                                {
+                                        if (input->get_param("type") == "InputTimer")
+                                                addItemOutput(dynamic_cast<Output *>(input), current_room, true);
+                                        else
+                                                addItemInput(input, current_room, true);
+                                }
+                                else
+                                        QMessageBox::critical(this, tr("Calaos Installer"), QString::fromUtf8("Erreur lors de la création de l'objet !"));
+                        }
+                }
+                break;
 
           default:
                 QMessageBox::warning(this, tr("Calaos Installer"), QString::fromUtf8("Type d'elément (%1) inconnu!").arg(item));
@@ -340,10 +481,30 @@ void MainWindow::updateItemInfos(QTreeWidgetItemRoom *item)
 
         item->setData(0, Qt::DisplayRole, QString::fromUtf8(room->get_name().c_str()));
 
-        if (room->get_type() == "salon")
-                item->setData(0, Qt::DecorationRole, QIcon(":/img/salon_24.png"));
+        if (room->get_type() == "salon" || room->get_type() == "lounge")
+                item->setData(0, Qt::DecorationRole, QIcon(":/img/rooms/lounge_small.png"));
+        else if (room->get_type() == "sdb" || room->get_type() == "bathroom")
+                item->setData(0, Qt::DecorationRole, QIcon(":/img/rooms/bathroom_small.png"));
+        else if (room->get_type() == "chambre" || room->get_type() == "bedroom")
+                item->setData(0, Qt::DecorationRole, QIcon(":/img/rooms/bedroom_small.png"));
+        else if (room->get_type() == "cave" || room->get_type() == "cellar")
+                item->setData(0, Qt::DecorationRole, QIcon(":/img/rooms/cellar_small.png"));
+        else if (room->get_type() == "couloir" || room->get_type() == "hall" || room->get_type() == "corridor")
+                item->setData(0, Qt::DecorationRole, QIcon(":/img/rooms/corridor_small.png"));
+        else if (room->get_type() == "sam" || room->get_type() == "diningroom")
+                item->setData(0, Qt::DecorationRole, QIcon(":/img/rooms/diningroom_small.png"));
+        else if (room->get_type() == "garage")
+                item->setData(0, Qt::DecorationRole, QIcon(":/img/rooms/garage_small.png"));
+        else if (room->get_type() == "cuisine" || room->get_type() == "kitchen")
+                item->setData(0, Qt::DecorationRole, QIcon(":/img/rooms/kitchen_small.png"));
+        else if (room->get_type() == "bureau" || room->get_type() == "office")
+                item->setData(0, Qt::DecorationRole, QIcon(":/img/rooms/office_small.png"));
+        else if (room->get_type() == "exterieur" || room->get_type() == "outside")
+                item->setData(0, Qt::DecorationRole, QIcon(":/img/rooms/outside_small.png"));
+        else if (room->get_type() == "misc" || room->get_type() == "divers" || room->get_type() == "various")
+                item->setData(0, Qt::DecorationRole, QIcon(":/img/rooms/various_small.png"));
         else
-                item->setData(0, Qt::DecorationRole, QIcon(":/img/room_24.png"));
+                item->setData(0, Qt::DecorationRole, QIcon(":/img/rooms/various_small.png"));
 
         QString s = QString::fromUtf8(room->get_name().c_str());
         s += " (" + QString::fromUtf8(room->get_type().c_str()) + ")";
@@ -693,22 +854,31 @@ void MainWindow::showPopup_tree(const QPoint point)
                                 item_menu.addSeparator();
                         }
 
-                        if (o->get_param("type") == "WOVolet" || o->get_param("type") == "WOVoletSmart")
+                        if (IOBase::isCameraType(o->get_param("type")))
                         {
-                                action = item_menu.addAction(QString::fromUtf8("Monter"));
-                                action->setIcon(QIcon(":/img/icon_shutter.png"));
-                                connect(action, SIGNAL(triggered()), this, SLOT(itemVoletUp()));
-
-                                action = item_menu.addAction(QString::fromUtf8("Descendre"));
-                                action->setIcon(QIcon(":/img/icon_shutter.png"));
-                                connect(action, SIGNAL(triggered()), this, SLOT(itemVoletDown()));
-
-                                action = item_menu.addAction(QString::fromUtf8("Arrêter"));
-                                action->setIcon(QIcon(":/img/icon_shutter.png"));
-                                connect(action, SIGNAL(triggered()), this, SLOT(itemVoletStop()));
+                                action = item_menu.addAction(QString::fromUtf8("Voir la caméra"));
+                                action->setIcon(QIcon(":/img/icon_camera_on.png"));
+                                connect(action, SIGNAL(triggered()), this, SLOT(itemShowCamera()));
 
                                 item_menu.addSeparator();
                         }
+
+//                        if (o->get_param("type") == "WOVolet" || o->get_param("type") == "WOVoletSmart")
+//                        {
+//                                action = item_menu.addAction(QString::fromUtf8("Monter"));
+//                                action->setIcon(QIcon(":/img/icon_shutter.png"));
+//                                connect(action, SIGNAL(triggered()), this, SLOT(itemVoletUp()));
+//
+//                                action = item_menu.addAction(QString::fromUtf8("Descendre"));
+//                                action->setIcon(QIcon(":/img/icon_shutter.png"));
+//                                connect(action, SIGNAL(triggered()), this, SLOT(itemVoletDown()));
+//
+//                                action = item_menu.addAction(QString::fromUtf8("Arrêter"));
+//                                action->setIcon(QIcon(":/img/icon_shutter.png"));
+//                                connect(action, SIGNAL(triggered()), this, SLOT(itemVoletStop()));
+//
+//                                item_menu.addSeparator();
+//                        }
                 }
 
                 action = item_menu.addAction(QString::fromUtf8("Propriétés"));
@@ -1172,48 +1342,53 @@ void MainWindow::on_bt_rules_del_clicked()
         }
 }
 
-void MainWindow::on_button_wagostart_clicked()
+void MainWindow::on_actionProgrammer_l_automate_triggered()
 {
-        ui->button_wagostart->setEnabled(false);
-        ui->button_wagostop->setEnabled(true);
-        ui->edit_wagoip->setEnabled(false);
-        wuploader.startUpload(ui->edit_wagoip->text());
+        ui->actionProgrammer_l_automate->setEnabled(false);
+        buttonStopProcess->show();
+        progressBar->show();
+        connect(buttonStopProcess, SIGNAL(clicked()), this, SLOT(button_wagostop_clicked()));
+
+        wuploader.startUpload(WagoConnect::Instance().getWagoIP());
 }
 
-void MainWindow::on_button_wagostop_clicked()
+void MainWindow::button_wagostop_clicked()
 {
         wuploader.stopUpload();
-        ui->button_wagostart->setEnabled(true);
-        ui->button_wagostop->setEnabled(false);
-        ui->edit_wagoip->setEnabled(true);
+        ui->actionProgrammer_l_automate->setEnabled(true);
+        buttonStopProcess->hide();
+        progressBar->hide();
+
+        disconnect(buttonStopProcess, SIGNAL(clicked()), this, SLOT(button_wagostop_clicked()));
 }
 
 void MainWindow::wagoStatusProgress(int status)
 {
         if (status == WAGOST_START)
         {
-                ui->progress_wago->setFormat(QString::fromUtf8("Veuillez patienter..."));
+                progressBar->setFormat(QString::fromUtf8("Veuillez patienter..."));
         }
         else if (status == WAGOST_CREATING)
         {
-                ui->progress_wago->setFormat(QString::fromUtf8("Création %p%"));
+                progressBar->setFormat(QString::fromUtf8("Création %p%"));
         }
         else if (status == WAGOST_UPLOADING)
         {
-                ui->progress_wago->setFormat(QString::fromUtf8("Chargement automate %p%"));
+                progressBar->setFormat(QString::fromUtf8("Chargement automate %p%"));
         }
         else if (status == WAGOST_ABORTED)
         {
-                ui->progress_wago->setFormat(QString::fromUtf8("Annulé"));
-                ui->progress_wago->setValue(0);
+                progressBar->setFormat(QString::fromUtf8("Annulé"));
+                progressBar->setValue(0);
         }
         else if (status == WAGOST_DONE)
         {
-                ui->progress_wago->setFormat("%p%");
-                ui->progress_wago->setValue(100);
-                ui->button_wagostart->setEnabled(true);
-                ui->button_wagostop->setEnabled(false);
-                ui->edit_wagoip->setEnabled(true);
+                progressBar->setFormat("%p%");
+                progressBar->setValue(100);
+
+                ui->actionProgrammer_l_automate->setEnabled(true);
+                buttonStopProcess->hide();
+                progressBar->hide();
         }
 }
 
@@ -1224,16 +1399,28 @@ void MainWindow::itemLightOn()
         QTreeWidgetItemOutput *itoutput = dynamic_cast<QTreeWidgetItemOutput *>(treeItem);
         if (itoutput)
         {
-                QUdpSocket *udpSocket = new QUdpSocket(this);
-                QByteArray datagram = "WAGO_SET_OUTPUT ";
+                if (itoutput->getOutput()->get_param("type") == "WODigital")
+                {
+                        QString cmd = "WAGO_SET_OUTPUT ";
+                        cmd += itoutput->getOutput()->get_param("var").c_str();
+                        cmd += " 1";
 
-                datagram += itoutput->getOutput()->get_param("var").c_str();
-                datagram += " 1";
+                        WagoConnect::Instance().SendCommand(cmd);
+                }
+                else if (itoutput->getOutput()->get_param("type") == "WODali")
+                {
+                        QString cmd = "WAGO_DALI_SET 1";
+                        if (itoutput->getOutput()->get_param("group") == "1")
+                                cmd += "1 ";
+                        else
+                                cmd += "0 ";
 
-                udpSocket->writeDatagram(datagram.data(), datagram.size(),
-                                         QHostAddress(QString(WAGO_HOST)), WAGO_LISTEN_PORT);
+                        cmd += itoutput->getOutput()->get_param("address").c_str();
+                        cmd += " 100 ";
+                        cmd += itoutput->getOutput()->get_param("fade_time").c_str();
 
-                delete udpSocket;
+                        WagoConnect::Instance().SendCommand(cmd);
+                }
         }
 }
 
@@ -1244,28 +1431,209 @@ void MainWindow::itemLightOff()
         QTreeWidgetItemOutput *itoutput = dynamic_cast<QTreeWidgetItemOutput *>(treeItem);
         if (itoutput)
         {
-                QUdpSocket *udpSocket = new QUdpSocket(this);
-                QByteArray datagram = "WAGO_SET_OUTPUT ";
+                if (itoutput->getOutput()->get_param("type") == "WODigital")
+                {
+                        QString cmd = "WAGO_SET_OUTPUT ";
+                        cmd += itoutput->getOutput()->get_param("var").c_str();
+                        cmd += " 0";
 
-                datagram += itoutput->getOutput()->get_param("var").c_str();
-                datagram += " 0";
+                        WagoConnect::Instance().SendCommand(cmd);
+                }
+                else if (itoutput->getOutput()->get_param("type") == "WODali")
+                {
+                        QString cmd = "WAGO_DALI_SET 1";
+                        if (itoutput->getOutput()->get_param("group") == "1")
+                                cmd += "1 ";
+                        else
+                                cmd += "0 ";
 
-                udpSocket->writeDatagram(datagram.data(), datagram.size(),
-                                         QHostAddress(QString(WAGO_HOST)), WAGO_LISTEN_PORT);
+                        cmd += itoutput->getOutput()->get_param("address").c_str();
+                        cmd += " 0 ";
+                        cmd += itoutput->getOutput()->get_param("fade_time").c_str();
 
-                delete udpSocket;
+                        WagoConnect::Instance().SendCommand(cmd);
+                }
+        }
+}
+
+void MainWindow::itemShowCamera()
+{
+        if (!treeItem) return;
+
+        QTreeWidgetItemOutput *itoutput = dynamic_cast<QTreeWidgetItemOutput *>(treeItem);
+        if (itoutput)
+        {
+                if (IOBase::isCameraType(itoutput->getOutput()->get_param("type")))
+                {
+                        DialogCameraView d(dynamic_cast<Camera *>(itoutput->getOutput()));
+                        d.DownloadPicture();
+                        d.exec();
+                }
         }
 }
 
 void MainWindow::itemVoletUp()
 {
+        if (!treeItem) return;
+
+        QTreeWidgetItemOutput *itoutput = dynamic_cast<QTreeWidgetItemOutput *>(treeItem);
+        if (itoutput)
+        {
+                if (itoutput->getOutput()->get_param("type") == "WOVolet" ||
+                    itoutput->getOutput()->get_param("type") == "WOVoletSmart")
+                {
+                        QString cmd = "WAGO_SET_OUTPUT ";
+                        cmd += itoutput->getOutput()->get_param("var_down").c_str();
+                        cmd += " 0";
+
+                        WagoConnect::Instance().SendCommand(cmd);
+
+                        cmd = "WAGO_SET_OUTPUT ";
+                        cmd += itoutput->getOutput()->get_param("var_up").c_str();
+                        cmd += " 1";
+
+                        WagoConnect::Instance().SendCommand(cmd);
+                }
+        }
 }
 
 void MainWindow::itemVoletDown()
 {
+        if (!treeItem) return;
+
+        QTreeWidgetItemOutput *itoutput = dynamic_cast<QTreeWidgetItemOutput *>(treeItem);
+        if (itoutput)
+        {
+                if (itoutput->getOutput()->get_param("type") == "WOVolet" ||
+                    itoutput->getOutput()->get_param("type") == "WOVoletSmart")
+                {
+                        QString cmd = "WAGO_SET_OUTPUT ";
+                        cmd += itoutput->getOutput()->get_param("var_up").c_str();
+                        cmd += " 0";
+
+                        WagoConnect::Instance().SendCommand(cmd);
+
+                        cmd = "WAGO_SET_OUTPUT ";
+                        cmd += itoutput->getOutput()->get_param("var_down").c_str();
+                        cmd += " 1";
+
+                        WagoConnect::Instance().SendCommand(cmd);
+                }
+        }
 }
 
 void MainWindow::itemVoletStop()
 {
+        if (!treeItem) return;
+
+        QTreeWidgetItemOutput *itoutput = dynamic_cast<QTreeWidgetItemOutput *>(treeItem);
+        if (itoutput)
+        {
+                if (itoutput->getOutput()->get_param("type") == "WOVolet" ||
+                    itoutput->getOutput()->get_param("type") == "WOVoletSmart")
+                {
+                        QString cmd = "WAGO_SET_OUTPUT ";
+                        cmd += itoutput->getOutput()->get_param("var_down").c_str();
+                        cmd += " 0";
+
+                        WagoConnect::Instance().SendCommand(cmd);
+
+                        cmd = "WAGO_SET_OUTPUT ";
+                        cmd += itoutput->getOutput()->get_param("var_up").c_str();
+                        cmd += " 0";
+
+                        WagoConnect::Instance().SendCommand(cmd);
+                }
+        }
 }
 
+
+void MainWindow::on_actionSe_connecter_triggered()
+{
+        DialogConnect dconnect;
+        dconnect.exec();
+}
+
+void MainWindow::on_actionSe_d_connecter_triggered()
+{
+        WagoConnect::Instance().Disconnect();
+}
+
+void MainWindow::wagoConnected(QString &, bool)
+{
+        ui->actionSe_connecter->setEnabled(false);
+        ui->actionSe_d_connecter->setEnabled(true);
+        ui->actionProgrammer_l_automate->setEnabled(true);
+
+        statusConnectText->setText(QString::fromUtf8("Connecté (") + WagoConnect::Instance().getWagoVersion() + ")");
+        statusConnectIcon->setPixmap(QPixmap(":/img/user-online_16x16.png"));
+}
+
+void MainWindow::wagoDisconnected()
+{
+        ui->actionSe_connecter->setEnabled(true);
+        ui->actionSe_d_connecter->setEnabled(false);
+        ui->actionProgrammer_l_automate->setEnabled(false);
+
+        statusConnectText->setText(QString::fromUtf8("Déconnecté."));
+        statusConnectIcon->setPixmap(QPixmap(":/img/user-invisible_16x16.png"));
+}
+
+void MainWindow::wagoUpdateNeeded(QString &version)
+{
+        messageBox.setText(QString::fromUtf8("L'automate doit être mis à jour.\n\nIl est actuellement en version %1, la dernière version est la %2.").arg(version, WAGO_FW_VESION));
+        messageBox.show();
+}
+
+void MainWindow::wagoError(int error)
+{
+        switch (error)
+        {
+          case WERROR_CONNECT_FAILED:
+                QMessageBox::critical(this, tr("Calaos Installer"), QString::fromUtf8("La connection a échoué !"));
+                break;
+          case WERROR_NOTCONNECTED:
+                QMessageBox::critical(this, tr("Calaos Installer"), QString::fromUtf8("L'automate n'est pas connecté !"));
+                break;
+          case WERROR_TIMEOUT:
+                QMessageBox::critical(this, tr("Calaos Installer"), QString::fromUtf8("Le délai d'attente de la réponse est dépassé !"));
+                break;
+          default:
+                QMessageBox::critical(this, tr("Calaos Installer"), QString::fromUtf8("Une erreur inconnue est survenue !"));
+                break;
+        }
+}
+
+void MainWindow::on_actionOuvrir_un_projet_en_ligne_triggered()
+{
+        DialogOpenOnline dopen(tempDir.path());
+
+        if (dopen.exec() == QDialog::Accepted)
+        {
+                ListeRule::Instance().clear();
+                ListeRoom::Instance().clear();
+
+                ui->tree_home->clear();
+                ui->tree_condition->clear_all();
+                ui->tree_action->clear_all();
+                ui->tree_rules->clear();
+                current_room = NULL;
+                ui->label_current_room->setText("<aucun>");
+
+                project_path = tempDir.path();
+
+                Load();
+        }
+}
+
+void MainWindow::on_actionSauvegarder_un_projet_en_ligne_triggered()
+{
+        DialogSaveOnline dsave(project_path);
+
+        Save(); //Save the project before sending it
+
+        if (dsave.exec() == QDialog::Accepted)
+        {
+                statusBar()->showMessage(QString::fromUtf8("Projet envoyé sur la centrale..."), 3000);
+        }
+}

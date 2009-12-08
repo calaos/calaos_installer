@@ -37,6 +37,10 @@
   <property name="windowTitle">
    <string>Nouvelle élément DALI...</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="resources.qrc">
+    <normaloff>:/img/icon_light_on.png</normaloff>:/img/icon_light_on.png</iconset>
+  </property>
   <property name="modal">
    <bool>true</bool>
   </property>
@@ -79,7 +83,7 @@
     </rect>
    </property>
    <property name="title">
-    <string>Créer un nouvel élément Volet</string>
+    <string>Créer un nouvel élément DALI</string>
    </property>
    <widget class="QLabel" name="label_2">
     <property name="geometry">
@@ -290,9 +294,6 @@ p, li { white-space: pre-wrap; }
       <height>23</height>
      </rect>
     </property>
-    <property name="toolTip">
-     <string>Un volet intelligent permet de savoir a quelle position il se trouve en estimant le temps qu'il met pour monter ou descendre. Ce type de volet nessécite la durée de montée et de descente qui soit exacte.</string>
-    </property>
     <property name="text">
      <string>Adresse de groupe</string>
     </property>
@@ -354,7 +355,9 @@ p, li { white-space: pre-wrap; }
    </widget>
   </widget>
  </widget>
- <resources/>
+ <resources>
+  <include location="resources.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>buttonBox</sender>

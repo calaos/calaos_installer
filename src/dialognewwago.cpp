@@ -138,18 +138,14 @@ void DialogNewWago::processUDPRequest()
 void DialogNewWago::setWagoOutput(bool enable)
 {
         //send udp datagram to enable output
-        QUdpSocket *udpSocket = new QUdpSocket(this);
-        QByteArray datagram = "WAGO_SET_OUTPUT " + QByteArray::number(ui->spin_var->value());
+        QString cmd = "WAGO_SET_OUTPUT " + QString::number(ui->spin_var->value());
 
         if (enable)
-                datagram += " 1";
+                cmd += " 1";
         else
-                datagram += " 0";
+                cmd += " 0";
 
-        udpSocket->writeDatagram(datagram.data(), datagram.size(),
-                              QHostAddress(QString(WAGO_HOST)), WAGO_LISTEN_PORT);
-
-        delete udpSocket;
+        WagoConnect::Instance().SendCommand(cmd);
 }
 
 void DialogNewWago::on_button_test_enable_clicked()

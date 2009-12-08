@@ -57,28 +57,24 @@ void DialogNewDali::on_buttonBox_accepted()
 
 void DialogNewDali::setWagoDali(bool enable)
 {
-        //send udp datagram to enable output
-        QUdpSocket *udpSocket = new QUdpSocket(this);
-        QByteArray datagram = "WAGO_DALI_SET 1 ";
+        QString cmd = "WAGO_DALI_SET 1 ";
 
         if (ui->check_group->isChecked())
-                datagram += "1 ";
+                cmd += "1 ";
         else
-                datagram += "0 ";
+                cmd += "0 ";
 
-        datagram += QByteArray::number(ui->spin_addr->value());
+        cmd += QString::number(ui->spin_addr->value());
 
         if (enable)
-                datagram += " 100 ";
+                cmd += " 100 ";
         else
-                datagram += " 0 ";
+                cmd += " 0 ";
 
-        datagram += QByteArray::number(ui->spin_time->value());
+        cmd += QString::number(ui->spin_time->value());
 
-        udpSocket->writeDatagram(datagram.data(), datagram.size(),
-                              QHostAddress(QString(WAGO_HOST)), WAGO_LISTEN_PORT);
-
-        delete udpSocket;
+        //send udp datagram to enable output
+        WagoConnect::Instance().SendCommand(cmd);
 }
 
 void DialogNewDali::on_pushButton_clicked()

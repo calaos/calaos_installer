@@ -19,6 +19,10 @@
   <property name="windowTitle">
    <string>Propriétés</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="resources.qrc">
+    <normaloff>:/img/document-properties.png</normaloff>:/img/document-properties.png</iconset>
+  </property>
   <layout class="QVBoxLayout" name="verticalLayout_2">
    <item>
     <widget class="QGroupBox" name="groupBox">
@@ -76,7 +80,7 @@
            <string>Modifier</string>
           </property>
           <property name="icon">
-           <iconset>
+           <iconset resource="resources.qrc">
             <normaloff>:/img/edit-rename.png</normaloff>:/img/edit-rename.png</iconset>
           </property>
          </widget>
@@ -87,7 +91,7 @@
            <string>Ajouter</string>
           </property>
           <property name="icon">
-           <iconset>
+           <iconset resource="resources.qrc">
             <normaloff>:/img/edit_add.png</normaloff>:/img/edit_add.png</iconset>
           </property>
          </widget>
@@ -98,7 +102,7 @@
            <string>Supprimer</string>
           </property>
           <property name="icon">
-           <iconset>
+           <iconset resource="resources.qrc">
             <normaloff>:/img/edit_remove.png</normaloff>:/img/edit_remove.png</iconset>
           </property>
          </widget>
@@ -127,7 +131,9 @@
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="resources.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>buttonBox</sender>

@@ -37,6 +37,10 @@
   <property name="windowTitle">
    <string>Nouvelle règle...</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="resources.qrc">
+    <normaloff>:/img/edit-rename.png</normaloff>:/img/edit-rename.png</iconset>
+  </property>
   <property name="modal">
    <bool>true</bool>
   </property>
@@ -225,7 +229,9 @@
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="resources.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>buttonBox</sender>

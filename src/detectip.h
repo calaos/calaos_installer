@@ -3,7 +3,6 @@
 
 #include <QObject>
 #include <QTcpSocket>
-#include <QUdpSocket>
 #include <iostream>
 #include <Utils.h>
 
@@ -20,13 +19,13 @@ class DetectIP: public QObject
                         return dip;
                 }
 
+                void startDetectIP();
                 string getLocalIP() { return ip; }
 
         private:
                 DetectIP();
 
                 QTcpSocket *tcpSocket;
-                QUdpSocket *udpSocket;
 
                 string ip;
 

@@ -13,6 +13,10 @@
   <property name="windowTitle">
    <string>Calaos Tools</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="resources.qrc">
+    <normaloff>:/img/logo_huge.png</normaloff>:/img/logo_huge.png</iconset>
+  </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QHBoxLayout" name="horizontalLayout">
     <item>
@@ -97,7 +101,7 @@
        <item>
         <widget class="QStackedWidget" name="Pages">
          <property name="currentIndex">
-          <number>1</number>
+          <number>0</number>
          </property>
          <widget class="QWidget" name="pageProg">
           <layout class="QHBoxLayout" name="horizontalLayout_3">
@@ -240,9 +244,6 @@
                       <attribute name="headerDefaultSectionSize">
                        <number>120</number>
                       </attribute>
-                      <attribute name="headerDefaultSectionSize">
-                       <number>120</number>
-                      </attribute>
                       <column>
                        <property name="text">
                         <string>Type</string>
@@ -281,9 +282,6 @@
                     <property name="rootIsDecorated">
                      <bool>false</bool>
                     </property>
-                    <attribute name="headerDefaultSectionSize">
-                     <number>140</number>
-                    </attribute>
                     <attribute name="headerDefaultSectionSize">
                      <number>140</number>
                     </attribute>
@@ -331,9 +329,6 @@
                     <attribute name="headerDefaultSectionSize">
                      <number>140</number>
                     </attribute>
-                    <attribute name="headerDefaultSectionSize">
-                     <number>140</number>
-                    </attribute>
                     <column>
                      <property name="text">
                       <string>Sortie</string>
@@ -356,529 +351,7 @@
           </layout>
          </widget>
          <widget class="QWidget" name="pageTransfert">
-          <layout class="QVBoxLayout" name="verticalLayout_4">
-           <item>
-            <widget class="QGroupBox" name="groupBox">
-             <property name="enabled">
-              <bool>true</bool>
-             </property>
-             <property name="title">
-              <string>Transfert vers automate</string>
-             </property>
-             <layout class="QVBoxLayout" name="verticalLayout_5">
-              <item>
-               <spacer name="verticalSpacer_2">
-                <property name="orientation">
-                 <enum>Qt::Vertical</enum>
-                </property>
-                <property name="sizeType">
-                 <enum>QSizePolicy::Preferred</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>20</width>
-                  <height>50</height>
-                 </size>
-                </property>
-               </spacer>
-              </item>
-              <item>
-               <layout class="QHBoxLayout" name="horizontalLayout_11">
-                <item>
-                 <layout class="QVBoxLayout" name="verticalLayout_6">
-                  <item>
-                   <layout class="QHBoxLayout" name="horizontalLayout_10">
-                    <item>
-                     <widget class="QLabel" name="label_4">
-                      <property name="text">
-                       <string>Adresse IP de l'automate :</string>
-                      </property>
-                     </widget>
-                    </item>
-                    <item>
-                     <widget class="QLineEdit" name="edit_wagoip">
-                      <property name="text">
-                       <string>10.0.0.123</string>
-                      </property>
-                     </widget>
-                    </item>
-                    <item>
-                     <spacer name="horizontalSpacer_2">
-                      <property name="orientation">
-                       <enum>Qt::Horizontal</enum>
-                      </property>
-                      <property name="sizeHint" stdset="0">
-                       <size>
-                        <width>40</width>
-                        <height>20</height>
-                       </size>
-                      </property>
-                     </spacer>
-                    </item>
-                   </layout>
-                  </item>
-                  <item>
-                   <layout class="QHBoxLayout" name="horizontalLayout_9">
-                    <item>
-                     <widget class="QPushButton" name="button_wagostart">
-                      <property name="text">
-                       <string>Programmer</string>
-                      </property>
-                      <property name="icon">
-                       <iconset resource="resources.qrc">
-                        <normaloff>:/img/system-software-update.png</normaloff>:/img/system-software-update.png</iconset>
-                      </property>
-                     </widget>
-                    </item>
-                    <item>
-                     <widget class="QPushButton" name="button_wagostop">
-                      <property name="enabled">
-                       <bool>true</bool>
-                      </property>
-                      <property name="minimumSize">
-                       <size>
-                        <width>132</width>
-                        <height>0</height>
-                       </size>
-                      </property>
-                      <property name="text">
-                       <string>Arrêter</string>
-                      </property>
-                      <property name="icon">
-                       <iconset resource="resources.qrc">
-                        <normaloff>:/img/process-stop.png</normaloff>:/img/process-stop.png</iconset>
-                      </property>
-                     </widget>
-                    </item>
-                    <item>
-                     <spacer name="horizontalSpacer">
-                      <property name="orientation">
-                       <enum>Qt::Horizontal</enum>
-                      </property>
-                      <property name="sizeHint" stdset="0">
-                       <size>
-                        <width>40</width>
-                        <height>20</height>
-                       </size>
-                      </property>
-                     </spacer>
-                    </item>
-                   </layout>
-                  </item>
-                  <item>
-                   <spacer name="verticalSpacer_3">
-                    <property name="orientation">
-                     <enum>Qt::Vertical</enum>
-                    </property>
-                    <property name="sizeType">
-                     <enum>QSizePolicy::Preferred</enum>
-                    </property>
-                    <property name="sizeHint" stdset="0">
-                     <size>
-                      <width>20</width>
-                      <height>40</height>
-                     </size>
-                    </property>
-                   </spacer>
-                  </item>
-                 </layout>
-                </item>
-                <item>
-                 <widget class="QLabel" name="label_5">
-                  <property name="minimumSize">
-                   <size>
-                    <width>303</width>
-                    <height>0</height>
-                   </size>
-                  </property>
-                  <property name="text">
-                   <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'DejaVu Sans'; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-style:italic; color:#828282;&quot;&gt;Pour programmer l'automate, il faut être branché sur le même réseau que celui-ci, ainsi que d'avoir paramétré cet ordinateur sur la même plage d'adresse IP.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                  </property>
-                  <property name="wordWrap">
-                   <bool>true</bool>
-                  </property>
-                 </widget>
-                </item>
-               </layout>
-              </item>
-              <item>
-               <layout class="QHBoxLayout" name="horizontalLayout_12">
-                <property name="sizeConstraint">
-                 <enum>QLayout::SetFixedSize</enum>
-                </property>
-                <property name="topMargin">
-                 <number>20</number>
-                </property>
-                <property name="bottomMargin">
-                 <number>20</number>
-                </property>
-                <item>
-                 <spacer name="horizontalSpacer_3">
-                  <property name="orientation">
-                   <enum>Qt::Horizontal</enum>
-                  </property>
-                  <property name="sizeType">
-                   <enum>QSizePolicy::Preferred</enum>
-                  </property>
-                  <property name="sizeHint" stdset="0">
-                   <size>
-                    <width>100</width>
-                    <height>20</height>
-                   </size>
-                  </property>
-                 </spacer>
-                </item>
-                <item>
-                 <widget class="QProgressBar" name="progress_wago">
-                  <property name="value">
-                   <number>0</number>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <spacer name="horizontalSpacer_4">
-                  <property name="orientation">
-                   <enum>Qt::Horizontal</enum>
-                  </property>
-                  <property name="sizeType">
-                   <enum>QSizePolicy::Preferred</enum>
-                  </property>
-                  <property name="sizeHint" stdset="0">
-                   <size>
-                    <width>100</width>
-                    <height>20</height>
-                   </size>
-                  </property>
-                 </spacer>
-                </item>
-               </layout>
-              </item>
-              <item>
-               <spacer name="verticalSpacer">
-                <property name="orientation">
-                 <enum>Qt::Vertical</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>20</width>
-                  <height>40</height>
-                 </size>
-                </property>
-               </spacer>
-              </item>
-             </layout>
-            </widget>
-           </item>
-           <item>
-            <widget class="QGroupBox" name="groupBox_2">
-             <property name="enabled">
-              <bool>true</bool>
-             </property>
-             <property name="title">
-              <string>Transfert vers centrale domotique</string>
-             </property>
-             <layout class="QVBoxLayout" name="verticalLayout_7">
-              <item>
-               <spacer name="verticalSpacer_4">
-                <property name="orientation">
-                 <enum>Qt::Vertical</enum>
-                </property>
-                <property name="sizeType">
-                 <enum>QSizePolicy::Preferred</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>20</width>
-                  <height>50</height>
-                 </size>
-                </property>
-               </spacer>
-              </item>
-              <item>
-               <layout class="QHBoxLayout" name="horizontalLayout_13">
-                <item>
-                 <layout class="QVBoxLayout" name="verticalLayout_8">
-                  <item>
-                   <layout class="QHBoxLayout" name="horizontalLayout_14">
-                    <item>
-                     <widget class="QLabel" name="label_6">
-                      <property name="minimumSize">
-                       <size>
-                        <width>190</width>
-                        <height>0</height>
-                       </size>
-                      </property>
-                      <property name="text">
-                       <string>Adresse IP de la centrale :</string>
-                      </property>
-                      <property name="alignment">
-                       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                      </property>
-                     </widget>
-                    </item>
-                    <item>
-                     <widget class="QLineEdit" name="edit_calaosip">
-                      <property name="text">
-                       <string>192.168.1.100</string>
-                      </property>
-                     </widget>
-                    </item>
-                    <item>
-                     <spacer name="horizontalSpacer_5">
-                      <property name="orientation">
-                       <enum>Qt::Horizontal</enum>
-                      </property>
-                      <property name="sizeHint" stdset="0">
-                       <size>
-                        <width>40</width>
-                        <height>20</height>
-                       </size>
-                      </property>
-                     </spacer>
-                    </item>
-                   </layout>
-                  </item>
-                  <item>
-                   <layout class="QHBoxLayout" name="horizontalLayout_17">
-                    <item>
-                     <widget class="QLabel" name="label_8">
-                      <property name="minimumSize">
-                       <size>
-                        <width>190</width>
-                        <height>0</height>
-                       </size>
-                      </property>
-                      <property name="text">
-                       <string>Nom d'utilisateur :</string>
-                      </property>
-                      <property name="alignment">
-                       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                      </property>
-                     </widget>
-                    </item>
-                    <item>
-                     <widget class="QLineEdit" name="edit_calaosuser">
-                      <property name="text">
-                       <string>user</string>
-                      </property>
-                     </widget>
-                    </item>
-                    <item>
-                     <spacer name="horizontalSpacer_9">
-                      <property name="orientation">
-                       <enum>Qt::Horizontal</enum>
-                      </property>
-                      <property name="sizeHint" stdset="0">
-                       <size>
-                        <width>40</width>
-                        <height>20</height>
-                       </size>
-                      </property>
-                     </spacer>
-                    </item>
-                   </layout>
-                  </item>
-                  <item>
-                   <layout class="QHBoxLayout" name="horizontalLayout_18">
-                    <item>
-                     <widget class="QLabel" name="label_9">
-                      <property name="minimumSize">
-                       <size>
-                        <width>190</width>
-                        <height>0</height>
-                       </size>
-                      </property>
-                      <property name="text">
-                       <string>Mot de passe :</string>
-                      </property>
-                      <property name="alignment">
-                       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                      </property>
-                     </widget>
-                    </item>
-                    <item>
-                     <widget class="QLineEdit" name="edit_calaospass">
-                      <property name="text">
-                       <string>pass</string>
-                      </property>
-                     </widget>
-                    </item>
-                    <item>
-                     <spacer name="horizontalSpacer_10">
-                      <property name="orientation">
-                       <enum>Qt::Horizontal</enum>
-                      </property>
-                      <property name="sizeHint" stdset="0">
-                       <size>
-                        <width>40</width>
-                        <height>20</height>
-                       </size>
-                      </property>
-                     </spacer>
-                    </item>
-                   </layout>
-                  </item>
-                  <item>
-                   <layout class="QHBoxLayout" name="horizontalLayout_15">
-                    <item>
-                     <widget class="QPushButton" name="button_calaosstart">
-                      <property name="text">
-                       <string>Transférer</string>
-                      </property>
-                      <property name="icon">
-                       <iconset resource="resources.qrc">
-                        <normaloff>:/img/system-software-update.png</normaloff>:/img/system-software-update.png</iconset>
-                      </property>
-                     </widget>
-                    </item>
-                    <item>
-                     <widget class="QPushButton" name="button_calaosstop">
-                      <property name="enabled">
-                       <bool>true</bool>
-                      </property>
-                      <property name="minimumSize">
-                       <size>
-                        <width>132</width>
-                        <height>0</height>
-                       </size>
-                      </property>
-                      <property name="text">
-                       <string>Charger</string>
-                      </property>
-                      <property name="icon">
-                       <iconset resource="resources.qrc">
-                        <normaloff>:/img/go-last.png</normaloff>:/img/go-last.png</iconset>
-                      </property>
-                     </widget>
-                    </item>
-                    <item>
-                     <spacer name="horizontalSpacer_6">
-                      <property name="orientation">
-                       <enum>Qt::Horizontal</enum>
-                      </property>
-                      <property name="sizeHint" stdset="0">
-                       <size>
-                        <width>40</width>
-                        <height>20</height>
-                       </size>
-                      </property>
-                     </spacer>
-                    </item>
-                   </layout>
-                  </item>
-                  <item>
-                   <spacer name="verticalSpacer_5">
-                    <property name="orientation">
-                     <enum>Qt::Vertical</enum>
-                    </property>
-                    <property name="sizeType">
-                     <enum>QSizePolicy::Preferred</enum>
-                    </property>
-                    <property name="sizeHint" stdset="0">
-                     <size>
-                      <width>20</width>
-                      <height>40</height>
-                     </size>
-                    </property>
-                   </spacer>
-                  </item>
-                 </layout>
-                </item>
-                <item>
-                 <widget class="QLabel" name="label_7">
-                  <property name="minimumSize">
-                   <size>
-                    <width>344</width>
-                    <height>0</height>
-                   </size>
-                  </property>
-                  <property name="text">
-                   <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'DejaVu Sans'; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-style:italic; color:#828282;&quot;&gt;Pour programmer la centrale, vous devez spécifier son adresse IP (en étant sur le même réseau), ainsi que donner le nom d'utilisateur/mot de passe pour accéder à la centrale. Il est également possible de charger le projet directement à partir de la centrale. Attention! Vous perdrez alors les modifications locales.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                  </property>
-                  <property name="wordWrap">
-                   <bool>true</bool>
-                  </property>
-                 </widget>
-                </item>
-               </layout>
-              </item>
-              <item>
-               <layout class="QHBoxLayout" name="horizontalLayout_16">
-                <property name="sizeConstraint">
-                 <enum>QLayout::SetFixedSize</enum>
-                </property>
-                <property name="topMargin">
-                 <number>20</number>
-                </property>
-                <property name="bottomMargin">
-                 <number>20</number>
-                </property>
-                <item>
-                 <spacer name="horizontalSpacer_7">
-                  <property name="orientation">
-                   <enum>Qt::Horizontal</enum>
-                  </property>
-                  <property name="sizeType">
-                   <enum>QSizePolicy::Preferred</enum>
-                  </property>
-                  <property name="sizeHint" stdset="0">
-                   <size>
-                    <width>100</width>
-                    <height>20</height>
-                   </size>
-                  </property>
-                 </spacer>
-                </item>
-                <item>
-                 <widget class="QProgressBar" name="progress_calaos">
-                  <property name="value">
-                   <number>0</number>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <spacer name="horizontalSpacer_8">
-                  <property name="orientation">
-                   <enum>Qt::Horizontal</enum>
-                  </property>
-                  <property name="sizeType">
-                   <enum>QSizePolicy::Preferred</enum>
-                  </property>
-                  <property name="sizeHint" stdset="0">
-                   <size>
-                    <width>100</width>
-                    <height>20</height>
-                   </size>
-                  </property>
-                 </spacer>
-                </item>
-               </layout>
-              </item>
-              <item>
-               <spacer name="verticalSpacer_6">
-                <property name="orientation">
-                 <enum>Qt::Vertical</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>20</width>
-                  <height>40</height>
-                 </size>
-                </property>
-               </spacer>
-              </item>
-             </layout>
-            </widget>
-           </item>
-          </layout>
+          <layout class="QVBoxLayout" name="verticalLayout_4"/>
          </widget>
          <widget class="QWidget" name="pageAbout">
           <layout class="QHBoxLayout" name="horizontalLayout_4">
@@ -932,7 +405,7 @@ p, li { white-space: pre-wrap; }
      <x>0</x>
      <y>0</y>
      <width>983</width>
-     <height>26</height>
+     <height>23</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFichier">
@@ -940,9 +413,13 @@ p, li { white-space: pre-wrap; }
      <string>Fichier</string>
     </property>
     <addaction name="actionNouveau_projet"/>
+    <addaction name="separator"/>
     <addaction name="actionCharger_un_projet"/>
+    <addaction name="actionOuvrir_un_projet_en_ligne"/>
+    <addaction name="separator"/>
     <addaction name="actionSauvegarder"/>
     <addaction name="actionSauvegarder_un_projet"/>
+    <addaction name="actionSauvegarder_un_projet_en_ligne"/>
     <addaction name="separator"/>
     <addaction name="actionQuit"/>
    </widget>
@@ -953,13 +430,35 @@ p, li { white-space: pre-wrap; }
     <addaction name="actionAbout"/>
     <addaction name="actionA_propos_de_Qt"/>
    </widget>
+   <widget class="QMenu" name="menuProjet">
+    <property name="title">
+     <string>Projet</string>
+    </property>
+    <addaction name="actionSe_connecter"/>
+    <addaction name="actionSe_d_connecter"/>
+    <addaction name="separator"/>
+    <addaction name="actionProgrammer_l_automate"/>
+   </widget>
    <addaction name="menuFichier"/>
+   <addaction name="menuProjet"/>
    <addaction name="menuA_propos"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <widget class="QToolBar" name="toolBar">
    <property name="windowTitle">
     <string>toolBar</string>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>32</width>
+     <height>32</height>
+    </size>
+   </property>
+   <property name="toolButtonStyle">
+    <enum>Qt::ToolButtonTextUnderIcon</enum>
+   </property>
+   <property name="floatable">
+    <bool>false</bool>
    </property>
    <attribute name="toolBarArea">
     <enum>TopToolBarArea</enum>
@@ -1028,6 +527,66 @@ p, li { white-space: pre-wrap; }
    </property>
    <property name="shortcut">
     <string>Ctrl+S</string>
+   </property>
+  </action>
+  <action name="actionSe_connecter">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/img/user-online.png</normaloff>:/img/user-online.png</iconset>
+   </property>
+   <property name="text">
+    <string>Se connecter</string>
+   </property>
+  </action>
+  <action name="actionSe_d_connecter">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/img/user-invisible.png</normaloff>:/img/user-invisible.png</iconset>
+   </property>
+   <property name="text">
+    <string>Se déconnecter</string>
+   </property>
+  </action>
+  <action name="actionProgrammer_l_automate">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/img/system-software-update.png</normaloff>:/img/system-software-update.png</iconset>
+   </property>
+   <property name="text">
+    <string>Programmer l'automate</string>
+   </property>
+  </action>
+  <action name="actionProgrammer_le_serveur">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/img/system-software-update.png</normaloff>:/img/system-software-update.png</iconset>
+   </property>
+   <property name="text">
+    <string>Programmer le serveur</string>
+   </property>
+  </action>
+  <action name="actionOuvrir_un_projet_en_ligne">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/img/go-first.png</normaloff>:/img/go-first.png</iconset>
+   </property>
+   <property name="text">
+    <string>Ouvrir un projet en ligne...</string>
+   </property>
+  </action>
+  <action name="actionSauvegarder_un_projet_en_ligne">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/img/go-last.png</normaloff>:/img/go-last.png</iconset>
+   </property>
+   <property name="text">
+    <string>Sauvegarder un projet en ligne...</string>
    </property>
   </action>
  </widget>

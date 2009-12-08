@@ -2,7 +2,7 @@
 #define WAGOUPLOADER_H
 
 #include <QtGui>
-#include <QUdpSocket>
+#include <wagoconnect.h>
 #include <ListeRoom.h>
 #include <ListeRule.h>
 
@@ -13,11 +13,11 @@ enum { WAGOST_NONE = 0, WAGOST_START, WAGOST_CREATING, WAGOST_UPLOADING, WAGOST_
 
 enum { TWAGO_NONE = 0, TWAGO_TELERUPTEUR, TWAGO_DIRECT, TWAGO_VOLET, TWAGO_VOLETIMPULSE, TWAGO_DALI, TWAGO_DALIGRP };
 
-class WagoCommand
+class WagoRuleCommand
 {
         public:
 
-                WagoCommand(): input(0), type(TWAGO_NONE),
+                WagoRuleCommand(): input(0), type(TWAGO_NONE),
                                addr1(0), addr2(0),
                                sameas(-1), type_sent(false)
                 { }
@@ -51,7 +51,7 @@ class WagoUploader : public QObject
 
         private:
                 bool quit;
-                QList<WagoCommand> commands;
+                QList<WagoRuleCommand> commands;
                 int upload_num;
                 QTimer *timer;
                 QString wago_ip;

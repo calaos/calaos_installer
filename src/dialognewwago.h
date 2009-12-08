@@ -3,7 +3,8 @@
 
 #include <QtGui/QDialog>
 #include <QtGui/QAbstractButton>
-#include <QUdpSocket>
+#include <QtNetwork>
+#include <wagoconnect.h>
 #include <iostream>
 
 #include <ListeRoom.h>
