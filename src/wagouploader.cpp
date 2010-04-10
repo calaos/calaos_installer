@@ -62,7 +62,15 @@ void WagoUploader::createConfig()
                     rule->get_condition(0)->get_params().get_param(input->get_param("id")) != "1")
                         continue;
 
-                from_string(input->get_param("var"), wcommand.input);
+                if (input->get_param("knx") == "true")
+                {
+                        from_string(input->get_param("var"), wcommand.input);
+                        wcommand.input += 256;
+                }
+                else
+                {
+                        from_string(input->get_param("var"), wcommand.input);
+                }
 
                 /* Get the output */
                 Output *output = NULL;
@@ -95,8 +103,16 @@ void WagoUploader::createConfig()
                 else if (output->get_param("type") == "WODigital")
                 {
                         from_string(output->get_param("var"), wcommand.addr1);
-                        if (val == "toggle") wcommand.type = TWAGO_TELERUPTEUR;
-                        if (val == "true") wcommand.type = TWAGO_DIRECT;
+                        if (output->get_param("knx") == "true")
+                        {
+                                if (val == "toggle") wcommand.type = TWAGO_TELERUPTEUR_KNX;
+                                if (val == "true") wcommand.type = TWAGO_DIRECT_KNX;
+                        }
+                        else
+                        {
+                                if (val == "toggle") wcommand.type = TWAGO_TELERUPTEUR;
+                                if (val == "true") wcommand.type = TWAGO_DIRECT;
+                        }
                 }
                 else if (output->get_param("type") == "WOVolet" || output->get_param("type") == "WOVoletSmart")
                 {

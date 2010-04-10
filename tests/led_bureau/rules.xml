@@ -1,51 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <calaos:rules xmlns:calaos="http://www.calaos.fr">
-    <calaos:rule name="inter1" type="salon">
+    <calaos:rule name="input6" type="Salon">
         <calaos:condition>
             <calaos:input id="input_0" oper="==" val="true"/>
         </calaos:condition>
         <calaos:action>
-            <calaos:output id="output_5" val="toggle"/>
+            <calaos:output id="output_0" val="true"/>
         </calaos:action>
     </calaos:rule>
-    <calaos:rule name="inter2" type="salon">
+    <calaos:rule name="input7" type="Salon"/>
+    <calaos:rule name="input6 false" type="Salon">
         <calaos:condition>
-            <calaos:input id="input_1" oper="==" val="true"/>
+            <calaos:input id="input_0" oper="==" val="false"/>
         </calaos:condition>
         <calaos:action>
-            <calaos:output id="output_1" val="toggle"/>
+            <calaos:output id="output_0" val="false"/>
         </calaos:action>
     </calaos:rule>
-    <calaos:rule name="inter3" type="salon">
+    <calaos:rule name="input7 false" type="Salon">
         <calaos:condition>
-            <calaos:input id="input_2" oper="==" val="true"/>
+            <calaos:input id="input_1" oper="==" val="false"/>
         </calaos:condition>
         <calaos:action>
-            <calaos:output id="output_2" val="toggle"/>
-        </calaos:action>
-    </calaos:rule>
-    <calaos:rule name="inter4" type="salon">
-        <calaos:condition>
-            <calaos:input id="input_3" oper="==" val="true"/>
-        </calaos:condition>
-        <calaos:action>
-            <calaos:output id="output_3" val="toggle"/>
-        </calaos:action>
-    </calaos:rule>
-    <calaos:rule name="inter5" type="salon">
-        <calaos:condition>
-            <calaos:input id="input_4" oper="==" val="true"/>
-        </calaos:condition>
-        <calaos:action>
-            <calaos:output id="output_4" val="toggle"/>
-        </calaos:action>
-    </calaos:rule>
-    <calaos:rule name="inter6" type="salon">
-        <calaos:condition>
-            <calaos:input id="input_5" oper="==" val="true"/>
-        </calaos:condition>
-        <calaos:action>
-            <calaos:output id="output_0" val="toggle"/>
+            <calaos:output id="output_1" val="false"/>
         </calaos:action>
     </calaos:rule>
 </calaos:rules>

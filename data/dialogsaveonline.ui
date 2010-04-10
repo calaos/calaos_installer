@@ -11,11 +11,11 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Ouvrir une configuration en ligne...</string>
+   <string>Envoyer une configuration en ligne...</string>
   </property>
   <property name="windowIcon">
    <iconset resource="resources.qrc">
-    <normaloff>:/img/document-open.png</normaloff>:/img/document-open.png</iconset>
+    <normaloff>:/img/document-save.png</normaloff>:/img/document-save.png</iconset>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_2">
    <item>

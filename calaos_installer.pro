@@ -45,7 +45,8 @@ SOURCES += src/main.cpp \
     src/dialogopenonline.cpp \
     src/qanimationlabel.cpp \
     src/dialogsaveonline.cpp \
-    src/formpost.cpp
+    src/formpost.cpp \
+    src/dialogiolist.cpp
 HEADERS += src/mainwindow.h \
     ../calaos_common/Utils.h \
     ../calaos_common/base64.h \
@@ -87,7 +88,8 @@ HEADERS += src/mainwindow.h \
     src/dialogopenonline.h \
     src/qanimationlabel.h \
     src/dialogsaveonline.h \
-    src/formpost.h
+    src/formpost.h \
+    src/dialogiolist.h
 FORMS += data/mainwindow.ui \
     data/dialognewroom.ui \
     data/dialognewwago.ui \
@@ -105,7 +107,8 @@ FORMS += data/mainwindow.ui \
     data/dialogcameraview.ui \
     data/dialogconnect.ui \
     data/dialogopenonline.ui \
-    data/dialogsaveonline.ui
+    data/dialogsaveonline.ui \
+    data/dialogiolist.ui
 RESOURCES += data/resources.qrc
 INCLUDEPATH += ../calaos_common/ \
     Calaos/ \

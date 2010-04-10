@@ -68,6 +68,9 @@ void DialogNewWago::on_buttonBox_accepted()
         p.Add("type", type);
         p.Add("var", to_string(ui->spin_var->value()));
 
+        if (ui->checkKNX->isChecked())
+                p.Add("knx", "true");
+
         if (type == "WODigital")
         {
                 p.Add("gtype", "light");
@@ -121,10 +124,15 @@ void DialogNewWago::processUDPRequest()
                 vector<string> tok;
                 Utils::split(req, tok, " ", 4);
 
-                if (tok[0] == "WAGO" && tok[1] == "INT")
+                if (tok[0] == "WAGO" && (tok[1] == "INT" || tok[1] == "KNX"))
                 {
                         int var;
                         Utils::from_string(tok[2], var);
+
+                        if (tok[1] == "KNX")
+                                ui->checkKNX->setChecked(true);
+                        else
+                                ui->checkKNX->setChecked(false);
 
                         ui->spin_var->setValue(var);
 
@@ -138,7 +146,12 @@ void DialogNewWago::processUDPRequest()
 void DialogNewWago::setWagoOutput(bool enable)
 {
         //send udp datagram to enable output
-        QString cmd = "WAGO_SET_OUTPUT " + QString::number(ui->spin_var->value());
+        QString cmd;
+
+        if (ui->checkKNX->isChecked())
+                cmd = "WAGO_SET_KNX_OUTPUT " + QString::number(ui->spin_var->value());
+        else
+                cmd = "WAGO_SET_OUTPUT " + QString::number(ui->spin_var->value());
 
         if (enable)
                 cmd += " 1";

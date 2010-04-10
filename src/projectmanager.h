@@ -5,6 +5,7 @@
 #include <QTemporaryFile>
 #include <QXmlStreamReader>
 #include <QXmlStreamWriter>
+#include <QtGui>
 #include <vector>
 
 #include <ListeRoom.h>

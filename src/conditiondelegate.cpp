@@ -25,6 +25,8 @@ QWidget *ConditionDelegate::createEditor(QWidget *parent, const QStyleOptionView
         {
                 IOEditorSelection *object = new IOEditorSelection(parent);
 
+                connect(object->getButton(), SIGNAL(clicked()), this, SLOT(editMoreClick()));
+
                 string type = input->get_param("type");
 
                 if (type == "InputTime" || type == "InputTimer" || type == "WIDigitalBP" ||
@@ -171,6 +173,12 @@ void ConditionDelegate::setModelData(QWidget *editor, QAbstractItemModel *model,
                 model->setData(index, QString::fromUtf8(value.c_str()), Qt::DisplayRole);
                 condition->get_params().Add(input->get_param("id"), value);
         }
+}
+
+void ConditionDelegate::editMoreClick()
+{
+        DialogIOList dio(input, NULL);
+        dio.exec();
 }
 
 //void ConditionDelegate::updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &/*index*/) const

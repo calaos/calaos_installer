@@ -1401,7 +1401,12 @@ void MainWindow::itemLightOn()
         {
                 if (itoutput->getOutput()->get_param("type") == "WODigital")
                 {
-                        QString cmd = "WAGO_SET_OUTPUT ";
+                        QString cmd;
+
+                        if (itoutput->getOutput()->get_param("knx") == "true")
+                                cmd = "WAGO_SET_KNX_OUTPUT ";
+                        else
+                                cmd = "WAGO_SET_OUTPUT ";
                         cmd += itoutput->getOutput()->get_param("var").c_str();
                         cmd += " 1";
 
@@ -1433,7 +1438,12 @@ void MainWindow::itemLightOff()
         {
                 if (itoutput->getOutput()->get_param("type") == "WODigital")
                 {
-                        QString cmd = "WAGO_SET_OUTPUT ";
+                        QString cmd;
+
+                        if (itoutput->getOutput()->get_param("knx") == "true")
+                                cmd = "WAGO_SET_KNX_OUTPUT ";
+                        else
+                                cmd = "WAGO_SET_OUTPUT ";
                         cmd += itoutput->getOutput()->get_param("var").c_str();
                         cmd += " 0";
 

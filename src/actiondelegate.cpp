@@ -11,6 +11,8 @@ QWidget *ActionDelegate::createEditor(QWidget *parent, const QStyleOptionViewIte
         {
                 IOEditorSelection *object = new IOEditorSelection(parent);
 
+                connect(object->getButton(), SIGNAL(clicked()), this, SLOT(editMoreClick()));
+
                 string type = output->get_param("type");
 
                 if (type == "OutputFake" || type == "InputTimer" ||
@@ -249,6 +251,12 @@ void ActionDelegate::setModelData(QWidget *editor, QAbstractItemModel *model, co
                 model->setData(index, QString::fromUtf8(value.c_str()), Qt::DisplayRole);
                 action->get_params().Add(output->get_param("id"), value);
         }
+}
+
+void ActionDelegate::editMoreClick()
+{
+        DialogIOList dio(NULL, output);
+        dio.exec();
 }
 
 //void ActionDelegate::updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &/*index*/) const

@@ -6,6 +6,7 @@
 #include <Action.h>
 #include <IOBase.h>
 #include <ioeditorselection.h>
+#include <dialogiolist.h>
 
 using namespace Calaos;
 using namespace std;
@@ -23,6 +24,9 @@ class ActionDelegate : public QStyledItemDelegate
                 void setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const;
 
 //                void updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index) const;
+
+        private slots:
+                void editMoreClick();
 
         private:
                 Action *action;

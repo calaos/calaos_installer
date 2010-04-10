@@ -368,6 +368,11 @@ void IOXmlReader::readInput(Room *room)
                       attr.value().toString().toLocal8Bit().data());
         }
 
+        if (ListeRoom::Instance().get_input(p["id"]))
+        {
+                QMessageBox::critical(NULL, "Calaos Installer", QString::fromUtf8("L'entrée avec l'id \"%1\" existe déjà !").arg(QString(p["id"].c_str())));
+        }
+
         Input *in = ListeRoom::Instance().createInput(p, room);
         InPlageHoraire *input = dynamic_cast<InPlageHoraire *>(in);
 
@@ -456,6 +461,11 @@ void IOXmlReader::readOutput(Room *room)
                 QXmlStreamAttribute attr = attributes().at(i);
                 p.Add(attr.name().toString().toLocal8Bit().data(),
                       attr.value().toString().toLocal8Bit().data());
+        }
+
+        if (ListeRoom::Instance().get_output(p["id"]))
+        {
+                QMessageBox::critical(NULL, "Calaos Installer", QString::fromUtf8("La sortie avec l'id \"%1\" existe déjà !").arg(QString(p["id"].c_str())));
         }
 
         ListeRoom::Instance().createOutput(p, room);
