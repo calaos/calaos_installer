@@ -3,7 +3,7 @@
 
 #include <QtGui/QDialog>
 #include <QtGui/QAbstractButton>
-#include <QtNetwork>
+#include <qanimationlabel.h>
 #include <wagoconnect.h>
 #include <iostream>
 
@@ -37,9 +37,10 @@ class DialogNewWago : public QDialog
                 string type;
                 IOBase *io;
                 Room *room;
-                QUdpSocket *udp_server;
+                bool detect_in_progress;
                 bool another;
                 QPushButton *moreButton;
+                QPointer<QAnimationLabel> spinner;
 
                 void setWagoOutput(bool enable);
 
@@ -49,7 +50,7 @@ class DialogNewWago : public QDialog
                 void on_button_test_enable_clicked();
                 void on_button_detect_clicked();
                 void on_buttonBox_accepted();
-                void processUDPRequest();
+                void processUDPRequest(QString &command, QString response);
 };
 
 #endif // DIALOGNEWROOM_H

@@ -51,7 +51,7 @@
  <data>
   <variable>RunConfiguration1-CommandLineArguments</variable>
   <valuelist type="QVariantList">
-   <value type="QString">tests/led_bureau</value>
+   <value type="QString">tests/test_knx</value>
   </valuelist>
  </data>
  <data>
@@ -123,14 +123,14 @@
   <valuemap type="QVariantMap">
    <value key="ProjectExplorer.BuildConfiguration.DisplayName" type="QString">Debug</value>
    <valuelist key="abstractProcess.Environment" type="QVariantList">
-    <value type="QString">DBUS_SESSION_BUS_ADDRESS=unix:abstract=/tmp/dbus-EpzMia67sF,guid=15596690084aeaead1c5471b4b4da4a0</value>
+    <value type="QString">DBUS_SESSION_BUS_ADDRESS=unix:abstract=/tmp/dbus-eRxlGOik6s,guid=37c9649e6a7e787ee39918f34b9df282</value>
     <value type="QString">DESKTOP_SESSION=kde</value>
     <value type="QString">DISPLAY=:0.0</value>
     <value type="QString">GDMSESSION=kde</value>
     <value type="QString">GDM_KEYBOARD_LAYOUT=fr	oss</value>
     <value type="QString">GDM_LANG=fr_FR.UTF-8</value>
-    <value type="QString">GNOME_KEYRING_PID=2034</value>
-    <value type="QString">GNOME_KEYRING_SOCKET=/tmp/keyring-eTmzMc/socket</value>
+    <value type="QString">GNOME_KEYRING_PID=1786</value>
+    <value type="QString">GNOME_KEYRING_SOCKET=/tmp/keyring-BRBcH7/socket</value>
     <value type="QString">GS_LIB=/home/raoul/.fonts</value>
     <value type="QString">GTK2_RC_FILES=/etc/gtk-2.0/gtkrc:/home/raoul/.gtkrc-2.0:/home/raoul/.gtkrc-2.0-kde4:/home/raoul/.kde/share/config/gtkrc-2.0</value>
     <value type="QString">GTK_MODULES=canberra-gtk-module</value>
@@ -148,16 +148,17 @@
     <value type="QString">PWD=/home/raoul</value>
     <value type="QString">QTDIR=/usr/share/qt4</value>
     <value type="QString">QT_PLUGIN_PATH=/home/raoul/.kde/lib/kde4/plugins/:/usr/lib/kde4/plugins/</value>
-    <value type="QString">SESSION_MANAGER=local/raoul-office:@/tmp/.ICE-unix/2479,unix/raoul-office:/tmp/.ICE-unix/2479</value>
+    <value type="QString">SESSION_MANAGER=local/raoul-office:@/tmp/.ICE-unix/2529,unix/raoul-office:/tmp/.ICE-unix/2529</value>
     <value type="QString">SHELL=/bin/bash</value>
-    <value type="QString">SSH_AGENT_PID=2153</value>
-    <value type="QString">SSH_AUTH_SOCK=/tmp/ssh-PiihHj2052/agent.2052</value>
+    <value type="QString">SPEECHD_PORT=7560</value>
+    <value type="QString">SSH_AGENT_PID=2132</value>
+    <value type="QString">SSH_AUTH_SOCK=/tmp/ssh-SdqZjI1807/agent.1807</value>
     <value type="QString">USER=raoul</value>
     <value type="QString">USERNAME=raoul</value>
-    <value type="QString">XAUTHORITY=/var/run/gdm/auth-for-raoul-9YQl0M/database</value>
+    <value type="QString">XAUTHORITY=/var/run/gdm/auth-for-raoul-E4VU7k/database</value>
     <value type="QString">XCURSOR_THEME=oxy-white</value>
     <value type="QString">XDG_DATA_DIRS=/usr/share:/usr/share:/usr/local/share</value>
-    <value type="QString">XDG_SESSION_COOKIE=4f34fe61b66df2a5da7777ff49f71165-1263379615.53403-874568293</value>
+    <value type="QString">XDG_SESSION_COOKIE=4f34fe61b66df2a5da7777ff49f71165-1268642431.853551-873127769</value>
    </valuelist>
    <valuelist key="abstractProcess.arguments" type="QVariantList">
     <value type="QString">/home/raoul/Domotique/calaos-svn/calaos_installer/calaos_installer.pro</value>
@@ -177,14 +178,14 @@
   <valuemap type="QVariantMap">
    <value key="ProjectExplorer.BuildConfiguration.DisplayName" type="QString">Debug</value>
    <valuelist key="abstractProcess.Environment" type="QVariantList">
-    <value type="QString">DBUS_SESSION_BUS_ADDRESS=unix:abstract=/tmp/dbus-EpzMia67sF,guid=15596690084aeaead1c5471b4b4da4a0</value>
+    <value type="QString">DBUS_SESSION_BUS_ADDRESS=unix:abstract=/tmp/dbus-eRxlGOik6s,guid=37c9649e6a7e787ee39918f34b9df282</value>
     <value type="QString">DESKTOP_SESSION=kde</value>
     <value type="QString">DISPLAY=:0.0</value>
     <value type="QString">GDMSESSION=kde</value>
     <value type="QString">GDM_KEYBOARD_LAYOUT=fr	oss</value>
     <value type="QString">GDM_LANG=fr_FR.UTF-8</value>
-    <value type="QString">GNOME_KEYRING_PID=2034</value>
-    <value type="QString">GNOME_KEYRING_SOCKET=/tmp/keyring-eTmzMc/socket</value>
+    <value type="QString">GNOME_KEYRING_PID=1786</value>
+    <value type="QString">GNOME_KEYRING_SOCKET=/tmp/keyring-BRBcH7/socket</value>
     <value type="QString">GS_LIB=/home/raoul/.fonts</value>
     <value type="QString">GTK2_RC_FILES=/etc/gtk-2.0/gtkrc:/home/raoul/.gtkrc-2.0:/home/raoul/.gtkrc-2.0-kde4:/home/raoul/.kde/share/config/gtkrc-2.0</value>
     <value type="QString">GTK_MODULES=canberra-gtk-module</value>
@@ -202,16 +203,17 @@
     <value type="QString">PWD=/home/raoul</value>
     <value type="QString">QTDIR=/usr/share/qt4</value>
     <value type="QString">QT_PLUGIN_PATH=/home/raoul/.kde/lib/kde4/plugins/:/usr/lib/kde4/plugins/</value>
-    <value type="QString">SESSION_MANAGER=local/raoul-office:@/tmp/.ICE-unix/2479,unix/raoul-office:/tmp/.ICE-unix/2479</value>
+    <value type="QString">SESSION_MANAGER=local/raoul-office:@/tmp/.ICE-unix/2529,unix/raoul-office:/tmp/.ICE-unix/2529</value>
     <value type="QString">SHELL=/bin/bash</value>
-    <value type="QString">SSH_AGENT_PID=2153</value>
-    <value type="QString">SSH_AUTH_SOCK=/tmp/ssh-PiihHj2052/agent.2052</value>
+    <value type="QString">SPEECHD_PORT=7560</value>
+    <value type="QString">SSH_AGENT_PID=2132</value>
+    <value type="QString">SSH_AUTH_SOCK=/tmp/ssh-SdqZjI1807/agent.1807</value>
     <value type="QString">USER=raoul</value>
     <value type="QString">USERNAME=raoul</value>
-    <value type="QString">XAUTHORITY=/var/run/gdm/auth-for-raoul-9YQl0M/database</value>
+    <value type="QString">XAUTHORITY=/var/run/gdm/auth-for-raoul-E4VU7k/database</value>
     <value type="QString">XCURSOR_THEME=oxy-white</value>
     <value type="QString">XDG_DATA_DIRS=/usr/share:/usr/share:/usr/local/share</value>
-    <value type="QString">XDG_SESSION_COOKIE=4f34fe61b66df2a5da7777ff49f71165-1263379615.53403-874568293</value>
+    <value type="QString">XDG_SESSION_COOKIE=4f34fe61b66df2a5da7777ff49f71165-1268642431.853551-873127769</value>
    </valuelist>
    <value key="abstractProcess.IgnoreReturnValue" type="bool">false</value>
    <valuelist key="abstractProcess.arguments" type="QVariantList">

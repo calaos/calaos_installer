@@ -325,15 +325,26 @@ void MainWindow::addCalaosItem(int item)
 
           case ITEM_LIGHT:
                 {
-                        DialogNewWago dialog(item, current_room);
-                        if (dialog.exec() == QDialog::Accepted)
+                        bool another;
+                        do
                         {
-                                Output *output = dialog.getOutput();
-                                if (output)
-                                        addItemOutput(output, current_room, true);
+                                DialogNewWago dialog(item, current_room);
+                                if (dialog.exec() == QDialog::Accepted)
+                                {
+                                        another = dialog.wantAnother();
+
+                                        Output *output = dialog.getOutput();
+                                        if (output)
+                                                addItemOutput(output, current_room, true);
+                                        else
+                                        {
+                                                QMessageBox::critical(this, tr("Calaos Installer"), QString::fromUtf8("Erreur lors de la création de l'objet !"));
+                                                another = false;
+                                        }
+                                }
                                 else
-                                        QMessageBox::critical(this, tr("Calaos Installer"), QString::fromUtf8("Erreur lors de la création de l'objet !"));
-                        }
+                                        another = false;
+                        }while (another);
                 }
                 break;
           case ITEM_VOLET:
@@ -1414,7 +1425,7 @@ void MainWindow::itemLightOn()
                 }
                 else if (itoutput->getOutput()->get_param("type") == "WODali")
                 {
-                        QString cmd = "WAGO_DALI_SET 1";
+                        QString cmd = "WAGO_DALI_SET 1 ";
                         if (itoutput->getOutput()->get_param("group") == "1")
                                 cmd += "1 ";
                         else
@@ -1451,7 +1462,7 @@ void MainWindow::itemLightOff()
                 }
                 else if (itoutput->getOutput()->get_param("type") == "WODali")
                 {
-                        QString cmd = "WAGO_DALI_SET 1";
+                        QString cmd = "WAGO_DALI_SET 1 ";
                         if (itoutput->getOutput()->get_param("group") == "1")
                                 cmd += "1 ";
                         else

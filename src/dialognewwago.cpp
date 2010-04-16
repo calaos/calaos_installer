@@ -4,7 +4,7 @@
 
 DialogNewWago::DialogNewWago(int t, Room *r, QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::DialogNewWago), io(NULL), room(r), udp_server(NULL),
+    ui(new Ui::DialogNewWago), io(NULL), room(r), detect_in_progress(false),
     another(false)
 {
         ui->setupUi(this);
@@ -87,59 +87,70 @@ void DialogNewWago::on_buttonBox_accepted()
 void DialogNewWago::on_button_detect_clicked()
 {
         //Start an udp socket to listen for wago inputs
-        if (!udp_server)
+        if (!detect_in_progress)
         {
-                udp_server = new QUdpSocket(this);
-                udp_server->bind(WAGO_LISTEN_PORT);
-
-                connect(udp_server, SIGNAL(readyRead()), this, SLOT(processUDPRequest()));
-
-                ui->button_detect->setText(QString::fromUtf8("Arrêter..."));
-
-                QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
-        }
-        else
-        {
-               delete udp_server;
-               udp_server = NULL;
-
-               ui->button_detect->setText(QString::fromUtf8("Détection"));
-
-               QApplication::restoreOverrideCursor();
-        }
-}
-
-void DialogNewWago::processUDPRequest()
-{
-        if (!udp_server) return;
-
-        while (udp_server->hasPendingDatagrams())
-        {
-                QByteArray datagram;
-                datagram.resize(udp_server->pendingDatagramSize());
-                udp_server->readDatagram(datagram.data(), datagram.size());
-
-                string req = datagram.data();
-
-                vector<string> tok;
-                Utils::split(req, tok, " ", 4);
-
-                if (tok[0] == "WAGO" && (tok[1] == "INT" || tok[1] == "KNX"))
+                if (WagoConnect::Instance().getConnectionStatus() != WAGO_CONNECTED)
                 {
-                        int var;
-                        Utils::from_string(tok[2], var);
-
-                        if (tok[1] == "KNX")
-                                ui->checkKNX->setChecked(true);
-                        else
-                                ui->checkKNX->setChecked(false);
-
-                        ui->spin_var->setValue(var);
-
-                        on_button_detect_clicked();
+                        WagoConnect::Instance().emitErrorNotConnectedSignal();
 
                         return;
                 }
+
+                detect_in_progress = true;
+
+                ui->button_detect->setText(QString::fromUtf8("Arrêter..."));
+                ui->edit_name->setEnabled(false);
+                ui->spin_var->setEnabled(false);
+                ui->checkKNX->setEnabled(false);
+                ui->check_triple->setEnabled(false);
+                ui->buttonBox->setEnabled(false);
+
+                spinner = new QAnimationLabel(":/img/loader.gif", this);
+                ui->spinnerLayout->addWidget(spinner, 0, Qt::AlignCenter);
+                spinner->start();
+
+                QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
+
+                connect(&WagoConnect::Instance(), SIGNAL(responseReceived(QString&, QString)), this, SLOT(processUDPRequest(QString&, QString)));
+        }
+        else
+        {
+                detect_in_progress = false;
+
+                ui->button_detect->setText(QString::fromUtf8("Détection"));
+                ui->edit_name->setEnabled(true);
+                ui->spin_var->setEnabled(true);
+                ui->checkKNX->setEnabled(true);
+                ui->check_triple->setEnabled(true);
+                ui->buttonBox->setEnabled(true);
+                delete spinner;
+
+                QApplication::restoreOverrideCursor();
+
+                disconnect(&WagoConnect::Instance(), SIGNAL(responseReceived(QString&, QString)), this, SLOT(processUDPRequest(QString&, QString)));
+        }
+}
+
+void DialogNewWago::processUDPRequest(QString &, QString response)
+{
+        string req = response.toLocal8Bit().data();
+
+        vector<string> tok;
+        Utils::split(req, tok, " ", 4);
+
+        if (tok[0] == "WAGO" && (tok[1] == "INT" || tok[1] == "KNX"))
+        {
+                int var;
+                Utils::from_string(tok[2], var);
+
+                if (tok[1] == "KNX")
+                        ui->checkKNX->setChecked(true);
+                else
+                        ui->checkKNX->setChecked(false);
+
+                ui->spin_var->setValue(var);
+
+                on_button_detect_clicked();
         }
 }
 
@@ -179,3 +190,4 @@ void DialogNewWago::on_buttonBox_clicked(QAbstractButton* button)
                 on_buttonBox_accepted();
         }
 }
+

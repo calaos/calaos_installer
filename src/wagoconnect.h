@@ -114,6 +114,12 @@ class WagoConnect : public QObject
                 void setUsername(QString user) { calaos_user = user; }
                 void setPassword(QString pass) { calaos_password = pass; }
 
+                void emitErrorNotConnectedSignal()
+                        {
+                                emit error(WERROR_NOTCONNECTED);
+                                cout << "WagoConnect::SendCommand(): Not connected." << endl;
+                        }
+
         signals:
                 /*
                  * Signal emited when connection established successfully
