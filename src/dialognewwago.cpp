@@ -71,6 +71,9 @@ void DialogNewWago::on_buttonBox_accepted()
         if (ui->checkKNX->isChecked())
                 p.Add("knx", "true");
 
+        if (ui->check841->isChecked())
+                p.Add("wago_841", "true");
+
         if (type == "WODigital")
         {
                 p.Add("gtype", "light");
@@ -191,3 +194,15 @@ void DialogNewWago::on_buttonBox_clicked(QAbstractButton* button)
         }
 }
 
+
+void DialogNewWago::on_checkKNX_stateChanged(int state)
+{
+        if (ui->check841->isChecked() && state == Qt::Checked)
+                ui->check841->setChecked(false);
+}
+
+void DialogNewWago::on_check841_stateChanged(int state)
+{
+        if (ui->checkKNX->isChecked() && state == Qt::Checked)
+                ui->checkKNX->setChecked(false);
+}

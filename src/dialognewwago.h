@@ -45,6 +45,8 @@ class DialogNewWago : public QDialog
                 void setWagoOutput(bool enable);
 
         private slots:
+                void on_check841_stateChanged(int );
+                void on_checkKNX_stateChanged(int );
                 void on_buttonBox_clicked(QAbstractButton* button);
                 void on_button_test_disable_clicked();
                 void on_button_test_enable_clicked();

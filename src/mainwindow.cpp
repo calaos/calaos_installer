@@ -1611,13 +1611,28 @@ void MainWindow::wagoError(int error)
         switch (error)
         {
           case WERROR_CONNECT_FAILED:
-                QMessageBox::critical(this, tr("Calaos Installer"), QString::fromUtf8("La connection a échoué !"));
+                if (QMessageBox::question(this, tr("Calaos Installer"),
+                                          QString::fromUtf8("La connection a échoué !\nVoulez-vous essayer à nouveau?"),
+                                          QMessageBox::Ok,
+                                          QMessageBox::Cancel
+                        ) == QMessageBox::Ok)
+                        on_actionSe_connecter_triggered();
                 break;
           case WERROR_NOTCONNECTED:
-                QMessageBox::critical(this, tr("Calaos Installer"), QString::fromUtf8("L'automate n'est pas connecté !"));
+                if (QMessageBox::question(this, tr("Calaos Installer"),
+                                          QString::fromUtf8("L'automate n'est pas connecté !\nVoulez-vous effectuer une connexion maintenant?"),
+                                          QMessageBox::Ok,
+                                          QMessageBox::Cancel
+                        ) == QMessageBox::Ok)
+                        on_actionSe_connecter_triggered();
                 break;
           case WERROR_TIMEOUT:
-                QMessageBox::critical(this, tr("Calaos Installer"), QString::fromUtf8("Le délai d'attente de la réponse est dépassé !"));
+                if (QMessageBox::question(this, tr("Calaos Installer"),
+                                          QString::fromUtf8("Le délai d'attente de la réponse est dépassé !\nVoulez-vous essayer à nouveau?"),
+                                          QMessageBox::Ok,
+                                          QMessageBox::Cancel
+                        ) == QMessageBox::Ok)
+                        on_actionSe_connecter_triggered();
                 break;
           default:
                 QMessageBox::critical(this, tr("Calaos Installer"), QString::fromUtf8("Une erreur inconnue est survenue !"));
@@ -1657,4 +1672,9 @@ void MainWindow::on_actionSauvegarder_un_projet_en_ligne_triggered()
         {
                 statusBar()->showMessage(QString::fromUtf8("Projet envoyé sur la centrale..."), 3000);
         }
+}
+
+void MainWindow::on_pushButton_clicked()
+{
+        ShowPage(PAGE_PROG);
 }

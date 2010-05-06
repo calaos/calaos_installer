@@ -244,6 +244,7 @@ class MainWindow : public QMainWindow
                 void wagoError(int error);
 
         private slots:
+                void on_pushButton_clicked();
                 void on_actionSauvegarder_un_projet_en_ligne_triggered();
                 void on_actionOuvrir_un_projet_en_ligne_triggered();
                 void on_actionSe_d_connecter_triggered();

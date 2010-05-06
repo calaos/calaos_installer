@@ -59,5 +59,6 @@
         <file>img/rooms/various_small.png</file>
         <file>img/go-first.png</file>
         <file>img/loader.gif</file>
+        <file>img/go-previous.png</file>
     </qresource>
 </RCC>
