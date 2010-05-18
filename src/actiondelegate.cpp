@@ -11,7 +11,10 @@ QWidget *ActionDelegate::createEditor(QWidget *parent, const QStyleOptionViewIte
         {
                 IOEditorSelection *object = new IOEditorSelection(parent);
 
-                connect(object->getButton(), SIGNAL(clicked()), this, SLOT(editMoreClick()));
+                QSignalMapper *sig = new QSignalMapper((QObject *)this);
+                connect(object->getButton(), SIGNAL(clicked()), sig, SLOT(map()));
+                sig->setMapping(object->getButton(), (QWidget *)object);
+                connect(sig, SIGNAL(mapped(QWidget *)), this, SLOT(editMoreClick(QWidget *)));
 
                 string type = output->get_param("type");
 
@@ -238,25 +241,44 @@ void ActionDelegate::setModelData(QWidget *editor, QAbstractItemModel *model, co
                 string value;
                 int current = object->getComboBox()->currentIndex();
 
-                if (object->getComboBox()->isEditable() && current > -1 &&
-                    object->getComboBox()->itemData(current).isNull())
+                if (object->other_output)
                 {
-                        value = object->getComboBox()->lineEdit()->text().toLocal8Bit().constData();
+                        string var_id = object->other_output->get_param("id");
+                        value = ListeRoom::Instance().get_output(var_id)->get_param("name");
+                        model->setData(index, QString::fromUtf8(value.c_str()), Qt::DisplayRole);
+                        action->get_params_var().Add(output->get_param("id"), var_id);
                 }
                 else
                 {
-                        value = object->getComboBox()->itemData(current).toString().toLocal8Bit().constData();
-                }
+                        if (object->getComboBox()->isEditable() && current > -1 &&
+                            object->getComboBox()->itemData(current).isNull())
+                        {
+                                value = object->getComboBox()->lineEdit()->text().toLocal8Bit().constData();
+                        }
+                        else
+                        {
+                                value = object->getComboBox()->itemData(current).toString().toLocal8Bit().constData();
+                        }
 
-                model->setData(index, QString::fromUtf8(value.c_str()), Qt::DisplayRole);
-                action->get_params().Add(output->get_param("id"), value);
+                        model->setData(index, QString::fromUtf8(value.c_str()), Qt::DisplayRole);
+                        action->get_params().Add(output->get_param("id"), value);
+                        action->get_params_var().Delete(output->get_param("id"));
+                }
         }
 }
 
-void ActionDelegate::editMoreClick()
+void ActionDelegate::editMoreClick(QWidget *editor)
 {
         DialogIOList dio(NULL, output);
-        dio.exec();
+
+        if (dio.exec() == QDialog::Accepted)
+        {
+                IOEditorSelection *object = dynamic_cast<IOEditorSelection *>(editor);
+                object->other_output = dio.getOutput();
+
+                emit commitData(editor);
+                emit closeEditor(editor);
+        }
 }
 
 //void ActionDelegate::updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &/*index*/) const

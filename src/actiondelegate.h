@@ -26,7 +26,7 @@ class ActionDelegate : public QStyledItemDelegate
 //                void updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index) const;
 
         private slots:
-                void editMoreClick();
+                void editMoreClick(QWidget *editor);
 
         private:
                 Action *action;

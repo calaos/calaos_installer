@@ -673,7 +673,16 @@ QTreeWidgetItem *MainWindow::addItemCondition(Condition *condition, Input *input
         {
                 string var_id = condition->get_params_var().get_param(input->get_param("id"));
                 Input *in = ListeRoom::Instance().get_input(var_id);
-                value = in->get_param("name");
+                if (in)
+                {
+                        value = in->get_param("name");
+                }
+                else
+                {
+                        /* Wrong param_var, remove it */
+                        value = condition->get_params().get_param(input->get_param("id"));
+                        condition->get_params_var().Delete(input->get_param("id"));
+                }
         }
         else
                 value = condition->get_params().get_param(input->get_param("id"));
@@ -716,7 +725,16 @@ QTreeWidgetItem *MainWindow::addItemAction(Action *action, Output *output, bool 
         {
                 string var_id = action->get_params_var().get_param(output->get_param("id"));
                 Output *out = ListeRoom::Instance().get_output(var_id);
-                value = out->get_param("name");
+                if (out)
+                {
+                        value = out->get_param("name");
+                }
+                else
+                {
+                        /* wrong param_var, remove it */
+                        value = action->get_params().get_param(output->get_param("id"));
+                        action->get_params_var().Delete(output->get_param("id"));
+                }
         }
         else
                 value = action->get_params().get_param(output->get_param("id"));

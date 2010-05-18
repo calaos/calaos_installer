@@ -4,6 +4,7 @@
 #include <QDialog>
 #include <IOBase.h>
 #include <ListeRoom.h>
+#include <qtreewidget_addition.h>
 
 using namespace Calaos;
 
@@ -19,6 +20,9 @@ class DialogIOList : public QDialog
         public:
                 DialogIOList(Input *input = NULL, Output *output = NULL, QWidget *parent = NULL);
                 ~DialogIOList();
+
+                Input *getInput();
+                Output *getOutput();
 
         protected:
                 void changeEvent(QEvent *e);

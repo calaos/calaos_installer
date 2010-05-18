@@ -3,6 +3,9 @@
 
 #include <QtGui>
 #include <QHBoxLayout>
+#include <IOBase.h>
+
+using namespace Calaos;
 
 class IOEditorSelection : public QFrame
 {
@@ -11,6 +14,9 @@ class IOEditorSelection : public QFrame
 
                 QComboBox *getComboBox() { return combobox; }
                 QPushButton *getButton() { return button; }
+
+                Input *other_input;
+                Output *other_output;
 
         private:
                 QComboBox *combobox;

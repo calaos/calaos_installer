@@ -1,10 +1,10 @@
 #include "dialogiolist.h"
 #include "ui_dialogiolist.h"
 
-DialogIOList::DialogIOList(Input *in, Output *out, QWidget *parent) :
+DialogIOList::DialogIOList(Input *_in, Output *_out, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::DialogIOList),
-    input(in), output(out)
+    input(_in), output(_out)
 {
         ui->setupUi(this);
 
@@ -18,7 +18,7 @@ DialogIOList::DialogIOList(Input *in, Output *out, QWidget *parent) :
 
                         if (in->get_type() == input->get_type())
                         {
-                                QTreeWidgetItem *item = new QTreeWidgetItem(ui->treeWidget);
+                                QTreeWidgetItemInput *item = new QTreeWidgetItemInput(in, ui->treeWidget);
 
                                 item->setData(0, Qt::DisplayRole, QString::fromUtf8(in->get_param("type").c_str()));
                                 item->setData(1, Qt::DisplayRole, QString::fromUtf8(in->get_param("name").c_str()));
@@ -38,7 +38,7 @@ DialogIOList::DialogIOList(Input *in, Output *out, QWidget *parent) :
 
                         if (out->get_type() == output->get_type())
                         {
-                                QTreeWidgetItem *item = new QTreeWidgetItem(ui->treeWidget);
+                                QTreeWidgetItemOutput *item = new QTreeWidgetItemOutput(out, ui->treeWidget);
 
                                 item->setData(0, Qt::DisplayRole, QString::fromUtf8(out->get_param("type").c_str()));
                                 item->setData(1, Qt::DisplayRole, QString::fromUtf8(out->get_param("name").c_str()));
@@ -53,6 +53,24 @@ DialogIOList::DialogIOList(Input *in, Output *out, QWidget *parent) :
 DialogIOList::~DialogIOList()
 {
         delete ui;
+}
+
+Input *DialogIOList::getInput()
+{
+        QTreeWidgetItemInput *item = dynamic_cast<QTreeWidgetItemInput *>(ui->treeWidget->currentItem());
+        if (item)
+                return item->getInput();
+
+        return NULL;
+}
+
+Output *DialogIOList::getOutput()
+{
+        QTreeWidgetItemOutput *item = dynamic_cast<QTreeWidgetItemOutput *>(ui->treeWidget->currentItem());
+        if (item)
+                return item->getOutput();
+
+        return NULL;
 }
 
 void DialogIOList::changeEvent(QEvent *e)

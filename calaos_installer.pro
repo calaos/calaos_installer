@@ -89,7 +89,8 @@ HEADERS += src/mainwindow.h \
     src/qanimationlabel.h \
     src/dialogsaveonline.h \
     src/formpost.h \
-    src/dialogiolist.h
+    src/dialogiolist.h \
+    src/qtreewidget_addition.h
 FORMS += data/mainwindow.ui \
     data/dialognewroom.ui \
     data/dialognewwago.ui \
