@@ -148,6 +148,12 @@ void WagoConnect::mainTick()
 
         cout << "mainTick(): send: " << current_cmd.command.toLocal8Bit().data() << endl;
 
+        if (wago_ip.isEmpty())
+        {
+                cout << "mainTick(): wago_ip is empty !" << endl;
+                return;
+        }
+
         QByteArray datagram(current_cmd.command.toLocal8Bit().data());
         udpSocket->writeDatagram(datagram.data(), datagram.size(),
                               QHostAddress(wago_ip), WAGO_LISTEN_PORT);

@@ -1,352 +1,126 @@
 <!DOCTYPE QtCreatorProject>
 <qtcreator>
  <data>
-  <variable>RunConfiguration0-BaseEnvironmentBase</variable>
-  <value type="int">2</value>
+  <variable>ProjectExplorer.Project.ActiveTarget</variable>
+  <value type="int">0</value>
  </data>
  <data>
-  <variable>RunConfiguration0-CommandLineArguments</variable>
-  <valuelist type="QVariantList"/>
+  <variable>ProjectExplorer.Project.EditorSettings</variable>
+  <valuemap type="QVariantMap">
+   <value key="EditorConfiguration.Codec" type="QByteArray">System</value>
+  </valuemap>
  </data>
  <data>
-  <variable>RunConfiguration0-ProFile</variable>
-  <value type="QString">calaos_installer.pro</value>
+  <variable>ProjectExplorer.Project.Target.0</variable>
+  <valuemap type="QVariantMap">
+   <value key="ProjectExplorer.ProjectConfiguration.DisplayName" type="QString">Desktop</value>
+   <value key="ProjectExplorer.ProjectConfiguration.Id" type="QString">Qt4ProjectManager.Target.DesktopTarget</value>
+   <value key="ProjectExplorer.Target.ActiveBuildConfiguration" type="int">0</value>
+   <value key="ProjectExplorer.Target.ActiveRunConfiguration" type="int">1</value>
+   <valuemap key="ProjectExplorer.Target.BuildConfiguration.0" type="QVariantMap">
+    <valuemap key="ProjectExplorer.BuildConfiguration.BuildStep.0" type="QVariantMap">
+     <value key="ProjectExplorer.ProjectConfiguration.DisplayName" type="QString"></value>
+     <value key="ProjectExplorer.ProjectConfiguration.Id" type="QString">QtProjectManager.QMakeBuildStep</value>
+     <valuelist key="QtProjectManager.QMakeBuildStep.QMakeArguments" type="QVariantList"/>
+    </valuemap>
+    <valuemap key="ProjectExplorer.BuildConfiguration.BuildStep.1" type="QVariantMap">
+     <value key="ProjectExplorer.ProjectConfiguration.DisplayName" type="QString"></value>
+     <value key="ProjectExplorer.ProjectConfiguration.Id" type="QString">Qt4ProjectManager.MakeStep</value>
+     <value key="Qt4ProjectManager.MakeStep.Clean" type="bool">false</value>
+     <valuelist key="Qt4ProjectManager.MakeStep.MakeArguments" type="QVariantList"/>
+     <value key="Qt4ProjectManager.MakeStep.MakeCommand" type="QString"></value>
+    </valuemap>
+    <value key="ProjectExplorer.BuildConfiguration.BuildStepsCount" type="int">2</value>
+    <valuemap key="ProjectExplorer.BuildConfiguration.CleanStep.0" type="QVariantMap">
+     <value key="ProjectExplorer.ProjectConfiguration.DisplayName" type="QString"></value>
+     <value key="ProjectExplorer.ProjectConfiguration.Id" type="QString">Qt4ProjectManager.MakeStep</value>
+     <value key="Qt4ProjectManager.MakeStep.Clean" type="bool">true</value>
+     <valuelist key="Qt4ProjectManager.MakeStep.MakeArguments" type="QVariantList">
+      <value type="QString">clean</value>
+     </valuelist>
+     <value key="Qt4ProjectManager.MakeStep.MakeCommand" type="QString"></value>
+    </valuemap>
+    <value key="ProjectExplorer.BuildConfiguration.CleanStepsCount" type="int">1</value>
+    <value key="ProjectExplorer.BuildConfiguration.ClearSystemEnvironment" type="bool">false</value>
+    <valuelist key="ProjectExplorer.BuildConfiguration.UserEnvironmentChanges" type="QVariantList"/>
+    <value key="ProjectExplorer.ProjectConfiguration.DisplayName" type="QString">Debug</value>
+    <value key="ProjectExplorer.ProjectConfiguration.Id" type="QString">Qt4ProjectManager.Qt4BuildConfiguration</value>
+    <value key="Qt4ProjectManager.Qt4BuildConfiguration.BuildConfiguration" type="int">2</value>
+    <value key="Qt4ProjectManager.Qt4BuildConfiguration.BuildDirectory" type="QString">/home/raoul/Domotique/calaos-svn/calaos_installer</value>
+    <value key="Qt4ProjectManager.Qt4BuildConfiguration.QtVersionId" type="int">2</value>
+    <value key="Qt4ProjectManager.Qt4BuildConfiguration.ToolChain" type="int">0</value>
+    <value key="Qt4ProjectManager.Qt4BuildConfiguration.UseShadowBuild" type="bool">true</value>
+   </valuemap>
+   <valuemap key="ProjectExplorer.Target.BuildConfiguration.1" type="QVariantMap">
+    <valuemap key="ProjectExplorer.BuildConfiguration.BuildStep.0" type="QVariantMap">
+     <value key="ProjectExplorer.ProjectConfiguration.DisplayName" type="QString"></value>
+     <value key="ProjectExplorer.ProjectConfiguration.Id" type="QString">QtProjectManager.QMakeBuildStep</value>
+     <valuelist key="QtProjectManager.QMakeBuildStep.QMakeArguments" type="QVariantList"/>
+    </valuemap>
+    <valuemap key="ProjectExplorer.BuildConfiguration.BuildStep.1" type="QVariantMap">
+     <value key="ProjectExplorer.ProjectConfiguration.DisplayName" type="QString"></value>
+     <value key="ProjectExplorer.ProjectConfiguration.Id" type="QString">Qt4ProjectManager.MakeStep</value>
+     <value key="Qt4ProjectManager.MakeStep.Clean" type="bool">false</value>
+     <valuelist key="Qt4ProjectManager.MakeStep.MakeArguments" type="QVariantList"/>
+     <value key="Qt4ProjectManager.MakeStep.MakeCommand" type="QString"></value>
+    </valuemap>
+    <value key="ProjectExplorer.BuildConfiguration.BuildStepsCount" type="int">2</value>
+    <valuemap key="ProjectExplorer.BuildConfiguration.CleanStep.0" type="QVariantMap">
+     <value key="ProjectExplorer.ProjectConfiguration.DisplayName" type="QString"></value>
+     <value key="ProjectExplorer.ProjectConfiguration.Id" type="QString">Qt4ProjectManager.MakeStep</value>
+     <value key="Qt4ProjectManager.MakeStep.Clean" type="bool">true</value>
+     <valuelist key="Qt4ProjectManager.MakeStep.MakeArguments" type="QVariantList"/>
+     <value key="Qt4ProjectManager.MakeStep.MakeCommand" type="QString"></value>
+    </valuemap>
+    <value key="ProjectExplorer.BuildConfiguration.CleanStepsCount" type="int">1</value>
+    <value key="ProjectExplorer.BuildConfiguration.ClearSystemEnvironment" type="bool">false</value>
+    <valuelist key="ProjectExplorer.BuildConfiguration.UserEnvironmentChanges" type="QVariantList"/>
+    <value key="ProjectExplorer.ProjectConfiguration.DisplayName" type="QString">Release</value>
+    <value key="ProjectExplorer.ProjectConfiguration.Id" type="QString">Qt4ProjectManager.Qt4BuildConfiguration</value>
+    <value key="Qt4ProjectManager.Qt4BuildConfiguration.BuildConfiguration" type="int">0</value>
+    <value key="Qt4ProjectManager.Qt4BuildConfiguration.BuildDirectory" type="QString">/home/raoul/Domotique/calaos-svn/calaos_installer-build-desktop</value>
+    <value key="Qt4ProjectManager.Qt4BuildConfiguration.QtVersionId" type="int">2</value>
+    <value key="Qt4ProjectManager.Qt4BuildConfiguration.ToolChain" type="int">0</value>
+    <value key="Qt4ProjectManager.Qt4BuildConfiguration.UseShadowBuild" type="bool">true</value>
+   </valuemap>
+   <value key="ProjectExplorer.Target.BuildConfigurationCount" type="int">2</value>
+   <valuemap key="ProjectExplorer.Target.RunConfiguration.0" type="QVariantMap">
+    <value key="ProjectExplorer.ProjectConfiguration.DisplayName" type="QString">calaos_installer</value>
+    <value key="ProjectExplorer.ProjectConfiguration.Id" type="QString">Qt4ProjectManager.Qt4RunConfiguration</value>
+    <value key="Qt4ProjectManager.Qt4RunConfiguration.BaseEnvironmentBase" type="int">2</value>
+    <valuelist key="Qt4ProjectManager.Qt4RunConfiguration.CommandLineArguments" type="QVariantList"/>
+    <value key="Qt4ProjectManager.Qt4RunConfiguration.ProFile" type="QString">calaos_installer.pro</value>
+    <value key="Qt4ProjectManager.Qt4RunConfiguration.UseDyldImageSuffix" type="bool">false</value>
+    <value key="Qt4ProjectManager.Qt4RunConfiguration.UseTerminal" type="bool">false</value>
+    <valuelist key="Qt4ProjectManager.Qt4RunConfiguration.UserEnvironmentChanges" type="QVariantList"/>
+    <value key="Qt4ProjectManager.Qt4RunConfiguration.UserSetName" type="bool">false</value>
+    <value key="Qt4ProjectManager.Qt4RunConfiguration.UserSetWorkingDirectory" type="bool">false</value>
+    <value key="Qt4ProjectManager.Qt4RunConfiguration.UserWorkingDirectory" type="QString"></value>
+   </valuemap>
+   <valuemap key="ProjectExplorer.Target.RunConfiguration.1" type="QVariantMap">
+    <value key="ProjectExplorer.ProjectConfiguration.DisplayName" type="QString">calaos_installer args</value>
+    <value key="ProjectExplorer.ProjectConfiguration.Id" type="QString">Qt4ProjectManager.Qt4RunConfiguration</value>
+    <value key="Qt4ProjectManager.Qt4RunConfiguration.BaseEnvironmentBase" type="int">2</value>
+    <valuelist key="Qt4ProjectManager.Qt4RunConfiguration.CommandLineArguments" type="QVariantList">
+     <value type="QString">tests/test_knx</value>
+    </valuelist>
+    <value key="Qt4ProjectManager.Qt4RunConfiguration.ProFile" type="QString">calaos_installer.pro</value>
+    <value key="Qt4ProjectManager.Qt4RunConfiguration.UseDyldImageSuffix" type="bool">false</value>
+    <value key="Qt4ProjectManager.Qt4RunConfiguration.UseTerminal" type="bool">false</value>
+    <valuelist key="Qt4ProjectManager.Qt4RunConfiguration.UserEnvironmentChanges" type="QVariantList"/>
+    <value key="Qt4ProjectManager.Qt4RunConfiguration.UserSetName" type="bool">true</value>
+    <value key="Qt4ProjectManager.Qt4RunConfiguration.UserSetWorkingDirectory" type="bool">false</value>
+    <value key="Qt4ProjectManager.Qt4RunConfiguration.UserWorkingDirectory" type="QString"></value>
+   </valuemap>
+   <value key="ProjectExplorer.Target.RunConfigurationCount" type="int">2</value>
+  </valuemap>
  </data>
  <data>
-  <variable>RunConfiguration0-RunConfiguration.name</variable>
-  <value type="QString">calaos_installer</value>
- </data>
- <data>
-  <variable>RunConfiguration0-UseDyldImageSuffix</variable>
-  <value type="bool">false</value>
- </data>
- <data>
-  <variable>RunConfiguration0-UseTerminal</variable>
-  <value type="bool">false</value>
- </data>
- <data>
-  <variable>RunConfiguration0-UserEnvironmentChanges</variable>
-  <valuelist type="QVariantList"/>
- </data>
- <data>
-  <variable>RunConfiguration0-UserSetName</variable>
-  <value type="bool">false</value>
- </data>
- <data>
-  <variable>RunConfiguration0-UserSetWorkingDirectory</variable>
-  <value type="bool">false</value>
- </data>
- <data>
-  <variable>RunConfiguration0-UserWorkingDirectory</variable>
-  <value type="QString"></value>
- </data>
- <data>
-  <variable>RunConfiguration0-type</variable>
-  <value type="QString">Qt4ProjectManager.Qt4RunConfiguration</value>
- </data>
- <data>
-  <variable>RunConfiguration1-BaseEnvironmentBase</variable>
-  <value type="int">2</value>
- </data>
- <data>
-  <variable>RunConfiguration1-CommandLineArguments</variable>
-  <valuelist type="QVariantList">
-   <value type="QString">tests/test_knx</value>
-  </valuelist>
- </data>
- <data>
-  <variable>RunConfiguration1-ProFile</variable>
-  <value type="QString">calaos_installer.pro</value>
- </data>
- <data>
-  <variable>RunConfiguration1-RunConfiguration.name</variable>
-  <value type="QString">calaos_installer args</value>
- </data>
- <data>
-  <variable>RunConfiguration1-UseDyldImageSuffix</variable>
-  <value type="bool">false</value>
- </data>
- <data>
-  <variable>RunConfiguration1-UseTerminal</variable>
-  <value type="bool">false</value>
- </data>
- <data>
-  <variable>RunConfiguration1-UserEnvironmentChanges</variable>
-  <valuelist type="QVariantList"/>
- </data>
- <data>
-  <variable>RunConfiguration1-UserSetName</variable>
-  <value type="bool">true</value>
- </data>
- <data>
-  <variable>RunConfiguration1-UserSetWorkingDirectory</variable>
-  <value type="bool">false</value>
- </data>
- <data>
-  <variable>RunConfiguration1-UserWorkingDirectory</variable>
-  <value type="QString"></value>
- </data>
- <data>
-  <variable>RunConfiguration1-type</variable>
-  <value type="QString">Qt4ProjectManager.Qt4RunConfiguration</value>
- </data>
- <data>
-  <variable>activeRunConfiguration</variable>
+  <variable>ProjectExplorer.Project.TargetCount</variable>
   <value type="int">1</value>
  </data>
  <data>
-  <variable>activebuildconfiguration</variable>
-  <value type="QString">Debug</value>
- </data>
- <data>
-  <variable>buildConfiguration-Debug</variable>
-  <valuemap type="QVariantMap">
-   <value key="ProjectExplorer.BuildConfiguration.DisplayName" type="QString">Debug</value>
-   <value key="QtVersionId" type="int">0</value>
-   <value key="ToolChain" type="int">0</value>
-   <value key="addQDumper" type=""></value>
-   <value key="buildConfiguration" type="int">2</value>
-   <value key="buildDirectory" type="QString">/home/raoul/Domotique/calaos-svn/calaos_installer</value>
-  </valuemap>
- </data>
- <data>
-  <variable>buildConfiguration-Release</variable>
-  <valuemap type="QVariantMap">
-   <value key="ProjectExplorer.BuildConfiguration.DisplayName" type="QString">Release</value>
-   <value key="QtVersionId" type="int">0</value>
-   <value key="addQDumper" type=""></value>
-   <value key="buildConfiguration" type="int">0</value>
-  </valuemap>
- </data>
- <data>
-  <variable>buildconfiguration-Debug-buildstep0</variable>
-  <valuemap type="QVariantMap">
-   <value key="ProjectExplorer.BuildConfiguration.DisplayName" type="QString">Debug</value>
-   <valuelist key="abstractProcess.Environment" type="QVariantList">
-    <value type="QString">DBUS_SESSION_BUS_ADDRESS=unix:abstract=/tmp/dbus-haA6GpgAWq,guid=6bf8a2eeec722dc1051536a04bdeab6c</value>
-    <value type="QString">DESKTOP_SESSION=kde</value>
-    <value type="QString">DISPLAY=:0.0</value>
-    <value type="QString">GDMSESSION=kde</value>
-    <value type="QString">GDM_KEYBOARD_LAYOUT=fr	oss</value>
-    <value type="QString">GDM_LANG=fr_FR.UTF-8</value>
-    <value type="QString">GNOME_KEYRING_PID=2443</value>
-    <value type="QString">GNOME_KEYRING_SOCKET=/tmp/keyring-XmHbVn/socket</value>
-    <value type="QString">GS_LIB=/home/raoul/.fonts</value>
-    <value type="QString">GTK2_RC_FILES=/etc/gtk-2.0/gtkrc:/home/raoul/.gtkrc-2.0:/home/raoul/.gtkrc-2.0-kde4:/home/raoul/.kde/share/config/gtkrc-2.0</value>
-    <value type="QString">GTK_MODULES=canberra-gtk-module</value>
-    <value type="QString">GTK_RC_FILES=/etc/gtk/gtkrc:/home/raoul/.gtkrc::/home/raoul/.kde/share/config/gtkrc</value>
-    <value type="QString">HOME=/home/raoul</value>
-    <value type="QString">KDE_FULL_SESSION=true</value>
-    <value type="QString">KDE_MULTIHEAD=false</value>
-    <value type="QString">KDE_SESSION_UID=1000</value>
-    <value type="QString">KDE_SESSION_VERSION=4</value>
-    <value type="QString">LANG=fr_FR.UTF-8</value>
-    <value type="QString">LANGUAGE=fr_FR.UTF-8</value>
-    <value type="QString">LD_LIBRARY_PATH=/home/raoul/qtcreator-1.3.0/lib/qtcreator:</value>
-    <value type="QString">LOGNAME=raoul</value>
-    <value type="QString">PATH=/usr/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games</value>
-    <value type="QString">PWD=/home/raoul</value>
-    <value type="QString">QTDIR=/usr/share/qt4</value>
-    <value type="QString">QT_PLUGIN_PATH=/home/raoul/.kde/lib/kde4/plugins/:/usr/lib/kde4/plugins/</value>
-    <value type="QString">SESSION_MANAGER=local/raoul-office:@/tmp/.ICE-unix/2612,unix/raoul-office:/tmp/.ICE-unix/2612</value>
-    <value type="QString">SHELL=/bin/bash</value>
-    <value type="QString">SHLVL=1</value>
-    <value type="QString">SPEECHD_PORT=7560</value>
-    <value type="QString">SSH_AGENT_PID=2531</value>
-    <value type="QString">SSH_AUTH_SOCK=/tmp/ssh-octCkt2458/agent.2458</value>
-    <value type="QString">USER=raoul</value>
-    <value type="QString">USERNAME=raoul</value>
-    <value type="QString">XAUTHORITY=/var/run/gdm/auth-for-raoul-tir0eQ/database</value>
-    <value type="QString">XCURSOR_THEME=oxy-white</value>
-    <value type="QString">XDG_DATA_DIRS=/usr/share:/usr/share:/usr/local/share</value>
-    <value type="QString">XDG_SESSION_COOKIE=4f34fe61b66df2a5da7777ff49f71165-1272884076.175930-1030428053</value>
-   </valuelist>
-   <valuelist key="abstractProcess.arguments" type="QVariantList">
-    <value type="QString">/home/raoul/Domotique/calaos-svn/calaos_installer/calaos_installer.pro</value>
-    <value type="QString">-spec</value>
-    <value type="QString">linux-g++</value>
-    <value type="QString">-r</value>
-    <value type="QString">CONFIG+=debug</value>
-   </valuelist>
-   <value key="abstractProcess.command" type="QString">/usr/bin/qmake-qt4</value>
-   <value key="abstractProcess.enabled" type="bool">false</value>
-   <value key="abstractProcess.workingDirectory" type="QString">/home/raoul/Domotique/calaos-svn/calaos_installer</value>
-   <value key="buildConfiguration" type=""></value>
-  </valuemap>
- </data>
- <data>
-  <variable>buildconfiguration-Debug-buildstep1</variable>
-  <valuemap type="QVariantMap">
-   <value key="ProjectExplorer.BuildConfiguration.DisplayName" type="QString">Debug</value>
-   <valuelist key="abstractProcess.Environment" type="QVariantList">
-    <value type="QString">DBUS_SESSION_BUS_ADDRESS=unix:abstract=/tmp/dbus-haA6GpgAWq,guid=6bf8a2eeec722dc1051536a04bdeab6c</value>
-    <value type="QString">DESKTOP_SESSION=kde</value>
-    <value type="QString">DISPLAY=:0.0</value>
-    <value type="QString">GDMSESSION=kde</value>
-    <value type="QString">GDM_KEYBOARD_LAYOUT=fr	oss</value>
-    <value type="QString">GDM_LANG=fr_FR.UTF-8</value>
-    <value type="QString">GNOME_KEYRING_PID=2443</value>
-    <value type="QString">GNOME_KEYRING_SOCKET=/tmp/keyring-XmHbVn/socket</value>
-    <value type="QString">GS_LIB=/home/raoul/.fonts</value>
-    <value type="QString">GTK2_RC_FILES=/etc/gtk-2.0/gtkrc:/home/raoul/.gtkrc-2.0:/home/raoul/.gtkrc-2.0-kde4:/home/raoul/.kde/share/config/gtkrc-2.0</value>
-    <value type="QString">GTK_MODULES=canberra-gtk-module</value>
-    <value type="QString">GTK_RC_FILES=/etc/gtk/gtkrc:/home/raoul/.gtkrc::/home/raoul/.kde/share/config/gtkrc</value>
-    <value type="QString">HOME=/home/raoul</value>
-    <value type="QString">KDE_FULL_SESSION=true</value>
-    <value type="QString">KDE_MULTIHEAD=false</value>
-    <value type="QString">KDE_SESSION_UID=1000</value>
-    <value type="QString">KDE_SESSION_VERSION=4</value>
-    <value type="QString">LANG=fr_FR.UTF-8</value>
-    <value type="QString">LANGUAGE=fr_FR.UTF-8</value>
-    <value type="QString">LD_LIBRARY_PATH=/home/raoul/qtcreator-1.3.0/lib/qtcreator:</value>
-    <value type="QString">LOGNAME=raoul</value>
-    <value type="QString">PATH=/usr/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games</value>
-    <value type="QString">PWD=/home/raoul</value>
-    <value type="QString">QTDIR=/usr/share/qt4</value>
-    <value type="QString">QT_PLUGIN_PATH=/home/raoul/.kde/lib/kde4/plugins/:/usr/lib/kde4/plugins/</value>
-    <value type="QString">SESSION_MANAGER=local/raoul-office:@/tmp/.ICE-unix/2612,unix/raoul-office:/tmp/.ICE-unix/2612</value>
-    <value type="QString">SHELL=/bin/bash</value>
-    <value type="QString">SHLVL=1</value>
-    <value type="QString">SPEECHD_PORT=7560</value>
-    <value type="QString">SSH_AGENT_PID=2531</value>
-    <value type="QString">SSH_AUTH_SOCK=/tmp/ssh-octCkt2458/agent.2458</value>
-    <value type="QString">USER=raoul</value>
-    <value type="QString">USERNAME=raoul</value>
-    <value type="QString">XAUTHORITY=/var/run/gdm/auth-for-raoul-tir0eQ/database</value>
-    <value type="QString">XCURSOR_THEME=oxy-white</value>
-    <value type="QString">XDG_DATA_DIRS=/usr/share:/usr/share:/usr/local/share</value>
-    <value type="QString">XDG_SESSION_COOKIE=4f34fe61b66df2a5da7777ff49f71165-1272884076.175930-1030428053</value>
-   </valuelist>
-   <value key="abstractProcess.IgnoreReturnValue" type="bool">false</value>
-   <valuelist key="abstractProcess.arguments" type="QVariantList">
-    <value type="QString">-w</value>
-   </valuelist>
-   <value key="abstractProcess.command" type="QString">/usr/bin/make</value>
-   <value key="abstractProcess.enabled" type="bool">true</value>
-   <value key="abstractProcess.workingDirectory" type="QString">/home/raoul/Domotique/calaos-svn/calaos_installer</value>
-  </valuemap>
- </data>
- <data>
-  <variable>buildconfiguration-Debug-cleanstep0</variable>
-  <valuemap type="QVariantMap">
-   <value key="ProjectExplorer.BuildConfiguration.DisplayName" type="QString">Debug</value>
-   <valuelist key="abstractProcess.Environment" type="QVariantList">
-    <value type="QString">DBUS_SESSION_BUS_ADDRESS=unix:abstract=/tmp/dbus-ogS5XHSXkN,guid=eff486fa335c3224214a580b4bc327cf</value>
-    <value type="QString">DESKTOP_SESSION=kde</value>
-    <value type="QString">DISPLAY=:0.0</value>
-    <value type="QString">GDMSESSION=kde</value>
-    <value type="QString">GDM_KEYBOARD_LAYOUT=fr	oss</value>
-    <value type="QString">GDM_LANG=fr_FR.UTF-8</value>
-    <value type="QString">GNOME_KEYRING_PID=2433</value>
-    <value type="QString">GNOME_KEYRING_SOCKET=/tmp/keyring-iCMRky/socket</value>
-    <value type="QString">GS_LIB=/home/raoul/.fonts</value>
-    <value type="QString">GTK2_RC_FILES=/etc/gtk-2.0/gtkrc:/home/raoul/.gtkrc-2.0:/home/raoul/.gtkrc-2.0-kde4:/home/raoul/.kde/share/config/gtkrc-2.0</value>
-    <value type="QString">GTK_MODULES=canberra-gtk-module</value>
-    <value type="QString">GTK_RC_FILES=/etc/gtk/gtkrc:/home/raoul/.gtkrc::/home/raoul/.kde/share/config/gtkrc</value>
-    <value type="QString">HOME=/home/raoul</value>
-    <value type="QString">KDE_FULL_SESSION=true</value>
-    <value type="QString">KDE_MULTIHEAD=false</value>
-    <value type="QString">KDE_SESSION_UID=1000</value>
-    <value type="QString">KDE_SESSION_VERSION=4</value>
-    <value type="QString">LANG=fr_FR.UTF-8</value>
-    <value type="QString">LANGUAGE=fr_FR.UTF-8</value>
-    <value type="QString">LD_LIBRARY_PATH=/home/raoul/qtcreator-1.3.0/lib/qtcreator:</value>
-    <value type="QString">LOGNAME=raoul</value>
-    <value type="QString">PATH=/usr/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games</value>
-    <value type="QString">PWD=/home/raoul</value>
-    <value type="QString">QTDIR=/usr/share/qt4</value>
-    <value type="QString">QT_PLUGIN_PATH=/home/raoul/.kde/lib/kde4/plugins/:/usr/lib/kde4/plugins/</value>
-    <value type="QString">SESSION_MANAGER=local/raoul-office:@/tmp/.ICE-unix/2600,unix/raoul-office:/tmp/.ICE-unix/2600</value>
-    <value type="QString">SHELL=/bin/bash</value>
-    <value type="QString">SPEECHD_PORT=7560</value>
-    <value type="QString">SSH_AGENT_PID=2516</value>
-    <value type="QString">SSH_AUTH_SOCK=/tmp/ssh-MvPbSA2448/agent.2448</value>
-    <value type="QString">USER=raoul</value>
-    <value type="QString">USERNAME=raoul</value>
-    <value type="QString">XAUTHORITY=/var/run/gdm/auth-for-raoul-waktwM/database</value>
-    <value type="QString">XCURSOR_THEME=oxy-white</value>
-    <value type="QString">XDG_DATA_DIRS=/usr/share:/usr/share:/usr/local/share</value>
-    <value type="QString">XDG_SESSION_COOKIE=4f34fe61b66df2a5da7777ff49f71165-1271080911.365196-1157570355</value>
-   </valuelist>
-   <value key="abstractProcess.IgnoreReturnValue" type="bool">true</value>
-   <valuelist key="abstractProcess.arguments" type="QVariantList">
-    <value type="QString">clean</value>
-    <value type="QString">-w</value>
-   </valuelist>
-   <value key="abstractProcess.command" type="QString">/usr/bin/make</value>
-   <value key="abstractProcess.enabled" type="bool">true</value>
-   <value key="abstractProcess.workingDirectory" type="QString">/home/raoul/Domotique/calaos-svn/calaos_installer</value>
-   <value key="cleanConfig" type="bool">true</value>
-   <valuelist key="makeargs" type="QVariantList">
-    <value type="QString">clean</value>
-   </valuelist>
-  </valuemap>
- </data>
- <data>
-  <variable>buildconfiguration-Release-buildstep0</variable>
-  <valuemap type="QVariantMap">
-   <value key="ProjectExplorer.BuildConfiguration.DisplayName" type="QString">Release</value>
-   <value key="buildConfiguration" type=""></value>
-  </valuemap>
- </data>
- <data>
-  <variable>buildconfiguration-Release-buildstep1</variable>
-  <valuemap type="QVariantMap">
-   <value key="ProjectExplorer.BuildConfiguration.DisplayName" type="QString">Release</value>
-  </valuemap>
- </data>
- <data>
-  <variable>buildconfiguration-Release-cleanstep0</variable>
-  <valuemap type="QVariantMap">
-   <value key="ProjectExplorer.BuildConfiguration.DisplayName" type="QString">Release</value>
-  </valuemap>
- </data>
- <data>
-  <variable>buildconfigurations</variable>
-  <valuelist type="QVariantList">
-   <value type="QString">Debug</value>
-   <value type="QString">Release</value>
-  </valuelist>
- </data>
- <data>
-  <variable>buildstep0</variable>
-  <valuemap type="QVariantMap">
-   <value key="ProjectExplorer.BuildConfiguration.DisplayName" type="QString"></value>
-   <value key="mkspec" type="QString"></value>
-  </valuemap>
- </data>
- <data>
-  <variable>buildstep1</variable>
-  <valuemap type="QVariantMap">
-   <value key="ProjectExplorer.BuildConfiguration.DisplayName" type="QString"></value>
-  </valuemap>
- </data>
- <data>
-  <variable>buildsteps</variable>
-  <valuelist type="QVariantList">
-   <value type="QString">trolltech.qt4projectmanager.qmake</value>
-   <value type="QString">trolltech.qt4projectmanager.make</value>
-  </valuelist>
- </data>
- <data>
-  <variable>cleanstep0</variable>
-  <valuemap type="QVariantMap">
-   <value key="ProjectExplorer.BuildConfiguration.DisplayName" type="QString"></value>
-   <value key="clean" type="bool">true</value>
-  </valuemap>
- </data>
- <data>
-  <variable>cleansteps</variable>
-  <valuelist type="QVariantList">
-   <value type="QString">trolltech.qt4projectmanager.make</value>
-  </valuelist>
- </data>
- <data>
-  <variable>defaultFileEncoding</variable>
-  <value type="QByteArray">System</value>
- </data>
- <data>
-  <variable>project</variable>
-  <valuemap type="QVariantMap"/>
+  <variable>ProjectExplorer.Project.Updater.FileVersion</variable>
+  <value type="int">4</value>
  </data>
 </qtcreator>

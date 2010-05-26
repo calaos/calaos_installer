@@ -25,6 +25,7 @@
 #include <dialogconnect.h>
 #include <dialogopenonline.h>
 #include <dialogsaveonline.h>
+#include <dialogioplagehoraire.h>
 
 #include <conditiondelegate.h>
 #include <actiondelegate.h>
@@ -127,6 +128,7 @@ class MainWindow : public QMainWindow
                 void itemVoletDown();
                 void itemVoletStop();
                 void itemShowCamera();
+                void itemPlagesHoraires();
 
                 void wagoConnected(QString &ip, bool proxy);
                 void wagoDisconnected();

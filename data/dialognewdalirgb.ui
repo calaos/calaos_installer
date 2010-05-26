@@ -388,7 +388,7 @@ p, li { white-space: pre-wrap; }
    <widget class="QSpinBox" name="spin_addr_green">
     <property name="geometry">
      <rect>
-      <x>193</x>
+      <x>190</x>
       <y>219</y>
       <width>60</width>
       <height>30</height>
@@ -459,7 +459,7 @@ p, li { white-space: pre-wrap; }
    <widget class="QSpinBox" name="spin_addr_blue">
     <property name="geometry">
      <rect>
-      <x>193</x>
+      <x>190</x>
       <y>289</y>
       <width>60</width>
       <height>30</height>
@@ -500,6 +500,23 @@ p, li { white-space: pre-wrap; }
    </widget>
   </widget>
  </widget>
+ <tabstops>
+  <tabstop>edit_name</tabstop>
+  <tabstop>spin_time</tabstop>
+  <tabstop>check_group_red</tabstop>
+  <tabstop>spin_addr_red</tabstop>
+  <tabstop>pushButton_red_on</tabstop>
+  <tabstop>pushButton_red_off</tabstop>
+  <tabstop>check_group_green</tabstop>
+  <tabstop>spin_addr_green</tabstop>
+  <tabstop>pushButton_green_on</tabstop>
+  <tabstop>pushButton_greenoff</tabstop>
+  <tabstop>check_group_blue</tabstop>
+  <tabstop>spin_addr_blue</tabstop>
+  <tabstop>pushButton_blue_on</tabstop>
+  <tabstop>pushButton_blue_off</tabstop>
+  <tabstop>buttonBox</tabstop>
+ </tabstops>
  <resources>
   <include location="resources.qrc"/>
  </resources>

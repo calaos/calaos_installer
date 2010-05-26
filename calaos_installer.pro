@@ -46,7 +46,9 @@ SOURCES += src/main.cpp \
     src/qanimationlabel.cpp \
     src/dialogsaveonline.cpp \
     src/formpost.cpp \
-    src/dialogiolist.cpp
+    src/dialogiolist.cpp \
+    src/dialogioplagehoraire.cpp \
+    src/dialogplageinput.cpp
 HEADERS += src/mainwindow.h \
     ../calaos_common/Utils.h \
     ../calaos_common/base64.h \
@@ -90,7 +92,9 @@ HEADERS += src/mainwindow.h \
     src/dialogsaveonline.h \
     src/formpost.h \
     src/dialogiolist.h \
-    src/qtreewidget_addition.h
+    src/qtreewidget_addition.h \
+    src/dialogioplagehoraire.h \
+    src/dialogplageinput.h
 FORMS += data/mainwindow.ui \
     data/dialognewroom.ui \
     data/dialognewwago.ui \
@@ -109,9 +113,12 @@ FORMS += data/mainwindow.ui \
     data/dialogconnect.ui \
     data/dialogopenonline.ui \
     data/dialogsaveonline.ui \
-    data/dialogiolist.ui
+    data/dialogiolist.ui \
+    data/dialogplagehoraire.ui \
+    data/dialogplageinput.ui
 RESOURCES += data/resources.qrc
 INCLUDEPATH += ../calaos_common/ \
     Calaos/ \
     src/
 DEFINES += CALAOS_INSTALLER
+OTHER_FILES += 

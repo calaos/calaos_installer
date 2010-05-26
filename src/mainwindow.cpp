@@ -892,22 +892,38 @@ void MainWindow::showPopup_tree(const QPoint point)
                                 item_menu.addSeparator();
                         }
 
-//                        if (o->get_param("type") == "WOVolet" || o->get_param("type") == "WOVoletSmart")
-//                        {
-//                                action = item_menu.addAction(QString::fromUtf8("Monter"));
-//                                action->setIcon(QIcon(":/img/icon_shutter.png"));
-//                                connect(action, SIGNAL(triggered()), this, SLOT(itemVoletUp()));
-//
-//                                action = item_menu.addAction(QString::fromUtf8("Descendre"));
-//                                action->setIcon(QIcon(":/img/icon_shutter.png"));
-//                                connect(action, SIGNAL(triggered()), this, SLOT(itemVoletDown()));
-//
-//                                action = item_menu.addAction(QString::fromUtf8("Arrêter"));
-//                                action->setIcon(QIcon(":/img/icon_shutter.png"));
-//                                connect(action, SIGNAL(triggered()), this, SLOT(itemVoletStop()));
-//
-//                                item_menu.addSeparator();
-//                        }
+
+                        if (o->get_param("type") == "WOVolet" || o->get_param("type") == "WOVoletSmart")
+                        {
+                                action = item_menu.addAction(QString::fromUtf8("Monter"));
+                                action->setIcon(QIcon(":/img/icon_shutter.png"));
+                                connect(action, SIGNAL(triggered()), this, SLOT(itemVoletUp()));
+
+                                action = item_menu.addAction(QString::fromUtf8("Descendre"));
+                                action->setIcon(QIcon(":/img/icon_shutter.png"));
+                                connect(action, SIGNAL(triggered()), this, SLOT(itemVoletDown()));
+
+                                action = item_menu.addAction(QString::fromUtf8("Arrêter"));
+                                action->setIcon(QIcon(":/img/icon_shutter.png"));
+                                connect(action, SIGNAL(triggered()), this, SLOT(itemVoletStop()));
+
+                                item_menu.addSeparator();
+                        }
+                }
+
+                QTreeWidgetItemInput *itinput = dynamic_cast<QTreeWidgetItemInput *>(treeItem);
+                if (itinput)
+                {
+                        Input *o = itinput->getInput();
+
+                        if (o->get_param("type") == "InPlageHoraire")
+                        {
+                                action = item_menu.addAction(QString::fromUtf8("Modifier les plages horaires..."));
+                                action->setIcon(QIcon(":/img/icon_clock.png"));
+                                connect(action, SIGNAL(triggered()), this, SLOT(itemPlagesHoraires()));
+
+                                item_menu.addSeparator();
+                        }
                 }
 
                 action = item_menu.addAction(QString::fromUtf8("Propriétés"));
@@ -1506,6 +1522,21 @@ void MainWindow::itemShowCamera()
                 {
                         DialogCameraView d(dynamic_cast<Camera *>(itoutput->getOutput()));
                         d.DownloadPicture();
+                        d.exec();
+                }
+        }
+}
+
+void MainWindow::itemPlagesHoraires()
+{
+        if (!treeItem) return;
+
+        QTreeWidgetItemInput *itinput = dynamic_cast<QTreeWidgetItemInput *>(treeItem);
+        if (itinput)
+        {
+                if (itinput->getInput()->get_param("type") == "InPlageHoraire")
+                {
+                        DialogPlageHoraire d(dynamic_cast<InPlageHoraire *>(itinput->getInput()));
                         d.exec();
                 }
         }

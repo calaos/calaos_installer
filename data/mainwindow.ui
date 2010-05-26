@@ -34,6 +34,9 @@
        <enum>QFrame::Raised</enum>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout">
+       <property name="margin">
+        <number>0</number>
+       </property>
        <item>
         <widget class="QStackedWidget" name="Pages">
          <property name="currentIndex">
@@ -180,6 +183,9 @@
                       <attribute name="headerDefaultSectionSize">
                        <number>120</number>
                       </attribute>
+                      <attribute name="headerDefaultSectionSize">
+                       <number>120</number>
+                      </attribute>
                       <column>
                        <property name="text">
                         <string>Type</string>
@@ -218,6 +224,9 @@
                     <property name="rootIsDecorated">
                      <bool>false</bool>
                     </property>
+                    <attribute name="headerDefaultSectionSize">
+                     <number>140</number>
+                    </attribute>
                     <attribute name="headerDefaultSectionSize">
                      <number>140</number>
                     </attribute>
@@ -262,6 +271,9 @@
                     <property name="rootIsDecorated">
                      <bool>false</bool>
                     </property>
+                    <attribute name="headerDefaultSectionSize">
+                     <number>140</number>
+                    </attribute>
                     <attribute name="headerDefaultSectionSize">
                      <number>140</number>
                     </attribute>
