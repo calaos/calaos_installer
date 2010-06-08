@@ -7,7 +7,7 @@
 
 #include "detectip.h"
 
-#define WAGO_FW_VESION          "1.7"
+#define WAGO_FW_VESION          "1.9"
 
 enum { WAGO_CONNECTED, WAGO_DISCONNECTED };
 enum { WERROR_NOERROR, WERROR_CONNECT_FAILED, WERROR_NOTCONNECTED, WERROR_TIMEOUT };
@@ -24,6 +24,7 @@ class WagoCommand
                         if (object_cb)
                                 QMetaObject::invokeMethod(object_cb,
                                                           slot_name.toLocal8Bit().data(),
+                                                          Qt::DirectConnection,
                                                           Q_ARG(QString, command),
                                                           Q_ARG(QString, response));
                 }
@@ -55,7 +56,7 @@ class WagoConnect : public QObject
 
         private:
                 int connect_status;
-                QString wago_ip, wago_fwversion, calaos_user, calaos_password;
+                QString wago_ip, wago_fwversion, wago_type, calaos_user, calaos_password;
                 bool use_proxy;
                 QUdpSocket *udpSocket;
                 QHttp *httpProxy;
@@ -86,6 +87,11 @@ class WagoConnect : public QObject
                  * Get wago device firmware revision
                  */
                 QString getWagoVersion() { return wago_fwversion; }
+
+                /*
+                 * Get wago device type (750-841, 750-842, 750-849)
+                 */
+                QString getWagoType() { return wago_type; }
 
                 /*
                  * Get wago IP address

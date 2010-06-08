@@ -36,13 +36,9 @@ Input *IOFactory::CreateInput(std::string type, Params &params)
         {
                 in = new InputTimer(params);
         }
-        else if (type == "WIDigitalBP" || type == "WIDigital")
+        else if (type == "WIDigitalBP" || type == "WIDigital" || type == "WIDigitalTriple")
         {
-                in = new WIDigitalBP(params);
-        }
-        else if (type == "WIDigitalTriple")
-        {
-                in = new WIDigitalTriple(params);
+                in = new WIDigital(params);
         }
         else if (type == "WITemp")
         {

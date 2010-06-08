@@ -48,7 +48,9 @@ SOURCES += src/main.cpp \
     src/formpost.cpp \
     src/dialogiolist.cpp \
     src/dialogioplagehoraire.cpp \
-    src/dialogplageinput.cpp
+    src/dialogplageinput.cpp \
+    src/formdali.cpp \
+    src/dialogdalideviceconfig.cpp
 HEADERS += src/mainwindow.h \
     ../calaos_common/Utils.h \
     ../calaos_common/base64.h \
@@ -94,7 +96,9 @@ HEADERS += src/mainwindow.h \
     src/dialogiolist.h \
     src/qtreewidget_addition.h \
     src/dialogioplagehoraire.h \
-    src/dialogplageinput.h
+    src/dialogplageinput.h \
+    src/formdali.h \
+    src/dialogdalideviceconfig.h
 FORMS += data/mainwindow.ui \
     data/dialognewroom.ui \
     data/dialognewwago.ui \
@@ -115,7 +119,9 @@ FORMS += data/mainwindow.ui \
     data/dialogsaveonline.ui \
     data/dialogiolist.ui \
     data/dialogplagehoraire.ui \
-    data/dialogplageinput.ui
+    data/dialogplageinput.ui \
+    data/formdali.ui \
+    data/dialogdalideviceconfig.ui
 RESOURCES += data/resources.qrc
 INCLUDEPATH += ../calaos_common/ \
     Calaos/ \

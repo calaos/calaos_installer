@@ -53,6 +53,8 @@ void WagoConnect::Disconnect()
         udpSocket = NULL;
 
         wago_ip = "";
+        wago_type = "";
+        wago_fwversion = "";
 
         if (connect_status != WAGO_CONNECTED)
         {
@@ -95,11 +97,12 @@ void WagoConnect::heartbeat_cb(QString command, QString response)
         }
 
         QStringList list = response.split(" ");
-        if (list.size() == 2)
+        if (list.size() >= 2)
         {
                 if (list[0] == command)
                 {
                         wago_fwversion = list[1];
+                        if (list.size() == 3) wago_type = list[2];
                         if (connect_status != WAGO_CONNECTED)
                         {
                                 connect_status = WAGO_CONNECTED;

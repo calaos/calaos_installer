@@ -47,7 +47,7 @@ namespace Ui
         class MainWindow;
 }
 
-enum { PAGE_PROG=0, PAGE_TRANSFERT, PAGE_ABOUT };
+enum { PAGE_PROG=0, PAGE_DALI, PAGE_ABOUT };
 enum { ITEM_ROOM=0, ITEM_INTER, ITEM_LIGHT, ITEM_VOLET, ITEM_DALI,
        ITEM_DALIRGB, ITEM_TEMP, ITEM_CAMERA, ITEM_MUSIC, ITEM_INTERN,
        ITEM_SCENARIO, ITEM_TIME };
@@ -129,6 +129,8 @@ class MainWindow : public QMainWindow
                 void itemVoletStop();
                 void itemShowCamera();
                 void itemPlagesHoraires();
+                void itemConvertInterTriple();
+                void itemConvertInterBP();
 
                 void wagoConnected(QString &ip, bool proxy);
                 void wagoDisconnected();
@@ -136,6 +138,7 @@ class MainWindow : public QMainWindow
                 void wagoError(int error);
 
         private slots:
+                void on_actionDALI_triggered();
                 void on_pushButton_clicked();
                 void on_actionSauvegarder_un_projet_en_ligne_triggered();
                 void on_actionOuvrir_un_projet_en_ligne_triggered();
@@ -157,6 +160,8 @@ class MainWindow : public QMainWindow
                 void on_mainmenu_list_currentRowChanged(int currentRow);
                 void on_actionAbout_activated();
                 void on_actionQuit_activated();
+
+                void on_closeDaliForm_clicked();
 };
 
 #endif // MAINWINDOW_H

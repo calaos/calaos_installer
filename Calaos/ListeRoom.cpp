@@ -460,7 +460,7 @@ Input* ListeRoom::createInput(Params param, Room *room)
         Input *input = NULL;
 
         if (!param.Exists("name")) param.Add("name", "Input");
-        if (!param.Exists("type")) param.Add("type", "WIDigital");
+        if (!param.Exists("type")) param.Add("type", "WIDigitalBP");
         if (param["type"] != "scenario" && param["type"] != "InputTimeDate" &&
             param["type"] != "InputTime" && param["type"] != "X10Output" &&
             param["type"] != "InternalInt" && param["type"] != "InternalBool" &&

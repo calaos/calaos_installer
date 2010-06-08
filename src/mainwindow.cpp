@@ -125,6 +125,8 @@ MainWindow::MainWindow(QWidget *parent):
         connect(&wuploader, SIGNAL(progressUpdate(int)), progressBar, SLOT(setValue(int)));
         connect(&wuploader, SIGNAL(statusUpdate(int)), this, SLOT(wagoStatusProgress(int)));
 
+        connect(ui->widgetDali, SIGNAL(closeDaliForm()), this, SLOT(on_closeDaliForm_clicked()));
+
         /* Search and create a new temp dir */
         tempDir.setPath(QDir::tempPath());
         int cpt = 0;
@@ -246,7 +248,7 @@ void MainWindow::on_Pages_currentChanged(int page)
 {
         if (page == PAGE_PROG)
                 onShowProg();
-        else if (page == PAGE_TRANSFERT)
+        else if (page == PAGE_DALI)
                 onShowTransfert();
 }
 
@@ -924,6 +926,24 @@ void MainWindow::showPopup_tree(const QPoint point)
 
                                 item_menu.addSeparator();
                         }
+
+                        if (o->get_param("type") == "WIDigitalBP")
+                        {
+                                action = item_menu.addAction(QString::fromUtf8("Convertir en interupteur triple..."));
+                                action->setIcon(QIcon(":/img/icon_inter.png"));
+                                connect(action, SIGNAL(triggered()), this, SLOT(itemConvertInterTriple()));
+
+                                item_menu.addSeparator();
+                        }
+
+                        if (o->get_param("type") == "WIDigitalTriple")
+                        {
+                                action = item_menu.addAction(QString::fromUtf8("Convertir en interupteur standard..."));
+                                action->setIcon(QIcon(":/img/icon_inter.png"));
+                                connect(action, SIGNAL(triggered()), this, SLOT(itemConvertInterBP()));
+
+                                item_menu.addSeparator();
+                        }
                 }
 
                 action = item_menu.addAction(QString::fromUtf8("Propriétés"));
@@ -1048,10 +1068,10 @@ void MainWindow::deleteItemCondition()
 
         int num = ui->tree_condition->invisibleRootItem()->indexOfChild(treeItem_condition);
 
-        if (num < 0 && num >= rule->get_condition(0)->get_size())
+        if (num < 0 || num >= rule->get_size_conds() || rule->get_condition(num)->get_size() <= 0)
                 return;
 
-        rule->get_condition(0)->Remove(num);
+        rule->get_condition(num)->Remove(0);
 
         QTreeWidgetItem *item = ui->tree_rules->selectedItems().first();
         ui->tree_rules->setCurrentItem(NULL);
@@ -1075,10 +1095,10 @@ void MainWindow::deleteItemAction()
 
         int num = ui->tree_action->invisibleRootItem()->indexOfChild(treeItem_action);
 
-        if (num < 0 && num >= rule->get_action(0)->get_size())
+        if (num < 0 || num >= rule->get_size_actions() || rule->get_action(num)->get_size() <= 0)
                 return;
 
-        rule->get_action(0)->Remove(num);
+        rule->get_action(num)->Remove(0);
 
         QTreeWidgetItem *item = ui->tree_rules->selectedItems().first();
         ui->tree_rules->setCurrentItem(NULL);
@@ -1542,6 +1562,52 @@ void MainWindow::itemPlagesHoraires()
         }
 }
 
+void MainWindow::itemConvertInterTriple()
+{
+        if (!treeItem) return;
+
+        QTreeWidgetItemInput *itinput = dynamic_cast<QTreeWidgetItemInput *>(treeItem);
+        if (itinput)
+        {
+                if (itinput->getInput()->get_param("type") == "WIDigitalBP")
+                {
+                        QMessageBox::StandardButton reply;
+                        reply = QMessageBox::question(this, tr("Calaos Installer"),
+                                              QString::fromUtf8("Etes vous sûr de vouloir convertir en interupteur triple?"),
+                                              QMessageBox::Yes | QMessageBox::No);
+
+                        if (reply == QMessageBox::Yes)
+                        {
+                                itinput->getInput()->get_params().Add("type", "WIDigitalTriple");
+                                updateItemInfos(itinput);
+                        }
+                }
+        }
+}
+
+void MainWindow::itemConvertInterBP()
+{
+        if (!treeItem) return;
+
+        QTreeWidgetItemInput *itinput = dynamic_cast<QTreeWidgetItemInput *>(treeItem);
+        if (itinput)
+        {
+                if (itinput->getInput()->get_param("type") == "WIDigitalTriple")
+                {
+                        QMessageBox::StandardButton reply;
+                        reply = QMessageBox::question(this, tr("Calaos Installer"),
+                                              QString::fromUtf8("Etes vous sûr de vouloir convertir en interupteur classique?"),
+                                              QMessageBox::Yes | QMessageBox::No);
+
+                        if (reply == QMessageBox::Yes)
+                        {
+                                itinput->getInput()->get_params().Add("type", "WIDigitalBP");
+                                updateItemInfos(itinput);
+                        }
+                }
+        }
+}
+
 void MainWindow::itemVoletUp()
 {
         if (!treeItem) return;
@@ -1726,4 +1792,30 @@ void MainWindow::on_actionSauvegarder_un_projet_en_ligne_triggered()
 void MainWindow::on_pushButton_clicked()
 {
         ShowPage(PAGE_PROG);
+}
+
+void MainWindow::on_closeDaliForm_clicked()
+{
+        ShowPage(PAGE_PROG);
+}
+
+void MainWindow::on_actionDALI_triggered()
+{
+        if (WagoConnect::Instance().getConnectionStatus() == WAGO_CONNECTED)
+        {
+                if (WagoConnect::Instance().getWagoType() == "750-841" ||
+                    WagoConnect::Instance().getWagoType() == "750-849")
+                {
+                        ShowPage(PAGE_DALI);
+                        ui->widgetDali->Init();
+                }
+                else
+                {
+                        QMessageBox::critical(this, tr("Calaos Installer"), QString::fromUtf8("L'adressage DALI n'est supporté que sur les contrôleurs\nWago 750-841 et 750-849!"));
+                }
+        }
+        else
+        {
+                WagoConnect::Instance().SendCommand("WAGO_DALI_ADDRESSING_STATUS");
+        }
 }

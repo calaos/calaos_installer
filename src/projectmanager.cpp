@@ -583,9 +583,6 @@ void RuleXmlReader::readRule()
 
 void RuleXmlReader::readCondition(Rule *rule)
 {
-        Condition *cond = new Condition();
-        rule->AddCondition(cond);
-
         while (!atEnd())
         {
                 readNext();
@@ -596,7 +593,11 @@ void RuleXmlReader::readCondition(Rule *rule)
                 if (isStartElement())
                 {
                         if (name() == "input")
+                        {
+                                Condition *cond = new Condition();
+                                rule->AddCondition(cond);
                                 readInput(cond);
+                        }
                 }
         }
 }
@@ -632,9 +633,6 @@ void RuleXmlReader::readInput(Condition *cond)
 
 void RuleXmlReader::readAction(Rule *rule)
 {
-        Action *action = new Action();
-        rule->AddAction(action);
-
         while (!atEnd())
         {
                 readNext();
@@ -645,7 +643,11 @@ void RuleXmlReader::readAction(Rule *rule)
                 if (isStartElement())
                 {
                         if (name() == "output")
+                        {
+                                Action *action = new Action();
+                                rule->AddAction(action);
                                 readOutput(action);
+                        }
                 }
         }
 }

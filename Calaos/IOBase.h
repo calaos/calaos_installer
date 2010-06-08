@@ -103,18 +103,18 @@ class InputTimer: public Input, public Output
                         { return Input::get_params(); }
 };
 
-class WIDigitalBP: public Input
+class WIDigital: public Input
 {
         public:
-                WIDigitalBP(Params &p): Input(p) {}
-                virtual DATA_TYPE get_type() { return TBOOL; }
-};
+                WIDigital(Params &p): Input(p) {}
+                virtual DATA_TYPE get_type()
+                {
+                        if (get_param("type") == "WIDigitalBP")
+                                return TBOOL;
 
-class WIDigitalTriple: public Input
-{
-        public:
-                WIDigitalTriple(Params &p): Input(p) {}
-                virtual DATA_TYPE get_type() { return TINT; }
+                        if (get_param("type") == "WIDigitalTriple")
+                                return TINT;
+                }
 };
 
 class WITemp: public Input

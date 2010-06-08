@@ -60,5 +60,6 @@
         <file>img/go-first.png</file>
         <file>img/loader.gif</file>
         <file>img/go-previous.png</file>
+        <file>img/icon_light_off.png</file>
     </qresource>
 </RCC>
