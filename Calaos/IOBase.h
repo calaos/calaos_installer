@@ -114,6 +114,8 @@ class WIDigital: public Input
 
                         if (get_param("type") == "WIDigitalTriple")
                                 return TINT;
+
+                        return TBOOL;
                 }
 };
 
