@@ -32,6 +32,7 @@ class DialogNewAudio : public QDialog
                 Room *room;
 
         private slots:
+                void on_pushButton_clicked();
                 void on_buttonBox_accepted();
 };
 

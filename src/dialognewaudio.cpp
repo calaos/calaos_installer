@@ -1,6 +1,7 @@
 #include "dialognewaudio.h"
 #include "ui_dialognewaudio.h"
 #include "mainwindow.h"
+#include "dialogdetectsqueezebox.h"
 
 DialogNewAudio::DialogNewAudio(Room *r, QWidget *parent) :
     QDialog(parent),
@@ -48,4 +49,17 @@ void DialogNewAudio::on_buttonBox_accepted()
         output = dynamic_cast<Output *>(audio);
 
         accept();
+}
+
+void DialogNewAudio::on_pushButton_clicked()
+{
+        DialogDetectSqueezebox d;
+        if (d.exec() == QDialog::Accepted)
+        {
+                Squeezebox *sq = d.getSelectedDevice();
+
+                ui->edit_ip->setText(sq->server);
+                ui->edit_mac->setText(sq->id);
+                ui->edit_name->setText(sq->name);
+        }
 }

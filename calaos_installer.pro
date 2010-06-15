@@ -50,7 +50,8 @@ SOURCES += src/main.cpp \
     src/dialogioplagehoraire.cpp \
     src/dialogplageinput.cpp \
     src/formdali.cpp \
-    src/dialogdalideviceconfig.cpp
+    src/dialogdalideviceconfig.cpp \
+    src/dialogdetectsqueezebox.cpp
 HEADERS += src/mainwindow.h \
     ../calaos_common/Utils.h \
     ../calaos_common/base64.h \
@@ -98,7 +99,8 @@ HEADERS += src/mainwindow.h \
     src/dialogioplagehoraire.h \
     src/dialogplageinput.h \
     src/formdali.h \
-    src/dialogdalideviceconfig.h
+    src/dialogdalideviceconfig.h \
+    src/dialogdetectsqueezebox.h
 FORMS += data/mainwindow.ui \
     data/dialognewroom.ui \
     data/dialognewwago.ui \
@@ -121,7 +123,8 @@ FORMS += data/mainwindow.ui \
     data/dialogplagehoraire.ui \
     data/dialogplageinput.ui \
     data/formdali.ui \
-    data/dialogdalideviceconfig.ui
+    data/dialogdalideviceconfig.ui \
+    data/dialogdetectsqueezebox.ui
 RESOURCES += data/resources.qrc
 INCLUDEPATH += ../calaos_common/ \
     Calaos/ \
