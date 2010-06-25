@@ -1,0 +1,42 @@
+<RCC>
+    <qresource prefix="/">
+        <file>images_textedit/mac/editcopy.png</file>
+        <file>images_textedit/mac/editcut.png</file>
+        <file>images_textedit/mac/editpaste.png</file>
+        <file>images_textedit/mac/editredo.png</file>
+        <file>images_textedit/mac/editundo.png</file>
+        <file>images_textedit/mac/exportpdf.png</file>
+        <file>images_textedit/mac/filenew.png</file>
+        <file>images_textedit/mac/fileopen.png</file>
+        <file>images_textedit/mac/fileprint.png</file>
+        <file>images_textedit/mac/filesave.png</file>
+        <file>images_textedit/mac/textbold.png</file>
+        <file>images_textedit/mac/textcenter.png</file>
+        <file>images_textedit/mac/textitalic.png</file>
+        <file>images_textedit/mac/textjustify.png</file>
+        <file>images_textedit/mac/textleft.png</file>
+        <file>images_textedit/mac/textright.png</file>
+        <file>images_textedit/mac/textunder.png</file>
+        <file>images_textedit/mac/zoomin.png</file>
+        <file>images_textedit/mac/zoomout.png</file>
+        <file>images_textedit/win/editcopy.png</file>
+        <file>images_textedit/win/editcut.png</file>
+        <file>images_textedit/win/editpaste.png</file>
+        <file>images_textedit/win/editredo.png</file>
+        <file>images_textedit/win/editundo.png</file>
+        <file>images_textedit/win/exportpdf.png</file>
+        <file>images_textedit/win/filenew.png</file>
+        <file>images_textedit/win/fileopen.png</file>
+        <file>images_textedit/win/fileprint.png</file>
+        <file>images_textedit/win/filesave.png</file>
+        <file>images_textedit/win/textbold.png</file>
+        <file>images_textedit/win/textcenter.png</file>
+        <file>images_textedit/win/textitalic.png</file>
+        <file>images_textedit/win/textjustify.png</file>
+        <file>images_textedit/win/textleft.png</file>
+        <file>images_textedit/win/textright.png</file>
+        <file>images_textedit/win/textunder.png</file>
+        <file>images_textedit/win/zoomin.png</file>
+        <file>images_textedit/win/zoomout.png</file>
+    </qresource>
+</RCC>

@@ -51,7 +51,8 @@ SOURCES += src/main.cpp \
     src/dialogplageinput.cpp \
     src/formdali.cpp \
     src/dialogdalideviceconfig.cpp \
-    src/dialogdetectsqueezebox.cpp
+    src/dialogdetectsqueezebox.cpp \
+    src/textedit.cpp
 HEADERS += src/mainwindow.h \
     ../calaos_common/Utils.h \
     ../calaos_common/base64.h \
@@ -100,7 +101,8 @@ HEADERS += src/mainwindow.h \
     src/dialogplageinput.h \
     src/formdali.h \
     src/dialogdalideviceconfig.h \
-    src/dialogdetectsqueezebox.h
+    src/dialogdetectsqueezebox.h \
+    src/textedit.h
 FORMS += data/mainwindow.ui \
     data/dialognewroom.ui \
     data/dialognewwago.ui \
@@ -125,7 +127,8 @@ FORMS += data/mainwindow.ui \
     data/formdali.ui \
     data/dialogdalideviceconfig.ui \
     data/dialogdetectsqueezebox.ui
-RESOURCES += data/resources.qrc
+RESOURCES += data/resources.qrc \
+    data/textedit.qrc
 INCLUDEPATH += ../calaos_common/ \
     Calaos/ \
     src/

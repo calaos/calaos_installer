@@ -27,7 +27,9 @@
      <value key="ProjectExplorer.ProjectConfiguration.DisplayName" type="QString"></value>
      <value key="ProjectExplorer.ProjectConfiguration.Id" type="QString">Qt4ProjectManager.MakeStep</value>
      <value key="Qt4ProjectManager.MakeStep.Clean" type="bool">false</value>
-     <valuelist key="Qt4ProjectManager.MakeStep.MakeArguments" type="QVariantList"/>
+     <valuelist key="Qt4ProjectManager.MakeStep.MakeArguments" type="QVariantList">
+      <value type="QString">-j2</value>
+     </valuelist>
      <value key="Qt4ProjectManager.MakeStep.MakeCommand" type="QString"></value>
     </valuemap>
     <value key="ProjectExplorer.BuildConfiguration.BuildStepsCount" type="int">2</value>
@@ -47,7 +49,7 @@
     <value key="ProjectExplorer.ProjectConfiguration.Id" type="QString">Qt4ProjectManager.Qt4BuildConfiguration</value>
     <value key="Qt4ProjectManager.Qt4BuildConfiguration.BuildConfiguration" type="int">2</value>
     <value key="Qt4ProjectManager.Qt4BuildConfiguration.BuildDirectory" type="QString">/home/raoul/Domotique/calaos-svn/calaos_installer</value>
-    <value key="Qt4ProjectManager.Qt4BuildConfiguration.QtVersionId" type="int">2</value>
+    <value key="Qt4ProjectManager.Qt4BuildConfiguration.QtVersionId" type="int">4</value>
     <value key="Qt4ProjectManager.Qt4BuildConfiguration.ToolChain" type="int">0</value>
     <value key="Qt4ProjectManager.Qt4BuildConfiguration.UseShadowBuild" type="bool">true</value>
    </valuemap>

@@ -6,6 +6,8 @@
 #include <QMessageBox>
 #include <QTreeWidgetItem>
 
+#include "textedit.h"
+
 #include <projectmanager.h>
 
 #include <dialognewroom.h>
@@ -107,6 +109,8 @@ class MainWindow : public QMainWindow
 
                 QDir tempDir;
 
+                TextEdit teditor;
+
                 void onShowProg();
                 void onShowTransfert();
 
@@ -138,6 +142,7 @@ class MainWindow : public QMainWindow
                 void wagoError(int error);
 
         private slots:
+                void on_actionG_n_rer_fichier_d_impression_triggered();
                 void on_actionDALI_triggered();
                 void on_pushButton_clicked();
                 void on_actionSauvegarder_un_projet_en_ligne_triggered();

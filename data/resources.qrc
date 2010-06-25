@@ -61,5 +61,14 @@
         <file>img/loader.gif</file>
         <file>img/go-previous.png</file>
         <file>img/icon_light_off.png</file>
+        <file>home_footer.html</file>
+        <file>home_header.html</file>
+        <file>home_inputs.html</file>
+        <file>home_item.html</file>
+        <file>home_outputs.html</file>
+        <file>home_room_footer.html</file>
+        <file>home_room.html</file>
+        <file>img/dialog-ok.png</file>
+        <file>img/checkbox.png</file>
     </qresource>
 </RCC>

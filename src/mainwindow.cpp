@@ -5,7 +5,8 @@ MainWindow::MainWindow(QWidget *parent):
     QMainWindow(parent), ui(new Ui::MainWindow), current_room(NULL),
     wuploader(parent),
     project_changed(false),
-    messageBox(QMessageBox::Information, tr("Calaos Installer"), "")
+    messageBox(QMessageBox::Information, tr("Calaos Installer"), ""),
+    teditor(this)
 {
         ui->setupUi(this);
 
@@ -1725,29 +1726,38 @@ void MainWindow::wagoError(int error)
 {
         switch (error)
         {
+//          case WERROR_CONNECT_FAILED:
+//                if (QMessageBox::question(this, tr("Calaos Installer"),
+//                                          QString::fromUtf8("La connection a échoué !\nVoulez-vous essayer à nouveau?"),
+//                                          QMessageBox::Ok,
+//                                          QMessageBox::Cancel
+//                        ) == QMessageBox::Ok)
+//                        on_actionSe_connecter_triggered();
+//                break;
+//          case WERROR_NOTCONNECTED:
+//                if (QMessageBox::question(this, tr("Calaos Installer"),
+//                                          QString::fromUtf8("L'automate n'est pas connecté !\nVoulez-vous effectuer une connexion maintenant?"),
+//                                          QMessageBox::Ok,
+//                                          QMessageBox::Cancel
+//                        ) == QMessageBox::Ok)
+//                        on_actionSe_connecter_triggered();
+//                break;
+//          case WERROR_TIMEOUT:
+//                if (QMessageBox::question(this, tr("Calaos Installer"),
+//                                          QString::fromUtf8("Le délai d'attente de la réponse est dépassé !\nVoulez-vous essayer à nouveau?"),
+//                                          QMessageBox::Ok,
+//                                          QMessageBox::Cancel
+//                        ) == QMessageBox::Ok)
+//                        on_actionSe_connecter_triggered();
+//                break;
           case WERROR_CONNECT_FAILED:
-                if (QMessageBox::question(this, tr("Calaos Installer"),
-                                          QString::fromUtf8("La connection a échoué !\nVoulez-vous essayer à nouveau?"),
-                                          QMessageBox::Ok,
-                                          QMessageBox::Cancel
-                        ) == QMessageBox::Ok)
-                        on_actionSe_connecter_triggered();
+                QMessageBox::critical(this, tr("Calaos Installer"), QString::fromUtf8("La connection a échoué !"));
                 break;
           case WERROR_NOTCONNECTED:
-                if (QMessageBox::question(this, tr("Calaos Installer"),
-                                          QString::fromUtf8("L'automate n'est pas connecté !\nVoulez-vous effectuer une connexion maintenant?"),
-                                          QMessageBox::Ok,
-                                          QMessageBox::Cancel
-                        ) == QMessageBox::Ok)
-                        on_actionSe_connecter_triggered();
+                QMessageBox::critical(this, tr("Calaos Installer"), QString::fromUtf8("L'automate n'est pas connecté !"));
                 break;
           case WERROR_TIMEOUT:
-                if (QMessageBox::question(this, tr("Calaos Installer"),
-                                          QString::fromUtf8("Le délai d'attente de la réponse est dépassé !\nVoulez-vous essayer à nouveau?"),
-                                          QMessageBox::Ok,
-                                          QMessageBox::Cancel
-                        ) == QMessageBox::Ok)
-                        on_actionSe_connecter_triggered();
+                QMessageBox::critical(this, tr("Calaos Installer"), QString::fromUtf8("Le délai d'attente de la réponse est dépassé ! Erreur dans la réponse."));
                 break;
           default:
                 QMessageBox::critical(this, tr("Calaos Installer"), QString::fromUtf8("Une erreur inconnue est survenue !"));
@@ -1818,4 +1828,11 @@ void MainWindow::on_actionDALI_triggered()
         {
                 WagoConnect::Instance().SendCommand("WAGO_DALI_ADDRESSING_STATUS");
         }
+}
+
+void MainWindow::on_actionG_n_rer_fichier_d_impression_triggered()
+{
+        teditor.resize(700, 700);
+        teditor.show();
+        teditor.loadRooms();
 }
