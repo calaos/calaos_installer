@@ -135,6 +135,8 @@ class MainWindow : public QMainWindow
                 void itemPlagesHoraires();
                 void itemConvertInterTriple();
                 void itemConvertInterBP();
+                void itemConvertVoletStandard();
+                void itemConvertVoletSmart();
 
                 void wagoConnected(QString &ip, bool proxy);
                 void wagoDisconnected();

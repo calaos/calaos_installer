@@ -898,6 +898,21 @@ void MainWindow::showPopup_tree(const QPoint point)
 
                         if (o->get_param("type") == "WOVolet" || o->get_param("type") == "WOVoletSmart")
                         {
+                                if (o->get_param("type") == "WOVoletSmart")
+                                {
+                                        action = item_menu.addAction(QString::fromUtf8("Convertir en volet classique"));
+                                        action->setIcon(QIcon(":/img/icon_shutter.png"));
+                                        connect(action, SIGNAL(triggered()), this, SLOT(itemConvertVoletStandard()));
+                                }
+                                else
+                                {
+                                        action = item_menu.addAction(QString::fromUtf8("Convertir en volet intelligent"));
+                                        action->setIcon(QIcon(":/img/icon_shutter.png"));
+                                        connect(action, SIGNAL(triggered()), this, SLOT(itemConvertVoletSmart()));
+                                }
+
+                                item_menu.addSeparator();
+
                                 action = item_menu.addAction(QString::fromUtf8("Monter"));
                                 action->setIcon(QIcon(":/img/icon_shutter.png"));
                                 connect(action, SIGNAL(triggered()), this, SLOT(itemVoletUp()));
@@ -1684,6 +1699,51 @@ void MainWindow::itemVoletStop()
         }
 }
 
+void MainWindow::itemConvertVoletSmart()
+{
+        if (!treeItem) return;
+
+        QTreeWidgetItemOutput *itoutput = dynamic_cast<QTreeWidgetItemOutput *>(treeItem);
+        if (itoutput)
+        {
+                if (itoutput->getOutput()->get_param("type") == "WOVolet")
+                {
+                        QMessageBox::StandardButton reply;
+                        reply = QMessageBox::question(this, tr("Calaos Installer"),
+                                              QString::fromUtf8("Etes vous sûr de vouloir convertir en volet intelligent?"),
+                                              QMessageBox::Yes | QMessageBox::No);
+
+                        if (reply == QMessageBox::Yes)
+                        {
+                                itoutput->getOutput()->get_params().Add("type", "WOVoletSmart");
+                                updateItemInfos(itoutput);
+                        }
+                }
+        }
+}
+
+void MainWindow::itemConvertVoletStandard()
+{
+        if (!treeItem) return;
+
+        QTreeWidgetItemOutput *itoutput = dynamic_cast<QTreeWidgetItemOutput *>(treeItem);
+        if (itoutput)
+        {
+                if (itoutput->getOutput()->get_param("type") == "WOVoletSmart")
+                {
+                        QMessageBox::StandardButton reply;
+                        reply = QMessageBox::question(this, tr("Calaos Installer"),
+                                              QString::fromUtf8("Etes vous sûr de vouloir convertir en volet classique?"),
+                                              QMessageBox::Yes | QMessageBox::No);
+
+                        if (reply == QMessageBox::Yes)
+                        {
+                                itoutput->getOutput()->get_params().Add("type", "WOVolet");
+                                updateItemInfos(itoutput);
+                        }
+                }
+        }
+}
 
 void MainWindow::on_actionSe_connecter_triggered()
 {
