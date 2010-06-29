@@ -104,7 +104,7 @@ void DialogSaveOnline::downloadFinishedCalaosFr(QNetworkReply *reply)
         disconnect(&networkAccess, SIGNAL(finished(QNetworkReply*)),
                 this, SLOT(downloadFinishedCalaosFr(QNetworkReply*)));
 
-        delete reply;
+        reply->deleteLater();
 }
 
 void DialogSaveOnline::uploadXmlFiles(QString ip)
@@ -126,6 +126,8 @@ void DialogSaveOnline::uploadXmlFiles(QString ip)
                         formPost.addFile("rules", currentDir + "/rules.xml", "text/xml");
 
                         formPost.postData("https://" + ip + "/putFile.php?u=" + ui->editUsername->text() + "&p=" + ui->editPass->text());
+
+                        currentIP = ip;
                 }
         }
         else
@@ -170,7 +172,12 @@ void DialogSaveOnline::uploadFinished(QByteArray &reply)
         }
         else if (s == "OK")
         {
-                accept();
+                //Restart calaosd
+                QUrl url("https://" + currentIP + "/action.php?action=reboot&value=calaosd&u=" + ui->editUsername->text() + "&p=" + ui->editPass->text());
+
+                connect(&networkAccess, SIGNAL(finished(QNetworkReply*)),
+                        this, SLOT(downloadFinishedRestart(QNetworkReply*)));
+                networkAccess.get(QNetworkRequest(url));
         }
         else
         {
@@ -180,6 +187,26 @@ void DialogSaveOnline::uploadFinished(QByteArray &reply)
                 this->setEnabled(true);
                 delete spinner;
         }
+}
+
+void DialogSaveOnline::downloadFinishedRestart(QNetworkReply *reply)
+{
+        if (reply->error() == QNetworkReply::NoError)
+        {
+                accept();
+        }
+        else
+        {
+                QMessageBox::critical(this, tr("Calaos Installer"), "Erreur http: " + reply->errorString());
+
+                this->setEnabled(true);
+                delete spinner;
+        }
+
+        disconnect(&networkAccess, SIGNAL(finished(QNetworkReply*)),
+                this, SLOT(downloadFinishedCalaosFr(QNetworkReply*)));
+
+        reply->deleteLater();
 }
 
 void DialogSaveOnline::sslErrors(QNetworkReply *reply, const QList<QSslError> &)

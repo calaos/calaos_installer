@@ -101,7 +101,7 @@ void DialogOpenOnline::downloadFinishedCalaosFr(QNetworkReply *reply)
         disconnect(&networkAccess, SIGNAL(finished(QNetworkReply*)),
                 this, SLOT(downloadFinishedCalaosFr(QNetworkReply*)));
 
-        delete reply;
+        reply->deleteLater();
 }
 
 void DialogOpenOnline::loadXmlFiles(QString ip)
@@ -138,7 +138,7 @@ void DialogOpenOnline::downloadFinishedFiles(QNetworkReply *reply)
 
                         this->setEnabled(true);
                         delete spinner;
-                        delete reply;
+                        reply->deleteLater();
 
                         disconnect(&networkAccess, SIGNAL(finished(QNetworkReply*)),
                                 this, SLOT(downloadFinishedFiles(QNetworkReply*)));
@@ -189,7 +189,7 @@ void DialogOpenOnline::downloadFinishedFiles(QNetworkReply *reply)
                 reply_rules = networkAccess.get(QNetworkRequest(url));
         }
 
-        delete reply;
+        reply->deleteLater();
 }
 
 void DialogOpenOnline::sslErrors(QNetworkReply *reply, const QList<QSslError> &)

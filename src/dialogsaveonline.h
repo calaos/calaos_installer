@@ -47,6 +47,7 @@ class DialogSaveOnline : public QDialog
 
                 void uploadFinished(QByteArray &reply);
                 void downloadFinishedCalaosFr(QNetworkReply *reply);
+                void downloadFinishedRestart(QNetworkReply *reply);
                 void sslErrors(QNetworkReply *reply, const QList<QSslError> &errors);
 };
 
