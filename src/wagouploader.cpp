@@ -162,7 +162,7 @@ void WagoUploader::uploadConfig()
 
         timer = new QTimer();
         connect(timer, SIGNAL(timeout()), this, SLOT(timerUpload()));
-        timer->start(50);
+        timer->start(200);
 }
 
 void WagoUploader::timerUpload()
