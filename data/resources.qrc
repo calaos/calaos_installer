@@ -70,5 +70,6 @@
         <file>home_room.html</file>
         <file>img/dialog-ok.png</file>
         <file>img/checkbox.png</file>
+        <file>img/clear_left.png</file>
     </qresource>
 </RCC>

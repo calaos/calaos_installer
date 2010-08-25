@@ -29,7 +29,7 @@ bool ActionTreeWidget::dropMimeData(QTreeWidgetItem *, int, const QMimeData *dat
 
                 MainWindow *win = dynamic_cast<MainWindow *>(QApplication::activeWindow());
 
-                Rule *rule = win->getCurrentRule();
+                Rule *rule = win->getFormRules()->getCurrentRule();
                 if (!rule) return false;
 
                 if (rule->get_size_actions() <= 0)
@@ -44,7 +44,7 @@ bool ActionTreeWidget::dropMimeData(QTreeWidgetItem *, int, const QMimeData *dat
                 else if (output->get_param("type") == "scenario" || output->get_param("type") == "InputTimer")
                       rule->get_action(0)->get_params().Add(output->get_param("id"), "true");
 
-                win->addItemAction(rule->get_action(0), output);
+                win->getFormRules()->addItemAction(rule->get_action(0), output);
         }
 
         return true;

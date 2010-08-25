@@ -19,6 +19,9 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QHBoxLayout" name="horizontalLayout">
+    <property name="margin">
+     <number>0</number>
+    </property>
     <item>
      <widget class="QFrame" name="frame">
       <property name="sizePolicy">
@@ -28,10 +31,10 @@
        </sizepolicy>
       </property>
       <property name="frameShape">
-       <enum>QFrame::StyledPanel</enum>
+       <enum>QFrame::NoFrame</enum>
       </property>
       <property name="frameShadow">
-       <enum>QFrame::Raised</enum>
+       <enum>QFrame::Plain</enum>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout">
        <property name="margin">
@@ -45,256 +48,7 @@
          <widget class="QWidget" name="pageProg">
           <layout class="QHBoxLayout" name="horizontalLayout_3">
            <item>
-            <layout class="QHBoxLayout" name="horizontalLayout_2">
-             <item>
-              <layout class="QVBoxLayout" name="verticalLayout_3">
-               <item>
-                <layout class="QHBoxLayout" name="horizontalLayout_6" stretch="0,0">
-                 <item>
-                  <widget class="QToolButton" name="ioexplorer_add">
-                   <property name="sizePolicy">
-                    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                     <horstretch>0</horstretch>
-                     <verstretch>0</verstretch>
-                    </sizepolicy>
-                   </property>
-                   <property name="text">
-                    <string>Ajouter</string>
-                   </property>
-                   <property name="icon">
-                    <iconset resource="resources.qrc">
-                     <normaloff>:/img/edit_add.png</normaloff>:/img/edit_add.png</iconset>
-                   </property>
-                   <property name="popupMode">
-                    <enum>QToolButton::InstantPopup</enum>
-                   </property>
-                   <property name="toolButtonStyle">
-                    <enum>Qt::ToolButtonTextBesideIcon</enum>
-                   </property>
-                   <property name="autoRaise">
-                    <bool>false</bool>
-                   </property>
-                   <property name="arrowType">
-                    <enum>Qt::NoArrow</enum>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QLabel" name="label_current_room">
-                   <property name="text">
-                    <string/>
-                   </property>
-                   <property name="alignment">
-                    <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
-               </item>
-               <item>
-                <widget class="HomeTreeWidget" name="tree_home">
-                 <property name="contextMenuPolicy">
-                  <enum>Qt::CustomContextMenu</enum>
-                 </property>
-                 <property name="alternatingRowColors">
-                  <bool>true</bool>
-                 </property>
-                 <property name="iconSize">
-                  <size>
-                   <width>24</width>
-                   <height>24</height>
-                  </size>
-                 </property>
-                 <property name="rootIsDecorated">
-                  <bool>false</bool>
-                 </property>
-                 <property name="animated">
-                  <bool>true</bool>
-                 </property>
-                 <column>
-                  <property name="text">
-                   <string/>
-                  </property>
-                 </column>
-                </widget>
-               </item>
-              </layout>
-             </item>
-             <item>
-              <widget class="QGroupBox" name="groupbox_rules">
-               <property name="title">
-                <string>Edition des règles</string>
-               </property>
-               <layout class="QHBoxLayout" name="horizontalLayout_8">
-                <item>
-                 <layout class="QVBoxLayout" name="verticalLayout_2">
-                  <item>
-                   <layout class="QHBoxLayout" name="horizontalLayout_7">
-                    <item>
-                     <widget class="QLabel" name="label_3">
-                      <property name="sizePolicy">
-                       <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-                        <horstretch>0</horstretch>
-                        <verstretch>0</verstretch>
-                       </sizepolicy>
-                      </property>
-                      <property name="text">
-                       <string>Règles:</string>
-                      </property>
-                     </widget>
-                    </item>
-                    <item>
-                     <widget class="QToolButton" name="bt_rules_add">
-                      <property name="styleSheet">
-                       <string notr="true"/>
-                      </property>
-                      <property name="text">
-                       <string>...</string>
-                      </property>
-                      <property name="icon">
-                       <iconset resource="resources.qrc">
-                        <normaloff>:/img/edit_add.png</normaloff>:/img/edit_add.png</iconset>
-                      </property>
-                     </widget>
-                    </item>
-                    <item>
-                     <widget class="QToolButton" name="bt_rules_del">
-                      <property name="text">
-                       <string>...</string>
-                      </property>
-                      <property name="icon">
-                       <iconset resource="resources.qrc">
-                        <normaloff>:/img/edit_remove.png</normaloff>:/img/edit_remove.png</iconset>
-                      </property>
-                     </widget>
-                    </item>
-                   </layout>
-                  </item>
-                  <item>
-                   <layout class="QHBoxLayout" name="horizontalLayout_5">
-                    <item>
-                     <widget class="QTreeWidget" name="tree_rules">
-                      <property name="alternatingRowColors">
-                       <bool>true</bool>
-                      </property>
-                      <property name="rootIsDecorated">
-                       <bool>false</bool>
-                      </property>
-                      <attribute name="headerDefaultSectionSize">
-                       <number>120</number>
-                      </attribute>
-                      <attribute name="headerDefaultSectionSize">
-                       <number>120</number>
-                      </attribute>
-                      <column>
-                       <property name="text">
-                        <string>Type</string>
-                       </property>
-                      </column>
-                      <column>
-                       <property name="text">
-                        <string>Nom</string>
-                       </property>
-                      </column>
-                     </widget>
-                    </item>
-                   </layout>
-                  </item>
-                  <item>
-                   <widget class="QLabel" name="label">
-                    <property name="text">
-                     <string>Conditions:</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="ConditionTreeWidget" name="tree_condition">
-                    <property name="maximumSize">
-                     <size>
-                      <width>16777215</width>
-                      <height>150</height>
-                     </size>
-                    </property>
-                    <property name="contextMenuPolicy">
-                     <enum>Qt::CustomContextMenu</enum>
-                    </property>
-                    <property name="alternatingRowColors">
-                     <bool>true</bool>
-                    </property>
-                    <property name="rootIsDecorated">
-                     <bool>false</bool>
-                    </property>
-                    <attribute name="headerDefaultSectionSize">
-                     <number>140</number>
-                    </attribute>
-                    <attribute name="headerDefaultSectionSize">
-                     <number>140</number>
-                    </attribute>
-                    <column>
-                     <property name="text">
-                      <string>Entrée</string>
-                     </property>
-                    </column>
-                    <column>
-                     <property name="text">
-                      <string>Opérateur</string>
-                     </property>
-                    </column>
-                    <column>
-                     <property name="text">
-                      <string>Valeur</string>
-                     </property>
-                    </column>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QLabel" name="label_2">
-                    <property name="text">
-                     <string>Actions:</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="ActionTreeWidget" name="tree_action">
-                    <property name="maximumSize">
-                     <size>
-                      <width>16777215</width>
-                      <height>200</height>
-                     </size>
-                    </property>
-                    <property name="contextMenuPolicy">
-                     <enum>Qt::CustomContextMenu</enum>
-                    </property>
-                    <property name="alternatingRowColors">
-                     <bool>true</bool>
-                    </property>
-                    <property name="rootIsDecorated">
-                     <bool>false</bool>
-                    </property>
-                    <attribute name="headerDefaultSectionSize">
-                     <number>140</number>
-                    </attribute>
-                    <attribute name="headerDefaultSectionSize">
-                     <number>140</number>
-                    </attribute>
-                    <column>
-                     <property name="text">
-                      <string>Sortie</string>
-                     </property>
-                    </column>
-                    <column>
-                     <property name="text">
-                      <string>Valeur</string>
-                     </property>
-                    </column>
-                   </widget>
-                  </item>
-                 </layout>
-                </item>
-               </layout>
-              </widget>
-             </item>
-            </layout>
+            <widget class="FormRules" name="widgetRules" native="true"/>
            </item>
           </layout>
          </widget>
@@ -310,7 +64,7 @@
            <item>
             <layout class="QHBoxLayout" name="horizontalLayout_4">
              <item>
-              <widget class="QPushButton" name="pushButton">
+              <widget class="QPushButton" name="pushButtonBack">
                <property name="text">
                 <string>Retour</string>
                </property>
@@ -356,6 +110,7 @@ p, li { white-space: pre-wrap; }
 &lt;td style=&quot;border: none;&quot;&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
 &lt;p align=&quot;center&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'DejaVu Sans';&quot;&gt;&lt;/p&gt;
 &lt;p align=&quot;center&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:12pt; font-weight:600; color:#cccccc;&quot;&gt;&lt;/p&gt;
 &lt;p align=&quot;center&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:12pt; font-weight:600; color:#cccccc;&quot;&gt;&lt;/p&gt;
@@ -390,7 +145,7 @@ p, li { white-space: pre-wrap; }
      <x>0</x>
      <y>0</y>
      <width>983</width>
-     <height>27</height>
+     <height>23</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFichier">
@@ -605,24 +360,15 @@ p, li { white-space: pre-wrap; }
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
   <customwidget>
-   <class>HomeTreeWidget</class>
-   <extends>QTreeWidget</extends>
-   <header>hometreewidget.h</header>
-  </customwidget>
-  <customwidget>
-   <class>ConditionTreeWidget</class>
-   <extends>QTreeWidget</extends>
-   <header>conditiontreewidget.h</header>
-  </customwidget>
-  <customwidget>
-   <class>ActionTreeWidget</class>
-   <extends>QTreeWidget</extends>
-   <header>actiontreewidget.h</header>
-  </customwidget>
-  <customwidget>
    <class>FormDali</class>
    <extends>QWidget</extends>
    <header>formdali.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>FormRules</class>
+   <extends>QWidget</extends>
+   <header>formrules.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

@@ -29,7 +29,7 @@ bool ConditionTreeWidget::dropMimeData(QTreeWidgetItem *, int, const QMimeData *
 
                 MainWindow *win = dynamic_cast<MainWindow *>(QApplication::activeWindow());
 
-                Rule *rule = win->getCurrentRule();
+                Rule *rule = win->getFormRules()->getCurrentRule();
                 if (!rule) return false;
 
                 if (rule->get_size_conds() <= 0)
@@ -45,7 +45,7 @@ bool ConditionTreeWidget::dropMimeData(QTreeWidgetItem *, int, const QMimeData *
                 else if (input->get_param("type") == "WIDigitalTriple")
                       rule->get_condition(0)->get_params().Add(input->get_param("id"), "1");
 
-                win->addItemCondition(rule->get_condition(0), input);
+                win->getFormRules()->addItemCondition(rule->get_condition(0), input);
         }
 
         return true;

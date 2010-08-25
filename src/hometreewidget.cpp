@@ -1,5 +1,6 @@
 #include "hometreewidget.h"
 #include "mainwindow.h"
+#include "formrules.h"
 #include <ListeRoom.h>
 
 HomeTreeWidget::HomeTreeWidget(QWidget *parent):
@@ -54,8 +55,8 @@ bool HomeTreeWidget::dropMimeData(QTreeWidgetItem *parent, int, const QMimeData 
                                         }
 
                                         //create new item
-                                        MainWindow *win = dynamic_cast<MainWindow *>(parentWidget());
-                                        win->addItemInput(input, pitem);
+                                        MainWindow *win = dynamic_cast<MainWindow *>(QApplication::activeWindow());
+                                        win->getFormRules()->addItemInput(input, pitem);
                                         pitem->getRoom()->AddInput(input);
 
                                         return true;
@@ -85,8 +86,8 @@ bool HomeTreeWidget::dropMimeData(QTreeWidgetItem *parent, int, const QMimeData 
                                                 ++it;
                                         }
 
-                                        MainWindow *win = dynamic_cast<MainWindow *>(parentWidget());
-                                        win->addItemOutput(output, pitem);
+                                        MainWindow *win = dynamic_cast<MainWindow *>(QApplication::activeWindow());
+                                        win->getFormRules()->addItemOutput(output, pitem);
                                         pitem->getRoom()->AddOutput(output);
 
                                         return true;
