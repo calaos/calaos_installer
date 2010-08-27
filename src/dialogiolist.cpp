@@ -10,46 +10,60 @@ DialogIOList::DialogIOList(Input *_in, Output *_out, QWidget *parent) :
 
         if (input)
         {
-                for (int i = 0;i < ListeRoom::Instance().get_nb_input();i++)
+                for (int i = 0;i < ListeRoom::Instance().size();i++)
                 {
-                        Input *in = ListeRoom::Instance().get_input(i);
+                        Room *room = ListeRoom::Instance().get_room(i);
 
-                        if (in == input) continue;
-
-                        if (in->get_type() == input->get_type() ||
-                            in->get_type() == TSTRING)
+                        for (int j = 0;j < room->get_size_in();j++)
                         {
-                                QTreeWidgetItemInput *item = new QTreeWidgetItemInput(in, ui->treeWidget);
+                                Input *in = room->get_input(j);
+                                if (in == input) continue;
 
-                                item->setData(0, Qt::DisplayRole, QString::fromUtf8(in->get_param("type").c_str()));
-                                item->setData(1, Qt::DisplayRole, QString::fromUtf8(in->get_param("name").c_str()));
+                                if (in->get_type() == input->get_type() ||
+                                    in->get_type() == TSTRING)
+                                {
+                                        QTreeWidgetItemInput *item = new QTreeWidgetItemInput(in, ui->treeWidget);
 
-                                if (i == 0)
-                                        item->setSelected(true);
+                                        item->setData(0, Qt::DisplayRole, QString::fromUtf8(in->get_param("type").c_str()));
+                                        item->setData(1, Qt::DisplayRole, QString::fromUtf8(room->get_name().c_str()));
+                                        item->setData(2, Qt::DisplayRole, QString::fromUtf8(in->get_param("name").c_str()));
+
+                                        if (ui->treeWidget->topLevelItemCount() == 1)
+                                                item->setSelected(true);
+                                }
                         }
                 }
         }
         else if (output)
         {
-                for (int i = 0;i < ListeRoom::Instance().get_nb_output();i++)
+                for (int i = 0;i < ListeRoom::Instance().size();i++)
                 {
-                        Output *out = ListeRoom::Instance().get_output(i);
+                        Room *room = ListeRoom::Instance().get_room(i);
 
-                        if (out == output) continue;
-
-                        if (out->get_type() == output->get_type() ||
-                            out->get_type() == TSTRING)
+                        for (int j = 0;j < room->get_size_out();j++)
                         {
-                                QTreeWidgetItemOutput *item = new QTreeWidgetItemOutput(out, ui->treeWidget);
+                                Output *out = room->get_output(j);
+                                if (out == output) continue;
 
-                                item->setData(0, Qt::DisplayRole, QString::fromUtf8(out->get_param("type").c_str()));
-                                item->setData(1, Qt::DisplayRole, QString::fromUtf8(out->get_param("name").c_str()));
+                                if (out->get_type() == output->get_type() ||
+                                    out->get_type() == TSTRING)
+                                {
+                                        QTreeWidgetItemOutput *item = new QTreeWidgetItemOutput(out, ui->treeWidget);
 
-                                if (i == 0)
-                                        item->setSelected(true);
+                                        item->setData(0, Qt::DisplayRole, QString::fromUtf8(out->get_param("type").c_str()));
+                                        item->setData(1, Qt::DisplayRole, QString::fromUtf8(room->get_name().c_str()));
+                                        item->setData(2, Qt::DisplayRole, QString::fromUtf8(out->get_param("name").c_str()));
+
+                                        if (ui->treeWidget->topLevelItemCount() == 1)
+                                                item->setSelected(true);
+                                }
                         }
                 }
         }
+
+        ui->treeWidget->resizeColumnToContents(0);
+        ui->treeWidget->resizeColumnToContents(1);
+        ui->treeWidget->resizeColumnToContents(2);
 }
 
 DialogIOList::~DialogIOList()
