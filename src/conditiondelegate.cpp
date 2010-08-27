@@ -80,21 +80,26 @@ QWidget *ConditionDelegate::createEditor(QWidget *parent, const QStyleOptionView
 
 void ConditionDelegate::setEditorData(QWidget *editor, const QModelIndex &index) const
 {
+        string id = input->get_param("id");
+        if (IOBase::isAudioType(input->get_param("type")) ||
+            IOBase::isCameraType(input->get_param("type")))
+                id = input->get_param("iid");
+
         if (index.column() == 1) /* Edit operator */
         {
                 QComboBox *combo = dynamic_cast<QComboBox *>(editor);
 
-                if (condition->get_operator().get_param(input->get_param("id")) == "==")
+                if (condition->get_operator().get_param(id) == "==")
                         combo->setCurrentIndex(0);
-                else if (condition->get_operator().get_param(input->get_param("id")) == "!=")
+                else if (condition->get_operator().get_param(id) == "!=")
                         combo->setCurrentIndex(1);
-                else if (condition->get_operator().get_param(input->get_param("id")) == "SUP")
+                else if (condition->get_operator().get_param(id) == "SUP")
                         combo->setCurrentIndex(2);
-                else if (condition->get_operator().get_param(input->get_param("id")) == "SUP=")
+                else if (condition->get_operator().get_param(id) == "SUP=")
                         combo->setCurrentIndex(3);
-                else if (condition->get_operator().get_param(input->get_param("id")) == "INF")
+                else if (condition->get_operator().get_param(id) == "INF")
                         combo->setCurrentIndex(4);
-                else if (condition->get_operator().get_param(input->get_param("id")) == "INF=")
+                else if (condition->get_operator().get_param(id) == "INF=")
                         combo->setCurrentIndex(5);
         }
         else if (index.column() == 2) /* Edit value */
@@ -106,38 +111,38 @@ void ConditionDelegate::setEditorData(QWidget *editor, const QModelIndex &index)
                 if (type == "InputTime" || type == "InputTimer" || type == "WIDigitalBP" ||
                     type == "scenario" || type == "InPlageHoraire" || type == "InternalBool")
                 {
-                        if (condition->get_params().get_param(input->get_param("id")) == "true")
+                        if (condition->get_params().get_param(id) == "true")
                                 object->getComboBox()->setCurrentIndex(0);
-                        else if (condition->get_params().get_param(input->get_param("id")) == "false")
+                        else if (condition->get_params().get_param(id) == "false")
                                 object->getComboBox()->setCurrentIndex(1);
-                        else if (condition->get_params().get_param(input->get_param("id")) == "changed")
+                        else if (condition->get_params().get_param(id) == "changed")
                                 object->getComboBox()->setCurrentIndex(2);
                 }
                 else if (type == "WIDigitalTriple")
                 {
-                        if (condition->get_params().get_param(input->get_param("id")) == "1")
+                        if (condition->get_params().get_param(id) == "1")
                                 object->getComboBox()->setCurrentIndex(0);
-                        else if (condition->get_params().get_param(input->get_param("id")) == "2")
+                        else if (condition->get_params().get_param(id) == "2")
                                 object->getComboBox()->setCurrentIndex(1);
-                        else if (condition->get_params().get_param(input->get_param("id")) == "3")
+                        else if (condition->get_params().get_param(id) == "3")
                                 object->getComboBox()->setCurrentIndex(2);
                 }
                 else if (IOBase::isAudioType(type))
                 {
-                        if (condition->get_params().get_param(input->get_param("id")) == "onplay")
+                        if (condition->get_params().get_param(id) == "onplay")
                                 object->getComboBox()->setCurrentIndex(0);
-                        else if (condition->get_params().get_param(input->get_param("id")) == "onpause")
+                        else if (condition->get_params().get_param(id) == "onpause")
                                 object->getComboBox()->setCurrentIndex(1);
-                        else if (condition->get_params().get_param(input->get_param("id")) == "onstop")
+                        else if (condition->get_params().get_param(id) == "onstop")
                                 object->getComboBox()->setCurrentIndex(2);
-                        else if (condition->get_params().get_param(input->get_param("id")) == "onsongchange")
+                        else if (condition->get_params().get_param(id) == "onsongchange")
                                 object->getComboBox()->setCurrentIndex(3);
-                        else if (condition->get_params().get_param(input->get_param("id")) == "onerror")
+                        else if (condition->get_params().get_param(id) == "onerror")
                                 object->getComboBox()->setCurrentIndex(4);
                 }
                 else
                 {
-                        QString s = QString::fromUtf8(condition->get_params().get_param(input->get_param("id")).c_str());
+                        QString s = QString::fromUtf8(condition->get_params().get_param(id).c_str());
                         object->getComboBox()->lineEdit()->setText(s);
                 }
         }
@@ -145,6 +150,11 @@ void ConditionDelegate::setEditorData(QWidget *editor, const QModelIndex &index)
 
 void ConditionDelegate::setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const
 {
+        string id = input->get_param("id");
+        if (IOBase::isAudioType(input->get_param("type")) ||
+            IOBase::isCameraType(input->get_param("type")))
+                id = input->get_param("iid");
+
         if (index.column() == 1) /* Edit operator */
         {
                 QComboBox *combo = dynamic_cast<QComboBox *>(editor);
@@ -154,7 +164,7 @@ void ConditionDelegate::setModelData(QWidget *editor, QAbstractItemModel *model,
                 model->setData(index, combo->itemText(current), Qt::DisplayRole);
                 string v = combo->itemData(current).toString().toLocal8Bit().constData();
 
-                condition->get_operator().Add(input->get_param("id"), v);
+                condition->get_operator().Add(id, v);
         }
         else if (index.column() == 2) /* Edit value */
         {
@@ -166,9 +176,13 @@ void ConditionDelegate::setModelData(QWidget *editor, QAbstractItemModel *model,
                 if (object->other_input)
                 {
                         string var_id = object->other_input->get_param("id");
+                        if (IOBase::isAudioType(object->other_input->get_param("type")) ||
+                            IOBase::isCameraType(object->other_input->get_param("type")))
+                                var_id = object->other_input->get_param("iid");
+
                         value = ListeRoom::Instance().get_input(var_id)->get_param("name");
                         model->setData(index, QString::fromUtf8(value.c_str()), Qt::DisplayRole);
-                        condition->get_params_var().Add(input->get_param("id"), var_id);
+                        condition->get_params_var().Add(id, var_id);
                 }
                 else
                 {
@@ -183,8 +197,8 @@ void ConditionDelegate::setModelData(QWidget *editor, QAbstractItemModel *model,
                         }
 
                         model->setData(index, QString::fromUtf8(value.c_str()), Qt::DisplayRole);
-                        condition->get_params().Add(input->get_param("id"), value);
-                        condition->get_params_var().Delete(input->get_param("id"));
+                        condition->get_params().Add(id, value);
+                        condition->get_params_var().Delete(id);
                 }
         }
 }

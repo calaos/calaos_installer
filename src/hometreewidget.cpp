@@ -142,10 +142,15 @@ void HomeTreeWidget::mouseMoveEvent(QMouseEvent *event)
         QTreeWidgetItemInput *itinput = dynamic_cast<QTreeWidgetItemInput *>(currentItem());
         if (itinput)
         {
+                string id = itinput->getInput()->get_param("id");
+                if (IOBase::isAudioType(itinput->getInput()->get_param("type")) ||
+                    IOBase::isCameraType(itinput->getInput()->get_param("type")))
+                        id = itinput->getInput()->get_param("iid");
+
                 QDrag *drag = new QDrag(this);
                 QMimeData *mimeData = new QMimeData;
                 QList<QUrl> list;
-                QString qs = QString::fromUtf8(itinput->getInput()->get_param("id").c_str());
+                QString qs = QString::fromUtf8(id.c_str());
                 list.append(QUrl(qs));
 
                 // mime stuff
@@ -159,10 +164,15 @@ void HomeTreeWidget::mouseMoveEvent(QMouseEvent *event)
         QTreeWidgetItemOutput *itoutput = dynamic_cast<QTreeWidgetItemOutput *>(currentItem());
         if (itoutput)
         {
+                string id = itoutput->getOutput()->get_param("id");
+                if (IOBase::isAudioType(itoutput->getOutput()->get_param("type")) ||
+                    IOBase::isCameraType(itoutput->getOutput()->get_param("type")))
+                        id = itoutput->getOutput()->get_param("oid");
+
                 QDrag *drag = new QDrag(this);
                 QMimeData *mimeData = new QMimeData;
                 QList<QUrl> list;
-                QString qs = QString::fromUtf8(itoutput->getOutput()->get_param("id").c_str());
+                QString qs = QString::fromUtf8(id.c_str());
                 list.append(QUrl(qs));
 
                 // mime stuff

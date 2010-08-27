@@ -205,6 +205,7 @@ void RuleXmlWriter::writeRule(Rule *rule)
         QXmlStreamAttributes attr;
         attr.append("name", QString::fromUtf8(rule->get_name().c_str()));
         attr.append("type", QString::fromUtf8(rule->get_type().c_str()));
+        attr.append("specialType", QString::fromUtf8(rule->getSpecialType().c_str()));
         writeAttributes(attr);
 
         writeCondition(rule);
@@ -237,6 +238,9 @@ void RuleXmlWriter::writeCondition(Rule *rule)
                                         Params &params_var = cond->get_params_var();
 
                                         string id = cond->get_input(j)->get_param("id");
+                                        if (IOBase::isAudioType(cond->get_input(j)->get_param("type")) ||
+                                            IOBase::isCameraType(cond->get_input(j)->get_param("type")))
+                                                id = cond->get_input(j)->get_param("iid");
 
                                         attr.clear();
                                         attr.append("id", QString::fromUtf8(id.c_str()));
@@ -271,7 +275,13 @@ void RuleXmlWriter::writeCondition(Rule *rule)
                                 {
                                         writeStartElement("http://www.calaos.fr", "input");
                                         QXmlStreamAttributes attr;
-                                        attr.append("id", QString::fromUtf8(cond->getScriptInput(i)->get_param("id").c_str()));
+
+                                        string id = cond->getScriptInput(i)->get_param("id");
+                                        if (IOBase::isAudioType(cond->getScriptInput(i)->get_param("type")) ||
+                                            IOBase::isCameraType(cond->getScriptInput(i)->get_param("type")))
+                                                id = cond->getScriptInput(i)->get_param("iid");
+
+                                        attr.append("id", QString::fromUtf8(id.c_str()));
                                         writeAttributes(attr);
                                         writeEndElement();
                                 }
@@ -314,6 +324,9 @@ void RuleXmlWriter::writeAction(Rule *rule)
                                         Params &params_var = action->get_params_var();
 
                                         string id = action->get_output(j)->get_param("id");
+                                        if (IOBase::isAudioType(action->get_output(j)->get_param("type")) ||
+                                            IOBase::isCameraType(action->get_output(j)->get_param("type")))
+                                                id = action->get_output(j)->get_param("oid");
 
                                         attr.clear();
                                         attr.append("id", QString::fromUtf8(id.c_str()));

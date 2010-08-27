@@ -586,17 +586,22 @@ QTreeWidgetItem *FormRules::addItemCondition(Condition *condition, Input *input,
 {
         string name, oper, value;
 
+        string id = input->get_param("id");
+        if (IOBase::isAudioType(input->get_param("type")) ||
+            IOBase::isCameraType(input->get_param("type")))
+                id = input->get_param("iid");
+
         name = input->get_param("name");
-        oper = condition->get_operator().get_param(input->get_param("id"));
+        oper = condition->get_operator().get_param(id);
 
         if (oper == "INF") oper = "<";
         if (oper == "INF=") oper = "<=";
         if (oper == "SUP") oper = ">";
         if (oper == "SUP=") oper = ">=";
 
-        if (condition->get_params_var().get_param(input->get_param("id")) != "")
+        if (condition->get_params_var().get_param(id) != "")
         {
-                string var_id = condition->get_params_var().get_param(input->get_param("id"));
+                string var_id = condition->get_params_var().get_param(id);
                 Input *in = ListeRoom::Instance().get_input(var_id);
                 if (in)
                 {
@@ -605,12 +610,12 @@ QTreeWidgetItem *FormRules::addItemCondition(Condition *condition, Input *input,
                 else
                 {
                         /* Wrong param_var, remove it */
-                        value = condition->get_params().get_param(input->get_param("id"));
-                        condition->get_params_var().Delete(input->get_param("id"));
+                        value = condition->get_params().get_param(id);
+                        condition->get_params_var().Delete(id);
                 }
         }
         else
-                value = condition->get_params().get_param(input->get_param("id"));
+                value = condition->get_params().get_param(id);
 
         QTreeWidgetItem *item = new QTreeWidgetItem(ui->tree_condition);
         item->setData(0, Qt::DisplayRole, QString::fromUtf8(name.c_str()));
@@ -644,11 +649,16 @@ QTreeWidgetItem *FormRules::addItemAction(Action *action, Output *output, bool s
 {
         string name, value;
 
+        string id = output->get_param("id");
+        if (IOBase::isAudioType(output->get_param("type")) ||
+            IOBase::isCameraType(output->get_param("type")))
+                id = output->get_param("oid");
+
         name = output->get_param("name");
 
-        if (action->get_params_var().get_param(output->get_param("id")) != "")
+        if (action->get_params_var().get_param(id) != "")
         {
-                string var_id = action->get_params_var().get_param(output->get_param("id"));
+                string var_id = action->get_params_var().get_param(id);
                 Output *out = ListeRoom::Instance().get_output(var_id);
                 if (out)
                 {
@@ -657,12 +667,12 @@ QTreeWidgetItem *FormRules::addItemAction(Action *action, Output *output, bool s
                 else
                 {
                         /* wrong param_var, remove it */
-                        value = action->get_params().get_param(output->get_param("id"));
-                        action->get_params_var().Delete(output->get_param("id"));
+                        value = action->get_params().get_param(id);
+                        action->get_params_var().Delete(id);
                 }
         }
         else
-                value = action->get_params().get_param(output->get_param("id"));
+                value = action->get_params().get_param(id);
 
         QTreeWidgetItem *item = new QTreeWidgetItem(ui->tree_action);
         item->setData(0, Qt::DisplayRole, QString::fromUtf8(name.c_str()));
@@ -698,13 +708,23 @@ void FormRules::goSelectRule()
         QTreeWidgetItemInput *itinput = dynamic_cast<QTreeWidgetItemInput *>(treeItem);
         if (itinput)
         {
-                filter_text += itinput->getInput()->get_param("id").c_str();
+                string id = itinput->getInput()->get_param("id");
+                if (IOBase::isAudioType(itinput->getInput()->get_param("type")) ||
+                    IOBase::isCameraType(itinput->getInput()->get_param("type")))
+                        id = itinput->getInput()->get_param("iid");
+
+                filter_text += id.c_str();
         }
 
         QTreeWidgetItemOutput *itoutput = dynamic_cast<QTreeWidgetItemOutput *>(treeItem);
         if (itoutput)
         {
-                filter_text += itoutput->getOutput()->get_param("id").c_str();
+                string id = itoutput->getOutput()->get_param("id");
+                if (IOBase::isAudioType(itoutput->getOutput()->get_param("type")) ||
+                    IOBase::isCameraType(itoutput->getOutput()->get_param("type")))
+                        id = itoutput->getOutput()->get_param("oid");
+
+                filter_text += id.c_str();
         }
 
         ui->filterEditRules->setText(filter_text);
@@ -1542,7 +1562,13 @@ void FormRules::on_filterEditRules_textChanged(QString filter_text)
                                         for (int j = 0;j < action->get_size();j++)
                                         {
                                                 searchList << action->get_output(j)->get_param("name").c_str();
-                                                searchList << action->get_output(j)->get_param("id").c_str();
+
+                                                string id = action->get_output(j)->get_param("id");
+                                                if (IOBase::isAudioType(action->get_output(j)->get_param("type")) ||
+                                                    IOBase::isCameraType(action->get_output(j)->get_param("type")))
+                                                        id = action->get_output(j)->get_param("oid");
+
+                                                searchList << id.c_str();
                                         }
                                 }
                         }
@@ -1556,7 +1582,13 @@ void FormRules::on_filterEditRules_textChanged(QString filter_text)
                                         for (int j = 0;j < cond->get_size();j++)
                                         {
                                                 searchList << cond->get_input(j)->get_param("name").c_str();
-                                                searchList << cond->get_input(j)->get_param("id").c_str();
+
+                                                string id = cond->get_input(j)->get_param("id");
+                                                if (IOBase::isAudioType(cond->get_input(j)->get_param("type")) ||
+                                                    IOBase::isCameraType(cond->get_input(j)->get_param("type")))
+                                                        id = cond->get_input(j)->get_param("iid");
+
+                                                searchList << id.c_str();
                                         }
                                 }
                         }

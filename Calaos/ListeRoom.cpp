@@ -117,7 +117,7 @@ Input *ListeRoom::get_input(std::string i)
                 for (int m = 0;m < rooms[j]->get_size_in();m++)
                 {
                         Input *in = rooms[j]->get_input(m);
-                        if (in->get_param("id") == i)
+                        if (in->get_param("id") == i || in->get_param("iid") == i)
                         {
                                 return in;
                         }
@@ -134,7 +134,7 @@ Output *ListeRoom::get_output(std::string i)
                 for (int m = 0;m < rooms[j]->get_size_out();m++)
                 {
                         Output *out = rooms[j]->get_output(m);
-                        if (out->get_param("id") == i)
+                        if (out->get_param("id") == i || out->get_param("oid") == i)
                         {
                                 return out;
                         }

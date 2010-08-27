@@ -36,14 +36,14 @@ bool ConditionTreeWidget::dropMimeData(QTreeWidgetItem *, int, const QMimeData *
                         rule->AddCondition(new Condition(COND_STD));
 
                 rule->get_condition(0)->Add(input);
-                rule->get_condition(0)->get_operator().Add(input->get_param("id"), "==");
+                rule->get_condition(0)->get_operator().Add(id, "==");
 
                 if (input->get_param("type") == "WIDigitalBP" || input->get_param("type") == "InputTime" ||
                     input->get_param("type") == "InputTimer" || input->get_param("type") == "Scenario" ||
                     input->get_param("type") == "scenario" || input->get_param("type") == "InPlageHoraire")
-                      rule->get_condition(0)->get_params().Add(input->get_param("id"), "true");
+                      rule->get_condition(0)->get_params().Add(id, "true");
                 else if (input->get_param("type") == "WIDigitalTriple")
-                      rule->get_condition(0)->get_params().Add(input->get_param("id"), "1");
+                      rule->get_condition(0)->get_params().Add(id, "1");
 
                 win->getFormRules()->addItemCondition(rule->get_condition(0), input);
         }

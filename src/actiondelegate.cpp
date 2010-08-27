@@ -138,6 +138,11 @@ QWidget *ActionDelegate::createEditor(QWidget *parent, const QStyleOptionViewIte
 
 void ActionDelegate::setEditorData(QWidget *editor, const QModelIndex &index) const
 {
+        string id = output->get_param("id");
+        if (IOBase::isAudioType(output->get_param("type")) ||
+            IOBase::isCameraType(output->get_param("type")))
+                id = output->get_param("oid");
+
         if (index.column() == 1) /* Edit value */
         {
                 IOEditorSelection *object = dynamic_cast<IOEditorSelection *>(editor);
@@ -147,86 +152,86 @@ void ActionDelegate::setEditorData(QWidget *editor, const QModelIndex &index) co
                 if (type == "OutputFake" || type == "InputTimer" ||
                     type == "scenario" || type == "InternalBool")
                 {
-                        if (action->get_params().get_param(output->get_param("id")) == "true")
+                        if (action->get_params().get_param(id) == "true")
                                 object->getComboBox()->setCurrentIndex(0);
-                        else if (action->get_params().get_param(output->get_param("id")) == "false")
+                        else if (action->get_params().get_param(id) == "false")
                                 object->getComboBox()->setCurrentIndex(1);
-                        else if (action->get_params().get_param(output->get_param("id")) == "toggle")
+                        else if (action->get_params().get_param(id) == "toggle")
                                 object->getComboBox()->setCurrentIndex(2);
                 }
                 else if (type == "WODigital" || type == "WODali" || type == "WODaliRVB" || type == "WONeon")
                 {
-                        if (action->get_params().get_param(output->get_param("id")) == "true")
+                        if (action->get_params().get_param(id) == "true")
                                 object->getComboBox()->setCurrentIndex(0);
-                        else if (action->get_params().get_param(output->get_param("id")) == "false")
+                        else if (action->get_params().get_param(id) == "false")
                                 object->getComboBox()->setCurrentIndex(1);
-                        else if (action->get_params().get_param(output->get_param("id")) == "toggle")
+                        else if (action->get_params().get_param(id) == "toggle")
                                 object->getComboBox()->setCurrentIndex(2);
                         else
                         {
-                                QString s = QString::fromUtf8(action->get_params().get_param(output->get_param("id")).c_str());
+                                QString s = QString::fromUtf8(action->get_params().get_param(id).c_str());
                                 object->getComboBox()->lineEdit()->setText(s);
                         }
                 }
                 else if (type == "WOVolet" || type == "WOVoletSmart")
                 {
-                        if (action->get_params().get_param(output->get_param("id")) == "up")
+                        if (action->get_params().get_param(id) == "up")
                                 object->getComboBox()->setCurrentIndex(0);
-                        else if (action->get_params().get_param(output->get_param("id")) == "down")
+                        else if (action->get_params().get_param(id) == "down")
                                 object->getComboBox()->setCurrentIndex(1);
-                        else if (action->get_params().get_param(output->get_param("id")) == "stop")
+                        else if (action->get_params().get_param(id) == "stop")
                                 object->getComboBox()->setCurrentIndex(2);
-                        else if (action->get_params().get_param(output->get_param("id")) == "toggle")
+                        else if (action->get_params().get_param(id) == "toggle")
                                 object->getComboBox()->setCurrentIndex(3);
                         else
                         {
-                                QString s = QString::fromUtf8(action->get_params().get_param(output->get_param("id")).c_str());
+                                QString s = QString::fromUtf8(action->get_params().get_param(id).c_str());
                                 object->getComboBox()->lineEdit()->setText(s);
                         }
                 }
                 else if (IOBase::isAudioType(type))
                 {
-                        if (action->get_params().get_param(output->get_param("id")) == "play")
+                        if (action->get_params().get_param(id) == "play")
                                 object->getComboBox()->setCurrentIndex(0);
-                        else if (action->get_params().get_param(output->get_param("id")) == "pause")
+                        else if (action->get_params().get_param(id) == "pause")
                                 object->getComboBox()->setCurrentIndex(1);
-                        else if (action->get_params().get_param(output->get_param("id")) == "stop")
+                        else if (action->get_params().get_param(id) == "stop")
                                 object->getComboBox()->setCurrentIndex(2);
-                        else if (action->get_params().get_param(output->get_param("id")) == "next")
+                        else if (action->get_params().get_param(id) == "next")
                                 object->getComboBox()->setCurrentIndex(3);
-                        else if (action->get_params().get_param(output->get_param("id")) == "previous")
+                        else if (action->get_params().get_param(id) == "previous")
                                 object->getComboBox()->setCurrentIndex(4);
-                        else if (action->get_params().get_param(output->get_param("id")) == "power on")
+                        else if (action->get_params().get_param(id) == "power on")
                                 object->getComboBox()->setCurrentIndex(5);
-                        else if (action->get_params().get_param(output->get_param("id")) == "power off")
+                        else if (action->get_params().get_param(id) == "power off")
                                 object->getComboBox()->setCurrentIndex(6);
                         else
                         {
-                                QString s = QString::fromUtf8(action->get_params().get_param(output->get_param("id")).c_str());
+                                QString s = QString::fromUtf8(action->get_params().get_param(id).c_str());
                                 object->getComboBox()->lineEdit()->setText(s);
                         }
                 }
                 else if (IOBase::isCameraType(type))
                 {
-                        if (action->get_params().get_param(output->get_param("id")) == "move up")
+                        if (action->get_params().get_param(id) == "move up")
                                 object->getComboBox()->setCurrentIndex(2);
-                        else if (action->get_params().get_param(output->get_param("id")) == "move down")
+                        else if (action->get_params().get_param(id) == "move down")
                                 object->getComboBox()->setCurrentIndex(3);
-                        else if (action->get_params().get_param(output->get_param("id")) == "move left")
+                        else if (action->get_params().get_param(id) == "move left")
                                 object->getComboBox()->setCurrentIndex(4);
-                        else if (action->get_params().get_param(output->get_param("id")) == "move right")
+                        else if (action->get_params().get_param(id) == "move right")
                                 object->getComboBox()->setCurrentIndex(5);
-                        else if (action->get_params().get_param(output->get_param("id")) == "move home")
+                        else if (action->get_params().get_param(id) == "move home")
                                 object->getComboBox()->setCurrentIndex(6);
                         else
                         {
-                                QString s = QString::fromUtf8(action->get_params().get_param(output->get_param("id")).c_str());
+                                QString s = QString::fromUtf8(action->get_params().get_param(id).c_str());
                                 object->getComboBox()->lineEdit()->setText(s);
                         }
                 }
                 else
                 {
-                        QString s = QString::fromUtf8(action->get_params().get_param(output->get_param("id")).c_str());
+                        QString s = QString::fromUtf8(action->get_params().get_param(id).c_str());
                         object->getComboBox()->lineEdit()->setText(s);
                 }
         }
@@ -234,6 +239,11 @@ void ActionDelegate::setEditorData(QWidget *editor, const QModelIndex &index) co
 
 void ActionDelegate::setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const
 {
+        string id = output->get_param("id");
+        if (IOBase::isAudioType(output->get_param("type")) ||
+            IOBase::isCameraType(output->get_param("type")))
+                id = output->get_param("oid");
+
         if (index.column() == 1) /* Edit value */
         {
                 IOEditorSelection *object = dynamic_cast<IOEditorSelection *>(editor);
@@ -244,9 +254,13 @@ void ActionDelegate::setModelData(QWidget *editor, QAbstractItemModel *model, co
                 if (object->other_output)
                 {
                         string var_id = object->other_output->get_param("id");
+                        if (IOBase::isAudioType(object->other_output->get_param("type")) ||
+                            IOBase::isCameraType(object->other_output->get_param("type")))
+                                var_id = object->other_output->get_param("oid");
+
                         value = ListeRoom::Instance().get_output(var_id)->get_param("name");
                         model->setData(index, QString::fromUtf8(value.c_str()), Qt::DisplayRole);
-                        action->get_params_var().Add(output->get_param("id"), var_id);
+                        action->get_params_var().Add(id, var_id);
                 }
                 else
                 {
@@ -261,8 +275,8 @@ void ActionDelegate::setModelData(QWidget *editor, QAbstractItemModel *model, co
                         }
 
                         model->setData(index, QString::fromUtf8(value.c_str()), Qt::DisplayRole);
-                        action->get_params().Add(output->get_param("id"), value);
-                        action->get_params_var().Delete(output->get_param("id"));
+                        action->get_params().Add(id, value);
+                        action->get_params_var().Delete(id);
                 }
         }
 }

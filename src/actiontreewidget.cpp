@@ -40,9 +40,9 @@ bool ActionTreeWidget::dropMimeData(QTreeWidgetItem *, int, const QMimeData *dat
                 if (output->get_param("type") == "WODigital" || output->get_param("type") == "WODali" ||
                     output->get_param("type") == "WODaliRVB" || output->get_param("type") == "WONeon" ||
                     output->get_param("type") == "WOVolet" || output->get_param("type") == "WOVoletSmart")
-                      rule->get_action(0)->get_params().Add(output->get_param("id"), "toggle");
+                      rule->get_action(0)->get_params().Add(id, "toggle");
                 else if (output->get_param("type") == "scenario" || output->get_param("type") == "InputTimer")
-                      rule->get_action(0)->get_params().Add(output->get_param("id"), "true");
+                      rule->get_action(0)->get_params().Add(id, "true");
 
                 win->getFormRules()->addItemAction(rule->get_action(0), output);
         }
