@@ -1511,6 +1511,7 @@ void FormRules::on_filterEditRules_textChanged(QString filter_text)
         QString filter_type = filter_text.section(":", 0, 0);
         QString filter = filter_text.section(":", 1);
 
+        QTreeWidgetItemRule *item_selected = NULL;
 
         if (filter_type.toLower() == "output" ||
             filter_type.toLower() == "input" ||
@@ -1567,8 +1568,14 @@ void FormRules::on_filterEditRules_textChanged(QString filter_text)
 
                         item->setHidden(hideItem);
 
+                        if (!hideItem && !item_selected)
+                                item_selected = item;
+
+
                         ++it;
                 }
+
+                ui->tree_rules->setCurrentItem(item_selected);
 
                 return;
         }
@@ -1594,6 +1601,11 @@ void FormRules::on_filterEditRules_textChanged(QString filter_text)
 
                 item->setHidden(hideItem);
 
+                if (!hideItem && !item_selected)
+                        item_selected = item;
+
                 ++it;
         }
+
+        ui->tree_rules->setCurrentItem(item_selected);
 }
