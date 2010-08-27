@@ -6,15 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>420</width>
-    <height>406</height>
+    <width>408</width>
+    <height>446</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Choisir un élément...</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="data/resources.qrc">
+   <iconset resource="resources.qrc">
     <normaloff>:/img/edit-rename.png</normaloff>:/img/edit-rename.png</iconset>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
@@ -32,9 +32,6 @@
      <property name="itemsExpandable">
       <bool>false</bool>
      </property>
-     <attribute name="headerDefaultSectionSize">
-      <number>150</number>
-     </attribute>
      <attribute name="headerDefaultSectionSize">
       <number>150</number>
      </attribute>
@@ -63,7 +60,7 @@
   </layout>
  </widget>
  <resources>
-  <include location="data/resources.qrc"/>
+  <include location="resources.qrc"/>
  </resources>
  <connections>
   <connection>

@@ -18,25 +18,36 @@
 **  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 **
 ******************************************************************************/
-//-----------------------------------------------------------------------------
 #include <Condition.h>
-//-----------------------------------------------------------------------------
-using namespace std;
+
 using namespace Calaos;
-//-----------------------------------------------------------------------------
+
 Condition::~Condition()
 {
 }
-//-----------------------------------------------------------------------------
+
 void Condition::Add(Input *in)
 {
         inputs.push_back(in);
 }
-//-----------------------------------------------------------------------------
+
 void Condition::Remove(int pos)
 {
         vector<Input *>::iterator iter = inputs.begin();
         for (int i = 0;i < pos;iter++, i++) ;
         inputs.erase(iter);
 }
-//-----------------------------------------------------------------------------
+
+void Condition::removeScriptInput(int pos)
+{
+        vector<Input *>::iterator iter = in_event.begin();
+        for (int i = 0;i < pos;iter++, i++) ;
+        in_event.erase(iter);
+}
+
+void Condition::removeScriptInput(Input *in)
+{
+        vector<Input *>::iterator iter = in_event.begin();
+        for (int i = 0;i < (int)in_event.size() && in != in_event[i];iter++, i++) ;
+        in_event.erase(iter);
+}

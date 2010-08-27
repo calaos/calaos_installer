@@ -21,7 +21,6 @@ class ClearLineEdit : public QLineEdit
         private:
                 QToolButton *clearButton;
                 QLabel *label;
-
 };
 
 #endif // CLEARLINEEDIT_H

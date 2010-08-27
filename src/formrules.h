@@ -109,6 +109,8 @@ class FormRules : public QWidget
                 void itemConvertVoletSmart();
 
         private slots:
+                void on_filterEditRules_textChanged(QString );
+                void on_filterEditHome_textChanged(QString );
                 void on_bt_rules_del_clicked();
                 void on_tree_rules_currentItemChanged(QTreeWidgetItem* current, QTreeWidgetItem* previous);
                 void on_bt_rules_add_clicked();

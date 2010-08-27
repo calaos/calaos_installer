@@ -218,28 +218,77 @@ void RuleXmlWriter::writeCondition(Rule *rule)
         for (int i = 0;i < rule->get_size_conds();i++)
         {
                 Condition *cond = rule->get_condition(i);
-                for (int j = 0;j < cond->get_size();j++)
+
+                switch (cond->getType())
                 {
-                        writeStartElement("http://www.calaos.fr", "condition");
-                        writeStartElement("http://www.calaos.fr", "input");
+                case COND_STD:
+                        {
+                                for (int j = 0;j < cond->get_size();j++)
+                                {
+                                        writeStartElement("http://www.calaos.fr", "condition");
+                                        QXmlStreamAttributes attr;
+                                        attr.append("type", "standard");
+                                        writeAttributes(attr);
 
-                        Params &oper = cond->get_operator();
-                        Params &params = cond->get_params();
-                        Params &params_var = cond->get_params_var();
+                                        writeStartElement("http://www.calaos.fr", "input");
 
-                        string id = cond->get_input(j)->get_param("id");
+                                        Params &oper = cond->get_operator();
+                                        Params &params = cond->get_params();
+                                        Params &params_var = cond->get_params_var();
 
-                        QXmlStreamAttributes attr;
-                        attr.append("id", QString::fromUtf8(id.c_str()));
-                        attr.append("oper", QString::fromUtf8(oper[id].c_str()));
-                        attr.append("val", QString::fromUtf8(params[id].c_str()));
-                        if (params_var[id] != "")
-                                attr.append("val_var", QString::fromUtf8(params_var[id].c_str()));
-                        writeAttributes(attr);
+                                        string id = cond->get_input(j)->get_param("id");
 
-                        writeEndElement();
-                        writeEndElement();
+                                        attr.clear();
+                                        attr.append("id", QString::fromUtf8(id.c_str()));
+                                        attr.append("oper", QString::fromUtf8(oper[id].c_str()));
+                                        attr.append("val", QString::fromUtf8(params[id].c_str()));
+                                        if (params_var[id] != "")
+                                                attr.append("val_var", QString::fromUtf8(params_var[id].c_str()));
+                                        writeAttributes(attr);
+
+                                        writeEndElement();
+                                        writeEndElement();
+                                }
+                                break;
+                        }
+                case COND_START:
+                        {
+                                writeStartElement("http://www.calaos.fr", "condition");
+                                QXmlStreamAttributes attr;
+                                attr.append("type", "start");
+                                writeAttributes(attr);
+                                writeEndElement();
+                                break;
+                        }
+                case COND_SCRIPT:
+                        {
+                                writeStartElement("http://www.calaos.fr", "condition");
+                                QXmlStreamAttributes attr;
+                                attr.append("type", "script");
+                                writeAttributes(attr);
+
+                                for (int i = 0;i < cond->getScriptInputSize();i++)
+                                {
+                                        writeStartElement("http://www.calaos.fr", "input");
+                                        QXmlStreamAttributes attr;
+                                        attr.append("id", QString::fromUtf8(cond->getScriptInput(i)->get_param("id").c_str()));
+                                        writeAttributes(attr);
+                                        writeEndElement();
+                                }
+
+                                writeStartElement("http://www.calaos.fr", "script");
+                                attr.clear();
+                                attr.append("type", "lua");
+                                writeAttributes(attr);
+
+                                writeCDATA(QString::fromUtf8(cond->getScript().c_str()));
+
+                                writeEndElement();
+                                writeEndElement();
+                                break;
+                        }
                 }
+
         }
 }
 
@@ -248,26 +297,87 @@ void RuleXmlWriter::writeAction(Rule *rule)
         for (int i = 0;i < rule->get_size_actions();i++)
         {
                 Action *action = rule->get_action(i);
-                for (int j = 0;j < action->get_size();j++)
+
+                switch (action->getType())
                 {
-                        writeStartElement("http://www.calaos.fr", "action");
-                        writeStartElement("http://www.calaos.fr", "output");
+                case ACTION_STD:
+                        {
+                                for (int j = 0;j < action->get_size();j++)
+                                {
+                                        writeStartElement("http://www.calaos.fr", "action");
+                                        QXmlStreamAttributes attr;
+                                        attr.append("type", "standard");
+                                        writeAttributes(attr);
+                                        writeStartElement("http://www.calaos.fr", "output");
 
-                        Params &params = action->get_params();
-                        Params &params_var = action->get_params_var();
+                                        Params &params = action->get_params();
+                                        Params &params_var = action->get_params_var();
 
-                        string id = action->get_output(j)->get_param("id");
+                                        string id = action->get_output(j)->get_param("id");
 
-                        QXmlStreamAttributes attr;
-                        attr.append("id", QString::fromUtf8(id.c_str()));
-                        attr.append("val", QString::fromUtf8(params[id].c_str()));
-                        if (params_var[id] != "")
-                                attr.append("val_var", QString::fromUtf8(params_var[id].c_str()));
-                        writeAttributes(attr);
+                                        attr.clear();
+                                        attr.append("id", QString::fromUtf8(id.c_str()));
+                                        attr.append("val", QString::fromUtf8(params[id].c_str()));
+                                        if (params_var[id] != "")
+                                                attr.append("val_var", QString::fromUtf8(params_var[id].c_str()));
+                                        writeAttributes(attr);
 
-                        writeEndElement();
-                        writeEndElement();
+                                        writeEndElement();
+                                        writeEndElement();
+                                }
+                                break;
+                        }
+                case ACTION_MAIL:
+                        {
+                                writeStartElement("http://www.calaos.fr", "action");
+                                QXmlStreamAttributes attr;
+                                attr.append("type", "mail");
+                                writeAttributes(attr);
+
+                                writeStartElement("http://www.calaos.fr", "mail");
+                                attr.clear();
+                                attr.append("sender", QString::fromUtf8(action->getMailSender().c_str()));
+                                attr.append("recipients", QString::fromUtf8(action->getMailRecipients().c_str()));
+                                attr.append("subject", QString::fromUtf8(action->getMailSubject().c_str()));
+                                attr.append("attachment", QString::fromUtf8(action->getMailAttachment().c_str()));
+                                writeAttributes(attr);
+
+                                writeCDATA(QString::fromUtf8(action->getMailMessage().c_str()));
+
+                                writeEndElement();
+                                writeEndElement();
+                                break;
+                        }
+                case ACTION_SCRIPT:
+                        {
+                                writeStartElement("http://www.calaos.fr", "action");
+                                QXmlStreamAttributes attr;
+                                attr.append("type", "script");
+                                writeAttributes(attr);
+
+                                writeStartElement("http://www.calaos.fr", "script");
+                                attr.clear();
+                                attr.append("type", "lua");
+                                writeAttributes(attr);
+
+                                writeCDATA(QString::fromUtf8(action->getScript().c_str()));
+
+                                writeEndElement();
+                                writeEndElement();
+                                break;
+                        }
+                case ACTION_TOUCHSCREEN:
+                        {
+                                writeStartElement("http://www.calaos.fr", "action");
+                                QXmlStreamAttributes attr;
+                                attr.append("type", "touchscreen");
+                                attr.append("action", QString::fromUtf8(action->getTouchscreenAction().c_str()));
+                                writeAttributes(attr);
+                                writeEndElement();
+                                break;
+                        }
                 }
+
         }
 }
 
@@ -523,162 +633,6 @@ void IOXmlReader::readAudio(Room *room)
         }
 }
 
-RuleXmlReader::RuleXmlReader()
-{
-}
-
-bool RuleXmlReader::readFile(QIODevice *device)
-{
-        setDevice(device);
-
-        bool file_ok = false;
-
-        while (!atEnd())
-        {
-                readNext();
-
-                if (isStartElement())
-                {
-                        if (name() == "rules")
-                        {
-                                file_ok = true;
-                                continue;
-                        }
-                        else if (name() == "rule" && file_ok)
-                        {
-                                readRule();
-                        }
-                        else
-                                raiseError(QString::fromUtf8("Ce fichier n'est pas un fichier Rules Calaos."));
-                }
-        }
-
-        return !error();
-}
-
-void RuleXmlReader::readRule()
-{
-        string _name = attributes().value("name").toString().toLocal8Bit().data();
-        string _type = attributes().value("type").toString().toLocal8Bit().data();
-
-        Rule *rule = new Rule(_type, _name);
-        ListeRule::Instance().Add(rule);
-
-        while (!atEnd())
-        {
-                readNext();
-
-                if (isEndElement())
-                        break;
-
-                if (isStartElement())
-                {
-                        if (name() == "condition")
-                                readCondition(rule);
-                        else if (name() == "action")
-                                readAction(rule);
-                }
-        }
-}
-
-void RuleXmlReader::readCondition(Rule *rule)
-{
-        while (!atEnd())
-        {
-                readNext();
-
-                if (isEndElement())
-                        break;
-
-                if (isStartElement())
-                {
-                        if (name() == "input")
-                        {
-                                Condition *cond = new Condition();
-                                rule->AddCondition(cond);
-                                readInput(cond);
-                        }
-                }
-        }
-}
-
-void RuleXmlReader::readInput(Condition *cond)
-{
-        string id = attributes().value("id").toString().toLocal8Bit().data();
-        string oper = attributes().value("oper").toString().toLocal8Bit().data();
-        string val = attributes().value("val").toString().toLocal8Bit().data();
-        string val_var = "";
-        if (attributes().hasAttribute("val_var"))
-                val_var = attributes().value("val_var").toString().toLocal8Bit().data();
-
-        Input *input = ListeRoom::Instance().get_input(id);
-
-        if (input)
-        {
-                cond->Add(input);
-                cond->get_params().Add(id, val);
-                cond->get_operator().Add(id, oper);
-                if (val_var != "")
-                        cond->get_params_var().Add(id, val_var);
-        }
-
-        while (!atEnd())
-        {
-                readNext();
-
-                if (isEndElement())
-                        break;
-        }
-}
-
-void RuleXmlReader::readAction(Rule *rule)
-{
-        while (!atEnd())
-        {
-                readNext();
-
-                if (isEndElement())
-                        break;
-
-                if (isStartElement())
-                {
-                        if (name() == "output")
-                        {
-                                Action *action = new Action();
-                                rule->AddAction(action);
-                                readOutput(action);
-                        }
-                }
-        }
-}
-
-void RuleXmlReader::readOutput(Action *action)
-{
-        string id = attributes().value("id").toString().toLocal8Bit().data();
-        string val = attributes().value("val").toString().toLocal8Bit().data();
-        string val_var = "";
-        if (attributes().hasAttribute("val_var"))
-                val_var = attributes().value("val_var").toString().toLocal8Bit().data();
-
-        Output *output = ListeRoom::Instance().get_output(id);
-
-        if (output)
-        {
-                action->Add(output);
-                action->get_params().Add(id, val);
-                if (val_var != "")
-                        action->get_params_var().Add(id, val_var);
-        }
-
-        while (!atEnd())
-        {
-                readNext();
-
-                if (isEndElement())
-                        break;
-        }
-}
-
 bool ProjectManager::saveIOsToFile(QString &file)
 {
         QFile t(file);
@@ -727,10 +681,174 @@ bool ProjectManager::loadRulesFromFile(QString &file)
         if (!t.open(QIODevice::ReadOnly | QIODevice::Text))
                 return false;
 
-        RuleXmlReader xmlfile;
-        xmlfile.readFile(&t);
-
+        QDomDocument doc("rules");
+        if (!doc.setContent(&t))
+        {
+                t.close();
+                return false;
+        }
         t.close();
+
+        QDomElement elem = doc.documentElement();
+
+        if (elem.isNull())
+                return false;
+
+        QDomElement node_rule = elem.firstChildElement("calaos:rule");
+        while (!node_rule.isNull())
+        {
+                string name = node_rule.attribute("name").toLocal8Bit().data();
+                string type = node_rule.attribute("type").toLocal8Bit().data();
+                string stype = node_rule.attribute("specialType").toLocal8Bit().data();
+
+                Rule *rule = new Rule(type, name, stype);
+                ListeRule::Instance().Add(rule);
+
+                //Read conditions
+                QDomElement node_cond = node_rule.firstChildElement("calaos:condition");
+                while (!node_cond.isNull())
+                {
+                        Condition *cond = NULL;
+                        string cond_type = node_cond.attribute("type").toLocal8Bit().data();
+                        if (cond_type == "standard" || "")
+                        {
+                                cond = new Condition(COND_STD);
+
+                                QDomElement node_in = node_cond.firstChildElement("calaos:input");
+                                while(!node_in.isNull())
+                                {
+                                        string id = node_in.attribute("id").toLocal8Bit().data();
+                                        string oper = node_in.attribute("oper").toLocal8Bit().data();
+                                        string val = node_in.attribute("val").toLocal8Bit().data();
+                                        string val_var = node_in.attribute("val_var").toLocal8Bit().data();
+
+                                        Input *input = ListeRoom::Instance().get_input(id);
+
+                                        if (input)
+                                        {
+                                                cond->Add(input);
+                                                cond->get_params().Add(id, val);
+                                                cond->get_operator().Add(id, oper);
+                                                if (val_var != "")
+                                                        cond->get_params_var().Add(id, val_var);
+                                        }
+
+                                        node_in = node_in.nextSiblingElement("calaos:input");
+                                }
+                        }
+                        else if (cond_type == "start")
+                        {
+                                cond = new Condition(COND_START);
+                        }
+                        else if (cond_type == "script")
+                        {
+                                cond = new Condition(COND_SCRIPT);
+
+                                QDomElement node_in = node_cond.firstChildElement();
+                                while (!node_in.isNull())
+                                {
+                                        if (node_in.tagName() == "calaos:input")
+                                        {
+                                                string id = node_in.attribute("id").toLocal8Bit().data();
+                                                Input *input = ListeRoom::Instance().get_input(id);
+                                                if (input)
+                                                        cond->addScriptInput(input);
+                                        }
+                                        else if (node_in.tagName() == "calaos:script")
+                                        {
+                                                QDomCDATASection data = node_in.toCDATASection();
+                                                cond->setScript(data.data().toLocal8Bit().data());
+                                        }
+
+                                        node_in = node_in.nextSiblingElement();
+                                }
+                        }
+
+                        if (cond)
+                        {
+                                rule->AddCondition(cond);
+                        }
+
+                        node_cond = node_cond.nextSiblingElement("calaos:condition");
+                }
+
+                //Read actions
+                QDomElement node_action = node_rule.firstChildElement("calaos:action");
+                while (!node_action.isNull())
+                {
+                        Action *action = NULL;
+                        string action_type = node_action.attribute("type").toLocal8Bit().data();
+                        if (action_type == "standard" || "")
+                        {
+                                action = new Action(ACTION_STD);
+
+                                QDomElement node_out = node_action.firstChildElement("calaos:output");
+                                while(!node_out.isNull())
+                                {
+                                        string id = node_out.attribute("id").toLocal8Bit().data();
+                                        string val = node_out.attribute("val").toLocal8Bit().data();
+                                        string val_var = node_out.attribute("val_var").toLocal8Bit().data();
+
+                                        Output *output = ListeRoom::Instance().get_output(id);
+
+                                        if (output)
+                                        {
+                                                action->Add(output);
+                                                action->get_params().Add(id, val);
+                                                if (val_var != "")
+                                                        action->get_params_var().Add(id, val_var);
+                                        }
+
+                                        node_out = node_out.nextSiblingElement("calaos:output");
+                                }
+                        }
+                        else if (action_type == "mail")
+                        {
+                                action = new Action(ACTION_MAIL);
+
+                                QDomElement node_mail = node_action.firstChildElement("calaos:mail");
+                                string mail_sender = node_mail.attribute("sender").toLocal8Bit().data();
+                                string mail_recipients = node_mail.attribute("recipients").toLocal8Bit().data();
+                                string mail_subject = node_mail.attribute("subject").toLocal8Bit().data();
+                                string mail_attachment = node_mail.attribute("attachment").toLocal8Bit().data();
+
+                                action->setMailSender(mail_sender);
+                                action->setMailRecipients(mail_recipients);
+                                action->setMailSubject(mail_subject);
+                                action->setMailAttachment(mail_attachment);
+
+                                QDomCDATASection data = node_mail.firstChild().toCDATASection();
+                                action->setMailMessage(data.data().toLocal8Bit().data());
+                        }
+                        else if (action_type == "script")
+                        {
+                                action = new Action(ACTION_SCRIPT);
+
+                                QDomElement node_script = node_action.firstChildElement();
+                                if (node_script.attribute("type") == "lua")
+                                {
+                                        QDomCDATASection data = node_script.firstChild().toCDATASection();
+                                        action->setScript(data.data().toLocal8Bit().data());
+                                }
+                        }
+                        else if (action_type == "touchscreen")
+                        {
+                                action = new Action(ACTION_TOUCHSCREEN);
+
+                                string tact = node_action.attribute("action").toLocal8Bit().data();
+                                action->setTouchscreenAction(tact);
+                        }
+
+                        if (action)
+                        {
+                                rule->AddAction(action);
+                        }
+
+                        node_action = node_action.nextSiblingElement("calaos:action");
+                }
+
+                node_rule = node_rule.nextSiblingElement("calaos:rule");
+        }
 
         return true;
 }

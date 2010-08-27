@@ -22,9 +22,7 @@
 #ifndef S_IOBASE_H
 #define S_IOBASE_H
 //-----------------------------------------------------------------------------
-#include <iostream>
 #include <Utils.h>
-#include <Params.h>
 //-----------------------------------------------------------------------------
 using namespace std;
 using namespace Utils;

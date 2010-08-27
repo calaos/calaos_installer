@@ -33,7 +33,7 @@ bool ActionTreeWidget::dropMimeData(QTreeWidgetItem *, int, const QMimeData *dat
                 if (!rule) return false;
 
                 if (rule->get_size_actions() <= 0)
-                        rule->AddAction(new Action());
+                        rule->AddAction(new Action(ACTION_STD));
 
                 rule->get_action(0)->Add(output);
 

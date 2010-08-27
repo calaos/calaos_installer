@@ -16,7 +16,8 @@ DialogIOList::DialogIOList(Input *_in, Output *_out, QWidget *parent) :
 
                         if (in == input) continue;
 
-                        if (in->get_type() == input->get_type())
+                        if (in->get_type() == input->get_type() ||
+                            in->get_type() == TSTRING)
                         {
                                 QTreeWidgetItemInput *item = new QTreeWidgetItemInput(in, ui->treeWidget);
 
@@ -36,7 +37,8 @@ DialogIOList::DialogIOList(Input *_in, Output *_out, QWidget *parent) :
 
                         if (out == output) continue;
 
-                        if (out->get_type() == output->get_type())
+                        if (out->get_type() == output->get_type() ||
+                            out->get_type() == TSTRING)
                         {
                                 QTreeWidgetItemOutput *item = new QTreeWidgetItemOutput(out, ui->treeWidget);
 

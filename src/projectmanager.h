@@ -5,6 +5,7 @@
 #include <QTemporaryFile>
 #include <QXmlStreamReader>
 #include <QXmlStreamWriter>
+#include <QDomDocument>
 #include <QtGui>
 #include <vector>
 
@@ -45,21 +46,6 @@ class IOXmlWriter: public QXmlStreamWriter
                 void writeInput(Input *io);
                 void writePlages(vector<Horaire> &day);
                 void writeOutput(Output *io);
-};
-
-class RuleXmlReader: public QXmlStreamReader
-{
-        public:
-                RuleXmlReader();
-
-                bool readFile(QIODevice *device);
-
-        private:
-                void readRule();
-                void readCondition(Rule *rule);
-                void readAction(Rule *rule);
-                void readInput(Condition *cond);
-                void readOutput(Action *action);
 };
 
 class RuleXmlWriter: public QXmlStreamWriter

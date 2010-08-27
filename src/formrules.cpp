@@ -693,47 +693,21 @@ void FormRules::goSelectRule()
 {
         if (!treeItem) return;
 
+        QString filter_text = "inout:";
+
         QTreeWidgetItemInput *itinput = dynamic_cast<QTreeWidgetItemInput *>(treeItem);
         if (itinput)
         {
-                //Also select the corresponding rule if any...
-                Rule *rule = ListeRule::Instance().searchRule(itinput->getInput());
-                if (rule)
-                {
-                        QTreeWidgetItemIterator it(ui->tree_rules);
-                        while (*it)
-                        {
-                                QTreeWidgetItemRule *item = dynamic_cast<QTreeWidgetItemRule *>(*it);
-                                if (item && item->getRule() == rule)
-                                {
-                                        ui->tree_rules->setCurrentItem(item);
-                                        break;
-                                }
-                                ++it;
-                        }
-                }
+                filter_text += itinput->getInput()->get_param("id").c_str();
         }
 
         QTreeWidgetItemOutput *itoutput = dynamic_cast<QTreeWidgetItemOutput *>(treeItem);
         if (itoutput)
         {
-                //Also select the corresponding rule if any...
-                Rule *rule = ListeRule::Instance().searchRule(itoutput->getOutput());
-                if (rule)
-                {
-                        QTreeWidgetItemIterator it(ui->tree_rules);
-                        while (*it)
-                        {
-                                QTreeWidgetItemRule *item = dynamic_cast<QTreeWidgetItemRule *>(*it);
-                                if (item && item->getRule() == rule)
-                                {
-                                        ui->tree_rules->setCurrentItem(item);
-                                        break;
-                                }
-                                ++it;
-                        }
-                }
+                filter_text += itoutput->getOutput()->get_param("id").c_str();
         }
+
+        ui->filterEditRules->setText(filter_text);
 }
 
 void FormRules::on_tree_home_currentItemChanged(QTreeWidgetItem *current, QTreeWidgetItem *)
@@ -1476,5 +1450,150 @@ void FormRules::itemConvertVoletStandard()
                                 updateItemInfos(itoutput);
                         }
                 }
+        }
+}
+
+void FormRules::on_filterEditHome_textChanged(QString filter_text)
+{
+        if (filter_text.isEmpty())
+        {
+                QTreeWidgetItemIterator it(ui->tree_home);
+                while (*it)
+                {
+                        QTreeWidgetItem *item = (*it);
+                        item->setHidden(false);
+                        ++it;
+                }
+
+                return;
+        }
+
+        QTreeWidgetItemIterator it(ui->tree_home);
+        while (*it)
+        {
+                QTreeWidgetItemRoom *item = dynamic_cast<QTreeWidgetItemRoom *>(*it);
+                if (!item)
+                {
+                        ++it;
+                        continue;
+                }
+
+                bool hideItem = true;
+
+                QStringList searchList;
+                searchList.push_back(item->getRoom()->get_name().c_str());
+                searchList.push_back(item->getRoom()->get_type().c_str());
+
+                if (!searchList.filter(filter_text, Qt::CaseInsensitive).isEmpty())
+                        hideItem = false;
+
+                item->setHidden(hideItem);
+
+                ++it;
+        }
+}
+
+void FormRules::on_filterEditRules_textChanged(QString filter_text)
+{
+        if (filter_text.isEmpty())
+        {
+                QTreeWidgetItemIterator it(ui->tree_rules);
+                while (*it)
+                {
+                        QTreeWidgetItem *item = (*it);
+                        item->setHidden(false);
+                        ++it;
+                }
+
+                return;
+        }
+
+        QString filter_type = filter_text.section(":", 0, 0);
+        QString filter = filter_text.section(":", 1);
+
+
+        if (filter_type.toLower() == "output" ||
+            filter_type.toLower() == "input" ||
+            filter_type.toLower() == "inout")
+        {
+                filter_text.remove(0, 7);
+
+                QTreeWidgetItemIterator it(ui->tree_rules);
+                while (*it)
+                {
+                        QTreeWidgetItemRule *item = dynamic_cast<QTreeWidgetItemRule *>(*it);
+                        if (!item)
+                        {
+                                ++it;
+                                continue;
+                        }
+
+                        Rule *rule = item->getRule();
+
+                        QStringList searchList;
+
+                        if (filter_type.toLower() == "output" ||
+                            filter_type.toLower() == "inout")
+                        {
+                                for (int i = 0;i < rule->get_size_actions();i++)
+                                {
+                                        Action *action = rule->get_action(i);
+                                        for (int j = 0;j < action->get_size();j++)
+                                        {
+                                                searchList << action->get_output(j)->get_param("name").c_str();
+                                                searchList << action->get_output(j)->get_param("id").c_str();
+                                        }
+                                }
+                        }
+
+                        if (filter_type.toLower() == "input" ||
+                            filter_type.toLower() == "inout")
+                        {
+                                for (int i = 0;i < rule->get_size_conds();i++)
+                                {
+                                        Condition *cond = rule->get_condition(i);
+                                        for (int j = 0;j < cond->get_size();j++)
+                                        {
+                                                searchList << cond->get_input(j)->get_param("name").c_str();
+                                                searchList << cond->get_input(j)->get_param("id").c_str();
+                                        }
+                                }
+                        }
+
+                        bool hideItem = true;
+
+                        if (!searchList.filter(filter_text, Qt::CaseInsensitive).isEmpty())
+                                hideItem = false;
+
+                        item->setHidden(hideItem);
+
+                        ++it;
+                }
+
+                return;
+        }
+
+        QTreeWidgetItemIterator it(ui->tree_rules);
+        while (*it)
+        {
+                QTreeWidgetItemRule *item = dynamic_cast<QTreeWidgetItemRule *>(*it);
+                if (!item)
+                {
+                        ++it;
+                        continue;
+                }
+
+                bool hideItem = true;
+
+                QStringList searchList;
+                searchList.push_back(item->getRule()->get_name().c_str());
+                searchList.push_back(item->getRule()->get_type().c_str());
+
+                if (!searchList.filter(filter_text, Qt::CaseInsensitive).isEmpty())
+                        hideItem = false;
+
+                item->setHidden(hideItem);
+
+                ++it;
         }
 }

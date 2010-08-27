@@ -172,7 +172,7 @@ QFrame .HeaderButton:pressed
                </sizepolicy>
               </property>
               <property name="text">
-               <string>Ajouter </string>
+               <string>Ajouter   </string>
               </property>
               <property name="icon">
                <iconset resource="resources.qrc">

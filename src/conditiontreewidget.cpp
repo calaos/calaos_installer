@@ -33,7 +33,7 @@ bool ConditionTreeWidget::dropMimeData(QTreeWidgetItem *, int, const QMimeData *
                 if (!rule) return false;
 
                 if (rule->get_size_conds() <= 0)
-                        rule->AddCondition(new Condition());
+                        rule->AddCondition(new Condition(COND_STD));
 
                 rule->get_condition(0)->Add(input);
                 rule->get_condition(0)->get_operator().Add(input->get_param("id"), "==");
