@@ -27,9 +27,7 @@ SOURCES += src/main.cpp \
     src/dialognewrule.cpp \
     src/conditiontreewidget.cpp \
     src/actiontreewidget.cpp \
-    src/conditiondelegate.cpp \
     src/ioeditorselection.cpp \
-    src/actiondelegate.cpp \
     src/dialognewdali.cpp \
     src/wagouploader.cpp \
     src/dialognewdalirgb.cpp \
@@ -54,7 +52,9 @@ SOURCES += src/main.cpp \
     src/dialogdetectsqueezebox.cpp \
     src/textedit.cpp \
     src/ClearLineEdit.cpp \
-    src/formrules.cpp
+    src/formrules.cpp \
+    src/FormConditionStd.cpp \
+    src/FormActionStd.cpp
 HEADERS += src/mainwindow.h \
     ../calaos_common/Utils.h \
     ../calaos_common/base64.h \
@@ -78,9 +78,7 @@ HEADERS += src/mainwindow.h \
     src/dialognewrule.h \
     src/conditiontreewidget.h \
     src/actiontreewidget.h \
-    src/conditiondelegate.h \
     src/ioeditorselection.h \
-    src/actiondelegate.h \
     src/dialognewdali.h \
     src/wagouploader.h \
     src/dialognewdalirgb.h \
@@ -106,7 +104,9 @@ HEADERS += src/mainwindow.h \
     src/dialogdetectsqueezebox.h \
     src/textedit.h \
     src/ClearLineEdit.h \
-    src/formrules.h
+    src/formrules.h \
+    src/FormConditionStd.h \
+    src/FormActionStd.h
 FORMS += data/mainwindow.ui \
     data/dialognewroom.ui \
     data/dialognewwago.ui \
@@ -131,7 +131,9 @@ FORMS += data/mainwindow.ui \
     data/formdali.ui \
     data/dialogdalideviceconfig.ui \
     data/dialogdetectsqueezebox.ui \
-    data/formrules.ui
+    data/formrules.ui \
+    data/FormConditionStd.ui \
+    data/FormActionStd.ui
 RESOURCES += data/resources.qrc \
     data/textedit.qrc
 INCLUDEPATH += ../calaos_common/ \

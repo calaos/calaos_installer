@@ -71,5 +71,17 @@
         <file>img/dialog-ok.png</file>
         <file>img/checkbox.png</file>
         <file>img/clear_left.png</file>
+        <file>img/icon_rule_mail.png</file>
+        <file>img/icon_rule.png</file>
+        <file>img/icon_rule_script.png</file>
+        <file>img/icon_rule_start.png</file>
+        <file>img/1downarrow.png</file>
+        <file>img/1leftarrow.png</file>
+        <file>img/1rightarrow.png</file>
+        <file>img/1uparrow.png</file>
+        <file>img/2downarrow.png</file>
+        <file>img/2leftarrow.png</file>
+        <file>img/2rightarrow.png</file>
+        <file>img/2uparrow.png</file>
     </qresource>
 </RCC>

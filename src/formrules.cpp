@@ -7,7 +7,9 @@ FormRules::FormRules(QWidget *parent) :
                 QWidget(parent),
                 ui(new Ui::FormRules),
                 current_room(NULL),
-                project_changed(false)
+                project_changed(false),
+                popupConditionStd(new FormConditionStd(this)),
+                popupActionStd(new FormActionStd(this))
 {
         ui->setupUi(this);
 
@@ -578,13 +580,30 @@ void FormRules::updateItemInfos(QTreeWidgetItemRule *item)
 {
         Rule *rule = item->getRule();
 
+        item->setData(0, Qt::DecorationRole, QIcon(":/img/icon_rule.png"));
         item->setData(0, Qt::DisplayRole, QString::fromUtf8(rule->get_type().c_str()));
         item->setData(1, Qt::DisplayRole, QString::fromUtf8(rule->get_name().c_str()));
 }
 
-QTreeWidgetItem *FormRules::addItemCondition(Condition *condition, Input *input, bool selected)
+QTreeWidgetItem *FormRules::addItemCondition(Condition *condition, bool selected)
+{
+        QTreeWidgetItem *item = new QTreeWidgetItem(ui->tree_condition);
+
+        updateItemCondition(item, condition);
+
+        if (selected) ui->tree_condition->setCurrentItem(item);
+
+        return item;
+}
+
+void FormRules::updateItemCondition(QTreeWidgetItem *item, Condition *condition)
 {
         string name, oper, value;
+
+        Input *input = NULL;
+        if (condition->get_size() > 0)
+                input = condition->get_input(0);
+        if (!input) return;
 
         string id = input->get_param("id");
         if (IOBase::isAudioType(input->get_param("type")) ||
@@ -617,7 +636,6 @@ QTreeWidgetItem *FormRules::addItemCondition(Condition *condition, Input *input,
         else
                 value = condition->get_params().get_param(id);
 
-        QTreeWidgetItem *item = new QTreeWidgetItem(ui->tree_condition);
         item->setData(0, Qt::DisplayRole, QString::fromUtf8(name.c_str()));
         item->setData(1, Qt::DisplayRole, QString::fromUtf8(oper.c_str()));
         item->setData(2, Qt::DisplayRole, QString::fromUtf8(value.c_str()));
@@ -636,18 +654,30 @@ QTreeWidgetItem *FormRules::addItemCondition(Condition *condition, Input *input,
         item->setFlags(item->flags() | Qt::ItemIsEditable);
         item->setSizeHint(0, QSize(0, 25));
 
-        //set delegate
-        int row = ui->tree_condition->invisibleRootItem()->indexOfChild(item);
-        ui->tree_condition->setItemDelegateForRow(row, new ConditionDelegate(condition, input));
+        if (condition->getType() == COND_STD)
+                item->setData(0, Qt::DecorationRole, QIcon(":/img/icon_rule.png"));
+}
 
-        if (selected) ui->tree_condition->setCurrentItem(item);
+QTreeWidgetItem *FormRules::addItemAction(Action *action, bool selected)
+{
+        QTreeWidgetItem *item = new QTreeWidgetItem(ui->tree_action);
+
+        updateItemAction(item, action);
+
+        if (selected) ui->tree_action->setCurrentItem(item);
 
         return item;
 }
 
-QTreeWidgetItem *FormRules::addItemAction(Action *action, Output *output, bool selected)
+void FormRules::updateItemAction(QTreeWidgetItem *item, Action *action)
 {
         string name, value;
+
+        Output *output = NULL;
+        if (action->get_size() > 0)
+                output = action->get_output(0);
+
+        if (!output) return;
 
         string id = output->get_param("id");
         if (IOBase::isAudioType(output->get_param("type")) ||
@@ -674,7 +704,6 @@ QTreeWidgetItem *FormRules::addItemAction(Action *action, Output *output, bool s
         else
                 value = action->get_params().get_param(id);
 
-        QTreeWidgetItem *item = new QTreeWidgetItem(ui->tree_action);
         item->setData(0, Qt::DisplayRole, QString::fromUtf8(name.c_str()));
         item->setData(1, Qt::DisplayRole, QString::fromUtf8(value.c_str()));
 
@@ -690,13 +719,8 @@ QTreeWidgetItem *FormRules::addItemAction(Action *action, Output *output, bool s
         item->setFlags(item->flags() | Qt::ItemIsEditable);
         item->setSizeHint(0, QSize(0, 25));
 
-        //set delegate
-        int row = ui->tree_action->invisibleRootItem()->indexOfChild(item);
-        ui->tree_action->setItemDelegateForRow(row, new ActionDelegate(action, output));
-
-        if (selected) ui->tree_action->setCurrentItem(item);
-
-        return item;
+        if (action->getType() == ACTION_STD)
+                item->setData(0, Qt::DecorationRole, QIcon(":/img/icon_rule.png"));
 }
 
 void FormRules::goSelectRule()
@@ -995,12 +1019,13 @@ void FormRules::deleteItemCondition()
         Rule *rule = getCurrentRule();
         if (!rule) return;
 
-        int num = ui->tree_condition->invisibleRootItem()->indexOfChild(treeItem_condition);
+        int num = ui->tree_condition->invisibleRootItem()->indexOfChild(ui->tree_condition->currentItem());
 
         if (num < 0 || num >= rule->get_size_conds() || rule->get_condition(num)->get_size() <= 0)
                 return;
 
         rule->get_condition(num)->Remove(0);
+        rule->RemoveCondition(num);
 
         QTreeWidgetItem *item = ui->tree_rules->selectedItems().first();
         ui->tree_rules->setCurrentItem(NULL);
@@ -1022,12 +1047,13 @@ void FormRules::deleteItemAction()
         Rule *rule = getCurrentRule();
         if (!rule) return;
 
-        int num = ui->tree_action->invisibleRootItem()->indexOfChild(treeItem_action);
+        int num = ui->tree_action->invisibleRootItem()->indexOfChild(ui->tree_action->currentItem());
 
         if (num < 0 || num >= rule->get_size_actions() || rule->get_action(num)->get_size() <= 0)
                 return;
 
         rule->get_action(num)->Remove(0);
+        rule->RemoveAction(0);
 
         QTreeWidgetItem *item = ui->tree_rules->selectedItems().first();
         ui->tree_rules->setCurrentItem(NULL);
@@ -1139,18 +1165,12 @@ void FormRules::on_tree_rules_currentItemChanged(QTreeWidgetItem *current, QTree
 
                 for (int i = 0;i < rule->get_size_conds();i++)
                 {
-                        for (int j = 0;j < rule->get_condition(i)->get_size();j++)
-                        {
-                                addItemCondition(rule->get_condition(i), rule->get_condition(i)->get_input(j));
-                        }
+                        addItemCondition(rule->get_condition(i));
                 }
 
                 for (int i = 0;i < rule->get_size_actions();i++)
                 {
-                        for (int j = 0;j < rule->get_action(i)->get_size();j++)
-                        {
-                                addItemAction(rule->get_action(i), rule->get_action(i)->get_output(j));
-                        }
+                        addItemAction(rule->get_action(i));
                 }
         }
 }
@@ -1640,4 +1660,42 @@ void FormRules::on_filterEditRules_textChanged(QString filter_text)
         }
 
         ui->tree_rules->setCurrentItem(item_selected);
+}
+
+void FormRules::on_tree_condition_itemClicked(QTreeWidgetItem* item, int column)
+{
+        Rule *rule = getCurrentRule();
+        if (!rule) return;
+
+        int num = ui->tree_condition->invisibleRootItem()->indexOfChild(ui->tree_condition->currentItem());
+
+        if (num < 0 || num >= rule->get_size_conds() || rule->get_condition(num)->get_size() <= 0)
+                return;
+
+        Condition *cond = rule->get_condition(num);
+
+        popupConditionStd->setCondition(item, rule, cond);
+        popupConditionStd->layout()->update();
+        popupConditionStd->move(ui->tree_condition->mapToGlobal(QPoint(0 - popupConditionStd->width(), 0)));
+        popupConditionStd->setFocus();
+        popupConditionStd->show();
+}
+
+void FormRules::on_tree_action_itemClicked(QTreeWidgetItem* item, int column)
+{
+        Rule *rule = getCurrentRule();
+        if (!rule) return;
+
+        int num = ui->tree_action->invisibleRootItem()->indexOfChild(ui->tree_action->currentItem());
+
+        if (num < 0 || num >= rule->get_size_actions() || rule->get_action(num)->get_size() <= 0)
+                return;
+
+        Action *action = rule->get_action(num);
+
+        popupActionStd->setAction(item, rule, action);
+        popupActionStd->layout()->update();
+        popupActionStd->move(ui->tree_action->mapToGlobal(QPoint(0 - popupActionStd->width(), 0)));
+        popupActionStd->setFocus();
+        popupActionStd->show();
 }

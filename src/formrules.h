@@ -19,6 +19,9 @@
 #include <dialognewrule.h>
 #include <dialogioplagehoraire.h>
 
+#include <FormConditionStd.h>
+#include <FormActionStd.h>
+
 #include <conditiondelegate.h>
 #include <actiondelegate.h>
 
@@ -56,13 +59,15 @@ class FormRules : public QWidget
                 QTreeWidgetItemOutput *addItemOutput(Output *out, Room *parent, bool selected = false);
 
                 QTreeWidgetItemRule *addItemRule(Rule *rule, bool selected = false);
-                QTreeWidgetItem *addItemCondition(Condition *condition, Input *input, bool selected = false);
-                QTreeWidgetItem *addItemAction(Action *action, Output *output, bool selected = false);
+                QTreeWidgetItem *addItemCondition(Condition *condition, bool selected = false);
+                QTreeWidgetItem *addItemAction(Action *action, bool selected = false);
 
                 static void updateItemInfos(QTreeWidgetItemRoom *item);
                 static void updateItemInfos(QTreeWidgetItemInput *item);
                 static void updateItemInfos(QTreeWidgetItemOutput *item);
                 static void updateItemInfos(QTreeWidgetItemRule *item);
+                static void updateItemCondition(QTreeWidgetItem *item, Condition *condition);
+                static void updateItemAction(QTreeWidgetItem *item, Action *action);
 
                 Rule *getCurrentRule();
 
@@ -84,6 +89,9 @@ class FormRules : public QWidget
                 QTreeWidgetItem *treeItem, *treeItem_condition, *treeItem_action;
 
                 bool project_changed;
+
+                FormConditionStd *popupConditionStd;
+                FormActionStd *popupActionStd;
 
         public slots:
                 void addCalaosItem(int item);
@@ -109,6 +117,8 @@ class FormRules : public QWidget
                 void itemConvertVoletSmart();
 
         private slots:
+                void on_tree_action_itemClicked(QTreeWidgetItem* item, int column);
+                void on_tree_condition_itemClicked(QTreeWidgetItem* item, int column);
                 void on_filterEditRules_textChanged(QString );
                 void on_filterEditHome_textChanged(QString );
                 void on_bt_rules_del_clicked();
