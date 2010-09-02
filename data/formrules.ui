@@ -389,6 +389,9 @@ QFrame .HeaderButton:pressed
                 <verstretch>0</verstretch>
                </sizepolicy>
               </property>
+              <property name="contextMenuPolicy">
+               <enum>Qt::CustomContextMenu</enum>
+              </property>
               <property name="alternatingRowColors">
                <bool>true</bool>
               </property>
@@ -468,6 +471,16 @@ QFrame .HeaderButton:pressed
               </property>
               <property name="class" stdset="0">
                <string>FrameTitle</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="pushButtonCond">
+              <property name="text">
+               <string>print</string>
+              </property>
+              <property name="class" stdset="0">
+               <string>HeaderButton</string>
               </property>
              </widget>
             </item>
@@ -627,6 +640,16 @@ QFrame .HeaderButton:pressed
               </property>
               <property name="class" stdset="0">
                <string>FrameTitle</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="pushButtonAction">
+              <property name="text">
+               <string>print</string>
+              </property>
+              <property name="class" stdset="0">
+               <string>HeaderButton</string>
               </property>
              </widget>
             </item>

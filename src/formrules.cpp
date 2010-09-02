@@ -9,7 +9,9 @@ FormRules::FormRules(QWidget *parent) :
                 current_room(NULL),
                 project_changed(false),
                 popupConditionStd(new FormConditionStd(this)),
-                popupActionStd(new FormActionStd(this))
+                popupConditionStart(new FormConditionStart(this)),
+                popupActionStd(new FormActionStd(this)),
+                popupActionMail(new FormActionMail(this))
 {
         ui->setupUi(this);
 
@@ -87,9 +89,62 @@ FormRules::FormRules(QWidget *parent) :
 
         //connect the mapper
         connect(sig, SIGNAL(mapped(int)), this, SLOT(addCalaosItem(int)));
+
+        addConditionMenu = new QMenu(parent);
+        ui->bt_condition_add->setMenu(addConditionMenu);
+
+        sig = new QSignalMapper(this);
+
+        action = addConditionMenu->addAction(QString::fromUtf8("Condition classique"));
+        action->setIcon(QIcon(":/img/icon_rule.png"));
+        sig->setMapping(action, COND_STD);
+        connect(action, SIGNAL(triggered()), sig, SLOT(map()));
+
+        action = addConditionMenu->addAction(QString::fromUtf8("Condition au démarage"));
+        action->setIcon(QIcon(":/img/icon_rule_start.png"));
+        sig->setMapping(action, COND_START);
+        connect(action, SIGNAL(triggered()), sig, SLOT(map()));
+
+        action = addConditionMenu->addAction(QString::fromUtf8("Condition script"));
+        action->setIcon(QIcon(":/img/icon_rule_script.png"));
+        sig->setMapping(action, COND_SCRIPT);
+        connect(action, SIGNAL(triggered()), sig, SLOT(map()));
+
+        //connect the mapper
+        connect(sig, SIGNAL(mapped(int)), this, SLOT(addCondition(int)));
+
+        addActionMenu = new QMenu(parent);
+        ui->bt_action_add->setMenu(addActionMenu);
+
+        sig = new QSignalMapper(this);
+
+        action = addActionMenu->addAction(QString::fromUtf8("Action classique"));
+        action->setIcon(QIcon(":/img/icon_rule.png"));
+        sig->setMapping(action, ACTION_STD);
+        connect(action, SIGNAL(triggered()), sig, SLOT(map()));
+
+        action = addActionMenu->addAction(QString::fromUtf8("Action E-Mail"));
+        action->setIcon(QIcon(":/img/icon_rule_mail.png"));
+        sig->setMapping(action, ACTION_MAIL);
+        connect(action, SIGNAL(triggered()), sig, SLOT(map()));
+
+        action = addActionMenu->addAction(QString::fromUtf8("Action script"));
+        action->setIcon(QIcon(":/img/icon_rule_script.png"));
+        sig->setMapping(action, ACTION_SCRIPT);
+        connect(action, SIGNAL(triggered()), sig, SLOT(map()));
+
+        action = addActionMenu->addAction(QString::fromUtf8("Action écran tactile"));
+        action->setIcon(QIcon(":/img/icon_rule.png"));
+        sig->setMapping(action, ACTION_TOUCHSCREEN);
+        connect(action, SIGNAL(triggered()), sig, SLOT(map()));
+
+        //connect the mapper
+        connect(sig, SIGNAL(mapped(int)), this, SLOT(addAction(int)));
+
         connect(ui->tree_home, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(showPopup_tree(QPoint)));
         connect(ui->tree_condition, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(showPopup_condition(QPoint)));
         connect(ui->tree_action, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(showPopup_action(QPoint)));
+        connect(ui->tree_rules, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(showPopup_rule(QPoint)));
 }
 
 FormRules::~FormRules()
@@ -111,10 +166,6 @@ void FormRules::changeEvent(QEvent *e)
 
 void FormRules::PopulateRoomsTree()
 {
-        ui->tree_condition->header()->setResizeMode(QHeaderView::Interactive);
-        ui->tree_action->header()->setResizeMode(QHeaderView::Interactive);
-        ui->tree_rules->header()->setResizeMode(QHeaderView::Interactive);
-
         ui->tree_home->setUpdatesEnabled(false);
         QCoreApplication::processEvents();
 
@@ -165,6 +216,9 @@ void FormRules::PopulateRulesTree()
         QStringList headers;
         headers << QString::fromUtf8("Type") << QString::fromUtf8("Nom");
         ui->tree_rules->setHeaderLabels(headers);
+        ui->tree_condition->header()->setResizeMode(QHeaderView::Interactive);
+        ui->tree_action->header()->setResizeMode(QHeaderView::Interactive);
+        ui->tree_rules->header()->setResizeMode(QHeaderView::Interactive);
 
         for (int i = 0;i < ListeRule::Instance().size();i++)
         {
@@ -585,80 +639,96 @@ void FormRules::updateItemInfos(QTreeWidgetItemRule *item)
         item->setData(1, Qt::DisplayRole, QString::fromUtf8(rule->get_name().c_str()));
 }
 
-QTreeWidgetItem *FormRules::addItemCondition(Condition *condition, bool selected)
+QTreeWidgetItem *FormRules::addItemCondition(Condition *condition, bool selected, bool show_popup)
 {
         QTreeWidgetItem *item = new QTreeWidgetItem(ui->tree_condition);
 
         updateItemCondition(item, condition);
 
-        if (selected) ui->tree_condition->setCurrentItem(item);
+        if (selected)
+                ui->tree_condition->setCurrentItem(item);
+
+        if (show_popup)
+                on_tree_condition_itemClicked(item, 0);
 
         return item;
 }
 
 void FormRules::updateItemCondition(QTreeWidgetItem *item, Condition *condition)
 {
-        string name, oper, value;
-
-        Input *input = NULL;
-        if (condition->get_size() > 0)
-                input = condition->get_input(0);
-        if (!input) return;
-
-        string id = input->get_param("id");
-        if (IOBase::isAudioType(input->get_param("type")) ||
-            IOBase::isCameraType(input->get_param("type")))
-                id = input->get_param("iid");
-
-        name = input->get_param("name");
-        oper = condition->get_operator().get_param(id);
-
-        if (oper == "INF") oper = "<";
-        if (oper == "INF=") oper = "<=";
-        if (oper == "SUP") oper = ">";
-        if (oper == "SUP=") oper = ">=";
-
-        if (condition->get_params_var().get_param(id) != "")
+        if (condition->getType() == COND_STD)
         {
-                string var_id = condition->get_params_var().get_param(id);
-                Input *in = ListeRoom::Instance().get_input(var_id);
-                if (in)
+                string name, oper, value;
+
+                Input *input = NULL;
+                if (condition->get_size() > 0)
+                        input = condition->get_input(0);
+                if (!input) return;
+
+                string id = input->get_param("id");
+                if (IOBase::isAudioType(input->get_param("type")) ||
+                    IOBase::isCameraType(input->get_param("type")))
+                        id = input->get_param("iid");
+
+                name = input->get_param("name");
+                oper = condition->get_operator().get_param(id);
+
+                if (oper == "INF") oper = "<";
+                if (oper == "INF=") oper = "<=";
+                if (oper == "SUP") oper = ">";
+                if (oper == "SUP=") oper = ">=";
+
+                if (condition->get_params_var().get_param(id) != "")
                 {
-                        value = in->get_param("name");
+                        string var_id = condition->get_params_var().get_param(id);
+                        Input *in = ListeRoom::Instance().get_input(var_id);
+                        if (in)
+                        {
+                                value = in->get_param("name");
+                        }
+                        else
+                        {
+                                /* Wrong param_var, remove it */
+                                value = condition->get_params().get_param(id);
+                                condition->get_params_var().Delete(id);
+                        }
                 }
                 else
-                {
-                        /* Wrong param_var, remove it */
                         value = condition->get_params().get_param(id);
-                        condition->get_params_var().Delete(id);
-                }
-        }
-        else
-                value = condition->get_params().get_param(id);
 
-        item->setData(0, Qt::DisplayRole, QString::fromUtf8(name.c_str()));
-        item->setData(1, Qt::DisplayRole, QString::fromUtf8(oper.c_str()));
-        item->setData(2, Qt::DisplayRole, QString::fromUtf8(value.c_str()));
+                item->setData(0, Qt::DisplayRole, QString::fromUtf8(name.c_str()));
+                item->setData(1, Qt::DisplayRole, QString::fromUtf8(oper.c_str()));
+                item->setData(2, Qt::DisplayRole, QString::fromUtf8(value.c_str()));
 
-        int r = ListeRoom::Instance().searchIO(dynamic_cast<IOBase *>(input));
-        string room_name;
-        if (r >= 0) room_name = ListeRoom::Instance().get_room(r)->get_name();
-        QString s = "Input: " + QString::fromUtf8(input->get_param("type").c_str()) + " - " + QString::fromUtf8(room_name.c_str());
-        item->setData(0, Qt::ToolTipRole, s);
-        item->setData(0, Qt::StatusTipRole, s);
-        item->setData(1, Qt::ToolTipRole, s);
-        item->setData(1, Qt::StatusTipRole, s);
-        item->setData(2, Qt::ToolTipRole, s);
-        item->setData(2, Qt::StatusTipRole, s);
+                int r = ListeRoom::Instance().searchIO(dynamic_cast<IOBase *>(input));
+                string room_name;
+                if (r >= 0) room_name = ListeRoom::Instance().get_room(r)->get_name();
+                QString s = "Input: " + QString::fromUtf8(input->get_param("type").c_str()) + " - " + QString::fromUtf8(room_name.c_str());
+                item->setData(0, Qt::ToolTipRole, s);
+                item->setData(0, Qt::StatusTipRole, s);
+                item->setData(1, Qt::ToolTipRole, s);
+                item->setData(1, Qt::StatusTipRole, s);
+                item->setData(2, Qt::ToolTipRole, s);
+                item->setData(2, Qt::StatusTipRole, s);
 
-        item->setFlags(item->flags() | Qt::ItemIsEditable);
-        item->setSizeHint(0, QSize(0, 25));
+                item->setFlags(item->flags() | Qt::ItemIsEditable);
+                item->setSizeHint(0, QSize(0, 25));
 
-        if (condition->getType() == COND_STD)
                 item->setData(0, Qt::DecorationRole, QIcon(":/img/icon_rule.png"));
+        }
+        else if (condition->getType() == COND_START)
+        {
+                item->setData(0, Qt::DisplayRole, QString::fromUtf8("Démarrage"));
+                item->setData(0, Qt::DecorationRole, QIcon(":/img/icon_rule_start.png"));
+        }
+        else if (condition->getType() == COND_SCRIPT)
+        {
+                item->setData(0, Qt::DisplayRole, QString::fromUtf8("Script"));
+                item->setData(0, Qt::DecorationRole, QIcon(":/img/icon_rule_script.png"));
+        }
 }
 
-QTreeWidgetItem *FormRules::addItemAction(Action *action, bool selected)
+QTreeWidgetItem *FormRules::addItemAction(Action *action, bool selected, bool show_popup)
 {
         QTreeWidgetItem *item = new QTreeWidgetItem(ui->tree_action);
 
@@ -666,61 +736,82 @@ QTreeWidgetItem *FormRules::addItemAction(Action *action, bool selected)
 
         if (selected) ui->tree_action->setCurrentItem(item);
 
+        if (show_popup)
+                on_tree_action_itemClicked(item, 0);
+
         return item;
 }
 
 void FormRules::updateItemAction(QTreeWidgetItem *item, Action *action)
 {
-        string name, value;
-
-        Output *output = NULL;
-        if (action->get_size() > 0)
-                output = action->get_output(0);
-
-        if (!output) return;
-
-        string id = output->get_param("id");
-        if (IOBase::isAudioType(output->get_param("type")) ||
-            IOBase::isCameraType(output->get_param("type")))
-                id = output->get_param("oid");
-
-        name = output->get_param("name");
-
-        if (action->get_params_var().get_param(id) != "")
+        if (action->getType() == ACTION_STD)
         {
-                string var_id = action->get_params_var().get_param(id);
-                Output *out = ListeRoom::Instance().get_output(var_id);
-                if (out)
+                string name, value;
+
+                Output *output = NULL;
+                if (action->get_size() > 0)
+                        output = action->get_output(0);
+
+                if (!output) return;
+
+                string id = output->get_param("id");
+                if (IOBase::isAudioType(output->get_param("type")) ||
+                    IOBase::isCameraType(output->get_param("type")))
+                        id = output->get_param("oid");
+
+                name = output->get_param("name");
+
+                if (action->get_params_var().get_param(id) != "")
                 {
-                        value = out->get_param("name");
+                        string var_id = action->get_params_var().get_param(id);
+                        Output *out = ListeRoom::Instance().get_output(var_id);
+                        if (out)
+                        {
+                                value = out->get_param("name");
+                        }
+                        else
+                        {
+                                /* wrong param_var, remove it */
+                                value = action->get_params().get_param(id);
+                                action->get_params_var().Delete(id);
+                        }
                 }
                 else
-                {
-                        /* wrong param_var, remove it */
                         value = action->get_params().get_param(id);
-                        action->get_params_var().Delete(id);
-                }
-        }
-        else
-                value = action->get_params().get_param(id);
 
-        item->setData(0, Qt::DisplayRole, QString::fromUtf8(name.c_str()));
-        item->setData(1, Qt::DisplayRole, QString::fromUtf8(value.c_str()));
+                item->setData(0, Qt::DisplayRole, QString::fromUtf8(name.c_str()));
+                item->setData(1, Qt::DisplayRole, QString::fromUtf8(value.c_str()));
 
-        int r = ListeRoom::Instance().searchIO(dynamic_cast<IOBase *>(output));
-        string room_name;
-        if (r > 0) room_name = ListeRoom::Instance().get_room(r)->get_name();
-        QString s = "Output: " + QString::fromUtf8(output->get_param("type").c_str()) + " - " + QString::fromUtf8(room_name.c_str());
-        item->setData(0, Qt::ToolTipRole, s);
-        item->setData(0, Qt::StatusTipRole, s);
-        item->setData(1, Qt::ToolTipRole, s);
-        item->setData(1, Qt::StatusTipRole, s);
+                int r = ListeRoom::Instance().searchIO(dynamic_cast<IOBase *>(output));
+                string room_name;
+                if (r > 0) room_name = ListeRoom::Instance().get_room(r)->get_name();
+                QString s = "Output: " + QString::fromUtf8(output->get_param("type").c_str()) + " - " + QString::fromUtf8(room_name.c_str());
+                item->setData(0, Qt::ToolTipRole, s);
+                item->setData(0, Qt::StatusTipRole, s);
+                item->setData(1, Qt::ToolTipRole, s);
+                item->setData(1, Qt::StatusTipRole, s);
 
-        item->setFlags(item->flags() | Qt::ItemIsEditable);
-        item->setSizeHint(0, QSize(0, 25));
+                item->setFlags(item->flags() | Qt::ItemIsEditable);
+                item->setSizeHint(0, QSize(0, 25));
 
-        if (action->getType() == ACTION_STD)
                 item->setData(0, Qt::DecorationRole, QIcon(":/img/icon_rule.png"));
+        }
+        else if (action->getType() == ACTION_MAIL)
+        {
+                item->setData(0, Qt::DisplayRole, QString::fromUtf8("E-Mail"));
+                item->setData(0, Qt::DecorationRole, QIcon(":/img/icon_rule_mail.png"));
+        }
+        else if (action->getType() == ACTION_SCRIPT)
+        {
+                item->setData(0, Qt::DisplayRole, QString::fromUtf8("Script"));
+                item->setData(0, Qt::DecorationRole, QIcon(":/img/icon_rule_script.png"));
+        }
+        else if (action->getType() == ACTION_TOUCHSCREEN)
+        {
+                item->setData(0, Qt::DisplayRole, QString::fromUtf8("Ecran tactile"));
+                item->setData(1, Qt::DisplayRole, QString::fromUtf8(action->getTouchscreenAction().c_str()));
+                item->setData(0, Qt::DecorationRole, QIcon(":/img/icon_rule.png"));
+        }
 }
 
 void FormRules::goSelectRule()
@@ -1021,10 +1112,9 @@ void FormRules::deleteItemCondition()
 
         int num = ui->tree_condition->invisibleRootItem()->indexOfChild(ui->tree_condition->currentItem());
 
-        if (num < 0 || num >= rule->get_size_conds() || rule->get_condition(num)->get_size() <= 0)
+        if (num < 0 || num >= rule->get_size_conds())
                 return;
 
-        rule->get_condition(num)->Remove(0);
         rule->RemoveCondition(num);
 
         QTreeWidgetItem *item = ui->tree_rules->selectedItems().first();
@@ -1049,11 +1139,10 @@ void FormRules::deleteItemAction()
 
         int num = ui->tree_action->invisibleRootItem()->indexOfChild(ui->tree_action->currentItem());
 
-        if (num < 0 || num >= rule->get_size_actions() || rule->get_action(num)->get_size() <= 0)
+        if (num < 0 || num >= rule->get_size_actions())
                 return;
 
-        rule->get_action(num)->Remove(0);
-        rule->RemoveAction(0);
+        rule->RemoveAction(num);
 
         QTreeWidgetItem *item = ui->tree_rules->selectedItems().first();
         ui->tree_rules->setCurrentItem(NULL);
@@ -1063,7 +1152,7 @@ void FormRules::deleteItemAction()
 void FormRules::showPropertiesItem()
 {
         Params *p = NULL;
-        Params proom;
+        Params proom, prule;
         int type = OBJ_NONE;
 
         QTreeWidgetItemInput *itinput = dynamic_cast<QTreeWidgetItemInput *>(treeItem);
@@ -1087,6 +1176,15 @@ void FormRules::showPropertiesItem()
                 proom.Add("type", itroom->getRoom()->get_type());
                 p = &proom;
                 type = OBJ_ROOM;
+        }
+
+        QTreeWidgetItemRule *itrule = dynamic_cast<QTreeWidgetItemRule *>(treeItem);
+        if (itrule)
+        {
+                prule.Add("name", itrule->getRule()->get_name());
+                prule.Add("type", itrule->getRule()->get_type());
+                p = &prule;
+                type = OBJ_RULE;
         }
 
         if (!p)
@@ -1114,6 +1212,17 @@ void FormRules::showPropertiesItem()
                 else if (type == OBJ_OUTPUT)
                 {
                         updateItemInfos(itoutput);
+                }
+                else if (type == OBJ_RULE)
+                {
+                        Rule *rule = itrule->getRule();
+                        string n;
+                        n = (*p)["name"];
+                        rule->set_name(n);
+                        n = (*p)["type"];
+                        rule->set_type(n);
+
+                        updateItemInfos(itrule);
                 }
         }
 }
@@ -1177,10 +1286,7 @@ void FormRules::on_tree_rules_currentItemChanged(QTreeWidgetItem *current, QTree
 
 Rule *FormRules::getCurrentRule()
 {
-        if (ui->tree_rules->selectedItems().size() <= 0)
-                return NULL;
-
-        QTreeWidgetItemRule *item = dynamic_cast<QTreeWidgetItemRule *>(ui->tree_rules->selectedItems().first());
+        QTreeWidgetItemRule *item = dynamic_cast<QTreeWidgetItemRule *>(ui->tree_rules->currentItem());
         if (item)
                 return item->getRule();
 
@@ -1669,16 +1775,35 @@ void FormRules::on_tree_condition_itemClicked(QTreeWidgetItem* item, int column)
 
         int num = ui->tree_condition->invisibleRootItem()->indexOfChild(ui->tree_condition->currentItem());
 
-        if (num < 0 || num >= rule->get_size_conds() || rule->get_condition(num)->get_size() <= 0)
+        if (num < 0 || num >= rule->get_size_conds())
                 return;
 
         Condition *cond = rule->get_condition(num);
 
-        popupConditionStd->setCondition(item, rule, cond);
-        popupConditionStd->layout()->update();
-        popupConditionStd->move(ui->tree_condition->mapToGlobal(QPoint(0 - popupConditionStd->width(), 0)));
-        popupConditionStd->setFocus();
-        popupConditionStd->show();
+        switch (cond->getType())
+        {
+        case COND_STD:
+                {
+                        popupConditionStd->setCondition(item, rule, cond);
+                        popupConditionStd->layout()->update();
+                        popupConditionStd->move(ui->tree_condition->mapToGlobal(QPoint(0 - popupConditionStd->width(), 0)));
+                        popupConditionStd->setFocus();
+                        popupConditionStd->show();
+
+                        break;
+                }
+        case COND_START:
+                {
+                        popupConditionStart->setCondition(item, rule, cond);
+                        popupConditionStart->layout()->update();
+                        popupConditionStart->move(ui->tree_condition->mapToGlobal(QPoint(0 - popupConditionStart->width(), 0)));
+                        popupConditionStart->setFocus();
+                        popupConditionStart->show();
+
+                        break;
+                }
+        }
+
 }
 
 void FormRules::on_tree_action_itemClicked(QTreeWidgetItem* item, int column)
@@ -1688,14 +1813,268 @@ void FormRules::on_tree_action_itemClicked(QTreeWidgetItem* item, int column)
 
         int num = ui->tree_action->invisibleRootItem()->indexOfChild(ui->tree_action->currentItem());
 
-        if (num < 0 || num >= rule->get_size_actions() || rule->get_action(num)->get_size() <= 0)
+        if (num < 0 || num >= rule->get_size_actions())
                 return;
 
         Action *action = rule->get_action(num);
 
-        popupActionStd->setAction(item, rule, action);
-        popupActionStd->layout()->update();
-        popupActionStd->move(ui->tree_action->mapToGlobal(QPoint(0 - popupActionStd->width(), 0)));
-        popupActionStd->setFocus();
-        popupActionStd->show();
+        switch (action->getType())
+        {
+        case ACTION_STD:
+                {
+                        popupActionStd->setAction(item, rule, action);
+                        popupActionStd->layout()->update();
+                        popupActionStd->move(ui->tree_action->mapToGlobal(QPoint(0 - popupActionStd->width(), 0)));
+                        popupActionStd->setFocus();
+                        popupActionStd->show();
+
+                        break;
+                }
+        case ACTION_MAIL:
+                {
+                        popupActionMail->setAction(item, rule, action);
+                        popupActionMail->layout()->update();
+                        popupActionMail->move(ui->tree_action->mapToGlobal(QPoint(0 - popupActionMail->width(), 0)));
+                        popupActionMail->setFocus();
+                        popupActionMail->show();
+
+                        break;
+                }
+        }
+
+}
+
+void FormRules::on_bt_condition_del_clicked()
+{
+        treeItem_condition = ui->tree_condition->currentItem();
+
+        deleteItemCondition();
+}
+
+void FormRules::on_bt_action_del_clicked()
+{
+        treeItem_action = ui->tree_action->currentItem();
+
+        deleteItemAction();
+}
+
+void FormRules::showPopup_rule(const QPoint point)
+{
+        QTreeWidgetItem *item = NULL;
+        item = ui->tree_rules->itemAt(point);
+
+        if (!item)
+                return;
+
+        treeItem = item;
+
+        QMenu item_menu(ui->tree_rules);
+
+        QAction *action = NULL;
+
+        action = item_menu.addAction(QString::fromUtf8("Propriétés"));
+        action->setIcon(QIcon(":/img/document-properties.png"));
+        connect(action, SIGNAL(triggered()), this, SLOT(showPropertiesItem()));
+        item_menu.addSeparator();
+        action = item_menu.addAction(QString::fromUtf8("Supprimer"));
+        action->setIcon(QIcon(":/img/user-trash.png"));
+        connect(action, SIGNAL(triggered()), this, SLOT(on_bt_rules_del_clicked()));
+
+        item_menu.exec(QCursor::pos());
+}
+
+void FormRules::on_tree_rules_itemDoubleClicked(QTreeWidgetItem* item, int column)
+{
+        treeItem = ui->tree_rules->currentItem();
+        showPropertiesItem();
+}
+
+void FormRules::addCondition(int type)
+{
+        if (type == COND_STD)
+        {
+                QTreeWidgetItemInput *initem = dynamic_cast<QTreeWidgetItemInput *>(ui->tree_home->currentItem());
+                if (!initem)
+                {
+                        QMessageBox::warning(this, tr("Calaos Installer"), QString::fromUtf8("Vous devez sélectionner une entrée."));
+                        return;
+                }
+
+                Input *input = initem->getInput();
+                if (!input) return;
+
+                string id = input->get_param("id");
+                if (IOBase::isAudioType(input->get_param("type")) ||
+                    IOBase::isCameraType(input->get_param("type")))
+                        id = input->get_param("iid");
+
+                Rule *rule = getCurrentRule();
+                if (!rule) return;
+
+                Condition *cond = new Condition(COND_STD);
+                cond->Add(input);
+
+                cond->get_operator().Add(id, "==");
+
+                if (input->get_param("type") == "WIDigitalBP" || input->get_param("type") == "InputTime" ||
+                    input->get_param("type") == "InputTimer" || input->get_param("type") == "Scenario" ||
+                    input->get_param("type") == "scenario" || input->get_param("type") == "InPlageHoraire")
+                      cond->get_params().Add(id, "true");
+                else if (input->get_param("type") == "WIDigitalTriple")
+                      cond->get_params().Add(id, "1");
+
+                rule->AddCondition(cond);
+
+                addItemCondition(cond, true, true);
+        }
+        else if (type == COND_START)
+        {
+                Rule *rule = getCurrentRule();
+                if (!rule) return;
+
+                Condition *cond = new Condition(COND_START);
+
+                rule->AddCondition(cond);
+
+                addItemCondition(cond, true, true);
+        }
+}
+
+void FormRules::addAction(int type)
+{
+        if (type == ACTION_STD)
+        {
+                QTreeWidgetItemOutput *outitem = dynamic_cast<QTreeWidgetItemOutput *>(ui->tree_home->currentItem());
+                if (!outitem)
+                {
+                        QMessageBox::warning(this, tr("Calaos Installer"), QString::fromUtf8("Vous devez sélectionner une sortie."));
+                        return;
+                }
+
+                Output *output = outitem->getOutput();
+                if (!output) return;
+
+                string id = output->get_param("id");
+                if (IOBase::isAudioType(output->get_param("type")) ||
+                    IOBase::isCameraType(output->get_param("type")))
+                        id = output->get_param("oid");
+
+                Rule *rule = getCurrentRule();
+                if (!rule) return;
+
+                Action *action = new Action(ACTION_STD);
+
+                action->Add(output);
+
+                if (output->get_param("type") == "WODigital" || output->get_param("type") == "WODali" ||
+                    output->get_param("type") == "WODaliRVB" || output->get_param("type") == "WONeon" ||
+                    output->get_param("type") == "WOVolet" || output->get_param("type") == "WOVoletSmart")
+                      action->get_params().Add(id, "toggle");
+                else if (output->get_param("type") == "scenario" || output->get_param("type") == "InputTimer")
+                      action->get_params().Add(id, "true");
+
+                rule->AddAction(action);
+
+                addItemAction(action, true, true);
+        }
+        else if (type == ACTION_MAIL)
+        {
+                Rule *rule = getCurrentRule();
+                if (!rule) return;
+
+                Action *action = new Action(ACTION_MAIL);
+
+                rule->AddAction(action);
+
+                addItemAction(action, true, true);
+        }
+}
+
+void FormRules::on_pushButtonCond_clicked()
+{
+        Rule *rule = getCurrentRule();
+        if (!rule)
+        {
+                qDebug() << "current rule is null !";
+                return;
+        }
+
+        qDebug() << "----------------------------------------------------------------------------";
+        qDebug() << "Rule: " << rule->get_name().c_str() << " - " << rule->get_type().c_str();
+        for (int i = 0;i < rule->get_size_conds();i++)
+        {
+                Condition *cond = rule->get_condition(i);
+                switch (cond->getType())
+                {
+                case COND_STD:
+                        {
+                                qDebug() << "Condition: STANDARD";
+                                for (int j = 0;j < cond->get_size();j++)
+                                {
+                                        Input *in = cond->get_input(j);
+                                        qDebug() << "\tInput: " << in->get_param("name").c_str();
+                                        qDebug() << "\t\t" << in->get_params().toString().c_str();
+                                }
+                                break;
+                        }
+                case COND_START:
+                        {
+                                qDebug() << "Condition: START";
+                                break;
+                        }
+                case COND_SCRIPT:
+                        {
+                                qDebug() << "Condition: SCRIPT";
+                                break;
+                        }
+                default: qDebug() << "Condition: UNKNOWN !";
+                }
+        }
+}
+
+void FormRules::on_pushButtonAction_clicked()
+{
+        Rule *rule = getCurrentRule();
+        if (!rule)
+        {
+                qDebug() << "current rule is null !";
+                return;
+        }
+
+        qDebug() << "----------------------------------------------------------------------------";
+        qDebug() << "Rule: " << rule->get_name().c_str() << " - " << rule->get_type().c_str();
+        for (int i = 0;i < rule->get_size_actions();i++)
+        {
+                Action *action = rule->get_action(i);
+                switch (action->getType())
+                {
+                case ACTION_STD:
+                        {
+                                qDebug() << "Action: STANDARD";
+                                for (int j = 0;j < action->get_size();j++)
+                                {
+                                        Output *out = action->get_output(j);
+                                        qDebug() << "\tOutput: " << out->get_param("name").c_str();
+                                        qDebug() << "\t\t" << out->get_params().toString().c_str();
+                                }
+                                break;
+                        }
+                case ACTION_MAIL:
+                        {
+                                qDebug() << "Action: MAIL";
+                                break;
+                        }
+                case ACTION_SCRIPT:
+                        {
+                                qDebug() << "Action: SCRIPT";
+                                break;
+                        }
+                case ACTION_TOUCHSCREEN:
+                        {
+                                qDebug() << "Action: TOUCHSCREEN";
+                                break;
+                        }
+                default: qDebug() << "Action: UNKNOWN !";
+                }
+        }
 }

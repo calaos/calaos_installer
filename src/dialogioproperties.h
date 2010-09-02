@@ -16,7 +16,7 @@ namespace Ui
         class DialogIOProperties;
 }
 
-enum { OBJ_NONE = 0, OBJ_INPUT, OBJ_OUTPUT, OBJ_ROOM };
+enum { OBJ_NONE = 0, OBJ_INPUT, OBJ_OUTPUT, OBJ_ROOM, OBJ_RULE };
 
 class DialogIOProperties : public QDialog
 {

@@ -18,12 +18,10 @@
 **  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 **
 ******************************************************************************/
-//-----------------------------------------------------------------------------
 #include <Rule.h>
-//-----------------------------------------------------------------------------
-using namespace std;
+
 using namespace Calaos;
-//-----------------------------------------------------------------------------
+
 Rule::~Rule()
 {
         for (uint i = 0;i < conds.size();i++)
@@ -32,28 +30,27 @@ Rule::~Rule()
         for (uint i = 0;i < actions.size();i++)
                 delete actions[i];
 }
-//-----------------------------------------------------------------------------
+
 void Rule::AddCondition(Condition *cond)
 {
         conds.push_back(cond);
 }
-//-----------------------------------------------------------------------------
+
 void Rule::AddAction(Action *act)
 {
         actions.push_back(act);
 }
-//-----------------------------------------------------------------------------
+
 void Rule::RemoveCondition(int pos)
 {
         vector<Condition *>::iterator iter = conds.begin();
         for (int i = 0;i < pos;iter++, i++) ;
         conds.erase(iter);
 }
-//-----------------------------------------------------------------------------
+
 void Rule::RemoveAction(int pos)
 {
         vector<Action *>::iterator iter = actions.begin();
         for (int i = 0;i < pos;iter++, i++) ;
         actions.erase(iter);
 }
-//-----------------------------------------------------------------------------

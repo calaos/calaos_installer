@@ -54,7 +54,10 @@ SOURCES += src/main.cpp \
     src/ClearLineEdit.cpp \
     src/formrules.cpp \
     src/FormConditionStd.cpp \
-    src/FormActionStd.cpp
+    src/FormActionStd.cpp \
+    src/FormConditionStart.cpp \
+    src/FormActionMail.cpp \
+    src/DialogMailMessage.cpp
 HEADERS += src/mainwindow.h \
     ../calaos_common/Utils.h \
     ../calaos_common/base64.h \
@@ -106,7 +109,10 @@ HEADERS += src/mainwindow.h \
     src/ClearLineEdit.h \
     src/formrules.h \
     src/FormConditionStd.h \
-    src/FormActionStd.h
+    src/FormActionStd.h \
+    src/FormConditionStart.h \
+    src/FormActionMail.h \
+    src/DialogMailMessage.h
 FORMS += data/mainwindow.ui \
     data/dialognewroom.ui \
     data/dialognewwago.ui \
@@ -133,7 +139,10 @@ FORMS += data/mainwindow.ui \
     data/dialogdetectsqueezebox.ui \
     data/formrules.ui \
     data/FormConditionStd.ui \
-    data/FormActionStd.ui
+    data/FormActionStd.ui \
+    data/FormConditionStart.ui \
+    data/FormActionMail.ui \
+    data/DialogMailMessage.ui
 RESOURCES += data/resources.qrc \
     data/textedit.qrc
 INCLUDEPATH += ../calaos_common/ \

@@ -18,18 +18,13 @@
 **  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 **
 ******************************************************************************/
-//-----------------------------------------------------------------------------
 #ifndef S_RULE_H
 #define S_RULE_H
-//-----------------------------------------------------------------------------
+
 #include <Utils.h>
-#include <iostream>
 #include <Condition.h>
 #include <Action.h>
-#include <Params.h>
-//-----------------------------------------------------------------------------
-using namespace std;
-//-----------------------------------------------------------------------------
+
 namespace Calaos
 {
 
@@ -61,9 +56,12 @@ class Rule
 
                 string get_type() { return type; }
                 string get_name() { return name; }
-                string getSpecialType() { return specialType; }
+                string get_specialType() { return specialType; }
+
+                void set_type(string s) { type = s; }
+                void set_name(string s) { name = s; }
+                void set_SpecialType(string s) { specialType = s; }
 };
-//-----------------------------------------------------------------------------
-//-----------------------------------------------------------------------------
+
 }
 #endif

@@ -30,7 +30,7 @@ DialogIOProperties::DialogIOProperties(const Params &p, int t, QWidget *parent) 
                         item->setSelected(true);
         }
 
-        if (type == OBJ_ROOM)
+        if (type == OBJ_ROOM || type == OBJ_RULE)
         {
                 ui->addButton->setDisabled(true);
                 ui->delButton->setDisabled(true);
@@ -116,8 +116,8 @@ void DialogIOProperties::on_modifyButton_clicked()
         value = params[key];
 
         //TODO: for now user can't change an object type. In the future being able to
-        //      change type on fly could be great.
-        if (key == "type")
+        //      change type on the fly could be great.
+        if (key == "type" && type != OBJ_RULE)
         {
                 QMessageBox::warning(this, tr("Calaos Installer"), QString::fromUtf8("Ce paramètre ne peut pas être modifié !"));
                 return;

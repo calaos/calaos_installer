@@ -205,7 +205,7 @@ void RuleXmlWriter::writeRule(Rule *rule)
         QXmlStreamAttributes attr;
         attr.append("name", QString::fromUtf8(rule->get_name().c_str()));
         attr.append("type", QString::fromUtf8(rule->get_type().c_str()));
-        attr.append("specialType", QString::fromUtf8(rule->getSpecialType().c_str()));
+        attr.append("specialType", QString::fromUtf8(rule->get_specialType().c_str()));
         writeAttributes(attr);
 
         writeCondition(rule);
@@ -723,7 +723,8 @@ bool ProjectManager::loadRulesFromFile(QString &file)
                 {
                         Condition *cond = NULL;
                         string cond_type = node_cond.attribute("type").toLocal8Bit().data();
-                        if (cond_type == "standard" || "")
+
+                        if (cond_type == "standard" || cond_type == "")
                         {
                                 cond = new Condition(COND_STD);
 
@@ -791,7 +792,7 @@ bool ProjectManager::loadRulesFromFile(QString &file)
                 {
                         Action *action = NULL;
                         string action_type = node_action.attribute("type").toLocal8Bit().data();
-                        if (action_type == "standard" || "")
+                        if (action_type == "standard" || action_type == "")
                         {
                                 action = new Action(ACTION_STD);
 

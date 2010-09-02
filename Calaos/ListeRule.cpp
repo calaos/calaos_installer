@@ -187,7 +187,7 @@ void ListeRule::RemoveSpecialRules(string specialType)
         {
                 Rule *rule = get_rule(i);
 
-                if(rule->getSpecialType() == specialType)
+                if(rule->get_specialType() == specialType)
                 {
                         Remove(rule);
                         i=0;

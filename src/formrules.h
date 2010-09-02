@@ -20,10 +20,9 @@
 #include <dialogioplagehoraire.h>
 
 #include <FormConditionStd.h>
+#include <FormConditionStart.h>
 #include <FormActionStd.h>
-
-#include <conditiondelegate.h>
-#include <actiondelegate.h>
+#include <FormActionMail.h>
 
 #include <qtreewidget_addition.h>
 
@@ -59,8 +58,8 @@ class FormRules : public QWidget
                 QTreeWidgetItemOutput *addItemOutput(Output *out, Room *parent, bool selected = false);
 
                 QTreeWidgetItemRule *addItemRule(Rule *rule, bool selected = false);
-                QTreeWidgetItem *addItemCondition(Condition *condition, bool selected = false);
-                QTreeWidgetItem *addItemAction(Action *action, bool selected = false);
+                QTreeWidgetItem *addItemCondition(Condition *condition, bool selected = false, bool show_popup = false);
+                QTreeWidgetItem *addItemAction(Action *action, bool selected = false, bool show_popup = false);
 
                 static void updateItemInfos(QTreeWidgetItemRoom *item);
                 static void updateItemInfos(QTreeWidgetItemInput *item);
@@ -83,7 +82,7 @@ class FormRules : public QWidget
 
                 Room *current_room; //Current used room in the interface
 
-                QMenu *add_menu;
+                QMenu *add_menu, *addConditionMenu, *addActionMenu;
 
                 //Item used by right-click menu in tree
                 QTreeWidgetItem *treeItem, *treeItem_condition, *treeItem_action;
@@ -91,18 +90,25 @@ class FormRules : public QWidget
                 bool project_changed;
 
                 FormConditionStd *popupConditionStd;
+                FormConditionStart *popupConditionStart;
+
                 FormActionStd *popupActionStd;
+                FormActionMail *popupActionMail;
+
 
         public slots:
                 void addCalaosItem(int item);
                 void showPopup_tree(const QPoint point);
                 void showPopup_condition(const QPoint point);
                 void showPopup_action(const QPoint point);
+                void showPopup_rule(const QPoint point);
                 void deleteItem();
                 void deleteItemCondition();
                 void deleteItemAction();
                 void goSelectRule();
                 void showPropertiesItem();
+                void addCondition(int type);
+                void addAction(int type);
 
                 void itemLightOn();
                 void itemLightOff();
@@ -117,6 +123,11 @@ class FormRules : public QWidget
                 void itemConvertVoletSmart();
 
         private slots:
+                void on_pushButtonAction_clicked();
+                void on_pushButtonCond_clicked();
+                void on_tree_rules_itemDoubleClicked(QTreeWidgetItem* item, int column);
+                void on_bt_action_del_clicked();
+                void on_bt_condition_del_clicked();
                 void on_tree_action_itemClicked(QTreeWidgetItem* item, int column);
                 void on_tree_condition_itemClicked(QTreeWidgetItem* item, int column);
                 void on_filterEditRules_textChanged(QString );
