@@ -41,7 +41,7 @@ void DialogNewInternal::on_buttonBox_accepted()
         }
 
         Params p;
-        p.Add("name", ui->edit_name->text().toLocal8Bit().constData());
+        p.Add("name", ui->edit_name->text().toUtf8().constData());
 
         if (ui->radioButton_bool->isChecked())
         {
@@ -59,7 +59,7 @@ void DialogNewInternal::on_buttonBox_accepted()
         else if (ui->radioButton_text->isChecked())
         {
                 p.Add("type", "InternalString");
-                p.Add("value", ui->value_text->text().toLocal8Bit().constData());
+                p.Add("value", ui->value_text->text().toUtf8().constData());
         }
 
         if (ui->checkBox_rw->isChecked())

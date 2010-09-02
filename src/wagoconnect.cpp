@@ -137,7 +137,7 @@ void WagoConnect::mainTick()
                         emit error(WERROR_TIMEOUT);
 
                         cout << "WagoConnect: Error, timeout waiting reply for command: \"" <<
-                                        current_cmd.command.toLocal8Bit().data() << "\"" << endl;
+                                        current_cmd.command.toUtf8().data() << "\"" << endl;
 
                         Disconnect();
                 }
@@ -149,7 +149,7 @@ void WagoConnect::mainTick()
 
         current_cmd = commands.dequeue();
 
-        cout << "mainTick(): send: " << current_cmd.command.toLocal8Bit().data() << endl;
+        cout << "mainTick(): send: " << current_cmd.command.toUtf8().data() << endl;
 
         if (wago_ip.isEmpty())
         {
@@ -157,7 +157,7 @@ void WagoConnect::mainTick()
                 return;
         }
 
-        QByteArray datagram(current_cmd.command.toLocal8Bit().data());
+        QByteArray datagram(current_cmd.command.toUtf8().data());
         udpSocket->writeDatagram(datagram.data(), datagram.size(),
                               QHostAddress(wago_ip), WAGO_LISTEN_PORT);
 }
@@ -184,7 +184,7 @@ void WagoConnect::readPendingDatagrams()
 
                 emit responseReceived(current_cmd.command, current_cmd.response);
 
-                cout << "mainTick(): received: " << current_cmd.response.toLocal8Bit().data() << endl;
+                cout << "mainTick(): received: " << current_cmd.response.toUtf8().data() << endl;
 
                 //clear current command
                 current_cmd = WagoCommand();

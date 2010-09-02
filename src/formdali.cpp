@@ -347,7 +347,7 @@ void FormDali::LoadGroups_cb(QString cmd, QString res)
 
         if (sl.size() != 3)
         {
-                std::cout << "LoadGroups_cb: command response error: " << res.toLocal8Bit().data() << std::endl;
+                std::cout << "LoadGroups_cb: command response error: " << res.toUtf8().data() << std::endl;
 
                 return;
         }

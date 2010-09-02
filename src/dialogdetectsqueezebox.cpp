@@ -42,7 +42,7 @@ void SqueezeServer::readTCPPacket()
         if (cmd.obj)
         {
                 QMetaObject::invokeMethod(cmd.obj,
-                                          cmd.slot.toLocal8Bit().constData(),
+                                          cmd.slot.toUtf8().constData(),
                                           Qt::DirectConnection,
                                           Q_ARG(QString, cmd.cmd),
                                           Q_ARG(QString, cmd.res));

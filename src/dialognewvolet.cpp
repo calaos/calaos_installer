@@ -41,7 +41,7 @@ void DialogNewVolet::on_buttonBox_accepted()
         }
 
         Params p;
-        p.Add("name", ui->edit_name->text().toLocal8Bit().data());
+        p.Add("name", ui->edit_name->text().toUtf8().data());
         p.Add("var_up", to_string(ui->spin_var_up->value()));
         p.Add("var_down", to_string(ui->spin_var_down->value()));
 

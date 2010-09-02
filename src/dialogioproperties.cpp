@@ -64,7 +64,7 @@ void DialogIOProperties::on_addButton_clicked()
 
         if (ok && !text.isEmpty())
         {
-                string key = text.toLocal8Bit().data();
+                string key = text.toUtf8().data();
 
                 if (params.Exists(key))
                 {
@@ -91,7 +91,7 @@ void DialogIOProperties::on_delButton_clicked()
 {
         if (current_item)
         {
-                string key = current_item->text(0).toLocal8Bit().data();
+                string key = current_item->text(0).toUtf8().data();
 
                 if (key == "type" || key == "name")
                 {
@@ -112,7 +112,7 @@ void DialogIOProperties::on_modifyButton_clicked()
 
         string key, value;
 
-        key = current_item->text(0).toLocal8Bit().data();
+        key = current_item->text(0).toUtf8().data();
         value = params[key];
 
         //TODO: for now user can't change an object type. In the future being able to
@@ -129,7 +129,7 @@ void DialogIOProperties::on_modifyButton_clicked()
                                           QString::fromUtf8(value.c_str()), &ok);
         if (ok && !text.isEmpty())
         {
-                params.Add(key, text.toLocal8Bit().data());
+                params.Add(key, text.toUtf8().data());
                 current_item->setData(1, Qt::DisplayRole, text);
 
                 modified = true;

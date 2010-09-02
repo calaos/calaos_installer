@@ -68,23 +68,23 @@ void FormActionMail::setAction(QTreeWidgetItem *item, Rule *_rule, Action *_acti
 
 void FormActionMail::on_editSender_textChanged(QString text)
 {
-        action->setMailSender(text.toLocal8Bit().data());
+        action->setMailSender(text.toUtf8().data());
 }
 
 void FormActionMail::on_editRecipient_textChanged(QString text)
 {
-        action->setMailRecipients(text.toLocal8Bit().data());
+        action->setMailRecipients(text.toUtf8().data());
 }
 
 void FormActionMail::on_editSubject_textChanged(QString text)
 {
-        action->setMailSubject(text.toLocal8Bit().data());
+        action->setMailSubject(text.toUtf8().data());
 }
 
 void FormActionMail::on_comboCamera_currentIndexChanged(int index)
 {
         if (setDone)
-                action->setMailAttachment(ui->comboCamera->itemData(index).toString().toLocal8Bit().data());
+                action->setMailAttachment(ui->comboCamera->itemData(index).toString().toUtf8().data());
 }
 
 void FormActionMail::on_btEditMsg_clicked()

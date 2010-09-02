@@ -40,9 +40,9 @@ void DialogNewAudio::on_buttonBox_accepted()
         }
 
         Params p;
-        p.Add("name", ui->edit_name->text().toLocal8Bit().constData());
-        p.Add("host", ui->edit_ip->text().toLocal8Bit().constData());
-        p.Add("id", ui->edit_mac->text().toLocal8Bit().constData());
+        p.Add("name", ui->edit_name->text().toUtf8().constData());
+        p.Add("host", ui->edit_ip->text().toUtf8().constData());
+        p.Add("id", ui->edit_mac->text().toUtf8().constData());
         p.Add("type", "slim");
 
         Audio *audio = ListeRoom::Instance().createAudio(p, room);

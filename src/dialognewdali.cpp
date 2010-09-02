@@ -39,7 +39,7 @@ void DialogNewDali::on_buttonBox_accepted()
         }
 
         Params p;
-        p.Add("name", ui->edit_name->text().toLocal8Bit().constData());
+        p.Add("name", ui->edit_name->text().toUtf8().constData());
         p.Add("line", "1");
         p.Add("type", "WODali");
         p.Add("address", to_string(ui->spin_addr->value()));

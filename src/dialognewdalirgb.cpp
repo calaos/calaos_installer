@@ -39,7 +39,7 @@ void DialogNewDaliRGB::on_buttonBox_accepted()
         }
 
         Params p;
-        p.Add("name", ui->edit_name->text().toLocal8Bit().constData());
+        p.Add("name", ui->edit_name->text().toUtf8().constData());
         p.Add("type", "WODaliRVB");
 
         p.Add("rline", "1");

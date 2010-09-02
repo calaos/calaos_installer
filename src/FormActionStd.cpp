@@ -362,11 +362,11 @@ void FormActionStd::on_comboValue_editTextChanged(QString)
         if (ui->comboValue->isEditable() && current > -1 &&
             ui->comboValue->itemData(current).isNull())
         {
-                value = ui->comboValue->lineEdit()->text().toLocal8Bit().constData();
+                value = ui->comboValue->lineEdit()->text().toUtf8().constData();
         }
         else
         {
-                value = ui->comboValue->itemData(current).toString().toLocal8Bit().constData();
+                value = ui->comboValue->itemData(current).toString().toUtf8().constData();
         }
 
         action->get_params().Add(id, value);

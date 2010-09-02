@@ -23,7 +23,7 @@ class WagoCommand
                 {
                         if (object_cb)
                                 QMetaObject::invokeMethod(object_cb,
-                                                          slot_name.toLocal8Bit().data(),
+                                                          slot_name.toUtf8().data(),
                                                           Qt::DirectConnection,
                                                           Q_ARG(QString, command),
                                                           Q_ARG(QString, response));

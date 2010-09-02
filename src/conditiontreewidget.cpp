@@ -22,7 +22,7 @@ bool ConditionTreeWidget::dropMimeData(QTreeWidgetItem *, int, const QMimeData *
                 fName = url.toLocalFile();
                 info.setFile( fName );
 
-                string id = info.fileName().toLocal8Bit().data();
+                string id = info.fileName().toUtf8().data();
 
                 Input *input = ListeRoom::Instance().get_input(id);
                 if (!input) return false;

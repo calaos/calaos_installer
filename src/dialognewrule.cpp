@@ -44,8 +44,8 @@ void DialogNewRule::on_buttonBox_accepted()
 
         string name, type;
 
-        name = ui->edit_name->text().toLocal8Bit().data();
-        type = ui->edit_type->text().toLocal8Bit().data();
+        name = ui->edit_name->text().toUtf8().data();
+        type = ui->edit_type->text().toUtf8().data();
 
         if (ListeRule::Instance().searchRule(type, name) != NULL)
         {

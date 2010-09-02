@@ -40,7 +40,7 @@ void DialogNewRoom::on_buttonBox_accepted()
 
         string name, type;
 
-        name = m_ui->edit_name->text().toLocal8Bit().data();
+        name = m_ui->edit_name->text().toUtf8().data();
         type = ListeRoom::getRoomType(m_ui->list_type->currentRow());
 
         if (ListeRoom::Instance().searchRoomByName(name, type) != NULL)

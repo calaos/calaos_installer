@@ -23,7 +23,7 @@ bool HomeTreeWidget::dropMimeData(QTreeWidgetItem *parent, int, const QMimeData 
                 fName = url.toLocalFile();
                 info.setFile( fName );
 
-                string id = info.fileName().toLocal8Bit().data();
+                string id = info.fileName().toUtf8().data();
                 
                 if (parent != NULL)
                 {

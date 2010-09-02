@@ -448,9 +448,9 @@ void IOXmlReader::readHome()
 
 void IOXmlReader::readRoom()
 {
-        string _name = attributes().value("name").toString().toLocal8Bit().data();
-        string _type = attributes().value("type").toString().toLocal8Bit().data();
-        string _hits = attributes().value("hits").toString().toLocal8Bit().data();
+        string _name = attributes().value("name").toString().toUtf8().data();
+        string _type = attributes().value("type").toString().toUtf8().data();
+        string _hits = attributes().value("hits").toString().toUtf8().data();
         int hits;
         from_string(_hits, hits);
 
@@ -487,8 +487,8 @@ void IOXmlReader::readInput(Room *room)
         for (int i = 0;i < attributes().size();i++)
         {
                 QXmlStreamAttribute attr = attributes().at(i);
-                p.Add(attr.name().toString().toLocal8Bit().data(),
-                      attr.value().toString().toLocal8Bit().data());
+                p.Add(attr.name().toString().toUtf8().data(),
+                      attr.value().toString().toUtf8().data());
         }
 
         if (ListeRoom::Instance().get_input(p["id"]))
@@ -553,17 +553,17 @@ void IOXmlReader::readPlage(Horaire &horaire)
         {
                 QXmlStreamAttribute attr = attributes().at(i);
                 if (attr.name() == "start_hour")
-                        horaire.shour = attr.value().toString().toLocal8Bit().data();
+                        horaire.shour = attr.value().toString().toUtf8().data();
                 if (attr.name() == "start_min")
-                        horaire.smin = attr.value().toString().toLocal8Bit().data();
+                        horaire.smin = attr.value().toString().toUtf8().data();
                 if (attr.name() == "start_sec")
-                        horaire.ssec = attr.value().toString().toLocal8Bit().data();
+                        horaire.ssec = attr.value().toString().toUtf8().data();
                 if (attr.name() == "end_hour")
-                        horaire.ehour = attr.value().toString().toLocal8Bit().data();
+                        horaire.ehour = attr.value().toString().toUtf8().data();
                 if (attr.name() == "end_min")
-                        horaire.emin = attr.value().toString().toLocal8Bit().data();
+                        horaire.emin = attr.value().toString().toUtf8().data();
                 if (attr.name() == "end_sec")
-                        horaire.esec = attr.value().toString().toLocal8Bit().data();
+                        horaire.esec = attr.value().toString().toUtf8().data();
         }
 
         while (!atEnd())
@@ -582,8 +582,8 @@ void IOXmlReader::readOutput(Room *room)
         for (int i = 0;i < attributes().size();i++)
         {
                 QXmlStreamAttribute attr = attributes().at(i);
-                p.Add(attr.name().toString().toLocal8Bit().data(),
-                      attr.value().toString().toLocal8Bit().data());
+                p.Add(attr.name().toString().toUtf8().data(),
+                      attr.value().toString().toUtf8().data());
         }
 
         if (ListeRoom::Instance().get_output(p["id"]))
@@ -609,8 +609,8 @@ void IOXmlReader::readCamera(Room *room)
         for (int i = 0;i < attributes().size();i++)
         {
                 QXmlStreamAttribute attr = attributes().at(i);
-                p.Add(attr.name().toString().toLocal8Bit().data(),
-                      attr.value().toString().toLocal8Bit().data());
+                p.Add(attr.name().toString().toUtf8().data(),
+                      attr.value().toString().toUtf8().data());
         }
 
         ListeRoom::Instance().createCamera(p, room);
@@ -631,8 +631,8 @@ void IOXmlReader::readAudio(Room *room)
         for (int i = 0;i < attributes().size();i++)
         {
                 QXmlStreamAttribute attr = attributes().at(i);
-                p.Add(attr.name().toString().toLocal8Bit().data(),
-                      attr.value().toString().toLocal8Bit().data());
+                p.Add(attr.name().toString().toUtf8().data(),
+                      attr.value().toString().toUtf8().data());
         }
 
         ListeRoom::Instance().createAudio(p, room);
@@ -710,9 +710,9 @@ bool ProjectManager::loadRulesFromFile(QString &file)
         QDomElement node_rule = elem.firstChildElement("calaos:rule");
         while (!node_rule.isNull())
         {
-                string name = node_rule.attribute("name").toLocal8Bit().data();
-                string type = node_rule.attribute("type").toLocal8Bit().data();
-                string stype = node_rule.attribute("specialType").toLocal8Bit().data();
+                string name = node_rule.attribute("name").toUtf8().data();
+                string type = node_rule.attribute("type").toUtf8().data();
+                string stype = node_rule.attribute("specialType").toUtf8().data();
 
                 Rule *rule = new Rule(type, name, stype);
                 ListeRule::Instance().Add(rule);
@@ -722,7 +722,7 @@ bool ProjectManager::loadRulesFromFile(QString &file)
                 while (!node_cond.isNull())
                 {
                         Condition *cond = NULL;
-                        string cond_type = node_cond.attribute("type").toLocal8Bit().data();
+                        string cond_type = node_cond.attribute("type").toUtf8().data();
 
                         if (cond_type == "standard" || cond_type == "")
                         {
@@ -731,10 +731,10 @@ bool ProjectManager::loadRulesFromFile(QString &file)
                                 QDomElement node_in = node_cond.firstChildElement("calaos:input");
                                 while(!node_in.isNull())
                                 {
-                                        string id = node_in.attribute("id").toLocal8Bit().data();
-                                        string oper = node_in.attribute("oper").toLocal8Bit().data();
-                                        string val = node_in.attribute("val").toLocal8Bit().data();
-                                        string val_var = node_in.attribute("val_var").toLocal8Bit().data();
+                                        string id = node_in.attribute("id").toUtf8().data();
+                                        string oper = node_in.attribute("oper").toUtf8().data();
+                                        string val = node_in.attribute("val").toUtf8().data();
+                                        string val_var = node_in.attribute("val_var").toUtf8().data();
 
                                         Input *input = ListeRoom::Instance().get_input(id);
 
@@ -763,7 +763,7 @@ bool ProjectManager::loadRulesFromFile(QString &file)
                                 {
                                         if (node_in.tagName() == "calaos:input")
                                         {
-                                                string id = node_in.attribute("id").toLocal8Bit().data();
+                                                string id = node_in.attribute("id").toUtf8().data();
                                                 Input *input = ListeRoom::Instance().get_input(id);
                                                 if (input)
                                                         cond->addScriptInput(input);
@@ -771,7 +771,7 @@ bool ProjectManager::loadRulesFromFile(QString &file)
                                         else if (node_in.tagName() == "calaos:script")
                                         {
                                                 QDomCDATASection data = node_in.toCDATASection();
-                                                cond->setScript(data.data().toLocal8Bit().data());
+                                                cond->setScript(data.data().toUtf8().data());
                                         }
 
                                         node_in = node_in.nextSiblingElement();
@@ -791,7 +791,7 @@ bool ProjectManager::loadRulesFromFile(QString &file)
                 while (!node_action.isNull())
                 {
                         Action *action = NULL;
-                        string action_type = node_action.attribute("type").toLocal8Bit().data();
+                        string action_type = node_action.attribute("type").toUtf8().data();
                         if (action_type == "standard" || action_type == "")
                         {
                                 action = new Action(ACTION_STD);
@@ -799,9 +799,9 @@ bool ProjectManager::loadRulesFromFile(QString &file)
                                 QDomElement node_out = node_action.firstChildElement("calaos:output");
                                 while(!node_out.isNull())
                                 {
-                                        string id = node_out.attribute("id").toLocal8Bit().data();
-                                        string val = node_out.attribute("val").toLocal8Bit().data();
-                                        string val_var = node_out.attribute("val_var").toLocal8Bit().data();
+                                        string id = node_out.attribute("id").toUtf8().data();
+                                        string val = node_out.attribute("val").toUtf8().data();
+                                        string val_var = node_out.attribute("val_var").toUtf8().data();
 
                                         Output *output = ListeRoom::Instance().get_output(id);
 
@@ -821,10 +821,10 @@ bool ProjectManager::loadRulesFromFile(QString &file)
                                 action = new Action(ACTION_MAIL);
 
                                 QDomElement node_mail = node_action.firstChildElement("calaos:mail");
-                                string mail_sender = node_mail.attribute("sender").toLocal8Bit().data();
-                                string mail_recipients = node_mail.attribute("recipients").toLocal8Bit().data();
-                                string mail_subject = node_mail.attribute("subject").toLocal8Bit().data();
-                                string mail_attachment = node_mail.attribute("attachment").toLocal8Bit().data();
+                                string mail_sender = node_mail.attribute("sender").toUtf8().data();
+                                string mail_recipients = node_mail.attribute("recipients").toUtf8().data();
+                                string mail_subject = node_mail.attribute("subject").toUtf8().data();
+                                string mail_attachment = node_mail.attribute("attachment").toUtf8().data();
 
                                 action->setMailSender(mail_sender);
                                 action->setMailRecipients(mail_recipients);
@@ -832,7 +832,7 @@ bool ProjectManager::loadRulesFromFile(QString &file)
                                 action->setMailAttachment(mail_attachment);
 
                                 QDomCDATASection data = node_mail.firstChild().toCDATASection();
-                                action->setMailMessage(data.data().toLocal8Bit().data());
+                                action->setMailMessage(data.data().toUtf8().data());
                         }
                         else if (action_type == "script")
                         {
@@ -842,14 +842,14 @@ bool ProjectManager::loadRulesFromFile(QString &file)
                                 if (node_script.attribute("type") == "lua")
                                 {
                                         QDomCDATASection data = node_script.firstChild().toCDATASection();
-                                        action->setScript(data.data().toLocal8Bit().data());
+                                        action->setScript(data.data().toUtf8().data());
                                 }
                         }
                         else if (action_type == "touchscreen")
                         {
                                 action = new Action(ACTION_TOUCHSCREEN);
 
-                                string tact = node_action.attribute("action").toLocal8Bit().data();
+                                string tact = node_action.attribute("action").toUtf8().data();
                                 action->setTouchscreenAction(tact);
                         }
 

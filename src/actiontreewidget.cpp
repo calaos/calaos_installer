@@ -22,7 +22,7 @@ bool ActionTreeWidget::dropMimeData(QTreeWidgetItem *, int, const QMimeData *dat
                 fName = url.toLocalFile();
                 info.setFile( fName );
 
-                string id = info.fileName().toLocal8Bit().data();
+                string id = info.fileName().toUtf8().data();
 
                 Output *output = ListeRoom::Instance().get_output(id);
                 if (!output) return false;

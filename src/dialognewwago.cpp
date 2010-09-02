@@ -64,7 +64,7 @@ void DialogNewWago::on_buttonBox_accepted()
         }
 
         Params p;
-        p.Add("name", ui->edit_name->text().toLocal8Bit().data());
+        p.Add("name", ui->edit_name->text().toUtf8().data());
         p.Add("type", type);
         p.Add("var", to_string(ui->spin_var->value()));
 
@@ -136,7 +136,7 @@ void DialogNewWago::on_button_detect_clicked()
 
 void DialogNewWago::processUDPRequest(QString &, QString response)
 {
-        string req = response.toLocal8Bit().data();
+        string req = response.toUtf8().data();
 
         vector<string> tok;
         Utils::split(req, tok, " ", 4);

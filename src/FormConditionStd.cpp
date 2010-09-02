@@ -233,7 +233,7 @@ void FormConditionStd::on_comboOp_currentIndexChanged(int)
 
         int current = ui->comboOp->currentIndex();
 
-        string v = ui->comboOp->itemData(current).toString().toLocal8Bit().constData();
+        string v = ui->comboOp->itemData(current).toString().toUtf8().constData();
         condition->get_operator().Add(id, v);
 
         FormRules::updateItemCondition(qitem, condition);
@@ -258,11 +258,11 @@ void FormConditionStd::on_comboValue_editTextChanged(QString)
         if (ui->comboValue->isEditable() && current > -1 &&
             ui->comboValue->itemData(current).isNull())
         {
-                value = ui->comboValue->lineEdit()->text().toLocal8Bit().constData();
+                value = ui->comboValue->lineEdit()->text().toUtf8().constData();
         }
         else
         {
-                value = ui->comboValue->itemData(current).toString().toLocal8Bit().constData();
+                value = ui->comboValue->itemData(current).toString().toUtf8().constData();
         }
 
         condition->get_params().Add(id, value);

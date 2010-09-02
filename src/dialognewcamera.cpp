@@ -39,36 +39,36 @@ void DialogNewCamera::on_buttonBox_accepted()
         }
 
         Params p;
-        p.Add("name", ui->edit_name->text().toLocal8Bit().constData());
+        p.Add("name", ui->edit_name->text().toUtf8().constData());
 
         if (ui->tab_camera_model->currentIndex() == 0) //Axis
         {
                 p.Add("type", "axis");
                 p.Add("port", "80");
-                p.Add("host", ui->axis_ip->text().toLocal8Bit().constData());
-                p.Add("model", ui->axis_cam->text().toLocal8Bit().constData());
+                p.Add("host", ui->axis_ip->text().toUtf8().constData());
+                p.Add("model", ui->axis_cam->text().toUtf8().constData());
         }
         else if (ui->tab_camera_model->currentIndex() == 1) //Planet
         {
                 p.Add("type", "planet");
                 p.Add("port", "80");
-                p.Add("host", ui->planet_ip->text().toLocal8Bit().constData());
-                p.Add("model", ui->planet_model->currentItem()->text().toLocal8Bit().constData());
+                p.Add("host", ui->planet_ip->text().toUtf8().constData());
+                p.Add("model", ui->planet_model->currentItem()->text().toUtf8().constData());
         }
         else if (ui->tab_camera_model->currentIndex() == 2) //Gadspot
         {
                 p.Add("type", "gadspot");
                 p.Add("port", "80");
-                p.Add("host", ui->gadspot_ip->text().toLocal8Bit().constData());
+                p.Add("host", ui->gadspot_ip->text().toUtf8().constData());
         }
         else if (ui->tab_camera_model->currentIndex() == 3) //Standard
         {
                 p.Add("type", "standard_mjpeg");
                 p.Add("port", "80");
-                p.Add("host", ui->std_ip->text().toLocal8Bit().constData());
-                p.Add("url_jpeg", ui->std_url_jpeg->text().toLocal8Bit().constData());
-                p.Add("url_mjpeg", ui->std_url_mjpeg->text().toLocal8Bit().constData());
-                p.Add("url_mpeg", ui->std_url_mpeg4->text().toLocal8Bit().constData());
+                p.Add("host", ui->std_ip->text().toUtf8().constData());
+                p.Add("url_jpeg", ui->std_url_jpeg->text().toUtf8().constData());
+                p.Add("url_mjpeg", ui->std_url_mjpeg->text().toUtf8().constData());
+                p.Add("url_mpeg", ui->std_url_mpeg4->text().toUtf8().constData());
         }
         else
         {
