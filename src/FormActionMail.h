@@ -4,7 +4,6 @@
 #include <QtGui>
 #include <ListeRule.h>
 #include <ListeRoom.h>
-#include <dialogiolist.h>
 
 using namespace Calaos;
 

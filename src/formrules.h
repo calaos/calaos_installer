@@ -23,6 +23,7 @@
 #include <FormConditionStart.h>
 #include <FormActionStd.h>
 #include <FormActionMail.h>
+#include <FormActionScript.h>
 
 #include <qtreewidget_addition.h>
 
@@ -94,6 +95,7 @@ class FormRules : public QWidget
 
                 FormActionStd *popupActionStd;
                 FormActionMail *popupActionMail;
+                FormActionScript *popupActionScript;
 
 
         public slots:

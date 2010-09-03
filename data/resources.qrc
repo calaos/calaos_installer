@@ -83,5 +83,6 @@
         <file>img/2leftarrow.png</file>
         <file>img/2rightarrow.png</file>
         <file>img/2uparrow.png</file>
+        <file>img/dialog-cancel.png</file>
     </qresource>
 </RCC>

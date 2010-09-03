@@ -11,7 +11,8 @@ FormRules::FormRules(QWidget *parent) :
                 popupConditionStd(new FormConditionStd(this)),
                 popupConditionStart(new FormConditionStart(this)),
                 popupActionStd(new FormActionStd(this)),
-                popupActionMail(new FormActionMail(this))
+                popupActionMail(new FormActionMail(this)),
+                popupActionScript(new FormActionScript(this))
 {
         ui->setupUi(this);
 
@@ -1840,6 +1841,16 @@ void FormRules::on_tree_action_itemClicked(QTreeWidgetItem* item, int column)
 
                         break;
                 }
+        case ACTION_SCRIPT:
+                {
+                        popupActionScript->setAction(item, rule, action);
+                        popupActionScript->layout()->update();
+                        popupActionScript->move(ui->tree_action->mapToGlobal(QPoint(0 - popupActionScript->width(), 0)));
+                        popupActionScript->setFocus();
+                        popupActionScript->show();
+
+                        break;
+                }
         }
 
 }
@@ -1983,6 +1994,17 @@ void FormRules::addAction(int type)
                 if (!rule) return;
 
                 Action *action = new Action(ACTION_MAIL);
+
+                rule->AddAction(action);
+
+                addItemAction(action, true, true);
+        }
+        else if (type == ACTION_SCRIPT)
+        {
+                Rule *rule = getCurrentRule();
+                if (!rule) return;
+
+                Action *action = new Action(ACTION_SCRIPT);
 
                 rule->AddAction(action);
 

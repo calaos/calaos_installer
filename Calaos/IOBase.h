@@ -36,6 +36,10 @@ class IOBase
                 //we store all params here
                 Params param;
 
+                double dvalue;
+                bool bvalue;
+                string svalue;
+
         public:
                 IOBase(Params &p): param(p) { /* nothing */ }
                 virtual ~IOBase() { /* nothing */ }
@@ -49,6 +53,13 @@ class IOBase
                 virtual Params &get_params()
                         { return param; }
 
+                double get_value_double() { return dvalue; }
+                bool get_value_bool() { return bvalue; }
+                string get_value_string() { return svalue; }
+
+                void set_value(double v) { dvalue = v; }
+                void set_value(bool v) { bvalue = v; }
+                void set_value(string v) { svalue = v; }
 
                 static bool isCameraType(string type)
                 {
