@@ -15,6 +15,7 @@ QT_END_NAMESPACE
 
 class LineNumberArea;
 class LuaHighlighter;
+class CalaosCompleter;
 
 class CodeEditor : public QPlainTextEdit
 {
@@ -28,20 +29,26 @@ class CodeEditor : public QPlainTextEdit
 
         protected:
                 void resizeEvent(QResizeEvent *event);
+//                void keyPressEvent(QKeyEvent *e);
+//                void focusInEvent(QFocusEvent *e);
 
         private slots:
                 void updateLineNumberAreaWidth(int newBlockCount);
                 void highlightCurrentLine();
                 void updateLineNumberArea(const QRect &, int);
                 void matchParentheses();
+//                void insertCompletion(const QString &completion);
 
         private:
                 QWidget *lineNumberArea;
                 LuaHighlighter *highlighter;
+//                CalaosCompleter *completer;
 
                 bool matchLeftParenthesis(QTextBlock currentBlock, int index, int numRightParentheses);
                 bool matchRightParenthesis(QTextBlock currentBlock, int index, int numLeftParentheses);
                 void createParenthesisSelection(int pos);
+
+//                QString textUnderCursor() const;
 };
 
 class LineNumberArea : public QWidget
@@ -112,6 +119,21 @@ class LuaHighlighter : public QSyntaxHighlighter
                 QTextCharFormat multiLineCommentFormat;
                 QTextCharFormat quotationFormat;
                 QTextCharFormat functionFormat;
+};
+
+class CalaosCompleter : public QCompleter
+{
+        Q_OBJECT
+
+        public:
+                CalaosCompleter(QObject *parent = 0);
+
+        protected:
+                QStringList splitPath(const QString &path) const;
+                QString pathFromIndex(const QModelIndex &index) const;
+
+        private:
+                QStandardItemModel *model;
 };
 
 #endif

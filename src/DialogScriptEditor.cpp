@@ -13,6 +13,8 @@ DialogScriptEditor::DialogScriptEditor(QString script, QWidget *parent) :
         codeEditor->setPlainText(script);
 
         ui->contentVLayout->insertWidget(0, codeEditor);
+
+        connect(&LuaPrinter::Instance(), SIGNAL(print(QString)), this, SLOT(on_print_message(QString)));
 }
 
 DialogScriptEditor::~DialogScriptEditor()
@@ -42,11 +44,19 @@ void DialogScriptEditor::on_pushButton_Valid_clicked()
         scriptError = false;
         if (Execute())
         {
+                QTextCharFormat format = ui->logEdit->currentCharFormat();
+                format.setForeground(QBrush(Qt::darkGreen));
+                ui->logEdit->setCurrentCharFormat(format);
+
                 QString t(QString::fromUtf8("Le script s'est executé avec succès."));
                 ui->logEdit->appendPlainText(t);
         }
         else
         {
+                QTextCharFormat format = ui->logEdit->currentCharFormat();
+                format.setForeground(QBrush(Qt::red));
+                ui->logEdit->setCurrentCharFormat(format);
+
                 scriptError = true;
                 QString t(QString::fromUtf8(ScriptManager::Instance().getErrorMsg().c_str()));
                 ui->logEdit->appendPlainText(t);
@@ -69,6 +79,10 @@ bool DialogScriptEditor::Execute()
 
         if (!ScriptManager::Instance().hasError())
         {
+                QTextCharFormat format = ui->logEdit->currentCharFormat();
+                format.setForeground(QBrush(Qt::darkYellow));
+                ui->logEdit->setCurrentCharFormat(format);
+
                 if (v)
                         ui->logEdit->appendPlainText(QString::fromUtf8("Le script a renvoyé \"true\""));
                 else
@@ -76,4 +90,13 @@ bool DialogScriptEditor::Execute()
         }
 
         return !ScriptManager::Instance().hasError();
+}
+
+void DialogScriptEditor::on_print_message(QString msg)
+{
+        QTextCharFormat format = ui->logEdit->currentCharFormat();
+        format.setForeground(QBrush(Qt::darkCyan));
+        ui->logEdit->setCurrentCharFormat(format);
+
+        ui->logEdit->appendPlainText(QString("Lua print: ") + msg);
 }

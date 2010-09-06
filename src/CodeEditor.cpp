@@ -1,4 +1,8 @@
+
 #include "CodeEditor.h"
+#include "ListeRoom.h"
+
+using namespace Calaos;
 
 CodeEditor::CodeEditor(QWidget *parent) : QPlainTextEdit(parent)
 {
@@ -20,7 +24,83 @@ CodeEditor::CodeEditor(QWidget *parent) : QPlainTextEdit(parent)
 
         updateLineNumberAreaWidth(0);
         highlightCurrentLine();
+
+        //Create completer
+//        completer = new CalaosCompleter(this);
+//        QObject::connect(completer, SIGNAL(activated(QString)), this, SLOT(insertCompletion(QString)));
 }
+
+//void CodeEditor::insertCompletion(const QString& completion)
+//{
+//        QTextCursor tc = textCursor();
+//        int extra = completion.length() - completer->completionPrefix().length();
+//        tc.movePosition(QTextCursor::Left);
+//        tc.movePosition(QTextCursor::EndOfWord);
+//        tc.insertText(completion.right(extra));
+//        setTextCursor(tc);
+//}
+
+//QString CodeEditor::textUnderCursor() const
+//{
+//        QTextCursor tc = textCursor();
+//        tc.select(QTextCursor::BlockUnderCursor);
+//        return tc.selectedText().trimmed();
+//}
+
+//void CodeEditor::focusInEvent(QFocusEvent *e)
+//{
+//        completer->setWidget(this);
+//        QPlainTextEdit::focusInEvent(e);
+//}
+
+//void CodeEditor::keyPressEvent(QKeyEvent *e)
+//{
+//        if (completer->popup()->isVisible())
+//        {
+//                // The following keys are forwarded by the completer to the widget
+//                switch (e->key())
+//                {
+//                case Qt::Key_Enter:
+//                case Qt::Key_Return:
+//                case Qt::Key_Escape:
+//                case Qt::Key_Tab:
+//                case Qt::Key_Backtab:
+//                        e->ignore();
+//                        return; // let the completer do default behavior
+//                default:
+//                        break;
+//                }
+//        }
+
+//        bool isShortcut = ((e->modifiers() & Qt::ControlModifier) && e->key() == Qt::Key_E); // CTRL+E
+//        if (!isShortcut) // dont process the shortcut when we have a completer
+//                QPlainTextEdit::keyPressEvent(e);
+
+//        const bool ctrlOrShift = e->modifiers() & (Qt::ControlModifier | Qt::ShiftModifier);
+//        if (ctrlOrShift && e->text().isEmpty())
+//                return;
+
+//        static QString eow("~!@#$%^&*()_+{}|:\"<>?,/;'[]\\-="); // end of word
+//        bool hasModifier = (e->modifiers() != Qt::NoModifier) && !ctrlOrShift;
+//        QString completionPrefix = textUnderCursor();
+
+//        if (!isShortcut && (hasModifier || e->text().isEmpty()|| completionPrefix.length() < 3
+//                            || eow.contains(e->text().right(1))))
+//        {
+//                completer->popup()->hide();
+//                return;
+//        }
+
+//        if (completionPrefix != completer->completionPrefix())
+//        {
+//                completer->setCompletionPrefix(completionPrefix);
+//                completer->popup()->setCurrentIndex(completer->completionModel()->index(0, 0));
+//        }
+//        QRect cr = cursorRect();
+//        cr.setWidth(completer->popup()->sizeHintForColumn(0)
+//                    + completer->popup()->verticalScrollBar()->sizeHint().width());
+//        completer->complete(cr); // popup it up!
+//}
 
 int CodeEditor::lineNumberAreaWidth()
 {
@@ -365,4 +445,84 @@ void LuaHighlighter::highlightBlock(const QString &text)
         }
 
         setCurrentBlockUserData(data);
+}
+
+CalaosCompleter::CalaosCompleter(QObject *parent):
+                QCompleter(parent)
+{
+        model = new QStandardItemModel(this);
+        QStandardItem *root_item = model->invisibleRootItem();
+
+        //Add the calaos item
+        QStandardItem *calaos_item = new QStandardItem("calaos");
+        root_item->appendRow(calaos_item);
+
+        QStandardItem *item;
+
+        //Add the getInputValue item
+        item = new QStandardItem(QString("getInputValue"));
+        calaos_item->appendRow(item);
+
+        for (int i = 0;i < ListeRoom::Instance().get_nb_input();i++)
+        {
+                Input *input = ListeRoom::Instance().get_input(i);
+                QStandardItem *it = new QStandardItem(QString::fromUtf8(input->get_param("name").c_str()));
+                it->setData(i);
+                item->appendRow(it);
+        }
+
+        //Add the getOutputValue item
+        item = new QStandardItem(QString("getOutputValue"));
+        calaos_item->appendRow(item);
+
+        for (int i = 0;i < ListeRoom::Instance().get_nb_output();i++)
+        {
+                Output *output = ListeRoom::Instance().get_output(i);
+                QStandardItem *it = new QStandardItem(QString::fromUtf8(output->get_param("name").c_str()));
+                it->setData(i);
+                item->appendRow(it);
+        }
+
+        //Add the setOutputValue item
+        item = new QStandardItem(QString("setOutputValue"));
+        calaos_item->appendRow(item);
+
+        for (int i = 0;i < ListeRoom::Instance().get_nb_output();i++)
+        {
+                Output *output = ListeRoom::Instance().get_output(i);
+                QStandardItem *it = new QStandardItem(QString::fromUtf8(output->get_param("name").c_str()));
+                it->setData(i);
+                item->appendRow(it);
+        }
+
+        setModel(model);
+}
+
+QStringList CalaosCompleter::splitPath(const QString &path) const
+{
+//    if (sep.isNull()) {
+//        return QCompleter::splitPath(path);
+//    }
+
+        qDebug() << "path: " << path;
+
+        return path.split(".");
+}
+
+QString CalaosCompleter::pathFromIndex(const QModelIndex &index) const
+{
+//    if (sep.isNull()) {
+//        return QCompleter::pathFromIndex(index);
+//    }
+
+        qDebug() << index.data();
+
+        // navigate up and accumulate data
+        QStringList dataList;
+        for (QModelIndex i = index; i.isValid(); i = i.parent())
+        {
+                dataList.prepend(model->data(i, completionRole()).toString());
+        }
+
+        return dataList.join(".");
 }

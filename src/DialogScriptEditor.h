@@ -33,6 +33,27 @@ class DialogScriptEditor : public QDialog
         private slots:
                 void on_pushButton_Ok_clicked();
                 void on_pushButton_Valid_clicked();
+                void on_print_message(QString msg);
+};
+
+class LuaPrinter: public QObject
+{
+        Q_OBJECT
+
+        public:
+                static LuaPrinter &Instance()
+                {
+                        static LuaPrinter lp;
+                        return lp;
+                }
+
+                void Print(QString msg) { emit print(msg); }
+
+        signals:
+                void print(QString msg);
+
+        private:
+                LuaPrinter(): QObject() {}
 };
 
 #endif // DIALOGSCRIPTEDITOR_H
