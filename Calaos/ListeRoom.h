@@ -81,7 +81,10 @@ class ListeRoom
 
                 int size() { return rooms.size(); }
 
-                Room * searchRoomByName(string name, string type);
+                Room *searchRoomByName(string name, string type);
+
+                Room *searchRoomByInput(Input *);
+                Room *searchRoomByOutput(Output *);
 
                 bool deleteIO(Input *input);
                 bool deleteIO(Output *output);

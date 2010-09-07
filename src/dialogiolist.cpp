@@ -8,6 +8,8 @@ DialogIOList::DialogIOList(Input *_in, Output *_out, QWidget *parent) :
 {
         ui->setupUi(this);
 
+        ui->treeWidget->setUpdatesEnabled(false);
+
         if (input)
         {
                 for (int i = 0;i < ListeRoom::Instance().size();i++)
@@ -61,9 +63,12 @@ DialogIOList::DialogIOList(Input *_in, Output *_out, QWidget *parent) :
                 }
         }
 
+        ui->treeWidget->setUpdatesEnabled(true);
+
         ui->treeWidget->resizeColumnToContents(0);
         ui->treeWidget->resizeColumnToContents(1);
         ui->treeWidget->resizeColumnToContents(2);
+
 }
 
 DialogIOList::~DialogIOList()

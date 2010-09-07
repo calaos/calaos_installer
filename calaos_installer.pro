@@ -91,7 +91,10 @@ SOURCES += src/main.cpp \
     ../calaos_common/LuaScript/lua-5.1.4/src/ldo.c \
     ../calaos_common/LuaScript/lua-5.1.4/src/ldebug.c \
     ../calaos_common/LuaScript/lua-5.1.4/src/lcode.c \
-    ../calaos_common/LuaScript/lua-5.1.4/src/lapi.c
+    ../calaos_common/LuaScript/lua-5.1.4/src/lapi.c \
+    src/FormActionTouchscreen.cpp \
+    src/FormConditionScript.cpp \
+    src/DialogInputEventScript.cpp
 HEADERS += src/mainwindow.h \
     ../calaos_common/Utils.h \
     ../calaos_common/base64.h \
@@ -175,7 +178,10 @@ HEADERS += src/mainwindow.h \
     ../calaos_common/LuaScript/lua-5.1.4/src/ldebug.h \
     ../calaos_common/LuaScript/lua-5.1.4/src/lcode.h \
     ../calaos_common/LuaScript/lua-5.1.4/src/lapi.h \
-    ../calaos_common/LuaScript/lua-5.1.4/etc/lua.hpp
+    ../calaos_common/LuaScript/lua-5.1.4/etc/lua.hpp \
+    src/FormActionTouchscreen.h \
+    src/FormConditionScript.h \
+    src/DialogInputEventScript.h
 FORMS += data/mainwindow.ui \
     data/dialognewroom.ui \
     data/dialognewwago.ui \
@@ -207,7 +213,10 @@ FORMS += data/mainwindow.ui \
     data/FormActionMail.ui \
     data/DialogMailMessage.ui \
     data/FormActionScript.ui \
-    data/DialogScriptEditor.ui
+    data/DialogScriptEditor.ui \
+    data/FormActionTouchscreen.ui \
+    data/FormConditionScript.ui \
+    data/DialogInputEventScript.ui
 RESOURCES += data/resources.qrc \
     data/textedit.qrc
 INCLUDEPATH += ../calaos_common/ \

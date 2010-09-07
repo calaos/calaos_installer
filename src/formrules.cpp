@@ -10,9 +10,11 @@ FormRules::FormRules(QWidget *parent) :
                 project_changed(false),
                 popupConditionStd(new FormConditionStd(this)),
                 popupConditionStart(new FormConditionStart(this)),
+                popupConditionScript(new FormConditionScript(this)),
                 popupActionStd(new FormActionStd(this)),
                 popupActionMail(new FormActionMail(this)),
-                popupActionScript(new FormActionScript(this))
+                popupActionScript(new FormActionScript(this)),
+                popupActionTouchscreen(new FormActionTouchscreen(this))
 {
         ui->setupUi(this);
 
@@ -1803,6 +1805,16 @@ void FormRules::on_tree_condition_itemClicked(QTreeWidgetItem* item, int column)
 
                         break;
                 }
+        case COND_SCRIPT:
+                {
+                        popupConditionScript->setCondition(item, rule, cond);
+                        popupConditionScript->layout()->update();
+                        popupConditionScript->move(ui->tree_condition->mapToGlobal(QPoint(0 - popupConditionScript->width(), 0)));
+                        popupConditionScript->setFocus();
+                        popupConditionScript->show();
+
+                        break;
+                }
         }
 
 }
@@ -1848,6 +1860,16 @@ void FormRules::on_tree_action_itemClicked(QTreeWidgetItem* item, int column)
                         popupActionScript->move(ui->tree_action->mapToGlobal(QPoint(0 - popupActionScript->width(), 0)));
                         popupActionScript->setFocus();
                         popupActionScript->show();
+
+                        break;
+                }
+        case ACTION_TOUCHSCREEN:
+                {
+                        popupActionTouchscreen->setAction(item, rule, action);
+                        popupActionTouchscreen->layout()->update();
+                        popupActionTouchscreen->move(ui->tree_action->mapToGlobal(QPoint(0 - popupActionTouchscreen->width(), 0)));
+                        popupActionTouchscreen->setFocus();
+                        popupActionTouchscreen->show();
 
                         break;
                 }
@@ -1949,6 +1971,17 @@ void FormRules::addCondition(int type)
 
                 addItemCondition(cond, true, true);
         }
+        else if (type == COND_SCRIPT)
+        {
+                Rule *rule = getCurrentRule();
+                if (!rule) return;
+
+                Condition *cond = new Condition(COND_SCRIPT);
+
+                rule->AddCondition(cond);
+
+                addItemCondition(cond, true, true);
+        }
 }
 
 void FormRules::addAction(int type)
@@ -2005,6 +2038,17 @@ void FormRules::addAction(int type)
                 if (!rule) return;
 
                 Action *action = new Action(ACTION_SCRIPT);
+
+                rule->AddAction(action);
+
+                addItemAction(action, true, true);
+        }
+        else if (type == ACTION_TOUCHSCREEN)
+        {
+                Rule *rule = getCurrentRule();
+                if (!rule) return;
+
+                Action *action = new Action(ACTION_TOUCHSCREEN);
 
                 rule->AddAction(action);
 

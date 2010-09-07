@@ -475,16 +475,6 @@ QFrame .HeaderButton:pressed
              </widget>
             </item>
             <item>
-             <widget class="QPushButton" name="pushButtonCond">
-              <property name="text">
-               <string>print</string>
-              </property>
-              <property name="class" stdset="0">
-               <string>HeaderButton</string>
-              </property>
-             </widget>
-            </item>
-            <item>
              <widget class="QPushButton" name="bt_condition_add">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -640,16 +630,6 @@ QFrame .HeaderButton:pressed
               </property>
               <property name="class" stdset="0">
                <string>FrameTitle</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QPushButton" name="pushButtonAction">
-              <property name="text">
-               <string>print</string>
-              </property>
-              <property name="class" stdset="0">
-               <string>HeaderButton</string>
               </property>
              </widget>
             </item>

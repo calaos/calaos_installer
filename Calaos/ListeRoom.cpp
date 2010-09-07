@@ -276,7 +276,7 @@ Input *ListeRoom::get_chauffage_var(std::string &chauff_id, ChauffType type)
         return NULL;
 }
 //-----------------------------------------------------------------------------
-Room * ListeRoom::searchRoomByName(string name, string type)
+Room *ListeRoom::searchRoomByName(string name, string type)
 {
         Room *r = NULL;
         vector<Room *>::iterator itRoom;
@@ -287,7 +287,41 @@ Room * ListeRoom::searchRoomByName(string name, string type)
 
         return r;
 }
-//-----------------------------------------------------------------------------
+
+Room *ListeRoom::searchRoomByInput(Input *input)
+{
+        for (uint j = 0;j < rooms.size();j++)
+        {
+                for (int m = 0;m < rooms[j]->get_size_in();m++)
+                {
+                        Input *in = rooms[j]->get_input(m);
+                        if (in == input)
+                        {
+                                return rooms[j];
+                        }
+                }
+        }
+
+        return NULL;
+}
+
+Room *ListeRoom::searchRoomByOutput(Output *output)
+{
+        for (uint j = 0;j < rooms.size();j++)
+        {
+                for (int m = 0;m < rooms[j]->get_size_out();m++)
+                {
+                        Output *out = rooms[j]->get_output(m);
+                        if (out == output)
+                        {
+                                return rooms[j];
+                        }
+                }
+        }
+
+        return NULL;
+}
+
 string ListeRoom::getRoomType(int type)
 {
         switch (type)

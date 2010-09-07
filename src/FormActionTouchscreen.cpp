@@ -1,12 +1,12 @@
-#include "FormActionScript.h"
-#include "ui_FormActionScript.h"
+#include "FormActionTouchscreen.h"
+#include "ui_FormActionTouchscreen.h"
 
-#include "DialogScriptEditor.h"
 #include "formrules.h"
+#include "DialogMailMessage.h"
 
-FormActionScript::FormActionScript(QWidget *parent) :
+FormActionTouchscreen::FormActionTouchscreen(QWidget *parent) :
         QWidget(parent),
-        ui(new Ui::FormActionScript),
+        ui(new Ui::FormActionTouchscreen),
         rule(NULL), action(NULL)
 {
         ui->setupUi(this);
@@ -17,12 +17,12 @@ FormActionScript::FormActionScript(QWidget *parent) :
         setMouseTracking(true);
 }
 
-FormActionScript::~FormActionScript()
+FormActionTouchscreen::~FormActionTouchscreen()
 {
         delete ui;
 }
 
-void FormActionScript::changeEvent(QEvent *e)
+void FormActionTouchscreen::changeEvent(QEvent *e)
 {
         QWidget::changeEvent(e);
         switch (e->type())
@@ -35,7 +35,7 @@ void FormActionScript::changeEvent(QEvent *e)
         }
 }
 
-void FormActionScript::setAction(QTreeWidgetItem *item, Rule *_rule, Action *_action)
+void FormActionTouchscreen::setAction(QTreeWidgetItem *item, Rule *_rule, Action *_action)
 {
         rule = _rule;
         action = _action;
@@ -43,14 +43,11 @@ void FormActionScript::setAction(QTreeWidgetItem *item, Rule *_rule, Action *_ac
 
         ui->labelRuleName->setText(QString::fromUtf8(rule->get_name().c_str()));
         ui->labelRuleType->setText(QString::fromUtf8(rule->get_type().c_str()));
+
+        ui->editAction->setText(QString::fromUtf8(action->getTouchscreenAction().c_str()));
 }
 
-void FormActionScript::on_btEditScript_clicked()
+void FormActionTouchscreen::on_editAction_textChanged(QString text)
 {
-        DialogScriptEditor ds(QString::fromUtf8(action->getScript().c_str()));
-
-        if (ds.exec() == QDialog::Accepted)
-        {
-                action->setScript(ds.getScript().toUtf8().data());
-        }
+        action->setTouchscreenAction(text.toUtf8().data());
 }
