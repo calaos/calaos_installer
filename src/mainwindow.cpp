@@ -76,6 +76,7 @@ MainWindow::~MainWindow()
 {
         tempDir.remove("io.xml");
         tempDir.remove("rules.xml");
+        tempDir.remove("local_config.xml");
         tempDir.rmdir(tempDir.path());
 
         delete ui;

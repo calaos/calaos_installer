@@ -32,6 +32,7 @@ class DialogOpenOnline : public QDialog
 
                 QNetworkReply *reply_io;
                 QNetworkReply *reply_rules;
+                QNetworkReply *reply_local;
 
                 QString tempDir, currentIP;
 

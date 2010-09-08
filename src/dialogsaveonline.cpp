@@ -1,6 +1,8 @@
 #include "dialogsaveonline.h"
 #include "ui_dialogsaveonline.h"
 
+#include "ConfigOptions.h"
+
 DialogSaveOnline::DialogSaveOnline(QString temp, QWidget *parent):
                 QDialog(parent), ui(new Ui::DialogSaveOnline),
                 currentDir(temp)
@@ -12,6 +14,11 @@ DialogSaveOnline::DialogSaveOnline(QString temp, QWidget *parent):
 
         connect(&formPost, SIGNAL(uploadDone(QByteArray&)),
                 this, SLOT(uploadFinished(QByteArray&)));
+
+        ui->comboIP->lineEdit()->setText(ConfigOptions::Instance().getHost());
+        ui->calaosfrCheck->setChecked(ConfigOptions::Instance().useCalaosFr());
+        ui->editUsername->setText(ConfigOptions::Instance().getUsername());
+        ui->editPass->setText(ConfigOptions::Instance().getPassword());
 }
 
 DialogSaveOnline::~DialogSaveOnline()
@@ -39,6 +46,11 @@ void DialogSaveOnline::on_buttonBox_accepted()
         spinner = new QAnimationLabel(":/img/loader.gif", this);
         ui->spinnerLayout->addWidget(spinner, 0, Qt::AlignCenter);
         spinner->start();
+
+        ConfigOptions::Instance().setHost(ui->comboIP->lineEdit()->text());
+        ConfigOptions::Instance().setUseCalaosFr(ui->calaosfrCheck->isChecked());
+        ConfigOptions::Instance().setUsername(ui->editUsername->text());
+        ConfigOptions::Instance().setPassword(ui->editPass->text());
 
         loadFromNetwork();
 }

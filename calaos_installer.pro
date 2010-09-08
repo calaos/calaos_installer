@@ -94,7 +94,8 @@ SOURCES += src/main.cpp \
     ../calaos_common/LuaScript/lua-5.1.4/src/lapi.c \
     src/FormActionTouchscreen.cpp \
     src/FormConditionScript.cpp \
-    src/DialogInputEventScript.cpp
+    src/DialogInputEventScript.cpp \
+    src/ConfigOptions.cpp
 HEADERS += src/mainwindow.h \
     ../calaos_common/Utils.h \
     ../calaos_common/base64.h \
@@ -181,7 +182,8 @@ HEADERS += src/mainwindow.h \
     ../calaos_common/LuaScript/lua-5.1.4/etc/lua.hpp \
     src/FormActionTouchscreen.h \
     src/FormConditionScript.h \
-    src/DialogInputEventScript.h
+    src/DialogInputEventScript.h \
+    src/ConfigOptions.h
 FORMS += data/mainwindow.ui \
     data/dialognewroom.ui \
     data/dialognewwago.ui \

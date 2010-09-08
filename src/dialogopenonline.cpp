@@ -1,6 +1,8 @@
 #include "dialogopenonline.h"
 #include "ui_dialogopenonline.h"
 
+#include "ConfigOptions.h"
+
 DialogOpenOnline::DialogOpenOnline(QString temp, QWidget *parent):
                 QDialog(parent), ui(new Ui::DialogOpenOnline),
                 tempDir(temp)
@@ -9,6 +11,11 @@ DialogOpenOnline::DialogOpenOnline(QString temp, QWidget *parent):
 
         connect(&networkAccess, SIGNAL(sslErrors(QNetworkReply*, const QList<QSslError> &)),
                 this, SLOT(sslErrors(QNetworkReply*, const QList<QSslError> &)));
+
+        ui->comboIP->lineEdit()->setText(ConfigOptions::Instance().getHost());
+        ui->calaosfrCheck->setChecked(ConfigOptions::Instance().useCalaosFr());
+        ui->editUsername->setText(ConfigOptions::Instance().getUsername());
+        ui->editPass->setText(ConfigOptions::Instance().getPassword());
 }
 
 DialogOpenOnline::~DialogOpenOnline()
@@ -36,6 +43,11 @@ void DialogOpenOnline::on_buttonBox_accepted()
         spinner = new QAnimationLabel(":/img/loader.gif", this);
         ui->spinnerLayout->addWidget(spinner, 0, Qt::AlignCenter);
         spinner->start();
+
+        ConfigOptions::Instance().setHost(ui->comboIP->lineEdit()->text());
+        ConfigOptions::Instance().setUseCalaosFr(ui->calaosfrCheck->isChecked());
+        ConfigOptions::Instance().setUsername(ui->editUsername->text());
+        ConfigOptions::Instance().setPassword(ui->editPass->text());
 
         loadFromNetwork();
 }
@@ -151,6 +163,7 @@ void DialogOpenOnline::downloadFinishedFiles(QNetworkReply *reply)
 
                         if (reply == reply_io) xml.setFileName(tempDir + "/io.xml");
                         if (reply == reply_rules) xml.setFileName(tempDir + "/rules.xml");
+                        if (reply == reply_local) xml.setFileName(tempDir + "/local_config.xml");
 
                         if (xml.open(QIODevice::WriteOnly | QIODevice::Text))
                         {
@@ -175,12 +188,18 @@ void DialogOpenOnline::downloadFinishedFiles(QNetworkReply *reply)
                 return;
         }
 
-        if (reply == reply_rules)
+        if (reply == reply_local)
         {
                 disconnect(&networkAccess, SIGNAL(finished(QNetworkReply*)),
                         this, SLOT(downloadFinishedFiles(QNetworkReply*)));
 
                 accept();
+        }
+        else if (reply == reply_rules)
+        {
+                QUrl url("https://" + currentIP + "/getFile.php?file=local_config.xml&u=" + ui->editUsername->text() + "&p=" + ui->editPass->text());
+
+                reply_local = networkAccess.get(QNetworkRequest(url));
         }
         else
         {
