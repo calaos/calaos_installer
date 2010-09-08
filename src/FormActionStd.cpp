@@ -288,6 +288,16 @@ void FormActionStd::setAction(QTreeWidgetItem *item, Rule *_rule, Action *_actio
         }
         else if (IOBase::isCameraType(type))
         {
+                ui->comboValue->setEditable(true);
+
+                ui->comboValue->addItem(QString::fromUtf8("Rappeler position X"), QString::fromUtf8("recall "));
+                ui->comboValue->addItem(QString::fromUtf8("Sauvegarder position X"), QString::fromUtf8("save "));
+                ui->comboValue->addItem(QString::fromUtf8("Déplacer vers le haut"), QString::fromUtf8("move up"));
+                ui->comboValue->addItem(QString::fromUtf8("Déplacer vers le bas"), QString::fromUtf8("move down"));
+                ui->comboValue->addItem(QString::fromUtf8("Déplacer vers la gauche"), QString::fromUtf8("move left"));
+                ui->comboValue->addItem(QString::fromUtf8("Déplacer vers la droite"), QString::fromUtf8("move right"));
+                ui->comboValue->addItem(QString::fromUtf8("Mettre position par defaut"), QString::fromUtf8("move home"));
+
                 if (action->get_params().get_param(id) == "move up")
                         ui->comboValue->setCurrentIndex(2);
                 else if (action->get_params().get_param(id) == "move down")
