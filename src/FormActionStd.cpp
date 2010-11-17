@@ -55,6 +55,8 @@ void FormActionStd::setAction(QTreeWidgetItem *item, Rule *_rule, Action *_actio
             IOBase::isCameraType(output->get_param("type")))
                 id = output->get_param("oid");
 
+        setDone = false;
+
         //Search room icon
         for (int i = 0;i < ListeRoom::Instance().size();i++)
         {
@@ -321,6 +323,7 @@ void FormActionStd::setAction(QTreeWidgetItem *item, Rule *_rule, Action *_actio
                 ui->comboValue->lineEdit()->setText(s);
         }
 
+        setDone = true;
 }
 
 void FormActionStd::on_btMore_clicked()
@@ -354,6 +357,8 @@ void FormActionStd::on_btMore_clicked()
 
 void FormActionStd::on_comboValue_editTextChanged(QString)
 {
+        if (!setDone) return;
+
         Output *output = NULL;
         if (action->get_size() > 0)
                 output = action->get_output(0);
@@ -387,5 +392,7 @@ void FormActionStd::on_comboValue_editTextChanged(QString)
 
 void FormActionStd::on_comboValue_currentIndexChanged(int)
 {
+        if (!setDone) return;
+
         on_comboValue_editTextChanged("");
 }

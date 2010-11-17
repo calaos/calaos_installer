@@ -55,6 +55,8 @@ void FormConditionStd::setCondition(QTreeWidgetItem *item, Rule *_rule, Conditio
             IOBase::isCameraType(input->get_param("type")))
                 id = input->get_param("iid");
 
+        setDone = false;
+
         //Search room icon
         for (int i = 0;i < ListeRoom::Instance().size();i++)
         {
@@ -187,6 +189,8 @@ void FormConditionStd::setCondition(QTreeWidgetItem *item, Rule *_rule, Conditio
                 QString s = QString::fromUtf8(condition->get_params().get_param(id).c_str());
                 ui->comboValue->lineEdit()->setText(s);
         }
+
+        setDone = true;
 }
 
 void FormConditionStd::on_btMore_clicked()
@@ -220,6 +224,8 @@ void FormConditionStd::on_btMore_clicked()
 
 void FormConditionStd::on_comboOp_currentIndexChanged(int)
 {
+        if (!setDone) return;
+
         Input *input = NULL;
         if (condition->get_size() > 0)
                 input = condition->get_input(0);
@@ -241,6 +247,8 @@ void FormConditionStd::on_comboOp_currentIndexChanged(int)
 
 void FormConditionStd::on_comboValue_editTextChanged(QString)
 {
+        if (!setDone) return;
+
         Input *input = NULL;
         if (condition->get_size() > 0)
                 input = condition->get_input(0);
@@ -273,5 +281,7 @@ void FormConditionStd::on_comboValue_editTextChanged(QString)
 
 void FormConditionStd::on_comboValue_currentIndexChanged(int)
 {
+        if (!setDone) return;
+
         on_comboValue_editTextChanged("");
 }

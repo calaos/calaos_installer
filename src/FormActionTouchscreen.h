@@ -32,6 +32,8 @@ class FormActionTouchscreen : public QWidget
                 Action *action;
                 QTreeWidgetItem *qitem;
 
+                bool setDone;
+
         private slots:
                 void on_editAction_textChanged(QString );
 };

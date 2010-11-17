@@ -41,13 +41,19 @@ void FormActionTouchscreen::setAction(QTreeWidgetItem *item, Rule *_rule, Action
         action = _action;
         qitem = item;
 
+        setDone = false;
+
         ui->labelRuleName->setText(QString::fromUtf8(rule->get_name().c_str()));
         ui->labelRuleType->setText(QString::fromUtf8(rule->get_type().c_str()));
 
         ui->editAction->setText(QString::fromUtf8(action->getTouchscreenAction().c_str()));
+
+        setDone = true;
 }
 
 void FormActionTouchscreen::on_editAction_textChanged(QString text)
 {
+        if (!setDone) return;
+
         action->setTouchscreenAction(text.toUtf8().data());
 }

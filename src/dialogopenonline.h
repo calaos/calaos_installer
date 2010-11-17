@@ -30,14 +30,11 @@ class DialogOpenOnline : public QDialog
                 QPointer<QAnimationLabel> spinner;
                 QNetworkAccessManager networkAccess;
 
-                QNetworkReply *reply_io;
-                QNetworkReply *reply_rules;
-                QNetworkReply *reply_local;
-
                 QString tempDir, currentIP;
 
                 void loadFromNetwork();
                 void loadXmlFiles(QString ip);
+                void saveXMLFile(QString filename, QString base64_data);
 
         private slots:
                 void on_buttonBox_rejected();

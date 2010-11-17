@@ -4,7 +4,6 @@
 #include <QtNetwork>
 #include <QtGui>
 #include <qanimationlabel.h>
-#include <formpost.h>
 
 #include <iostream>
 using namespace std;
@@ -31,23 +30,19 @@ class DialogSaveOnline : public QDialog
                 QPointer<QAnimationLabel> spinner;
                 QNetworkAccessManager networkAccess;
 
-                QNetworkReply *reply_io;
-                QNetworkReply *reply_rules;
-
                 QString currentDir, currentIP;
-                FormPost formPost;
 
                 void loadFromNetwork();
                 void uploadXmlFiles(QString ip);
+                QString readFileBase64(QString fileName);
 
         private slots:
                 void on_buttonBox_rejected();
                 void on_calaosfrCheck_stateChanged(int);
                 void on_buttonBox_accepted();
 
-                void uploadFinished(QByteArray &reply);
+                void uploadFinished(QNetworkReply *reply);
                 void downloadFinishedCalaosFr(QNetworkReply *reply);
-                void downloadFinishedRestart(QNetworkReply *reply);
                 void sslErrors(QNetworkReply *reply, const QList<QSslError> &errors);
 };
 

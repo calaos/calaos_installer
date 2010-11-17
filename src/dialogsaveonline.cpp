@@ -2,6 +2,8 @@
 #include "ui_dialogsaveonline.h"
 
 #include "ConfigOptions.h"
+#include <Utils.h>
+#include "json.h"
 
 DialogSaveOnline::DialogSaveOnline(QString temp, QWidget *parent):
                 QDialog(parent), ui(new Ui::DialogSaveOnline),
@@ -11,9 +13,6 @@ DialogSaveOnline::DialogSaveOnline(QString temp, QWidget *parent):
 
         connect(&networkAccess, SIGNAL(sslErrors(QNetworkReply*, const QList<QSslError> &)),
                 this, SLOT(sslErrors(QNetworkReply*, const QList<QSslError> &)));
-
-        connect(&formPost, SIGNAL(uploadDone(QByteArray&)),
-                this, SLOT(uploadFinished(QByteArray&)));
 
         ui->comboIP->lineEdit()->setText(ConfigOptions::Instance().getHost());
         ui->calaosfrCheck->setChecked(ConfigOptions::Instance().useCalaosFr());
@@ -64,12 +63,20 @@ void DialogSaveOnline::loadFromNetwork()
 {
         if (ui->calaosfrCheck->isChecked())
         {
-                //Search IP address from home.calaos.fr
-                QUrl url("https://www.calaos.fr/cms/calaos_home/utils/connect_home.php?h=1&u=" + ui->editUsername->text() + "&p=" + ui->editPass->text());
+                //Search IP address from calaos network
+                QString cn = CALAOS_NETWORK_URL "/api.php";
+                QUrl url(cn);
+
+                QString json_data = "{";
+                json_data += "\"cn_user\":\"" + ui->editUsername->text() + "\",";
+                json_data += "\"cn_pass\":\"" + ui->editPass->text() + "\",";
+                json_data += "\"action\":\"get_ip\"";
+                json_data += "}";
 
                 connect(&networkAccess, SIGNAL(finished(QNetworkReply*)),
                         this, SLOT(downloadFinishedCalaosFr(QNetworkReply*)));
-                networkAccess.get(QNetworkRequest(url));
+
+                networkAccess.post(QNetworkRequest(url), json_data.toUtf8());
         }
         else
         {
@@ -84,30 +91,26 @@ void DialogSaveOnline::downloadFinishedCalaosFr(QNetworkReply *reply)
                 QByteArray bytes = reply->readAll();
                 QString s(bytes);
 
-                if (s == "empty login" || s == "not found")
-                {
-                        QMessageBox::critical(this, tr("Calaos Installer"),
-                                              QString::fromUtf8("Utilisateur inconnu !"));
+                bool parse_ok;
 
-                        this->setEnabled(true);
-                        delete spinner;
-                }
-                else if (s == "failed")
-                {
-                        QMessageBox::critical(this, tr("Calaos Installer"),
-                                              QString::fromUtf8("La connexion a échoué, peut-être que la connexion Internet n'est pas active."));
+                QVariantMap result = Json::parse(s, parse_ok).toMap();
 
-                        this->setEnabled(true);
-                        delete spinner;
+                if (result.contains("public_ip") && result.contains("private_ip"))
+                {
+                        uploadXmlFiles(result["public_ip"].toString());
                 }
                 else
                 {
-                        uploadXmlFiles(s);
+                        QMessageBox::critical(this, tr("Calaos Installer"),
+                                              QString::fromUtf8("La connexion a échoué !\nVérifiez les identifiants/mot de passe."));
+
+                        this->setEnabled(true);
+                        delete spinner;
                 }
         }
         else
         {
-                QMessageBox::critical(this, tr("Calaos Installer"), "Erreur http: " + reply->errorString());
+                QMessageBox::critical(this, tr("Calaos Installer"), "Erreur!\nLa connexion a échoué.\nErreur http: " + reply->errorString());
 
                 this->setEnabled(true);
                 delete spinner;
@@ -119,6 +122,17 @@ void DialogSaveOnline::downloadFinishedCalaosFr(QNetworkReply *reply)
         reply->deleteLater();
 }
 
+QString DialogSaveOnline::readFileBase64(QString fileName)
+{
+        QFile f(currentDir + "/" + fileName);
+        f.open(QIODevice::ReadOnly);
+
+        QByteArray file = f.readAll();
+        f.close();
+
+        return QString::fromAscii(file.toBase64().data());
+}
+
 void DialogSaveOnline::uploadXmlFiles(QString ip)
 {
         QMessageBox::StandardButton reply;
@@ -128,95 +142,64 @@ void DialogSaveOnline::uploadXmlFiles(QString ip)
 
         if (reply == QMessageBox::Yes)
         {
-                formPost.setUserAgent("Calaos/agent 1.0");
+                currentIP = ip;
+                QUrl url(QString("https://" + currentIP + "/api.php"));
 
-                if (QFile::exists(currentDir + "/io.xml") &&
-                    QFile::exists(currentDir + "/rules.xml"))
-                {
-                        formPost.addField("upload", "CalaosUploader");
-                        formPost.addFile("io", currentDir + "/io.xml", "text/xml");
-                        formPost.addFile("rules", currentDir + "/rules.xml", "text/xml");
+                QString json_data = "{";
+                json_data += "\"cn_user\":\"" + ui->editUsername->text() + "\",";
+                json_data += "\"cn_pass\":\"" + ui->editPass->text() + "\",";
+                json_data += "\"action\":\"set_files\",";
+                json_data += "\"io.xml\":\"" + readFileBase64("io.xml") + "\",";
+                json_data += "\"rules.xml\":\"" + readFileBase64("rules.xml") + "\",";
+                json_data += "\"local_config.xml\":\"" + readFileBase64("local_config.xml") + "\",";
+                json_data += "\"reload\":true";
+                json_data += "}";
 
-                        formPost.postData("https://" + ip + "/putFile.php?u=" + ui->editUsername->text() + "&p=" + ui->editPass->text());
+                connect(&networkAccess, SIGNAL(finished(QNetworkReply*)),
+                        this, SLOT(uploadFinished(QNetworkReply*)));
 
-                        currentIP = ip;
-                }
+                networkAccess.post(QNetworkRequest(url), json_data.toUtf8());
         }
         else
                 reject();
 }
 
-void DialogSaveOnline::uploadFinished(QByteArray &reply)
-{
-        QString s(reply);
-
-        if (s == "Le fichier est introuvable")
-        {
-                QMessageBox::critical(this, tr("Calaos Installer"),
-                                      QString::fromUtf8("Le fichier envoyé n'existe pas !"));
-
-                this->setEnabled(true);
-                delete spinner;
-        }
-        else if (s == "Erreur de copie")
-        {
-                QMessageBox::critical(this, tr("Calaos Installer"),
-                                      QString::fromUtf8("Erreur lors de la copie des fichiers !"));
-
-                this->setEnabled(true);
-                delete spinner;
-        }
-        else if (s == "Pas d'upload")
-        {
-                QMessageBox::critical(this, tr("Calaos Installer"),
-                                      QString::fromUtf8("Aucun fichier n'a été envoyé !"));
-
-                this->setEnabled(true);
-                delete spinner;
-        }
-        else if (s == "<script>location.href = 'index.php';</script>")
-        {
-                QMessageBox::critical(this, tr("Calaos Installer"),
-                                      QString::fromUtf8("Identifiant/mot de passe invalide."));
-
-                this->setEnabled(true);
-                delete spinner;
-        }
-        else if (s == "OK")
-        {
-                //Restart calaosd
-                QUrl url("https://" + currentIP + "/action.php?action=reboot&value=calaosd&u=" + ui->editUsername->text() + "&p=" + ui->editPass->text());
-
-                connect(&networkAccess, SIGNAL(finished(QNetworkReply*)),
-                        this, SLOT(downloadFinishedRestart(QNetworkReply*)));
-                networkAccess.get(QNetworkRequest(url));
-        }
-        else
-        {
-                QMessageBox::critical(this, tr("Calaos Installer"),
-                                      QString::fromUtf8("Erreur inconnue !\n\n") + s);
-
-                this->setEnabled(true);
-                delete spinner;
-        }
-}
-
-void DialogSaveOnline::downloadFinishedRestart(QNetworkReply *reply)
+void DialogSaveOnline::uploadFinished(QNetworkReply *reply)
 {
         if (reply->error() == QNetworkReply::NoError)
         {
-                accept();
+                QByteArray bytes = reply->readAll();
+                QString s(bytes);
+
+                bool parse_ok;
+                QVariantMap result = Json::parse(s, parse_ok).toMap();
+
+                if (result.contains("success"))
+                {
+                        QMessageBox::information(this, tr("Calaos Installer"),
+                                              QString::fromUtf8("La configuration a été envoyé"));
+
+                        accept();
+                }
+                else
+                {
+                        QMessageBox::critical(this, tr("Calaos Installer"),
+                                              QString::fromUtf8("Erreur de chargement des fichiers !"));
+
+                        this->setEnabled(true);
+                        delete spinner;
+                }
         }
         else
         {
-                QMessageBox::critical(this, tr("Calaos Installer"), "Erreur http: " + reply->errorString());
+                QMessageBox::critical(this, tr("Calaos Installer"), QString::fromUtf8("Erreur de connexion !\nVérifiez vos identifiants/mot de passe\n") + "Erreur http: " + reply->errorString());
 
                 this->setEnabled(true);
                 delete spinner;
         }
 
         disconnect(&networkAccess, SIGNAL(finished(QNetworkReply*)),
-                this, SLOT(downloadFinishedCalaosFr(QNetworkReply*)));
+                this, SLOT(uploadFinished(QNetworkReply*)));
 
         reply->deleteLater();
 }

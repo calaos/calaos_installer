@@ -33,6 +33,8 @@ class FormActionStd : public QWidget
                 Action *action;
                 QTreeWidgetItem *qitem;
 
+                bool setDone;
+
 
         private slots:
                 void on_comboValue_currentIndexChanged(int index);

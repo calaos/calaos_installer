@@ -33,6 +33,8 @@ class FormConditionStd : public QWidget
                 Condition *condition;
                 QTreeWidgetItem *qitem;
 
+                bool setDone;
+
 
         private slots:
                 void on_comboValue_currentIndexChanged(int index);

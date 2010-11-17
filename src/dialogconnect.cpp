@@ -8,7 +8,7 @@ DialogConnect::DialogConnect(QWidget *parent): QDialog(parent),
 {
         ui->setupUi(this);
 
-        ui->ip_address->setText(ConfigOptions::Instance().getHost());
+        ui->ip_address->setText(ConfigOptions::Instance().getWagoHost());
         ui->checkBoxCalaosFr->setChecked(ConfigOptions::Instance().useCalaosFr());
         ui->groupProxy->setChecked(ConfigOptions::Instance().useCalaosServer());
         ui->username->setText(ConfigOptions::Instance().getUsername());
