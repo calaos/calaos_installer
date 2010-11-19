@@ -995,7 +995,7 @@ void FormRules::showPopup_tree(const QPoint point)
 
                         if (o->get_param("type") == "WITemp")
                         {
-                                action = item_menu.addAction(QString::fromUtf8("Associer Ã  une consigne..."));
+                                action = item_menu.addAction(QString::fromUtf8("Associer Ã  une consigne..."));
                                 action->setIcon(QIcon(":/img/icon_temp.png"));
                                 connect(action, SIGNAL(triggered()), this, SLOT(itemTempWizard()));
 
