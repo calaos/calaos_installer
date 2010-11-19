@@ -991,6 +991,15 @@ void FormRules::showPopup_tree(const QPoint point)
 
                                 item_menu.addSeparator();
                         }
+
+                        if (o->get_param("type") == "WITemp")
+                        {
+                                action = item_menu.addAction(QString::fromUtf8("Associer à une consigne..."));
+                                action->setIcon(QIcon(":/img/icon_temp.png"));
+                                connect(action, SIGNAL(triggered()), this, SLOT(itemTempWizard()));
+
+                                item_menu.addSeparator();
+                        }
                 }
 
                 action = item_menu.addAction(QString::fromUtf8("Propriétés"));
@@ -1476,6 +1485,118 @@ void FormRules::itemConvertInterBP()
                         {
                                 itinput->getInput()->get_params().Add("type", "WIDigitalBP");
                                 updateItemInfos(itinput);
+                        }
+                }
+        }
+}
+
+void FormRules::itemTempWizard()
+{
+        if (!treeItem) return;
+
+        QTreeWidgetItemInput *itinput = dynamic_cast<QTreeWidgetItemInput *>(treeItem);
+        if (itinput)
+        {
+                if (itinput->getInput()->get_param("type") == "WITemp")
+                {
+                        TempWizard wizard;
+
+                        if (wizard.exec() == QDialog::Accepted)
+                        {
+                                QString name = wizard.field("consigneName").toString();
+                                bool create_rules = wizard.field("checkRules").toBool();
+
+                                //Search for an InternalInt or create one
+                                Room *room = ListeRoom::Instance().searchRoomByInput(itinput->getInput());
+
+                                if (!room)
+                                {
+                                        QMessageBox::critical(this, tr("Calaos Installer"), QString::fromUtf8("Erreur interne !"));
+
+                                        return;
+                                }
+
+                                Input *consigne = NULL;
+                                for (int i = 0;i < room->get_size_in();i++)
+                                {
+                                        Input *in = room->get_input(i);
+                                        if (in->get_param("type") == "InternalInt" &&
+                                            in->get_param("name") == name.toUtf8().data())
+                                        {
+                                                consigne = in;
+
+                                                break;
+                                        }
+                                }
+
+                                if (!consigne)
+                                {
+                                        Params p;
+                                        p.Add("name", name.toUtf8().constData());
+                                        p.Add("type", "InternalInt");
+
+                                        consigne = ListeRoom::Instance().createInput(p, room);
+
+                                        Output *output = dynamic_cast<Output *>(consigne);
+                                        if (output) addItemOutput(output, room, true);
+                                }
+
+                                if (!consigne)
+                                {
+                                        QMessageBox::critical(this, tr("Calaos Installer"), QString::fromUtf8("Erreur interne !"));
+
+                                        return;
+                                }
+
+                                //Link both together
+                                int num = 0;
+                                while (ListeRoom::Instance().get_chauffage_var(Utils::to_string(num), CONSIGNE))
+                                {
+                                        num++;
+                                }
+
+                                consigne->set_param("chauffage_id", Utils::to_string(num));
+                                itinput->getInput()->set_param("chauffage_id", Utils::to_string(num));
+
+                                consigne->set_param("value", "20");
+                                consigne->set_param("rw", "true");
+                                consigne->set_param("visible", "true");
+
+                                //Do we need to create the rules?
+                                if (create_rules)
+                                {
+                                        //The rule (if input <= consigne)
+                                        {
+                                                Rule *rule = new Rule(room->get_name(), "chauffage on");
+                                                addItemRule(rule, true);
+
+                                                Condition *cond = new Condition(COND_STD);
+                                                cond->Add(itinput->getInput());
+                                                cond->get_params().Add(itinput->getInput()->get_param("id"), "");
+                                                cond->get_operator().Add(itinput->getInput()->get_param("id"), "<=");
+                                                cond->get_params_var().Add(itinput->getInput()->get_param("id"),
+                                                                           consigne->get_param("id"));
+
+                                                rule->AddCondition(cond);
+                                                addItemCondition(cond, true, true);
+                                        }
+
+                                        //The rule (if input > consigne)
+                                        {
+                                                Rule *rule = new Rule(room->get_name(), "chauffage off");
+                                                addItemRule(rule, true);
+
+                                                Condition *cond = new Condition(COND_STD);
+                                                cond->Add(itinput->getInput());
+                                                cond->get_params().Add(itinput->getInput()->get_param("id"), "");
+                                                cond->get_operator().Add(itinput->getInput()->get_param("id"), ">");
+                                                cond->get_params_var().Add(itinput->getInput()->get_param("id"),
+                                                                           consigne->get_param("id"));
+
+                                                rule->AddCondition(cond);
+                                                addItemCondition(cond, true, true);
+                                        }
+                                }
                         }
                 }
         }
@@ -2053,94 +2174,5 @@ void FormRules::addAction(int type)
                 rule->AddAction(action);
 
                 addItemAction(action, true, true);
-        }
-}
-
-void FormRules::on_pushButtonCond_clicked()
-{
-        Rule *rule = getCurrentRule();
-        if (!rule)
-        {
-                qDebug() << "current rule is null !";
-                return;
-        }
-
-        qDebug() << "----------------------------------------------------------------------------";
-        qDebug() << "Rule: " << rule->get_name().c_str() << " - " << rule->get_type().c_str();
-        for (int i = 0;i < rule->get_size_conds();i++)
-        {
-                Condition *cond = rule->get_condition(i);
-                switch (cond->getType())
-                {
-                case COND_STD:
-                        {
-                                qDebug() << "Condition: STANDARD";
-                                for (int j = 0;j < cond->get_size();j++)
-                                {
-                                        Input *in = cond->get_input(j);
-                                        qDebug() << "\tInput: " << in->get_param("name").c_str();
-                                        qDebug() << "\t\t" << in->get_params().toString().c_str();
-                                }
-                                break;
-                        }
-                case COND_START:
-                        {
-                                qDebug() << "Condition: START";
-                                break;
-                        }
-                case COND_SCRIPT:
-                        {
-                                qDebug() << "Condition: SCRIPT";
-                                break;
-                        }
-                default: qDebug() << "Condition: UNKNOWN !";
-                }
-        }
-}
-
-void FormRules::on_pushButtonAction_clicked()
-{
-        Rule *rule = getCurrentRule();
-        if (!rule)
-        {
-                qDebug() << "current rule is null !";
-                return;
-        }
-
-        qDebug() << "----------------------------------------------------------------------------";
-        qDebug() << "Rule: " << rule->get_name().c_str() << " - " << rule->get_type().c_str();
-        for (int i = 0;i < rule->get_size_actions();i++)
-        {
-                Action *action = rule->get_action(i);
-                switch (action->getType())
-                {
-                case ACTION_STD:
-                        {
-                                qDebug() << "Action: STANDARD";
-                                for (int j = 0;j < action->get_size();j++)
-                                {
-                                        Output *out = action->get_output(j);
-                                        qDebug() << "\tOutput: " << out->get_param("name").c_str();
-                                        qDebug() << "\t\t" << out->get_params().toString().c_str();
-                                }
-                                break;
-                        }
-                case ACTION_MAIL:
-                        {
-                                qDebug() << "Action: MAIL";
-                                break;
-                        }
-                case ACTION_SCRIPT:
-                        {
-                                qDebug() << "Action: SCRIPT";
-                                break;
-                        }
-                case ACTION_TOUCHSCREEN:
-                        {
-                                qDebug() << "Action: TOUCHSCREEN";
-                                break;
-                        }
-                default: qDebug() << "Action: UNKNOWN !";
-                }
         }
 }

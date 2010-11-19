@@ -254,7 +254,7 @@ int ListeRoom::get_nb_output()
         return cpt;
 }
 //-----------------------------------------------------------------------------
-Input *ListeRoom::get_chauffage_var(std::string &chauff_id, ChauffType type)
+Input *ListeRoom::get_chauffage_var(std::string chauff_id, ChauffType type)
 {
         for (uint j = 0;j < rooms.size();j++)
         {
@@ -266,8 +266,8 @@ Input *ListeRoom::get_chauffage_var(std::string &chauff_id, ChauffType type)
                                 switch (type)
                                 {
                                   case PLAGE_HORAIRE: if (in->get_param("type") == "InPlageHoraire") return in; break;
-                                  case CONSIGNE: if (in->get_param("type") == "InternalIntInput") return in; break;
-                                  case ACTIVE: if (in->get_param("type") == "InternalBoolInput") return in; break;
+                                  case CONSIGNE: if (in->get_param("type") == "InternalInt") return in; break;
+                                  case ACTIVE: if (in->get_param("type") == "InternalBool") return in; break;
                                 }
                         }
                 }

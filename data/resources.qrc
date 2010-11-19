@@ -84,5 +84,8 @@
         <file>img/2rightarrow.png</file>
         <file>img/2uparrow.png</file>
         <file>img/dialog-cancel.png</file>
+        <file>img/watermark.png</file>
+        <file>img/messagebox_info.png</file>
+        <file>img/messagebox_warning.png</file>
     </qresource>
 </RCC>

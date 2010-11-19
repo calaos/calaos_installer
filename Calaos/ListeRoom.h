@@ -77,7 +77,7 @@ class ListeRoom
                 int get_nb_input();
                 int get_nb_output();
 
-                Input *get_chauffage_var(std::string &chauff_id, ChauffType type);
+                Input *get_chauffage_var(std::string chauff_id, ChauffType type);
 
                 int size() { return rooms.size(); }
 

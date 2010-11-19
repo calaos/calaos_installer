@@ -19,6 +19,8 @@
 #include <dialognewrule.h>
 #include <dialogioplagehoraire.h>
 
+#include <TempWizard.h>
+
 #include <FormConditionStd.h>
 #include <FormConditionStart.h>
 #include <FormConditionScript.h>
@@ -127,10 +129,9 @@ class FormRules : public QWidget
                 void itemConvertInterBP();
                 void itemConvertVoletStandard();
                 void itemConvertVoletSmart();
+                void itemTempWizard();
 
         private slots:
-                void on_pushButtonAction_clicked();
-                void on_pushButtonCond_clicked();
                 void on_tree_rules_itemDoubleClicked(QTreeWidgetItem* item, int column);
                 void on_bt_action_del_clicked();
                 void on_bt_condition_del_clicked();

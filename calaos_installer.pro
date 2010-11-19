@@ -96,7 +96,8 @@ SOURCES += src/main.cpp \
     src/FormConditionScript.cpp \
     src/DialogInputEventScript.cpp \
     src/ConfigOptions.cpp \
-    src/json.cpp
+    src/json.cpp \
+    src/TempWizard.cpp
 HEADERS += src/mainwindow.h \
     ../calaos_common/Utils.h \
     ../calaos_common/base64.h \
@@ -185,7 +186,8 @@ HEADERS += src/mainwindow.h \
     src/FormConditionScript.h \
     src/DialogInputEventScript.h \
     src/ConfigOptions.h \
-    src/json.h
+    src/json.h \
+    src/TempWizard.h
 FORMS += data/mainwindow.ui \
     data/dialognewroom.ui \
     data/dialognewwago.ui \
