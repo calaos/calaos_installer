@@ -6,11 +6,8 @@ int main(int argc, char *argv[])
 {
         QApplication a(argc, argv);
 
-        for (int i = 0;i < QStyleFactory::keys().size();i++)
-                cout << "Style: " << QStyleFactory::keys().value(i).toAscii().data() << endl;
-
         if (!QApplication::setStyle("qtcurve"))
-                cout << "Error setting style..." << endl;
+                qDebug("Error setting style...");
 
         MainWindow w;
 

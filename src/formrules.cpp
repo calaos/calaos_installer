@@ -462,6 +462,7 @@ void FormRules::addCalaosItem(int item)
 QTreeWidgetItemRoom *FormRules::addItemRoom(Room *room, bool selected)
 {
         QTreeWidgetItemRoom *item = new QTreeWidgetItemRoom(room, ui->tree_home);
+        item->setSizeHint(0, QSize(24, 24));
 
         if (selected) ui->tree_home->setCurrentItem(item);
 
@@ -994,7 +995,7 @@ void FormRules::showPopup_tree(const QPoint point)
 
                         if (o->get_param("type") == "WITemp")
                         {
-                                action = item_menu.addAction(QString::fromUtf8("Associer Ã  une consigne..."));
+                                action = item_menu.addAction(QString::fromUtf8("Associer Ã  une consigne..."));
                                 action->setIcon(QIcon(":/img/icon_temp.png"));
                                 connect(action, SIGNAL(triggered()), this, SLOT(itemTempWizard()));
 
