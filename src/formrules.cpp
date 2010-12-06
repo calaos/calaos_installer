@@ -61,6 +61,11 @@ FormRules::FormRules(QWidget *parent) :
         sig->setMapping(action, ITEM_TEMP);
         connect(action, SIGNAL(triggered()), sig, SLOT(map()));
 
+        action = add_menu->addAction(QString::fromUtf8("Entrée/Sortie analogique"));
+        action->setIcon(QIcon(":/img/icon_analog.png"));
+        sig->setMapping(action, ITEM_ANALOG);
+        connect(action, SIGNAL(triggered()), sig, SLOT(map()));
+
         add_menu->addSeparator();
 
         action = add_menu->addAction(QString::fromUtf8("Caméra"));
@@ -453,6 +458,30 @@ void FormRules::addCalaosItem(int item)
                         }
                 }
                 break;
+        case ITEM_ANALOG:
+              {
+                      DialogNewAnalog dialog(current_room);
+                      if (dialog.exec() == QDialog::Accepted)
+                      {
+                              if (dialog.isInputType())
+                              {
+                                      Input *input = dialog.getInput();
+                                      if (input)
+                                              addItemInput(input, current_room, true);
+                                      else
+                                              QMessageBox::critical(this, tr("Calaos Installer"), QString::fromUtf8("Erreur lors de la création de l'objet !"));
+                              }
+                              else
+                              {
+                                      Output *output = dialog.getOutput();
+                                      if (output)
+                                              addItemOutput(output, current_room, true);
+                                      else
+                                              QMessageBox::critical(this, tr("Calaos Installer"), QString::fromUtf8("Erreur lors de la création de l'objet !"));
+                              }
+                      }
+              }
+              break;
 
           default:
                 QMessageBox::warning(this, tr("Calaos Installer"), QString::fromUtf8("Type d'elément (%1) inconnu!").arg(item));
@@ -546,10 +575,13 @@ void FormRules::updateItemInfos(QTreeWidgetItemInput *item)
                 item->setData(0, Qt::DecorationRole, QIcon(":/img/temp.png"));
         else if (type == "InPlageHoraire" || type == "InputTime")
                 item->setData(0, Qt::DecorationRole, QIcon(":/img/icon_clock.png"));
+        else if (type == "WIAnalog")
+                item->setData(0, Qt::DecorationRole, QIcon(":/img/icon_analog.png"));
 
         QString s = QString::fromUtf8(in->get_param("name").c_str());
         s += " (" + QString::fromUtf8(in->get_param("type").c_str()) + ")";
-        if (in->get_param("type") == "WIDigitalBP" || in->get_param("type") == "WIDigitalTriple")
+        if (type == "WIDigitalBP" || type == "WIDigitalTriple" ||
+            type == "WITemp" || type == "WIAnalog")
                 s += " #" + QString::fromUtf8(in->get_param("var").c_str());
 
         item->setData(0, Qt::ToolTipRole, s);
@@ -610,12 +642,14 @@ void FormRules::updateItemInfos(QTreeWidgetItemOutput *item)
                 item->setData(0, Qt::DecorationRole, QIcon(":/img/icon_sound.png"));
         else if (IOBase::isCameraType(type))
                 item->setData(0, Qt::DecorationRole, QIcon(":/img/icon_camera_on.png"));
+        else if (type == "WOAnalog")
+                item->setData(0, Qt::DecorationRole, QIcon(":/img/icon_analog.png"));
 
         QString s = QString::fromUtf8(out->get_param("name").c_str());
         s += " (" + QString::fromUtf8(out->get_param("type").c_str()) + ")";
-        if (out->get_param("type") == "WODigital")
+        if (type == "WODigital" || type == "WOAnalog")
                 s += " #" + QString::fromUtf8(out->get_param("var").c_str());
-        if (out->get_param("type") == "WOVolet" || out->get_param("type") == "WOVoletSmart")
+        if (type == "WOVolet" || type == "WOVoletSmart")
                 s += " #" + QString::fromUtf8(out->get_param("var_up").c_str()) +
                      " #" + QString::fromUtf8(out->get_param("var_down").c_str());
 

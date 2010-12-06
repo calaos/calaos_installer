@@ -135,6 +135,13 @@ class WITemp: public Input
                 virtual DATA_TYPE get_type() { return TINT; }
 };
 
+class WIAnalog: public Input
+{
+        public:
+                WIAnalog(Params &p): Input(p) {}
+                virtual DATA_TYPE get_type() { return TINT; }
+};
+
 class Scenario: public Input, public Output
 {
         public:
@@ -230,6 +237,13 @@ class WONeon: public Output
         public:
                 WONeon(Params &p): Output(p) {}
                 virtual DATA_TYPE get_type() { return TSTRING; }
+};
+
+class WOAnalog: public Output
+{
+        public:
+                WOAnalog(Params &p): Output(p) {}
+                virtual DATA_TYPE get_type() { return TINT; }
 };
 
 class WOVolet: public Output

@@ -97,7 +97,8 @@ SOURCES += src/main.cpp \
     src/DialogInputEventScript.cpp \
     src/ConfigOptions.cpp \
     src/json.cpp \
-    src/TempWizard.cpp
+    src/TempWizard.cpp \
+    src/dialognewanalog.cpp
 HEADERS += src/mainwindow.h \
     ../calaos_common/Utils.h \
     ../calaos_common/base64.h \
@@ -187,7 +188,8 @@ HEADERS += src/mainwindow.h \
     src/DialogInputEventScript.h \
     src/ConfigOptions.h \
     src/json.h \
-    src/TempWizard.h
+    src/TempWizard.h \
+    src/dialognewanalog.h
 FORMS += data/mainwindow.ui \
     data/dialognewroom.ui \
     data/dialognewwago.ui \
@@ -222,7 +224,8 @@ FORMS += data/mainwindow.ui \
     data/DialogScriptEditor.ui \
     data/FormActionTouchscreen.ui \
     data/FormConditionScript.ui \
-    data/DialogInputEventScript.ui
+    data/DialogInputEventScript.ui \
+    data/dialognewanalog.ui
 RESOURCES += data/resources.qrc \
     data/textedit.qrc
 INCLUDEPATH += ../calaos_common/ \

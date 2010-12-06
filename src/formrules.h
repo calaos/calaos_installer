@@ -17,6 +17,7 @@
 #include <dialogcameraview.h>
 #include <dialogioproperties.h>
 #include <dialognewrule.h>
+#include <dialognewanalog.h>
 #include <dialogioplagehoraire.h>
 
 #include <TempWizard.h>
@@ -38,7 +39,7 @@
 
 enum { ITEM_ROOM=0, ITEM_INTER, ITEM_LIGHT, ITEM_VOLET, ITEM_DALI,
        ITEM_DALIRGB, ITEM_TEMP, ITEM_CAMERA, ITEM_MUSIC, ITEM_INTERN,
-       ITEM_SCENARIO, ITEM_TIME };
+       ITEM_SCENARIO, ITEM_TIME, ITEM_ANALOG };
 
 namespace Ui
 {

@@ -44,6 +44,10 @@ Input *IOFactory::CreateInput(std::string type, Params &params)
         {
                 in = new WITemp(params);
         }
+        else if (type == "WIAnalog")
+        {
+                in = new WIAnalog(params);
+        }
         else if (type == "scenario")
         {
                 in = new Scenario(params);
@@ -126,6 +130,10 @@ Output *IOFactory::CreateOutput(std::string type, Params &params)
         else if (type == "Camera")
         {
                 out = new Camera(params);
+        }
+        else if (type == "WOAnalog")
+        {
+                out = new WOAnalog(params);
         }
 
         return out;
