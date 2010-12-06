@@ -327,7 +327,7 @@ p, li { white-space: pre-wrap; }
      </rect>
     </property>
     <property name="maximum">
-     <number>65535</number>
+     <number>9999999</number>
     </property>
     <property name="value">
      <number>32761</number>
