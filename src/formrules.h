@@ -78,8 +78,6 @@ class FormRules : public QWidget
 
                 bool projectChanged() { return project_changed; }
 
-                void ClearProject();
-
         protected:
                 void changeEvent(QEvent *e);
 
@@ -103,6 +101,9 @@ class FormRules : public QWidget
                 FormActionMail *popupActionMail;
                 FormActionScript *popupActionScript;
                 FormActionTouchscreen *popupActionTouchscreen;
+
+        signals:
+                void projectModified(bool modified);
 
 
         public slots:
@@ -131,6 +132,9 @@ class FormRules : public QWidget
                 void itemConvertVoletStandard();
                 void itemConvertVoletSmart();
                 void itemTempWizard();
+
+                void ClearProject();
+                void setProjectModified(bool modified);
 
         private slots:
                 void on_tree_rules_itemDoubleClicked(QTreeWidgetItem* item, int column);

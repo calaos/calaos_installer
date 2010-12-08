@@ -241,13 +241,20 @@ void FormRules::PopulateRulesTree()
 
 void FormRules::ClearProject()
 {
-        project_changed = false;
+        setProjectModified(false);
 
         ui->tree_home->clear();
         ui->tree_condition->clear_all();
         ui->tree_action->clear_all();
         ui->tree_rules->clear();
         current_room = NULL;
+}
+
+void FormRules::setProjectModified(bool modified)
+{
+        project_changed = modified;
+
+        emit projectModified(project_changed);
 }
 
 void FormRules::addCalaosItem(int item)
@@ -266,6 +273,8 @@ void FormRules::addCalaosItem(int item)
                         return;
                 }
         }
+
+        setProjectModified(true);
 
         switch (item)
         {
@@ -497,6 +506,8 @@ QTreeWidgetItemRoom *FormRules::addItemRoom(Room *room, bool selected)
 
         updateItemInfos(item);
 
+        setProjectModified(true);
+
         return item;
 }
 
@@ -548,6 +559,8 @@ QTreeWidgetItemInput *FormRules::addItemInput(Input *in, Room *parent, bool sele
                 ++it;
         }
 
+        setProjectModified(true);
+
         return NULL;
 }
 
@@ -558,6 +571,8 @@ QTreeWidgetItemInput *FormRules::addItemInput(Input *in, QTreeWidgetItemRoom *pa
         if (selected) ui->tree_home->setCurrentItem(item);
 
         updateItemInfos(item);
+
+        setProjectModified(true);
 
         return item;
 }
@@ -599,6 +614,8 @@ QTreeWidgetItemOutput *FormRules::addItemOutput(Output *out, Room *parent, bool 
                 ++it;
         }
 
+        setProjectModified(true);
+
         return NULL;
 }
 
@@ -609,6 +626,8 @@ QTreeWidgetItemOutput *FormRules::addItemOutput(Output *out, QTreeWidgetItemRoom
         if (selected) ui->tree_home->setCurrentItem(item);
 
         updateItemInfos(item);
+
+        setProjectModified(true);
 
         return item;
 }
@@ -665,6 +684,8 @@ QTreeWidgetItemRule *FormRules::addItemRule(Rule *rule, bool selected)
 
         updateItemInfos(item);
 
+        setProjectModified(true);
+
         return item;
 }
 
@@ -688,6 +709,8 @@ QTreeWidgetItem *FormRules::addItemCondition(Condition *condition, bool selected
 
         if (show_popup)
                 on_tree_condition_itemClicked(item, 0);
+
+        setProjectModified(true);
 
         return item;
 }
@@ -776,6 +799,8 @@ QTreeWidgetItem *FormRules::addItemAction(Action *action, bool selected, bool sh
 
         if (show_popup)
                 on_tree_action_itemClicked(item, 0);
+
+        setProjectModified(true);
 
         return item;
 }
@@ -1099,6 +1124,8 @@ void FormRules::deleteItem()
         if (reply != QMessageBox::Yes)
                 return;
 
+        setProjectModified(true);
+
         QTreeWidgetItemInput *itinput = dynamic_cast<QTreeWidgetItemInput *>(treeItem);
         if (itinput)
         {
@@ -1162,6 +1189,8 @@ void FormRules::deleteItemCondition()
         if (num < 0 || num >= rule->get_size_conds())
                 return;
 
+        setProjectModified(true);
+
         rule->RemoveCondition(num);
 
         QTreeWidgetItem *item = ui->tree_rules->selectedItems().first();
@@ -1188,6 +1217,8 @@ void FormRules::deleteItemAction()
 
         if (num < 0 || num >= rule->get_size_actions())
                 return;
+
+        setProjectModified(true);
 
         rule->RemoveAction(num);
 
@@ -1271,6 +1302,8 @@ void FormRules::showPropertiesItem()
 
                         updateItemInfos(itrule);
                 }
+
+                setProjectModified(true);
         }
 }
 
@@ -1370,6 +1403,8 @@ void FormRules::on_bt_rules_del_clicked()
                                 ui->tree_rules->setCurrentItem(NULL);
                                 ui->tree_rules->setCurrentItem(item);
                         }
+
+                        setProjectModified(true);
                 }
         }
 }
@@ -1475,6 +1510,8 @@ void FormRules::itemPlagesHoraires()
                 {
                         DialogPlageHoraire d(dynamic_cast<InPlageHoraire *>(itinput->getInput()));
                         d.exec();
+
+                        setProjectModified(true);
                 }
         }
 }
@@ -1497,6 +1534,8 @@ void FormRules::itemConvertInterTriple()
                         {
                                 itinput->getInput()->get_params().Add("type", "WIDigitalTriple");
                                 updateItemInfos(itinput);
+
+                                setProjectModified(true);
                         }
                 }
         }
@@ -1520,6 +1559,8 @@ void FormRules::itemConvertInterBP()
                         {
                                 itinput->getInput()->get_params().Add("type", "WIDigitalBP");
                                 updateItemInfos(itinput);
+
+                                setProjectModified(true);
                         }
                 }
         }
@@ -1538,6 +1579,8 @@ void FormRules::itemTempWizard()
 
                         if (wizard.exec() == QDialog::Accepted)
                         {
+                                setProjectModified(true);
+
                                 QString name = wizard.field("consigneName").toString();
                                 bool create_rules = wizard.field("checkRules").toBool();
 
@@ -1730,6 +1773,8 @@ void FormRules::itemConvertVoletSmart()
                         {
                                 itoutput->getOutput()->get_params().Add("type", "WOVoletSmart");
                                 updateItemInfos(itoutput);
+
+                                setProjectModified(true);
                         }
                 }
         }
@@ -1753,6 +1798,8 @@ void FormRules::itemConvertVoletStandard()
                         {
                                 itoutput->getOutput()->get_params().Add("type", "WOVolet");
                                 updateItemInfos(itoutput);
+
+                                setProjectModified(true);
                         }
                 }
         }
@@ -1939,6 +1986,8 @@ void FormRules::on_tree_condition_itemClicked(QTreeWidgetItem* item, int column)
 
         Condition *cond = rule->get_condition(num);
 
+        setProjectModified(true);
+
         switch (cond->getType())
         {
         case COND_STD:
@@ -1986,6 +2035,8 @@ void FormRules::on_tree_action_itemClicked(QTreeWidgetItem* item, int column)
                 return;
 
         Action *action = rule->get_action(num);
+
+        setProjectModified(true);
 
         switch (action->getType())
         {
@@ -2038,6 +2089,8 @@ void FormRules::on_bt_condition_del_clicked()
         treeItem_condition = ui->tree_condition->currentItem();
 
         deleteItemCondition();
+
+        setProjectModified(true);
 }
 
 void FormRules::on_bt_action_del_clicked()
@@ -2045,6 +2098,8 @@ void FormRules::on_bt_action_del_clicked()
         treeItem_action = ui->tree_action->currentItem();
 
         deleteItemAction();
+
+        setProjectModified(true);
 }
 
 void FormRules::showPopup_rule(const QPoint point)
@@ -2115,6 +2170,8 @@ void FormRules::addCondition(int type)
                 rule->AddCondition(cond);
 
                 addItemCondition(cond, true, true);
+
+                setProjectModified(true);
         }
         else if (type == COND_START)
         {
@@ -2126,6 +2183,8 @@ void FormRules::addCondition(int type)
                 rule->AddCondition(cond);
 
                 addItemCondition(cond, true, true);
+
+                setProjectModified(true);
         }
         else if (type == COND_SCRIPT)
         {
@@ -2137,6 +2196,8 @@ void FormRules::addCondition(int type)
                 rule->AddCondition(cond);
 
                 addItemCondition(cond, true, true);
+
+                setProjectModified(true);
         }
 }
 
@@ -2176,6 +2237,8 @@ void FormRules::addAction(int type)
                 rule->AddAction(action);
 
                 addItemAction(action, true, true);
+
+                setProjectModified(true);
         }
         else if (type == ACTION_MAIL)
         {
@@ -2187,6 +2250,8 @@ void FormRules::addAction(int type)
                 rule->AddAction(action);
 
                 addItemAction(action, true, true);
+
+                setProjectModified(true);
         }
         else if (type == ACTION_SCRIPT)
         {
@@ -2198,6 +2263,8 @@ void FormRules::addAction(int type)
                 rule->AddAction(action);
 
                 addItemAction(action, true, true);
+
+                setProjectModified(true);
         }
         else if (type == ACTION_TOUCHSCREEN)
         {
@@ -2209,5 +2276,7 @@ void FormRules::addAction(int type)
                 rule->AddAction(action);
 
                 addItemAction(action, true, true);
+
+                setProjectModified(true);
         }
 }

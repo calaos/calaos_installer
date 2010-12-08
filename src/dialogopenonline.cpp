@@ -97,7 +97,10 @@ void DialogOpenOnline::downloadFinishedCalaosFr(QNetworkReply *reply)
 
                 if (result.contains("public_ip") && result.contains("private_ip"))
                 {
-                        loadXmlFiles(result["public_ip"].toString());
+                        if (result.contains("at_home") && result["at_home"].toBool())
+                                loadXmlFiles(result["private_ip"].toString());
+                        else
+                                loadXmlFiles(result["public_ip"].toString());
                 }
                 else
                 {
@@ -172,7 +175,8 @@ void DialogOpenOnline::downloadFinishedFiles(QNetworkReply *reply)
                 {
                         saveXMLFile("io.xml", result["io.xml"].toString());
                         saveXMLFile("rules.xml", result["rules.xml"].toString());
-                        saveXMLFile("local_config.xml", result["local_config.xml"].toString());
+                        //TODO: Protect data here.
+                        //saveXMLFile("local_config.xml", result["local_config.xml"].toString());
 
                         accept();
                 }

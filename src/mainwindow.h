@@ -61,6 +61,9 @@ class MainWindow : public QMainWindow
                 void onShowProg();
                 void onShowTransfert();
 
+        protected:
+                void closeEvent(QCloseEvent *event);
+
         public slots:
                 void wagoStatusProgress(int status);
 
@@ -68,6 +71,8 @@ class MainWindow : public QMainWindow
                 void wagoDisconnected();
                 void wagoUpdateNeeded(QString &version);
                 void wagoError(int error);
+
+                void projectChanged(bool changed);
 
         private slots:
                 void on_actionG_n_rer_fichier_d_impression_triggered();

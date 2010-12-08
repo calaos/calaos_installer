@@ -21,6 +21,8 @@ MainWindow::MainWindow(QWidget *parent):
         ui->toolBar->addSeparator();
         ui->toolBar->addAction(ui->actionQuit);
 
+        connect(ui->widgetRules, SIGNAL(projectModified(bool)), this, SLOT(projectChanged(bool)));
+
         //WagoConnect
         connect(&WagoConnect::Instance(), SIGNAL(connected(QString&,bool)), this, SLOT(wagoConnected(QString&,bool)));
         connect(&WagoConnect::Instance(), SIGNAL(disconnected()), this, SLOT(wagoDisconnected()));
@@ -46,6 +48,8 @@ MainWindow::MainWindow(QWidget *parent):
         connect(&wuploader, SIGNAL(statusUpdate(int)), this, SLOT(wagoStatusProgress(int)));
 
         connect(ui->widgetDali, SIGNAL(closeDaliForm()), this, SLOT(closeDaliForm_clicked()));
+
+        project_path = "Nouveau";
 
         /* Search and create a new temp dir */
         tempDir.setPath(QDir::tempPath());
@@ -120,6 +124,30 @@ void MainWindow::onShowTransfert()
 
 }
 
+void MainWindow::projectChanged(bool changed)
+{
+        if (changed)
+                setWindowTitle(QString::fromUtf8("Calaos Installer: [modified] %1").arg(project_path));
+        else
+                setWindowTitle(QString::fromUtf8("Calaos Installer: %1").arg(project_path));
+}
+
+void MainWindow::closeEvent(QCloseEvent *event)
+{
+        if (ui->widgetRules->projectChanged())
+        {
+                QMessageBox::StandardButton reply;
+                reply = QMessageBox::question(this, tr("Calaos Installer"),
+                                      QString::fromUtf8("Un projet est ouvert et modifié, voulez-vous l'enregistrer?"),
+                                      QMessageBox::Yes | QMessageBox::No);
+
+                if (reply == QMessageBox::Yes)
+                        on_actionSauvegarder_triggered();
+
+                event->accept();
+        }
+}
+
 void MainWindow::on_actionSauvegarder_un_projet_triggered()
 {
         QString dir = QFileDialog::getExistingDirectory(this, QString::fromUtf8("Choisir un dossier de projet..."),
@@ -142,18 +170,20 @@ void MainWindow::on_actionNouveau_projet_triggered()
                                       QMessageBox::Yes | QMessageBox::No);
 
                 if (reply == QMessageBox::Yes)
-                        on_actionSauvegarder_un_projet_triggered();
+                        on_actionSauvegarder_triggered();
         }
 
         ListeRule::Instance().clear();
         ListeRoom::Instance().clear();
 
         ui->widgetRules->ClearProject();
+
+        project_path = "Nouveau";
 }
 
 void MainWindow::on_actionSauvegarder_triggered()
 {
-        if (project_path.isEmpty())
+        if (project_path.isEmpty() || project_path == "Nouveau")
                 on_actionSauvegarder_un_projet_triggered();
 
         Save();
@@ -169,6 +199,8 @@ void MainWindow::Save(QString path)
 
         ProjectManager::saveIOsToFile(iofile);
         ProjectManager::saveRulesToFile(rulefile);
+
+        ui->widgetRules->setProjectModified(false);
 
         statusBar()->showMessage(QString::fromUtf8("Projet sauvegardé: ") + project_path, 3000);
 }
@@ -193,6 +225,8 @@ void MainWindow::Load(QString path)
         ui->widgetRules->PopulateRoomsTree();
         ui->widgetRules->PopulateRulesTree();
 
+        ui->widgetRules->setProjectModified(false);
+
         statusBar()->showMessage(QString::fromUtf8("Projet chargé: ") + project_path, 3000);
 }
 
@@ -206,7 +240,7 @@ void MainWindow::on_actionCharger_un_projet_triggered()
                                       QMessageBox::Yes | QMessageBox::No);
 
                 if (reply == QMessageBox::Yes)
-                        on_actionSauvegarder_un_projet_triggered();
+                        on_actionSauvegarder_triggered();
         }
 
         QString dir = QFileDialog::getExistingDirectory(this, QString::fromUtf8("Choisir un dossier de projet..."),
@@ -224,6 +258,46 @@ void MainWindow::on_actionCharger_un_projet_triggered()
         project_path = dir;
 
         Load();
+}
+
+void MainWindow::on_actionOuvrir_un_projet_en_ligne_triggered()
+{
+        if (ui->widgetRules->projectChanged())
+        {
+                QMessageBox::StandardButton reply;
+                reply = QMessageBox::question(this, tr("Calaos Installer"),
+                                      QString::fromUtf8("Un projet est ouvert et modifié, voulez-vous l'enregistrer?"),
+                                      QMessageBox::Yes | QMessageBox::No);
+
+                if (reply == QMessageBox::Yes)
+                        on_actionSauvegarder_triggered();
+        }
+
+        DialogOpenOnline dopen(tempDir.path());
+
+        if (dopen.exec() == QDialog::Accepted)
+        {
+                ListeRule::Instance().clear();
+                ListeRoom::Instance().clear();
+
+                ui->widgetRules->ClearProject();
+
+                project_path = tempDir.path();
+
+                Load();
+        }
+}
+
+void MainWindow::on_actionSauvegarder_un_projet_en_ligne_triggered()
+{
+        DialogSaveOnline dsave(project_path);
+
+        Save(); //Save the project before sending it
+
+        if (dsave.exec() == QDialog::Accepted)
+        {
+                statusBar()->showMessage(QString::fromUtf8("Projet envoyé sur la centrale..."), 3000);
+        }
 }
 
 void MainWindow::on_actionProgrammer_l_automate_triggered()
@@ -353,35 +427,6 @@ void MainWindow::wagoError(int error)
           default:
                 QMessageBox::critical(this, tr("Calaos Installer"), QString::fromUtf8("Une erreur inconnue est survenue !"));
                 break;
-        }
-}
-
-void MainWindow::on_actionOuvrir_un_projet_en_ligne_triggered()
-{
-        DialogOpenOnline dopen(tempDir.path());
-
-        if (dopen.exec() == QDialog::Accepted)
-        {
-                ListeRule::Instance().clear();
-                ListeRoom::Instance().clear();
-
-                ui->widgetRules->ClearProject();
-
-                project_path = tempDir.path();
-
-                Load();
-        }
-}
-
-void MainWindow::on_actionSauvegarder_un_projet_en_ligne_triggered()
-{
-        DialogSaveOnline dsave(project_path);
-
-        Save(); //Save the project before sending it
-
-        if (dsave.exec() == QDialog::Accepted)
-        {
-                statusBar()->showMessage(QString::fromUtf8("Projet envoyé sur la centrale..."), 3000);
         }
 }
 
