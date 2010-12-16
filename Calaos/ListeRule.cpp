@@ -69,7 +69,6 @@ void ListeRule::RemoveRule(Input *obj)
         //delete all rules using "output"
         for (uint i = 0;i < rules.size();i++)
         {
-
                 Rule *rule = get_rule(i);
                 Rule *rule_to_del = NULL;
                 for (int j = 0;j < rule->get_size_conds();j++)
@@ -77,14 +76,14 @@ void ListeRule::RemoveRule(Input *obj)
                         Condition *cond = rule->get_condition(j);
                         for (int k = 0;k < cond->get_size();k++)
                         {
-                                        if (obj->get_param("id") == cond->get_input(k)->get_param("id"))
-                                                rule_to_del = rule;
-                                        if (obj->get_param("iid") == cond->get_input(k)->get_param("id"))
-                                                rule_to_del = rule;
-                                        if (obj->get_param("id") == cond->get_input(k)->get_param("iid"))
-                                                rule_to_del = rule;
-                                        if (obj->get_param("iid") == cond->get_input(k)->get_param("iid"))
-                                                rule_to_del = rule;
+                                if (obj->get_param("id") == cond->get_input(k)->get_param("id"))
+                                        rule_to_del = rule;
+                                if (obj->get_param("iid") == cond->get_input(k)->get_param("id") && obj->get_param("iid") != "")
+                                        rule_to_del = rule;
+                                if (obj->get_param("id") == cond->get_input(k)->get_param("iid") && cond->get_input(k)->get_param("iid") != "")
+                                        rule_to_del = rule;
+                                if (obj->get_param("iid") == cond->get_input(k)->get_param("iid") && obj->get_param("iid") != "")
+                                        rule_to_del = rule;
                         }
                 }
                 if (rule_to_del)
@@ -109,11 +108,11 @@ void ListeRule::RemoveRule(Output *obj)
                         {
                                 if (obj->get_param("id") == action->get_output(k)->get_param("id"))
                                         rule_to_del = rule;
-                                if (obj->get_param("oid") == action->get_output(k)->get_param("id"))
+                                if (obj->get_param("oid") == action->get_output(k)->get_param("id") && obj->get_param("oid") != "")
                                         rule_to_del = rule;
-                                if (obj->get_param("id") == action->get_output(k)->get_param("oid"))
+                                if (obj->get_param("id") == action->get_output(k)->get_param("oid") && action->get_output(k)->get_param("oid") != "")
                                         rule_to_del = rule;
-                                if (obj->get_param("oid") == action->get_output(k)->get_param("oid"))
+                                if (obj->get_param("oid") == action->get_output(k)->get_param("oid") && obj->get_param("oid") != "")
                                         rule_to_del = rule;
                         }
                 }
