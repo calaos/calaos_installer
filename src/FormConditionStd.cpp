@@ -150,7 +150,7 @@ void FormConditionStd::setCondition(QTreeWidgetItem *item, Rule *_rule, Conditio
                 else if (condition->get_params().get_param(id) == "3")
                         ui->comboValue->setCurrentIndex(2);
         }
-        else if (type == "WITemp")
+        else if (type == "WITemp" || type == "OWTemp")
         {
                 ui->comboValue->setEditable(true);
 

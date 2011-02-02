@@ -702,6 +702,11 @@ void TextEdit::loadRooms()
                                 icon = "<img src=\":/img/temp.png\" />";
                                 var = in->get_param("var").c_str();
                         }
+                        else if (in->get_param("type") == "OWTemp")
+                        {
+                                icon = "<img src=\":/img/temp.png\" />";
+                                var = in->get_param("ow_id").c_str();
+                        }
                         else
                                 continue;
 

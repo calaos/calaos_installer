@@ -196,7 +196,8 @@ void FormRules::PopulateRoomsTree()
                             in->get_param("type") == "WIDigitalTriple" ||
                             in->get_param("type") == "InPlageHoraire" ||
                             in->get_param("type") == "InputTime" ||
-                            in->get_param("type") == "WITemp")
+                            in->get_param("type") == "WITemp" ||
+                            in->get_param("type") == "OWTemp")
                         {
                                 addItemInput(in, iroom);
                         }
@@ -586,7 +587,7 @@ void FormRules::updateItemInfos(QTreeWidgetItemInput *item)
         string type = in->get_param("type");
         if (type == "WIDigitalBP" || type == "WIDigitalTriple")
                 item->setData(0, Qt::DecorationRole, QIcon(":/img/icon_inter.png"));
-        else if (type == "WITemp")
+        else if (type == "WITemp" || type == "OWTemp")
                 item->setData(0, Qt::DecorationRole, QIcon(":/img/temp.png"));
         else if (type == "InPlageHoraire" || type == "InputTime")
                 item->setData(0, Qt::DecorationRole, QIcon(":/img/icon_clock.png"));
@@ -1052,7 +1053,7 @@ void FormRules::showPopup_tree(const QPoint point)
                                 item_menu.addSeparator();
                         }
 
-                        if (o->get_param("type") == "WITemp")
+                        if (o->get_param("type") == "WITemp" || o->get_param("type") == "OWTemp")
                         {
                                 action = item_menu.addAction(QString::fromUtf8("Associer à une consigne..."));
                                 action->setIcon(QIcon(":/img/icon_temp.png"));
@@ -1573,7 +1574,8 @@ void FormRules::itemTempWizard()
         QTreeWidgetItemInput *itinput = dynamic_cast<QTreeWidgetItemInput *>(treeItem);
         if (itinput)
         {
-                if (itinput->getInput()->get_param("type") == "WITemp")
+                if (itinput->getInput()->get_param("type") == "WITemp" ||
+                    itinput->getInput()->get_param("type") == "OWTemp")
                 {
                         TempWizard wizard;
 

@@ -97,7 +97,10 @@ void DialogSaveOnline::downloadFinishedCalaosFr(QNetworkReply *reply)
 
                 if (result.contains("public_ip") && result.contains("private_ip"))
                 {
-                        uploadXmlFiles(result["public_ip"].toString());
+                        if (result.contains("at_home") && result["at_home"].toBool())
+                                uploadXmlFiles(result["private_ip"].toString());
+                        else
+                                uploadXmlFiles(result["public_ip"].toString());
                 }
                 else
                 {

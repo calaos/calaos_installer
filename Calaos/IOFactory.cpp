@@ -40,7 +40,7 @@ Input *IOFactory::CreateInput(std::string type, Params &params)
         {
                 in = new WIDigital(params);
         }
-        else if (type == "WITemp")
+        else if (type == "WITemp" || type == "OWTemp")
         {
                 in = new WITemp(params);
         }
