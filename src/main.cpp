@@ -11,7 +11,13 @@ int main(int argc, char *argv[])
         QCoreApplication::setLibraryPaths(p);
 
         if (!QApplication::setStyle("qtcurve"))
+        {
                 qDebug("Error setting style...");
+
+                qDebug("Styles avalaible:");
+                for (int i = 0;i < QStyleFactory::keys().size();i++)
+                        qDebug() << QStyleFactory::keys().at(i);
+        }
 
         MainWindow w;
 
