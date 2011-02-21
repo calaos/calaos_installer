@@ -24,7 +24,7 @@ namespace Ui
         class MainWindow;
 }
 
-enum { PAGE_PROG=0, PAGE_DALI, PAGE_ABOUT };
+enum { PAGE_PROG=0, PAGE_DALI=1, PAGE_ABOUT=2 };
 
 class MainWindow : public QMainWindow
 {
@@ -75,6 +75,8 @@ class MainWindow : public QMainWindow
                 void projectChanged(bool changed);
 
         private slots:
+                void on_actionAbout_triggered();
+                void on_actionQuit_triggered();
                 void on_actionG_n_rer_fichier_d_impression_triggered();
                 void on_actionDALI_triggered();
                 void on_pushButtonBack_clicked();
@@ -90,8 +92,6 @@ class MainWindow : public QMainWindow
                 void on_actionSauvegarder_un_projet_triggered();
                 void on_Pages_currentChanged(int );
                 void on_actionA_propos_de_Qt_triggered();
-                void on_actionAbout_activated();
-                void on_actionQuit_activated();
                 void closeDaliForm_clicked();
 };
 

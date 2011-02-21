@@ -91,16 +91,6 @@ void MainWindow::ShowPage(int page)
         ui->Pages->setCurrentIndex(page);
 }
 
-void MainWindow::on_actionQuit_activated()
-{
-        close();
-}
-
-void MainWindow::on_actionAbout_activated()
-{
-        ShowPage();
-}
-
 void MainWindow::on_actionA_propos_de_Qt_triggered()
 {
         qApp->aboutQt();
@@ -474,4 +464,14 @@ FormRules *MainWindow::getFormRules()
 void MainWindow::closeDaliForm_clicked()
 {
         ShowPage(PAGE_PROG);
+}
+
+void MainWindow::on_actionQuit_triggered()
+{
+        close();
+}
+
+void MainWindow::on_actionAbout_triggered()
+{
+        ShowPage(PAGE_ABOUT);
 }
