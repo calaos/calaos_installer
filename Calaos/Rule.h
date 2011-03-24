@@ -48,6 +48,11 @@ class Rule
                 void RemoveCondition(int i);
                 void RemoveAction(int i);
 
+                void MoveConditionUp(int pos);
+                void MoveConditionDown(int pos);
+                void MoveActionUp(int pos);
+                void MoveActionDown(int pos);
+
                 Condition *get_condition(int i) { return conds[i]; }
                 Action *get_action(int i) { return actions[i]; }
 
@@ -61,6 +66,8 @@ class Rule
                 void set_type(string s) { type = s; }
                 void set_name(string s) { name = s; }
                 void set_SpecialType(string s) { specialType = s; }
+
+                void Print();
 };
 
 }

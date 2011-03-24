@@ -230,6 +230,9 @@ QFrame .HeaderButton:pressed
               <property name="animated">
                <bool>true</bool>
               </property>
+              <property name="expandsOnDoubleClick">
+               <bool>false</bool>
+              </property>
               <attribute name="headerVisible">
                <bool>false</bool>
               </attribute>
@@ -490,6 +493,46 @@ QFrame .HeaderButton:pressed
              </widget>
             </item>
             <item>
+             <widget class="QPushButton" name="bt_condition_down">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+              <property name="icon">
+               <iconset resource="resources.qrc">
+                <normaloff>:/img/1downarrow.png</normaloff>:/img/1downarrow.png</iconset>
+              </property>
+              <property name="class" stdset="0">
+               <string>HeaderButton</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="bt_condition_up">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+              <property name="icon">
+               <iconset resource="resources.qrc">
+                <normaloff>:/img/1uparrow.png</normaloff>:/img/1uparrow.png</iconset>
+              </property>
+              <property name="class" stdset="0">
+               <string>HeaderButton</string>
+              </property>
+             </widget>
+            </item>
+            <item>
              <widget class="QPushButton" name="bt_condition_add">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -648,6 +691,46 @@ QFrame .HeaderButton:pressed
               </property>
               <property name="class" stdset="0">
                <string>FrameTitle</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="bt_action_down">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+              <property name="icon">
+               <iconset resource="resources.qrc">
+                <normaloff>:/img/1downarrow.png</normaloff>:/img/1downarrow.png</iconset>
+              </property>
+              <property name="class" stdset="0">
+               <string>HeaderButton</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="bt_action_up">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+              <property name="icon">
+               <iconset resource="resources.qrc">
+                <normaloff>:/img/1uparrow.png</normaloff>:/img/1uparrow.png</iconset>
+              </property>
+              <property name="class" stdset="0">
+               <string>HeaderButton</string>
               </property>
              </widget>
             </item>

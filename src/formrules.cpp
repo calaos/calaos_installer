@@ -1170,64 +1170,6 @@ void FormRules::deleteItem()
         }
 }
 
-void FormRules::deleteItemCondition()
-{
-        if (!treeItem_condition) return;
-
-        QMessageBox::StandardButton reply;
-        reply = QMessageBox::question(this, tr("Calaos Installer"),
-                              QString::fromUtf8("Etes vous sûr de vouloir supprimer l'élément \"%1\"").arg(treeItem_condition->text(0)),
-                              QMessageBox::Yes | QMessageBox::No);
-
-        if (reply != QMessageBox::Yes)
-                return;
-
-        Rule *rule = getCurrentRule();
-        if (!rule) return;
-
-        int num = ui->tree_condition->invisibleRootItem()->indexOfChild(ui->tree_condition->currentItem());
-
-        if (num < 0 || num >= rule->get_size_conds())
-                return;
-
-        setProjectModified(true);
-
-        rule->RemoveCondition(num);
-
-        QTreeWidgetItem *item = ui->tree_rules->selectedItems().first();
-        ui->tree_rules->setCurrentItem(NULL);
-        ui->tree_rules->setCurrentItem(item);
-}
-
-void FormRules::deleteItemAction()
-{
-        if (!treeItem_action) return;
-
-        QMessageBox::StandardButton reply;
-        reply = QMessageBox::question(this, tr("Calaos Installer"),
-                              QString::fromUtf8("Etes vous sûr de vouloir supprimer l'élément \"%1\"").arg(treeItem_action->text(0)),
-                              QMessageBox::Yes | QMessageBox::No);
-
-        if (reply != QMessageBox::Yes)
-                return;
-
-        Rule *rule = getCurrentRule();
-        if (!rule) return;
-
-        int num = ui->tree_action->invisibleRootItem()->indexOfChild(ui->tree_action->currentItem());
-
-        if (num < 0 || num >= rule->get_size_actions())
-                return;
-
-        setProjectModified(true);
-
-        rule->RemoveAction(num);
-
-        QTreeWidgetItem *item = ui->tree_rules->selectedItems().first();
-        ui->tree_rules->setCurrentItem(NULL);
-        ui->tree_rules->setCurrentItem(item);
-}
-
 void FormRules::showPropertiesItem()
 {
         Params *p = NULL;
@@ -1528,13 +1470,55 @@ void FormRules::itemConvertInterTriple()
                 {
                         QMessageBox::StandardButton reply;
                         reply = QMessageBox::question(this, tr("Calaos Installer"),
-                                              QString::fromUtf8("Etes vous sûr de vouloir convertir en interupteur triple?"),
+                                              QString::fromUtf8("Etes vous sûr de vouloir convertir en interrupteur triple?"),
                                               QMessageBox::Yes | QMessageBox::No);
 
                         if (reply == QMessageBox::Yes)
                         {
-                                itinput->getInput()->get_params().Add("type", "WIDigitalTriple");
+                                Input *input = itinput->getInput();
+
+                                input->get_params().Add("type", "WIDigitalTriple");
                                 updateItemInfos(itinput);
+
+                                goSelectRule();
+
+                                QMessageBox::StandardButton reply;
+                                reply = QMessageBox::question(this, tr("Calaos Installer"),
+                                                      QString::fromUtf8("Voulez vous transformer automatiquement les règles?"),
+                                                      QMessageBox::Yes | QMessageBox::No);
+
+                                if (reply == QMessageBox::Yes)
+                                {
+                                        QTreeWidgetItemIterator it(ui->tree_rules);
+                                        while (*it)
+                                        {
+                                                QTreeWidgetItemRule *item = dynamic_cast<QTreeWidgetItemRule *>(*it);
+                                                if (!item)
+                                                {
+                                                        ++it;
+                                                        continue;
+                                                }
+
+                                                Rule *rule = item->getRule();
+
+                                                for (int i = 0;i < rule->get_size_conds();i++)
+                                                {
+                                                        Condition *cond = rule->get_condition(i);
+                                                        for (int j = 0;j < cond->get_size();j++)
+                                                        {
+                                                                if (input == cond->get_input(j))
+                                                                {
+                                                                        cond->get_params().Add(input->get_param("id"), "1");
+                                                                }
+                                                        }
+                                                }
+
+                                                ++it;
+                                        }
+
+                                        //refresh ui
+                                        on_tree_rules_currentItemChanged(ui->tree_rules->currentItem(), NULL);
+                                }
 
                                 setProjectModified(true);
                         }
@@ -1553,13 +1537,66 @@ void FormRules::itemConvertInterBP()
                 {
                         QMessageBox::StandardButton reply;
                         reply = QMessageBox::question(this, tr("Calaos Installer"),
-                                              QString::fromUtf8("Etes vous sûr de vouloir convertir en interupteur classique?"),
+                                              QString::fromUtf8("Etes vous sûr de vouloir convertir en interrupteur classique?"),
                                               QMessageBox::Yes | QMessageBox::No);
 
                         if (reply == QMessageBox::Yes)
                         {
-                                itinput->getInput()->get_params().Add("type", "WIDigitalBP");
+                                Input *input = itinput->getInput();
+
+                                input->get_params().Add("type", "WIDigitalBP");
                                 updateItemInfos(itinput);
+
+                                goSelectRule();
+
+                                QMessageBox::StandardButton reply;
+                                reply = QMessageBox::question(this, tr("Calaos Installer"),
+                                                      QString::fromUtf8("Voulez vous transformer automatiquement les règles?"),
+                                                      QMessageBox::Yes | QMessageBox::No);
+
+                                if (reply == QMessageBox::Yes)
+                                {
+                                        bool more_click_found = false;
+
+                                        QTreeWidgetItemIterator it(ui->tree_rules);
+                                        while (*it)
+                                        {
+                                                QTreeWidgetItemRule *item = dynamic_cast<QTreeWidgetItemRule *>(*it);
+                                                if (!item)
+                                                {
+                                                        ++it;
+                                                        continue;
+                                                }
+
+                                                Rule *rule = item->getRule();
+
+                                                for (int i = 0;i < rule->get_size_conds();i++)
+                                                {
+                                                        Condition *cond = rule->get_condition(i);
+                                                        for (int j = 0;j < cond->get_size();j++)
+                                                        {
+                                                                if (input == cond->get_input(j))
+                                                                {
+                                                                        if (cond->get_params().get_param(input->get_param("id")) == "1")
+                                                                                cond->get_params().Add(input->get_param("id"), "true");
+                                                                        else
+                                                                                more_click_found = true;
+                                                                }
+                                                        }
+                                                }
+
+                                                ++it;
+                                        }
+
+                                        if (more_click_found)
+                                        {
+                                                QMessageBox::warning(this, tr("Calaos Installer"), QString::fromUtf8("Attention, les règles double/triple click n'ont pas été convertis."));
+                                        }
+
+                                        //refresh ui
+                                        on_tree_rules_currentItemChanged(ui->tree_rules->currentItem(), NULL);
+                                }
+
 
                                 setProjectModified(true);
                         }
@@ -1863,7 +1900,6 @@ void FormRules::on_filterEditRules_textChanged(QString filter_text)
         }
 
         QString filter_type = filter_text.section(":", 0, 0);
-        QString filter = filter_text.section(":", 1);
 
         QTreeWidgetItemRule *item_selected = NULL;
 
@@ -1871,7 +1907,7 @@ void FormRules::on_filterEditRules_textChanged(QString filter_text)
             filter_type.toLower() == "input" ||
             filter_type.toLower() == "inout")
         {
-                filter_text.remove(0, 7);
+                filter_text.remove(0, filter_type.length() + 1);
 
                 QTreeWidgetItemIterator it(ui->tree_rules);
                 while (*it)
@@ -1929,8 +1965,12 @@ void FormRules::on_filterEditRules_textChanged(QString filter_text)
 
                         bool hideItem = true;
 
-                        if (!searchList.filter(filter_text, Qt::CaseInsensitive).isEmpty())
-                                hideItem = false;
+                        QString str;
+                        foreach (str, searchList)
+                        {
+                                if (str == filter_text)
+                                        hideItem = false;
+                        }
 
                         item->setHidden(hideItem);
 
@@ -2281,4 +2321,142 @@ void FormRules::addAction(int type)
 
                 setProjectModified(true);
         }
+}
+
+void FormRules::deleteItemCondition()
+{
+        if (!treeItem_condition) return;
+
+        QMessageBox::StandardButton reply;
+        reply = QMessageBox::question(this, tr("Calaos Installer"),
+                              QString::fromUtf8("Etes vous sûr de vouloir supprimer l'élément \"%1\"").arg(treeItem_condition->text(0)),
+                              QMessageBox::Yes | QMessageBox::No);
+
+        if (reply != QMessageBox::Yes)
+                return;
+
+        Rule *rule = getCurrentRule();
+        if (!rule) return;
+
+        int num = ui->tree_condition->invisibleRootItem()->indexOfChild(ui->tree_condition->currentItem());
+
+        if (num < 0 || num >= rule->get_size_conds())
+                return;
+
+        setProjectModified(true);
+
+        rule->RemoveCondition(num);
+
+        QTreeWidgetItem *item = ui->tree_rules->selectedItems().first();
+        ui->tree_rules->setCurrentItem(NULL);
+        ui->tree_rules->setCurrentItem(item);
+}
+
+void FormRules::deleteItemAction()
+{
+        if (!treeItem_action) return;
+
+        QMessageBox::StandardButton reply;
+        reply = QMessageBox::question(this, tr("Calaos Installer"),
+                              QString::fromUtf8("Etes vous sûr de vouloir supprimer l'élément \"%1\"").arg(treeItem_action->text(0)),
+                              QMessageBox::Yes | QMessageBox::No);
+
+        if (reply != QMessageBox::Yes)
+                return;
+
+        Rule *rule = getCurrentRule();
+        if (!rule) return;
+
+        int num = ui->tree_action->invisibleRootItem()->indexOfChild(ui->tree_action->currentItem());
+
+        if (num < 0 || num >= rule->get_size_actions())
+                return;
+
+        setProjectModified(true);
+
+        rule->RemoveAction(num);
+
+        QTreeWidgetItem *item = ui->tree_rules->selectedItems().first();
+        ui->tree_rules->setCurrentItem(NULL);
+        ui->tree_rules->setCurrentItem(item);
+}
+
+void FormRules::on_bt_condition_up_clicked()
+{
+        treeItem_condition = ui->tree_condition->currentItem();
+        if (!treeItem_condition) return;
+
+        Rule *rule = getCurrentRule();
+        if (!rule) return;
+
+        int num = ui->tree_condition->invisibleRootItem()->indexOfChild(ui->tree_condition->currentItem());
+
+        if (num < 0 || num >= rule->get_size_conds())
+                return;
+
+        rule->MoveConditionUp(num);
+
+        on_tree_rules_currentItemChanged(ui->tree_rules->currentItem(), NULL);
+
+        setProjectModified(true);
+}
+
+void FormRules::on_bt_condition_down_clicked()
+{
+        treeItem_condition = ui->tree_condition->currentItem();
+        if (!treeItem_condition) return;
+
+        Rule *rule = getCurrentRule();
+        if (!rule) return;
+
+        int num = ui->tree_condition->invisibleRootItem()->indexOfChild(ui->tree_condition->currentItem());
+
+        if (num < 0 || num >= rule->get_size_conds())
+                return;
+
+        rule->MoveConditionDown(num);
+
+        on_tree_rules_currentItemChanged(ui->tree_rules->currentItem(), NULL);
+
+        setProjectModified(true);
+}
+
+void FormRules::on_bt_action_up_clicked()
+{
+        treeItem_action = ui->tree_action->currentItem();
+        if (!treeItem_action) return;
+
+        Rule *rule = getCurrentRule();
+        if (!rule) return;
+
+        int num = ui->tree_action->invisibleRootItem()->indexOfChild(ui->tree_action->currentItem());
+
+        if (num < 0 || num >= rule->get_size_actions())
+                return;
+
+        rule->MoveActionUp(num);
+
+        on_tree_rules_currentItemChanged(ui->tree_rules->currentItem(), NULL);
+
+        setProjectModified(true);
+}
+
+void FormRules::on_bt_action_down_clicked()
+{
+        treeItem_action = ui->tree_action->currentItem();
+        if (!treeItem_action) return;
+
+        Rule *rule = getCurrentRule();
+        if (!rule) return;
+
+        int num = ui->tree_action->invisibleRootItem()->indexOfChild(ui->tree_action->currentItem());
+
+        if (num < 0 || num >= rule->get_size_actions())
+                return;
+
+        rule->MoveActionDown(num);
+
+        on_tree_rules_currentItemChanged(ui->tree_rules->currentItem(), NULL);
+
+        setProjectModified(true);
 }

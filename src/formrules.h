@@ -137,6 +137,10 @@ class FormRules : public QWidget
                 void setProjectModified(bool modified);
 
         private slots:
+                void on_bt_action_down_clicked();
+                void on_bt_action_up_clicked();
+                void on_bt_condition_down_clicked();
+                void on_bt_condition_up_clicked();
                 void on_tree_rules_itemDoubleClicked(QTreeWidgetItem* item, int column);
                 void on_bt_action_del_clicked();
                 void on_bt_condition_del_clicked();
