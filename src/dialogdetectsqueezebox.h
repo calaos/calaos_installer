@@ -33,7 +33,7 @@ typedef union slim
         } server;
 } SLIMProto;
 
-static SLIMProto discoverPacket = {{ 'd', /* command */
+const SLIMProto discoverPacket = {{ 'd', /* command */
                                      0x00, /* reserved */
                                      0x01, /* device id */
                                      0x11, /* firmware revision 1.1 */

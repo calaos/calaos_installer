@@ -141,7 +141,7 @@ void DialogDetectSqueezebox::searchDone()
         delete spinnerLayout;
         delete spinnerLayoutWidget;
         delete socket;
-        delete squeeze;
+        if (squeeze) delete squeeze;
 
         ui->treeSqueezebox->setEnabled(true);
         ui->buttonBox->setEnabled(true);
@@ -199,14 +199,16 @@ void DialogDetectSqueezebox::scanSqueezeserver()
 {
         if (cpt < 0 || cpt >= squeezeserver.size())
         {
-                delete squeeze;
+                if (squeeze)
+                        delete squeeze;
                 searchDone();
                 return;
         }
 
         QHostAddress &addr = squeezeserver[cpt];
 
-        delete squeeze;
+        if (squeeze)
+                delete squeeze;
         squeeze = new SqueezeServer(this);
         connect(squeeze, SIGNAL(connected()), this, SLOT(squeezeConnected()));
         connect(squeeze, SIGNAL(error()), this, SLOT(squeezeError()));
@@ -226,7 +228,8 @@ void DialogDetectSqueezebox::squeezeError()
 
 void DialogDetectSqueezebox::squeezeConnected()
 {
-        squeeze->SendCommand("player count ?", this, "squeezePlayerCount");
+        if (squeeze)
+                squeeze->SendCommand("player count ?", this, "squeezePlayerCount");
 }
 
 void DialogDetectSqueezebox::squeezePlayerCount(QString cmd, QString res)
@@ -253,7 +256,8 @@ void DialogDetectSqueezebox::getSqueezeId()
                 return;
         }
 
-        squeeze->SendCommand(QString("player id %1 ?").arg(cptSqueeze), this, "squeezePlayerId");
+        if (squeeze)
+                squeeze->SendCommand(QString("player id %1 ?").arg(cptSqueeze), this, "squeezePlayerId");
 }
 
 void DialogDetectSqueezebox::squeezePlayerId(QString cmd, QString res)
@@ -275,7 +279,8 @@ void DialogDetectSqueezebox::squeezePlayerId(QString cmd, QString res)
 
 void DialogDetectSqueezebox::getSqueezeName()
 {
-        squeeze->SendCommand(QString("player name %1 ?").arg(cptSqueeze), this, "squeezePlayerName");
+        if (squeeze)
+                squeeze->SendCommand(QString("player name %1 ?").arg(cptSqueeze), this, "squeezePlayerName");
 }
 
 void DialogDetectSqueezebox::squeezePlayerName(QString cmd, QString res)
