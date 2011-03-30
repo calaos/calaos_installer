@@ -42,7 +42,10 @@ void DialogNewDali::on_buttonBox_accepted()
         p.Add("name", ui->edit_name->text().toUtf8().constData());
         p.Add("line", "1");
         p.Add("type", "WODali");
-        p.Add("address", to_string(ui->spin_addr->value()));
+        if (ui->radioDALI->isChecked())
+                p.Add("address", to_string(ui->spin_addr->value()));
+        else
+                p.Add("address", to_string(ui->spin_addr->value() + 100));
         p.Add("fade_time", to_string(ui->spin_time->value()));
 
         if (ui->check_group->isChecked())

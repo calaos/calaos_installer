@@ -83,13 +83,13 @@
     </rect>
    </property>
    <property name="title">
-    <string>Créer un nouvel élément DALI RGB</string>
+    <string>Créer un nouvel élément DALI/DMX RGB</string>
    </property>
    <widget class="QLabel" name="label_2">
     <property name="geometry">
      <rect>
       <x>30</x>
-      <y>150</y>
+      <y>169</y>
       <width>151</width>
       <height>18</height>
      </rect>
@@ -102,7 +102,7 @@
     <property name="geometry">
      <rect>
       <x>30</x>
-      <y>30</y>
+      <y>49</y>
       <width>231</width>
       <height>20</height>
      </rect>
@@ -115,7 +115,7 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>50</y>
+      <y>69</y>
       <width>351</width>
       <height>28</height>
      </rect>
@@ -125,7 +125,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>330</y>
+      <y>336</y>
       <width>371</width>
       <height>71</height>
      </rect>
@@ -273,7 +273,7 @@ p, li { white-space: pre-wrap; }
     <property name="geometry">
      <rect>
       <x>190</x>
-      <y>144</y>
+      <y>163</y>
       <width>60</width>
       <height>30</height>
      </rect>
@@ -289,7 +289,7 @@ p, li { white-space: pre-wrap; }
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>112</y>
+      <y>131</y>
       <width>251</width>
       <height>23</height>
      </rect>
@@ -305,7 +305,7 @@ p, li { white-space: pre-wrap; }
     <property name="geometry">
      <rect>
       <x>320</x>
-      <y>80</y>
+      <y>99</y>
       <width>60</width>
       <height>28</height>
      </rect>
@@ -321,7 +321,7 @@ p, li { white-space: pre-wrap; }
     <property name="geometry">
      <rect>
       <x>160</x>
-      <y>85</y>
+      <y>104</y>
       <width>150</width>
       <height>18</height>
      </rect>
@@ -334,7 +334,7 @@ p, li { white-space: pre-wrap; }
     <property name="geometry">
      <rect>
       <x>267</x>
-      <y>145</y>
+      <y>164</y>
       <width>50</width>
       <height>27</height>
      </rect>
@@ -347,7 +347,7 @@ p, li { white-space: pre-wrap; }
     <property name="geometry">
      <rect>
       <x>317</x>
-      <y>145</y>
+      <y>164</y>
       <width>50</width>
       <height>27</height>
      </rect>
@@ -360,7 +360,7 @@ p, li { white-space: pre-wrap; }
     <property name="geometry">
      <rect>
       <x>270</x>
-      <y>220</y>
+      <y>239</y>
       <width>50</width>
       <height>27</height>
      </rect>
@@ -373,7 +373,7 @@ p, li { white-space: pre-wrap; }
     <property name="geometry">
      <rect>
       <x>23</x>
-      <y>187</y>
+      <y>206</y>
       <width>251</width>
       <height>23</height>
      </rect>
@@ -389,7 +389,7 @@ p, li { white-space: pre-wrap; }
     <property name="geometry">
      <rect>
       <x>190</x>
-      <y>219</y>
+      <y>238</y>
       <width>60</width>
       <height>30</height>
      </rect>
@@ -405,7 +405,7 @@ p, li { white-space: pre-wrap; }
     <property name="geometry">
      <rect>
       <x>33</x>
-      <y>225</y>
+      <y>244</y>
       <width>151</width>
       <height>18</height>
      </rect>
@@ -418,7 +418,7 @@ p, li { white-space: pre-wrap; }
     <property name="geometry">
      <rect>
       <x>320</x>
-      <y>220</y>
+      <y>239</y>
       <width>50</width>
       <height>27</height>
      </rect>
@@ -431,7 +431,7 @@ p, li { white-space: pre-wrap; }
     <property name="geometry">
      <rect>
       <x>270</x>
-      <y>290</y>
+      <y>309</y>
       <width>50</width>
       <height>27</height>
      </rect>
@@ -444,7 +444,7 @@ p, li { white-space: pre-wrap; }
     <property name="geometry">
      <rect>
       <x>23</x>
-      <y>257</y>
+      <y>276</y>
       <width>251</width>
       <height>23</height>
      </rect>
@@ -460,7 +460,7 @@ p, li { white-space: pre-wrap; }
     <property name="geometry">
      <rect>
       <x>190</x>
-      <y>289</y>
+      <y>308</y>
       <width>60</width>
       <height>30</height>
      </rect>
@@ -476,7 +476,7 @@ p, li { white-space: pre-wrap; }
     <property name="geometry">
      <rect>
       <x>33</x>
-      <y>295</y>
+      <y>314</y>
       <width>151</width>
       <height>18</height>
      </rect>
@@ -489,13 +489,42 @@ p, li { white-space: pre-wrap; }
     <property name="geometry">
      <rect>
       <x>320</x>
-      <y>290</y>
+      <y>309</y>
       <width>50</width>
       <height>27</height>
      </rect>
     </property>
     <property name="text">
      <string>Off</string>
+    </property>
+   </widget>
+   <widget class="QRadioButton" name="radioDALI">
+    <property name="geometry">
+     <rect>
+      <x>49</x>
+      <y>25</y>
+      <width>131</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Lumière DALI</string>
+    </property>
+    <property name="checked">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QRadioButton" name="radioDMX">
+    <property name="geometry">
+     <rect>
+      <x>209</x>
+      <y>25</y>
+      <width>131</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Lumière DMX</string>
     </property>
    </widget>
   </widget>

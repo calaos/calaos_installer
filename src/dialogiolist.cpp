@@ -68,7 +68,6 @@ DialogIOList::DialogIOList(Input *_in, Output *_out, QWidget *parent) :
         ui->treeWidget->resizeColumnToContents(0);
         ui->treeWidget->resizeColumnToContents(1);
         ui->treeWidget->resizeColumnToContents(2);
-
 }
 
 DialogIOList::~DialogIOList()

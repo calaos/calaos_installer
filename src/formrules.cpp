@@ -46,12 +46,12 @@ FormRules::FormRules(QWidget *parent) :
         sig->setMapping(action, ITEM_VOLET);
         connect(action, SIGNAL(triggered()), sig, SLOT(map()));
 
-        action = add_menu->addAction(QString::fromUtf8("DALI"));
+        action = add_menu->addAction(QString::fromUtf8("DALI/DMX"));
         action->setIcon(QIcon(":/img/icon_light_on.png"));
         sig->setMapping(action, ITEM_DALI);
         connect(action, SIGNAL(triggered()), sig, SLOT(map()));
 
-        action = add_menu->addAction(QString::fromUtf8("DALI RGB"));
+        action = add_menu->addAction(QString::fromUtf8("DALI/DMX RGB"));
         action->setIcon(QIcon(":/img/icon_light_on.png"));
         sig->setMapping(action, ITEM_DALIRGB);
         connect(action, SIGNAL(triggered()), sig, SLOT(map()));

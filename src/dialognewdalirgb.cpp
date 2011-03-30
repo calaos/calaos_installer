@@ -43,7 +43,10 @@ void DialogNewDaliRGB::on_buttonBox_accepted()
         p.Add("type", "WODaliRVB");
 
         p.Add("rline", "1");
-        p.Add("raddress", to_string(ui->spin_addr_red->value()));
+        if (ui->radioDALI->isChecked())
+                p.Add("raddress", to_string(ui->spin_addr_red->value()));
+        else
+                p.Add("raddress", to_string(ui->spin_addr_red->value() + 100));
         p.Add("rfade_time", to_string(ui->spin_time->value()));
 
         if (ui->check_group_red->isChecked())
@@ -52,7 +55,10 @@ void DialogNewDaliRGB::on_buttonBox_accepted()
                 p.Add("rgroup", "0");
 
         p.Add("gline", "1");
-        p.Add("gaddress", to_string(ui->spin_addr_green->value()));
+        if (ui->radioDALI->isChecked())
+                p.Add("gaddress", to_string(ui->spin_addr_green->value()));
+        else
+                p.Add("gaddress", to_string(ui->spin_addr_green->value() + 100));
         p.Add("gfade_time", to_string(ui->spin_time->value()));
 
         if (ui->check_group_green->isChecked())
@@ -61,7 +67,10 @@ void DialogNewDaliRGB::on_buttonBox_accepted()
                 p.Add("ggroup", "0");
 
         p.Add("bline", "1");
-        p.Add("baddress", to_string(ui->spin_addr_blue->value()));
+        if (ui->radioDALI->isChecked())
+                p.Add("baddress", to_string(ui->spin_addr_blue->value()));
+        else
+                p.Add("baddress", to_string(ui->spin_addr_blue->value() + 100));
         p.Add("bfade_time", to_string(ui->spin_time->value()));
 
         if (ui->check_group_blue->isChecked())

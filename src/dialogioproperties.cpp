@@ -35,6 +35,9 @@ DialogIOProperties::DialogIOProperties(const Params &p, int t, QWidget *parent) 
                 ui->addButton->setDisabled(true);
                 ui->delButton->setDisabled(true);
         }
+
+        ui->treeProperties->resizeColumnToContents(0);
+        ui->treeProperties->resizeColumnToContents(1);
 }
 
 DialogIOProperties::~DialogIOProperties()
