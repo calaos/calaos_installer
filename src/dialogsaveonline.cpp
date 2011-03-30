@@ -216,3 +216,11 @@ void DialogSaveOnline::on_buttonBox_rejected()
 {
         reject();
 }
+
+void DialogSaveOnline::on_checkShowPass_toggled(bool checked)
+{
+        if (checked)
+                ui->editPass->setEchoMode(QLineEdit::Normal);
+        else
+                ui->editPass->setEchoMode(QLineEdit::Password);
+}

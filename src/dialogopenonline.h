@@ -37,6 +37,7 @@ class DialogOpenOnline : public QDialog
                 void saveXMLFile(QString filename, QString base64_data);
 
         private slots:
+                void on_checkShowPass_toggled(bool checked);
                 void on_buttonBox_rejected();
                 void on_calaosfrCheck_stateChanged(int);
                 void on_buttonBox_accepted();

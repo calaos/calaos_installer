@@ -37,6 +37,7 @@ class DialogSaveOnline : public QDialog
                 QString readFileBase64(QString fileName);
 
         private slots:
+                void on_checkShowPass_toggled(bool checked);
                 void on_buttonBox_rejected();
                 void on_calaosfrCheck_stateChanged(int);
                 void on_buttonBox_accepted();
