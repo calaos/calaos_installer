@@ -446,13 +446,6 @@ void MainWindow::on_actionDALI_triggered()
         }
 }
 
-void MainWindow::on_actionG_n_rer_fichier_d_impression_triggered()
-{
-        teditor.resize(700, 700);
-        teditor.show();
-        teditor.loadRooms();
-}
-
 FormRules *MainWindow::getFormRules()
 {
         if (ui)
@@ -474,4 +467,18 @@ void MainWindow::on_actionQuit_triggered()
 void MainWindow::on_actionAbout_triggered()
 {
         ShowPage(PAGE_ABOUT);
+}
+
+void MainWindow::on_actionPar_pi_ce_triggered()
+{
+        teditor.resize(700, 700);
+        teditor.show();
+        teditor.loadRooms();
+}
+
+void MainWindow::on_actionPar_Entr_es_Sorties_triggered()
+{
+        teditor.resize(700, 700);
+        teditor.show();
+        teditor.loadIOList();
 }

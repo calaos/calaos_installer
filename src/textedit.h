@@ -66,6 +66,7 @@ public:
     void loadText(const QString &str);
     bool load(const QString &f);
     void loadRooms();
+    void loadIOList();
 
 private:
     void setupFileActions();

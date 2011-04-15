@@ -230,7 +230,7 @@ void TextEdit::setupTextActions()
                                      QString::fromUtf8("&Gras"), this);
         actionTextBold->setShortcut(Qt::CTRL + Qt::Key_B);
         actionTextBold->setPriority(QAction::LowPriority);
-	QFont bold;
+        QFont bold;
         bold.setBold(true);
         actionTextBold->setFont(bold);
         connect(actionTextBold, SIGNAL(triggered()), this, SLOT(textBold()));
@@ -658,6 +658,422 @@ QString TextEdit::readFile(QString f)
         QByteArray data = file.readAll();
         QTextCodec *codec = Qt::codecForHtml(data);
         return (codec->toUnicode(data));
+}
+
+bool _sort_input_by_var(Input *in1, Input *in2)
+{
+        int var1, var2;
+        from_string(in1->get_param("var"), var1);
+        from_string(in2->get_param("var"), var2);
+
+        return (var1 < var2);
+}
+
+bool _sort_output_by_var(Output *out1, Output *out2)
+{
+        int var1, var2;
+        from_string(out1->get_param("var"), var1);
+        from_string(out2->get_param("var"), var2);
+
+        return (var1 < var2);
+}
+
+bool _sort_output_dali(Output *out1, Output *out2)
+{
+        int var1, var2;
+        from_string(out1->get_param("address"), var1);
+        from_string(out2->get_param("address"), var2);
+
+        return (var1 < var2);
+}
+
+void TextEdit::loadIOList()
+{
+        QString html;
+
+        QString header = readFile(":/home_header.html").arg("Maison");
+        QString footer = readFile(":/home_footer.html");
+        QString room = readFile(":/home_room.html");
+        QString room_footer = readFile(":/home_room_footer.html");
+        QString inputs = readFile(":/home_inputs.html");
+        QString outputs = readFile(":/home_outputs.html");
+        QString item_header = readFile(":/home_item_header.html");
+        QString item = readFile(":/home_item.html");
+
+        html += header;
+
+        vector<Input *> wago_inputs_digital;
+        vector<Input *> wago_inputs_digital_knx;
+        vector<Input *> wago_inputs_analog;
+        vector<Input *> wago_inputs_temp;
+
+        vector<Output *> wago_outputs_digital;
+        vector<Output *> wago_outputs_digital_knx;
+        vector<Output *> wago_outputs_dali;
+        vector<Output *> wago_outputs_dali_group;
+        vector<Output *> wago_outputs_analog;
+
+        vector<Output *> temp_outputs; //handle WOVolet / WODaliRVB
+
+        for (int i = 0;i < ListeRoom::Instance().size();i++)
+        {
+                Room *r = ListeRoom::Instance().get_room(i);
+
+                for (int j = 0;j < r->get_size_in();j++)
+                {
+                        Input *in = r->get_input(j);
+
+                        if (in->get_param("type") == "WIDigitalBP" ||
+                            in->get_param("type") == "WIDigitalTriple")
+                        {
+                                if (in->get_param("knx") == "true")
+                                        wago_inputs_digital_knx.push_back(in);
+                                else
+                                        wago_inputs_digital.push_back(in);
+                        }
+                        else if (in->get_param("type") == "WITemp")
+                        {
+                                wago_inputs_temp.push_back(in);
+                        }
+                        else if (in->get_param("type") == "WIAnalog")
+                        {
+                                wago_inputs_analog.push_back(in);
+                        }
+                }
+
+                for (int j = 0;j < r->get_size_out();j++)
+                {
+                        Output *out = r->get_output(j);
+
+                        if (out->get_param("type") == "WODigital")
+                        {
+                                if (out->get_param("knx") == "true")
+                                        wago_outputs_digital_knx.push_back(out);
+                                else
+                                        wago_outputs_digital.push_back(out);
+                        }
+                        else if (out->get_param("type") == "WOVolet" ||
+                                 out->get_param("type") == "WOVoletSmart")
+                        {
+                                Output *volet_up = new Output(out->get_params());
+                                Output *volet_down = new Output(out->get_params());
+
+                                volet_up->get_params().Add("name", out->get_param("name") + " (Montée)");
+                                volet_down->get_params().Add("name", out->get_param("name") + " (Descente)");
+
+                                volet_up->get_params().Add("var", out->get_param("var_up"));
+                                volet_down->get_params().Add("var", out->get_param("var_down"));
+
+                                if (out->get_param("knx") == "true")
+                                {
+                                        wago_outputs_digital_knx.push_back(volet_up);
+                                        wago_outputs_digital_knx.push_back(volet_down);
+                                }
+                                else
+                                {
+                                        wago_outputs_digital.push_back(volet_up);
+                                        wago_outputs_digital.push_back(volet_down);
+                                }
+
+                                temp_outputs.push_back(volet_up);
+                                temp_outputs.push_back(volet_down);
+                        }
+                        else if (out->get_param("type") == "WODali")
+                        {
+                                if (out->get_param("group") == "1")
+                                        wago_outputs_dali_group.push_back(out);
+                                else
+                                        wago_outputs_dali.push_back(out);
+                        }
+                        else if (out->get_param("type") == "WODaliRVB")
+                        {
+                                Output *dali_r = new Output(out->get_params());
+                                Output *dali_g = new Output(out->get_params());
+                                Output *dali_b = new Output(out->get_params());
+
+                                dali_r->get_params().Add("name", out->get_param("name") + " (Rouge)");
+                                dali_g->get_params().Add("name", out->get_param("name") + " (Vert)");
+                                dali_b->get_params().Add("name", out->get_param("name") + " (Bleu)");
+
+                                dali_r->get_params().Add("address", out->get_param("raddress"));
+                                dali_g->get_params().Add("address", out->get_param("gaddress"));
+                                dali_b->get_params().Add("address", out->get_param("baddress"));
+
+                                if (out->get_param("rgroup") == "1")
+                                        wago_outputs_dali_group.push_back(dali_r);
+                                else
+                                        wago_outputs_dali.push_back(dali_r);
+
+                                if (out->get_param("ggroup") == "1")
+                                        wago_outputs_dali_group.push_back(dali_g);
+                                else
+                                        wago_outputs_dali.push_back(dali_g);
+
+                                if (out->get_param("bgroup") == "1")
+                                        wago_outputs_dali_group.push_back(dali_b);
+                                else
+                                        wago_outputs_dali.push_back(dali_b);
+
+                                temp_outputs.push_back(dali_r);
+                                temp_outputs.push_back(dali_g);
+                                temp_outputs.push_back(dali_b);
+                        }
+                        else if (out->get_param("type") == "WOAnalog")
+                        {
+                                wago_outputs_analog.push_back(out);
+                        }
+                }
+        }
+
+        // Sort by var
+        sort(wago_inputs_digital.begin(), wago_inputs_digital.end(), _sort_input_by_var);
+        sort(wago_inputs_digital_knx.begin(), wago_inputs_digital_knx.end(), _sort_input_by_var);
+        sort(wago_inputs_analog.begin(), wago_inputs_analog.end(), _sort_input_by_var);
+        sort(wago_inputs_temp.begin(), wago_inputs_temp.end(), _sort_input_by_var);
+
+        sort(wago_outputs_digital.begin(), wago_outputs_digital.end(), _sort_output_by_var);
+        sort(wago_outputs_digital_knx.begin(), wago_outputs_digital_knx.end(), _sort_output_by_var);
+        sort(wago_outputs_dali.begin(), wago_outputs_dali.end(), _sort_output_dali);
+        sort(wago_outputs_dali_group.begin(), wago_outputs_dali_group.end(), _sort_output_dali);
+        sort(wago_outputs_analog.begin(), wago_outputs_analog.end(), _sort_output_by_var);
+
+        if (!wago_inputs_digital.empty())
+        {
+                html += item_header.arg("")
+                                .arg(QString::fromUtf8("Entrée Wago"))
+                                .arg(QString::fromUtf8("Nom"))
+                                .arg("")
+                                .arg("");
+                for (int i = 0;i < wago_inputs_digital.size();i++)
+                {
+                        QString icon, var;
+                        IOBase *io = wago_inputs_digital[i];
+
+                        icon = "<img src=\":/img/icon_inter.png\" />";
+                        var = io->get_param("var").c_str();
+
+                        html += item.arg(icon)
+                                .arg(var)
+                                .arg(QString::fromUtf8(io->get_param("name").c_str()))
+                                .arg("")
+                                .arg("");
+                }
+                html += room_footer;
+        }
+
+        if (!wago_inputs_digital_knx.empty())
+        {
+                html += item_header.arg("")
+                                .arg(QString::fromUtf8("Entrée KNX"))
+                                .arg(QString::fromUtf8("Nom"))
+                                .arg("")
+                                .arg("");
+                for (int i = 0;i < wago_inputs_digital_knx.size();i++)
+                {
+                        QString icon, var;
+                        IOBase *io = wago_inputs_digital_knx[i];
+
+                        icon = "<img src=\":/img/icon_inter.png\" />";
+                        var = io->get_param("var").c_str();
+
+                        html += item.arg(icon)
+                                .arg(var)
+                                .arg(QString::fromUtf8(io->get_param("name").c_str()))
+                                .arg("")
+                                .arg("");
+                }
+                html += room_footer;
+        }
+
+        if (!wago_inputs_analog.empty())
+        {
+                html += item_header.arg("")
+                                .arg(QString::fromUtf8("Entrée Wago Analogique"))
+                                .arg(QString::fromUtf8("Nom"))
+                                .arg("")
+                                .arg("");
+                for (int i = 0;i < wago_inputs_analog.size();i++)
+                {
+                        QString icon, var;
+                        IOBase *io = wago_inputs_analog[i];
+
+                        icon = "<img src=\":/img/icon_analog.png\" />";
+                        var = io->get_param("var").c_str();
+
+                        html += item.arg(icon)
+                                .arg(var)
+                                .arg(QString::fromUtf8(io->get_param("name").c_str()))
+                                .arg("")
+                                .arg("");
+                }
+                html += room_footer;
+        }
+
+        if (!wago_inputs_temp.empty())
+        {
+                html += item_header.arg("")
+                                .arg(QString::fromUtf8("Entrée Température"))
+                                .arg(QString::fromUtf8("Nom"))
+                                .arg("")
+                                .arg("");
+                for (int i = 0;i < wago_inputs_temp.size();i++)
+                {
+                        QString icon, var;
+                        IOBase *io = wago_inputs_temp[i];
+
+                        icon = "<img src=\":/img/temp.png\" />";
+                        var = io->get_param("var").c_str();
+
+                        html += item.arg(icon)
+                                .arg(var)
+                                .arg(QString::fromUtf8(io->get_param("name").c_str()))
+                                .arg("")
+                                .arg("");
+                }
+                html += room_footer;
+        }
+
+        if (!wago_outputs_digital.empty())
+        {
+                html += item_header.arg("")
+                                .arg(QString::fromUtf8("Sortie Wago"))
+                                .arg(QString::fromUtf8("Nom"))
+                                .arg("")
+                                .arg("");
+                for (int i = 0;i < wago_outputs_digital.size();i++)
+                {
+                        QString icon, var;
+                        IOBase *io = wago_outputs_digital[i];
+
+                        if (io->get_param("type") == "WODigital")
+                                icon = "<img src=\":/img/icon_light_on.png\" />";
+                        else if (io->get_param("type") == "WOVolet" || io->get_param("type") == "WOVoletSmart")
+                                icon = "<img src=\":/img/icon_shutter.png\" />";
+
+                        var = io->get_param("var").c_str();
+
+                        html += item.arg(icon)
+                                .arg(var)
+                                .arg(QString::fromUtf8(io->get_param("name").c_str()))
+                                .arg("")
+                                .arg("");
+                }
+                html += room_footer;
+        }
+
+        if (!wago_outputs_digital_knx.empty())
+        {
+                html += item_header.arg("")
+                                .arg(QString::fromUtf8("Sortie KNX"))
+                                .arg(QString::fromUtf8("Nom"))
+                                .arg("")
+                                .arg("");
+                for (int i = 0;i < wago_outputs_digital_knx.size();i++)
+                {
+                        QString icon, var;
+                        IOBase *io = wago_outputs_digital_knx[i];
+
+                        if (io->get_param("type") == "WODigital")
+                                icon = "<img src=\":/img/icon_light_on.png\" />";
+                        else if (io->get_param("type") == "WOVolet" || io->get_param("type") == "WOVoletSmart")
+                                icon = "<img src=\":/img/icon_shutter.png\" />";
+
+                        var = io->get_param("var").c_str();
+
+                        html += item.arg(icon)
+                                .arg(var)
+                                .arg(QString::fromUtf8(io->get_param("name").c_str()))
+                                .arg("")
+                                .arg("");
+                }
+                html += room_footer;
+        }
+
+        if (!wago_outputs_dali.empty())
+        {
+                html += item_header.arg("")
+                                .arg(QString::fromUtf8("Sortie DALI"))
+                                .arg(QString::fromUtf8("Nom"))
+                                .arg("")
+                                .arg("");
+                for (int i = 0;i < wago_outputs_dali.size();i++)
+                {
+                        QString icon, var;
+                        IOBase *io = wago_outputs_dali[i];
+
+                        icon = "<img src=\":/img/icon_light_on.png\" />";
+
+                        var = io->get_param("address").c_str();
+
+                        html += item.arg(icon)
+                                .arg(var)
+                                .arg(QString::fromUtf8(io->get_param("name").c_str()))
+                                .arg("")
+                                .arg("");
+                }
+                html += room_footer;
+        }
+
+        if (!wago_outputs_dali_group.empty())
+        {
+                html += item_header.arg("")
+                                .arg(QString::fromUtf8("Sortie DALI (Groupe)"))
+                                .arg(QString::fromUtf8("Nom"))
+                                .arg("")
+                                .arg("");
+                for (int i = 0;i < wago_outputs_dali_group.size();i++)
+                {
+                        QString icon, var;
+                        IOBase *io = wago_outputs_dali_group[i];
+
+                        icon = "<img src=\":/img/icon_light_on.png\" />";
+
+                        var = io->get_param("address").c_str();
+
+                        html += item.arg(icon)
+                                .arg(var)
+                                .arg(QString::fromUtf8(io->get_param("name").c_str()))
+                                .arg("")
+                                .arg("");
+                }
+                html += room_footer;
+        }
+
+        if (!wago_outputs_analog.empty())
+        {
+                html += item_header.arg("")
+                                .arg(QString::fromUtf8("Sortie Analogique"))
+                                .arg(QString::fromUtf8("Nom"))
+                                .arg("")
+                                .arg("");
+                for (int i = 0;i < wago_outputs_analog.size();i++)
+                {
+                        QString icon, var;
+                        IOBase *io = wago_outputs_analog[i];
+
+                        icon = "<img src=\":/img/icon_analog.png\" />";
+
+                        var = io->get_param("var").c_str();
+
+                        html += item.arg(icon)
+                                .arg(var)
+                                .arg(QString::fromUtf8(io->get_param("name").c_str()))
+                                .arg("")
+                                .arg("");
+                }
+                html += room_footer;
+        }
+
+        //Free temp memory
+        for (int i = 0;i < temp_outputs.size();i++)
+        {
+                delete temp_outputs[i];
+        }
+        temp_outputs.clear();
+
+        html += footer;
+
+        textEdit->setHtml(html);
 }
 
 void TextEdit::loadRooms()

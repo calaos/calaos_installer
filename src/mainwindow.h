@@ -77,7 +77,6 @@ class MainWindow : public QMainWindow
         private slots:
                 void on_actionAbout_triggered();
                 void on_actionQuit_triggered();
-                void on_actionG_n_rer_fichier_d_impression_triggered();
                 void on_actionDALI_triggered();
                 void on_pushButtonBack_clicked();
                 void on_actionSauvegarder_un_projet_en_ligne_triggered();
@@ -93,6 +92,8 @@ class MainWindow : public QMainWindow
                 void on_Pages_currentChanged(int );
                 void on_actionA_propos_de_Qt_triggered();
                 void closeDaliForm_clicked();
+                void on_actionPar_pi_ce_triggered();
+                void on_actionPar_Entr_es_Sorties_triggered();
 };
 
 #endif // MAINWINDOW_H

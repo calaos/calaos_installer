@@ -44,7 +44,7 @@ class IOBase
                 IOBase(Params &p): param(p) { /* nothing */ }
                 virtual ~IOBase() { /* nothing */ }
 
-                virtual DATA_TYPE get_type() = 0;
+                virtual DATA_TYPE get_type() { return TBOOL; }
 
                 virtual void set_param(std::string opt, std::string val)
                         { param.Add(opt, val); }

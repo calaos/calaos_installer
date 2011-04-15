@@ -124,6 +124,7 @@ p, li { white-space: pre-wrap; }
 &lt;tr&gt;
 &lt;td style=&quot;border: none;&quot;&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
 &lt;p align=&quot;center&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
 &lt;p align=&quot;center&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
 &lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:20pt; font-weight:600; color:#cccccc;&quot;&gt;Calaos Tools&lt;/span&gt;&lt;/p&gt;
@@ -163,6 +164,13 @@ p, li { white-space: pre-wrap; }
     <property name="title">
      <string>Fichier</string>
     </property>
+    <widget class="QMenu" name="menuG_n_rer_fichier_d_impression">
+     <property name="title">
+      <string>Générer fichier d'impression</string>
+     </property>
+     <addaction name="actionPar_pi_ce"/>
+     <addaction name="actionPar_Entr_es_Sorties"/>
+    </widget>
     <addaction name="actionNouveau_projet"/>
     <addaction name="separator"/>
     <addaction name="actionCharger_un_projet"/>
@@ -172,7 +180,7 @@ p, li { white-space: pre-wrap; }
     <addaction name="actionSauvegarder_un_projet"/>
     <addaction name="actionSauvegarder_un_projet_en_ligne"/>
     <addaction name="separator"/>
-    <addaction name="actionG_n_rer_fichier_d_impression"/>
+    <addaction name="menuG_n_rer_fichier_d_impression"/>
     <addaction name="separator"/>
     <addaction name="actionQuit"/>
    </widget>
@@ -358,13 +366,14 @@ p, li { white-space: pre-wrap; }
     <string>DALI...</string>
    </property>
   </action>
-  <action name="actionG_n_rer_fichier_d_impression">
-   <property name="icon">
-    <iconset resource="resources.qrc">
-     <normaloff>:/img/edit-rename.png</normaloff>:/img/edit-rename.png</iconset>
-   </property>
+  <action name="actionPar_pi_ce">
    <property name="text">
-    <string>Générer fichier d'impression...</string>
+    <string>Par pièce...</string>
+   </property>
+  </action>
+  <action name="actionPar_Entr_es_Sorties">
+   <property name="text">
+    <string>Par Entrées/Sorties</string>
    </property>
   </action>
  </widget>
