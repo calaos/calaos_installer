@@ -713,7 +713,7 @@ void TextEdit::loadIOList()
         vector<Output *> wago_outputs_dali_group;
         vector<Output *> wago_outputs_analog;
 
-        vector<Output *> temp_outputs; //handle WOVolet / WODaliRVB
+        vector<IOBase *> temp_ios; //handle temporary IOs
 
         for (int i = 0;i < ListeRoom::Instance().size();i++)
         {
@@ -726,18 +726,36 @@ void TextEdit::loadIOList()
                         if (in->get_param("type") == "WIDigitalBP" ||
                             in->get_param("type") == "WIDigitalTriple")
                         {
+                                Input *nin = new Input(in->get_params());
+                                nin->set_param("room_name", r->get_name());
+                                nin->set_param("room_type", r->get_type());
+
                                 if (in->get_param("knx") == "true")
-                                        wago_inputs_digital_knx.push_back(in);
+                                        wago_inputs_digital_knx.push_back(nin);
                                 else
-                                        wago_inputs_digital.push_back(in);
+                                        wago_inputs_digital.push_back(nin);
+
+                                temp_ios.push_back(nin);
                         }
                         else if (in->get_param("type") == "WITemp")
                         {
-                                wago_inputs_temp.push_back(in);
+                                Input *nin = new Input(in->get_params());
+                                nin->set_param("room_name", r->get_name());
+                                nin->set_param("room_type", r->get_type());
+
+                                wago_inputs_temp.push_back(nin);
+
+                                temp_ios.push_back(nin);
                         }
                         else if (in->get_param("type") == "WIAnalog")
                         {
-                                wago_inputs_analog.push_back(in);
+                                Input *nin = new Input(in->get_params());
+                                nin->set_param("room_name", r->get_name());
+                                nin->set_param("room_type", r->get_type());
+
+                                wago_inputs_analog.push_back(nin);
+
+                                temp_ios.push_back(nin);
                         }
                 }
 
@@ -747,16 +765,28 @@ void TextEdit::loadIOList()
 
                         if (out->get_param("type") == "WODigital")
                         {
+                                Output *nout = new Output(out->get_params());
+                                nout->set_param("room_name", r->get_name());
+                                nout->set_param("room_type", r->get_type());
+
                                 if (out->get_param("knx") == "true")
-                                        wago_outputs_digital_knx.push_back(out);
+                                        wago_outputs_digital_knx.push_back(nout);
                                 else
-                                        wago_outputs_digital.push_back(out);
+                                        wago_outputs_digital.push_back(nout);
+
+                                temp_ios.push_back(nout);
                         }
                         else if (out->get_param("type") == "WOVolet" ||
                                  out->get_param("type") == "WOVoletSmart")
                         {
                                 Output *volet_up = new Output(out->get_params());
                                 Output *volet_down = new Output(out->get_params());
+
+                                volet_up->set_param("room_name", r->get_name());
+                                volet_up->set_param("room_type", r->get_type());
+
+                                volet_down->set_param("room_name", r->get_name());
+                                volet_down->set_param("room_type", r->get_type());
 
                                 volet_up->get_params().Add("name", out->get_param("name") + " (Montée)");
                                 volet_down->get_params().Add("name", out->get_param("name") + " (Descente)");
@@ -775,21 +805,34 @@ void TextEdit::loadIOList()
                                         wago_outputs_digital.push_back(volet_down);
                                 }
 
-                                temp_outputs.push_back(volet_up);
-                                temp_outputs.push_back(volet_down);
+                                temp_ios.push_back(volet_up);
+                                temp_ios.push_back(volet_down);
                         }
                         else if (out->get_param("type") == "WODali")
                         {
+                                Output *nout = new Output(out->get_params());
+                                nout->set_param("room_name", r->get_name());
+                                nout->set_param("room_type", r->get_type());
+
                                 if (out->get_param("group") == "1")
-                                        wago_outputs_dali_group.push_back(out);
+                                        wago_outputs_dali_group.push_back(nout);
                                 else
-                                        wago_outputs_dali.push_back(out);
+                                        wago_outputs_dali.push_back(nout);
+
+                                temp_ios.push_back(nout);
                         }
                         else if (out->get_param("type") == "WODaliRVB")
                         {
                                 Output *dali_r = new Output(out->get_params());
                                 Output *dali_g = new Output(out->get_params());
                                 Output *dali_b = new Output(out->get_params());
+
+                                dali_r->set_param("room_name", r->get_name());
+                                dali_r->set_param("room_type", r->get_type());
+                                dali_g->set_param("room_name", r->get_name());
+                                dali_g->set_param("room_type", r->get_type());
+                                dali_b->set_param("room_name", r->get_name());
+                                dali_b->set_param("room_type", r->get_type());
 
                                 dali_r->get_params().Add("name", out->get_param("name") + " (Rouge)");
                                 dali_g->get_params().Add("name", out->get_param("name") + " (Vert)");
@@ -814,13 +857,19 @@ void TextEdit::loadIOList()
                                 else
                                         wago_outputs_dali.push_back(dali_b);
 
-                                temp_outputs.push_back(dali_r);
-                                temp_outputs.push_back(dali_g);
-                                temp_outputs.push_back(dali_b);
+                                temp_ios.push_back(dali_r);
+                                temp_ios.push_back(dali_g);
+                                temp_ios.push_back(dali_b);
                         }
                         else if (out->get_param("type") == "WOAnalog")
                         {
-                                wago_outputs_analog.push_back(out);
+                                Output *nout = new Output(out->get_params());
+                                nout->set_param("room_name", r->get_name());
+                                nout->set_param("room_type", r->get_type());
+
+                                wago_outputs_analog.push_back(nout);
+
+                                temp_ios.push_back(nout);
                         }
                 }
         }
@@ -855,8 +904,8 @@ void TextEdit::loadIOList()
                         html += item.arg(icon)
                                 .arg(var)
                                 .arg(QString::fromUtf8(io->get_param("name").c_str()))
-                                .arg("")
-                                .arg("");
+                                .arg(QString::fromUtf8(io->get_param("room_name").c_str()))
+                                .arg(QString::fromUtf8(io->get_param("room_type").c_str()));
                 }
                 html += room_footer;
         }
@@ -879,8 +928,8 @@ void TextEdit::loadIOList()
                         html += item.arg(icon)
                                 .arg(var)
                                 .arg(QString::fromUtf8(io->get_param("name").c_str()))
-                                .arg("")
-                                .arg("");
+                                .arg(QString::fromUtf8(io->get_param("room_name").c_str()))
+                                .arg(QString::fromUtf8(io->get_param("room_type").c_str()));
                 }
                 html += room_footer;
         }
@@ -903,8 +952,8 @@ void TextEdit::loadIOList()
                         html += item.arg(icon)
                                 .arg(var)
                                 .arg(QString::fromUtf8(io->get_param("name").c_str()))
-                                .arg("")
-                                .arg("");
+                                .arg(QString::fromUtf8(io->get_param("room_name").c_str()))
+                                .arg(QString::fromUtf8(io->get_param("room_type").c_str()));
                 }
                 html += room_footer;
         }
@@ -927,8 +976,8 @@ void TextEdit::loadIOList()
                         html += item.arg(icon)
                                 .arg(var)
                                 .arg(QString::fromUtf8(io->get_param("name").c_str()))
-                                .arg("")
-                                .arg("");
+                                .arg(QString::fromUtf8(io->get_param("room_name").c_str()))
+                                .arg(QString::fromUtf8(io->get_param("room_type").c_str()));
                 }
                 html += room_footer;
         }
@@ -955,8 +1004,8 @@ void TextEdit::loadIOList()
                         html += item.arg(icon)
                                 .arg(var)
                                 .arg(QString::fromUtf8(io->get_param("name").c_str()))
-                                .arg("")
-                                .arg("");
+                                .arg(QString::fromUtf8(io->get_param("room_name").c_str()))
+                                .arg(QString::fromUtf8(io->get_param("room_type").c_str()));
                 }
                 html += room_footer;
         }
@@ -983,8 +1032,8 @@ void TextEdit::loadIOList()
                         html += item.arg(icon)
                                 .arg(var)
                                 .arg(QString::fromUtf8(io->get_param("name").c_str()))
-                                .arg("")
-                                .arg("");
+                                .arg(QString::fromUtf8(io->get_param("room_name").c_str()))
+                                .arg(QString::fromUtf8(io->get_param("room_type").c_str()));
                 }
                 html += room_footer;
         }
@@ -1008,8 +1057,8 @@ void TextEdit::loadIOList()
                         html += item.arg(icon)
                                 .arg(var)
                                 .arg(QString::fromUtf8(io->get_param("name").c_str()))
-                                .arg("")
-                                .arg("");
+                                .arg(QString::fromUtf8(io->get_param("room_name").c_str()))
+                                .arg(QString::fromUtf8(io->get_param("room_type").c_str()));
                 }
                 html += room_footer;
         }
@@ -1033,8 +1082,8 @@ void TextEdit::loadIOList()
                         html += item.arg(icon)
                                 .arg(var)
                                 .arg(QString::fromUtf8(io->get_param("name").c_str()))
-                                .arg("")
-                                .arg("");
+                                .arg(QString::fromUtf8(io->get_param("room_name").c_str()))
+                                .arg(QString::fromUtf8(io->get_param("room_type").c_str()));
                 }
                 html += room_footer;
         }
@@ -1058,18 +1107,18 @@ void TextEdit::loadIOList()
                         html += item.arg(icon)
                                 .arg(var)
                                 .arg(QString::fromUtf8(io->get_param("name").c_str()))
-                                .arg("")
-                                .arg("");
+                                .arg(QString::fromUtf8(io->get_param("room_name").c_str()))
+                                .arg(QString::fromUtf8(io->get_param("room_type").c_str()));
                 }
                 html += room_footer;
         }
 
         //Free temp memory
-        for (int i = 0;i < temp_outputs.size();i++)
+        for (int i = 0;i < temp_ios.size();i++)
         {
-                delete temp_outputs[i];
+                delete temp_ios[i];
         }
-        temp_outputs.clear();
+        temp_ios.clear();
 
         html += footer;
 
