@@ -1,0 +1,18 @@
+11-04-2011  Raoul Hecky
+
+        1.1 release
+
+15-04-2011  Raoul Hecky
+
+        * Ajout d'un listing des entrées/sorties trié par numéro.
+
+19-04-2011  Raoul Hecky
+
+        * Ajout des pièces correspondantes sur le listing des entrées/sorties
+
+19-05-2011  Raoul Hecky
+
+        * Ajout des conditions sur les sorties
+        * Ajout du nom des pièces dans les listes de conditions et d'actions
+        * Correction de bugs divers
+
