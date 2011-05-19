@@ -179,7 +179,7 @@
     <value key="ProjectExplorer.ProjectConfiguration.DisplayName" type="QString">calaos_installer</value>
     <value key="ProjectExplorer.ProjectConfiguration.Id" type="QString">Qt4ProjectManager.Qt4RunConfiguration</value>
     <value key="Qt4ProjectManager.Qt4RunConfiguration.BaseEnvironmentBase" type="int">2</value>
-    <value key="Qt4ProjectManager.Qt4RunConfiguration.CommandLineArguments" type="QString">../calaos_installer/tests/righi</value>
+    <value key="Qt4ProjectManager.Qt4RunConfiguration.CommandLineArguments" type="QString">../config</value>
     <value key="Qt4ProjectManager.Qt4RunConfiguration.ProFile" type="QString">calaos_installer.pro</value>
     <value key="Qt4ProjectManager.Qt4RunConfiguration.UseDyldImageSuffix" type="bool">false</value>
     <value key="Qt4ProjectManager.Qt4RunConfiguration.UseTerminal" type="bool">false</value>

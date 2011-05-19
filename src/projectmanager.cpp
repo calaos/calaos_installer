@@ -255,6 +255,34 @@ void RuleXmlWriter::writeCondition(Rule *rule)
                                 }
                                 break;
                         }
+                case COND_OUTPUT:
+                        {
+                                writeStartElement("http://www.calaos.fr", "condition");
+                                QXmlStreamAttributes attr;
+                                attr.append("type", "output");
+                                writeAttributes(attr);
+
+                                writeStartElement("http://www.calaos.fr", "output");
+
+                                string id = cond->getOutput()->get_param("id");
+                                if (IOBase::isAudioType(cond->getOutput()->get_param("type")) ||
+                                    IOBase::isCameraType(cond->getOutput()->get_param("type")))
+                                        id = cond->getOutput()->get_param("oid");
+
+                                attr.clear();
+                                attr.append("id", QString::fromUtf8(id.c_str()));
+                                attr.append("oper", QString::fromUtf8(cond->getOutputOper().c_str()));
+                                attr.append("val", QString::fromUtf8(cond->getOutputParam().c_str()));
+                                if (cond->getOutputParamVar() != "")
+                                        attr.append("val_var", QString::fromUtf8(cond->getOutputParamVar().c_str()));
+                                writeAttributes(attr);
+
+                                writeEndElement();
+
+                                writeEndElement();
+
+                                break;
+                        }
                 case COND_START:
                         {
                                 writeStartElement("http://www.calaos.fr", "condition");
@@ -527,7 +555,7 @@ void IOXmlReader::readInput(Room *room)
 }
 
 void IOXmlReader::readPlageDay(vector<Horaire> &day)
-{        
+{
         while (!atEnd())
         {
                 readNext();
@@ -748,6 +776,32 @@ bool ProjectManager::loadRulesFromFile(QString &file)
                                         }
 
                                         node_in = node_in.nextSiblingElement("calaos:input");
+                                }
+                        }
+                        else if (cond_type == "output")
+                        {
+                                cond = new Condition(COND_OUTPUT);
+
+                                QDomElement node_in = node_cond.firstChildElement("calaos:output");
+                                while(!node_in.isNull())
+                                {
+                                        string id = node_in.attribute("id").toUtf8().data();
+                                        string oper = node_in.attribute("oper").toUtf8().data();
+                                        string val = node_in.attribute("val").toUtf8().data();
+                                        string val_var = node_in.attribute("val_var").toUtf8().data();
+
+                                        Output *output = ListeRoom::Instance().get_output(id);
+
+                                        if (output)
+                                        {
+                                                cond->setOutput(output);
+                                                cond->setOutputOper(oper);
+                                                cond->setOutputParam(val);
+                                                if (val_var != "")
+                                                        cond->setOutputParamVar(val_var);
+                                        }
+
+                                        node_in = node_in.nextSiblingElement("calaos:output");
                                 }
                         }
                         else if (cond_type == "start")

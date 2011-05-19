@@ -423,7 +423,7 @@ QFrame .HeaderButton:pressed
                <bool>true</bool>
               </property>
               <attribute name="headerDefaultSectionSize">
-               <number>120</number>
+               <number>200</number>
               </attribute>
               <column>
                <property name="text">
@@ -605,7 +605,7 @@ QFrame .HeaderButton:pressed
                <enum>Qt::CustomContextMenu</enum>
               </property>
               <property name="alternatingRowColors">
-               <bool>false</bool>
+               <bool>true</bool>
               </property>
               <property name="iconSize">
                <size>
@@ -616,11 +616,11 @@ QFrame .HeaderButton:pressed
               <property name="rootIsDecorated">
                <bool>false</bool>
               </property>
-              <property name="uniformRowHeights">
-               <bool>true</bool>
-              </property>
               <attribute name="headerDefaultSectionSize">
-               <number>140</number>
+               <number>180</number>
+              </attribute>
+              <attribute name="headerStretchLastSection">
+               <bool>false</bool>
               </attribute>
               <column>
                <property name="text">
@@ -807,7 +807,7 @@ QFrame .HeaderButton:pressed
                <enum>Qt::CustomContextMenu</enum>
               </property>
               <property name="alternatingRowColors">
-               <bool>false</bool>
+               <bool>true</bool>
               </property>
               <property name="iconSize">
                <size>
@@ -818,11 +818,11 @@ QFrame .HeaderButton:pressed
               <property name="rootIsDecorated">
                <bool>false</bool>
               </property>
-              <property name="uniformRowHeights">
-               <bool>true</bool>
-              </property>
               <attribute name="headerDefaultSectionSize">
-               <number>140</number>
+               <number>240</number>
+              </attribute>
+              <attribute name="headerStretchLastSection">
+               <bool>false</bool>
               </attribute>
               <column>
                <property name="text">

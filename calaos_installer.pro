@@ -98,7 +98,8 @@ SOURCES += src/main.cpp \
     src/ConfigOptions.cpp \
     src/json.cpp \
     src/TempWizard.cpp \
-    src/dialognewanalog.cpp
+    src/dialognewanalog.cpp \
+    src/TwoLineItemDelegate.cpp
 HEADERS += src/mainwindow.h \
     ../calaos_common/Utils.h \
     ../calaos_common/base64.h \
@@ -189,7 +190,8 @@ HEADERS += src/mainwindow.h \
     src/ConfigOptions.h \
     src/json.h \
     src/TempWizard.h \
-    src/dialognewanalog.h
+    src/dialognewanalog.h \
+    src/TwoLineItemDelegate.h
 FORMS += data/mainwindow.ui \
     data/dialognewroom.ui \
     data/dialognewwago.ui \
@@ -235,4 +237,4 @@ INCLUDEPATH += ../calaos_common/ \
     Calaos/ \
     src/
 DEFINES += CALAOS_INSTALLER
-OTHER_FILES += 
+OTHER_FILES +=

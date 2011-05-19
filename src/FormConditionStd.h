@@ -26,6 +26,8 @@ class FormConditionStd : public QWidget
         private:
                 Ui::FormConditionStd *ui;
 
+                string getRoomIcon(string room_type);
+
         protected:
                 void changeEvent(QEvent *e);
 

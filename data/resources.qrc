@@ -89,5 +89,6 @@
         <file>img/messagebox_warning.png</file>
         <file>img/icon_analog.png</file>
         <file>home_item_header.html</file>
+        <file>img/icon_rule_out.png</file>
     </qresource>
 </RCC>

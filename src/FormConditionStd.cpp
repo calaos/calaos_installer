@@ -34,6 +34,38 @@ void FormConditionStd::changeEvent(QEvent *e)
         }
 }
 
+string FormConditionStd::getRoomIcon(string room_type)
+{
+        string icon;
+
+        if (room_type == "salon" || room_type == "lounge")
+                icon = ":/img/rooms/lounge_small.png";
+        else if (room_type == "sdb" || room_type == "bathroom")
+                icon = ":/img/rooms/bathroom_small.png";
+        else if (room_type == "chambre" || room_type == "bedroom")
+                icon = ":/img/rooms/bedroom_small.png";
+        else if (room_type == "cave" || room_type == "cellar")
+                icon = ":/img/rooms/cellar_small.png";
+        else if (room_type == "couloir" || room_type == "hall" || room_type == "corridor")
+                icon = ":/img/rooms/corridor_small.png";
+        else if (room_type == "sam" || room_type == "diningroom")
+                icon = ":/img/rooms/diningroom_small.png";
+        else if (room_type == "garage")
+                icon = ":/img/rooms/garage_small.png";
+        else if (room_type == "cuisine" || room_type == "kitchen")
+                icon = ":/img/rooms/kitchen_small.png";
+        else if (room_type == "bureau" || room_type == "office")
+                icon = ":/img/rooms/office_small.png";
+        else if (room_type == "exterieur" || room_type == "outside")
+                icon = ":/img/rooms/outside_small.png";
+        else if (room_type == "misc" || room_type == "divers" || room_type == "various")
+                icon = ":/img/rooms/various_small.png";
+        else
+                icon = ":/img/rooms/various_small.png";
+
+        return icon;
+}
+
 void FormConditionStd::setCondition(QTreeWidgetItem *item, Rule *_rule, Condition *_condition)
 {
         rule = _rule;
@@ -43,17 +75,23 @@ void FormConditionStd::setCondition(QTreeWidgetItem *item, Rule *_rule, Conditio
         ui->labelRuleName->setText(QString::fromUtf8(rule->get_name().c_str()));
         ui->labelRuleType->setText(QString::fromUtf8(rule->get_type().c_str()));
 
-        Input *input = NULL;
-        if (condition->get_size() > 0)
-                input = condition->get_input(0);
+        if (condition->getType() == COND_OUTPUT)
+                ui->labelRuleIcon->setPixmap(QPixmap(":/img/icon_rule_out.png"));
 
-        if (!input) return;
+        IOBase *io = NULL;
 
-        string type = input->get_param("type");
-        string id = input->get_param("id");
-        if (IOBase::isAudioType(input->get_param("type")) ||
-            IOBase::isCameraType(input->get_param("type")))
-                id = input->get_param("iid");
+        if (condition->get_size() > 0 && condition->getType() == COND_STD)
+                io = condition->get_input(0);
+        if (condition->getType() == COND_OUTPUT)
+                io = condition->getOutput();
+
+        if (!io) return;
+
+        string type = io->get_param("type");
+        string id = io->get_param("id");
+        if (IOBase::isAudioType(io->get_param("type")) ||
+            IOBase::isCameraType(io->get_param("type")))
+                id = io->get_param("iid");
 
         setDone = false;
 
@@ -61,43 +99,36 @@ void FormConditionStd::setCondition(QTreeWidgetItem *item, Rule *_rule, Conditio
         for (int i = 0;i < ListeRoom::Instance().size();i++)
         {
                 Room *room = ListeRoom::Instance().get_room(i);
-                for (int j = 0;j < room->get_size_in();j++)
+
+                if (condition->getType() == COND_STD)
                 {
-                        if (room->get_input(j) == input)
+                        for (int j = 0;j < room->get_size_in();j++)
                         {
-                                ui->labelRoomName->setText(QString::fromUtf8(room->get_name().c_str()));
+                                if (room->get_input(j) == io)
+                                {
+                                        ui->labelRoomName->setText(QString::fromUtf8(room->get_name().c_str()));
+                                        ui->labelRoomIcon->setPixmap(QPixmap(getRoomIcon(room->get_type()).c_str()));
 
-                                if (room->get_type() == "salon" || room->get_type() == "lounge")
-                                        ui->labelRoomIcon->setPixmap(QPixmap(":/img/rooms/lounge_small.png"));
-                                else if (room->get_type() == "sdb" || room->get_type() == "bathroom")
-                                        ui->labelRoomIcon->setPixmap(QPixmap(":/img/rooms/bathroom_small.png"));
-                                else if (room->get_type() == "chambre" || room->get_type() == "bedroom")
-                                        ui->labelRoomIcon->setPixmap(QPixmap(":/img/rooms/bedroom_small.png"));
-                                else if (room->get_type() == "cave" || room->get_type() == "cellar")
-                                        ui->labelRoomIcon->setPixmap(QPixmap(":/img/rooms/cellar_small.png"));
-                                else if (room->get_type() == "couloir" || room->get_type() == "hall" || room->get_type() == "corridor")
-                                        ui->labelRoomIcon->setPixmap(QPixmap(":/img/rooms/corridor_small.png"));
-                                else if (room->get_type() == "sam" || room->get_type() == "diningroom")
-                                        ui->labelRoomIcon->setPixmap(QPixmap(":/img/rooms/diningroom_small.png"));
-                                else if (room->get_type() == "garage")
-                                        ui->labelRoomIcon->setPixmap(QPixmap(":/img/rooms/garage_small.png"));
-                                else if (room->get_type() == "cuisine" || room->get_type() == "kitchen")
-                                        ui->labelRoomIcon->setPixmap(QPixmap(":/img/rooms/kitchen_small.png"));
-                                else if (room->get_type() == "bureau" || room->get_type() == "office")
-                                        ui->labelRoomIcon->setPixmap(QPixmap(":/img/rooms/office_small.png"));
-                                else if (room->get_type() == "exterieur" || room->get_type() == "outside")
-                                        ui->labelRoomIcon->setPixmap(QPixmap(":/img/rooms/outside_small.png"));
-                                else if (room->get_type() == "misc" || room->get_type() == "divers" || room->get_type() == "various")
-                                        ui->labelRoomIcon->setPixmap(QPixmap(":/img/rooms/various_small.png"));
-                                else
-                                        ui->labelRoomIcon->setPixmap(QPixmap(":/img/rooms/various_small.png"));
+                                        break;
+                                }
+                        }
+                }
+                else
+                {
+                        for (int j = 0;j < room->get_size_out();j++)
+                        {
+                                if (room->get_output(j) == io)
+                                {
+                                        ui->labelRoomName->setText(QString::fromUtf8(room->get_name().c_str()));
+                                        ui->labelRoomIcon->setPixmap(QPixmap(getRoomIcon(room->get_type()).c_str()));
 
-                                break;
+                                        break;
+                                }
                         }
                 }
         }
 
-        ui->labelItemName->setText(QString::fromUtf8(input->get_param("name").c_str()));
+        ui->labelItemName->setText(QString::fromUtf8(io->get_param("name").c_str()));
 
         ui->comboOp->clear();
         ui->comboValue->clear();
@@ -124,18 +155,31 @@ void FormConditionStd::setCondition(QTreeWidgetItem *item, Rule *_rule, Conditio
                 ui->comboOp->setCurrentIndex(5);
 
         if (type == "InputTime" || type == "InputTimer" || type == "WIDigitalBP" ||
-            type == "scenario" || type == "InPlageHoraire" || type == "InternalBool")
+            type == "scenario" || type == "InPlageHoraire" || type == "InternalBool" ||
+            type == "WODigital")
         {
                 ui->comboValue->addItem(QString::fromUtf8("Activé"), QString::fromUtf8("true"));
                 ui->comboValue->addItem(QString::fromUtf8("Désactivé"), QString::fromUtf8("false"));
                 ui->comboValue->addItem(QString::fromUtf8("Les deux"), QString::fromUtf8("changed"));
 
-                if (condition->get_params().get_param(id) == "true")
-                        ui->comboValue->setCurrentIndex(0);
-                else if (condition->get_params().get_param(id) == "false")
-                        ui->comboValue->setCurrentIndex(1);
-                else if (condition->get_params().get_param(id) == "changed")
-                        ui->comboValue->setCurrentIndex(2);
+                if (condition->getType() == COND_STD)
+                {
+                        if (condition->get_params().get_param(id) == "true")
+                                ui->comboValue->setCurrentIndex(0);
+                        else if (condition->get_params().get_param(id) == "false")
+                                ui->comboValue->setCurrentIndex(1);
+                        else if (condition->get_params().get_param(id) == "changed")
+                                ui->comboValue->setCurrentIndex(2);
+                }
+                else
+                {
+                        if (condition->getOutputParam() == "true")
+                                ui->comboValue->setCurrentIndex(0);
+                        else if (condition->getOutputParam() == "false")
+                                ui->comboValue->setCurrentIndex(1);
+                        else if (condition->getOutputParam() == "changed")
+                                ui->comboValue->setCurrentIndex(2);
+                }
         }
         else if (type == "WIDigitalTriple")
         {
@@ -185,6 +229,14 @@ void FormConditionStd::setCondition(QTreeWidgetItem *item, Rule *_rule, Conditio
         }
         else
         {
+                if (condition->getType() == COND_OUTPUT)
+                {
+                        ui->comboValue->addItem(QString::fromUtf8("changed"), QString::fromUtf8("changed"));
+
+                        if (condition->getOutputParam() == "changed")
+                                ui->comboValue->setCurrentIndex(0);
+                }
+
                 ui->comboValue->setEditable(true);
                 QString s = QString::fromUtf8(condition->get_params().get_param(id).c_str());
                 ui->comboValue->lineEdit()->setText(s);
@@ -195,29 +247,59 @@ void FormConditionStd::setCondition(QTreeWidgetItem *item, Rule *_rule, Conditio
 
 void FormConditionStd::on_btMore_clicked()
 {
-        Input *input = NULL;
-        if (condition->get_size() > 0)
-                input = condition->get_input(0);
-
-        if (!input) return;
-
-        string id = input->get_param("id");
-        if (IOBase::isAudioType(input->get_param("type")) ||
-            IOBase::isCameraType(input->get_param("type")))
-                id = input->get_param("iid");
-
-        DialogIOList dio(input, NULL);
-
-        if (dio.exec() == QDialog::Accepted)
+        if (condition->getType() == COND_STD)
         {
-                 string var_id = dio.getInput()->get_param("id");
-                 if (IOBase::isAudioType(dio.getInput()->get_param("type")) ||
-                     IOBase::isCameraType(dio.getInput()->get_param("type")))
-                         var_id = dio.getInput()->get_param("iid");
+                Input *input = NULL;
+                if (condition->get_size() > 0)
+                        input = condition->get_input(0);
 
-                 condition->get_params_var().Add(id, var_id);
+                if (!input) return;
 
-                 FormRules::updateItemCondition(qitem, condition);
+                string id = input->get_param("id");
+                if (IOBase::isAudioType(input->get_param("type")) ||
+                                IOBase::isCameraType(input->get_param("type")))
+                        id = input->get_param("iid");
+
+                DialogIOList dio(input, NULL);
+
+                if (dio.exec() == QDialog::Accepted)
+                {
+                        string var_id = dio.getInput()->get_param("id");
+                        if (IOBase::isAudioType(dio.getInput()->get_param("type")) ||
+                                        IOBase::isCameraType(dio.getInput()->get_param("type")))
+                                var_id = dio.getInput()->get_param("iid");
+
+                        condition->get_params().Add(id, "");
+                        condition->get_params_var().Add(id, var_id);
+
+                        FormRules::updateItemCondition(qitem, condition);
+                }
+        }
+        else
+        {
+                Output *output = condition->getOutput();
+
+                if (!output) return;
+
+                string id = output->get_param("id");
+                if (IOBase::isAudioType(output->get_param("type")) ||
+                                IOBase::isCameraType(output->get_param("type")))
+                        id = output->get_param("iid");
+
+                DialogIOList dio(NULL, output);
+
+                if (dio.exec() == QDialog::Accepted)
+                {
+                        string var_id = dio.getOutput()->get_param("id");
+                        if (IOBase::isAudioType(dio.getOutput()->get_param("type")) ||
+                                        IOBase::isCameraType(dio.getOutput()->get_param("type")))
+                                var_id = dio.getOutput()->get_param("iid");
+
+                        condition->setOutputParamVar(var_id);
+                        condition->setOutputParam("");
+
+                        FormRules::updateItemCondition(qitem, condition);
+                }
         }
 }
 
@@ -226,21 +308,40 @@ void FormConditionStd::on_comboOp_currentIndexChanged(int)
 {
         if (!setDone) return;
 
-        Input *input = NULL;
-        if (condition->get_size() > 0)
-                input = condition->get_input(0);
+        if (condition->getType() == COND_STD)
+        {
+                Input *input = NULL;
+                if (condition->get_size() > 0)
+                        input = condition->get_input(0);
 
-        if (!input) return;
+                if (!input) return;
 
-        string id = input->get_param("id");
-        if (IOBase::isAudioType(input->get_param("type")) ||
-            IOBase::isCameraType(input->get_param("type")))
-                id = input->get_param("iid");
+                string id = input->get_param("id");
+                if (IOBase::isAudioType(input->get_param("type")) ||
+                                IOBase::isCameraType(input->get_param("type")))
+                        id = input->get_param("iid");
 
-        int current = ui->comboOp->currentIndex();
+                int current = ui->comboOp->currentIndex();
 
-        string v = ui->comboOp->itemData(current).toString().toUtf8().constData();
-        condition->get_operator().Add(id, v);
+                string v = ui->comboOp->itemData(current).toString().toUtf8().constData();
+                condition->get_operator().Add(id, v);
+        }
+        else
+        {
+                Output *output = condition->getOutput();
+
+                if (!output) return;
+
+                string id = output->get_param("id");
+                if (IOBase::isAudioType(output->get_param("type")) ||
+                                IOBase::isCameraType(output->get_param("type")))
+                        id = output->get_param("iid");
+
+                int current = ui->comboOp->currentIndex();
+
+                string v = ui->comboOp->itemData(current).toString().toUtf8().constData();
+                condition->setOutputOper(v);
+        }
 
         FormRules::updateItemCondition(qitem, condition);
 }
@@ -249,32 +350,63 @@ void FormConditionStd::on_comboValue_editTextChanged(QString)
 {
         if (!setDone) return;
 
-        Input *input = NULL;
-        if (condition->get_size() > 0)
-                input = condition->get_input(0);
-
-        if (!input) return;
-
-        string id = input->get_param("id");
-        if (IOBase::isAudioType(input->get_param("type")) ||
-            IOBase::isCameraType(input->get_param("type")))
-                id = input->get_param("iid");
-
-        string value;
-        int current = ui->comboValue->currentIndex();
-
-        if (ui->comboValue->isEditable() && current > -1 &&
-            ui->comboValue->itemData(current).isNull())
+        if (condition->getType() == COND_STD)
         {
-                value = ui->comboValue->lineEdit()->text().toUtf8().constData();
+
+                Input *input = NULL;
+                if (condition->get_size() > 0)
+                        input = condition->get_input(0);
+
+                if (!input) return;
+
+                string id = input->get_param("id");
+                if (IOBase::isAudioType(input->get_param("type")) ||
+                                IOBase::isCameraType(input->get_param("type")))
+                        id = input->get_param("iid");
+
+                string value;
+                int current = ui->comboValue->currentIndex();
+
+                if (ui->comboValue->isEditable() && current > -1 &&
+                                ui->comboValue->itemData(current).isNull())
+                {
+                        value = ui->comboValue->lineEdit()->text().toUtf8().constData();
+                }
+                else
+                {
+                        value = ui->comboValue->itemData(current).toString().toUtf8().constData();
+                }
+
+                condition->get_params().Add(id, value);
+                condition->get_params_var().Delete(id);
         }
         else
         {
-                value = ui->comboValue->itemData(current).toString().toUtf8().constData();
-        }
+                Output *output = condition->getOutput();
 
-        condition->get_params().Add(id, value);
-        condition->get_params_var().Delete(id);
+                if (!output) return;
+
+                string id = output->get_param("id");
+                if (IOBase::isAudioType(output->get_param("type")) ||
+                                IOBase::isCameraType(output->get_param("type")))
+                        id = output->get_param("iid");
+
+                string value;
+                int current = ui->comboValue->currentIndex();
+
+                if (ui->comboValue->isEditable() && current > -1 &&
+                                ui->comboValue->itemData(current).isNull())
+                {
+                        value = ui->comboValue->lineEdit()->text().toUtf8().constData();
+                }
+                else
+                {
+                        value = ui->comboValue->itemData(current).toString().toUtf8().constData();
+                }
+
+                condition->setOutputParam(value);
+                condition->setOutputParamVar("");
+        }
 
         FormRules::updateItemCondition(qitem, condition);
 }

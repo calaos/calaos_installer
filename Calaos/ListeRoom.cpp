@@ -91,7 +91,7 @@ int ListeRoom::searchIO(IOBase *io)
                 for (int m = 0;m < rooms[j]->get_size_in();m++)
                 {
                         Input *in = rooms[j]->get_input(m);
-                        if (in == io)
+                        if (in == dynamic_cast<Input *>(io))
                         {
                                 return j;
                         }
@@ -100,7 +100,7 @@ int ListeRoom::searchIO(IOBase *io)
                 for (int m = 0;m < rooms[j]->get_size_out();m++)
                 {
                         Output *out = rooms[j]->get_output(m);
-                        if (out == io)
+                        if (out == dynamic_cast<Output *>(io))
                         {
                                 return j;
                         }

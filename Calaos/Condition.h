@@ -27,7 +27,7 @@
 namespace Calaos
 {
 
-enum { COND_UNKONWN = 0, COND_STD, COND_START, COND_SCRIPT };
+enum { COND_UNKONWN = 0, COND_STD, COND_START, COND_SCRIPT, COND_OUTPUT };
 
 class Condition
 {
@@ -46,6 +46,10 @@ class Condition
                 //These are declared inputs that will trigger the rule execution
                 //Most generaly, inputs are those used in the script
                 vector<Input *> in_event;
+
+                //Output condition
+                Output *output;
+                string output_param, output_param_var, output_oper;
 
         public:
                 Condition(int ctype): condition_type(ctype)
@@ -80,6 +84,17 @@ class Condition
                 string getScript() { return script; }
                 void setScript(string s) { script = s; }
                 /*-- Script Condition --*/
+
+                /*-- Output Condition --*/
+                Output *getOutput() { return output; }
+                void setOutput(Output *o) { output = o; }
+                string getOutputParam() { return output_param; }
+                void setOutputParam(string param) { output_param = param; }
+                string getOutputOper() { return output_oper; }
+                void setOutputOper(string p) { output_oper = p; }
+                string getOutputParamVar() { return output_param_var; }
+                void setOutputParamVar(string param) { output_param_var = param; }
+                /*-- Output Condition --*/
 
 };
 

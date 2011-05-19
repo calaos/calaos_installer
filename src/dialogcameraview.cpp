@@ -65,6 +65,7 @@ void DialogCameraView::DownloadPicture()
                 u = camera->get_param("url_jpeg");
         }
 
+        qDebug() << u.c_str();
         QUrl url(u.c_str());
 
         http = new QHttp(this);

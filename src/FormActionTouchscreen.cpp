@@ -56,4 +56,6 @@ void FormActionTouchscreen::on_editAction_textChanged(QString text)
         if (!setDone) return;
 
         action->setTouchscreenAction(text.toUtf8().data());
+
+        FormRules::updateItemAction(qitem, action);
 }

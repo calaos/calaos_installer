@@ -1,5 +1,6 @@
 #include "actiontreewidget.h"
 #include "mainwindow.h"
+#include "TwoLineItemDelegate.h"
 #include <ListeRoom.h>
 
 ActionTreeWidget::ActionTreeWidget(QWidget *parent):
@@ -7,6 +8,8 @@ ActionTreeWidget::ActionTreeWidget(QWidget *parent):
 {
         setAcceptDrops(true);
         setDragEnabled(false);
+
+        setItemDelegate(new TwoLineItemDelegate());
 }
 
 bool ActionTreeWidget::dropMimeData(QTreeWidgetItem *, int, const QMimeData *data, Qt::DropAction)

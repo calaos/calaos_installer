@@ -1,6 +1,7 @@
 #include "formrules.h"
 #include "ui_formrules.h"
 
+#include "TwoLineItemDelegate.h"
 #include "mainwindow.h"
 
 FormRules::FormRules(QWidget *parent) :
@@ -108,6 +109,11 @@ FormRules::FormRules(QWidget *parent) :
         sig->setMapping(action, COND_STD);
         connect(action, SIGNAL(triggered()), sig, SLOT(map()));
 
+        action = addConditionMenu->addAction(QString::fromUtf8("Condition sur sortie"));
+        action->setIcon(QIcon(":/img/icon_rule_out.png"));
+        sig->setMapping(action, COND_OUTPUT);
+        connect(action, SIGNAL(triggered()), sig, SLOT(map()));
+
         action = addConditionMenu->addAction(QString::fromUtf8("Condition au démarage"));
         action->setIcon(QIcon(":/img/icon_rule_start.png"));
         sig->setMapping(action, COND_START);
@@ -180,6 +186,19 @@ void FormRules::PopulateRoomsTree()
         QStringList headers;
         headers << QString::fromUtf8("Maison");
         ui->tree_home->setHeaderLabels(headers);
+
+        ui->tree_condition->header()->setMovable(false);
+        ui->tree_condition->header()->resizeSection(0, 240);
+        ui->tree_condition->header()->resizeSection(1, 100);
+        ui->tree_condition->header()->resizeSection(2, 240);
+
+        ui->tree_action->header()->setMovable(false);
+        ui->tree_action->header()->resizeSection(0, 240);
+        ui->tree_action->header()->resizeSection(1, 240);
+
+        ui->tree_rules->header()->setMovable(false);
+        ui->tree_rules->header()->resizeSection(0, 200);
+        ui->tree_rules->header()->resizeSection(1, 200);
 
         for (int i = 0;i < ListeRoom::Instance().size();i++)
         {
@@ -721,6 +740,7 @@ void FormRules::updateItemCondition(QTreeWidgetItem *item, Condition *condition)
         if (condition->getType() == COND_STD)
         {
                 string name, oper, value;
+                bool isParamValue = false;
 
                 Input *input = NULL;
                 if (condition->get_size() > 0)
@@ -746,7 +766,16 @@ void FormRules::updateItemCondition(QTreeWidgetItem *item, Condition *condition)
                         Input *in = ListeRoom::Instance().get_input(var_id);
                         if (in)
                         {
-                                value = in->get_param("name");
+                                value = "";
+
+                                int r = ListeRoom::Instance().searchIO(dynamic_cast<IOBase *>(in));
+                                string room_name;
+                                if (r >= 0) room_name = ListeRoom::Instance().get_room(r)->get_name();
+
+                                item->setData(2, TwoLineItemDelegate::headerTextRole, QString::fromUtf8(in->get_param("name").c_str()));
+                                item->setData(2, TwoLineItemDelegate::subHeaderTextRole, QString::fromUtf8(room_name.c_str()));
+
+                                isParamValue = true;
                         }
                         else
                         {
@@ -758,13 +787,23 @@ void FormRules::updateItemCondition(QTreeWidgetItem *item, Condition *condition)
                 else
                         value = condition->get_params().get_param(id);
 
-                item->setData(0, Qt::DisplayRole, QString::fromUtf8(name.c_str()));
                 item->setData(1, Qt::DisplayRole, QString::fromUtf8(oper.c_str()));
-                item->setData(2, Qt::DisplayRole, QString::fromUtf8(value.c_str()));
+
+                if (!isParamValue)
+                {
+                        item->setData(2, Qt::DisplayRole, QString::fromUtf8(value.c_str()));
+
+                        item->setData(2, TwoLineItemDelegate::headerTextRole, QVariant());
+                        item->setData(2, TwoLineItemDelegate::subHeaderTextRole, QVariant());
+                }
 
                 int r = ListeRoom::Instance().searchIO(dynamic_cast<IOBase *>(input));
                 string room_name;
                 if (r >= 0) room_name = ListeRoom::Instance().get_room(r)->get_name();
+
+                item->setData(0, TwoLineItemDelegate::headerTextRole, QString::fromUtf8(name.c_str()));
+                item->setData(0, TwoLineItemDelegate::subHeaderTextRole, QString::fromUtf8(room_name.c_str()));
+
                 QString s = "Input: " + QString::fromUtf8(input->get_param("type").c_str()) + " - " + QString::fromUtf8(room_name.c_str());
                 item->setData(0, Qt::ToolTipRole, s);
                 item->setData(0, Qt::StatusTipRole, s);
@@ -777,6 +816,85 @@ void FormRules::updateItemCondition(QTreeWidgetItem *item, Condition *condition)
                 item->setSizeHint(0, QSize(0, 25));
 
                 item->setData(0, Qt::DecorationRole, QIcon(":/img/icon_rule.png"));
+        }
+        if (condition->getType() == COND_OUTPUT)
+        {
+                string name, oper, value;
+                bool isParamValue = false;
+
+                Output *output = condition->getOutput();
+                if (!output) return;
+
+                string id = output->get_param("id");
+                if (IOBase::isAudioType(output->get_param("type")) ||
+                    IOBase::isCameraType(output->get_param("type")))
+                        id = output->get_param("iid");
+
+                name = output->get_param("name");
+                oper = condition->getOutputOper();
+
+                if (oper == "INF") oper = "<";
+                if (oper == "INF=") oper = "<=";
+                if (oper == "SUP") oper = ">";
+                if (oper == "SUP=") oper = ">=";
+
+                if (condition->getOutputParamVar() != "")
+                {
+                        string var_id = condition->getOutputParamVar();
+                        Output *out = ListeRoom::Instance().get_output(var_id);
+                        if (out)
+                        {
+                                value = "";
+
+                                int r = ListeRoom::Instance().searchIO(dynamic_cast<IOBase *>(out));
+                                string room_name;
+                                if (r >= 0) room_name = ListeRoom::Instance().get_room(r)->get_name();
+
+                                item->setData(2, TwoLineItemDelegate::headerTextRole, QString::fromUtf8(out->get_param("name").c_str()));
+                                item->setData(2, TwoLineItemDelegate::subHeaderTextRole, QString::fromUtf8(room_name.c_str()));
+
+                                isParamValue = true;
+                        }
+                        else
+                        {
+                                /* Wrong param_var, remove it */
+                                value = condition->getOutputParam();
+                                condition->setOutputParamVar("");
+                        }
+                }
+                else
+                        value = condition->getOutputParam();
+
+
+                item->setData(1, Qt::DisplayRole, QString::fromUtf8(oper.c_str()));
+
+                if (!isParamValue)
+                {
+                        item->setData(2, Qt::DisplayRole, QString::fromUtf8(value.c_str()));
+
+                        item->setData(2, TwoLineItemDelegate::headerTextRole, QVariant());
+                        item->setData(2, TwoLineItemDelegate::subHeaderTextRole, QVariant());
+                }
+
+                int r = ListeRoom::Instance().searchIO(dynamic_cast<IOBase *>(output));
+                string room_name;
+                if (r >= 0) room_name = ListeRoom::Instance().get_room(r)->get_name();
+
+                item->setData(0, TwoLineItemDelegate::headerTextRole, QString::fromUtf8(name.c_str()));
+                item->setData(0, TwoLineItemDelegate::subHeaderTextRole, QString::fromUtf8(room_name.c_str()));
+
+                QString s = "Input: " + QString::fromUtf8(output->get_param("type").c_str()) + " - " + QString::fromUtf8(room_name.c_str());
+                item->setData(0, Qt::ToolTipRole, s);
+                item->setData(0, Qt::StatusTipRole, s);
+                item->setData(1, Qt::ToolTipRole, s);
+                item->setData(1, Qt::StatusTipRole, s);
+                item->setData(2, Qt::ToolTipRole, s);
+                item->setData(2, Qt::StatusTipRole, s);
+
+                item->setFlags(item->flags() | Qt::ItemIsEditable);
+                item->setSizeHint(0, QSize(0, 25));
+
+                item->setData(0, Qt::DecorationRole, QIcon(":/img/icon_rule_out.png"));
         }
         else if (condition->getType() == COND_START)
         {
@@ -811,6 +929,7 @@ void FormRules::updateItemAction(QTreeWidgetItem *item, Action *action)
         if (action->getType() == ACTION_STD)
         {
                 string name, value;
+                bool isParamValue = false;
 
                 Output *output = NULL;
                 if (action->get_size() > 0)
@@ -831,7 +950,16 @@ void FormRules::updateItemAction(QTreeWidgetItem *item, Action *action)
                         Output *out = ListeRoom::Instance().get_output(var_id);
                         if (out)
                         {
-                                value = out->get_param("name");
+                                value = "";
+
+                                int r = ListeRoom::Instance().searchIO(dynamic_cast<IOBase *>(out));
+                                string room_name;
+                                if (r >= 0) room_name = ListeRoom::Instance().get_room(r)->get_name();
+
+                                item->setData(1, TwoLineItemDelegate::headerTextRole, QString::fromUtf8(out->get_param("name").c_str()));
+                                item->setData(1, TwoLineItemDelegate::subHeaderTextRole, QString::fromUtf8(room_name.c_str()));
+
+                                isParamValue = true;
                         }
                         else
                         {
@@ -843,12 +971,21 @@ void FormRules::updateItemAction(QTreeWidgetItem *item, Action *action)
                 else
                         value = action->get_params().get_param(id);
 
-                item->setData(0, Qt::DisplayRole, QString::fromUtf8(name.c_str()));
-                item->setData(1, Qt::DisplayRole, QString::fromUtf8(value.c_str()));
+                if (!isParamValue)
+                {
+                        item->setData(1, Qt::DisplayRole, QString::fromUtf8(value.c_str()));
+
+                        item->setData(1, TwoLineItemDelegate::headerTextRole, QVariant());
+                        item->setData(1, TwoLineItemDelegate::subHeaderTextRole, QVariant());
+                }
 
                 int r = ListeRoom::Instance().searchIO(dynamic_cast<IOBase *>(output));
                 string room_name;
-                if (r > 0) room_name = ListeRoom::Instance().get_room(r)->get_name();
+                if (r >= 0) room_name = ListeRoom::Instance().get_room(r)->get_name();
+
+                item->setData(0, TwoLineItemDelegate::headerTextRole, QString::fromUtf8(name.c_str()));
+                item->setData(0, TwoLineItemDelegate::subHeaderTextRole, QString::fromUtf8(room_name.c_str()));
+
                 QString s = "Output: " + QString::fromUtf8(output->get_param("type").c_str()) + " - " + QString::fromUtf8(room_name.c_str());
                 item->setData(0, Qt::ToolTipRole, s);
                 item->setData(0, Qt::StatusTipRole, s);
@@ -2033,6 +2170,7 @@ void FormRules::on_tree_condition_itemClicked(QTreeWidgetItem* item, int column)
         switch (cond->getType())
         {
         case COND_STD:
+        case COND_OUTPUT:
                 {
                         popupConditionStd->setCondition(item, rule, cond);
                         popupConditionStd->layout()->update();
@@ -2204,10 +2342,42 @@ void FormRules::addCondition(int type)
 
                 if (input->get_param("type") == "WIDigitalBP" || input->get_param("type") == "InputTime" ||
                     input->get_param("type") == "InputTimer" || input->get_param("type") == "Scenario" ||
-                    input->get_param("type") == "scenario" || input->get_param("type") == "InPlageHoraire")
+                    input->get_param("type") == "scenario" || input->get_param("type") == "InPlageHoraire" ||
+                    input->get_param("type") == "InternalBool")
                       cond->get_params().Add(id, "true");
                 else if (input->get_param("type") == "WIDigitalTriple")
                       cond->get_params().Add(id, "1");
+
+                rule->AddCondition(cond);
+
+                addItemCondition(cond, true, true);
+
+                setProjectModified(true);
+        }
+        if (type == COND_OUTPUT)
+        {
+                QTreeWidgetItemOutput *initem = dynamic_cast<QTreeWidgetItemOutput *>(ui->tree_home->currentItem());
+                if (!initem)
+                {
+                        QMessageBox::warning(this, tr("Calaos Installer"), QString::fromUtf8("Vous devez sélectionner une sortie."));
+                        return;
+                }
+
+                Output *output = initem->getOutput();
+                if (!output) return;
+
+                string id = output->get_param("id");
+                if (IOBase::isAudioType(output->get_param("type")) ||
+                    IOBase::isCameraType(output->get_param("type")))
+                        id = output->get_param("iid");
+
+                Rule *rule = getCurrentRule();
+                if (!rule) return;
+
+                Condition *cond = new Condition(COND_OUTPUT);
+                cond->setOutput(output);
+                cond->setOutputOper("==");
+                cond->setOutputParam("changed");
 
                 rule->AddCondition(cond);
 
