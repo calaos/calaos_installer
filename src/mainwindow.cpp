@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "version.h"
 
 MainWindow::MainWindow(QWidget *parent):
     QMainWindow(parent), ui(new Ui::MainWindow),
@@ -10,6 +11,9 @@ MainWindow::MainWindow(QWidget *parent):
         ui->setupUi(this);
 
         ShowPage(PAGE_PROG);
+
+        //Set version info
+        ui->textEditAbout->setHtml(ui->textEditAbout->toHtml().arg(calaos_installer_version));
 
         //Add toolbar
         ui->toolBar->addAction(ui->actionNouveau_projet);

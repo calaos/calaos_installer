@@ -191,7 +191,8 @@ HEADERS += src/mainwindow.h \
     src/json.h \
     src/TempWizard.h \
     src/dialognewanalog.h \
-    src/TwoLineItemDelegate.h
+    src/TwoLineItemDelegate.h \
+    src/version.h
 FORMS += data/mainwindow.ui \
     data/dialognewroom.ui \
     data/dialognewwago.ui \

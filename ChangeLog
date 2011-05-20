@@ -1,6 +1,6 @@
 11-04-2011  Raoul Hecky
 
-        1.1 release
+        * 1.1 release
 
 15-04-2011  Raoul Hecky
 
@@ -15,4 +15,9 @@
         * Ajout des conditions sur les sorties
         * Ajout du nom des pièces dans les listes de conditions et d'actions
         * Correction de bugs divers
+
+20-05-2011  Raoul Hecky
+
+        * Ajout de version
+        * 1.2 release
 
