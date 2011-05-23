@@ -72,6 +72,10 @@ void WagoUploader::createConfig()
                         from_string(input->get_param("var"), wcommand.input);
                 }
 
+                //Check if this is the same Wago as the one we are connected to
+                if (input->get_param("host") != wago_ip.toUtf8().data())
+                        continue;
+
                 /* Get the output */
                 Output *output = NULL;
                 string val;
@@ -89,6 +93,9 @@ void WagoUploader::createConfig()
                         break;
                 }
                 if (output == NULL) continue;
+
+                if (output->get_param("host") != wago_ip.toUtf8().data())
+                        continue;
 
                 if (output->get_param("type") == "WODali")
                 {
