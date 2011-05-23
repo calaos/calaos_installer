@@ -21,3 +21,7 @@
         * Ajout de version
         * 1.2 release
 
+23-05-2011  Raoul Hecky
+
+        * Correction d'un bug lors de l'utilisation de plusieurs automates
+
