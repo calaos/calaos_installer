@@ -58,6 +58,9 @@ void DialogNewAudio::on_pushButton_clicked()
         {
                 Squeezebox *sq = d.getSelectedDevice();
 
+		if (!sq) 
+			return;
+
                 ui->edit_ip->setText(sq->server);
                 ui->edit_mac->setText(sq->id);
                 ui->edit_name->setText(sq->name);
