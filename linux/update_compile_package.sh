@@ -38,25 +38,25 @@ strip calaos_installer_$VERSION/.calaos_installer.bin calaos_installer_$VERSION/
 
 cat > calaos_installer_$VERSION/calaos_installer << "EOF"
 #!/bin/sh
-link=`readlink $0`
+link=`readlink "$0"`
 
 if [ "${link}x" = "x"  ]; then
-    dirname=`dirname $0`   
+    dirname=`dirname "$0"`   
 else
-    dirname=`dirname $0`/`dirname $link`
+    dirname=`dirname "$0"`/`dirname "$link"`
 fi
 
-app=`basename $0`
+app=`basename "$0"`
 
 tmp="${dirname#?}"
 if [ "${dirname%$tmp}" != "/" ]; then
-    dirname=$PWD/$dirname
+    dirname="$PWD/$dirname"
 fi
-LD_LIBRARY_PATH=$dirname/.lib
-QT_PLUGIN_PATH=$dirname
+LD_LIBRARY_PATH="$dirname/.lib"
+QT_PLUGIN_PATH="$dirname"
 export LD_LIBRARY_PATH
 export QT_PLUGIN_PATH
-$dirname/.$app.bin "$@"
+"$dirname/.$app.bin" "$@"
 EOF
 
 chmod +x calaos_installer_$VERSION/calaos_installer
