@@ -333,14 +333,17 @@ p, li { white-space: pre-wrap; }
       <height>28</height>
      </rect>
     </property>
+    <property name="maximum">
+     <number>9999</number>
+    </property>
    </widget>
    <widget class="QLabel" name="label_time_down">
     <property name="geometry">
      <rect>
-      <x>70</x>
+      <x>19</x>
       <y>222</y>
-      <width>210</width>
-      <height>18</height>
+      <width>261</width>
+      <height>20</height>
      </rect>
     </property>
     <property name="text">
@@ -359,14 +362,17 @@ p, li { white-space: pre-wrap; }
       <height>28</height>
      </rect>
     </property>
+    <property name="maximum">
+     <number>9999</number>
+    </property>
    </widget>
    <widget class="QLabel" name="label_time_up">
     <property name="geometry">
      <rect>
-      <x>70</x>
+      <x>19</x>
       <y>186</y>
-      <width>210</width>
-      <height>18</height>
+      <width>261</width>
+      <height>20</height>
      </rect>
     </property>
     <property name="text">
