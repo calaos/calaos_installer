@@ -25,3 +25,8 @@
 
         * Correction d'un bug lors de l'utilisation de plusieurs automates
 
+30-06-2011  Raoul Hecky
+
+        * Correction d'un bug d'affichage lors de la suppression d'une condition/action
+        * Changement de la valeur maximum du temps d'un volet. La valeur max etait de 99s.
+
