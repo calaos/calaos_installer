@@ -2499,7 +2499,7 @@ void FormRules::deleteItemCondition()
 
         QMessageBox::StandardButton reply;
         reply = QMessageBox::question(this, tr("Calaos Installer"),
-                              QString::fromUtf8("Etes vous sûr de vouloir supprimer l'élément \"%1\"").arg(treeItem_condition->text(0)),
+                              QString::fromUtf8("Etes vous sûr de vouloir supprimer l'élément \"%1\"").arg(treeItem_condition->data(0, TwoLineItemDelegate::headerTextRole).toString()),
                               QMessageBox::Yes | QMessageBox::No);
 
         if (reply != QMessageBox::Yes)
@@ -2528,7 +2528,7 @@ void FormRules::deleteItemAction()
 
         QMessageBox::StandardButton reply;
         reply = QMessageBox::question(this, tr("Calaos Installer"),
-                              QString::fromUtf8("Etes vous sûr de vouloir supprimer l'élément \"%1\"").arg(treeItem_action->text(0)),
+                              QString::fromUtf8("Etes vous sûr de vouloir supprimer l'élément \"%1\"").arg(treeItem_action->data(0, TwoLineItemDelegate::headerTextRole).toString()),
                               QMessageBox::Yes | QMessageBox::No);
 
         if (reply != QMessageBox::Yes)
