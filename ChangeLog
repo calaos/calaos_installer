@@ -33,3 +33,4 @@
 01-07-2011  Raoul Hecky
 
         * Correction des problemes lors du Drag'n Drop des IO dans la maison.
+        * Sauvegarde des parametres de connections.

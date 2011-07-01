@@ -6,6 +6,10 @@ int main(int argc, char *argv[])
 {
         QApplication a(argc, argv);
 
+        QCoreApplication::setOrganizationName("Calaos");
+        QCoreApplication::setOrganizationDomain("calaos.fr");
+        QCoreApplication::setApplicationName("CalaosInstaller");
+
         QStringList p;
         p << QCoreApplication::applicationDirPath();
         QCoreApplication::setLibraryPaths(p);

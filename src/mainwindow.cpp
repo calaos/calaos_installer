@@ -1,12 +1,14 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "version.h"
+#include "ConfigOptions.h"
 
 MainWindow::MainWindow(QWidget *parent):
-    QMainWindow(parent), ui(new Ui::MainWindow),
-    wuploader(parent),
-    messageBox(QMessageBox::Information, tr("Calaos Installer"), ""),
-    teditor(this)
+        QMainWindow(parent),
+        ui(new Ui::MainWindow),
+        wuploader(parent),
+        messageBox(QMessageBox::Information, tr("Calaos Installer"), ""),
+        teditor(this)
 {
         ui->setupUi(this);
 
@@ -76,8 +78,23 @@ MainWindow::MainWindow(QWidget *parent):
         }
         else
         {
-                on_actionNouveau_projet_triggered();
+                if (ConfigOptions::Instance().optionExists("MainWindow/last_project"))
+                {
+                        QString last_project = ConfigOptions::Instance().getOption("MainWindow/last_project").toString();
+
+                        if (!project_path.contains(tempDir.path()))
+                                Load(last_project);
+                }
+                else
+                {
+                        on_actionNouveau_projet_triggered();
+                }
         }
+
+        if (ConfigOptions::Instance().optionExists("MainWindow/size"))
+                resize(ConfigOptions::Instance().getOption("MainWindow/size").toSize());
+        if (ConfigOptions::Instance().optionExists("MainWindow/pos"))
+                move(ConfigOptions::Instance().getOption("MainWindow/pos").toPoint());
 }
 
 MainWindow::~MainWindow()
@@ -140,6 +157,14 @@ void MainWindow::closeEvent(QCloseEvent *event)
 
                 event->accept();
         }
+
+        ConfigOptions::Instance().setOption("MainWindow/size", size());
+        ConfigOptions::Instance().setOption("MainWindow/pos", pos());
+
+        if (!project_path.contains(tempDir.path()))
+                ConfigOptions::Instance().setOption("MainWindow/last_project", project_path);
+
+        ConfigOptions::Instance().saveConfig();
 }
 
 void MainWindow::on_actionSauvegarder_un_projet_triggered()
