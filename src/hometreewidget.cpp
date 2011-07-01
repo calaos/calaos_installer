@@ -24,44 +24,28 @@ bool HomeTreeWidget::dropMimeData(QTreeWidgetItem *parent, int, const QMimeData 
                 info.setFile( fName );
 
                 string id = info.fileName().toUtf8().data();
-                
+
                 if (parent != NULL)
                 {
                         QTreeWidgetItemRoom *pitem = dynamic_cast<QTreeWidgetItemRoom *>(parent);
-                        if (pitem)
+
+                        if (!pitem) //search the parent room if we drop on IOs
                         {
-                                Input *input = ListeRoom::Instance().get_input(id);
-                                if (input)
+                                QTreeWidgetItemInput *oitem = dynamic_cast<QTreeWidgetItemInput *>(parent);
+                                if (oitem)
                                 {
-                                        int _i = ListeRoom::Instance().searchIO(input);
-                                        if (_i < 0) return false;
-                                        Room *old_room = ListeRoom::Instance().get_room(_i);
-
-                                        if (pitem->getRoom() == old_room) return false;
-
-                                        //delete old item
-                                        old_room->RemoveInput(input);
-
-                                        QTreeWidgetItemIterator it(this);
-                                        while (*it)
-                                        {
-                                                QTreeWidgetItemInput *item = dynamic_cast<QTreeWidgetItemInput *>(*it);
-                                                if (item && item->getInput() == input)
-                                                {
-                                                        delete item;
-                                                        break;
-                                                }
-                                                ++it;
-                                        }
-
-                                        //create new item
-                                        MainWindow *win = dynamic_cast<MainWindow *>(QApplication::activeWindow());
-                                        win->getFormRules()->addItemInput(input, pitem);
-                                        pitem->getRoom()->AddInput(input);
-
-                                        return true;
+                                        pitem = dynamic_cast<QTreeWidgetItemRoom *>(oitem->parent());
                                 }
 
+                                QTreeWidgetItemOutput *iitem = dynamic_cast<QTreeWidgetItemOutput *>(parent);
+                                if (iitem && !pitem)
+                                {
+                                        pitem = dynamic_cast<QTreeWidgetItemRoom *>(iitem->parent());
+                                }
+                        }
+
+                        if (pitem)
+                        {
                                 Output *output = ListeRoom::Instance().get_output(id);
                                 if (output)
                                 {
@@ -92,11 +76,51 @@ bool HomeTreeWidget::dropMimeData(QTreeWidgetItem *parent, int, const QMimeData 
 
                                         return true;
                                 }
+
+                                Input *input = ListeRoom::Instance().get_input(id);
+                                if (input)
+                                {
+                                        int _i = ListeRoom::Instance().searchIO(input);
+                                        if (_i < 0) return false;
+                                        Room *old_room = ListeRoom::Instance().get_room(_i);
+
+                                        if (pitem->getRoom() == old_room) return false;
+
+                                        //delete old item
+                                        old_room->RemoveInput(input);
+                                        Output *output = dynamic_cast<Output *>(input);
+
+                                        QTreeWidgetItemIterator it(this);
+                                        while (*it)
+                                        {
+                                                QTreeWidgetItemInput *item = dynamic_cast<QTreeWidgetItemInput *>(*it);
+                                                if (item && item->getInput() == input)
+                                                {
+                                                        delete item;
+                                                        break;
+                                                }
+
+                                                /*QTreeWidgetItemOutput *oitem = dynamic_cast<QTreeWidgetItemOutput *>(*it);
+                                                if (oitem && oitem->getOutput() == output)
+                                                {
+                                                        delete oitem;
+                                                        //break;
+                                                }*/
+                                                ++it;
+                                        }
+
+                                        //create new item
+                                        MainWindow *win = dynamic_cast<MainWindow *>(QApplication::activeWindow());
+                                        win->getFormRules()->addItemInput(input, pitem);
+                                        pitem->getRoom()->AddInput(input);
+
+                                        return true;
+                                }
                         }
-                }             
+                }
         }
 
-        return true;
+        return false;
 }
 
 QStringList HomeTreeWidget::mimeTypes () const
@@ -159,6 +183,8 @@ void HomeTreeWidget::mouseMoveEvent(QMouseEvent *event)
 
                 // start drag
                 drag->start(Qt::CopyAction | Qt::MoveAction);
+
+                return;
         }
 
         QTreeWidgetItemOutput *itoutput = dynamic_cast<QTreeWidgetItemOutput *>(currentItem());
@@ -181,5 +207,7 @@ void HomeTreeWidget::mouseMoveEvent(QMouseEvent *event)
 
                 // start drag
                 drag->start(Qt::CopyAction | Qt::MoveAction);
+
+                return;
         }
 }

@@ -57,6 +57,10 @@ void Room::RemoveInput(int pos, bool del)
 //-----------------------------------------------------------------------------
 void Room::RemoveInput(Input *input)
 {
+        Output *o = dynamic_cast<Output *>(input);
+        if (o)
+                outputs.erase(std::remove( outputs.begin(), outputs.end(), o) , outputs.end());
+
         inputs.erase(std::remove( inputs.begin(), inputs.end(), input) , inputs.end());
 }
 //-----------------------------------------------------------------------------
@@ -70,6 +74,10 @@ void Room::RemoveOutput(int pos, bool del)
 //-----------------------------------------------------------------------------
 void Room::RemoveOutput(Output *output)
 {
+        Input *o = dynamic_cast<Input *>(output);
+        if (o)
+                inputs.erase(std::remove( inputs.begin(), inputs.end(), o) , inputs.end());;
+
         outputs.erase(std::remove( outputs.begin(), outputs.end(), output) , outputs.end());
 }
 //-----------------------------------------------------------------------------

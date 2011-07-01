@@ -30,3 +30,6 @@
         * Correction d'un bug d'affichage lors de la suppression d'une condition/action
         * Changement de la valeur maximum du temps d'un volet. La valeur max etait de 99s.
 
+01-07-2011  Raoul Hecky
+
+        * Correction des problemes lors du Drag'n Drop des IO dans la maison.
