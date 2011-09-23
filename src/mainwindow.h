@@ -69,7 +69,7 @@ class MainWindow : public QMainWindow
 
                 void wagoConnected(QString &ip, bool proxy);
                 void wagoDisconnected();
-                void wagoUpdateNeeded(QString &version);
+                void wagoUpdateNeeded(QString version, QString new_version);
                 void wagoError(int error);
 
                 void projectChanged(bool changed);
@@ -94,6 +94,7 @@ class MainWindow : public QMainWindow
                 void closeDaliForm_clicked();
                 void on_actionPar_pi_ce_triggered();
                 void on_actionPar_Entr_es_Sorties_triggered();
+                void on_actionMise_jour_Automate_triggered();
 };
 
 #endif // MAINWINDOW_H

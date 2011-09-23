@@ -4,10 +4,14 @@
 #include <QObject>
 #include <QtNetwork>
 #include <QtGui>
+#include "WagoModbus.h"
 
 #include "detectip.h"
+#include "DialogWagoFirmwareUpdate.h"
 
-#define WAGO_FW_VESION          "1.9"
+#define WAGO_FW_VESION_842          "1.9"
+#define WAGO_FW_VESION_841          "2.1"
+#define WAGO_FW_VESION_849          "2.1"
 
 enum { WAGO_CONNECTED, WAGO_DISCONNECTED };
 enum { WERROR_NOERROR, WERROR_CONNECT_FAILED, WERROR_NOTCONNECTED, WERROR_TIMEOUT };
@@ -69,6 +73,12 @@ class WagoConnect : public QObject
 
                 WagoConnect(QObject *parent = NULL);
 
+                WagoModbus *modbus;
+                DialogWagoFirmwareUpdate *dialogUpdate;
+
+                void getWagoTypeModbus(); //Retrieve wago type from modbus cmd
+                void ResetWago();
+
         public:
                 static WagoConnect &Instance()
                 {
@@ -120,6 +130,11 @@ class WagoConnect : public QObject
                 void setUsername(QString user) { calaos_user = user; }
                 void setPassword(QString pass) { calaos_password = pass; }
 
+                /*
+                 * Start the update process, upload via FTP the last calaos fw. (Not for 842)
+                 */
+                void updateWago();
+
                 void emitErrorNotConnectedSignal()
                         {
                                 emit error(WERROR_NOTCONNECTED);
@@ -141,7 +156,7 @@ class WagoConnect : public QObject
                  * Signal emited when the firmware revision on the wago device needs
                  * to be updated.
                  */
-                void updateNeeded(QString &version);
+                void updateNeeded(QString version, QString new_version);
 
                 /*
                  * Signal emited when <command> command is sent to device
@@ -165,6 +180,11 @@ class WagoConnect : public QObject
                 void heartbeatTick();
 
                 void heartbeat_cb(QString command, QString response);
+
+                void modbusResetDone(bool success, Modbus &result);
+                void modbusTypeDone(bool success, Modbus &result);
+
+                void updateWagoDone();
 };
 
 #endif // WAGOCONNECT_H

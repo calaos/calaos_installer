@@ -99,7 +99,9 @@ SOURCES += src/main.cpp \
     src/json.cpp \
     src/TempWizard.cpp \
     src/dialognewanalog.cpp \
-    src/TwoLineItemDelegate.cpp
+    src/TwoLineItemDelegate.cpp \
+    src/WagoModbus.cpp \
+    src/DialogWagoFirmwareUpdate.cpp
 HEADERS += src/mainwindow.h \
     ../calaos_common/Utils.h \
     ../calaos_common/base64.h \
@@ -192,7 +194,9 @@ HEADERS += src/mainwindow.h \
     src/TempWizard.h \
     src/dialognewanalog.h \
     src/TwoLineItemDelegate.h \
-    src/version.h
+    src/version.h \
+    src/WagoModbus.h \
+    src/DialogWagoFirmwareUpdate.h
 FORMS += data/mainwindow.ui \
     data/dialognewroom.ui \
     data/dialognewwago.ui \
@@ -228,9 +232,11 @@ FORMS += data/mainwindow.ui \
     data/FormActionTouchscreen.ui \
     data/FormConditionScript.ui \
     data/DialogInputEventScript.ui \
-    data/dialognewanalog.ui
+    data/dialognewanalog.ui \
+    data/DialogWagoFirmwareUpdate.ui
 RESOURCES += data/resources.qrc \
-    data/textedit.qrc
+    data/textedit.qrc \
+    data/wago_firmwares.qrc
 INCLUDEPATH += ../calaos_common/ \
     ../calaos_common/LuaScript \
     ../calaos_common/LuaScript/lua-5.1.4/src/ \
@@ -239,3 +245,9 @@ INCLUDEPATH += ../calaos_common/ \
     src/
 DEFINES += CALAOS_INSTALLER
 OTHER_FILES +=
+
+
+
+
+
+

@@ -32,7 +32,7 @@ MainWindow::MainWindow(QWidget *parent):
         //WagoConnect
         connect(&WagoConnect::Instance(), SIGNAL(connected(QString&,bool)), this, SLOT(wagoConnected(QString&,bool)));
         connect(&WagoConnect::Instance(), SIGNAL(disconnected()), this, SLOT(wagoDisconnected()));
-        connect(&WagoConnect::Instance(), SIGNAL(updateNeeded(QString&)), this, SLOT(wagoUpdateNeeded(QString&)));
+        connect(&WagoConnect::Instance(), SIGNAL(updateNeeded(QString,QString)), this, SLOT(wagoUpdateNeeded(QString,QString)));
         connect(&WagoConnect::Instance(), SIGNAL(error(int)), this, SLOT(wagoError(int)));
 
         buttonStopProcess = new QPushButton(QIcon(":/img/process-stop_16x16.png"), "", this);
@@ -400,10 +400,24 @@ void MainWindow::wagoDisconnected()
         statusConnectIcon->setPixmap(QPixmap(":/img/user-invisible_16x16.png"));
 }
 
-void MainWindow::wagoUpdateNeeded(QString &version)
+void MainWindow::wagoUpdateNeeded(QString version, QString new_version)
 {
-        messageBox.setText(QString::fromUtf8("L'automate doit être mis à jour.\n\nIl est actuellement en version %1, la dernière version est la %2.").arg(version, WAGO_FW_VESION));
-        messageBox.show();
+        if (WagoConnect::Instance().getWagoType() == "750-841" ||
+            WagoConnect::Instance().getWagoType() == "750-849")
+        {
+                if (QMessageBox::question(NULL, tr("Calaos Installer"),
+                                      QString::fromUtf8("L'automate doit être mis à jour.\n\nIl est actuellement en version %1, la dernière version est la %2.\nVous pouvez le faire maintenant, et l'automate sera réinitialisé.\n\nVoulez-vous le faire maintenant?").arg(version, new_version),
+                                      QMessageBox::Yes,
+                                      QMessageBox::No) == QMessageBox::Yes)
+                {
+                        WagoConnect::Instance().updateWago();
+                }
+        }
+        else
+        {
+                messageBox.setText(QString::fromUtf8("L'automate doit être mis à jour.\n\nIl est actuellement en version %1, la dernière version est la %2.").arg(version, new_version));
+                messageBox.show();
+        }
 }
 
 void MainWindow::wagoError(int error)
@@ -510,4 +524,30 @@ void MainWindow::on_actionPar_Entr_es_Sorties_triggered()
         teditor.resize(700, 700);
         teditor.show();
         teditor.loadIOList();
+}
+
+void MainWindow::on_actionMise_jour_Automate_triggered()
+{
+        if (WagoConnect::Instance().getConnectionStatus() == WAGO_CONNECTED)
+        {
+                if (WagoConnect::Instance().getWagoType() == "750-841" ||
+                    WagoConnect::Instance().getWagoType() == "750-849")
+                {
+                        if (QMessageBox::question(NULL, tr("Calaos Installer"),
+                                              QString::fromUtf8("L'automate peut être mis à jour à la dernière version.\n\nVoulez-vous le faire maintenant?"),
+                                              QMessageBox::Yes,
+                                              QMessageBox::No) == QMessageBox::Yes)
+                        {
+                                WagoConnect::Instance().updateWago();
+                        }
+                }
+                else
+                {
+                        QMessageBox::critical(this, tr("Calaos Installer"), QString::fromUtf8("La mise à jour n'est supporté que sur les contrôleurs\nWago 750-841 et 750-849!"));
+                }
+        }
+        else
+        {
+                WagoConnect::Instance().SendCommand("WAGO_DALI_ADDRESSING_STATUS");
+        }
 }
