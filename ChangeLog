@@ -34,3 +34,8 @@
 
         * Correction des problemes lors du Drag'n Drop des IO dans la maison.
         * Sauvegarde des parametres de connections.
+
+23-09-2011  Raoul Hecky
+
+        * Ajout d'un processus de mise à jour des tetes 750-841/750-849
+
