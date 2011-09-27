@@ -246,7 +246,9 @@ INCLUDEPATH += ../calaos_common/ \
 DEFINES += CALAOS_INSTALLER
 OTHER_FILES +=
 
-
+win32 {
+    RC_FILE = win32/windows_res.rc
+}
 
 
 
