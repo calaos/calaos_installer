@@ -39,3 +39,7 @@
 
         * Ajout d'un processus de mise à jour des tetes 750-841/750-849
 
+28-09-2011  Raoul Hecky
+
+        * Correction du bug lors de la création des règles de chauffage
+

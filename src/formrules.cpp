@@ -1833,6 +1833,8 @@ void FormRules::itemTempWizard()
 
                                                 rule->AddCondition(cond);
                                                 addItemCondition(cond, true, true);
+
+                                                ListeRule::Instance().Add(rule);
                                         }
 
                                         //The rule (if input > consigne)
@@ -1849,6 +1851,8 @@ void FormRules::itemTempWizard()
 
                                                 rule->AddCondition(cond);
                                                 addItemCondition(cond, true, true);
+
+                                                ListeRule::Instance().Add(rule);
                                         }
                                 }
                         }
