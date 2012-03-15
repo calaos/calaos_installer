@@ -216,7 +216,8 @@ void FormRules::PopulateRoomsTree()
                             in->get_param("type") == "InPlageHoraire" ||
                             in->get_param("type") == "InputTime" ||
                             in->get_param("type") == "WITemp" ||
-                            in->get_param("type") == "OWTemp")
+                            in->get_param("type") == "OWTemp" ||
+                            in->get_param("type") == "WIAnalog")
                         {
                                 addItemInput(in, iroom);
                         }
