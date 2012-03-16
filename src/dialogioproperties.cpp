@@ -146,12 +146,14 @@ void DialogIOProperties::on_treeProperties_currentItemChanged(QTreeWidgetItem* c
 
 void DialogIOProperties::on_buttonBox_accepted()
 {
-        if (modified &&
-            type == OBJ_ROOM &&
-            ListeRoom::Instance().searchRoomByName(params["name"], params["type"]))
+        if (modified && type == OBJ_ROOM)
         {
-                QMessageBox::warning(this, tr("Calaos Installer"), QString::fromUtf8("Cette pièce existe déjà !"));
-                return;
+                Room *room = ListeRoom::Instance().searchRoomByName(params["name"], params["type"]);
+                if (room && to_string(room->get_hits()) == params["hits"])
+                {
+                        QMessageBox::warning(this, tr("Calaos Installer"), QString::fromUtf8("Cette pièce existe déjà !"));
+                        return;
+                }
         }
 
         accept();

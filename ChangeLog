@@ -49,3 +49,7 @@
 		* Correction d'un probleme lors du chargement d'une config avec
 		une entree WIAnalog.
 
+16-03-2012  Raoul Hecky
+
+		* Ajout de la modification des "hits" pour les pieces.
+

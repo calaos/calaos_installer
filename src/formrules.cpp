@@ -1333,6 +1333,7 @@ void FormRules::showPropertiesItem()
         {
                 proom.Add("name", itroom->getRoom()->get_name());
                 proom.Add("type", itroom->getRoom()->get_type());
+                proom.Add("hits", to_string(itroom->getRoom()->get_hits()));
                 p = &proom;
                 type = OBJ_ROOM;
         }
@@ -1361,6 +1362,10 @@ void FormRules::showPropertiesItem()
                         room->set_name(n);
                         n = (*p)["type"];
                         room->set_type(n);
+
+                        int hits;
+                        from_string((*p)["hits"], hits);
+                        room->set_hits(hits);
 
                         updateItemInfos(itroom);
                 }
