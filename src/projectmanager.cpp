@@ -1,5 +1,7 @@
 #include "projectmanager.h"
 
+map<string, bool> ProjectManager::wagoTypeCache;
+
 IOXmlWriter::IOXmlWriter()
 {
        setAutoFormatting(true);
@@ -527,6 +529,16 @@ void IOXmlReader::readInput(Room *room)
         Input *in = ListeRoom::Instance().createInput(p, room);
         InPlageHoraire *input = dynamic_cast<InPlageHoraire *>(in);
 
+        //Do cache of 849/842 only with WIDigitalBP/WIDIgitialTriple
+        if (in->get_param("type") == "WIDigitalBP" ||
+            in->get_param("type") == "WIDigitalTriple")
+        {
+                if (in->get_param("wago_841") != "true")
+                        ProjectManager::wagoTypeCache[in->get_param("host")] = false;
+                else
+                        ProjectManager::wagoTypeCache[in->get_param("host")] = true;
+        }
+
         while (!atEnd())
         {
                 readNext();
@@ -619,7 +631,18 @@ void IOXmlReader::readOutput(Room *room)
                 QMessageBox::critical(NULL, "Calaos Installer", QString::fromUtf8("La sortie avec l'id \"%1\" existe déjà !").arg(QString(p["id"].c_str())));
         }
 
-        ListeRoom::Instance().createOutput(p, room);
+        Output *output = ListeRoom::Instance().createOutput(p, room);
+
+        //Do cache of 849/842 only with WODigital/WOVolet*
+        if (output->get_param("type") == "WODigital" ||
+            output->get_param("type") == "WOVolet" ||
+            output->get_param("type") == "WOVoletSmart")
+        {
+                if (output->get_param("wago_841") != "true")
+                        ProjectManager::wagoTypeCache[output->get_param("host")] = false;
+                else
+                        ProjectManager::wagoTypeCache[output->get_param("host")] = true;
+        }
 
         while (!atEnd())
         {

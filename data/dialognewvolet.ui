@@ -398,6 +398,25 @@ p, li { white-space: pre-wrap; }
      <string>Volet à impulsion</string>
     </property>
    </widget>
+   <widget class="QCheckBox" name="check841">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>260</y>
+      <width>91</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>841/849</string>
+    </property>
+    <property name="checked">
+     <bool>true</bool>
+    </property>
+   </widget>
   </widget>
  </widget>
  <resources>

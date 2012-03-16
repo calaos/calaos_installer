@@ -77,6 +77,9 @@ class ProjectManager
                 /* Parse and fill ListeRoom/ListeRule from xml files */
                 static bool loadIOsFromFile(QString &file);
                 static bool loadRulesFromFile(QString &file);
+
+                //Used to know wich wago is 849 or 842.
+                static map<string, bool> wagoTypeCache;
 };
 
 #endif // PROJECTMANAGER_H

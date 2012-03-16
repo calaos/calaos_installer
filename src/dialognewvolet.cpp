@@ -64,6 +64,20 @@ void DialogNewVolet::on_buttonBox_accepted()
 
         volet = ListeRoom::Instance().createOutput(p, room);
 
+        //Check if we need 841 or 842 here. By default it's 841 now.
+        if (ProjectManager::wagoTypeCache.find(volet->get_param("host")) == ProjectManager::wagoTypeCache.end())
+        {
+                ProjectManager::wagoTypeCache[volet->get_param("host")] = true;
+                volet->set_param("wago_841", "true");
+        }
+        else
+        {
+                if (ProjectManager::wagoTypeCache[volet->get_param("host")])
+                        volet->set_param("wago_841", "true");
+                else
+                        volet->set_param("wago_841", "false");
+        }
+
         accept();
 }
 

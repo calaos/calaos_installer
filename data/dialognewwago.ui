@@ -690,6 +690,9 @@ p, li { white-space: pre-wrap; }
     </property>
    </widget>
    <widget class="QCheckBox" name="check841">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>90</x>
@@ -700,6 +703,9 @@ p, li { white-space: pre-wrap; }
     </property>
     <property name="text">
      <string>841/849</string>
+    </property>
+    <property name="checked">
+     <bool>true</bool>
     </property>
    </widget>
   </widget>

@@ -2,6 +2,8 @@
 #include "ui_dialognewwago.h"
 #include "mainwindow.h"
 
+#include "projectmanager.h"
+
 DialogNewWago::DialogNewWago(int t, Room *r, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::DialogNewWago), io(NULL), room(r), detect_in_progress(false),
@@ -71,9 +73,6 @@ void DialogNewWago::on_buttonBox_accepted()
         if (ui->checkKNX->isChecked())
                 p.Add("knx", "true");
 
-        if (ui->check841->isChecked())
-                p.Add("wago_841", "true");
-
         if (type == "WODigital")
         {
                 p.Add("gtype", "light");
@@ -82,6 +81,20 @@ void DialogNewWago::on_buttonBox_accepted()
         else
         {
                 io = ListeRoom::Instance().createInput(p, room);
+        }
+
+        //Check if we need 841 or 842 here. By default it's 841 now.
+        if (ProjectManager::wagoTypeCache.find(io->get_param("host")) == ProjectManager::wagoTypeCache.end())
+        {
+                ProjectManager::wagoTypeCache[io->get_param("host")] = true;
+                io->set_param("wago_841", "true");
+        }
+        else
+        {
+                if (ProjectManager::wagoTypeCache[io->get_param("host")])
+                        io->set_param("wago_841", "true");
+                else
+                        io->set_param("wago_841", "false");
         }
 
         accept();

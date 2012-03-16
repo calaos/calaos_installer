@@ -1372,10 +1372,31 @@ void FormRules::showPropertiesItem()
                 else if (type == OBJ_INPUT)
                 {
                         updateItemInfos(itinput);
+
+                        //Handle change of wago_841 parameter and change corresponding cache
+                        if (itinput->getInput()->get_param("type") == "WIDigitalBP" ||
+                            itinput->getInput()->get_param("type") == "WIDigitalTriple")
+                        {
+                                if (itinput->getInput()->get_param("wago_841") != "true")
+                                        ProjectManager::wagoTypeCache[itinput->getInput()->get_param("host")] = false;
+                                else
+                                        ProjectManager::wagoTypeCache[itinput->getInput()->get_param("host")] = true;
+                        }
                 }
                 else if (type == OBJ_OUTPUT)
                 {
                         updateItemInfos(itoutput);
+
+                        //Handle change of wago_841 parameter and change corresponding cache
+                        if (itoutput->getOutput()->get_param("type") == "WODigital" ||
+                            itoutput->getOutput()->get_param("type") == "WOVolet" ||
+                            itoutput->getOutput()->get_param("type") == "WOVoletSmart")
+                        {
+                                if (itoutput->getOutput()->get_param("wago_841") != "true")
+                                        ProjectManager::wagoTypeCache[itoutput->getOutput()->get_param("host")] = false;
+                                else
+                                        ProjectManager::wagoTypeCache[itoutput->getOutput()->get_param("host")] = true;
+                        }
                 }
                 else if (type == OBJ_RULE)
                 {

@@ -52,4 +52,6 @@
 16-03-2012  Raoul Hecky
 
 		* Ajout de la modification des "hits" pour les pieces.
+		* L'option "wago_841" est maintenant active par defaut. Elle est
+		automatiquement desactive si la config est deja a false.
 
