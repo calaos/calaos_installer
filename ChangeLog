@@ -59,4 +59,5 @@
 
 		* Le dossier par defaut est maintenant le dossier utilisateur et plus
 		le dossier courant.
-
+		* Correction d'un probleme lors de la conversion Volet <-> Volet
+		intelligent

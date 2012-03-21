@@ -1976,11 +1976,17 @@ void FormRules::itemConvertVoletSmart()
                                               QString::fromUtf8("Etes vous sûr de vouloir convertir en volet intelligent?"),
                                               QMessageBox::Yes | QMessageBox::No);
 
-                        if (reply == QMessageBox::Yes)
+                        if (reply == QMessageBox::Yes && itoutput->getOutput())
                         {
-                                itoutput->getOutput()->get_params().Add("type", "WOVoletSmart");
-                                updateItemInfos(itoutput);
+                                Output *out = itoutput->getOutput();
+                                out->get_params().Add("type", "WOVoletSmart");
 
+                                if (!out->get_params().Exists("time_up"))
+                                        out->get_params().Add("time_up", out->get_param("time"));
+                                if (!out->get_params().Exists("time_down"))
+                                        out->get_params().Add("time_down", out->get_param("time"));
+
+                                updateItemInfos(itoutput);
                                 setProjectModified(true);
                         }
                 }
@@ -2001,11 +2007,15 @@ void FormRules::itemConvertVoletStandard()
                                               QString::fromUtf8("Etes vous sûr de vouloir convertir en volet classique?"),
                                               QMessageBox::Yes | QMessageBox::No);
 
-                        if (reply == QMessageBox::Yes)
+                        if (reply == QMessageBox::Yes && itoutput->getOutput())
                         {
-                                itoutput->getOutput()->get_params().Add("type", "WOVolet");
-                                updateItemInfos(itoutput);
+                                Output *out = itoutput->getOutput();
+                                out->get_params().Add("type", "WOVolet");
 
+                                if (!out->get_params().Exists("time"))
+                                        out->get_params().Add("time", out->get_param("time_up"));
+
+                                updateItemInfos(itoutput);
                                 setProjectModified(true);
                         }
                 }
