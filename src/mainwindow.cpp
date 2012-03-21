@@ -170,7 +170,7 @@ void MainWindow::closeEvent(QCloseEvent *event)
 void MainWindow::on_actionSauvegarder_un_projet_triggered()
 {
         QString dir = QFileDialog::getExistingDirectory(this, QString::fromUtf8("Choisir un dossier de projet..."),
-                                                 QString(),
+                                                 QDir::homePath(),
                                                  QFileDialog::ShowDirsOnly
                                                  | QFileDialog::DontResolveSymlinks);
 
@@ -263,7 +263,7 @@ void MainWindow::on_actionCharger_un_projet_triggered()
         }
 
         QString dir = QFileDialog::getExistingDirectory(this, QString::fromUtf8("Choisir un dossier de projet..."),
-                                                 QString(),
+                                                 QDir::homePath(),
                                                  QFileDialog::ShowDirsOnly
                                                  | QFileDialog::DontResolveSymlinks);
 
@@ -413,11 +413,12 @@ void MainWindow::wagoUpdateNeeded(QString version, QString new_version)
                         WagoConnect::Instance().updateWago();
                 }
         }
+        /* Disable this, user can't update the 842 by themselves...
         else
         {
                 messageBox.setText(QString::fromUtf8("L'automate doit être mis à jour.\n\nIl est actuellement en version %1, la dernière version est la %2.").arg(version, new_version));
                 messageBox.show();
-        }
+        }*/
 }
 
 void MainWindow::wagoError(int error)
