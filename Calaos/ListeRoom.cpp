@@ -592,6 +592,9 @@ Output* ListeRoom::createOutput(Params param, Room *room)
                 if (!param.Exists("var_down")) param.Add("var_down", "0");
                 if (!param.Exists("time_up")) param.Add("time_up", "30");
                 if (!param.Exists("time_down")) param.Add("time_down", "28");
+
+                //Set var_save automatically here.
+                if (!param.Exists("var_save")) param.Add("var_save", ListeRoom::get_new_varsave());
         }
         else if (param["type"] == "WONeon")
         {
@@ -669,4 +672,37 @@ std::string ListeRoom::get_new_id(std::string prefix)
 
         std::string ret = prefix + Utils::to_string(cpt);
         return ret;
+}
+
+std::string ListeRoom::get_new_varsave()
+{
+        map<string, IOBase *> volets;
+
+        for (uint j = 0;j < ListeRoom::Instance().size();j++)
+        {
+                Room *room = ListeRoom::Instance().get_room(j);
+                for (int m = 0;m < room->get_size_out();m++)
+                {
+                        Output *o = room->get_output(m);
+                        if (o->get_param("type") == "WOVoletSmart" &&
+                            o->get_params().Exists("var_save"))
+                        {
+                                volets[o->get_param("var_save")] = o;
+                        }
+                }
+        }
+
+        int cpt = 0;
+        bool found = false;
+        while (!found)
+        {
+                string s = to_string(cpt);
+
+                if (volets.find(s) == volets.end())
+                        found = true;
+                else
+                        cpt++;
+        }
+
+        return to_string(cpt);
 }

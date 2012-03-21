@@ -1986,6 +1986,8 @@ void FormRules::itemConvertVoletSmart()
                                 if (!out->get_params().Exists("time_down"))
                                         out->get_params().Add("time_down", out->get_param("time"));
 
+                                if (!out->get_params().Exists("var_save")) out->get_params().Add("var_save", ListeRoom::get_new_varsave());
+
                                 updateItemInfos(itoutput);
                                 setProjectModified(true);
                         }
@@ -2014,6 +2016,8 @@ void FormRules::itemConvertVoletStandard()
 
                                 if (!out->get_params().Exists("time"))
                                         out->get_params().Add("time", out->get_param("time_up"));
+
+                                out->get_params().Delete("var_save");
 
                                 updateItemInfos(itoutput);
                                 setProjectModified(true);

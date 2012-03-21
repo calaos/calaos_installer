@@ -61,3 +61,5 @@
 		le dossier courant.
 		* Correction d'un probleme lors de la conversion Volet <-> Volet
 		intelligent
+		* Ajout de "var_save" automatiquement pour les Volet intelligents
+

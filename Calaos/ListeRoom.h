@@ -95,6 +95,7 @@ class ListeRoom
                 Audio* createAudio(Params param, Room *room);
 
                 static string get_new_id(string prefix);
+                static string get_new_varsave();
 
                 static string getRoomType(int type);
 
