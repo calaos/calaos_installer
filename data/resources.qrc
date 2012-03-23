@@ -91,5 +91,13 @@
         <file>home_item_header.html</file>
         <file>img/icon_rule_out.png</file>
         <file>img/media-flash.png</file>
+        <file>img/svn-commit.png</file>
+        <file>img/svn-update.png</file>
+        <file>img/logo_header.png</file>
+        <file>img/drive-removable-media.png</file>
+        <file>img/logo_wago.png</file>
+        <file>img/help-about.png</file>
+        <file>img/qt.png</file>
+        <file>img/document-print.png</file>
     </qresource>
 </RCC>

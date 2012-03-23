@@ -17,6 +17,62 @@
    <iconset resource="resources.qrc">
     <normaloff>:/img/logo_huge.png</normaloff>:/img/logo_huge.png</iconset>
   </property>
+  <property name="styleSheet">
+   <string notr="true">#toolBarFrame {
+border-bottom-left-radius: 8px;
+border-bottom-right-radius: 8px;
+border-top-left-radius: 8px;
+border-top-right-radius: 8px;
+border: 1px solid black;
+background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+		stop: 0 #a6a6a6, stop: 0.08 #7f7f7f,
+		stop: 0.39999 #717171, stop: 0.4 #626262,
+		stop: 0.9 #4c4c4c, stop: 1 #333333);
+padding-left: 0px;
+padding-right: 10px;
+min-height: 48px;
+}
+
+QFrame.FrameTitle
+{
+	color: white;
+	font-weight: bold;
+}
+
+QFrame .HeaderButton
+{
+	color: #333;
+	border: 2px solid #555;
+	border-radius: 6px;
+	padding: 4px;
+	padding-left: 6px;
+	padding-right: 6px;
+	background: qradialgradient(cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4, radius: 1.35, stop: 0 #fff, stop: 1 #888);
+	min-width: 30px;
+	margin-top: 2px;
+	margin-bottom: 2px;
+}
+QFrame .HeaderButton::menu-indicator 
+{
+    subcontrol-origin: padding;
+	subcontrol-position: bottom right;
+	position: relative;
+    left: -2px;
+}
+QFrame .HeaderButton::menu-indicator:pressed, QFrame .HeaderButton::menu-indicator:open
+{
+	position: relative;
+	top: 1px;
+}
+QFrame .HeaderButton:hover 
+{
+	background: qradialgradient(cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4, radius: 1.35, stop: 0 #fff, stop: 1 #bbb);
+}
+QFrame .HeaderButton:pressed 
+{
+	background: qradialgradient(cx: 0.4, cy: -0.1, fx: 0.4, fy: -0.1, radius: 1.35, stop: 0 #fff, stop: 1 #ddd);
+}</string>
+  </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QHBoxLayout" name="horizontalLayout">
     <property name="spacing">
@@ -41,11 +97,173 @@
       </property>
       <layout class="QVBoxLayout" name="verticalLayout">
        <property name="spacing">
+        <number>9</number>
+       </property>
+       <property name="topMargin">
         <number>0</number>
        </property>
-       <property name="margin">
-        <number>0</number>
-       </property>
+       <item>
+        <widget class="QFrame" name="toolBarFrame">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>50</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>50</height>
+          </size>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayout_5">
+          <property name="sizeConstraint">
+           <enum>QLayout::SetMinimumSize</enum>
+          </property>
+          <item>
+           <widget class="QLabel" name="label">
+            <property name="minimumSize">
+             <size>
+              <width>45</width>
+              <height>45</height>
+             </size>
+            </property>
+            <property name="pixmap">
+             <pixmap resource="resources.qrc">:/img/logo_header.png</pixmap>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="btProject">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="text">
+             <string>Gestion du Projet   </string>
+            </property>
+            <property name="icon">
+             <iconset resource="resources.qrc">
+              <normaloff>:/img/document-properties.png</normaloff>:/img/document-properties.png</iconset>
+            </property>
+            <property name="iconSize">
+             <size>
+              <width>24</width>
+              <height>24</height>
+             </size>
+            </property>
+            <property name="class" stdset="0">
+             <string>HeaderButton</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="btWago">
+            <property name="text">
+             <string>Automate   </string>
+            </property>
+            <property name="icon">
+             <iconset resource="resources.qrc">
+              <normaloff>:/img/logo_wago.png</normaloff>:/img/logo_wago.png</iconset>
+            </property>
+            <property name="iconSize">
+             <size>
+              <width>24</width>
+              <height>24</height>
+             </size>
+            </property>
+            <property name="class" stdset="0">
+             <string>HeaderButton</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="btServer">
+            <property name="text">
+             <string>Centrale Calaos   </string>
+            </property>
+            <property name="icon">
+             <iconset resource="resources.qrc">
+              <normaloff>:/img/drive-removable-media.png</normaloff>:/img/drive-removable-media.png</iconset>
+            </property>
+            <property name="iconSize">
+             <size>
+              <width>24</width>
+              <height>24</height>
+             </size>
+            </property>
+            <property name="class" stdset="0">
+             <string>HeaderButton</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="labelProjectName">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="wordWrap">
+             <bool>true</bool>
+            </property>
+            <property name="class" stdset="0">
+             <string>FrameTitle</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="btHelp">
+            <property name="minimumSize">
+             <size>
+              <width>46</width>
+              <height>40</height>
+             </size>
+            </property>
+            <property name="icon">
+             <iconset resource="resources.qrc">
+              <normaloff>:/img/help-about.png</normaloff>:/img/help-about.png</iconset>
+            </property>
+            <property name="iconSize">
+             <size>
+              <width>24</width>
+              <height>24</height>
+             </size>
+            </property>
+            <property name="class" stdset="0">
+             <string>HeaderButton</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="btQuit">
+            <property name="icon">
+             <iconset resource="resources.qrc">
+              <normaloff>:/img/exit.png</normaloff>:/img/exit.png</iconset>
+            </property>
+            <property name="iconSize">
+             <size>
+              <width>24</width>
+              <height>24</height>
+             </size>
+            </property>
+            <property name="class" stdset="0">
+             <string>HeaderButton</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
        <item>
         <widget class="QStackedWidget" name="Pages">
          <property name="currentIndex">
@@ -84,6 +302,29 @@
                 <iconset resource="resources.qrc">
                  <normaloff>:/img/go-previous.png</normaloff>:/img/go-previous.png</iconset>
                </property>
+               <property name="iconSize">
+                <size>
+                 <width>24</width>
+                 <height>24</height>
+                </size>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="btAboutQt">
+               <property name="text">
+                <string>A propos de Qt</string>
+               </property>
+               <property name="icon">
+                <iconset resource="resources.qrc">
+                 <normaloff>:/img/qt.png</normaloff>:/img/qt.png</iconset>
+               </property>
+               <property name="iconSize">
+                <size>
+                 <width>24</width>
+                 <height>24</height>
+                </size>
+               </property>
               </widget>
              </item>
              <item>
@@ -119,31 +360,25 @@
               <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Sans Serif'; font-size:11pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Sans Serif'; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
 &lt;table border=&quot;0&quot; style=&quot;-qt-table-type: root; margin-top:4px; margin-bottom:4px; margin-left:4px; margin-right:4px;&quot;&gt;
 &lt;tr&gt;
 &lt;td style=&quot;border: none;&quot;&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:9pt;&quot;&gt;&lt;/p&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:9pt;&quot;&gt;&lt;/p&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:9pt;&quot;&gt;&lt;/p&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:9pt;&quot;&gt;&lt;/p&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:9pt;&quot;&gt;&lt;/p&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:9pt;&quot;&gt;&lt;/p&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:9pt;&quot;&gt;&lt;/p&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:9pt;&quot;&gt;&lt;/p&gt;
-&lt;p align=&quot;center&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:9pt;&quot;&gt;&lt;/p&gt;
-&lt;p align=&quot;center&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:9pt;&quot;&gt;&lt;/p&gt;
-&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:20pt; font-weight:600; color:#cccccc;&quot;&gt;Calaos Tools&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
+&lt;p align=&quot;center&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
+&lt;p align=&quot;center&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
+&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:20pt; font-weight:600; color:#cccccc;&quot;&gt;Calaos Installer&lt;/span&gt;&lt;/p&gt;
 &lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt; color:#cccccc;&quot;&gt;Copyright (c) Calaos&lt;/span&gt;&lt;/p&gt;
 &lt;p align=&quot;center&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:10pt; color:#cccccc;&quot;&gt;&lt;/p&gt;
 &lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt; font-style:italic; color:#cccccc;&quot;&gt;version: %1&lt;/span&gt;&lt;/p&gt;
 &lt;p align=&quot;center&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:10pt; font-style:italic; color:#cccccc;&quot;&gt;&lt;/p&gt;
 &lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt; color:#cccccc;&quot;&gt;Vous trouverez plus d'informations concernant Calaos Installer sur:&lt;/span&gt;&lt;/p&gt;
-&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://support.calaos.fr&quot;&gt;&lt;span style=&quot; font-size:9pt; text-decoration: underline; color:#0057ae;&quot;&gt;http://support.calaos.fr&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://support.calaos.fr&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0057ae;&quot;&gt;http://support.calaos.fr&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;p align=&quot;center&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:10pt; color:#cccccc;&quot;&gt;&lt;/p&gt;
 &lt;p align=&quot;center&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:10pt; color:#cccccc;&quot;&gt;&lt;/p&gt;
-&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt; color:#cccccc;&quot;&gt;Visitez notre site web: &lt;/span&gt;&lt;a href=&quot;http://www.calaos.fr&quot;&gt;&lt;span style=&quot; font-size:9pt; text-decoration: underline; color:#0057ae;&quot;&gt;www.calaos.fr&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;p align=&quot;center&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:9pt; text-decoration: underline; color:#0000ee;&quot;&gt;&lt;/p&gt;
+&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt; color:#cccccc;&quot;&gt;Visitez notre site web: &lt;/span&gt;&lt;a href=&quot;http://www.calaos.fr&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0057ae;&quot;&gt;www.calaos.fr&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p align=&quot;center&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; text-decoration: underline; color:#0000ee;&quot;&gt;&lt;/p&gt;
 &lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;img src=&quot;:/img/calaos.png&quot; /&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</string>
              </property>
             </widget>
@@ -153,20 +388,24 @@ p, li { white-space: pre-wrap; }
         </widget>
        </item>
       </layout>
+      <zorder>Pages</zorder>
+      <zorder>widgetRules</zorder>
+      <zorder>toolBarFrame</zorder>
      </widget>
     </item>
    </layout>
   </widget>
+  <widget class="QStatusBar" name="statusbar"/>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
      <width>984</width>
-     <height>24</height>
+     <height>23</height>
     </rect>
    </property>
-   <widget class="QMenu" name="menuFichier">
+   <widget class="QMenu" name="menuProjet">
     <property name="title">
      <string>Fichier</string>
     </property>
@@ -174,97 +413,45 @@ p, li { white-space: pre-wrap; }
      <property name="title">
       <string>Générer fichier d'impression</string>
      </property>
+     <property name="icon">
+      <iconset resource="resources.qrc">
+       <normaloff>:/img/document-print.png</normaloff>:/img/document-print.png</iconset>
+     </property>
      <addaction name="actionPar_pi_ce"/>
      <addaction name="actionPar_Entr_es_Sorties"/>
     </widget>
     <addaction name="actionNouveau_projet"/>
     <addaction name="separator"/>
     <addaction name="actionCharger_un_projet"/>
-    <addaction name="actionOuvrir_un_projet_en_ligne"/>
     <addaction name="separator"/>
     <addaction name="actionSauvegarder"/>
     <addaction name="actionSauvegarder_un_projet"/>
-    <addaction name="actionSauvegarder_un_projet_en_ligne"/>
     <addaction name="separator"/>
     <addaction name="menuG_n_rer_fichier_d_impression"/>
-    <addaction name="separator"/>
-    <addaction name="actionQuit"/>
    </widget>
-   <widget class="QMenu" name="menuA_propos">
+   <widget class="QMenu" name="menuWago">
     <property name="title">
-     <string>Aide</string>
-    </property>
-    <addaction name="actionAbout"/>
-    <addaction name="actionA_propos_de_Qt"/>
-   </widget>
-   <widget class="QMenu" name="menuProjet">
-    <property name="title">
-     <string>Projet</string>
+     <string>Automate</string>
     </property>
     <addaction name="actionSe_connecter"/>
     <addaction name="actionSe_d_connecter"/>
     <addaction name="separator"/>
     <addaction name="actionProgrammer_l_automate"/>
-   </widget>
-   <widget class="QMenu" name="menuOutils">
-    <property name="title">
-     <string>Outils</string>
-    </property>
-    <addaction name="actionDALI"/>
     <addaction name="actionMise_jour_Automate"/>
+    <addaction name="separator"/>
+    <addaction name="actionDALI"/>
    </widget>
-   <addaction name="menuFichier"/>
+   <widget class="QMenu" name="menuCentrale">
+    <property name="title">
+     <string>Centrale</string>
+    </property>
+    <addaction name="actionOuvrir_un_projet_en_ligne"/>
+    <addaction name="actionSauvegarder_un_projet_en_ligne"/>
+   </widget>
    <addaction name="menuProjet"/>
-   <addaction name="menuOutils"/>
-   <addaction name="menuA_propos"/>
+   <addaction name="menuCentrale"/>
+   <addaction name="menuWago"/>
   </widget>
-  <widget class="QStatusBar" name="statusbar"/>
-  <widget class="QToolBar" name="toolBar">
-   <property name="windowTitle">
-    <string>toolBar</string>
-   </property>
-   <property name="iconSize">
-    <size>
-     <width>32</width>
-     <height>32</height>
-    </size>
-   </property>
-   <property name="toolButtonStyle">
-    <enum>Qt::ToolButtonTextUnderIcon</enum>
-   </property>
-   <property name="floatable">
-    <bool>false</bool>
-   </property>
-   <attribute name="toolBarArea">
-    <enum>TopToolBarArea</enum>
-   </attribute>
-   <attribute name="toolBarBreak">
-    <bool>false</bool>
-   </attribute>
-  </widget>
-  <action name="actionQuit">
-   <property name="icon">
-    <iconset resource="resources.qrc">
-     <normaloff>:/img/exit.png</normaloff>:/img/exit.png</iconset>
-   </property>
-   <property name="text">
-    <string>Quitter</string>
-   </property>
-  </action>
-  <action name="actionAbout">
-   <property name="icon">
-    <iconset resource="resources.qrc">
-     <normaloff>:/img/help.png</normaloff>:/img/help.png</iconset>
-   </property>
-   <property name="text">
-    <string>A propos</string>
-   </property>
-  </action>
-  <action name="actionA_propos_de_Qt">
-   <property name="text">
-    <string>A propos de Qt</string>
-   </property>
-  </action>
   <action name="actionCharger_un_projet">
    <property name="icon">
     <iconset resource="resources.qrc">
@@ -349,22 +536,25 @@ p, li { white-space: pre-wrap; }
   <action name="actionOuvrir_un_projet_en_ligne">
    <property name="icon">
     <iconset resource="resources.qrc">
-     <normaloff>:/img/go-first.png</normaloff>:/img/go-first.png</iconset>
+     <normaloff>:/img/svn-update.png</normaloff>:/img/svn-update.png</iconset>
    </property>
    <property name="text">
-    <string>Ouvrir un projet en ligne...</string>
+    <string>Ouvrir le projet de la centrale...</string>
    </property>
   </action>
   <action name="actionSauvegarder_un_projet_en_ligne">
    <property name="icon">
     <iconset resource="resources.qrc">
-     <normaloff>:/img/go-last.png</normaloff>:/img/go-last.png</iconset>
+     <normaloff>:/img/svn-commit.png</normaloff>:/img/svn-commit.png</iconset>
    </property>
    <property name="text">
-    <string>Sauvegarder un projet en ligne...</string>
+    <string>Envoyer le projet à la centrale...</string>
    </property>
   </action>
   <action name="actionDALI">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="icon">
     <iconset resource="resources.qrc">
      <normaloff>:/img/icon_light_on.png</normaloff>:/img/icon_light_on.png</iconset>
@@ -384,6 +574,9 @@ p, li { white-space: pre-wrap; }
    </property>
   </action>
   <action name="actionMise_jour_Automate">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="icon">
     <iconset resource="resources.qrc">
      <normaloff>:/img/system-software-update.png</normaloff>:/img/system-software-update.png</iconset>

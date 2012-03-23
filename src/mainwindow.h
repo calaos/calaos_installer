@@ -75,8 +75,10 @@ class MainWindow : public QMainWindow
                 void projectChanged(bool changed);
 
         private slots:
-                void on_actionAbout_triggered();
-                void on_actionQuit_triggered();
+                void actionAbout_triggered();
+                void actionQuit_triggered();
+                void actionAboutQt_triggered();
+
                 void on_actionDALI_triggered();
                 void on_pushButtonBack_clicked();
                 void on_actionSauvegarder_un_projet_en_ligne_triggered();
@@ -90,7 +92,6 @@ class MainWindow : public QMainWindow
                 void on_actionNouveau_projet_triggered();
                 void on_actionSauvegarder_un_projet_triggered();
                 void on_Pages_currentChanged(int );
-                void on_actionA_propos_de_Qt_triggered();
                 void closeDaliForm_clicked();
                 void on_actionPar_pi_ce_triggered();
                 void on_actionPar_Entr_es_Sorties_triggered();

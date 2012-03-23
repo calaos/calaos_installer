@@ -17,15 +17,16 @@ MainWindow::MainWindow(QWidget *parent):
         //Set version info
         ui->textEditAbout->setHtml(ui->textEditAbout->toHtml().arg(calaos_installer_version));
 
-        //Add toolbar
-        ui->toolBar->addAction(ui->actionNouveau_projet);
-        ui->toolBar->addAction(ui->actionCharger_un_projet);
-        ui->toolBar->addAction(ui->actionSauvegarder);
-        ui->toolBar->addSeparator();
-        ui->toolBar->addAction(ui->actionSe_connecter);
-        ui->toolBar->addAction(ui->actionSe_d_connecter);
-        ui->toolBar->addSeparator();
-        ui->toolBar->addAction(ui->actionQuit);
+        ui->menubar->hide();
+
+        //Add toolbar menus
+        ui->btProject->setMenu(ui->menuProjet);
+        ui->btWago->setMenu(ui->menuWago);
+        ui->btServer->setMenu(ui->menuCentrale);
+
+        connect(ui->btHelp, SIGNAL(pressed()), this, SLOT(actionAbout_triggered()));
+        connect(ui->btQuit, SIGNAL(pressed()), this, SLOT(actionQuit_triggered()));
+        connect(ui->btAboutQt, SIGNAL(pressed()), this, SLOT(actionAboutQt_triggered()));
 
         connect(ui->widgetRules, SIGNAL(projectModified(bool)), this, SLOT(projectChanged(bool)));
 
@@ -112,7 +113,7 @@ void MainWindow::ShowPage(int page)
         ui->Pages->setCurrentIndex(page);
 }
 
-void MainWindow::on_actionA_propos_de_Qt_triggered()
+void MainWindow::actionAboutQt_triggered()
 {
         qApp->aboutQt();
 }
@@ -138,9 +139,15 @@ void MainWindow::onShowTransfert()
 void MainWindow::projectChanged(bool changed)
 {
         if (changed)
+        {
                 setWindowTitle(QString::fromUtf8("Calaos Installer: [modified] %1").arg(project_path));
+                ui->labelProjectName->setText(QString::fromUtf8("[*] %1").arg(project_path));
+        }
         else
+        {
                 setWindowTitle(QString::fromUtf8("Calaos Installer: %1").arg(project_path));
+                ui->labelProjectName->setText(project_path);
+        }
 }
 
 void MainWindow::closeEvent(QCloseEvent *event)
@@ -198,6 +205,7 @@ void MainWindow::on_actionNouveau_projet_triggered()
         ui->widgetRules->ClearProject();
 
         project_path = "Nouveau";
+        projectChanged(false);
 }
 
 void MainWindow::on_actionSauvegarder_triggered()
@@ -385,6 +393,8 @@ void MainWindow::wagoConnected(QString &, bool)
         ui->actionSe_connecter->setEnabled(false);
         ui->actionSe_d_connecter->setEnabled(true);
         ui->actionProgrammer_l_automate->setEnabled(true);
+        ui->actionDALI->setEnabled(true);
+        ui->actionMise_jour_Automate->setEnabled(true);
 
         statusConnectText->setText(QString::fromUtf8("Connecté (") + WagoConnect::Instance().getWagoVersion() + ")");
         statusConnectIcon->setPixmap(QPixmap(":/img/user-online_16x16.png"));
@@ -395,6 +405,8 @@ void MainWindow::wagoDisconnected()
         ui->actionSe_connecter->setEnabled(true);
         ui->actionSe_d_connecter->setEnabled(false);
         ui->actionProgrammer_l_automate->setEnabled(false);
+        ui->actionDALI->setEnabled(false);
+        ui->actionMise_jour_Automate->setEnabled(false);
 
         statusConnectText->setText(QString::fromUtf8("Déconnecté."));
         statusConnectIcon->setPixmap(QPixmap(":/img/user-invisible_16x16.png"));
@@ -503,12 +515,12 @@ void MainWindow::closeDaliForm_clicked()
         ShowPage(PAGE_PROG);
 }
 
-void MainWindow::on_actionQuit_triggered()
+void MainWindow::actionQuit_triggered()
 {
         close();
 }
 
-void MainWindow::on_actionAbout_triggered()
+void MainWindow::actionAbout_triggered()
 {
         ShowPage(PAGE_ABOUT);
 }
