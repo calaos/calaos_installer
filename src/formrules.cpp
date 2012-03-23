@@ -532,36 +532,45 @@ QTreeWidgetItemRoom *FormRules::addItemRoom(Room *room, bool selected)
         return item;
 }
 
+QString FormRules::getIconFromRoom(Room *room)
+{
+        QString icon;
+
+        if (room->get_type() == "salon" || room->get_type() == "lounge")
+                icon = ":/img/rooms/lounge_small.png";
+        else if (room->get_type() == "sdb" || room->get_type() == "bathroom")
+                icon = ":/img/rooms/bathroom_small.png";
+        else if (room->get_type() == "chambre" || room->get_type() == "bedroom")
+                icon = ":/img/rooms/bedroom_small.png";
+        else if (room->get_type() == "cave" || room->get_type() == "cellar")
+                icon = ":/img/rooms/cellar_small.png";
+        else if (room->get_type() == "couloir" || room->get_type() == "hall" || room->get_type() == "corridor")
+                icon = ":/img/rooms/corridor_small.png";
+        else if (room->get_type() == "sam" || room->get_type() == "diningroom")
+                icon = ":/img/rooms/diningroom_small.png";
+        else if (room->get_type() == "garage")
+                icon = ":/img/rooms/garage_small.png";
+        else if (room->get_type() == "cuisine" || room->get_type() == "kitchen")
+                icon = ":/img/rooms/kitchen_small.png";
+        else if (room->get_type() == "bureau" || room->get_type() == "office")
+                icon = ":/img/rooms/office_small.png";
+        else if (room->get_type() == "exterieur" || room->get_type() == "outside")
+                icon = ":/img/rooms/outside_small.png";
+        else if (room->get_type() == "misc" || room->get_type() == "divers" || room->get_type() == "various")
+                icon = ":/img/rooms/various_small.png";
+        else
+                icon = ":/img/rooms/various_small.png";
+
+        return icon;
+}
+
 void FormRules::updateItemInfos(QTreeWidgetItemRoom *item)
 {
         Room *room = item->getRoom();
 
         item->setData(0, Qt::DisplayRole, QString::fromUtf8(room->get_name().c_str()));
 
-        if (room->get_type() == "salon" || room->get_type() == "lounge")
-                item->setData(0, Qt::DecorationRole, QIcon(":/img/rooms/lounge_small.png"));
-        else if (room->get_type() == "sdb" || room->get_type() == "bathroom")
-                item->setData(0, Qt::DecorationRole, QIcon(":/img/rooms/bathroom_small.png"));
-        else if (room->get_type() == "chambre" || room->get_type() == "bedroom")
-                item->setData(0, Qt::DecorationRole, QIcon(":/img/rooms/bedroom_small.png"));
-        else if (room->get_type() == "cave" || room->get_type() == "cellar")
-                item->setData(0, Qt::DecorationRole, QIcon(":/img/rooms/cellar_small.png"));
-        else if (room->get_type() == "couloir" || room->get_type() == "hall" || room->get_type() == "corridor")
-                item->setData(0, Qt::DecorationRole, QIcon(":/img/rooms/corridor_small.png"));
-        else if (room->get_type() == "sam" || room->get_type() == "diningroom")
-                item->setData(0, Qt::DecorationRole, QIcon(":/img/rooms/diningroom_small.png"));
-        else if (room->get_type() == "garage")
-                item->setData(0, Qt::DecorationRole, QIcon(":/img/rooms/garage_small.png"));
-        else if (room->get_type() == "cuisine" || room->get_type() == "kitchen")
-                item->setData(0, Qt::DecorationRole, QIcon(":/img/rooms/kitchen_small.png"));
-        else if (room->get_type() == "bureau" || room->get_type() == "office")
-                item->setData(0, Qt::DecorationRole, QIcon(":/img/rooms/office_small.png"));
-        else if (room->get_type() == "exterieur" || room->get_type() == "outside")
-                item->setData(0, Qt::DecorationRole, QIcon(":/img/rooms/outside_small.png"));
-        else if (room->get_type() == "misc" || room->get_type() == "divers" || room->get_type() == "various")
-                item->setData(0, Qt::DecorationRole, QIcon(":/img/rooms/various_small.png"));
-        else
-                item->setData(0, Qt::DecorationRole, QIcon(":/img/rooms/various_small.png"));
+        item->setData(0, Qt::DecorationRole, QIcon(getIconFromRoom(room)));
 
         QString s = QString::fromUtf8(room->get_name().c_str());
         s += " (" + QString::fromUtf8(room->get_type().c_str()) + ")";
@@ -1091,6 +1100,31 @@ void FormRules::showPopup_tree(const QPoint point)
                 action->setIcon(QIcon(":/img/go-last.png"));
                 connect(action, SIGNAL(triggered()), this, SLOT(goSelectRule()));
 
+                QTreeWidgetItemOutput *itoutput = dynamic_cast<QTreeWidgetItemOutput *>(treeItem);
+                QTreeWidgetItemInput *itinput = dynamic_cast<QTreeWidgetItemInput *>(treeItem);
+
+                if (ListeRoom::Instance().size() > 1 &&
+                    (itoutput || itinput))
+                {
+                        QMenu *moveMenu = item_menu.addMenu(QString::fromUtf8("Déplacer vers..."));
+                        Room *current;
+
+                        if (itinput) current = ListeRoom::Instance().searchRoomByInput(itinput->getInput());
+                        if (itoutput) current = ListeRoom::Instance().searchRoomByOutput(itoutput->getOutput());
+
+                        for (int i = 0;i < ListeRoom::Instance().size();i++)
+                        {
+                                Room *room = ListeRoom::Instance().get_room(i);
+                                if (room == current) continue;
+
+                                action = moveMenu->addAction(QString::fromUtf8(room->get_name().c_str()));
+                                action->setIcon(QIcon(getIconFromRoom(room)));
+                                action->setData(QVariant::fromValue<void *>(room));
+
+                                connect(action, SIGNAL(triggered()), this, SLOT(moveIOToRoom()));
+                        }
+                }
+
                 action = item_menu.addAction(QString::fromUtf8("Supprimer"));
                 action->setIcon(QIcon(":/img/user-trash.png"));
                 connect(action, SIGNAL(triggered()), this, SLOT(deleteItem()));
@@ -1098,7 +1132,6 @@ void FormRules::showPopup_tree(const QPoint point)
                 item_menu.addSeparator();
 
                 //Here we have to add Item action (ON/OFF/UP/DOWN/...)
-                QTreeWidgetItemOutput *itoutput = dynamic_cast<QTreeWidgetItemOutput *>(treeItem);
                 if (itoutput)
                 {
                         Output *o = itoutput->getOutput();
@@ -1159,7 +1192,6 @@ void FormRules::showPopup_tree(const QPoint point)
                         }
                 }
 
-                QTreeWidgetItemInput *itinput = dynamic_cast<QTreeWidgetItemInput *>(treeItem);
                 if (itinput)
                 {
                         Input *o = itinput->getInput();
@@ -1206,6 +1238,65 @@ void FormRules::showPopup_tree(const QPoint point)
                 connect(action, SIGNAL(triggered()), this, SLOT(showPropertiesItem()));
 
                 item_menu.exec(QCursor::pos());
+        }
+}
+
+void FormRules::moveIOToRoom()
+{
+        if (!treeItem) return;
+
+        QAction *action = reinterpret_cast<QAction *>(sender());
+        if (!action) return;
+
+        Room *to_room = static_cast<Room *>(action->data().value<void *>());
+        if (!to_room) return;
+
+        QTreeWidgetItemOutput *itoutput = dynamic_cast<QTreeWidgetItemOutput *>(treeItem);
+        if (itoutput)
+        {
+                Output *output = itoutput->getOutput();
+                if (output)
+                {
+                        int _i = ListeRoom::Instance().searchIO(output);
+                        if (_i < 0) return;
+                        Room *old_room = ListeRoom::Instance().get_room(_i);
+
+                        if (old_room == to_room) return;
+
+                        //delete old item
+                        old_room->RemoveOutput(output);
+
+                        delete treeItem;
+
+                        to_room->AddOutput(output);
+                        addItemOutput(output, to_room, true);
+
+                        return;
+                }
+        }
+
+        QTreeWidgetItemInput *itinput = dynamic_cast<QTreeWidgetItemInput *>(treeItem);
+        if (itinput)
+        {
+                Input *input = itinput->getInput();
+                if (input)
+                {
+                        int _i = ListeRoom::Instance().searchIO(input);
+                        if (_i < 0) return;
+                        Room *old_room = ListeRoom::Instance().get_room(_i);
+
+                        if (old_room == to_room) return;
+
+                        //delete old item
+                        old_room->RemoveInput(input);
+
+                        delete treeItem;
+
+                        to_room->AddInput(input);
+                        addItemInput(input, to_room, true);
+
+                        return;
+                }
         }
 }
 

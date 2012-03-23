@@ -62,5 +62,8 @@
 		* Correction d'un probleme lors de la conversion Volet <-> Volet
 		intelligent
 		* Ajout de "var_save" automatiquement pour les Volet intelligents
-		* 1.4 release
+
+23-03-2012  Raoul Hecky
+
+		* Ajout d'un menu contextuel sur les IO pour les deplacer de piece
 

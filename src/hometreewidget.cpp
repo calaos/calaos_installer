@@ -6,12 +6,12 @@
 HomeTreeWidget::HomeTreeWidget(QWidget *parent):
                 QTreeWidget(parent)
 {
-        setAcceptDrops(true);
+        setAcceptDrops(false);
         setDragEnabled(true);
 }
 
 bool HomeTreeWidget::dropMimeData(QTreeWidgetItem *parent, int, const QMimeData *data, Qt::DropAction)
-{
+{     
         QList<QUrl> urlList;
         QFileInfo info;
         QString fName;
@@ -146,6 +146,12 @@ void HomeTreeWidget::mousePressEvent(QMouseEvent *event)
                 dragStartPosition = event->pos();
 }
 
+void HomeTreeWidget::dragEnterEvent(QDragEnterEvent *event)
+{
+        if (event->mimeData()->hasFormat("text/uri-list"))
+                 event->acceptProposedAction();
+}
+
 void HomeTreeWidget::mouseMoveEvent(QMouseEvent *event)
 {
         if (!(event->buttons() & Qt::LeftButton))
@@ -182,7 +188,7 @@ void HomeTreeWidget::mouseMoveEvent(QMouseEvent *event)
                 drag->setMimeData(mimeData);
 
                 // start drag
-                drag->start(Qt::CopyAction | Qt::MoveAction);
+                drag->exec(Qt::CopyAction | Qt::MoveAction);
 
                 return;
         }
@@ -206,7 +212,7 @@ void HomeTreeWidget::mouseMoveEvent(QMouseEvent *event)
                 drag->setMimeData(mimeData);
 
                 // start drag
-                drag->start(Qt::CopyAction | Qt::MoveAction);
+                drag->exec(Qt::CopyAction | Qt::MoveAction);
 
                 return;
         }

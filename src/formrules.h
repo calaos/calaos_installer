@@ -78,6 +78,8 @@ class FormRules : public QWidget
 
                 bool projectChanged() { return project_changed; }
 
+                static QString getIconFromRoom(Room *room);
+
         protected:
                 void changeEvent(QEvent *e);
 
@@ -135,6 +137,8 @@ class FormRules : public QWidget
 
                 void ClearProject();
                 void setProjectModified(bool modified);
+
+                void moveIOToRoom();
 
         private slots:
                 void on_bt_action_down_clicked();

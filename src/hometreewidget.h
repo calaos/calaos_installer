@@ -22,8 +22,10 @@ class HomeTreeWidget : public QTreeWidget
 
         protected:
                 QPoint dragStartPosition;
-//                void dragEnterEvent(QDragEnterEvent *e) { e->accept(); }
-//                void dragMoveEvent(QDragMoveEvent *e) { e->accept(); }
+
+                void dragEnterEvent(QDragEnterEvent *e);
+                //void dragMoveEvent(QDragMoveEvent *e);
+                //void dropEvent(QDropEvent *event);
 
 };
 
