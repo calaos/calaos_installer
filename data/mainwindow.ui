@@ -51,6 +51,8 @@ QFrame .HeaderButton
 	min-width: 30px;
 	margin-top: 2px;
 	margin-bottom: 2px;
+	margin-left: 5px;
+	margin-right: 5px;
 }
 QFrame .HeaderButton::menu-indicator 
 {
@@ -192,7 +194,7 @@ QFrame .HeaderButton:pressed
             </property>
             <property name="icon">
              <iconset resource="resources.qrc">
-              <normaloff>:/img/drive-removable-media.png</normaloff>:/img/drive-removable-media.png</iconset>
+              <normaloff>:/img/logo_huge.png</normaloff>:/img/logo_huge.png</iconset>
             </property>
             <property name="iconSize">
              <size>
@@ -225,7 +227,7 @@ QFrame .HeaderButton:pressed
            <widget class="QPushButton" name="btHelp">
             <property name="minimumSize">
              <size>
-              <width>46</width>
+              <width>56</width>
               <height>40</height>
              </size>
             </property>
