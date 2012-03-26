@@ -94,10 +94,10 @@
         <file>img/svn-commit.png</file>
         <file>img/svn-update.png</file>
         <file>img/logo_header.png</file>
-        <file>img/drive-removable-media.png</file>
         <file>img/logo_wago.png</file>
         <file>img/help-about.png</file>
         <file>img/qt.png</file>
         <file>img/document-print.png</file>
+        <file>img/drive-removable-media.png</file>
     </qresource>
 </RCC>
