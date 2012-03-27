@@ -7,7 +7,7 @@ HomeTreeWidget::HomeTreeWidget(QWidget *parent):
                 QTreeWidget(parent)
 {
         setAcceptDrops(false);
-        setDragEnabled(true);
+        setDragEnabled(false);
 }
 
 bool HomeTreeWidget::dropMimeData(QTreeWidgetItem *parent, int, const QMimeData *data, Qt::DropAction)
@@ -181,6 +181,7 @@ void HomeTreeWidget::mouseMoveEvent(QMouseEvent *event)
                 QMimeData *mimeData = new QMimeData;
                 QList<QUrl> list;
                 QString qs = QString::fromUtf8(id.c_str());
+                qDebug() << "drag item: " << id.c_str();
                 list.append(QUrl(qs));
 
                 // mime stuff

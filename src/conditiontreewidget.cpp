@@ -15,17 +15,12 @@ ConditionTreeWidget::ConditionTreeWidget(QWidget *parent):
 bool ConditionTreeWidget::dropMimeData(QTreeWidgetItem *, int, const QMimeData *data, Qt::DropAction)
 {
         QList<QUrl> urlList;
-        QFileInfo info;
-        QString fName;
 
         urlList = data->urls(); // retrieve list of urls
 
         foreach(QUrl url, urlList) // iterate over list
         {
-                fName = url.toLocalFile();
-                info.setFile( fName );
-
-                string id = info.fileName().toUtf8().data();
+                string id = url.toString().toUtf8().data();
 
                 Input *input = ListeRoom::Instance().get_input(id);
                 Output *output = NULL;

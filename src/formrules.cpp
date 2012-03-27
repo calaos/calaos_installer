@@ -1945,7 +1945,7 @@ void FormRules::itemTempWizard()
                                                 Condition *cond = new Condition(COND_STD);
                                                 cond->Add(itinput->getInput());
                                                 cond->get_params().Add(itinput->getInput()->get_param("id"), "");
-                                                cond->get_operator().Add(itinput->getInput()->get_param("id"), "<=");
+                                                cond->get_operator().Add(itinput->getInput()->get_param("id"), "INF=");
                                                 cond->get_params_var().Add(itinput->getInput()->get_param("id"),
                                                                            consigne->get_param("id"));
 
@@ -1963,7 +1963,7 @@ void FormRules::itemTempWizard()
                                                 Condition *cond = new Condition(COND_STD);
                                                 cond->Add(itinput->getInput());
                                                 cond->get_params().Add(itinput->getInput()->get_param("id"), "");
-                                                cond->get_operator().Add(itinput->getInput()->get_param("id"), ">");
+                                                cond->get_operator().Add(itinput->getInput()->get_param("id"), "SUP");
                                                 cond->get_params_var().Add(itinput->getInput()->get_param("id"),
                                                                            consigne->get_param("id"));
 

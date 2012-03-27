@@ -2,9 +2,11 @@
 #include "ui_dialogiolist.h"
 
 DialogIOList::DialogIOList(Input *_in, Output *_out, QWidget *parent) :
-    QDialog(parent),
-    ui(new Ui::DialogIOList),
-    input(_in), output(_out)
+        QDialog(parent),
+        ui(new Ui::DialogIOList),
+        input(_in),
+        output(_out),
+        item_current(NULL)
 {
         ui->setupUi(this);
 
@@ -31,7 +33,10 @@ DialogIOList::DialogIOList(Input *_in, Output *_out, QWidget *parent) :
                                         item->setData(2, Qt::DisplayRole, QString::fromUtf8(in->get_param("name").c_str()));
 
                                         if (ui->treeWidget->topLevelItemCount() == 1)
+                                        {
                                                 item->setSelected(true);
+                                                item_current = item;
+                                        }
                                 }
                         }
                 }
@@ -57,7 +62,10 @@ DialogIOList::DialogIOList(Input *_in, Output *_out, QWidget *parent) :
                                         item->setData(2, Qt::DisplayRole, QString::fromUtf8(out->get_param("name").c_str()));
 
                                         if (ui->treeWidget->topLevelItemCount() == 1)
+                                        {
                                                 item->setSelected(true);
+                                                item_current = item;
+                                        }
                                 }
                         }
                 }
@@ -77,7 +85,7 @@ DialogIOList::~DialogIOList()
 
 Input *DialogIOList::getInput()
 {
-        QTreeWidgetItemInput *item = dynamic_cast<QTreeWidgetItemInput *>(ui->treeWidget->currentItem());
+        QTreeWidgetItemInput *item = dynamic_cast<QTreeWidgetItemInput *>(item_current);
         if (item)
                 return item->getInput();
 
@@ -86,7 +94,7 @@ Input *DialogIOList::getInput()
 
 Output *DialogIOList::getOutput()
 {
-        QTreeWidgetItemOutput *item = dynamic_cast<QTreeWidgetItemOutput *>(ui->treeWidget->currentItem());
+        QTreeWidgetItemOutput *item = dynamic_cast<QTreeWidgetItemOutput *>(item_current);
         if (item)
                 return item->getOutput();
 
@@ -106,3 +114,7 @@ void DialogIOList::changeEvent(QEvent *e)
         }
 }
 
+void DialogIOList::on_treeWidget_currentItemChanged(QTreeWidgetItem *current, QTreeWidgetItem *)
+{
+        item_current = current;
+}

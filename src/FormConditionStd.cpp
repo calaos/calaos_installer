@@ -14,6 +14,9 @@ FormConditionStd::FormConditionStd(QWidget *parent) :
         setFocusPolicy(Qt::NoFocus);
         setFocusProxy(parent);
         setMouseTracking(true);
+
+        actionMenu = new QMenu(this);
+        actionMenu->setProperty("class", QVariant("ActionMenu"));
 }
 
 FormConditionStd::~FormConditionStd()
@@ -87,13 +90,13 @@ void FormConditionStd::setCondition(QTreeWidgetItem *item, Rule *_rule, Conditio
 
         if (!io) return;
 
+        onStart = true;
+
         string type = io->get_param("type");
         string id = io->get_param("id");
         if (IOBase::isAudioType(io->get_param("type")) ||
             IOBase::isCameraType(io->get_param("type")))
                 id = io->get_param("iid");
-
-        setDone = false;
 
         //Search room icon
         for (int i = 0;i < ListeRoom::Instance().size();i++)
@@ -131,9 +134,6 @@ void FormConditionStd::setCondition(QTreeWidgetItem *item, Rule *_rule, Conditio
         ui->labelItemName->setText(QString::fromUtf8(io->get_param("name").c_str()));
 
         ui->comboOp->clear();
-        ui->comboValue->clear();
-        ui->comboValue->setEditable(false);
-
         ui->comboOp->addItem(QString::fromUtf8("=="), QString::fromUtf8("=="));
         ui->comboOp->addItem(QString::fromUtf8("!="), QString::fromUtf8("!="));
         ui->comboOp->addItem(QString::fromUtf8(">"), QString::fromUtf8("SUP"));
@@ -154,95 +154,83 @@ void FormConditionStd::setCondition(QTreeWidgetItem *item, Rule *_rule, Conditio
         else if (condition->get_operator().get_param(id) == "INF=")
                 ui->comboOp->setCurrentIndex(5);
 
-        if (type == "InputTime" || type == "InputTimer" || type == "WIDigitalBP" ||
-            type == "scenario" || type == "InPlageHoraire" || type == "InternalBool" ||
-            type == "WODigital")
-        {
-                ui->comboValue->addItem(QString::fromUtf8("Activé"), QString::fromUtf8("true"));
-                ui->comboValue->addItem(QString::fromUtf8("Désactivé"), QString::fromUtf8("false"));
-                ui->comboValue->addItem(QString::fromUtf8("Les deux"), QString::fromUtf8("changed"));
+        actionMenu->clear();
+        ui->editValue->clear();
+        ui->buttonMore->setEnabled(true);
 
-                if (condition->getType() == COND_STD)
-                {
-                        if (condition->get_params().get_param(id) == "true")
-                                ui->comboValue->setCurrentIndex(0);
-                        else if (condition->get_params().get_param(id) == "false")
-                                ui->comboValue->setCurrentIndex(1);
-                        else if (condition->get_params().get_param(id) == "changed")
-                                ui->comboValue->setCurrentIndex(2);
-                }
-                else
-                {
-                        if (condition->getOutputParam() == "true")
-                                ui->comboValue->setCurrentIndex(0);
-                        else if (condition->getOutputParam() == "false")
-                                ui->comboValue->setCurrentIndex(1);
-                        else if (condition->getOutputParam() == "changed")
-                                ui->comboValue->setCurrentIndex(2);
-                }
+        if (condition->getType() == COND_STD)
+                ui->editValue->setText(QString::fromUtf8(condition->get_params().get_param(id).c_str()));
+        else
+                ui->editValue->setText(QString::fromUtf8(condition->getOutputParam().c_str()));
+
+        if (type == "InputTime")
+        {
+                addActionMenu(QString::fromUtf8("true"), QString::fromUtf8("Evennement sur heure/date choisie"), QString::fromUtf8("true"));
+                addActionMenu(QString::fromUtf8("false"), QString::fromUtf8("Evennement en dehors de l'heure/date choisie"), QString::fromUtf8("false"));
+                addActionMenu(QString::fromUtf8("changed"), QString::fromUtf8("Evennement sur n'importe quel état"), QString::fromUtf8("changed"));
+        }
+        else if (type == "InputTimer")
+        {
+                addActionMenu(QString::fromUtf8("true"), QString::fromUtf8("Evennement sur tempo terminé"), QString::fromUtf8("true"));
+                addActionMenu(QString::fromUtf8("false"), QString::fromUtf8("Evennement sur tempo non terminé"), QString::fromUtf8("false"));
+                addActionMenu(QString::fromUtf8("changed"), QString::fromUtf8("Evennement sur n'importe quel état"), QString::fromUtf8("changed"));
+        }
+        else if (type == "WIDigitalBP")
+        {
+                addActionMenu(QString::fromUtf8("true"), QString::fromUtf8("L'entrée est activé"), QString::fromUtf8("true"));
+                addActionMenu(QString::fromUtf8("false"), QString::fromUtf8("L'entrée est désactivé"), QString::fromUtf8("false"));
+                addActionMenu(QString::fromUtf8("changed"), QString::fromUtf8("Evennement sur n'importe quel état"), QString::fromUtf8("changed"));
+        }
+        else if (type == "scenario")
+        {
+                addActionMenu(QString::fromUtf8("true"), QString::fromUtf8("Le bouton scénario est executé"), QString::fromUtf8("true"));
+                addActionMenu(QString::fromUtf8("changed"), QString::fromUtf8("Evennement sur n'importe quel état"), QString::fromUtf8("changed"));
+        }
+        else if (type == "InPlageHoraire")
+        {
+                addActionMenu(QString::fromUtf8("true"), QString::fromUtf8("Evennement sur entrée dans la plage horaire"), QString::fromUtf8("true"));
+                addActionMenu(QString::fromUtf8("false"), QString::fromUtf8("Evennement sur sortie de la plage horaire"), QString::fromUtf8("false"));
+                addActionMenu(QString::fromUtf8("changed"), QString::fromUtf8("Evennement sur n'importe quel état"), QString::fromUtf8("changed"));
+        }
+        else if (type == "InternalBool")
+        {
+                addActionMenu(QString::fromUtf8("true"), QString::fromUtf8("La variable est activée"), QString::fromUtf8("true"));
+                addActionMenu(QString::fromUtf8("false"), QString::fromUtf8("La variable est désactivée"), QString::fromUtf8("false"));
+                addActionMenu(QString::fromUtf8("changed"), QString::fromUtf8("Evennement sur n'importe quel état"), QString::fromUtf8("changed"));
+        }
+        else if (type == "WODigital")
+        {
+                addActionMenu(QString::fromUtf8("true"), QString::fromUtf8("La sortie est activée"), QString::fromUtf8("true"));
+                addActionMenu(QString::fromUtf8("false"), QString::fromUtf8("La sortie est désactivée"), QString::fromUtf8("false"));
+                addActionMenu(QString::fromUtf8("changed"), QString::fromUtf8("Evennement sur n'importe quel état"), QString::fromUtf8("changed"));
         }
         else if (type == "WIDigitalTriple")
         {
-                ui->comboValue->addItem(QString::fromUtf8("1 appui"), QString::fromUtf8("1"));
-                ui->comboValue->addItem(QString::fromUtf8("2 appuis"), QString::fromUtf8("2"));
-                ui->comboValue->addItem(QString::fromUtf8("3 appuis"), QString::fromUtf8("3"));
-
-                if (condition->get_params().get_param(id) == "1")
-                        ui->comboValue->setCurrentIndex(0);
-                else if (condition->get_params().get_param(id) == "2")
-                        ui->comboValue->setCurrentIndex(1);
-                else if (condition->get_params().get_param(id) == "3")
-                        ui->comboValue->setCurrentIndex(2);
+                addActionMenu(QString::fromUtf8("1"), QString::fromUtf8("Evennement sur 1 appui"), QString::fromUtf8("1"));
+                addActionMenu(QString::fromUtf8("2"), QString::fromUtf8("Evennement sur 2 appuis"), QString::fromUtf8("2"));
+                addActionMenu(QString::fromUtf8("3"), QString::fromUtf8("Evennement sur 3 appuis"), QString::fromUtf8("3"));
         }
         else if (type == "WITemp" || type == "OWTemp")
         {
-                ui->comboValue->setEditable(true);
-
-                for (int i = 10;i < 30;i++)
-                        ui->comboValue->addItem(QString::fromStdString(to_string(i)) + QString::fromUtf8(" °C"), QString::fromStdString(to_string(i)));
-        }
-        else if (type == "InternalInt")
-        {
-                ui->comboValue->setEditable(true);
-
-                for (int i = 0;i < 30;i++)
-                        ui->comboValue->addItem(QString::fromStdString(to_string(i)), QString::fromStdString(to_string(i)));
+                addActionMenu(QString::fromUtf8("20"), QString::fromUtf8("Evennement sur une témperature en °C"), QString::fromUtf8("20"));
         }
         else if (IOBase::isAudioType(type))
         {
-                ui->comboValue->addItem(QString::fromUtf8("Lecture"), QString::fromUtf8("onplay"));
-                ui->comboValue->addItem(QString::fromUtf8("Pause"), QString::fromUtf8("onpause"));
-                ui->comboValue->addItem(QString::fromUtf8("Stop"), QString::fromUtf8("onstop"));
-                ui->comboValue->addItem(QString::fromUtf8("Changement de piste"), QString::fromUtf8("onsongchange"));
-                ui->comboValue->addItem(QString::fromUtf8("Erreur"), QString::fromUtf8("onerror"));
-
-                if (condition->get_params().get_param(id) == "onplay")
-                        ui->comboValue->setCurrentIndex(0);
-                else if (condition->get_params().get_param(id) == "onpause")
-                        ui->comboValue->setCurrentIndex(1);
-                else if (condition->get_params().get_param(id) == "onstop")
-                        ui->comboValue->setCurrentIndex(2);
-                else if (condition->get_params().get_param(id) == "onsongchange")
-                        ui->comboValue->setCurrentIndex(3);
-                else if (condition->get_params().get_param(id) == "onerror")
-                        ui->comboValue->setCurrentIndex(4);
+                addActionMenu(QString::fromUtf8("onplay"), QString::fromUtf8("Evennement lors de la lecture"), QString::fromUtf8("onplay"));
+                addActionMenu(QString::fromUtf8("onpause"), QString::fromUtf8("Evennement lors de la pause"), QString::fromUtf8("onpause"));
+                addActionMenu(QString::fromUtf8("onstop"), QString::fromUtf8("Evennement lors de l'arrêt"), QString::fromUtf8("onstop"));
+                addActionMenu(QString::fromUtf8("onsongchange"), QString::fromUtf8("Evennement lors du changement de piste"), QString::fromUtf8("onsongchange"));
+                addActionMenu(QString::fromUtf8("onerror"), QString::fromUtf8("Evennement lors d'erreur"), QString::fromUtf8("onerror"));
         }
         else
         {
                 if (condition->getType() == COND_OUTPUT)
-                {
-                        ui->comboValue->addItem(QString::fromUtf8("changed"), QString::fromUtf8("changed"));
-
-                        if (condition->getOutputParam() == "changed")
-                                ui->comboValue->setCurrentIndex(0);
-                }
-
-                ui->comboValue->setEditable(true);
-                QString s = QString::fromUtf8(condition->get_params().get_param(id).c_str());
-                ui->comboValue->lineEdit()->setText(s);
+                        addActionMenu(QString::fromUtf8("changed"), QString::fromUtf8("Evennement lors du changement d'état"), QString::fromUtf8("changed"));
+                else
+                        ui->buttonMore->setEnabled(false);
         }
 
-        setDone = true;
+        onStart = false;
 }
 
 void FormConditionStd::on_btMore_clicked()
@@ -257,7 +245,7 @@ void FormConditionStd::on_btMore_clicked()
 
                 string id = input->get_param("id");
                 if (IOBase::isAudioType(input->get_param("type")) ||
-                                IOBase::isCameraType(input->get_param("type")))
+                    IOBase::isCameraType(input->get_param("type")))
                         id = input->get_param("iid");
 
                 DialogIOList dio(input, NULL);
@@ -266,7 +254,7 @@ void FormConditionStd::on_btMore_clicked()
                 {
                         string var_id = dio.getInput()->get_param("id");
                         if (IOBase::isAudioType(dio.getInput()->get_param("type")) ||
-                                        IOBase::isCameraType(dio.getInput()->get_param("type")))
+                            IOBase::isCameraType(dio.getInput()->get_param("type")))
                                 var_id = dio.getInput()->get_param("iid");
 
                         condition->get_params().Add(id, "");
@@ -283,7 +271,7 @@ void FormConditionStd::on_btMore_clicked()
 
                 string id = output->get_param("id");
                 if (IOBase::isAudioType(output->get_param("type")) ||
-                                IOBase::isCameraType(output->get_param("type")))
+                    IOBase::isCameraType(output->get_param("type")))
                         id = output->get_param("iid");
 
                 DialogIOList dio(NULL, output);
@@ -292,7 +280,7 @@ void FormConditionStd::on_btMore_clicked()
                 {
                         string var_id = dio.getOutput()->get_param("id");
                         if (IOBase::isAudioType(dio.getOutput()->get_param("type")) ||
-                                        IOBase::isCameraType(dio.getOutput()->get_param("type")))
+                            IOBase::isCameraType(dio.getOutput()->get_param("type")))
                                 var_id = dio.getOutput()->get_param("iid");
 
                         condition->setOutputParamVar(var_id);
@@ -303,10 +291,9 @@ void FormConditionStd::on_btMore_clicked()
         }
 }
 
-
 void FormConditionStd::on_comboOp_currentIndexChanged(int)
 {
-        if (!setDone) return;
+        if (onStart) return;
 
         if (condition->getType() == COND_STD)
         {
@@ -346,9 +333,9 @@ void FormConditionStd::on_comboOp_currentIndexChanged(int)
         FormRules::updateItemCondition(qitem, condition);
 }
 
-void FormConditionStd::on_comboValue_editTextChanged(QString)
+void FormConditionStd::on_editValue_textChanged(const QString &arg1)
 {
-        if (!setDone) return;
+        if (onStart) return;
 
         if (condition->getType() == COND_STD)
         {
@@ -361,21 +348,10 @@ void FormConditionStd::on_comboValue_editTextChanged(QString)
 
                 string id = input->get_param("id");
                 if (IOBase::isAudioType(input->get_param("type")) ||
-                                IOBase::isCameraType(input->get_param("type")))
+                    IOBase::isCameraType(input->get_param("type")))
                         id = input->get_param("iid");
 
-                string value;
-                int current = ui->comboValue->currentIndex();
-
-                if (ui->comboValue->isEditable() && current > -1 &&
-                                ui->comboValue->itemData(current).isNull())
-                {
-                        value = ui->comboValue->lineEdit()->text().toUtf8().constData();
-                }
-                else
-                {
-                        value = ui->comboValue->itemData(current).toString().toUtf8().constData();
-                }
+                string value = ui->editValue->text().toUtf8().constData();
 
                 condition->get_params().Add(id, value);
                 condition->get_params_var().Delete(id);
@@ -388,21 +364,10 @@ void FormConditionStd::on_comboValue_editTextChanged(QString)
 
                 string id = output->get_param("id");
                 if (IOBase::isAudioType(output->get_param("type")) ||
-                                IOBase::isCameraType(output->get_param("type")))
+                    IOBase::isCameraType(output->get_param("type")))
                         id = output->get_param("iid");
 
-                string value;
-                int current = ui->comboValue->currentIndex();
-
-                if (ui->comboValue->isEditable() && current > -1 &&
-                                ui->comboValue->itemData(current).isNull())
-                {
-                        value = ui->comboValue->lineEdit()->text().toUtf8().constData();
-                }
-                else
-                {
-                        value = ui->comboValue->itemData(current).toString().toUtf8().constData();
-                }
+                string value = ui->editValue->text().toUtf8().constData();
 
                 condition->setOutputParam(value);
                 condition->setOutputParamVar("");
@@ -411,9 +376,20 @@ void FormConditionStd::on_comboValue_editTextChanged(QString)
         FormRules::updateItemCondition(qitem, condition);
 }
 
-void FormConditionStd::on_comboValue_currentIndexChanged(int)
+void FormConditionStd::addActionMenu(QString action, QString help, QString cmd)
 {
-        if (!setDone) return;
+        QString h = RuleActionTpl.arg(help);
+        RuleActionMenu *ac = new RuleActionMenu(NULL, action, h, cmd);
+        actionMenu->addAction(ac);
+        connect(ac, SIGNAL(triggered(RuleActionMenu*)), this, SLOT(menuAction(RuleActionMenu*)));
+}
 
-        on_comboValue_editTextChanged("");
+void FormConditionStd::on_buttonMore_clicked()
+{
+        actionMenu->exec(QCursor::pos());
+}
+
+void FormConditionStd::menuAction(RuleActionMenu *action)
+{
+        ui->editValue->setText(action->getCommand());
 }

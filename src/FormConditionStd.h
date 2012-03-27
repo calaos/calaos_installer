@@ -6,6 +6,8 @@
 #include <ListeRoom.h>
 #include <dialogiolist.h>
 
+#include "RuleActionMenu.h"
+
 using namespace Calaos;
 
 namespace Ui
@@ -35,14 +37,19 @@ class FormConditionStd : public QWidget
                 Condition *condition;
                 QTreeWidgetItem *qitem;
 
-                bool setDone;
+                bool onStart;
 
+                QMenu *actionMenu;
+
+                void addActionMenu(QString action, QString help, QString cmd);
 
         private slots:
-                void on_comboValue_currentIndexChanged(int index);
-                void on_comboValue_editTextChanged(QString );
-                void on_comboOp_currentIndexChanged(int index);
+                void menuAction(RuleActionMenu *);
+
                 void on_btMore_clicked();
+                void on_editValue_textChanged(const QString &arg1);
+                void on_buttonMore_clicked();
+                void on_comboOp_currentIndexChanged(int);
 };
 
 #endif // FORMCONDITIONSTD_H

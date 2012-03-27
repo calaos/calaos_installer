@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>420</width>
-    <height>169</height>
+    <width>438</width>
+    <height>192</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -57,7 +57,8 @@
 	border-radius: 11px;
 	padding: 5px;
 	background: qradialgradient(cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4, radius: 1.35, stop: 0 #fff, stop: 1 #888);
-	min-width: 80px;
+	min-width: 20px;
+    min-height: 16px;
 }
 #frameContent .buttonStyled:hover
 {
@@ -67,13 +68,13 @@
 {
 	background: qradialgradient(cx: 0.4, cy: -0.1, fx: 0.4, fy: -0.1, radius: 1.35, stop: 0 #fff, stop: 1 #ddd);
 }
-#frameContent QComboBox
+#frameContent QComboBox, #frameContent QLineEdit
 {
 	border: none;
 	background: rgb(120, 120, 120);
 	padding: 3px;
 }
-#frameContent QComboBox:hover
+#frameContent QComboBox:hover, #frameContent QLineEdit:hover
 {
 	background: rgb(170, 170, 170);
 }
@@ -94,7 +95,29 @@
 #frameContent QComboBox::down-arrow
 {
 	image: url(:/img/1downarrow.png);
-}</string>
+}
+
+.ActionMenu 
+{
+	background-color: rgb(78, 78, 78);
+	border: 1px solid black;
+	min-width: 300px;
+}
+
+.ActionMenu .MenuItem
+{
+	min-width: 300px;
+	border-bottom-width: 1px;
+    border-bottom-color: rgb(72, 72, 72);
+    border-bottom-style: solid;
+}
+
+.ActionMenu .MenuItem:hover
+{	
+	background-color: rgb(120, 120, 120);
+}
+
+</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_2">
    <property name="spacing">
@@ -276,13 +299,6 @@
             </property>
            </widget>
           </item>
-          <item row="0" column="1">
-           <widget class="QComboBox" name="comboValue">
-            <property name="editable">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
           <item row="1" column="1">
            <widget class="QPushButton" name="btMore">
             <property name="text">
@@ -292,6 +308,43 @@
              <string>buttonStyled</string>
             </property>
            </widget>
+          </item>
+          <item row="0" column="1">
+           <layout class="QHBoxLayout" name="horizontalLayout_3">
+            <item>
+             <widget class="QLineEdit" name="editValue">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="buttonMore">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="icon">
+               <iconset resource="resources.qrc">
+                <normaloff>:/img/edit_add.png</normaloff>:/img/edit_add.png</iconset>
+              </property>
+              <property name="iconSize">
+               <size>
+                <width>16</width>
+                <height>16</height>
+               </size>
+              </property>
+              <property name="class" stdset="0">
+               <string>buttonStyled</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
           </item>
          </layout>
         </item>

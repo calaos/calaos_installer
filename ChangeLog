@@ -68,4 +68,8 @@
 		* Ajout d'un menu contextuel sur les IO pour les deplacer de piece
 		* Modifications de l'interface
 
+27-03-2012  Raoul Hecky
+
+		* Correction des regles cree automatiquement pour le chauffage
+		* Changement de l'interface de selection des actions/conditions
 

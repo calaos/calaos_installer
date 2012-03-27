@@ -6,7 +6,9 @@
 FormActionStd::FormActionStd(QWidget *parent) :
         QWidget(parent),
         ui(new Ui::FormActionStd),
-        rule(NULL), action(NULL)
+        rule(NULL),
+        action(NULL),
+        actionMenu(NULL)
 {
         ui->setupUi(this);
 
@@ -14,6 +16,9 @@ FormActionStd::FormActionStd(QWidget *parent) :
         setFocusPolicy(Qt::NoFocus);
         setFocusProxy(parent);
         setMouseTracking(true);
+
+        actionMenu = new QMenu(this);
+        actionMenu->setProperty("class", QVariant("ActionMenu"));
 }
 
 FormActionStd::~FormActionStd()
@@ -49,13 +54,13 @@ void FormActionStd::setAction(QTreeWidgetItem *item, Rule *_rule, Action *_actio
 
         if (!output) return;
 
+        onStart = true;
+
         string type = output->get_param("type");
         string id = output->get_param("id");
         if (IOBase::isAudioType(output->get_param("type")) ||
             IOBase::isCameraType(output->get_param("type")))
                 id = output->get_param("oid");
-
-        setDone = false;
 
         //Search room icon
         for (int i = 0;i < ListeRoom::Instance().size();i++)
@@ -99,231 +104,131 @@ void FormActionStd::setAction(QTreeWidgetItem *item, Rule *_rule, Action *_actio
 
         ui->labelItemName->setText(QString::fromUtf8(output->get_param("name").c_str()));
 
-        ui->comboValue->clear();
-        ui->comboValue->setEditable(false);
+        ui->editValue->clear();
+        ui->editValue->setText(QString::fromUtf8(action->get_params().get_param(id).c_str()));
 
-        if (type == "OutputFake" || type == "InputTimer" ||
-            type == "scenario" || type == "InternalBool")
+        actionMenu->clear();
+        ui->buttonMore->setEnabled(true);
+
+        if (type == "OutputFake")
         {
-                ui->comboValue->addItem(QString::fromUtf8("Activer"), QString::fromUtf8("true"));
-                ui->comboValue->addItem(QString::fromUtf8("Désactiver"), QString::fromUtf8("false"));
-                ui->comboValue->addItem(QString::fromUtf8("Inverser"), QString::fromUtf8("toggle"));
-
-                if (action->get_params().get_param(id) == "true")
-                        ui->comboValue->setCurrentIndex(0);
-                else if (action->get_params().get_param(id) == "false")
-                        ui->comboValue->setCurrentIndex(1);
-                else if (action->get_params().get_param(id) == "toggle")
-                        ui->comboValue->setCurrentIndex(2);
+                addActionMenu(QString::fromUtf8("true"), QString::fromUtf8("Activer la sortie"), QString::fromUtf8("true"));
+                addActionMenu(QString::fromUtf8("false"), QString::fromUtf8("Désactiver la sortie"), QString::fromUtf8("false"));
+                addActionMenu(QString::fromUtf8("toggle"), QString::fromUtf8("Inverser l'état de la sortie"), QString::fromUtf8("toggle"));
+        }
+        else if (type == "InputTimer")
+        {
+                addActionMenu(QString::fromUtf8("start / true"), QString::fromUtf8("Démarre la tempo"), QString::fromUtf8("true"));
+                addActionMenu(QString::fromUtf8("stop / false"), QString::fromUtf8("Arrête la tempo"), QString::fromUtf8("false"));
+                addActionMenu(QString::fromUtf8("h:m:s:ms"), QString::fromUtf8("Change la durée de la tempo"), QString::fromUtf8("0:0:0:200"));
+        }
+        else if (type == "scenario")
+        {
+                addActionMenu(QString::fromUtf8("true"), QString::fromUtf8("Lance le scénario"), QString::fromUtf8("true"));
+                addActionMenu(QString::fromUtf8("false"), QString::fromUtf8("Arrête le scénario (si possible)"), QString::fromUtf8("false"));
+        }
+        else if (type == "InternalBool")
+        {
+                addActionMenu(QString::fromUtf8("true"), QString::fromUtf8("Mets l'état actif"), QString::fromUtf8("true"));
+                addActionMenu(QString::fromUtf8("false"), QString::fromUtf8("Mets l'état inactif"), QString::fromUtf8("false"));
+                addActionMenu(QString::fromUtf8("toggle"), QString::fromUtf8("Inverse l'état"), QString::fromUtf8("toggle"));
         }
         else if (type == "WODigital")
         {
-                ui->comboValue->setEditable(true);
-
-                ui->comboValue->addItem(QString::fromUtf8("Activer"), QString::fromUtf8("true"));
-                ui->comboValue->addItem(QString::fromUtf8("Désactiver"), QString::fromUtf8("false"));
-                ui->comboValue->addItem(QString::fromUtf8("Inverser"), QString::fromUtf8("toggle"));
-                ui->comboValue->addItem(QString::fromUtf8("Impulsion X milisecondes"), QString::fromUtf8("impulse "));
-
-                if (action->get_params().get_param(id) == "true")
-                        ui->comboValue->setCurrentIndex(0);
-                else if (action->get_params().get_param(id) == "false")
-                        ui->comboValue->setCurrentIndex(1);
-                else if (action->get_params().get_param(id) == "toggle")
-                        ui->comboValue->setCurrentIndex(2);
-                else
-                {
-                        QString s = QString::fromUtf8(action->get_params().get_param(id).c_str());
-                        ui->comboValue->lineEdit()->setText(s);
-                }
+                addActionMenu(QString::fromUtf8("true"), QString::fromUtf8("Allume la lumière"), QString::fromUtf8("true"));
+                addActionMenu(QString::fromUtf8("false"), QString::fromUtf8("Eteint la lumière"), QString::fromUtf8("false"));
+                addActionMenu(QString::fromUtf8("toggle"), QString::fromUtf8("Inverser l'état de la lumière"), QString::fromUtf8("toggle"));
+                addActionMenu(QString::fromUtf8("impulse X"), QString::fromUtf8("Allume la lumière pendant X ms"), QString::fromUtf8("impulse 500"));
+                addActionMenu(QString::fromUtf8("impulse W X Y Z"), QString::fromUtf8("Allume/éteint la lumière suivant un schéma"), QString::fromUtf8("impulse 500 200 500 200"));
         }
         else if (type == "WOVolet")
         {
-                ui->comboValue->setEditable(true);
-
-                ui->comboValue->addItem(QString::fromUtf8("Monter"), QString::fromUtf8("up"));
-                ui->comboValue->addItem(QString::fromUtf8("Descendre"), QString::fromUtf8("down"));
-                ui->comboValue->addItem(QString::fromUtf8("Arrêter"), QString::fromUtf8("stop"));
-                ui->comboValue->addItem(QString::fromUtf8("Inverser"), QString::fromUtf8("toggle"));
-                ui->comboValue->addItem(QString::fromUtf8("Impulsion sur la montée de X ms"), QString::fromUtf8("impulse up "));
-                ui->comboValue->addItem(QString::fromUtf8("Impulsion sur la descente de X ms"), QString::fromUtf8("impulse down "));
-
-                if (action->get_params().get_param(id) == "up")
-                        ui->comboValue->setCurrentIndex(0);
-                else if (action->get_params().get_param(id) == "down")
-                        ui->comboValue->setCurrentIndex(1);
-                else if (action->get_params().get_param(id) == "stop")
-                        ui->comboValue->setCurrentIndex(2);
-                else if (action->get_params().get_param(id) == "toggle")
-                        ui->comboValue->setCurrentIndex(3);
-                else
-                {
-                        QString s = QString::fromUtf8(action->get_params().get_param(id).c_str());
-                        ui->comboValue->lineEdit()->setText(s);
-                }
+                addActionMenu(QString::fromUtf8("up"), QString::fromUtf8("Monte le volet"), QString::fromUtf8("up"));
+                addActionMenu(QString::fromUtf8("down"), QString::fromUtf8("Descend le volet"), QString::fromUtf8("down"));
+                addActionMenu(QString::fromUtf8("stop"), QString::fromUtf8("Arrête le volet"), QString::fromUtf8("stop"));
+                addActionMenu(QString::fromUtf8("toggle"), QString::fromUtf8("Inverse l'état du volet"), QString::fromUtf8("toggle"));
+                addActionMenu(QString::fromUtf8("impulse up X"), QString::fromUtf8("Impulsion sur la montée de X ms"), QString::fromUtf8("impulse up 200"));
+                addActionMenu(QString::fromUtf8("impulse down X"), QString::fromUtf8("Impulsion sur la montée de X ms"), QString::fromUtf8("impulse down 200"));
         }
         else if (type == "WOVoletSmart")
         {
-                ui->comboValue->setEditable(true);
-
-                ui->comboValue->addItem(QString::fromUtf8("Monter"), QString::fromUtf8("up"));
-                ui->comboValue->addItem(QString::fromUtf8("Descendre"), QString::fromUtf8("down"));
-                ui->comboValue->addItem(QString::fromUtf8("Arrêter"), QString::fromUtf8("stop"));
-                ui->comboValue->addItem(QString::fromUtf8("Inverser"), QString::fromUtf8("toggle"));
-                ui->comboValue->addItem(QString::fromUtf8("Impulsion sur la montée de X ms"), QString::fromUtf8("impulse up "));
-                ui->comboValue->addItem(QString::fromUtf8("Impulsion sur la descente de X ms"), QString::fromUtf8("impulse down "));
-                ui->comboValue->addItem(QString::fromUtf8("Mettre à la position [0-100]"), QString::fromUtf8("set "));
-                ui->comboValue->addItem(QString::fromUtf8("Monter de X pourcent"), QString::fromUtf8("up "));
-                ui->comboValue->addItem(QString::fromUtf8("Descendre de X pourcent"), QString::fromUtf8("down "));
-                ui->comboValue->addItem(QString::fromUtf8("Calibrer"), QString::fromUtf8("calibrate"));
-
-                if (action->get_params().get_param(id) == "up")
-                        ui->comboValue->setCurrentIndex(0);
-                else if (action->get_params().get_param(id) == "down")
-                        ui->comboValue->setCurrentIndex(1);
-                else if (action->get_params().get_param(id) == "stop")
-                        ui->comboValue->setCurrentIndex(2);
-                else if (action->get_params().get_param(id) == "toggle")
-                        ui->comboValue->setCurrentIndex(3);
-                else
-                {
-                        QString s = QString::fromUtf8(action->get_params().get_param(id).c_str());
-                        ui->comboValue->lineEdit()->setText(s);
-                }
+                addActionMenu(QString::fromUtf8("up"), QString::fromUtf8("Monte le volet"), QString::fromUtf8("up"));
+                addActionMenu(QString::fromUtf8("down"), QString::fromUtf8("Descend le volet"), QString::fromUtf8("down"));
+                addActionMenu(QString::fromUtf8("stop"), QString::fromUtf8("Arrête le volet"), QString::fromUtf8("stop"));
+                addActionMenu(QString::fromUtf8("toggle"), QString::fromUtf8("Inverse l'état du volet"), QString::fromUtf8("toggle"));
+                addActionMenu(QString::fromUtf8("impulse up X"), QString::fromUtf8("Impulsion sur la montée de X ms"), QString::fromUtf8("impulse up 200"));
+                addActionMenu(QString::fromUtf8("impulse down X"), QString::fromUtf8("Impulsion sur la montée de X ms"), QString::fromUtf8("impulse down 200"));
+                addActionMenu(QString::fromUtf8("set X"), QString::fromUtf8("Mettre la volet à la position X pourcent"), QString::fromUtf8("set 50"));
+                addActionMenu(QString::fromUtf8("up X"), QString::fromUtf8("Monte le volet de X pourcent"), QString::fromUtf8("up 2"));
+                addActionMenu(QString::fromUtf8("down X"), QString::fromUtf8("Descend le volet de X pourcent"), QString::fromUtf8("down 2"));
+                addActionMenu(QString::fromUtf8("calibrate"), QString::fromUtf8("Lance la calibration du volet"), QString::fromUtf8("calibrate"));
         }
         else if (type == "WODali" || type == "WONeon")
         {
-                ui->comboValue->setEditable(true);
-
-                ui->comboValue->addItem(QString::fromUtf8("Allumer"), QString::fromUtf8("true"));
-                ui->comboValue->addItem(QString::fromUtf8("Eteindre"), QString::fromUtf8("false"));
-                ui->comboValue->addItem(QString::fromUtf8("Inverser"), QString::fromUtf8("toggle"));
-                ui->comboValue->addItem(QString::fromUtf8("Mettre à X pourcent"), QString::fromUtf8("set "));
-                ui->comboValue->addItem(QString::fromUtf8("Monter de X pourcent"), QString::fromUtf8("up "));
-                ui->comboValue->addItem(QString::fromUtf8("Descendre de X pourcent"), QString::fromUtf8("down "));
-                ui->comboValue->addItem(QString::fromUtf8("Mettre à X pourcent (OFF)"), QString::fromUtf8("set off "));
+                addActionMenu(QString::fromUtf8("true"), QString::fromUtf8("Allume la lumière"), QString::fromUtf8("true"));
+                addActionMenu(QString::fromUtf8("false"), QString::fromUtf8("Eteint la lumière"), QString::fromUtf8("false"));
+                addActionMenu(QString::fromUtf8("toggle"), QString::fromUtf8("Inverser l'état de la lumière"), QString::fromUtf8("toggle"));
+                addActionMenu(QString::fromUtf8("set X"), QString::fromUtf8("Mettre la lumière à X pourcent"), QString::fromUtf8("set 50"));
+                addActionMenu(QString::fromUtf8("set off X"), QString::fromUtf8("Mettre à X pourcent sans allumer"), QString::fromUtf8("set off 50"));
+                addActionMenu(QString::fromUtf8("up X"), QString::fromUtf8("Monter l'intensité de X pourcent"), QString::fromUtf8("up 2"));
+                addActionMenu(QString::fromUtf8("down X"), QString::fromUtf8("Descendre l'intensité de X pourcent"), QString::fromUtf8("down 2"));
 
                 if (type == "WODali")
                 {
-                        ui->comboValue->addItem(QString::fromUtf8("Variation appui"), QString::fromUtf8("hold press"));
-                        ui->comboValue->addItem(QString::fromUtf8("Variation relachement"), QString::fromUtf8("hold stop"));
-                }
-
-                if (action->get_params().get_param(id) == "true")
-                        ui->comboValue->setCurrentIndex(0);
-                else if (action->get_params().get_param(id) == "false")
-                        ui->comboValue->setCurrentIndex(1);
-                else if (action->get_params().get_param(id) == "toggle")
-                        ui->comboValue->setCurrentIndex(2);
-                else
-                {
-                        QString s = QString::fromUtf8(action->get_params().get_param(id).c_str());
-                        ui->comboValue->lineEdit()->setText(s);
+                        addActionMenu(QString::fromUtf8("hold press"), QString::fromUtf8("Varier l'intensité appui"), QString::fromUtf8("hold press"));
+                        addActionMenu(QString::fromUtf8("hold stop"), QString::fromUtf8("Varier l'intensité relachement"), QString::fromUtf8("hold stop"));
                 }
         }
         else if (type == "WODaliRVB")
         {
-                ui->comboValue->setEditable(true);
-
-                ui->comboValue->addItem(QString::fromUtf8("Allumer"), QString::fromUtf8("true"));
-                ui->comboValue->addItem(QString::fromUtf8("Eteindre"), QString::fromUtf8("false"));
-                ui->comboValue->addItem(QString::fromUtf8("Inverser"), QString::fromUtf8("toggle"));
-                ui->comboValue->addItem(QString::fromUtf8("Mettre à X couleur [0-65535]"), QString::fromUtf8("set "));
-                ui->comboValue->addItem(QString::fromUtf8("Monter rouge de X pourcent"), QString::fromUtf8("up_red "));
-                ui->comboValue->addItem(QString::fromUtf8("Descendre rouge de X pourcent"), QString::fromUtf8("down_red "));
-                ui->comboValue->addItem(QString::fromUtf8("Mettre rouge à X pourcent"), QString::fromUtf8("set_red "));
-                ui->comboValue->addItem(QString::fromUtf8("Monter vert de X pourcent"), QString::fromUtf8("up_green "));
-                ui->comboValue->addItem(QString::fromUtf8("Descendre vert de X pourcent"), QString::fromUtf8("down_green "));
-                ui->comboValue->addItem(QString::fromUtf8("Mettre vert à X pourcent"), QString::fromUtf8("set_green "));
-                ui->comboValue->addItem(QString::fromUtf8("Monter bleu de X pourcent"), QString::fromUtf8("up_blue "));
-                ui->comboValue->addItem(QString::fromUtf8("Descendre bleu de X pourcent"), QString::fromUtf8("down_blue "));
-                ui->comboValue->addItem(QString::fromUtf8("Mettre bleu à X pourcent"), QString::fromUtf8("set_blue "));
-
-                if (action->get_params().get_param(id) == "true")
-                        ui->comboValue->setCurrentIndex(0);
-                else if (action->get_params().get_param(id) == "false")
-                        ui->comboValue->setCurrentIndex(1);
-                else if (action->get_params().get_param(id) == "toggle")
-                        ui->comboValue->setCurrentIndex(2);
-                else
-                {
-                        QString s = QString::fromUtf8(action->get_params().get_param(id).c_str());
-                        ui->comboValue->lineEdit()->setText(s);
-                }
+                addActionMenu(QString::fromUtf8("true"), QString::fromUtf8("Allume la lumière"), QString::fromUtf8("true"));
+                addActionMenu(QString::fromUtf8("false"), QString::fromUtf8("Eteint la lumière"), QString::fromUtf8("false"));
+                addActionMenu(QString::fromUtf8("toggle"), QString::fromUtf8("Inverser l'état de la lumière"), QString::fromUtf8("toggle"));
+                addActionMenu(QString::fromUtf8("set X"), QString::fromUtf8("Mettre la couleur à la valeur X"), QString::fromUtf8("set 0"));
+                addActionMenu(QString::fromUtf8("up_red X"), QString::fromUtf8("Monter le rouge de X pourcent"), QString::fromUtf8("up_red 1"));
+                addActionMenu(QString::fromUtf8("down_red X"), QString::fromUtf8("Descendre le rouge de X pourcent"), QString::fromUtf8("down_red 1"));
+                addActionMenu(QString::fromUtf8("set_red X"), QString::fromUtf8("Mettre le rouge à X pourcent"), QString::fromUtf8("set_red 1"));
+                addActionMenu(QString::fromUtf8("up_green X"), QString::fromUtf8("Monter le vert de X pourcent"), QString::fromUtf8("up_green 1"));
+                addActionMenu(QString::fromUtf8("down_green X"), QString::fromUtf8("Descendre le vert de X pourcent"), QString::fromUtf8("down_green 1"));
+                addActionMenu(QString::fromUtf8("set_green X"), QString::fromUtf8("Mettre le vert à X pourcent"), QString::fromUtf8("set_green 1"));
+                addActionMenu(QString::fromUtf8("up_blue X"), QString::fromUtf8("Monter le bleu de X pourcent"), QString::fromUtf8("up_blue 1"));
+                addActionMenu(QString::fromUtf8("down_blue X"), QString::fromUtf8("Descendre le bleu de X pourcent"), QString::fromUtf8("down_blue 1"));
+                addActionMenu(QString::fromUtf8("set_blue X"), QString::fromUtf8("Mettre le bleu à X pourcent"), QString::fromUtf8("set_blue 1"));
         }
         else if (IOBase::isAudioType(type))
         {
-                ui->comboValue->setEditable(true);
-
-                ui->comboValue->addItem(QString::fromUtf8("Lecture"), QString::fromUtf8("play"));
-                ui->comboValue->addItem(QString::fromUtf8("Pause"), QString::fromUtf8("pause"));
-                ui->comboValue->addItem(QString::fromUtf8("Stop"), QString::fromUtf8("stop"));
-                ui->comboValue->addItem(QString::fromUtf8("Piste suivante"), QString::fromUtf8("next"));
-                ui->comboValue->addItem(QString::fromUtf8("Piste précédente"), QString::fromUtf8("previous"));
-                ui->comboValue->addItem(QString::fromUtf8("Allumer le lecteur"), QString::fromUtf8("power on"));
-                ui->comboValue->addItem(QString::fromUtf8("Eteindre le lecteur"), QString::fromUtf8("power off"));
-                ui->comboValue->addItem(QString::fromUtf8("Eteindre dans X sec."), QString::fromUtf8("sleep "));
-                ui->comboValue->addItem(QString::fromUtf8("Synchronise avec player_id"), QString::fromUtf8("sync "));
-                ui->comboValue->addItem(QString::fromUtf8("Désynchronise avec player_id"), QString::fromUtf8("unsync "));
-                ui->comboValue->addItem(QString::fromUtf8("Lire élément"), QString::fromUtf8("play "));
-                ui->comboValue->addItem(QString::fromUtf8("Ajouter élément"), QString::fromUtf8("add "));
-
-                if (action->get_params().get_param(id) == "play")
-                        ui->comboValue->setCurrentIndex(0);
-                else if (action->get_params().get_param(id) == "pause")
-                        ui->comboValue->setCurrentIndex(1);
-                else if (action->get_params().get_param(id) == "stop")
-                        ui->comboValue->setCurrentIndex(2);
-                else if (action->get_params().get_param(id) == "next")
-                        ui->comboValue->setCurrentIndex(3);
-                else if (action->get_params().get_param(id) == "previous")
-                        ui->comboValue->setCurrentIndex(4);
-                else if (action->get_params().get_param(id) == "power on")
-                        ui->comboValue->setCurrentIndex(5);
-                else if (action->get_params().get_param(id) == "power off")
-                        ui->comboValue->setCurrentIndex(6);
-                else
-                {
-                        QString s = QString::fromUtf8(action->get_params().get_param(id).c_str());
-                        ui->comboValue->lineEdit()->setText(s);
-                }
+                addActionMenu(QString::fromUtf8("play"), QString::fromUtf8("Lecture"), QString::fromUtf8("play"));
+                addActionMenu(QString::fromUtf8("pause"), QString::fromUtf8("Pause"), QString::fromUtf8("pause"));
+                addActionMenu(QString::fromUtf8("stop"), QString::fromUtf8("Stop"), QString::fromUtf8("stop"));
+                addActionMenu(QString::fromUtf8("next"), QString::fromUtf8("Piste suivante"), QString::fromUtf8("next"));
+                addActionMenu(QString::fromUtf8("previous"), QString::fromUtf8("Piste précédente"), QString::fromUtf8("previous"));
+                addActionMenu(QString::fromUtf8("volume set X"), QString::fromUtf8("Change le volume a X pourcent"), QString::fromUtf8("volume set 10"));
+                addActionMenu(QString::fromUtf8("volume up X"), QString::fromUtf8("Monte le volume de X pourcent"), QString::fromUtf8("volume up 1"));
+                addActionMenu(QString::fromUtf8("volumle down X"), QString::fromUtf8("Descend le volume de X pourcent"), QString::fromUtf8("volume down 1"));
+                addActionMenu(QString::fromUtf8("power on"), QString::fromUtf8("Allumer le lecteur"), QString::fromUtf8("power on"));
+                addActionMenu(QString::fromUtf8("power off"), QString::fromUtf8("Eteindre le lecteur"), QString::fromUtf8("power off"));
+                addActionMenu(QString::fromUtf8("sleep X"), QString::fromUtf8("Eteindre dans X sec"), QString::fromUtf8("sleep 60"));
+                addActionMenu(QString::fromUtf8("sync ID"), QString::fromUtf8("Synchronise avec un autre lecteur"), QString::fromUtf8("sync 00:11:22:33:44:55"));
+                addActionMenu(QString::fromUtf8("unsync ID"), QString::fromUtf8("Désynchronise avec un autre lecteur"), QString::fromUtf8("unsync 00:11:22:33:44:55"));
+                addActionMenu(QString::fromUtf8("play ID"), QString::fromUtf8("Lire un élément de la base de donnée"), QString::fromUtf8("play 0"));
+                addActionMenu(QString::fromUtf8("add ID"), QString::fromUtf8("Ajoute un élément à la playlist"), QString::fromUtf8("add 0"));
         }
         else if (IOBase::isCameraType(type))
         {
-                ui->comboValue->setEditable(true);
-
-                ui->comboValue->addItem(QString::fromUtf8("Rappeler position X"), QString::fromUtf8("recall "));
-                ui->comboValue->addItem(QString::fromUtf8("Sauvegarder position X"), QString::fromUtf8("save "));
-                ui->comboValue->addItem(QString::fromUtf8("Déplacer vers le haut"), QString::fromUtf8("move up"));
-                ui->comboValue->addItem(QString::fromUtf8("Déplacer vers le bas"), QString::fromUtf8("move down"));
-                ui->comboValue->addItem(QString::fromUtf8("Déplacer vers la gauche"), QString::fromUtf8("move left"));
-                ui->comboValue->addItem(QString::fromUtf8("Déplacer vers la droite"), QString::fromUtf8("move right"));
-                ui->comboValue->addItem(QString::fromUtf8("Mettre position par defaut"), QString::fromUtf8("move home"));
-
-                if (action->get_params().get_param(id) == "move up")
-                        ui->comboValue->setCurrentIndex(2);
-                else if (action->get_params().get_param(id) == "move down")
-                        ui->comboValue->setCurrentIndex(3);
-                else if (action->get_params().get_param(id) == "move left")
-                        ui->comboValue->setCurrentIndex(4);
-                else if (action->get_params().get_param(id) == "move right")
-                        ui->comboValue->setCurrentIndex(5);
-                else if (action->get_params().get_param(id) == "move home")
-                        ui->comboValue->setCurrentIndex(6);
-                else
-                {
-                        QString s = QString::fromUtf8(action->get_params().get_param(id).c_str());
-                        ui->comboValue->lineEdit()->setText(s);
-                }
+                addActionMenu(QString::fromUtf8("recall X"), QString::fromUtf8("Rappeler la position X"), QString::fromUtf8("recall 0"));
+                addActionMenu(QString::fromUtf8("save X"), QString::fromUtf8("Sauvegarder à la position X"), QString::fromUtf8("save 0"));
+                addActionMenu(QString::fromUtf8("move up"), QString::fromUtf8("Déplacer vers le haut"), QString::fromUtf8("move up"));
+                addActionMenu(QString::fromUtf8("move down"), QString::fromUtf8("Déplacer vers le bas"), QString::fromUtf8("move down"));
+                addActionMenu(QString::fromUtf8("move left"), QString::fromUtf8("Déplacer vers la gauche"), QString::fromUtf8("move left"));
+                addActionMenu(QString::fromUtf8("move right"), QString::fromUtf8("Déplacer vers la droite"), QString::fromUtf8("move right"));
+                addActionMenu(QString::fromUtf8("move home"), QString::fromUtf8("Déplacer vers la position par défaut"), QString::fromUtf8("move home"));
         }
         else
         {
-                ui->comboValue->setEditable(true);
-                QString s = QString::fromUtf8(action->get_params().get_param(id).c_str());
-                ui->comboValue->lineEdit()->setText(s);
+                ui->buttonMore->setEnabled(false);
         }
 
-        setDone = true;
+        onStart = false;
 }
 
 void FormActionStd::on_btMore_clicked()
@@ -355,9 +260,27 @@ void FormActionStd::on_btMore_clicked()
         }
 }
 
-void FormActionStd::on_comboValue_editTextChanged(QString)
+void FormActionStd::addActionMenu(QString action, QString help, QString cmd)
 {
-        if (!setDone) return;
+        QString h = RuleActionTpl.arg(help);
+        RuleActionMenu *ac = new RuleActionMenu(NULL, action, h, cmd);
+        actionMenu->addAction(ac);
+        connect(ac, SIGNAL(triggered(RuleActionMenu*)), this, SLOT(menuAction(RuleActionMenu*)));
+}
+
+void FormActionStd::on_buttonMore_clicked()
+{
+        actionMenu->exec(QCursor::pos());
+}
+
+void FormActionStd::menuAction(RuleActionMenu *action)
+{
+        ui->editValue->setText(action->getCommand());
+}
+
+void FormActionStd::on_editValue_textChanged(const QString &arg1)
+{
+        if (onStart) return;
 
         Output *output = NULL;
         if (action->get_size() > 0)
@@ -371,28 +294,10 @@ void FormActionStd::on_comboValue_editTextChanged(QString)
             IOBase::isCameraType(output->get_param("type")))
                 id = output->get_param("oid");
 
-        string value;
-        int current = ui->comboValue->currentIndex();
-
-        if (ui->comboValue->isEditable() && current > -1 &&
-            ui->comboValue->itemData(current).isNull())
-        {
-                value = ui->comboValue->lineEdit()->text().toUtf8().constData();
-        }
-        else
-        {
-                value = ui->comboValue->itemData(current).toString().toUtf8().constData();
-        }
+        string value = ui->editValue->text().toUtf8().constData();
 
         action->get_params().Add(id, value);
         action->get_params_var().Delete(id);
 
         FormRules::updateItemAction(qitem, action);
-}
-
-void FormActionStd::on_comboValue_currentIndexChanged(int)
-{
-        if (!setDone) return;
-
-        on_comboValue_editTextChanged("");
 }

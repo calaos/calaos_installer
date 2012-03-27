@@ -27,11 +27,16 @@ class DialogIOList : public QDialog
         protected:
                 void changeEvent(QEvent *e);
 
+        private slots:
+                void on_treeWidget_currentItemChanged(QTreeWidgetItem *current, QTreeWidgetItem *previous);
+
         private:
                 Ui::DialogIOList *ui;
 
                 Input *input;
                 Output *output;
+
+                QTreeWidgetItem *item_current;
 };
 
 #endif // DIALOGIOLIST_H

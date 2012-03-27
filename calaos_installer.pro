@@ -101,7 +101,8 @@ SOURCES += src/main.cpp \
     src/dialognewanalog.cpp \
     src/TwoLineItemDelegate.cpp \
     src/WagoModbus.cpp \
-    src/DialogWagoFirmwareUpdate.cpp
+    src/DialogWagoFirmwareUpdate.cpp \
+    src/RuleActionMenu.cpp
 HEADERS += src/mainwindow.h \
     ../calaos_common/Utils.h \
     ../calaos_common/base64.h \
@@ -196,7 +197,8 @@ HEADERS += src/mainwindow.h \
     src/TwoLineItemDelegate.h \
     src/version.h \
     src/WagoModbus.h \
-    src/DialogWagoFirmwareUpdate.h
+    src/DialogWagoFirmwareUpdate.h \
+    src/RuleActionMenu.h
 FORMS += data/mainwindow.ui \
     data/dialognewroom.ui \
     data/dialognewwago.ui \
