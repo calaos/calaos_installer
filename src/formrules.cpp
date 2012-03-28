@@ -2453,15 +2453,37 @@ void FormRules::addCondition(int type)
 {
         if (type == COND_STD)
         {
+                Input *input = NULL;
                 QTreeWidgetItemInput *initem = dynamic_cast<QTreeWidgetItemInput *>(ui->tree_home->currentItem());
                 if (!initem)
+                {
+                        QTreeWidgetItemOutput *outitem = dynamic_cast<QTreeWidgetItemOutput *>(ui->tree_home->currentItem());
+                        if (outitem)
+                        {
+                                string type = outitem->getOutput()->get_param("type");
+                                if (type == "InputTimer" || type == "scenario" ||
+                                    type == "Scenario" || type == "InternalBool" ||
+                                    type == "InternalInt" || type == "InternalString")
+                                {
+                                        input = ListeRoom::Instance().get_input(outitem->getOutput()->get_param("id"));
+                                }
+
+                                if (IOBase::isAudioType(type))
+                                        input = ListeRoom::Instance().get_input(outitem->getOutput()->get_param("iid"));
+                                if (IOBase::isCameraType(type))
+                                        input = ListeRoom::Instance().get_input(outitem->getOutput()->get_param("iid"));
+                        }
+                }
+                else
+                {
+                        input = initem->getInput();
+                }
+
+                if (!input)
                 {
                         QMessageBox::warning(this, tr("Calaos Installer"), QString::fromUtf8("Vous devez sélectionner une entrée."));
                         return;
                 }
-
-                Input *input = initem->getInput();
-                if (!input) return;
 
                 string id = input->get_param("id");
                 if (IOBase::isAudioType(input->get_param("type")) ||
