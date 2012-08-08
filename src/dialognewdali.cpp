@@ -67,7 +67,10 @@ void DialogNewDali::setWagoDali(bool enable)
         else
                 cmd += "0 ";
 
-        cmd += QString::number(ui->spin_addr->value());
+        if (ui->radioDALI->isChecked())
+                cmd += QString::number(ui->spin_addr->value());
+        else
+                cmd += QString::number(ui->spin_addr->value() + 100);
 
         if (enable)
                 cmd += " 100 ";

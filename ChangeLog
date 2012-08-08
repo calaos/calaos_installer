@@ -73,3 +73,8 @@
 		* Correction des regles cree automatiquement pour le chauffage
 		* Changement de l'interface de selection des actions/conditions
 
+08-08-2012  Raoul Hecky
+
+		* Correction de l'adresse utilise pour tester une lumiere DMX lors de
+		sa creation
+
