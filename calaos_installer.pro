@@ -63,35 +63,6 @@ SOURCES += src/main.cpp \
     src/CodeEditor.cpp \
     ../calaos_common/LuaScript/ScriptManager.cpp \
     ../calaos_common/LuaScript/ScriptBindings.cpp \
-    ../calaos_common/LuaScript/lua-5.1.4/src/linit.c \
-    ../calaos_common/LuaScript/lua-5.1.4/src/ltablib.c \
-    ../calaos_common/LuaScript/lua-5.1.4/src/lstrlib.c \
-    ../calaos_common/LuaScript/lua-5.1.4/src/loslib.c \
-    ../calaos_common/LuaScript/lua-5.1.4/src/loadlib.c \
-    ../calaos_common/LuaScript/lua-5.1.4/src/lmathlib.c \
-    ../calaos_common/LuaScript/lua-5.1.4/src/liolib.c \
-    ../calaos_common/LuaScript/lua-5.1.4/src/ldblib.c \
-    ../calaos_common/LuaScript/lua-5.1.4/src/lbaselib.c \
-    ../calaos_common/LuaScript/lua-5.1.4/src/lauxlib.c \
-    ../calaos_common/LuaScript/lua-5.1.4/src/lzio.c \
-    ../calaos_common/LuaScript/lua-5.1.4/src/lvm.c \
-    ../calaos_common/LuaScript/lua-5.1.4/src/lundump.c \
-    ../calaos_common/LuaScript/lua-5.1.4/src/ltm.c \
-    ../calaos_common/LuaScript/lua-5.1.4/src/ltable.c \
-    ../calaos_common/LuaScript/lua-5.1.4/src/lstring.c \
-    ../calaos_common/LuaScript/lua-5.1.4/src/lstate.c \
-    ../calaos_common/LuaScript/lua-5.1.4/src/lparser.c \
-    ../calaos_common/LuaScript/lua-5.1.4/src/lopcodes.c \
-    ../calaos_common/LuaScript/lua-5.1.4/src/lobject.c \
-    ../calaos_common/LuaScript/lua-5.1.4/src/lmem.c \
-    ../calaos_common/LuaScript/lua-5.1.4/src/llex.c \
-    ../calaos_common/LuaScript/lua-5.1.4/src/lgc.c \
-    ../calaos_common/LuaScript/lua-5.1.4/src/lfunc.c \
-    ../calaos_common/LuaScript/lua-5.1.4/src/ldump.c \
-    ../calaos_common/LuaScript/lua-5.1.4/src/ldo.c \
-    ../calaos_common/LuaScript/lua-5.1.4/src/ldebug.c \
-    ../calaos_common/LuaScript/lua-5.1.4/src/lcode.c \
-    ../calaos_common/LuaScript/lua-5.1.4/src/lapi.c \
     src/FormActionTouchscreen.cpp \
     src/FormConditionScript.cpp \
     src/DialogInputEventScript.cpp \
@@ -164,29 +135,6 @@ HEADERS += src/mainwindow.h \
     ../calaos_common/LuaScript/ScriptManager.h \
     ../calaos_common/LuaScript/ScriptBindings.h \
     ../calaos_common/LuaScript/Lunar.h \
-    ../calaos_common/LuaScript/lua-5.1.4/src/luaconf.h \
-    ../calaos_common/LuaScript/lua-5.1.4/src/lualib.h \
-    ../calaos_common/LuaScript/lua-5.1.4/src/llimits.h \
-    ../calaos_common/LuaScript/lua-5.1.4/src/lauxlib.h \
-    ../calaos_common/LuaScript/lua-5.1.4/src/lzio.h \
-    ../calaos_common/LuaScript/lua-5.1.4/src/lvm.h \
-    ../calaos_common/LuaScript/lua-5.1.4/src/lundump.h \
-    ../calaos_common/LuaScript/lua-5.1.4/src/ltm.h \
-    ../calaos_common/LuaScript/lua-5.1.4/src/ltable.h \
-    ../calaos_common/LuaScript/lua-5.1.4/src/lstring.h \
-    ../calaos_common/LuaScript/lua-5.1.4/src/lstate.h \
-    ../calaos_common/LuaScript/lua-5.1.4/src/lparser.h \
-    ../calaos_common/LuaScript/lua-5.1.4/src/lopcodes.h \
-    ../calaos_common/LuaScript/lua-5.1.4/src/lobject.h \
-    ../calaos_common/LuaScript/lua-5.1.4/src/lmem.h \
-    ../calaos_common/LuaScript/lua-5.1.4/src/llex.h \
-    ../calaos_common/LuaScript/lua-5.1.4/src/lgc.h \
-    ../calaos_common/LuaScript/lua-5.1.4/src/lfunc.h \
-    ../calaos_common/LuaScript/lua-5.1.4/src/ldo.h \
-    ../calaos_common/LuaScript/lua-5.1.4/src/ldebug.h \
-    ../calaos_common/LuaScript/lua-5.1.4/src/lcode.h \
-    ../calaos_common/LuaScript/lua-5.1.4/src/lapi.h \
-    ../calaos_common/LuaScript/lua-5.1.4/etc/lua.hpp \
     src/FormActionTouchscreen.h \
     src/FormConditionScript.h \
     src/DialogInputEventScript.h \
@@ -241,8 +189,6 @@ RESOURCES += data/resources.qrc \
     data/wago_firmwares.qrc
 INCLUDEPATH += ../calaos_common/ \
     ../calaos_common/LuaScript \
-    ../calaos_common/LuaScript/lua-5.1.4/src/ \
-    ../calaos_common/LuaScript/lua-5.1.4/etc/ \
     Calaos/ \
     src/
 DEFINES += CALAOS_INSTALLER
@@ -252,6 +198,8 @@ win32 {
     RC_FILE = win32/windows_res.rc
 }
 
-
-
+unix {
+    CONFIG += link_pkgconfig
+    PKGCONFIG += lua5.1
+}
 
