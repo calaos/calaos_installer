@@ -7,9 +7,9 @@ TARGET = calaos_installer
 TEMPLATE = app
 SOURCES += src/main.cpp \
     src/mainwindow.cpp \
-    ../calaos_common/base64.c \
-    ../calaos_common/Params.cpp \
-    ../calaos_common/Utils.cpp \
+    src/common/base64.c \
+    src/common/Params.cpp \
+    src/common/Utils.cpp \
     Calaos/Rule.cpp \
     Calaos/Room.cpp \
     Calaos/ListeRule.cpp \
@@ -61,8 +61,8 @@ SOURCES += src/main.cpp \
     src/FormActionScript.cpp \
     src/DialogScriptEditor.cpp \
     src/CodeEditor.cpp \
-    ../calaos_common/LuaScript/ScriptManager.cpp \
-    ../calaos_common/LuaScript/ScriptBindings.cpp \
+    src/common/LuaScript/ScriptManager.cpp \
+    src/common/LuaScript/ScriptBindings.cpp \
     src/FormActionTouchscreen.cpp \
     src/FormConditionScript.cpp \
     src/DialogInputEventScript.cpp \
@@ -75,9 +75,9 @@ SOURCES += src/main.cpp \
     src/DialogWagoFirmwareUpdate.cpp \
     src/RuleActionMenu.cpp
 HEADERS += src/mainwindow.h \
-    ../calaos_common/Utils.h \
-    ../calaos_common/base64.h \
-    ../calaos_common/Params.h \
+    src/common/Utils.h \
+    src/common/base64.h \
+    src/common/Params.h \
     Calaos/IOBase.h \
     Calaos/Rule.h \
     Calaos/Room.h \
@@ -132,9 +132,9 @@ HEADERS += src/mainwindow.h \
     src/FormActionScript.h \
     src/DialogScriptEditor.h \
     src/CodeEditor.h \
-    ../calaos_common/LuaScript/ScriptManager.h \
-    ../calaos_common/LuaScript/ScriptBindings.h \
-    ../calaos_common/LuaScript/Lunar.h \
+    src/common/LuaScript/ScriptManager.h \
+    src/common/LuaScript/ScriptBindings.h \
+    src/common/LuaScript/Lunar.h \
     src/FormActionTouchscreen.h \
     src/FormConditionScript.h \
     src/DialogInputEventScript.h \
@@ -146,7 +146,8 @@ HEADERS += src/mainwindow.h \
     src/version.h \
     src/WagoModbus.h \
     src/DialogWagoFirmwareUpdate.h \
-    src/RuleActionMenu.h
+    src/RuleActionMenu.h \
+    src/common/FakeLogging.h
 FORMS += data/mainwindow.ui \
     data/dialognewroom.ui \
     data/dialognewwago.ui \
@@ -187,12 +188,71 @@ FORMS += data/mainwindow.ui \
 RESOURCES += data/resources.qrc \
     data/textedit.qrc \
     data/wago_firmwares.qrc
-INCLUDEPATH += ../calaos_common/ \
-    ../calaos_common/LuaScript \
+INCLUDEPATH += src/common/ \
+    src/common/LuaScript \
     Calaos/ \
     src/
 DEFINES += CALAOS_INSTALLER
 OTHER_FILES +=
+
+win32|mac {
+SOURCES += src/common/LuaScript/lua-5.1.4/src/linit.c \
+    src/common/LuaScript/lua-5.1.4/src/ltablib.c \
+    src/common/LuaScript/lua-5.1.4/src/lstrlib.c \
+    src/common/LuaScript/lua-5.1.4/src/loslib.c \
+    src/common/LuaScript/lua-5.1.4/src/loadlib.c \
+    src/common/LuaScript/lua-5.1.4/src/lmathlib.c \
+    src/common/LuaScript/lua-5.1.4/src/liolib.c \
+    src/common/LuaScript/lua-5.1.4/src/ldblib.c \
+    src/common/LuaScript/lua-5.1.4/src/lbaselib.c \
+    src/common/LuaScript/lua-5.1.4/src/lauxlib.c \
+    src/common/LuaScript/lua-5.1.4/src/lzio.c \
+    src/common/LuaScript/lua-5.1.4/src/lvm.c \
+    src/common/LuaScript/lua-5.1.4/src/lundump.c \
+    src/common/LuaScript/lua-5.1.4/src/ltm.c \
+    src/common/LuaScript/lua-5.1.4/src/ltable.c \
+    src/common/LuaScript/lua-5.1.4/src/lstring.c \
+    src/common/LuaScript/lua-5.1.4/src/lstate.c \
+    src/common/LuaScript/lua-5.1.4/src/lparser.c \
+    src/common/LuaScript/lua-5.1.4/src/lopcodes.c \
+    src/common/LuaScript/lua-5.1.4/src/lobject.c \
+    src/common/LuaScript/lua-5.1.4/src/lmem.c \
+    src/common/LuaScript/lua-5.1.4/src/llex.c \
+    src/common/LuaScript/lua-5.1.4/src/lgc.c \
+    src/common/LuaScript/lua-5.1.4/src/lfunc.c \
+    src/common/LuaScript/lua-5.1.4/src/ldump.c \
+    src/common/LuaScript/lua-5.1.4/src/ldo.c \
+    src/common/LuaScript/lua-5.1.4/src/ldebug.c \
+    src/common/LuaScript/lua-5.1.4/src/lcode.c \
+    src/common/LuaScript/lua-5.1.4/src/lapi.c
+
+HEADERS += src/common/LuaScript/lua-5.1.4/src/luaconf.h \
+    src/common/LuaScript/lua-5.1.4/src/lualib.h \
+    src/common/LuaScript/lua-5.1.4/src/llimits.h \
+    src/common/LuaScript/lua-5.1.4/src/lauxlib.h \
+    src/common/LuaScript/lua-5.1.4/src/lzio.h \
+    src/common/LuaScript/lua-5.1.4/src/lvm.h \
+    src/common/LuaScript/lua-5.1.4/src/lundump.h \
+    src/common/LuaScript/lua-5.1.4/src/ltm.h \
+    src/common/LuaScript/lua-5.1.4/src/ltable.h \
+    src/common/LuaScript/lua-5.1.4/src/lstring.h \
+    src/common/LuaScript/lua-5.1.4/src/lstate.h \
+    src/common/LuaScript/lua-5.1.4/src/lparser.h \
+    src/common/LuaScript/lua-5.1.4/src/lopcodes.h \
+    src/common/LuaScript/lua-5.1.4/src/lobject.h \
+    src/common/LuaScript/lua-5.1.4/src/lmem.h \
+    src/common/LuaScript/lua-5.1.4/src/llex.h \
+    src/common/LuaScript/lua-5.1.4/src/lgc.h \
+    src/common/LuaScript/lua-5.1.4/src/lfunc.h \
+    src/common/LuaScript/lua-5.1.4/src/ldo.h \
+    src/common/LuaScript/lua-5.1.4/src/ldebug.h \
+    src/common/LuaScript/lua-5.1.4/src/lcode.h \
+    src/common/LuaScript/lua-5.1.4/src/lapi.h \
+    src/common/LuaScript/lua-5.1.4/etc/lua.hpp
+
+INCLUDEPATH += src/common/LuaScript/lua-5.1.4/src/ \
+    src/common/LuaScript/lua-5.1.4/etc/
+}
 
 win32 {
     RC_FILE = win32/windows_res.rc
