@@ -1,0 +1,14 @@
+Source: calaos-installer
+Section: unknown
+Priority: extra
+Maintainer: Nicolas Aguirre <aguirre.nicolas@gmail.com>
+Build-Depends: debhelper (>= 8.0.0), libqt4-dev, qt4-qmake
+Standards-Version: 3.9.3
+Homepage: http://www.calaos.fr
+
+Package: calaos-installer
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, libqtgui4, liblua5.1-0
+Description: Calaos Installer application
+ Calaos installer permit to configure a Calaos installation.
+

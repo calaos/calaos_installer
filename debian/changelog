@@ -1,0 +1,5 @@
+calaos-installer (__DISTRO_VERSION__~__DISTRO__) __DISTRO__; urgency=low
+
+  * Initial Release.
+
+ -- Nicolas Aguirre <aguirre.nicolas@gmail.com>  Tue, 12 Mar 2013 18:43:42 +0100
