@@ -193,7 +193,8 @@ INCLUDEPATH += src/common/ \
     Calaos/ \
     src/
 DEFINES += CALAOS_INSTALLER
-OTHER_FILES +=
+OTHER_FILES += \
+    calaos_installer_en.ts
 
 win32|mac {
 SOURCES += src/common/LuaScript/lua-5.1.4/src/linit.c \
@@ -263,3 +264,4 @@ unix {
     PKGCONFIG += lua5.1
 }
 
+ TRANSLATIONS = calaos_installer_en.ts

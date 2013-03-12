@@ -6,6 +6,10 @@ int main(int argc, char *argv[])
 {
         QApplication a(argc, argv);
 
+        QTranslator myappTranslator;
+        myappTranslator.load("calaos_installer_" + QLocale::system().name());
+        a.installTranslator(&myappTranslator);
+
         QCoreApplication::setOrganizationName("Calaos");
         QCoreApplication::setOrganizationDomain("calaos.fr");
         QCoreApplication::setApplicationName("CalaosInstaller");
