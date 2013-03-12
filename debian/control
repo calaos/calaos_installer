@@ -3,7 +3,7 @@ Section: unknown
 Priority: extra
 Maintainer: Nicolas Aguirre <aguirre.nicolas@gmail.com>
 Build-Depends: debhelper (>= 8.0.0), libqt4-dev, qt4-qmake,
- pkg-config
+ pkg-config, liblua5.1-0-dev
 Standards-Version: 3.9.3
 Homepage: http://www.calaos.fr
 
