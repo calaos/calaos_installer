@@ -633,6 +633,9 @@ void IOXmlReader::readOutput(Room *room)
 
         Output *output = ListeRoom::Instance().createOutput(p, room);
 
+        if (!output)
+            return;
+
         //Do cache of 849/842 only with WODigital/WOVolet*
         if (output->get_param("type") == "WODigital" ||
             output->get_param("type") == "WOVolet" ||
