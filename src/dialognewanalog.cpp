@@ -32,6 +32,9 @@ void DialogNewAnalog::changeEvent(QEvent *e)
 
 void DialogNewAnalog::on_buttonBox_accepted()
 {
+        QLocale locale;
+        double value;
+
         if (ui->edit_name->text().isEmpty())
         {
                 ui->label_error_empty->show();
@@ -47,9 +50,13 @@ void DialogNewAnalog::on_buttonBox_accepted()
         p.Add("name", ui->edit_name->text().toUtf8().data());
         p.Add("type", type);
         p.Add("var", to_string(ui->spin_var->value()));
-        p.Add("wago_max", Utils::to_string(ui->spin_WagoMax->text().toUtf8().data()));
-        p.Add("real_max", Utils::to_string(ui->spin_UsrMax->text().toUtf8().data()));
+        value = locale.toDouble(ui->spin_WagoMax->text(), NULL);
+        p.Add("wago_max", QString::number(value).toStdString());
+        value = locale.toDouble(ui->spin_UsrMax->text(), NULL);
+        p.Add("real_max",QString::number(value).toStdString());
         p.Add("unit", ui->line_unit->text().toUtf8().data());
+        value = locale.toDouble(ui->spin_Step->text(), NULL);
+        p.Add("step", QString::number(value).toStdString());
         p.Add("frequency", "15.0");
 
         if (isInputType())
