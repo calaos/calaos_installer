@@ -44,7 +44,7 @@ Input *IOFactory::CreateInput(std::string type, Params &params)
         {
                 in = new WITemp(params);
         }
-        else if (type == "WIAnalog")
+        else if (type == "WIAnalog" || type == "WebAnalogIn")
         {
                 in = new WIAnalog(params);
         }
