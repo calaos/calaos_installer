@@ -135,6 +135,10 @@ Output *IOFactory::CreateOutput(std::string type, Params &params)
         {
                 out = new WOAnalog(params);
         }
+        else if (type == "GpioOutputSwitch")
+        {
+                out = new WODigital(params);
+        }
 
         return out;
 }
