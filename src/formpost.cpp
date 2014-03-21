@@ -48,7 +48,7 @@ QByteArray FormPost::strToEnc(QString s)
         }
         else
         {
-                return s.toAscii();
+                return s.toLocal8Bit();
         }
 }
 
@@ -107,7 +107,7 @@ QNetworkReply *FormPost::postData(QString url)
         QString endBoundary = crlf + "--" + boundary + "--" + crlf;
         QString contentType = "multipart/form-data; boundary=" + boundary;
         boundary = "--" + boundary + crlf;
-        QByteArray bond = boundary.toAscii();
+        QByteArray bond = boundary.toLocal8Bit();
         QByteArray send;
         bool first = true;
 
@@ -117,15 +117,15 @@ QNetworkReply *FormPost::postData(QString url)
                 if (first)
                 {
                         boundary = crlf+boundary;
-                        bond = boundary.toAscii();
+                        bond = boundary.toLocal8Bit();
                         first = false;
                 }
 
-                send.append(QString("Content-Disposition: form-data; name=\"" + fieldNames.at(i) + "\"" + crlf).toAscii());
+                send.append(QString("Content-Disposition: form-data; name=\"" + fieldNames.at(i) + "\"" + crlf).toLocal8Bit());
                 if (encodingS == "utf-8")
-                        send.append(QString("Content-Transfer-Encoding: 8bit" + crlf).toAscii());
+                        send.append(QString("Content-Transfer-Encoding: 8bit" + crlf).toLocal8Bit());
 
-                send.append(crlf.toAscii());
+                send.append(crlf.toLocal8Bit());
                 send.append(strToEnc(fieldValues.at(i)));
         }
 
@@ -133,12 +133,12 @@ QNetworkReply *FormPost::postData(QString url)
         {
                 send.append(bond);
                 send.append(QString("Content-Disposition: form-data; name=\"" + fileFieldNames.at(i) +
-                                    "\"; filename=\"" + fileNames.at(i) + "\"" + crlf).toAscii());
-                send.append(QString("Content-Type: " + fileMimes.at(i) + crlf + crlf).toAscii());
+                                    "\"; filename=\"" + fileNames.at(i) + "\"" + crlf).toLocal8Bit());
+                send.append(QString("Content-Type: " + fileMimes.at(i) + crlf + crlf).toLocal8Bit());
                 send.append(files.at(i));
         }
 
-        send.append(endBoundary.toAscii());
+        send.append(endBoundary.toLocal8Bit());
 
         fieldNames.clear();
         fieldValues.clear();
@@ -154,15 +154,15 @@ QNetworkReply *FormPost::postData(QString url)
                 this, SLOT(sslErrors(QNetworkReply *, const QList<QSslError> &)));
 
         QNetworkRequest request;
-        request.setRawHeader("Host", host.toAscii());
+        request.setRawHeader("Host", host.toLocal8Bit());
 
         if (userAgentS != "")
-                request.setRawHeader("User-Agent", userAgentS.toAscii());
+                request.setRawHeader("User-Agent", userAgentS.toLocal8Bit());
 
         if (refererS != "")
-                request.setRawHeader("Referer", refererS.toAscii());
+                request.setRawHeader("Referer", refererS.toLocal8Bit());
 
-        request.setHeader(QNetworkRequest::ContentTypeHeader, contentType.toAscii());
+        request.setHeader(QNetworkRequest::ContentTypeHeader, contentType.toLocal8Bit());
 
         request.setHeader(QNetworkRequest::ContentLengthHeader, QVariant(send.size()).toString());
 

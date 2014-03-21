@@ -1,7 +1,8 @@
 #ifndef DIALOGNEWAUDIO_H
 #define DIALOGNEWAUDIO_H
 
-#include <QtGui/QDialog>
+#include <QtWidgets>
+#include <QDialog>
 #include <iostream>
 
 #include <ListeRoom.h>

@@ -1,7 +1,8 @@
 #ifndef DIALOGNEWINTERNAL_H
 #define DIALOGNEWINTERNAL_H
 
-#include <QtGui/QDialog>
+#include <QtWidgets>
+#include <QDialog>
 #include <iostream>
 
 #include <ListeRoom.h>

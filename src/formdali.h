@@ -1,7 +1,7 @@
 #ifndef FORMDALI_H
 #define FORMDALI_H
 
-#include <QtGui>
+#include <QtWidgets>
 #include "qanimationlabel.h"
 
 namespace Ui

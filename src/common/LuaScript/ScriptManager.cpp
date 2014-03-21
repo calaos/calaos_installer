@@ -32,16 +32,10 @@ static jmp_buf panic_jmp;
 
 ScriptManager::ScriptManager()
 {
-#ifndef CALAOS_INSTALLER
-        Utils::logger("script.lua") << Priority::DEBUG << "ScriptManager::ScriptManager(): Ok" << log4cpp::eol;
-#endif
 }
 
 ScriptManager::~ScriptManager()
 {
-#ifndef CALAOS_INSTALLER
-        Utils::logger("script.lua") << Priority::DEBUG << "ScriptManager::~ScriptManager(): Ok" << log4cpp::eol;
-#endif
 }
 
 bool ScriptManager::ExecuteScript(string script)
@@ -105,12 +99,8 @@ bool ScriptManager::ExecuteScript(string script)
         //Set a hook to kill script in case of a wrong use (infinite loop, ...)
         lua_sethook(L, Lua_DebugHook, LUA_MASKLINE | LUA_MASKCOUNT, 1);
 
-        #ifndef CALAOS_INSTALLER
-        start_time = ecore_time_get();
-        #else
         QTime t = QTime::currentTime();
         start_time = (double)t.second() + (((double) t.msec()) / 1000);
-        #endif
 
         int err = luaL_loadbuffer(L, script.c_str(), script.length(), "CalaosScript");
         if (err)
@@ -119,21 +109,11 @@ bool ScriptManager::ExecuteScript(string script)
                 if (err == LUA_ERRSYNTAX)
                 {
                         string msg = lua_tostring(L, -1);
-                        #ifndef CALAOS_INSTALLER
-                        Utils::logger("script.lua") << Priority::ERROR
-                                        << "ScriptManager::ExecuteScript(): Syntax Error: "
-                                        << msg << log4cpp::eol;
-                        #endif
                         errorMsg = "Syntax Error:\n" + msg;
                 }
                 else if (err == LUA_ERRMEM)
                 {
                         string msg = lua_tostring(L, -1);
-                        #ifndef CALAOS_INSTALLER
-                        Utils::logger("script.lua") << Priority::ERROR
-                                        << "ScriptManager::ExecuteScript(): LUA memory allocation error: "
-                                        << msg << log4cpp::eol;
-                        #endif
                         errorMsg = "Fatal Error:\nLUA memory allocation error:\n" + msg;
                 }
         }
@@ -142,11 +122,6 @@ bool ScriptManager::ExecuteScript(string script)
                 if (setjmp(panic_jmp) == 1)
                 {
                         ret = false;
-                        #ifndef CALAOS_INSTALLER
-                        Utils::logger("script.lua") << Priority::ERROR
-                                        << "ScriptManager::ExecuteScript(): Script panic !"
-                                        << log4cpp::eol;
-                        #endif
                         errorMsg = "Fatal Error:\nScript panic !";
                 }
 
@@ -162,12 +137,6 @@ bool ScriptManager::ExecuteScript(string script)
                         else errcode = "Unknown error";
 
                         string msg = lua_tostring(L, -1);
-                        #ifndef CALAOS_INSTALLER
-                        Utils::logger("script.lua") << Priority::ERROR
-                                        << "ScriptManager::ExecuteScript(): "
-                                        << errcode << " : " << msg
-                                        << log4cpp::eol;
-                        #endif
                         errorMsg = "Error " + errcode + " :\n\t" + msg;
                 }
                 else
@@ -175,11 +144,6 @@ bool ScriptManager::ExecuteScript(string script)
                         if (!lua_isboolean(L, -1))
                         {
                                 ret = false;
-                                #ifndef CALAOS_INSTALLER
-                                Utils::logger("script.lua") << Priority::ERROR
-                                                << "ScriptManager::ExecuteScript(): Script must return either \"true\" or \"false\""
-                                                << log4cpp::eol;
-                                #endif
                                 errorMsg = "Error:\nScript must return either \"true\" or \"false\"";
                         }
                         else

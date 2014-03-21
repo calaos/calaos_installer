@@ -1,7 +1,7 @@
 #ifndef CODEEDITOR_H
 #define CODEEDITOR_H
 
-#include <QtGui>
+#include <QtWidgets>
 #include <QSyntaxHighlighter>
 #include <QHash>
 #include <QTextCharFormat>

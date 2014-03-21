@@ -2,10 +2,10 @@
 #define DIALOGCAMERAVIEW_H
 
 #include <QBuffer>
-#include <QHttp>
-#include <QtGui/QDialog>
+#include <QtWidgets>
 #include <iostream>
 #include <IOBase.h>
+#include <QDialog>
 
 #include <ListeRoom.h>
 using namespace std;
@@ -32,14 +32,7 @@ class DialogCameraView : public QDialog
         private:
                 Ui::DialogCameraView *ui;
 
-                QHttp *http;
-                QBuffer *buffer;
-                QByteArray bytes;
-                int request;
                 Camera *camera;
-
-        public slots:
-                void downloadFinished (int requestId, bool error);
 
 };
 

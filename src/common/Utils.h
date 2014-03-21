@@ -43,57 +43,9 @@
 #include <errno.h>
 #include <fcntl.h>
 #include <math.h>
-#ifndef _WIN32
-#include <sys/time.h>
-#include <sys/types.h>
-#include <sys/wait.h>
-#include <signal.h>
-#include <pthread.h>
-#endif
 #include <Params.h>
 #include <base64.h>
 
-#ifdef IPHONE_APP
-
-        #include "ObjCWrapper.h"
-
-        typedef unsigned int uint;
-
-        #include "FakeLogging.h"
-
-        #ifdef nil
-                #undef nil
-        #endif
-
-        #include <sigc++/sigc++.h>
-
-        #ifndef nil
-                #define nil __DARWIN_NULL       /* id of Nil instance */
-        #endif
-
-#endif
-
-#ifdef CALAOS_INSTALLER
-        #include "FakeLogging.h"
-#endif
-
-#if !defined (CALAOS_INSTALLER)  && !defined (IPHONE_APP)
-#include <TinyXML/tinyxml.h>
-#include <sigc++/sigc++.h>
-
-//This is for logging
-#include <syslog.h>
-#include <log4cpp/Category.hh>
-#include <log4cpp/Appender.hh>
-#include <log4cpp/OstreamAppender.hh>
-#include <log4cpp/FileAppender.hh>
-#include <log4cpp/Layout.hh>
-#include <log4cpp/BasicLayout.hh>
-#include <log4cpp/Priority.hh>
-#include <log4cpp/NDC.hh>
-#include <log4cpp/PatternLayout.hh>
-#include <log4cpp/PropertyConfigurator.hh>
-#endif
 //-----------------------------------------------------------------------------
 using namespace std;
 
@@ -108,7 +60,6 @@ typedef unsigned int uint;
 typedef unsigned int uint;
 #endif
 
-using namespace log4cpp;
 //-----------------------------------------------------------------------------
 // Some common defines
 //-----------------------------------------------------------------------------
@@ -187,45 +138,6 @@ int CURL_writebuf_callback(void *buffer, size_t size, size_t nmemb, void *stream
 //-----------------------------------------------------------------------------
 namespace Utils
 {
-
-        void InitLoggingSystem(std::string conf);
-        log4cpp::Category &logger(std::string category);
-
-        /*
-                This is how to log something:
-
-                Utils::logger("category") << Priority::DEBUG << "my log message" << log4cpp::eol;
-
-                or
-
-                Utils::logger("category").debug("my debug message %s", str);
-                Utils::logger("category").error("my error message");
-                Utils::logger("category").info("my info message");
-                Utils::logger("category").warn("my warning message");
-                Utils::logger("category").notice("my notice message");
-                Utils::logger("category").crit("my critical message");
-                Utils::logger("category").alert("my alert message");
-                Utils::logger("category").emerg("my emergency message");
-                Utils::logger("category").fatal("my fatal message");
-
-                The category "root" is the main category for logging
-                Any other string will create a subcategory
-
-                This is all priority available:
-
-                EMERG
-                FATAL
-                ALERT
-                CRIT
-                ERROR
-                WARN
-                NOTICE
-                INFO
-                DEBUG
-                NOTSET --> this one does not print anything
-
-        */
-
         bool file_copy(std::string source, std::string dest);
 
         string url_encode(string str);
@@ -247,18 +159,6 @@ namespace Utils
 
         //Parse a result string into an array of Params.
         void parseParamsItemList(string l, vector<Params> &res, int start_at = 0);
-
-#if !defined (CALAOS_INSTALLER)
-        string get_config_option(string key);
-        bool set_config_option(string key, string value);
-        bool del_config_option(string key);
-        bool get_config_options(Params &options);
-#endif
-
-#if !defined (CALAOS_INSTALLER) && !defined (IPHONE_APP)
-        void Watchdog(std::string fname);
-        string getHardwareID();
-#endif
 
         //!decode a BASE64 string
         std::string Base64_decode(std::string &str);
@@ -327,13 +227,8 @@ namespace Utils
                 virtual void operator() (void *b) const
                 {
                         (void)b;
-#if !defined (CALAOS_INSTALLER)  && !defined (IPHONE_APP)
-                        logger("root") << Priority::CRIT << "DeletorBase() called, this is an error. It should never happen"
-                                       << ", because it means the application leaks memory!" << log4cpp::eol;
-#else
                         cerr << "DeletorBase() called, this is an error. It should never happen"
                              << ", because it means the application leaks memory!" << endl;
-#endif
                 }
         };
 
@@ -386,13 +281,9 @@ namespace Utils
 
         //-----------------------------------------------------------------------------
         typedef enum { TBOOL, TINT, TSTRING, TUNKNOWN } DATA_TYPE;
-        enum { PLAY, PAUSE, STOP, ERROR, SONG_CHANGE, PLAYLIST_CHANGE, VOLUME_CHANGE };
-        typedef enum { UNKNOWN, SLIMSERVER, IRTRANS, CALAOS } SOCKET_TYPE;
-        //-----------------------------------------------------------------------------
-        enum { VUP, VDOWN, VSTOP, VNONE };
         //-----------------------------------------------------------------------------
         typedef unsigned short UWord;
         //-----------------------------------------------------------------------------
-};
+}
 //-----------------------------------------------------------------------------
 #endif

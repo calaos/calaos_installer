@@ -1,7 +1,8 @@
 #ifndef DIALOGNEWRULE_H
 #define DIALOGNEWRULE_H
 
-#include <QtGui/QDialog>
+#include <QtWidgets>
+#include <QDialog>
 #include <iostream>
 
 #include <ListeRule.h>

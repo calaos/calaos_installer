@@ -1,7 +1,7 @@
 #ifndef TEMPWIZARD_H
 #define TEMPWIZARD_H
 
-#include <QtGui>
+#include <QtWidgets>
 #include <QWizard>
 
 class TempWizard : public QWizard

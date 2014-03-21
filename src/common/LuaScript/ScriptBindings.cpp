@@ -82,11 +82,7 @@ int Calaos::Lua_print(lua_State *L)
                         msg += to_string(luaL_typename(L, i)) + to_string(":") + to_string(lua_topointer(L, i));
         }
 
-        #ifdef CALAOS_INSTALLER
         LuaPrinter::Instance().Print(QString::fromUtf8(msg.c_str()));
-        #else
-        Utils::logger("script.lua") << Priority::INFO << "LuaPrint: "<< msg << log4cpp::eol;
-        #endif
 
         return 0;
 }
@@ -95,12 +91,8 @@ void Calaos::Lua_DebugHook(lua_State *L, lua_Debug *ar)
 {
         double time;
 
-        #ifndef CALAOS_INSTALLER
-        time = ecore_time_get();
-        #else
         QTime t = QTime::currentTime();
         time = (double)t.second() + (((double) t.msec()) / 1000);
-        #endif
 
         if (time - ScriptManager::start_time > SCRIPT_MAX_EXEC_TIME)
         {
@@ -125,9 +117,6 @@ const char Lua_Calaos::className[] = "Calaos";
 
 Lua_Calaos::Lua_Calaos()
 {
-        #ifndef CALAOS_INSTALLER
-        Utils::logger("script.lua") << Priority::DEBUG << "Lua_Calaos::Lua_Calaos(): Ok " << log4cpp::eol;
-        #endif
 }
 
 Lua_Calaos::Lua_Calaos(lua_State *L)
@@ -139,9 +128,6 @@ Lua_Calaos::Lua_Calaos(lua_State *L)
 
 Lua_Calaos::~Lua_Calaos()
 {
-        #ifndef CALAOS_INSTALLER
-        Utils::logger("script.lua") << Priority::DEBUG << "Lua_Calaos::~Lua_Calaos(): Ok " << log4cpp::eol;
-        #endif
 }
 
 int Lua_Calaos::getInputValue(lua_State *L)
@@ -274,19 +260,11 @@ int Lua_Calaos::requestUrl(lua_State *L)
         if (nb == 1 && lua_isstring(L, 1))
         {
                 string url = lua_tostring(L, 1);
-
-                #ifndef CALAOS_INSTALLER
-                CallUrl(url);
-                #endif
         }
         else if (nb == 2 && lua_isstring(L, 1) && lua_isstring(L, 2))
         {
                 string url = lua_tostring(L, 1);
                 string post_data = lua_tostring(L, 2);
-
-                #ifndef CALAOS_INSTALLER
-                CallUrl(url, post_data);
-                #endif
         }
         else
         {
@@ -297,4 +275,3 @@ int Lua_Calaos::requestUrl(lua_State *L)
 
         return 0;
 }
-

@@ -7,7 +7,6 @@ WagoConnect::WagoConnect(QObject *parent):
         connect_status(WAGO_DISCONNECTED),
         use_proxy(false),
         udpSocket(NULL),
-        httpProxy(NULL),
         mainTimer(NULL),
         heartbeatTimer(NULL),
         modbus(new WagoModbus(this))
@@ -126,11 +125,11 @@ void WagoConnect::heartbeat_cb(QString command, QString response)
                                 else
                                 {
                                         if (wago_type == "750-842" && wago_fwversion < WAGO_FW_VESION_842)
-                                                emit updateNeeded(wago_fwversion, QString::fromAscii(WAGO_FW_VESION_842));
+                                                emit updateNeeded(wago_fwversion, QString::fromLatin1(WAGO_FW_VESION_842));
                                         if (wago_type == "750-841" && wago_fwversion < WAGO_FW_VESION_841)
-                                                emit updateNeeded(wago_fwversion, QString::fromAscii(WAGO_FW_VESION_841));
+                                                emit updateNeeded(wago_fwversion, QString::fromLatin1(WAGO_FW_VESION_841));
                                         if (wago_type == "750-849" && wago_fwversion < WAGO_FW_VESION_849)
-                                                emit updateNeeded(wago_fwversion, QString::fromAscii(WAGO_FW_VESION_849));
+                                                emit updateNeeded(wago_fwversion, QString::fromLatin1(WAGO_FW_VESION_849));
                                 }
                         }
                 }
@@ -238,19 +237,19 @@ void WagoConnect::modbusTypeDone(bool success, Modbus &result)
         {
                 wago_type = "750-841";
                 if (wago_fwversion < WAGO_FW_VESION_841)
-                        emit updateNeeded(wago_fwversion, QString::fromAscii(WAGO_FW_VESION_841));
+                        emit updateNeeded(wago_fwversion, QString::fromLatin1(WAGO_FW_VESION_841));
         }
         else if (data == 849)
         {
                 wago_type = "750-849";
                 if (wago_fwversion < WAGO_FW_VESION_849)
-                        emit updateNeeded(wago_fwversion, QString::fromAscii(WAGO_FW_VESION_849));
+                        emit updateNeeded(wago_fwversion, QString::fromLatin1(WAGO_FW_VESION_849));
         }
         else if (data == 842)
         {
                 wago_type = "750-842";
                 if (wago_fwversion < WAGO_FW_VESION_842)
-                        emit updateNeeded(wago_fwversion, QString::fromAscii(WAGO_FW_VESION_842));
+                        emit updateNeeded(wago_fwversion, QString::fromLatin1(WAGO_FW_VESION_842));
         }
 }
 

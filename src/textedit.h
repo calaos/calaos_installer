@@ -42,6 +42,7 @@
 #ifndef TEXTEDIT_H
 #define TEXTEDIT_H
 
+#include <QtPrintSupport>
 #include <QMainWindow>
 #include <QMap>
 #include <QPointer>

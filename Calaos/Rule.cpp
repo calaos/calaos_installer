@@ -59,7 +59,7 @@ void Rule::Print()
 {
         cout << "Content of rule \"" << name << " - " << type << "\"" << endl;
         cout << "Conditions (" << conds.size() << ") :" << endl;
-        for (int i = 0;i < conds.size();i++)
+        for (uint i = 0;i < conds.size();i++)
         {
                 Condition *c = conds[i];
                 if (c->getType() == COND_STD)
@@ -86,7 +86,7 @@ void Rule::Print()
         }
 
         cout << "Actions (" << actions.size() << ") :" << endl;
-        for (int i = 0;i < actions.size();i++)
+        for (uint i = 0;i < actions.size();i++)
         {
                 Action *a = actions[i];
                 if (a->getType() == ACTION_STD)

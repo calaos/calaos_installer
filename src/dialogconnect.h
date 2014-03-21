@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <wagoconnect.h>
+#include <QDialog>
 
 namespace Ui
 {

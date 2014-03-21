@@ -1,10 +1,11 @@
 #ifndef DIALOGNEWVOLET_H
 #define DIALOGNEWVOLET_H
 
-#include <QtGui/QDialog>
+#include <QtWidgets>
 #include <iostream>
-
+#include <QDialog>
 #include <ListeRoom.h>
+
 using namespace std;
 using namespace Calaos;
 

@@ -1,7 +1,7 @@
 #ifndef FORMACTIONSTD_H
 #define FORMACTIONSTD_H
 
-#include <QtGui>
+#include <QtWidgets>
 #include <ListeRule.h>
 #include <ListeRoom.h>
 #include <dialogiolist.h>

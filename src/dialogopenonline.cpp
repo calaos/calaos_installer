@@ -144,7 +144,7 @@ void DialogOpenOnline::loadXmlFiles(QString ip)
 
 void DialogOpenOnline::saveXMLFile(QString filename, QString base64_data)
 {
-        QByteArray data = QByteArray::fromBase64(base64_data.toAscii());
+        QByteArray data = QByteArray::fromBase64(base64_data.toLocal8Bit());
 
         QFile xml;
         xml.setFileName(tempDir + "/" + filename);

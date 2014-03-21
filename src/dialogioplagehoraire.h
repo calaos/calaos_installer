@@ -1,7 +1,8 @@
 #ifndef DIALOGPLAGEHORAIRE_H
 #define DIALOGPLAGEHORAIRE_H
 
-#include <QtGui/QDialog>
+#include <QtWidgets>
+#include <QDialog>
 #include <QInputDialog>
 #include <QTreeWidgetItem>
 #include <QMessageBox>

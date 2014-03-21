@@ -1,7 +1,8 @@
 #ifndef DIALOGIOPROPERTIES_H
 #define DIALOGIOPROPERTIES_H
 
-#include <QtGui/QDialog>
+#include <QtWidgets>
+#include <QDialog>
 #include <QInputDialog>
 #include <QTreeWidgetItem>
 #include <QMessageBox>

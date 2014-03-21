@@ -1,7 +1,8 @@
 #ifndef DIALOGNEWTIME_H
 #define DIALOGNEWTIME_H
 
-#include <QtGui/QDialog>
+#include <QtWidgets>
+#include <QDialog>
 #include <iostream>
 
 #include <ListeRoom.h>

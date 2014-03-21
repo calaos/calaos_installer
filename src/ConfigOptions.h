@@ -1,7 +1,7 @@
 #ifndef CONFIGOPTIONS_H
 #define CONFIGOPTIONS_H
 
-#include <QtGui>
+#include <QtWidgets>
 
 class ConfigOptions
 {

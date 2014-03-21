@@ -3,7 +3,7 @@
 
 #include <QObject>
 #include <QtNetwork>
-#include <QtGui>
+#include <QtWidgets>
 #include "WagoModbus.h"
 
 #include "detectip.h"
@@ -63,7 +63,6 @@ class WagoConnect : public QObject
                 QString wago_ip, wago_fwversion, wago_type, calaos_user, calaos_password;
                 bool use_proxy;
                 QUdpSocket *udpSocket;
-                QHttp *httpProxy;
                 QTimer *mainTimer, *heartbeatTimer;
                 int timeout_counter;
 

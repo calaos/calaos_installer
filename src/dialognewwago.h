@@ -1,13 +1,14 @@
 #ifndef DIALOGNEWWAGO_H
 #define DIALOGNEWWAGO_H
 
-#include <QtGui/QDialog>
-#include <QtGui/QAbstractButton>
+#include <QtWidgets>
+#include <QDialog>
 #include <qanimationlabel.h>
 #include <wagoconnect.h>
 #include <iostream>
-
+#include <QAbstractButton>
 #include <ListeRoom.h>
+
 using namespace std;
 using namespace Calaos;
 

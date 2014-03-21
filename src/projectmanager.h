@@ -6,8 +6,9 @@
 #include <QXmlStreamReader>
 #include <QXmlStreamWriter>
 #include <QDomDocument>
-#include <QtGui>
+#include <QtWidgets>
 #include <vector>
+#include <QMessageBox>
 
 #include <ListeRoom.h>
 #include <ListeRule.h>

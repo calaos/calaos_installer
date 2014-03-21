@@ -33,7 +33,7 @@ void SqueezeServer::SendCommand(QString c, QObject *obj, QString slot)
 
         c += "\n";
 
-        cliSocket->write(c.toAscii());
+        cliSocket->write(c.toLocal8Bit());
 }
 
 void SqueezeServer::readTCPPacket()
@@ -266,7 +266,7 @@ void DialogDetectSqueezebox::squeezePlayerId(QString cmd, QString res)
 
         if (l.size() >= 4)
         {
-                sq.id = QUrl::fromPercentEncoding(l[3].toAscii());
+                sq.id = QUrl::fromPercentEncoding(l[3].toLocal8Bit());
 
                 getSqueezeName();
         }
@@ -289,7 +289,7 @@ void DialogDetectSqueezebox::squeezePlayerName(QString cmd, QString res)
 
         if (l.size() >= 4)
         {
-                sq.name = QUrl::fromPercentEncoding(l[3].toAscii());
+                sq.name = QUrl::fromPercentEncoding(l[3].toLocal8Bit());
 
                 squeezebox.push_back(sq);
         }

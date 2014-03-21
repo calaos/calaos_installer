@@ -2,7 +2,8 @@
 #define DIALOGOPENONLINE_H
 
 #include <QtNetwork>
-#include <QtGui>
+#include <QtWidgets>
+#include <QDialog>
 #include <qanimationlabel.h>
 
 #include <iostream>

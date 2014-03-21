@@ -1,8 +1,11 @@
 # -------------------------------------------------
 # Project created by QtCreator 2009-04-27T17:51:09
 # -------------------------------------------------
-QT += network \
-    xml
+QT += core gui network widgets xml printsupport
+
+#enable C++11 new syntax
+CONFIG += c++11
+
 TARGET = calaos_installer
 TEMPLATE = app
 SOURCES += src/main.cpp \
@@ -73,7 +76,9 @@ SOURCES += src/main.cpp \
     src/TwoLineItemDelegate.cpp \
     src/WagoModbus.cpp \
     src/DialogWagoFirmwareUpdate.cpp \
-    src/RuleActionMenu.cpp
+    src/RuleActionMenu.cpp \
+    src/ftp/qurlinfo.cpp \
+    src/ftp/qftp.cpp
 HEADERS += src/mainwindow.h \
     src/common/Utils.h \
     src/common/base64.h \
@@ -147,7 +152,9 @@ HEADERS += src/mainwindow.h \
     src/WagoModbus.h \
     src/DialogWagoFirmwareUpdate.h \
     src/RuleActionMenu.h \
-    src/common/FakeLogging.h
+    src/common/FakeLogging.h \
+    src/ftp/qurlinfo.h \
+    src/ftp/qftp.h
 FORMS += data/mainwindow.ui \
     data/dialognewroom.ui \
     data/dialognewwago.ui \

@@ -678,7 +678,7 @@ std::string ListeRoom::get_new_varsave()
 {
         map<string, IOBase *> volets;
 
-        for (uint j = 0;j < ListeRoom::Instance().size();j++)
+        for (int j = 0;j < ListeRoom::Instance().size();j++)
         {
                 Room *room = ListeRoom::Instance().get_room(j);
                 for (int m = 0;m < room->get_size_out();m++)

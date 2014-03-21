@@ -187,16 +187,16 @@ void FormRules::PopulateRoomsTree()
         headers << QString::fromUtf8("Maison");
         ui->tree_home->setHeaderLabels(headers);
 
-        ui->tree_condition->header()->setMovable(false);
+        ui->tree_condition->header()->setSectionsMovable(false);
         ui->tree_condition->header()->resizeSection(0, 240);
         ui->tree_condition->header()->resizeSection(1, 100);
         ui->tree_condition->header()->resizeSection(2, 240);
 
-        ui->tree_action->header()->setMovable(false);
+        ui->tree_action->header()->setSectionsMovable(false);
         ui->tree_action->header()->resizeSection(0, 240);
         ui->tree_action->header()->resizeSection(1, 240);
 
-        ui->tree_rules->header()->setMovable(false);
+        ui->tree_rules->header()->setSectionsMovable(false);
         ui->tree_rules->header()->resizeSection(0, 200);
         ui->tree_rules->header()->resizeSection(1, 200);
 
@@ -245,9 +245,9 @@ void FormRules::PopulateRulesTree()
         QStringList headers;
         headers << QString::fromUtf8("Type") << QString::fromUtf8("Nom");
         ui->tree_rules->setHeaderLabels(headers);
-        ui->tree_condition->header()->setResizeMode(QHeaderView::Interactive);
-        ui->tree_action->header()->setResizeMode(QHeaderView::Interactive);
-        ui->tree_rules->header()->setResizeMode(QHeaderView::Interactive);
+        ui->tree_condition->header()->setSectionResizeMode(QHeaderView::Interactive);
+        ui->tree_action->header()->setSectionResizeMode(QHeaderView::Interactive);
+        ui->tree_rules->header()->setSectionResizeMode(QHeaderView::Interactive);
 
         for (int i = 0;i < ListeRule::Instance().size();i++)
         {

@@ -1,9 +1,10 @@
 #ifndef IOEDITORSELECTION_H
 #define IOEDITORSELECTION_H
 
-#include <QtGui>
+#include <QtWidgets>
 #include <QHBoxLayout>
 #include <IOBase.h>
+#include <QFrame>
 
 using namespace Calaos;
 

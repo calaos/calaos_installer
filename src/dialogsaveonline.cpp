@@ -133,7 +133,7 @@ QString DialogSaveOnline::readFileBase64(QString fileName)
         QByteArray file = f.readAll();
         f.close();
 
-        return QString::fromAscii(file.toBase64().data());
+        return QString::fromLatin1(file.toBase64().data());
 }
 
 void DialogSaveOnline::uploadXmlFiles(QString ip)

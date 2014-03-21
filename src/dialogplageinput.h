@@ -1,7 +1,8 @@
 #ifndef DIALOGPLAGEINPUT_H
 #define DIALOGPLAGEINPUT_H
 
-#include <QtGui/QDialog>
+#include <QtWidgets>
+#include <QDialog>
 
 namespace Ui
 {

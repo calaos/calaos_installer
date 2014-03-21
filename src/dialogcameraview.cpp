@@ -4,19 +4,13 @@
 
 DialogCameraView::DialogCameraView(Camera *cam, QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::DialogCameraView), http(NULL), buffer(NULL), camera(cam)
+    ui(new Ui::DialogCameraView), camera(cam)
 {
         ui->setupUi(this);
 }
 
 DialogCameraView::~DialogCameraView()
 {
-        disconnect(http, SIGNAL(requestFinished(int, bool)), this, SLOT(downloadFinished(int, bool)));
-        if (buffer) delete buffer;
-        buffer = NULL;
-        if (http) delete http;
-        http = NULL;
-
         delete ui;
 }
 
@@ -66,36 +60,29 @@ void DialogCameraView::DownloadPicture()
         }
 
         qDebug() << u.c_str();
-        QUrl url(u.c_str());
 
-        http = new QHttp(this);
-        connect(http, SIGNAL(requestFinished(int, bool)), this, SLOT(downloadFinished(int, bool)));
-        buffer = new QBuffer(&bytes);
-        buffer->open(QIODevice::WriteOnly);
-        http->setHost(url.host());
-        request = http->get(url.path(), buffer);
-}
+        QNetworkAccessManager *netmanager = new QNetworkAccessManager(this);
+        connect(netmanager, &QNetworkAccessManager::finished, [=](QNetworkReply *reply) {
 
-void DialogCameraView::downloadFinished(int requestId, bool error)
-{
-        if (error)
-        {
-                QMessageBox::warning(this, tr("Calaos Installer: Erreur !"), http->errorString());
+            if (reply->error() != QNetworkReply::NoError)
+            {
+                QMessageBox::warning(this, "Calaos Installer", tr("Calaos Installer: Erreur !"), reply->errorString());
 
                 return;
-        }
+            }
 
-        if (request == requestId)
-        {
-                QImage img;
-                img.loadFromData(bytes);
-                ui->label_cam->setPixmap(QPixmap::fromImage(img));
+            QByteArray res = reply->readAll();
+            QImage img = QImage::fromData(res);
+            netmanager->deleteLater();
 
-                delete buffer;
-                buffer = NULL;
-                delete http;
-                http = NULL;
+            if (img.isNull())
+                QMessageBox::warning(this, "Calaos Installer", tr("Calaos Installer: Error, image is NULL !"));
 
-                DownloadPicture();
-        }
+            ui->label_cam->setPixmap(QPixmap::fromImage(img));
+
+            DownloadPicture();
+        });
+
+        QNetworkRequest request(QUrl(u.c_str()));
+        netmanager->get(request);
 }

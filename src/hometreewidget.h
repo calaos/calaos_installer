@@ -3,7 +3,7 @@
 
 #include <QTreeWidget>
 #include <QDropEvent>
-#include <QtGui>
+#include <QtWidgets>
 
 class HomeTreeWidget : public QTreeWidget
 {

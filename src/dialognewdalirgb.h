@@ -1,7 +1,8 @@
 #ifndef DIALOGNEWDALIRGB_H
 #define DIALOGNEWDALIRGB_H
 
-#include <QtGui/QDialog>
+#include <QtWidgets>
+#include <QDialog>
 #include <wagoconnect.h>
 #include <iostream>
 
