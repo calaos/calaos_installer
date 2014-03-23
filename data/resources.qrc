@@ -99,5 +99,9 @@
         <file>img/qt.png</file>
         <file>img/document-print.png</file>
         <file>img/drive-removable-media.png</file>
+        <file>img/x10.png</file>
+        <file>img/zibase.png</file>
+        <file>img/web.png</file>
+        <file>img/chip.png</file>
     </qresource>
 </RCC>

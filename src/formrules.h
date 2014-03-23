@@ -37,6 +37,9 @@
 #include <Room.h>
 #include <IOBase.h>
 
+enum { HW_NONE=0, HW_WAGO, HW_ONEWIRE, HW_X10, HW_GPIO,
+       HW_ZIBASE, HW_WEB };
+
 enum { ITEM_ROOM=0, ITEM_INTER, ITEM_LIGHT, ITEM_VOLET, ITEM_DALI,
        ITEM_DALIRGB, ITEM_TEMP, ITEM_CAMERA, ITEM_MUSIC, ITEM_INTERN,
        ITEM_SCENARIO, ITEM_TIME, ITEM_ANALOG };
@@ -109,7 +112,7 @@ class FormRules : public QWidget
 
 
         public slots:
-                void addCalaosItem(int item);
+                void addCalaosItem(int hw_type, int item);
                 void showPopup_tree(const QPoint point);
                 void showPopup_condition(const QPoint point);
                 void showPopup_action(const QPoint point);

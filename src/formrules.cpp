@@ -23,137 +23,159 @@ FormRules::FormRules(QWidget *parent) :
         ui->ioexplorer_add->setMenu(add_menu);
 
         QAction *action = NULL;
-        QSignalMapper *sig = new QSignalMapper(this);
 
-        action = add_menu->addAction(QString::fromUtf8("Pièce"));
+        action = add_menu->addAction(tr("Room"));
         action->setIcon(QIcon(":/img/rooms/various_small.png"));
-        sig->setMapping(action, ITEM_ROOM);
-        connect(action, SIGNAL(triggered()), sig, SLOT(map()));
+        connect(action, &QAction::triggered, [=]() { addCalaosItem(HW_NONE, ITEM_ROOM); });
 
         add_menu->addSeparator();
 
-        action = add_menu->addAction(QString::fromUtf8("Interrupteur"));
+        QMenu *wago_menu = add_menu->addMenu(QIcon("://img/logo_wago.png"), "Wago PLC");
+
+        action = wago_menu->addAction(tr("Switch"));
         action->setIcon(QIcon(":/img/icon_inter.png"));
-        sig->setMapping(action, ITEM_INTER);
-        connect(action, SIGNAL(triggered()), sig, SLOT(map()));
+        connect(action, &QAction::triggered, [=]() { addCalaosItem(HW_WAGO, ITEM_INTER); });
 
-        action = add_menu->addAction(QString::fromUtf8("Lumière / Prise commandée"));
+        action = wago_menu->addAction(tr("Light"));
         action->setIcon(QIcon(":/img/icon_light_on.png"));
-        sig->setMapping(action, ITEM_LIGHT);
-        connect(action, SIGNAL(triggered()), sig, SLOT(map()));
+        connect(action, &QAction::triggered, [=]() { addCalaosItem(HW_WAGO, ITEM_LIGHT); });
 
-        action = add_menu->addAction(QString::fromUtf8("Volet"));
+        action = wago_menu->addAction(tr("Shutter"));
         action->setIcon(QIcon(":/img/icon_shutter.png"));
-        sig->setMapping(action, ITEM_VOLET);
-        connect(action, SIGNAL(triggered()), sig, SLOT(map()));
+        connect(action, &QAction::triggered, [=]() { addCalaosItem(HW_WAGO, ITEM_VOLET); });
 
-        action = add_menu->addAction(QString::fromUtf8("DALI/DMX"));
+        action = wago_menu->addAction(tr("DALI/DMX"));
         action->setIcon(QIcon(":/img/icon_light_on.png"));
-        sig->setMapping(action, ITEM_DALI);
-        connect(action, SIGNAL(triggered()), sig, SLOT(map()));
+        connect(action, &QAction::triggered, [=]() { addCalaosItem(HW_WAGO, ITEM_DALI); });
 
-        action = add_menu->addAction(QString::fromUtf8("DALI/DMX RGB"));
+        action = wago_menu->addAction(tr("DALI/DMX RGB"));
         action->setIcon(QIcon(":/img/icon_light_on.png"));
-        sig->setMapping(action, ITEM_DALIRGB);
-        connect(action, SIGNAL(triggered()), sig, SLOT(map()));
+        connect(action, &QAction::triggered, [=]() { addCalaosItem(HW_WAGO, ITEM_DALIRGB); });
 
-        action = add_menu->addAction(QString::fromUtf8("Sonde de température"));
+        action = wago_menu->addAction(tr("Temperature sensor"));
         action->setIcon(QIcon(":/img/temp.png"));
-        sig->setMapping(action, ITEM_TEMP);
-        connect(action, SIGNAL(triggered()), sig, SLOT(map()));
+        connect(action, &QAction::triggered, [=]() { addCalaosItem(HW_WAGO, ITEM_TEMP); });
 
-        action = add_menu->addAction(QString::fromUtf8("Entrée/Sortie analogique"));
+        action = wago_menu->addAction(tr("Analog Input/Output"));
         action->setIcon(QIcon(":/img/icon_analog.png"));
-        sig->setMapping(action, ITEM_ANALOG);
-        connect(action, SIGNAL(triggered()), sig, SLOT(map()));
+        connect(action, &QAction::triggered, [=]() { addCalaosItem(HW_WAGO, ITEM_ANALOG); });
+
+        QMenu *owire_menu = add_menu->addMenu(QIcon("://img/chip.png"), "OneWire");
+
+        action = owire_menu->addAction(tr("Temperature sensor"));
+        action->setIcon(QIcon(":/img/temp.png"));
+        connect(action, &QAction::triggered, [=]() { addCalaosItem(HW_ONEWIRE, ITEM_TEMP); });
+
+        QMenu *x10_menu = add_menu->addMenu(QIcon("://img/x10.png"), "X10");
+
+        action = x10_menu->addAction(tr("Light dimmer"));
+        action->setIcon(QIcon(":/img/icon_light_on.png"));
+        connect(action, &QAction::triggered, [=]() { addCalaosItem(HW_X10, ITEM_DALI); });
+
+        QMenu *zibase_menu = add_menu->addMenu(QIcon("://img/zibase.png"), "Zibase");
+
+        action = zibase_menu->addAction(tr("Switch input"));
+        action->setIcon(QIcon(":/img/icon_inter.png"));
+        connect(action, &QAction::triggered, [=]() { addCalaosItem(HW_ZIBASE, ITEM_INTER); });
+
+        action = zibase_menu->addAction(tr("Analog input"));
+        action->setIcon(QIcon(":/img/icon_analog.png"));
+        connect(action, &QAction::triggered, [=]() { addCalaosItem(HW_ZIBASE, ITEM_ANALOG); });
+
+        QMenu *web_menu = add_menu->addMenu(QIcon("://img/web.png"), "Web");
+
+        action = web_menu->addAction(tr("Light"));
+        action->setIcon(QIcon(":/img/icon_light_on.png"));
+        connect(action, &QAction::triggered, [=]() { addCalaosItem(HW_WEB, ITEM_LIGHT); });
+
+        action = wago_menu->addAction(tr("Shutter"));
+        action->setIcon(QIcon(":/img/icon_shutter.png"));
+        connect(action, &QAction::triggered, [=]() { addCalaosItem(HW_WEB, ITEM_VOLET); });
+
+        action = wago_menu->addAction(tr("Temperature sensor"));
+        action->setIcon(QIcon(":/img/temp.png"));
+        connect(action, &QAction::triggered, [=]() { addCalaosItem(HW_WEB, ITEM_TEMP); });
+
+        action = wago_menu->addAction(tr("Analog Input"));
+        action->setIcon(QIcon(":/img/icon_analog.png"));
+        connect(action, &QAction::triggered, [=]() { addCalaosItem(HW_WEB, ITEM_ANALOG); });
+
+        QMenu *gpio_menu = add_menu->addMenu(QIcon("://img/chip.png"), "GPIO");
+
+        action = zibase_menu->addAction(tr("Switch input"));
+        action->setIcon(QIcon(":/img/icon_inter.png"));
+        connect(action, &QAction::triggered, [=]() { addCalaosItem(HW_GPIO, ITEM_INTER); });
+
+        action = gpio_menu->addAction(tr("Light"));
+        action->setIcon(QIcon(":/img/icon_light_on.png"));
+        connect(action, &QAction::triggered, [=]() { addCalaosItem(HW_GPIO, ITEM_LIGHT); });
+
+        action = gpio_menu->addAction(tr("Shutter"));
+        action->setIcon(QIcon(":/img/icon_shutter.png"));
+        connect(action, &QAction::triggered, [=]() { addCalaosItem(HW_GPIO, ITEM_VOLET); });
 
         add_menu->addSeparator();
 
-        action = add_menu->addAction(QString::fromUtf8("Caméra"));
+        action = add_menu->addAction(tr("Camera"));
         action->setIcon(QIcon(":/img/icon_camera_on.png"));
-        sig->setMapping(action, ITEM_CAMERA);
-        connect(action, SIGNAL(triggered()), sig, SLOT(map()));
+        connect(action, &QAction::triggered, [=]() { addCalaosItem(HW_NONE, ITEM_CAMERA); });
 
-        action = add_menu->addAction(QString::fromUtf8("Lecteur de musique"));
+        action = add_menu->addAction(tr("Music zone"));
         action->setIcon(QIcon(":/img/icon_sound.png"));
-        sig->setMapping(action, ITEM_MUSIC);
-        connect(action, SIGNAL(triggered()), sig, SLOT(map()));
+        connect(action, &QAction::triggered, [=]() { addCalaosItem(HW_NONE, ITEM_MUSIC); });
 
         add_menu->addSeparator();
 
-        action = add_menu->addAction(QString::fromUtf8("Variable Interne"));
+        action = add_menu->addAction(tr("Internal Variable"));
         action->setIcon(QIcon(":/img/text.png"));
-        sig->setMapping(action, ITEM_INTERN);
-        connect(action, SIGNAL(triggered()), sig, SLOT(map()));
+        connect(action, &QAction::triggered, [=]() { addCalaosItem(HW_NONE, ITEM_INTERN); });
 
-        action = add_menu->addAction(QString::fromUtf8("Variable Scénario"));
+        action = add_menu->addAction(tr("Scenario variable"));
         action->setIcon(QIcon(":/img/icon_scenario.png"));
-        sig->setMapping(action, ITEM_SCENARIO);
-        connect(action, SIGNAL(triggered()), sig, SLOT(map()));
+        connect(action, &QAction::triggered, [=]() { addCalaosItem(HW_NONE, ITEM_SCENARIO); });
 
-        action = add_menu->addAction(QString::fromUtf8("Variable Horaire"));
+        action = add_menu->addAction(tr("Time/Scheduling Variable"));
         action->setIcon(QIcon(":/img/icon_clock.png"));
-        sig->setMapping(action, ITEM_TIME);
-        connect(action, SIGNAL(triggered()), sig, SLOT(map()));
-
-        //connect the mapper
-        connect(sig, SIGNAL(mapped(int)), this, SLOT(addCalaosItem(int)));
+        connect(action, &QAction::triggered, [=]() { addCalaosItem(HW_NONE, ITEM_TIME); });
 
         addConditionMenu = new QMenu(parent);
         ui->bt_condition_add->setMenu(addConditionMenu);
 
-        sig = new QSignalMapper(this);
-
-        action = addConditionMenu->addAction(QString::fromUtf8("Condition classique"));
+        action = addConditionMenu->addAction(tr("Normal Condition"));
         action->setIcon(QIcon(":/img/icon_rule.png"));
-        sig->setMapping(action, COND_STD);
-        connect(action, SIGNAL(triggered()), sig, SLOT(map()));
+        connect(action, &QAction::triggered, [=]() { addCondition(COND_STD); });
 
-        action = addConditionMenu->addAction(QString::fromUtf8("Condition sur sortie"));
+        action = addConditionMenu->addAction(tr("Condition on output event"));
         action->setIcon(QIcon(":/img/icon_rule_out.png"));
-        sig->setMapping(action, COND_OUTPUT);
-        connect(action, SIGNAL(triggered()), sig, SLOT(map()));
+        connect(action, &QAction::triggered, [=]() { addCondition(COND_OUTPUT); });
 
-        action = addConditionMenu->addAction(QString::fromUtf8("Condition au démarage"));
+        action = addConditionMenu->addAction(tr("Condition at start"));
         action->setIcon(QIcon(":/img/icon_rule_start.png"));
-        sig->setMapping(action, COND_START);
-        connect(action, SIGNAL(triggered()), sig, SLOT(map()));
+        connect(action, &QAction::triggered, [=]() { addCondition(COND_START); });
 
-        action = addConditionMenu->addAction(QString::fromUtf8("Condition script"));
+        action = addConditionMenu->addAction(tr("Script Condition"));
         action->setIcon(QIcon(":/img/icon_rule_script.png"));
-        sig->setMapping(action, COND_SCRIPT);
-        connect(action, SIGNAL(triggered()), sig, SLOT(map()));
-
-        //connect the mapper
-        connect(sig, SIGNAL(mapped(int)), this, SLOT(addCondition(int)));
+        connect(action, &QAction::triggered, [=]() { addCondition(COND_SCRIPT); });
 
         addActionMenu = new QMenu(parent);
         ui->bt_action_add->setMenu(addActionMenu);
 
-        sig = new QSignalMapper(this);
-
-        action = addActionMenu->addAction(QString::fromUtf8("Action classique"));
+        action = addActionMenu->addAction(tr("Normal Action"));
         action->setIcon(QIcon(":/img/icon_rule.png"));
-        sig->setMapping(action, ACTION_STD);
-        connect(action, SIGNAL(triggered()), sig, SLOT(map()));
+        connect(action, &QAction::triggered, [=]() { addAction(ACTION_STD); });
 
-        action = addActionMenu->addAction(QString::fromUtf8("Action E-Mail"));
+        action = addActionMenu->addAction(tr("E-Mail Action"));
         action->setIcon(QIcon(":/img/icon_rule_mail.png"));
-        sig->setMapping(action, ACTION_MAIL);
-        connect(action, SIGNAL(triggered()), sig, SLOT(map()));
+        connect(action, &QAction::triggered, [=]() { addAction(ACTION_MAIL); });
 
-        action = addActionMenu->addAction(QString::fromUtf8("Action script"));
+        action = addActionMenu->addAction(tr("Script Action"));
         action->setIcon(QIcon(":/img/icon_rule_script.png"));
-        sig->setMapping(action, ACTION_SCRIPT);
-        connect(action, SIGNAL(triggered()), sig, SLOT(map()));
+        connect(action, &QAction::triggered, [=]() { addAction(ACTION_SCRIPT); });
 
-        action = addActionMenu->addAction(QString::fromUtf8("Action écran tactile"));
+        action = addActionMenu->addAction(tr("Touchscreen Action"));
         action->setIcon(QIcon(":/img/icon_rule.png"));
-        sig->setMapping(action, ACTION_TOUCHSCREEN);
-        connect(action, SIGNAL(triggered()), sig, SLOT(map()));
+        connect(action, &QAction::triggered, [=]() { addAction(ACTION_TOUCHSCREEN); });
 
-        //connect the mapper
-        connect(sig, SIGNAL(mapped(int)), this, SLOT(addAction(int)));
 
         connect(ui->tree_home, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(showPopup_tree(QPoint)));
         connect(ui->tree_condition, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(showPopup_condition(QPoint)));
@@ -278,7 +300,7 @@ void FormRules::setProjectModified(bool modified)
         emit projectModified(project_changed);
 }
 
-void FormRules::addCalaosItem(int item)
+void FormRules::addCalaosItem(int hw_type, int item)
 {
         //some tests.
         if (current_room == NULL && item != ITEM_ROOM)
