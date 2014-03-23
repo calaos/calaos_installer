@@ -27,7 +27,7 @@ DialogNewWago::DialogNewWago(int t, Room *r, QWidget *parent) :
         {
                 ui->pager->setCurrentIndex(0);
                 type = "WODigital";
-                ui->check_triple->hide();
+                ui->comboBox->hide();
         }
 }
 
@@ -59,8 +59,10 @@ void DialogNewWago::on_buttonBox_accepted()
 
         if (type == "WIDigital")
         {
-                if (ui->check_triple->isChecked())
+                if (ui->comboBox->currentIndex() == 1)
                         type = "WIDigitalTriple";
+                else if (ui->comboBox->currentIndex() == 2)
+                        type = "WIDigitalLong";
                 else
                         type = "WIDigitalBP";
         }
@@ -118,7 +120,7 @@ void DialogNewWago::on_button_detect_clicked()
                 ui->edit_name->setEnabled(false);
                 ui->spin_var->setEnabled(false);
                 ui->checkKNX->setEnabled(false);
-                ui->check_triple->setEnabled(false);
+                ui->comboBox->setEnabled(false);
                 ui->buttonBox->setEnabled(false);
 
                 spinner = new QAnimationLabel(":/img/loader.gif", this);
@@ -137,7 +139,7 @@ void DialogNewWago::on_button_detect_clicked()
                 ui->edit_name->setEnabled(true);
                 ui->spin_var->setEnabled(true);
                 ui->checkKNX->setEnabled(true);
-                ui->check_triple->setEnabled(true);
+                ui->comboBox->setEnabled(true);
                 ui->buttonBox->setEnabled(true);
                 delete spinner;
 

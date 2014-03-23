@@ -235,6 +235,7 @@ void FormRules::PopulateRoomsTree()
 
                         if (in->get_param("type") == "WIDigitalBP" ||
                             in->get_param("type") == "WIDigitalTriple" ||
+                            in->get_param("type") == "WIDigitalLong" ||
                             in->get_param("type") == "InPlageHoraire" ||
                             in->get_param("type") == "InputTime" ||
                             in->get_param("type") == "WITemp" ||
@@ -636,7 +637,7 @@ void FormRules::updateItemInfos(QTreeWidgetItemInput *item)
         item->setData(0, Qt::DisplayRole, QString::fromUtf8(in->get_param("name").c_str()));
 
         string type = in->get_param("type");
-        if (type == "WIDigitalBP" || type == "WIDigitalTriple")
+        if (type == "WIDigitalBP" || type == "WIDigitalTriple" || type == "WIDigitalLong")
                 item->setData(0, Qt::DecorationRole, QIcon(":/img/icon_inter.png"));
         else if (type == "WITemp" || type == "OWTemp")
                 item->setData(0, Qt::DecorationRole, QIcon(":/img/temp.png"));
@@ -647,7 +648,7 @@ void FormRules::updateItemInfos(QTreeWidgetItemInput *item)
 
         QString s = QString::fromUtf8(in->get_param("name").c_str());
         s += " (" + QString::fromUtf8(in->get_param("type").c_str()) + ")";
-        if (type == "WIDigitalBP" || type == "WIDigitalTriple" ||
+        if (type == "WIDigitalBP" || type == "WIDigitalTriple" || type == "WIDigitalLong" ||
             type == "WITemp" || type == "WIAnalog")
                 s += " #" + QString::fromUtf8(in->get_param("var").c_str());
 
@@ -1229,7 +1230,7 @@ void FormRules::showPopup_tree(const QPoint point)
 
                         if (o->get_param("type") == "WIDigitalBP")
                         {
-                                action = item_menu.addAction(QString::fromUtf8("Convertir en interupteur triple..."));
+                                action = item_menu.addAction(tr("Convert in triple switch..."));
                                 action->setIcon(QIcon(":/img/icon_inter.png"));
                                 connect(action, SIGNAL(triggered()), this, SLOT(itemConvertInterTriple()));
 
@@ -1238,7 +1239,7 @@ void FormRules::showPopup_tree(const QPoint point)
 
                         if (o->get_param("type") == "WIDigitalTriple")
                         {
-                                action = item_menu.addAction(QString::fromUtf8("Convertir en interupteur standard..."));
+                                action = item_menu.addAction(QString::fromUtf8("Convert in normal switch..."));
                                 action->setIcon(QIcon(":/img/icon_inter.png"));
                                 connect(action, SIGNAL(triggered()), this, SLOT(itemConvertInterBP()));
 
@@ -1488,7 +1489,8 @@ void FormRules::showPropertiesItem()
 
                         //Handle change of wago_841 parameter and change corresponding cache
                         if (itinput->getInput()->get_param("type") == "WIDigitalBP" ||
-                            itinput->getInput()->get_param("type") == "WIDigitalTriple")
+                            itinput->getInput()->get_param("type") == "WIDigitalTriple" ||
+                            itinput->getInput()->get_param("type") == "WIDigitalLong")
                         {
                                 if (itinput->getInput()->get_param("wago_841") != "true")
                                         ProjectManager::wagoTypeCache[itinput->getInput()->get_param("host")] = false;
@@ -2525,7 +2527,8 @@ void FormRules::addCondition(int type)
                     input->get_param("type") == "scenario" || input->get_param("type") == "InPlageHoraire" ||
                     input->get_param("type") == "InternalBool")
                       cond->get_params().Add(id, "true");
-                else if (input->get_param("type") == "WIDigitalTriple")
+                else if (input->get_param("type") == "WIDigitalTriple" ||
+                         input->get_param("type") == "WIDigitalLong")
                       cond->get_params().Add(id, "1");
 
                 rule->AddCondition(cond);

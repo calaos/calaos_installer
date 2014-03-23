@@ -210,6 +210,11 @@ void FormConditionStd::setCondition(QTreeWidgetItem *item, Rule *_rule, Conditio
                 addActionMenu(QString::fromUtf8("2"), QString::fromUtf8("Evennement sur 2 appuis"), QString::fromUtf8("2"));
                 addActionMenu(QString::fromUtf8("3"), QString::fromUtf8("Evennement sur 3 appuis"), QString::fromUtf8("3"));
         }
+        else if (type == "WIDigitalLong")
+        {
+                addActionMenu(QString::fromUtf8("1"), tr("Event on normal click"), QString::fromUtf8("1"));
+                addActionMenu(QString::fromUtf8("2"), tr("Event on long press"), QString::fromUtf8("2"));
+        }
         else if (type == "WITemp" || type == "OWTemp")
         {
                 addActionMenu(QString::fromUtf8("20"), QString::fromUtf8("Evennement sur une témperature en °C"), QString::fromUtf8("20"));

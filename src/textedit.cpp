@@ -724,7 +724,8 @@ void TextEdit::loadIOList()
                         Input *in = r->get_input(j);
 
                         if (in->get_param("type") == "WIDigitalBP" ||
-                            in->get_param("type") == "WIDigitalTriple")
+                            in->get_param("type") == "WIDigitalTriple" ||
+                            in->get_param("type") == "WIDigitalLong")
                         {
                                 Input *nin = new Input(in->get_params());
                                 nin->set_param("room_name", r->get_name());
@@ -1155,7 +1156,9 @@ void TextEdit::loadRooms()
 
                         QString icon, var, knx;
 
-                        if (in->get_param("type") == "WIDigitalBP" || in->get_param("type") == "WIDigitalTriple")
+                        if (in->get_param("type") == "WIDigitalBP" ||
+                            in->get_param("type") == "WIDigitalTriple" ||
+                            in->get_param("type") == "WIDigitalLong")
                         {
                                 icon = "<img src=\":/img/icon_inter.png\" />";
                                 var = in->get_param("var").c_str();

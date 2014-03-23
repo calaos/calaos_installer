@@ -118,10 +118,8 @@ class WIDigital: public Input
                 WIDigital(Params &p): Input(p) {}
                 virtual DATA_TYPE get_type()
                 {
-                        if (get_param("type") == "WIDigitalBP")
-                                return TBOOL;
-
-                        if (get_param("type") == "WIDigitalTriple")
+                        if (get_param("type") == "WIDigitalTriple" ||
+                            get_param("type") == "WIDigitalLong")
                                 return TINT;
 
                         return TBOOL;

@@ -89,7 +89,7 @@
     <property name="geometry">
      <rect>
       <x>300</x>
-      <y>50</y>
+      <y>40</y>
       <width>120</width>
       <height>18</height>
      </rect>
@@ -102,7 +102,7 @@
     <property name="geometry">
      <rect>
       <x>30</x>
-      <y>50</y>
+      <y>40</y>
       <width>231</width>
       <height>20</height>
      </rect>
@@ -115,7 +115,7 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>70</y>
+      <y>60</y>
       <width>251</width>
       <height>28</height>
      </rect>
@@ -273,7 +273,7 @@ p, li { white-space: pre-wrap; }
     <property name="geometry">
      <rect>
       <x>290</x>
-      <y>70</y>
+      <y>60</y>
       <width>81</width>
       <height>28</height>
      </rect>
@@ -571,19 +571,6 @@ p, li { white-space: pre-wrap; }
      </widget>
     </widget>
    </widget>
-   <widget class="QCheckBox" name="check_triple">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>100</y>
-      <width>251</width>
-      <height>23</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Interrupteur triple action</string>
-    </property>
-   </widget>
    <widget class="QCheckBox" name="checkKNX">
     <property name="geometry">
      <rect>
@@ -707,6 +694,31 @@ p, li { white-space: pre-wrap; }
     <property name="checked">
      <bool>true</bool>
     </property>
+   </widget>
+   <widget class="QComboBox" name="comboBox">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>90</y>
+      <width>251</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <item>
+     <property name="text">
+      <string>Normal switch</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Triple click switch</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Long press switch</string>
+     </property>
+    </item>
    </widget>
   </widget>
  </widget>

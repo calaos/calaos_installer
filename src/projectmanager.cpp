@@ -531,7 +531,8 @@ void IOXmlReader::readInput(Room *room)
 
         //Do cache of 849/842 only with WIDigitalBP/WIDIgitialTriple
         if (in->get_param("type") == "WIDigitalBP" ||
-            in->get_param("type") == "WIDigitalTriple")
+            in->get_param("type") == "WIDigitalTriple" ||
+            in->get_param("type") == "WIDigitalLong")
         {
                 if (in->get_param("wago_841") != "true")
                         ProjectManager::wagoTypeCache[in->get_param("host")] = false;

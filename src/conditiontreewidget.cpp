@@ -60,7 +60,8 @@ bool ConditionTreeWidget::dropMimeData(QTreeWidgetItem *, int, const QMimeData *
                                         input->get_param("type") == "scenario" || input->get_param("type") == "InPlageHoraire" ||
                                         input->get_param("type") == "InternalBool")
                                 cond->get_params().Add(id, "true");
-                        else if (input->get_param("type") == "WIDigitalTriple")
+                        else if (input->get_param("type") == "WIDigitalTriple" ||
+                                 input->get_param("type") == "WIDigitalLong")
                                 cond->get_params().Add(id, "1");
                 }
                 else
