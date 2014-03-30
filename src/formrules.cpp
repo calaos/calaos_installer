@@ -102,7 +102,7 @@ FormRules::FormRules(QWidget *parent) :
 
         QMenu *gpio_menu = add_menu->addMenu(QIcon("://img/chip.png"), "GPIO");
 
-        action = zibase_menu->addAction(tr("Switch input"));
+        action = gpio_menu->addAction(tr("Switch input"));
         action->setIcon(QIcon(":/img/icon_inter.png"));
         connect(action, &QAction::triggered, [=]() { addCalaosItem(HW_GPIO, ITEM_INTER); });
 
@@ -430,15 +430,36 @@ void FormRules::addCalaosItem(int hw_type, int item)
                 break;
           case ITEM_TEMP:
                 {
-                        DialogNewTemp dialog(current_room);
-                        if (dialog.exec() == QDialog::Accepted)
+                        qDebug() << "HW TYPE : " << hw_type;
+                        if (hw_type == HW_WAGO)
                         {
-                                Input *input = dialog.getInput();
-                                if (input)
-                                        addItemInput(input, current_room, true);
-                                else
-                                        QMessageBox::critical(this, tr("Calaos Installer"), QString::fromUtf8("Erreur lors de la création de l'objet !"));
+                                DialogNewTemp dialog(current_room);
+                                if (dialog.exec() == QDialog::Accepted)
+                                {
+                                        Input *input = dialog.getInput();
+
+                                        if (input)
+                                                addItemInput(input, current_room, true);
+                                        else
+                                                QMessageBox::critical(this, tr("Calaos Installer"), QString::fromUtf8("Erreur lors de la création de l'objet !"));
+                                }
                         }
+                        else if (hw_type == HW_ONEWIRE)
+                        {
+                                DialogNewOneWireTemp dialog(current_room);
+                                if (dialog.exec() == QDialog::Accepted)
+                                {
+                                        Input *input = dialog.getInput();
+
+                                        if (input)
+                                                addItemInput(input, current_room, true);
+                                        else
+                                                QMessageBox::critical(this, tr("Calaos Installer"), QString::fromUtf8("Erreur lors de la création de l'objet !"));
+                                }
+                        }
+                        else
+                                    QMessageBox::critical(this, tr("Calaos Installer"), QString::fromUtf8("Unknown hardware type"));
+
                 }
                 break;
           case ITEM_CAMERA:

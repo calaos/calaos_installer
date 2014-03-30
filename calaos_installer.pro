@@ -78,7 +78,8 @@ SOURCES += src/main.cpp \
     src/DialogWagoFirmwareUpdate.cpp \
     src/RuleActionMenu.cpp \
     src/ftp/qurlinfo.cpp \
-    src/ftp/qftp.cpp
+    src/ftp/qftp.cpp \
+    src/dialognewonewiretemp.cpp
 HEADERS += src/mainwindow.h \
     src/common/Utils.h \
     src/common/base64.h \
@@ -154,7 +155,8 @@ HEADERS += src/mainwindow.h \
     src/RuleActionMenu.h \
     src/common/FakeLogging.h \
     src/ftp/qurlinfo.h \
-    src/ftp/qftp.h
+    src/ftp/qftp.h \
+    src/dialognewonewiretemp.h
 FORMS += data/mainwindow.ui \
     data/dialognewroom.ui \
     data/dialognewwago.ui \
@@ -191,7 +193,8 @@ FORMS += data/mainwindow.ui \
     data/FormConditionScript.ui \
     data/DialogInputEventScript.ui \
     data/dialognewanalog.ui \
-    data/DialogWagoFirmwareUpdate.ui
+    data/DialogWagoFirmwareUpdate.ui \
+    data/dialognewonewiretemp.ui
 RESOURCES += data/resources.qrc \
     data/textedit.qrc \
     data/wago_firmwares.qrc

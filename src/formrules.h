@@ -9,6 +9,7 @@
 #include <dialognewdali.h>
 #include <dialognewdalirgb.h>
 #include <dialognewtemp.h>
+#include <dialognewonewiretemp.h>
 #include <dialognewcamera.h>
 #include <dialognewaudio.h>
 #include <dialognewinternal.h>
