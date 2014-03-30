@@ -18,7 +18,7 @@ DialogNewWago::DialogNewWago(int t, Room *r, QWidget *parent) :
         //hide error labels by default.
         ui->label_error_empty->hide();
 
-        if (t == ITEM_INTER)
+        if (t == ITEM_INPUT_SWITCH)
         {
                 ui->pager->setCurrentIndex(1);
                 type = "WIDigital";

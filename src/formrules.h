@@ -5,6 +5,7 @@
 
 #include <dialognewroom.h>
 #include <dialognewwago.h>
+#include <dialognewgpioinput.h>
 #include <dialognewvolet.h>
 #include <dialognewdali.h>
 #include <dialognewdalirgb.h>
@@ -41,7 +42,7 @@
 enum { HW_NONE=0, HW_WAGO, HW_ONEWIRE, HW_X10, HW_GPIO,
        HW_ZIBASE, HW_WEB };
 
-enum { ITEM_ROOM=0, ITEM_INTER, ITEM_LIGHT, ITEM_VOLET, ITEM_DALI,
+enum { ITEM_ROOM=0, ITEM_INPUT_SWITCH, ITEM_LIGHT, ITEM_VOLET, ITEM_DALI,
        ITEM_DALIRGB, ITEM_TEMP, ITEM_CAMERA, ITEM_MUSIC, ITEM_INTERN,
        ITEM_SCENARIO, ITEM_TIME, ITEM_ANALOG };
 

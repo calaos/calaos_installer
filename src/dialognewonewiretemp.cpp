@@ -1,6 +1,6 @@
 #include "dialognewonewiretemp.h"
 #include "ui_dialognewonewiretemp.h"
-#include <QDebug>
+
 DialogNewOneWireTemp::DialogNewOneWireTemp(Room *r, QWidget *parent) :
         QDialog(parent),
         ui(new Ui::DialogNewOneWireTemp), temperature(NULL), room(r)
@@ -34,7 +34,6 @@ void DialogNewOneWireTemp::on_buttonBox_accepted()
         if (ui->edit_name->text().isEmpty() ||
             ui->edit_sensor_id->text().isEmpty())
         {
-                qDebug() << "Is empty";
                 ui->label_error_empty->show();
                 return;
         }
