@@ -1,5 +1,5 @@
 #include "dialognewcamera.h"
-#include "ui_dialognewcamera.h"
+#include "ui_DialogNewCamera.h"
 #include "mainwindow.h"
 
 DialogNewCamera::DialogNewCamera(Room *r, QWidget *parent) :

@@ -1,5 +1,5 @@
 #include "formrules.h"
-#include "ui_formrules.h"
+#include "ui_FormRules.h"
 
 #include "TwoLineItemDelegate.h"
 #include "mainwindow.h"

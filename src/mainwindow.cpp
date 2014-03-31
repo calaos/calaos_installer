@@ -1,5 +1,5 @@
 #include "mainwindow.h"
-#include "ui_mainwindow.h"
+#include "ui_MainWindow.h"
 #include "version.h"
 #include "ConfigOptions.h"
 

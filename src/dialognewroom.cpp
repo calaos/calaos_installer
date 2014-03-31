@@ -1,5 +1,5 @@
 #include "dialognewroom.h"
-#include "ui_dialognewroom.h"
+#include "ui_DialogNewRoom.h"
 
 DialogNewRoom::DialogNewRoom(QWidget *parent) :
     QDialog(parent),

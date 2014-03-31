@@ -1,5 +1,5 @@
 #include "dialogdalideviceconfig.h"
-#include "ui_dialogdalideviceconfig.h"
+#include "ui_DialogDaliDeviceConfig.h"
 
 DialogDaliDeviceConfig::DialogDaliDeviceConfig(QWidget *parent) :
                 QDialog(parent),

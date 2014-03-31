@@ -1,5 +1,5 @@
 #include "dialogopenonline.h"
-#include "ui_dialogopenonline.h"
+#include "ui_DialogOpenOnline.h"
 
 #include "ConfigOptions.h"
 #include <Utils.h>

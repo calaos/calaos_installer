@@ -1,5 +1,5 @@
 #include "dialogconnect.h"
-#include "ui_dialogconnect.h"
+#include "ui_DialogConnect.h"
 
 #include "ConfigOptions.h"
 

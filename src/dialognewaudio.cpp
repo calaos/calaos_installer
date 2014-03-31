@@ -1,5 +1,5 @@
 #include "dialognewaudio.h"
-#include "ui_dialognewaudio.h"
+#include "ui_DialogNewAudio.h"
 #include "mainwindow.h"
 #include "dialogdetectsqueezebox.h"
 

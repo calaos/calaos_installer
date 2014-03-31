@@ -1,5 +1,5 @@
 #include "dialognewinternal.h"
-#include "ui_dialognewinternal.h"
+#include "ui_DialogNewInternal.h"
 #include "mainwindow.h"
 
 DialogNewInternal::DialogNewInternal(Room *r, QWidget *parent) :

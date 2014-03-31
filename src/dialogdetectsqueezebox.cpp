@@ -1,5 +1,5 @@
 #include "dialogdetectsqueezebox.h"
-#include "ui_dialogdetectsqueezebox.h"
+#include "ui_DialogDetectSqueezebox.h"
 
 #include <iostream>
 

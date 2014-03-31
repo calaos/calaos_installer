@@ -1,5 +1,5 @@
 #include "dialogiolist.h"
-#include "ui_dialogiolist.h"
+#include "ui_DialogIoList.h"
 
 DialogIOList::DialogIOList(Input *_in, Output *_out, QWidget *parent) :
         QDialog(parent),

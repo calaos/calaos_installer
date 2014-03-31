@@ -1,5 +1,5 @@
 #include "dialogioproperties.h"
-#include "ui_dialogioproperties.h"
+#include "ui_DialogIoProperties.h"
 
 DialogIOProperties::DialogIOProperties(const Params &p, int t, QWidget *parent) :
         QDialog(parent),

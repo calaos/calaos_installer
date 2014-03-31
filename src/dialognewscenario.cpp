@@ -1,5 +1,5 @@
 #include "dialognewscenario.h"
-#include "ui_dialognewscenario.h"
+#include "ui_DialogNewScenario.h"
 #include "mainwindow.h"
 
 DialogNewScenario::DialogNewScenario(Room *r, QWidget *parent) :

@@ -1,5 +1,5 @@
 #include "dialognewdalirgb.h"
-#include "ui_dialognewdalirgb.h"
+#include "ui_DialogNewDaliRGB.h"
 #include "mainwindow.h"
 
 DialogNewDaliRGB::DialogNewDaliRGB(Room *r, QWidget *parent) :

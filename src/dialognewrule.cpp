@@ -1,5 +1,5 @@
 #include "dialognewrule.h"
-#include "ui_dialognewrule.h"
+#include "ui_DialogNewRule.h"
 
 DialogNewRule::DialogNewRule(string name, string type, QWidget *parent) :
     QDialog(parent),

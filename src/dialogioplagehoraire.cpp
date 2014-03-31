@@ -1,5 +1,5 @@
 #include "dialogioplagehoraire.h"
-#include "ui_dialogplagehoraire.h"
+#include "ui_DialogPlageHoraire.h"
 
 #include "dialogplageinput.h"
 #include <QTime>

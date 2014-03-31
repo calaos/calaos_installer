@@ -1,5 +1,5 @@
 #include "dialogplageinput.h"
-#include "ui_dialogplageinput.h"
+#include "ui_DialogPlageInput.h"
 
 DialogPlageInput::DialogPlageInput(QWidget *parent) :
                 QDialog(parent),

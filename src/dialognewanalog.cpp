@@ -1,5 +1,5 @@
 #include "dialognewanalog.h"
-#include "ui_dialognewanalog.h"
+#include "ui_DialogNewAnalog.h"
 #include "mainwindow.h"
 
 DialogNewAnalog::DialogNewAnalog(Room *r, QWidget *parent) :

@@ -1,5 +1,5 @@
 #include "dialogsaveonline.h"
-#include "ui_dialogsaveonline.h"
+#include "ui_DialogSaveOnline.h"
 
 #include "ConfigOptions.h"
 #include <Utils.h>

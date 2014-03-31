@@ -1,5 +1,5 @@
 #include "formdali.h"
-#include "ui_formdali.h"
+#include "ui_FormDali.h"
 
 #include "mainwindow.h"
 #include "dialogdalideviceconfig.h"

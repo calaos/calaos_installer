@@ -1,5 +1,5 @@
 #include "dialogcameraview.h"
-#include "ui_dialogcameraview.h"
+#include "ui_DialogCameraView.h"
 #include "mainwindow.h"
 
 DialogCameraView::DialogCameraView(Camera *cam, QWidget *parent) :

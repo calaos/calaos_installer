@@ -1,5 +1,5 @@
 #include "dialognewvolet.h"
-#include "ui_dialognewvolet.h"
+#include "ui_DialogNewVolet.h"
 #include "mainwindow.h"
 
 DialogNewVolet::DialogNewVolet(Room *r, QWidget *parent) :

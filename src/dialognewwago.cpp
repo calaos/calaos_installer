@@ -1,5 +1,5 @@
 #include "dialognewwago.h"
-#include "ui_dialognewwago.h"
+#include "ui_DialogNewWago.h"
 #include "mainwindow.h"
 
 #include "projectmanager.h"

@@ -1,5 +1,5 @@
 #include "dialognewtime.h"
-#include "ui_dialognewtime.h"
+#include "ui_DialogNewTime.h"
 #include "mainwindow.h"
 
 DialogNewTime::DialogNewTime(Room *r, QWidget *parent) :

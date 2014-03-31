@@ -1,5 +1,5 @@
 #include "dialognewdali.h"
-#include "ui_dialognewdali.h"
+#include "ui_DialogNewDali.h"
 #include "mainwindow.h"
 
 DialogNewDali::DialogNewDali(Room *r, QWidget *parent) :

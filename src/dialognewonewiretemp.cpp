@@ -1,5 +1,5 @@
 #include "dialognewonewiretemp.h"
-#include "ui_dialognewonewiretemp.h"
+#include "ui_DialogNewOneWireTemp.h"
 
 DialogNewOneWireTemp::DialogNewOneWireTemp(Room *r, QWidget *parent) :
         QDialog(parent),

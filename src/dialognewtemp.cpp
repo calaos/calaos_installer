@@ -1,5 +1,5 @@
 #include "dialognewtemp.h"
-#include "ui_dialognewtemp.h"
+#include "ui_DialogNewTemp.h"
 #include "mainwindow.h"
 
 DialogNewTemp::DialogNewTemp(Room *r, QWidget *parent) :
