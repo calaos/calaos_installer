@@ -6,27 +6,27 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>583</width>
-    <height>377</height>
+    <width>573</width>
+    <height>342</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Input event script</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_2">
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_2">
      <item>
-      <widget class="QLabel" name="label">
+      <widget class="QLabel" name="label_2">
        <property name="text">
-        <string>Entrée disponible :</string>
+        <string>Enabled inputs :</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QLabel" name="label_2">
+      <widget class="QLabel" name="label">
        <property name="text">
-        <string>Entrée actives :</string>
+        <string>Avalaible inputs :</string>
        </property>
       </widget>
      </item>
@@ -38,12 +38,12 @@
       <widget class="QTreeWidget" name="tree_all">
        <column>
         <property name="text">
-         <string notr="true">Entrée</string>
+         <string notr="true">Input</string>
         </property>
        </column>
        <column>
         <property name="text">
-         <string>Pièce</string>
+         <string>Room</string>
         </property>
        </column>
       </widget>
@@ -91,12 +91,12 @@
       <widget class="QTreeWidget" name="tree_active">
        <column>
         <property name="text">
-         <string>Entrée</string>
+         <string>Input</string>
         </property>
        </column>
        <column>
         <property name="text">
-         <string>Pièce</string>
+         <string>Room</string>
         </property>
        </column>
       </widget>

@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Choisir un élément...</string>
+   <string>Choose an item...</string>
   </property>
   <property name="windowIcon">
    <iconset resource="resources.qrc">
@@ -42,12 +42,12 @@
      </column>
      <column>
       <property name="text">
-       <string>Pièce</string>
+       <string>Room</string>
       </property>
      </column>
      <column>
       <property name="text">
-       <string>Nom</string>
+       <string>Name</string>
       </property>
      </column>
     </widget>

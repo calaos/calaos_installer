@@ -177,7 +177,6 @@ FORMS += \
     data/DialogConnect.ui \
     data/DialogDaliDeviceConfig.ui \
     data/DialogDetectSqueezebox.ui \
-    data/DialogioList.ui \
     data/DialoGioProperties.ui \
     data/DialogNewAnalog.ui \
     data/DialogNewAudio.ui \
@@ -198,7 +197,8 @@ FORMS += \
     data/DialogSaveOnline.ui \
     data/DormDali.ui \
     data/DormRules.ui \
-    data/MainWindow.ui
+    data/MainWindow.ui \
+    data/DialogIoList.ui
 RESOURCES += data/resources.qrc \
     data/textedit.qrc \
     data/wago_firmwares.qrc

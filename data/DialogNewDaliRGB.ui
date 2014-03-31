@@ -35,7 +35,7 @@
    </font>
   </property>
   <property name="windowTitle">
-   <string>Nouvelle élément DALI RGB...</string>
+   <string>New DALI RGB Item ...</string>
   </property>
   <property name="windowIcon">
    <iconset resource="resources.qrc">
@@ -44,490 +44,467 @@
   <property name="modal">
    <bool>true</bool>
   </property>
-  <widget class="QDialogButtonBox" name="buttonBox">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>470</y>
-     <width>391</width>
-     <height>27</height>
-    </rect>
-   </property>
-   <property name="orientation">
-    <enum>Qt::Horizontal</enum>
-   </property>
-   <property name="standardButtons">
-    <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
-   </property>
-  </widget>
-  <widget class="Line" name="line">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>450</y>
-     <width>391</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="orientation">
-    <enum>Qt::Horizontal</enum>
-   </property>
-  </widget>
-  <widget class="QGroupBox" name="groupBox">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>10</y>
-     <width>391</width>
-     <height>441</height>
-    </rect>
-   </property>
-   <property name="title">
-    <string>Créer un nouvel élément DALI/DMX RGB</string>
-   </property>
-   <widget class="QLabel" name="label_2">
-    <property name="geometry">
-     <rect>
-      <x>30</x>
-      <y>169</y>
-      <width>151</width>
-      <height>18</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Adresse DALI (rouge):</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label">
-    <property name="geometry">
-     <rect>
-      <x>30</x>
-      <y>49</y>
-      <width>231</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Nom de l'élément :</string>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="edit_name">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>69</y>
-      <width>351</width>
-      <height>28</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_3">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>336</y>
-      <width>371</width>
-      <height>71</height>
-     </rect>
-    </property>
-    <property name="palette">
-     <palette>
-      <active>
-       <colorrole role="WindowText">
-        <brush brushstyle="SolidPattern">
-         <color alpha="255">
-          <red>126</red>
-          <green>126</green>
-          <blue>126</blue>
-         </color>
-        </brush>
-       </colorrole>
-       <colorrole role="Text">
-        <brush brushstyle="SolidPattern">
-         <color alpha="255">
-          <red>0</red>
-          <green>0</green>
-          <blue>0</blue>
-         </color>
-        </brush>
-       </colorrole>
-      </active>
-      <inactive>
-       <colorrole role="WindowText">
-        <brush brushstyle="SolidPattern">
-         <color alpha="255">
-          <red>126</red>
-          <green>126</green>
-          <blue>126</blue>
-         </color>
-        </brush>
-       </colorrole>
-       <colorrole role="Text">
-        <brush brushstyle="SolidPattern">
-         <color alpha="255">
-          <red>0</red>
-          <green>0</green>
-          <blue>0</blue>
-         </color>
-        </brush>
-       </colorrole>
-      </inactive>
-      <disabled>
-       <colorrole role="WindowText">
-        <brush brushstyle="SolidPattern">
-         <color alpha="255">
-          <red>146</red>
-          <green>145</green>
-          <blue>144</blue>
-         </color>
-        </brush>
-       </colorrole>
-       <colorrole role="Text">
-        <brush brushstyle="SolidPattern">
-         <color alpha="255">
-          <red>165</red>
-          <green>164</green>
-          <blue>164</blue>
-         </color>
-        </brush>
-       </colorrole>
-      </disabled>
-     </palette>
-    </property>
-    <property name="font">
-     <font>
-      <italic>true</italic>
-     </font>
-    </property>
-    <property name="text">
-     <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <widget class="QGroupBox" name="groupBox">
+     <property name="title">
+      <string>Create a new DALI/DMX RGB Item.</string>
+     </property>
+     <widget class="QLabel" name="label_2">
+      <property name="geometry">
+       <rect>
+        <x>30</x>
+        <y>169</y>
+        <width>151</width>
+        <height>18</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>DALI Address (Red)</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label">
+      <property name="geometry">
+       <rect>
+        <x>30</x>
+        <y>49</y>
+        <width>231</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Item name :</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="edit_name">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>69</y>
+        <width>351</width>
+        <height>28</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_3">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>336</y>
+        <width>371</width>
+        <height>71</height>
+       </rect>
+      </property>
+      <property name="palette">
+       <palette>
+        <active>
+         <colorrole role="WindowText">
+          <brush brushstyle="SolidPattern">
+           <color alpha="255">
+            <red>126</red>
+            <green>126</green>
+            <blue>126</blue>
+           </color>
+          </brush>
+         </colorrole>
+         <colorrole role="Text">
+          <brush brushstyle="SolidPattern">
+           <color alpha="255">
+            <red>0</red>
+            <green>0</green>
+            <blue>0</blue>
+           </color>
+          </brush>
+         </colorrole>
+        </active>
+        <inactive>
+         <colorrole role="WindowText">
+          <brush brushstyle="SolidPattern">
+           <color alpha="255">
+            <red>126</red>
+            <green>126</green>
+            <blue>126</blue>
+           </color>
+          </brush>
+         </colorrole>
+         <colorrole role="Text">
+          <brush brushstyle="SolidPattern">
+           <color alpha="255">
+            <red>0</red>
+            <green>0</green>
+            <blue>0</blue>
+           </color>
+          </brush>
+         </colorrole>
+        </inactive>
+        <disabled>
+         <colorrole role="WindowText">
+          <brush brushstyle="SolidPattern">
+           <color alpha="255">
+            <red>146</red>
+            <green>145</green>
+            <blue>144</blue>
+           </color>
+          </brush>
+         </colorrole>
+         <colorrole role="Text">
+          <brush brushstyle="SolidPattern">
+           <color alpha="255">
+            <red>165</red>
+            <green>164</green>
+            <blue>164</blue>
+           </color>
+          </brush>
+         </colorrole>
+        </disabled>
+       </palette>
+      </property>
+      <property name="font">
+       <font>
+        <italic>true</italic>
+       </font>
+      </property>
+      <property name="text">
+       <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'DejaVu Sans'; font-size:10pt; font-weight:400; font-style:italic;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Veuillez entrer un nom d'élément, ainsi que donner le numéro d'adresse DALI. Pour un groupe DALI, cochez la case &quot;Adresse de groupe&quot; et donnez l'adresse de groupe.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-    </property>
-    <property name="textFormat">
-     <enum>Qt::AutoText</enum>
-    </property>
-    <property name="wordWrap">
-     <bool>true</bool>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_error_empty">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>410</y>
-      <width>370</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="sizePolicy">
-     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-      <horstretch>0</horstretch>
-      <verstretch>0</verstretch>
-     </sizepolicy>
-    </property>
-    <property name="palette">
-     <palette>
-      <active>
-       <colorrole role="WindowText">
-        <brush brushstyle="SolidPattern">
-         <color alpha="255">
-          <red>255</red>
-          <green>0</green>
-          <blue>0</blue>
-         </color>
-        </brush>
-       </colorrole>
-      </active>
-      <inactive>
-       <colorrole role="WindowText">
-        <brush brushstyle="SolidPattern">
-         <color alpha="255">
-          <red>255</red>
-          <green>0</green>
-          <blue>0</blue>
-         </color>
-        </brush>
-       </colorrole>
-      </inactive>
-      <disabled>
-       <colorrole role="WindowText">
-        <brush brushstyle="SolidPattern">
-         <color alpha="255">
-          <red>146</red>
-          <green>145</green>
-          <blue>144</blue>
-         </color>
-        </brush>
-       </colorrole>
-      </disabled>
-     </palette>
-    </property>
-    <property name="text">
-     <string>Veuillez donner un nom d'élément valide...</string>
-    </property>
-   </widget>
-   <widget class="QSpinBox" name="spin_addr_red">
-    <property name="geometry">
-     <rect>
-      <x>190</x>
-      <y>163</y>
-      <width>60</width>
-      <height>30</height>
-     </rect>
-    </property>
-    <property name="minimum">
-     <number>1</number>
-    </property>
-    <property name="maximum">
-     <number>64</number>
-    </property>
-   </widget>
-   <widget class="QCheckBox" name="check_group_red">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>131</y>
-      <width>251</width>
-      <height>23</height>
-     </rect>
-    </property>
-    <property name="toolTip">
-     <string>Un volet intelligent permet de savoir a quelle position il se trouve en estimant le temps qu'il met pour monter ou descendre. Ce type de volet nessécite la durée de montée et de descente qui soit exacte.</string>
-    </property>
-    <property name="text">
-     <string>Adresse de groupe (rouge)</string>
-    </property>
-   </widget>
-   <widget class="QSpinBox" name="spin_time">
-    <property name="geometry">
-     <rect>
-      <x>320</x>
-      <y>99</y>
-      <width>60</width>
-      <height>28</height>
-     </rect>
-    </property>
-    <property name="minimum">
-     <number>1</number>
-    </property>
-    <property name="maximum">
-     <number>10</number>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_4">
-    <property name="geometry">
-     <rect>
-      <x>160</x>
-      <y>104</y>
-      <width>150</width>
-      <height>18</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Durée de la variation :</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButton_red_on">
-    <property name="geometry">
-     <rect>
-      <x>267</x>
-      <y>164</y>
-      <width>50</width>
-      <height>27</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>On</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButton_red_off">
-    <property name="geometry">
-     <rect>
-      <x>317</x>
-      <y>164</y>
-      <width>50</width>
-      <height>27</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Off</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButton_green_on">
-    <property name="geometry">
-     <rect>
-      <x>270</x>
-      <y>239</y>
-      <width>50</width>
-      <height>27</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>On</string>
-    </property>
-   </widget>
-   <widget class="QCheckBox" name="check_group_green">
-    <property name="geometry">
-     <rect>
-      <x>23</x>
-      <y>206</y>
-      <width>251</width>
-      <height>23</height>
-     </rect>
-    </property>
-    <property name="toolTip">
-     <string>Un volet intelligent permet de savoir a quelle position il se trouve en estimant le temps qu'il met pour monter ou descendre. Ce type de volet nessécite la durée de montée et de descente qui soit exacte.</string>
-    </property>
-    <property name="text">
-     <string>Adresse de groupe (vert)</string>
-    </property>
-   </widget>
-   <widget class="QSpinBox" name="spin_addr_green">
-    <property name="geometry">
-     <rect>
-      <x>190</x>
-      <y>238</y>
-      <width>60</width>
-      <height>30</height>
-     </rect>
-    </property>
-    <property name="minimum">
-     <number>1</number>
-    </property>
-    <property name="maximum">
-     <number>64</number>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_5">
-    <property name="geometry">
-     <rect>
-      <x>33</x>
-      <y>244</y>
-      <width>151</width>
-      <height>18</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Adresse DALI (vert):</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButton_greenoff">
-    <property name="geometry">
-     <rect>
-      <x>320</x>
-      <y>239</y>
-      <width>50</width>
-      <height>27</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Off</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButton_blue_on">
-    <property name="geometry">
-     <rect>
-      <x>270</x>
-      <y>309</y>
-      <width>50</width>
-      <height>27</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>On</string>
-    </property>
-   </widget>
-   <widget class="QCheckBox" name="check_group_blue">
-    <property name="geometry">
-     <rect>
-      <x>23</x>
-      <y>276</y>
-      <width>251</width>
-      <height>23</height>
-     </rect>
-    </property>
-    <property name="toolTip">
-     <string>Un volet intelligent permet de savoir a quelle position il se trouve en estimant le temps qu'il met pour monter ou descendre. Ce type de volet nessécite la durée de montée et de descente qui soit exacte.</string>
-    </property>
-    <property name="text">
-     <string>Adresse de groupe (bleu)</string>
-    </property>
-   </widget>
-   <widget class="QSpinBox" name="spin_addr_blue">
-    <property name="geometry">
-     <rect>
-      <x>190</x>
-      <y>308</y>
-      <width>60</width>
-      <height>30</height>
-     </rect>
-    </property>
-    <property name="minimum">
-     <number>1</number>
-    </property>
-    <property name="maximum">
-     <number>64</number>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_6">
-    <property name="geometry">
-     <rect>
-      <x>33</x>
-      <y>314</y>
-      <width>151</width>
-      <height>18</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Adresse DALI (bleu):</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButton_blue_off">
-    <property name="geometry">
-     <rect>
-      <x>320</x>
-      <y>309</y>
-      <width>50</width>
-      <height>27</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Off</string>
-    </property>
-   </widget>
-   <widget class="QRadioButton" name="radioDALI">
-    <property name="geometry">
-     <rect>
-      <x>49</x>
-      <y>25</y>
-      <width>131</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Lumière DALI</string>
-    </property>
-    <property name="checked">
-     <bool>true</bool>
-    </property>
-   </widget>
-   <widget class="QRadioButton" name="radioDMX">
-    <property name="geometry">
-     <rect>
-      <x>209</x>
-      <y>25</y>
-      <width>131</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Lumière DMX</string>
-    </property>
-   </widget>
-  </widget>
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Sans Serif'; font-size:9pt; font-weight:400; font-style:italic;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'DejaVu Sans'; font-size:10pt;&quot;&gt;Please enter the name of the item, and the number of the DALI address. For a Dali group, check the case &amp;quot;Group Address&amp;quot; and enter the base group address.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+      <property name="textFormat">
+       <enum>Qt::AutoText</enum>
+      </property>
+      <property name="wordWrap">
+       <bool>true</bool>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_error_empty">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>410</y>
+        <width>370</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="palette">
+       <palette>
+        <active>
+         <colorrole role="WindowText">
+          <brush brushstyle="SolidPattern">
+           <color alpha="255">
+            <red>255</red>
+            <green>0</green>
+            <blue>0</blue>
+           </color>
+          </brush>
+         </colorrole>
+        </active>
+        <inactive>
+         <colorrole role="WindowText">
+          <brush brushstyle="SolidPattern">
+           <color alpha="255">
+            <red>255</red>
+            <green>0</green>
+            <blue>0</blue>
+           </color>
+          </brush>
+         </colorrole>
+        </inactive>
+        <disabled>
+         <colorrole role="WindowText">
+          <brush brushstyle="SolidPattern">
+           <color alpha="255">
+            <red>146</red>
+            <green>145</green>
+            <blue>144</blue>
+           </color>
+          </brush>
+         </colorrole>
+        </disabled>
+       </palette>
+      </property>
+      <property name="text">
+       <string>Please enter a name for this item..</string>
+      </property>
+     </widget>
+     <widget class="QSpinBox" name="spin_addr_red">
+      <property name="geometry">
+       <rect>
+        <x>190</x>
+        <y>163</y>
+        <width>60</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="minimum">
+       <number>1</number>
+      </property>
+      <property name="maximum">
+       <number>64</number>
+      </property>
+     </widget>
+     <widget class="QCheckBox" name="check_group_red">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>131</y>
+        <width>251</width>
+        <height>23</height>
+       </rect>
+      </property>
+      <property name="toolTip">
+       <string>Un volet intelligent permet de savoir a quelle position il se trouve en estimant le temps qu'il met pour monter ou descendre. Ce type de volet nessécite la durée de montée et de descente qui soit exacte.</string>
+      </property>
+      <property name="text">
+       <string>Group Address (Red)</string>
+      </property>
+     </widget>
+     <widget class="QSpinBox" name="spin_time">
+      <property name="geometry">
+       <rect>
+        <x>320</x>
+        <y>99</y>
+        <width>60</width>
+        <height>28</height>
+       </rect>
+      </property>
+      <property name="minimum">
+       <number>1</number>
+      </property>
+      <property name="maximum">
+       <number>10</number>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_4">
+      <property name="geometry">
+       <rect>
+        <x>160</x>
+        <y>104</y>
+        <width>150</width>
+        <height>18</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Variation duration :</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_red_on">
+      <property name="geometry">
+       <rect>
+        <x>267</x>
+        <y>164</y>
+        <width>50</width>
+        <height>27</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>On</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_red_off">
+      <property name="geometry">
+       <rect>
+        <x>317</x>
+        <y>164</y>
+        <width>50</width>
+        <height>27</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Off</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_green_on">
+      <property name="geometry">
+       <rect>
+        <x>270</x>
+        <y>239</y>
+        <width>50</width>
+        <height>27</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>On</string>
+      </property>
+     </widget>
+     <widget class="QCheckBox" name="check_group_green">
+      <property name="geometry">
+       <rect>
+        <x>23</x>
+        <y>206</y>
+        <width>251</width>
+        <height>23</height>
+       </rect>
+      </property>
+      <property name="toolTip">
+       <string>Un volet intelligent permet de savoir a quelle position il se trouve en estimant le temps qu'il met pour monter ou descendre. Ce type de volet nessécite la durée de montée et de descente qui soit exacte.</string>
+      </property>
+      <property name="text">
+       <string>Group Address (Green)</string>
+      </property>
+     </widget>
+     <widget class="QSpinBox" name="spin_addr_green">
+      <property name="geometry">
+       <rect>
+        <x>190</x>
+        <y>238</y>
+        <width>60</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="minimum">
+       <number>1</number>
+      </property>
+      <property name="maximum">
+       <number>64</number>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_5">
+      <property name="geometry">
+       <rect>
+        <x>33</x>
+        <y>244</y>
+        <width>151</width>
+        <height>18</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>DALI Address (Green)</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_greenoff">
+      <property name="geometry">
+       <rect>
+        <x>320</x>
+        <y>239</y>
+        <width>50</width>
+        <height>27</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Off</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_blue_on">
+      <property name="geometry">
+       <rect>
+        <x>270</x>
+        <y>309</y>
+        <width>50</width>
+        <height>27</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>On</string>
+      </property>
+     </widget>
+     <widget class="QCheckBox" name="check_group_blue">
+      <property name="geometry">
+       <rect>
+        <x>23</x>
+        <y>276</y>
+        <width>251</width>
+        <height>23</height>
+       </rect>
+      </property>
+      <property name="toolTip">
+       <string>Un volet intelligent permet de savoir a quelle position il se trouve en estimant le temps qu'il met pour monter ou descendre. Ce type de volet nessécite la durée de montée et de descente qui soit exacte.</string>
+      </property>
+      <property name="text">
+       <string>Group Address (Blue)</string>
+      </property>
+     </widget>
+     <widget class="QSpinBox" name="spin_addr_blue">
+      <property name="geometry">
+       <rect>
+        <x>190</x>
+        <y>308</y>
+        <width>60</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="minimum">
+       <number>1</number>
+      </property>
+      <property name="maximum">
+       <number>64</number>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_6">
+      <property name="geometry">
+       <rect>
+        <x>33</x>
+        <y>314</y>
+        <width>151</width>
+        <height>18</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>DALI Address (Blue)</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_blue_off">
+      <property name="geometry">
+       <rect>
+        <x>320</x>
+        <y>309</y>
+        <width>50</width>
+        <height>27</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Off</string>
+      </property>
+     </widget>
+     <widget class="QRadioButton" name="radioDALI">
+      <property name="geometry">
+       <rect>
+        <x>49</x>
+        <y>25</y>
+        <width>131</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>DALI Light</string>
+      </property>
+      <property name="checked">
+       <bool>true</bool>
+      </property>
+     </widget>
+     <widget class="QRadioButton" name="radioDMX">
+      <property name="geometry">
+       <rect>
+        <x>209</x>
+        <y>25</y>
+        <width>131</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>DMX Light</string>
+      </property>
+     </widget>
+    </widget>
+   </item>
+   <item>
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+     </property>
+    </widget>
+   </item>
+  </layout>
  </widget>
  <tabstops>
   <tabstop>edit_name</tabstop>

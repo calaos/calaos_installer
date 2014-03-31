@@ -60,19 +60,6 @@
     <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
    </property>
   </widget>
-  <widget class="Line" name="line">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>330</y>
-     <width>391</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="orientation">
-    <enum>Qt::Horizontal</enum>
-   </property>
-  </widget>
   <widget class="QGroupBox" name="groupBox">
    <property name="geometry">
     <rect>
@@ -83,7 +70,7 @@
     </rect>
    </property>
    <property name="title">
-    <string>Créer une nouvelle variable Interne</string>
+    <string>Create a new Internal variable</string>
    </property>
    <widget class="QLabel" name="label">
     <property name="geometry">
@@ -95,7 +82,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>Nom de l'élément :</string>
+     <string>Item Name :</string>
     </property>
    </widget>
    <widget class="QLineEdit" name="edit_name">
@@ -161,7 +148,7 @@
      </palette>
     </property>
     <property name="text">
-     <string>Veuillez donner un nom d'élément valide...</string>
+     <string>Please enter a name for this item..</string>
     </property>
    </widget>
    <widget class="QLabel" name="label_2">
@@ -174,7 +161,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>Valeur :</string>
+     <string>Value :</string>
     </property>
    </widget>
    <widget class="QLineEdit" name="value_text">
@@ -200,7 +187,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>Booléen</string>
+     <string>Boolean</string>
     </property>
     <property name="checked">
      <bool>true</bool>
@@ -216,7 +203,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>Entier</string>
+     <string>Integer</string>
     </property>
    </widget>
    <widget class="QRadioButton" name="radioButton_text">
@@ -229,7 +216,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>Texte</string>
+     <string>Text</string>
     </property>
    </widget>
    <widget class="QCheckBox" name="value_bool">
@@ -242,7 +229,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>Activé</string>
+     <string>Activated</string>
     </property>
    </widget>
    <widget class="QSpinBox" name="value_int">
@@ -284,7 +271,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>Sauvegarder la valeur automatiquement</string>
+     <string>Save the value automatically</string>
     </property>
    </widget>
    <widget class="QCheckBox" name="checkBox_rw">
@@ -297,7 +284,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>Mode édition</string>
+     <string>Edit Mode</string>
     </property>
    </widget>
   </widget>
