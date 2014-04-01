@@ -38,8 +38,19 @@ void DialogNewGpioInput::on_buttonBox_accepted()
         }
 
         Params p;
+
+        string type;
+
+        if (ui->switch_type_combo->currentIndex() == 1)
+                type = "GpioInputSwitchTriple";
+        else if (ui->switch_type_combo->currentIndex() == 2)
+                type = "GpioInputSwitchLongPress";
+        else
+                type = "GpioInputSwitch";
+
+
         p.Add("name", ui->edit_name->text().toUtf8().constData());
-        p.Add("type", "GpioInputSwitch");
+        p.Add("type", type);
         p.Add("gpio_nb", ui->edit_gpio_nb->text().toUtf8().constData());
 
         input = ListeRoom::Instance().createInput(p, room);
