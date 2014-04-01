@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>417</width>
-    <height>173</height>
+    <height>191</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -75,6 +75,12 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>edit_name</tabstop>
+  <tabstop>edit_sensor_id</tabstop>
+  <tabstop>edit_owfs_args</tabstop>
+  <tabstop>buttonBox</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>
