@@ -49,7 +49,7 @@
         </property>
         <column>
          <property name="text">
-          <string>Propery</string>
+          <string>Property</string>
          </property>
         </column>
         <column>

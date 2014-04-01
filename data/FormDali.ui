@@ -16,13 +16,22 @@
   <layout class="QHBoxLayout" name="horizontalLayout">
    <item>
     <layout class="QVBoxLayout" name="verticalLayout_6">
-     <property name="margin">
+     <property name="leftMargin">
+      <number>10</number>
+     </property>
+     <property name="topMargin">
+      <number>10</number>
+     </property>
+     <property name="rightMargin">
+      <number>10</number>
+     </property>
+     <property name="bottomMargin">
       <number>10</number>
      </property>
      <item>
       <widget class="QPushButton" name="buttonAddressing">
        <property name="text">
-        <string>Adressage</string>
+        <string>Addressing</string>
        </property>
        <property name="icon">
         <iconset resource="resources.qrc">
@@ -33,7 +42,7 @@
      <item>
       <widget class="QPushButton" name="buttonCentralOn">
        <property name="text">
-        <string>Tout allumer</string>
+        <string>All ON</string>
        </property>
        <property name="icon">
         <iconset resource="resources.qrc">
@@ -44,7 +53,7 @@
      <item>
       <widget class="QPushButton" name="buttonCentralOff">
        <property name="text">
-        <string>Tout éteindre</string>
+        <string>All OFF</string>
        </property>
        <property name="icon">
         <iconset resource="resources.qrc">
@@ -75,7 +84,7 @@
      <item>
       <widget class="QPushButton" name="pushButton">
        <property name="text">
-        <string>Quitter</string>
+        <string>Quit</string>
        </property>
        <property name="icon">
         <iconset resource="resources.qrc">
@@ -96,7 +105,7 @@
         <bool>false</bool>
        </property>
        <property name="dragDropMode">
-        <enum>QAbstractItemView::NoDragDrop</enum>
+        <enum>QAbstractItemView::DragDrop</enum>
        </property>
        <property name="spacing">
         <number>5</number>
@@ -134,7 +143,7 @@
             <item>
              <widget class="QPushButton" name="buttonOn">
               <property name="text">
-               <string>Allumer</string>
+               <string>Light ON</string>
               </property>
               <property name="icon">
                <iconset resource="resources.qrc">
@@ -145,7 +154,7 @@
             <item>
              <widget class="QPushButton" name="buttonOff">
               <property name="text">
-               <string>Eteindre</string>
+               <string>Light OFF</string>
               </property>
               <property name="icon">
                <iconset resource="resources.qrc">
@@ -163,7 +172,7 @@
                <string>Faire clignoter pendant 20 secondes</string>
               </property>
               <property name="text">
-               <string>Clignoter</string>
+               <string>Blink</string>
               </property>
               <property name="icon">
                <iconset resource="resources.qrc">
@@ -177,7 +186,7 @@
                <string>Faire clignoter pendant 20 secondes</string>
               </property>
               <property name="text">
-               <string>Stop clignotement</string>
+               <string>Stop blinking</string>
               </property>
               <property name="icon">
                <iconset resource="resources.qrc">
@@ -192,7 +201,7 @@
             <item>
              <widget class="QPushButton" name="buttonAdvanced">
               <property name="text">
-               <string>Propriétés...</string>
+               <string>Property...</string>
               </property>
               <property name="icon">
                <iconset resource="resources.qrc">
@@ -242,7 +251,7 @@
         </size>
        </property>
        <property name="title">
-        <string>Groupes DALI</string>
+        <string>DALI Groups</string>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_7">
         <item>
@@ -279,7 +288,7 @@
         <item>
          <widget class="QPushButton" name="buttonGrpOn">
           <property name="text">
-           <string>Allumer groupe</string>
+           <string>Group ON</string>
           </property>
           <property name="icon">
            <iconset resource="resources.qrc">
@@ -290,7 +299,7 @@
         <item>
          <widget class="QPushButton" name="buttonGrpOff">
           <property name="text">
-           <string>Eteindre groupe</string>
+           <string>Group OFF</string>
           </property>
           <property name="icon">
            <iconset resource="resources.qrc">
@@ -301,7 +310,7 @@
         <item>
          <widget class="QPushButton" name="buttonGrpBlink">
           <property name="text">
-           <string>Clignoter groupe</string>
+           <string>Blink group</string>
           </property>
           <property name="icon">
            <iconset resource="resources.qrc">
@@ -312,7 +321,7 @@
         <item>
          <widget class="QPushButton" name="buttonGrpBlinkStop">
           <property name="text">
-           <string>Stop clignotement</string>
+           <string>Stop group blinking</string>
           </property>
           <property name="icon">
            <iconset resource="resources.qrc">

@@ -271,7 +271,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>Save the value automatically</string>
+     <string>Automatically save the value</string>
     </property>
    </widget>
    <widget class="QCheckBox" name="checkBox_rw">

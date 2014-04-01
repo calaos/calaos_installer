@@ -83,7 +83,7 @@
     </rect>
    </property>
    <property name="title">
-    <string>Créer un nouvel élément Scénario</string>
+    <string>Add a new Scenario item</string>
    </property>
    <widget class="QLabel" name="label">
     <property name="geometry">
@@ -95,7 +95,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>Nom de l'élément :</string>
+     <string>Item name:</string>
     </property>
    </widget>
    <widget class="QLineEdit" name="edit_name">
@@ -190,9 +190,9 @@
      <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'DejaVu Sans'; font-size:10pt; font-weight:400; font-style:italic;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Un élément scénario permet d'avoir un interrupteur virtuel représenté par un bouton sur les interfaces. Ce bouton peut alors lancer une série de règle lorsque qu'il est activé.&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;On peut aussi s'en servir pour faire des &quot;programmes&quot; en appelant l'action &quot;true&quot; du scénario le &quot;programme&quot; sera executé.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'MS Shell Dlg 2'; font-size:8pt; font-weight:400; font-style:italic;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'DejaVu Sans'; font-size:10pt;&quot;&gt;A scenario item is like a virtual button displayed on all user interfaces. That particular button is able to start some rules when it is activated.&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'DejaVu Sans'; font-size:10pt;&quot;&gt;One can also use those to do &amp;quot;programs&amp;quot; by calling the &amp;quot;true&amp;quot; action of the scenario in a rule.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
     <property name="textFormat">
      <enum>Qt::AutoText</enum>
@@ -254,7 +254,7 @@ p, li { white-space: pre-wrap; }
      </palette>
     </property>
     <property name="text">
-     <string>Veuillez donner un nom d'élément valide...</string>
+     <string>Please give a valid item name...</string>
     </property>
    </widget>
    <widget class="QCheckBox" name="checkBox_visible">

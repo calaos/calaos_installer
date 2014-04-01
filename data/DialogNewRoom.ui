@@ -83,7 +83,7 @@
     </rect>
    </property>
    <property name="title">
-    <string>Créer une nouvelle pièce</string>
+    <string>Add a new room</string>
    </property>
    <widget class="QLabel" name="label_2">
     <property name="geometry">
@@ -95,7 +95,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>Type de la pièce :</string>
+     <string>Room type:</string>
     </property>
    </widget>
    <widget class="QLabel" name="label">
@@ -108,7 +108,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>Nom de la pièce :</string>
+     <string>Room name:</string>
     </property>
    </widget>
    <widget class="QLineEdit" name="edit_name">
@@ -134,11 +134,11 @@
      <bool>true</bool>
     </property>
     <property name="currentRow">
-     <number>0</number>
+     <number>-1</number>
     </property>
     <item>
      <property name="text">
-      <string>Salon</string>
+      <string>Living room</string>
      </property>
      <property name="flags">
       <set>ItemIsSelectable|ItemIsUserCheckable|ItemIsEnabled</set>
@@ -146,32 +146,32 @@
     </item>
     <item>
      <property name="text">
-      <string>Cuisine</string>
+      <string>Kitchen</string>
      </property>
     </item>
     <item>
      <property name="text">
-      <string>Chambre</string>
+      <string>Bedroom</string>
      </property>
     </item>
     <item>
      <property name="text">
-      <string>Bureau</string>
+      <string>Office</string>
      </property>
     </item>
     <item>
      <property name="text">
-      <string>Salle à manger</string>
+      <string>Dining room</string>
      </property>
     </item>
     <item>
      <property name="text">
-      <string>Cave</string>
+      <string>Cellar</string>
      </property>
     </item>
     <item>
      <property name="text">
-      <string>Divers</string>
+      <string>Miscellaneous</string>
      </property>
     </item>
     <item>
@@ -181,17 +181,17 @@
     </item>
     <item>
      <property name="text">
-      <string>Exterieur / Terrasse</string>
+      <string>Outside / Garden</string>
      </property>
     </item>
     <item>
      <property name="text">
-      <string>Salle de bain / WC</string>
+      <string>Bathroom / WC</string>
      </property>
     </item>
     <item>
      <property name="text">
-      <string>Couloir / Hall</string>
+      <string>Corridor / Hall</string>
      </property>
     </item>
    </widget>
@@ -277,10 +277,10 @@
      <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'DejaVu Sans'; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;Veuillez entrer un nom de pièce, ainsi que sélectionner le type de pièce adéquat.&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-style:italic;&quot;&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;Le type de pièce correspond à la catégorie dans laquelle la pièce va se retrouver.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'MS Shell Dlg 2'; font-size:8pt; font-weight:400; font-style:italic;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'DejaVu Sans'; font-size:10pt;&quot;&gt;Please give a room name and select the wanted room type from the right list.&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'DejaVu Sans'; font-size:10pt;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'DejaVu Sans'; font-size:10pt;&quot;&gt;The room type correspond to the category in which the room will be found.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
     <property name="textFormat">
      <enum>Qt::AutoText</enum>
@@ -342,7 +342,7 @@ p, li { white-space: pre-wrap; }
      </palette>
     </property>
     <property name="text">
-     <string>Une pièce de ce nom/type existe déjà ! Veuillez changer...</string>
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;A room with this name already exists! Please use an other one...&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
    </widget>
    <widget class="QLabel" name="label_error_empty">
@@ -398,7 +398,7 @@ p, li { white-space: pre-wrap; }
      </palette>
     </property>
     <property name="text">
-     <string>Veuillez donner un nom de pièce valide...</string>
+     <string>Please give a valid room name...</string>
     </property>
    </widget>
   </widget>

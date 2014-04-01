@@ -48,7 +48,7 @@
    <item>
     <widget class="QGroupBox" name="groupBox">
      <property name="title">
-      <string>Créer une nouvelle règle</string>
+      <string>Add a new rule</string>
      </property>
      <widget class="QLabel" name="label_2">
       <property name="geometry">
@@ -60,7 +60,7 @@
        </rect>
       </property>
       <property name="text">
-       <string>Type de la règle :</string>
+       <string>Rule type:</string>
       </property>
      </widget>
      <widget class="QLabel" name="label">
@@ -73,7 +73,7 @@
        </rect>
       </property>
       <property name="text">
-       <string>Nom de la règle :</string>
+       <string>Rule name:</string>
       </property>
      </widget>
      <widget class="QLineEdit" name="edit_name">
@@ -139,7 +139,7 @@
        </palette>
       </property>
       <property name="text">
-       <string>Une règle de ce nom/type existe déjà ! Veuillez changer...</string>
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;A rule already exists with that name! Please change it...&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
      </widget>
      <widget class="QLabel" name="label_error_empty">
@@ -195,7 +195,7 @@
        </palette>
       </property>
       <property name="text">
-       <string>Veuillez donner un nom de règle valide...</string>
+       <string>Please give a valid rule name...</string>
       </property>
      </widget>
      <widget class="QLineEdit" name="edit_type">

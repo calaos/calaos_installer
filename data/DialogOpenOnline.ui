@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Ouvrir une configuration en ligne...</string>
+   <string>Retrieve configuration...</string>
   </property>
   <property name="windowIcon">
    <iconset resource="resources.qrc">
@@ -29,7 +29,7 @@
         </sizepolicy>
        </property>
        <property name="text">
-        <string>Adresse IP de connexion :</string>
+        <string>Calaos Server IP Address :</string>
        </property>
       </widget>
      </item>
@@ -65,7 +65,7 @@
    <item>
     <widget class="QCheckBox" name="calaosfrCheck">
      <property name="text">
-      <string>Connexion par home.calaos.fr</string>
+      <string>Connect with home.calaos.fr</string>
      </property>
     </widget>
    </item>
@@ -78,7 +78,7 @@
       </sizepolicy>
      </property>
      <property name="title">
-      <string>Identifiants</string>
+      <string>Credentials</string>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout">
       <item>
@@ -86,7 +86,7 @@
         <item>
          <widget class="QLabel" name="label_2">
           <property name="text">
-           <string>Nom d'utilisateur :</string>
+           <string>Username:</string>
           </property>
          </widget>
         </item>
@@ -100,7 +100,7 @@
         <item row="0" column="0">
          <widget class="QLabel" name="label_3">
           <property name="text">
-           <string>Mot de passe :</string>
+           <string>Password:</string>
           </property>
          </widget>
         </item>
@@ -114,7 +114,7 @@
         <item row="1" column="1">
          <widget class="QCheckBox" name="checkShowPass">
           <property name="text">
-           <string>Afficher le mot de passe</string>
+           <string>Show password</string>
           </property>
          </widget>
         </item>

@@ -83,26 +83,26 @@
     </rect>
    </property>
    <property name="title">
-    <string>Créer un nouvel élément de temps</string>
+    <string>Add a new time item</string>
    </property>
    <widget class="QLabel" name="label">
     <property name="geometry">
      <rect>
       <x>30</x>
-      <y>50</y>
+      <y>30</y>
       <width>231</width>
       <height>20</height>
      </rect>
     </property>
     <property name="text">
-     <string>Nom de l'élément :</string>
+     <string>Item name:</string>
     </property>
    </widget>
    <widget class="QLineEdit" name="edit_name">
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>70</y>
+      <y>50</y>
       <width>351</width>
       <height>28</height>
      </rect>
@@ -161,7 +161,7 @@
      </palette>
     </property>
     <property name="text">
-     <string>Veuillez donner un nom d'élément valide...</string>
+     <string>Please give a valid item name...</string>
     </property>
    </widget>
    <widget class="QTabWidget" name="tab_model">
@@ -178,7 +178,7 @@
     </property>
     <widget class="QWidget" name="tab">
      <attribute name="title">
-      <string>Heure/Date</string>
+      <string>Date/Time</string>
      </attribute>
      <widget class="QLabel" name="label_2">
       <property name="geometry">
@@ -190,7 +190,7 @@
        </rect>
       </property>
       <property name="text">
-       <string>Heure uniquement :</string>
+       <string>Only time :</string>
       </property>
      </widget>
      <widget class="QTimeEdit" name="heure">
@@ -248,7 +248,7 @@
        </rect>
       </property>
       <property name="text">
-       <string>Date et heure :</string>
+       <string>Date and time :</string>
       </property>
      </widget>
      <widget class="QRadioButton" name="check_datetime">
@@ -282,7 +282,7 @@
        </rect>
       </property>
       <property name="text">
-       <string>Durée du timer :</string>
+       <string>Timer duration :</string>
       </property>
      </widget>
      <widget class="QTimeEdit" name="timer">
@@ -301,7 +301,7 @@
     </widget>
     <widget class="QWidget" name="tab_3">
      <attribute name="title">
-      <string>Plage Horaire</string>
+      <string>Time Range</string>
      </attribute>
      <widget class="QLabel" name="label_4">
       <property name="geometry">
@@ -385,8 +385,8 @@
        <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'DejaVu Sans'; font-size:10pt; font-weight:400; font-style:italic;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Vous pouvez régler les valeurs de la plage horaire en sélectionnant l'élément PlageHoraire crée et aller dans le menu puis &quot;Configurer les plages&quot;.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'MS Shell Dlg 2'; font-size:8pt; font-weight:400; font-style:italic;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'DejaVu Sans'; font-size:10pt;&quot;&gt;You can configure the time ranges by selecting the newly created TimeRange item, and go to &amp;quot;Configure time ranges&amp;quot; in the right click menu.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
       <property name="textFormat">
        <enum>Qt::AutoText</enum>

@@ -124,6 +124,10 @@ FormRules::FormRules(QWidget *parent) :
         action->setIcon(QIcon(":/img/icon_sound.png"));
         connect(action, &QAction::triggered, [=]() { addCalaosItem(HW_NONE, ITEM_MUSIC); });
 
+        action = add_menu->addAction(tr("Audio amplifier"));
+        action->setIcon(QIcon(":/img/icon_sound.png"));
+        connect(action, &QAction::triggered, [=]() { addCalaosItem(HW_NONE, ITEM_AVR); });
+
         add_menu->addSeparator();
 
         action = add_menu->addAction(tr("Internal Variable"));

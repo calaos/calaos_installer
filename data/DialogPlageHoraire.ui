@@ -17,7 +17,7 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>Propriétés</string>
+   <string>Time Ranges</string>
   </property>
   <property name="windowIcon">
    <iconset resource="resources.qrc">
@@ -27,7 +27,7 @@
    <item>
     <widget class="QGroupBox" name="groupBox">
      <property name="title">
-      <string>Plages horaires</string>
+      <string>Time Ranges</string>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout">
       <item>
@@ -48,37 +48,37 @@
           </property>
           <item>
            <property name="text">
-            <string>Lundi</string>
+            <string>Monday</string>
            </property>
           </item>
           <item>
            <property name="text">
-            <string>Mardi</string>
+            <string>Tuesday</string>
            </property>
           </item>
           <item>
            <property name="text">
-            <string>Mercredi</string>
+            <string>Wednesday</string>
            </property>
           </item>
           <item>
            <property name="text">
-            <string>Jeudi</string>
+            <string>Thursday</string>
            </property>
           </item>
           <item>
            <property name="text">
-            <string>Vendredi</string>
+            <string>Friday</string>
            </property>
           </item>
           <item>
            <property name="text">
-            <string>Samedi</string>
+            <string>Saturday</string>
            </property>
           </item>
           <item>
            <property name="text">
-            <string>Dimanche</string>
+            <string>Sunday</string>
            </property>
           </item>
          </widget>
@@ -102,12 +102,12 @@
           </property>
           <column>
            <property name="text">
-            <string>Heure début</string>
+            <string>Begin time</string>
            </property>
           </column>
           <column>
            <property name="text">
-            <string>Heure fin</string>
+            <string>End time</string>
            </property>
           </column>
          </widget>
@@ -132,7 +132,7 @@
         <item>
          <widget class="QPushButton" name="modifyButton">
           <property name="text">
-           <string>Modifier</string>
+           <string>Modify</string>
           </property>
           <property name="icon">
            <iconset resource="resources.qrc">
@@ -143,7 +143,7 @@
         <item>
          <widget class="QPushButton" name="addButton">
           <property name="text">
-           <string>Ajouter</string>
+           <string>Add</string>
           </property>
           <property name="icon">
            <iconset resource="resources.qrc">
@@ -154,7 +154,7 @@
         <item>
          <widget class="QPushButton" name="delButton">
           <property name="text">
-           <string>Supprimer</string>
+           <string>Delete</string>
           </property>
           <property name="icon">
            <iconset resource="resources.qrc">

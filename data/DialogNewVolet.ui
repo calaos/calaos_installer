@@ -83,7 +83,7 @@
     </rect>
    </property>
    <property name="title">
-    <string>Créer un nouvel élément Volet</string>
+    <string>Add a Wago Shutter item</string>
    </property>
    <widget class="QLabel" name="label_2">
     <property name="geometry">
@@ -95,7 +95,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>Montée :</string>
+     <string>Up address:</string>
     </property>
     <property name="alignment">
      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -111,7 +111,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>Nom de l'élément :</string>
+     <string>Item name :</string>
     </property>
    </widget>
    <widget class="QLineEdit" name="edit_name">
@@ -206,8 +206,8 @@
      <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'DejaVu Sans'; font-size:10pt; font-weight:400; font-style:italic;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Veuillez entrer un nom d'élément, ainsi que donner le numéro des variables de monté et descente (sortie Wago).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'MS Shell Dlg 2'; font-size:8pt; font-weight:400; font-style:italic;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'DejaVu Sans'; font-size:10pt;&quot;&gt;Give a name and the up/down address of the shutter.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
     <property name="textFormat">
      <enum>Qt::AutoText</enum>
@@ -269,7 +269,7 @@ p, li { white-space: pre-wrap; }
      </palette>
     </property>
     <property name="text">
-     <string>Veuillez donner un nom d'élément valide...</string>
+     <string>Please give a valid item name...</string>
     </property>
    </widget>
    <widget class="QSpinBox" name="spin_var_up">
@@ -295,7 +295,7 @@ p, li { white-space: pre-wrap; }
      <string>Un volet intelligent permet de savoir a quelle position il se trouve en estimant le temps qu'il met pour monter ou descendre. Ce type de volet nessécite la durée de montée et de descente qui soit exacte.</string>
     </property>
     <property name="text">
-     <string>Volet &quot;intelligent&quot;</string>
+     <string>&quot;Smart&quot; shutter</string>
     </property>
    </widget>
    <widget class="QSpinBox" name="spin_var_down">
@@ -318,7 +318,7 @@ p, li { white-space: pre-wrap; }
      </rect>
     </property>
     <property name="text">
-     <string>Descente:</string>
+     <string>Down address:</string>
     </property>
     <property name="alignment">
      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -347,7 +347,7 @@ p, li { white-space: pre-wrap; }
      </rect>
     </property>
     <property name="text">
-     <string>Durée de la descente (sec.) :</string>
+     <string>Down duration (sec.):</string>
     </property>
     <property name="alignment">
      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -376,7 +376,7 @@ p, li { white-space: pre-wrap; }
      </rect>
     </property>
     <property name="text">
-     <string>Durée de la montée (sec.) :</string>
+     <string>Up Duration (sec.):</string>
     </property>
     <property name="alignment">
      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -395,7 +395,7 @@ p, li { white-space: pre-wrap; }
      <string>Un volet intelligent permet de savoir a quelle position il se trouve en estimant le temps qu'il met pour monter ou descendre. Ce type de volet nessécite la durée de montée et de descente qui soit exacte.</string>
     </property>
     <property name="text">
-     <string>Volet à impulsion</string>
+     <string>Impulse shutter</string>
     </property>
    </widget>
    <widget class="QCheckBox" name="check841">
