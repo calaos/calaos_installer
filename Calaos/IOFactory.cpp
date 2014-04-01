@@ -36,9 +36,14 @@ Input *IOFactory::CreateInput(std::string type, Params &params)
         {
                 in = new InputTimer(params);
         }
-        else if (type == "WIDigitalBP" || type == "WIDigital" || type == "WIDigitalTriple" || type == "WIDigitalLong" || type == "GpioInputSwitch")
+        else if (type == "WIDigitalBP" || type == "WIDigital" || type == "WIDigitalTriple" || type == "WIDigitalLong")
         {
                 in = new WIDigital(params);
+        }
+        else if (type == "GpioInputSwitch" || type == "GpioInputSwitchLongPress" || type == "GpioInputSwitchTriple")
+        {
+                printf("INPUT : %s\n", type.c_str());
+                in = new GpioInput(params);
         }
         else if (type == "WITemp" || type == "OWTemp")
         {

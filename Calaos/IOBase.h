@@ -126,6 +126,20 @@ class WIDigital: public Input
                 }
 };
 
+class GpioInput: public Input
+{
+        public:
+                GpioInput(Params &p): Input(p) {}
+                virtual DATA_TYPE get_type()
+                {
+                        if (get_param("type") == "GpioInputSwitchTriple" ||
+                            get_param("type") == "GpioInputSwitchLongPress")
+                                return TINT;
+
+                        return TBOOL;
+                }
+};
+
 class WITemp: public Input
 {
         public:
