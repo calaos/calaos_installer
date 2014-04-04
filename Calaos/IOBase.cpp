@@ -69,6 +69,7 @@ REGISTER_OUTPUT_USERTYPE(WagoOutputShutter, WOVolet)
 REGISTER_OUTPUT(WOVoletSmart)
 REGISTER_OUTPUT_USERTYPE(WagoOutputShutterSmart, WOVoletSmart)
 REGISTER_OUTPUT(X10Output)
+REGISTER_OUTPUT(WebOutputString)
 
 /* register music zones as Audio class */
 REGISTER_OUTPUT_USERTYPE(slim, Audio)
