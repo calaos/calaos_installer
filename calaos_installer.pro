@@ -80,7 +80,8 @@ SOURCES += src/main.cpp \
     src/ftp/qurlinfo.cpp \
     src/ftp/qftp.cpp \
     src/dialognewonewiretemp.cpp \
-    src/dialognewgpioinput.cpp
+    src/dialognewgpioinput.cpp \
+    Calaos/IOBase.cpp
 HEADERS += src/mainwindow.h \
     src/common/Utils.h \
     src/common/base64.h \
