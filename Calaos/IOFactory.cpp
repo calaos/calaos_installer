@@ -147,6 +147,10 @@ Output *IOFactory::CreateOutput(std::string type, Params &params)
         {
                 out = new WODaliRVB(params);
         }
+        else if (type == "WebOutputString")
+        {
+                out = new WebOutputString(params);
+        }
 
         return out;
 }

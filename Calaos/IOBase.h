@@ -286,6 +286,13 @@ class WODaliRVB: public Output
                 virtual DATA_TYPE get_type() { return TSTRING; }
 };
 
+class WebOutputString: public Output
+{
+        public:
+                WebOutputString(Params &p): Output(p) {}
+                virtual DATA_TYPE get_type() { return TSTRING; }
+};
+
 class Audio: public Input, public Output
 {
         public:

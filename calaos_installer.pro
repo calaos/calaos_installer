@@ -80,7 +80,8 @@ SOURCES += src/main.cpp \
     src/ftp/qurlinfo.cpp \
     src/ftp/qftp.cpp \
     src/dialognewonewiretemp.cpp \
-    src/dialognewgpioinput.cpp
+    src/dialognewgpioinput.cpp \
+    src/dialognewweboutputstring.cpp
 HEADERS += src/mainwindow.h \
     src/common/Utils.h \
     src/common/base64.h \
@@ -158,7 +159,8 @@ HEADERS += src/mainwindow.h \
     src/ftp/qurlinfo.h \
     src/ftp/qftp.h \
     src/dialognewonewiretemp.h \
-    src/dialognewgpioinput.h
+    src/dialognewgpioinput.h \
+    src/dialognewweboutputstring.h
 FORMS += \
     data/FormConditionStd.ui \
     data/FormActionStd.ui \
@@ -198,7 +200,8 @@ FORMS += \
     data/DialogIoList.ui \
     data/DialogIoProperties.ui \
     data/FormRules.ui \
-    data/FormDali.ui
+    data/FormDali.ui \
+    data/DialogNewWebOutputString.ui
 RESOURCES += data/resources.qrc \
     data/textedit.qrc \
     data/wago_firmwares.qrc

@@ -21,6 +21,7 @@
 #include <dialognewrule.h>
 #include <dialognewanalog.h>
 #include <dialogioplagehoraire.h>
+#include <dialognewweboutputstring.h>
 
 #include <TempWizard.h>
 
@@ -44,7 +45,7 @@ enum { HW_NONE=0, HW_WAGO, HW_ONEWIRE, HW_X10, HW_GPIO,
 
 enum { ITEM_ROOM=0, ITEM_INPUT_SWITCH, ITEM_LIGHT, ITEM_SHUTTER, ITEM_DALI,
        ITEM_DALIRGB, ITEM_TEMP, ITEM_CAMERA, ITEM_MUSIC, ITEM_INTERN,
-       ITEM_SCENARIO, ITEM_TIME, ITEM_ANALOG, ITEM_AVR };
+       ITEM_SCENARIO, ITEM_TIME, ITEM_ANALOG, ITEM_AVR, ITEM_STRING };
 
 namespace Ui
 {
@@ -86,7 +87,8 @@ class FormRules : public QWidget
                 static QString getIconFromRoom(Room *room);
 
                 void addCalaosItemInputSwitch(int item, int hw_type);
-                void addCalaosItemLight(int item);
+                void addCalaosItemLight(int item, int hw_type);
+                void addCalaosItemOutputString(int item, int hw_type);
 protected:
                 void changeEvent(QEvent *e);
 
