@@ -20,6 +20,7 @@
 ******************************************************************************/
 //-----------------------------------------------------------------------------
 #include <ListeRoom.h>
+#include <QString>
 //-----------------------------------------------------------------------------
 using namespace std;
 using namespace Calaos;
@@ -495,7 +496,7 @@ Input* ListeRoom::createInput(Params param, Room *room)
 
         if (!param.Exists("name")) param.Add("name", "Input");
         if (!param.Exists("type")) param.Add("type", "WIDigitalBP");
-        if (param["type"][0] == 'W')
+        if (param["type"].substr(0, 2) == "WI")
         {
                 if (!param.Exists("var")) param.Add("var", "0");
                 if (!param.Exists("host")) param.Add("host", WAGO_HOST);
@@ -575,28 +576,34 @@ Output* ListeRoom::createOutput(Params param, Room *room)
 
         if (!param.Exists("name")) param.Add("name", "Output");
         if (!param.Exists("type")) param.Add("type", "WODigital");
-        if (!param.Exists("host")) param.Add("host", WAGO_HOST);
-        if (!param.Exists("port")) param.Add("port", "502");
-        if (param["type"] == "WOVolet")
-        {
-                if (!param.Exists("var_up")) param.Add("var_up", "0");
-                if (!param.Exists("var_down")) param.Add("var_down", "0");
-                if (!param.Exists("time")) param.Add("time", "30");
-        }
-        if (param["type"] == "WOVoletSmart")
-        {
-                if (!param.Exists("var_up")) param.Add("var_up", "0");
-                if (!param.Exists("var_down")) param.Add("var_down", "0");
-                if (!param.Exists("time_up")) param.Add("time_up", "30");
-                if (!param.Exists("time_down")) param.Add("time_down", "28");
 
-                //Set var_save automatically here.
-                if (!param.Exists("var_save")) param.Add("var_save", ListeRoom::get_new_varsave());
-        }
-        else if (param["type"] == "WONeon")
+        // HOST and port has only to be set in case of wago hw type
+        if (param["type"].substr(0, 2) == "WO")
         {
-                if (!param.Exists("var")) param.Add("var", "0");
-                if (!param.Exists("var_relay")) param.Add("var_relay", "0");
+
+                if (!param.Exists("host")) param.Add("host", WAGO_HOST);
+                if (!param.Exists("port")) param.Add("port", "502");
+                if (param["type"] == "WOVolet")
+                {
+                        if (!param.Exists("var_up")) param.Add("var_up", "0");
+                        if (!param.Exists("var_down")) param.Add("var_down", "0");
+                        if (!param.Exists("time")) param.Add("time", "30");
+                }
+                if (param["type"] == "WOVoletSmart")
+                {
+                        if (!param.Exists("var_up")) param.Add("var_up", "0");
+                        if (!param.Exists("var_down")) param.Add("var_down", "0");
+                        if (!param.Exists("time_up")) param.Add("time_up", "30");
+                        if (!param.Exists("time_down")) param.Add("time_down", "28");
+
+                        //Set var_save automatically here.
+                        if (!param.Exists("var_save")) param.Add("var_save", ListeRoom::get_new_varsave());
+                }
+                else if (param["type"] == "WONeon")
+                {
+                        if (!param.Exists("var")) param.Add("var", "0");
+                        if (!param.Exists("var_relay")) param.Add("var_relay", "0");
+                }
         }
 
         if (!param.Exists("id")) param.Add("id", ListeRoom::get_new_id("output_"));
