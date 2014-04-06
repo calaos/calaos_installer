@@ -42,7 +42,6 @@ Input *IOFactory::CreateInput(std::string type, Params &params)
         }
         else if (type == "GpioInputSwitch" || type == "GpioInputSwitchLongPress" || type == "GpioInputSwitchTriple")
         {
-                printf("INPUT : %s\n", type.c_str());
                 in = new GpioInput(params);
         }
         else if (type == "WITemp" || type == "OWTemp")
@@ -143,6 +142,10 @@ Output *IOFactory::CreateOutput(std::string type, Params &params)
         else if (type == "GpioOutputSwitch")
         {
                 out = new WODigital(params);
+        }
+        else if (type == "WebOutputLightRGB")
+        {
+                out = new WODaliRVB(params);
         }
 
         return out;

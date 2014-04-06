@@ -42,7 +42,7 @@ FormRules::FormRules(QWidget *parent) :
 
         action = wago_menu->addAction(tr("Shutter"));
         action->setIcon(QIcon(":/img/icon_shutter.png"));
-        connect(action, &QAction::triggered, [=]() { addCalaosItem(HW_WAGO, ITEM_VOLET); });
+        connect(action, &QAction::triggered, [=]() { addCalaosItem(HW_WAGO, ITEM_SHUTTER); });
 
         action = wago_menu->addAction(tr("DALI/DMX"));
         action->setIcon(QIcon(":/img/icon_light_on.png"));
@@ -88,15 +88,19 @@ FormRules::FormRules(QWidget *parent) :
         action->setIcon(QIcon(":/img/icon_light_on.png"));
         connect(action, &QAction::triggered, [=]() { addCalaosItem(HW_WEB, ITEM_LIGHT); });
 
-        action = wago_menu->addAction(tr("Shutter"));
-        action->setIcon(QIcon(":/img/icon_shutter.png"));
-        connect(action, &QAction::triggered, [=]() { addCalaosItem(HW_WEB, ITEM_VOLET); });
+        action = web_menu->addAction(tr("LightRGB"));
+        action->setIcon(QIcon(":/img/icon_light_on.png"));
+        connect(action, &QAction::triggered, [=]() { addCalaosItem(HW_WEB, ITEM_LIGHT); });
 
-        action = wago_menu->addAction(tr("Temperature sensor"));
+        action = web_menu->addAction(tr("Shutter"));
+        action->setIcon(QIcon(":/img/icon_shutter.png"));
+        connect(action, &QAction::triggered, [=]() { addCalaosItem(HW_WEB, ITEM_SHUTTER); });
+
+        action = web_menu->addAction(tr("Temperature sensor"));
         action->setIcon(QIcon(":/img/temp.png"));
         connect(action, &QAction::triggered, [=]() { addCalaosItem(HW_WEB, ITEM_TEMP); });
 
-        action = wago_menu->addAction(tr("Analog Input"));
+        action = web_menu->addAction(tr("Analog Input"));
         action->setIcon(QIcon(":/img/icon_analog.png"));
         connect(action, &QAction::triggered, [=]() { addCalaosItem(HW_WEB, ITEM_ANALOG); });
 
@@ -112,7 +116,7 @@ FormRules::FormRules(QWidget *parent) :
 
         action = gpio_menu->addAction(tr("Shutter"));
         action->setIcon(QIcon(":/img/icon_shutter.png"));
-        connect(action, &QAction::triggered, [=]() { addCalaosItem(HW_GPIO, ITEM_VOLET); });
+        connect(action, &QAction::triggered, [=]() { addCalaosItem(HW_GPIO, ITEM_SHUTTER); });
 
         add_menu->addSeparator();
 
@@ -244,7 +248,10 @@ void FormRules::PopulateRoomsTree()
                             in->get_param("type") == "InputTime" ||
                             in->get_param("type") == "WITemp" ||
                             in->get_param("type") == "OWTemp" ||
-                            in->get_param("type") == "WIAnalog")
+                            in->get_param("type") == "WIAnalog" ||
+                            in->get_param("type") == "GpioInputSwitch" ||
+                            in->get_param("type") == "GpioInputSwitchLongPress" ||
+                            in->get_param("type") == "GpioInputSwitchTriple")
                         {
                                 addItemInput(in, iroom);
                         }
@@ -305,6 +312,75 @@ void FormRules::setProjectModified(bool modified)
         emit projectModified(project_changed);
 }
 
+void FormRules::addCalaosItemInputSwitch(int item, int hw_type)
+{
+        if (hw_type == HW_WAGO)
+        {
+                bool another;
+
+                do
+                {
+                        DialogNewWago dialog(item, current_room);
+                        if (dialog.exec() == QDialog::Accepted)
+                        {
+                                another = dialog.wantAnother();
+
+                                Input *input = dialog.getInput();
+                                if (input)
+                                        addItemInput(input, current_room, true);
+                                else
+                                {
+                                        QMessageBox::critical(this, tr("Calaos Installer"), QString::fromUtf8("Erreur lors de la création de l'objet !"));
+                                        another = false;
+                                }
+                        }
+                        else
+                                another = false;
+
+                } while (another);
+        }
+        else if (hw_type == HW_GPIO)
+        {
+                DialogNewGpioInput dialog(current_room);
+                if (dialog.exec() == QDialog::Accepted)
+                {
+                        Input *input = dialog.getInput();
+                        if (input)
+                                addItemInput(input, current_room, true);
+                        else
+                        {
+                                QMessageBox::critical(this, tr("Calaos Installer"), QString::fromUtf8("Error creating object !"));
+                        }
+                }
+        }
+        else
+                QMessageBox::critical(this, tr("Calaos Installer"), QString::fromUtf8("Unknown hardware type !"));
+}
+
+void FormRules::addCalaosItemLight(int item)
+{
+        bool another;
+        do
+        {
+                DialogNewWago dialog(item, current_room);
+                if (dialog.exec() == QDialog::Accepted)
+                {
+                        another = dialog.wantAnother();
+
+                        Output *output = dialog.getOutput();
+                        if (output)
+                                addItemOutput(output, current_room, true);
+                        else
+                        {
+                                QMessageBox::critical(this, tr("Calaos Installer"), QString::fromUtf8("Erreur lors de la création de l'objet !"));
+                                another = false;
+                        }
+                }
+                else
+                        another = false;
+        }while (another);
+}
+
 void FormRules::addCalaosItem(int hw_type, int item)
 {
         //some tests.
@@ -344,75 +420,15 @@ void FormRules::addCalaosItem(int hw_type, int item)
 
         case ITEM_INPUT_SWITCH:
         {
-                if (hw_type == HW_WAGO)
-                {
-                        bool another;
-
-                        do
-                        {
-                                DialogNewWago dialog(item, current_room);
-                                if (dialog.exec() == QDialog::Accepted)
-                                {
-                                        another = dialog.wantAnother();
-
-                                        Input *input = dialog.getInput();
-                                        if (input)
-                                                addItemInput(input, current_room, true);
-                                        else
-                                        {
-                                                QMessageBox::critical(this, tr("Calaos Installer"), QString::fromUtf8("Erreur lors de la création de l'objet !"));
-                                                another = false;
-                                        }
-                                }
-                                else
-                                        another = false;
-
-                        } while (another);
-                }
-                else if (hw_type == HW_GPIO)
-                {
-                        DialogNewGpioInput dialog(current_room);
-                        if (dialog.exec() == QDialog::Accepted)
-                        {
-                                Input *input = dialog.getInput();
-                                if (input)
-                                        addItemInput(input, current_room, true);
-                                else
-                                {
-                                        QMessageBox::critical(this, tr("Calaos Installer"), QString::fromUtf8("Error creating object !"));
-                                }
-                        }
-                }
-                else
-                        QMessageBox::critical(this, tr("Calaos Installer"), QString::fromUtf8("Unknown hardware type !"));
+                addCalaosItemInputSwitch(item, hw_type);
         }
                 break;
-
-          case ITEM_LIGHT:
-                {
-                        bool another;
-                        do
-                        {
-                                DialogNewWago dialog(item, current_room);
-                                if (dialog.exec() == QDialog::Accepted)
-                                {
-                                        another = dialog.wantAnother();
-
-                                        Output *output = dialog.getOutput();
-                                        if (output)
-                                                addItemOutput(output, current_room, true);
-                                        else
-                                        {
-                                                QMessageBox::critical(this, tr("Calaos Installer"), QString::fromUtf8("Erreur lors de la création de l'objet !"));
-                                                another = false;
-                                        }
-                                }
-                                else
-                                        another = false;
-                        }while (another);
-                }
+        case ITEM_LIGHT:
+        {
+                addCalaosItemLight(item);
+        }
                 break;
-          case ITEM_VOLET:
+          case ITEM_SHUTTER:
                 {
                         DialogNewVolet dialog(current_room);
                         if (dialog.exec() == QDialog::Accepted)
@@ -681,7 +697,8 @@ void FormRules::updateItemInfos(QTreeWidgetItemInput *item)
         item->setData(0, Qt::DisplayRole, QString::fromUtf8(in->get_param("name").c_str()));
 
         string type = in->get_param("type");
-        if (type == "WIDigitalBP" || type == "WIDigitalTriple" || type == "WIDigitalLong")
+        if (type == "WIDigitalBP" || type == "WIDigitalTriple" || type == "WIDigitalLong" ||
+            type == "GpioInputSwitch" || type == "GpioInputSwitchLongPress" || type == "GpioInputSwitchTriple")
                 item->setData(0, Qt::DecorationRole, QIcon(":/img/icon_inter.png"));
         else if (type == "WITemp" || type == "OWTemp")
                 item->setData(0, Qt::DecorationRole, QIcon(":/img/temp.png"));
@@ -750,9 +767,10 @@ void FormRules::updateItemInfos(QTreeWidgetItemOutput *item)
                 item->setData(0, Qt::DecorationRole, QIcon(":/img/icon_bool_on.png"));
         else if (type == "InternalInt")
                 item->setData(0, Qt::DecorationRole, QIcon(":/img/icon_int.png"));
-        else if (type == "InternalString")
+        else if (type == "InternalString" || type == "WebOutputString")
                 item->setData(0, Qt::DecorationRole, QIcon(":/img/text.png"));
-        else if (type == "WODali" || type == "WODaliRVB" || type == "WONeon" || type == "X10Output")
+        else if (type == "WODali" || type == "WODaliRVB" || type == "WONeon" ||
+                 type == "X10Output" || type == "WebOutputLightRGB")
                 item->setData(0, Qt::DecorationRole, QIcon(":/img/icon_light_on.png"));
         else if (IOBase::isAudioType(type))
                 item->setData(0, Qt::DecorationRole, QIcon(":/img/icon_sound.png"));
