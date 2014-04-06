@@ -68,7 +68,11 @@ FormRules::FormRules(QWidget *parent) :
 
         QMenu *x10_menu = add_menu->addMenu(QIcon("://img/x10.png"), "X10");
 
-        action = x10_menu->addAction(tr("Light dimmer"));
+        action = x10_menu->addAction(tr("Light"));
+        action->setIcon(QIcon(":/img/icon_light_on.png"));
+        connect(action, &QAction::triggered, [=]() { addCalaosItem(HW_X10, ITEM_LIGHT); });
+
+        action = x10_menu->addAction(tr("Light Dimmer"));
         action->setIcon(QIcon(":/img/icon_light_on.png"));
         connect(action, &QAction::triggered, [=]() { addCalaosItem(HW_X10, ITEM_DALI); });
 
@@ -90,7 +94,7 @@ FormRules::FormRules(QWidget *parent) :
 
         action = web_menu->addAction(tr("LightRGB"));
         action->setIcon(QIcon(":/img/icon_light_on.png"));
-        connect(action, &QAction::triggered, [=]() { addCalaosItem(HW_WEB, ITEM_LIGHT); });
+        connect(action, &QAction::triggered, [=]() { addCalaosItem(HW_WEB, ITEM_DALIRGB); });
 
         action = web_menu->addAction(tr("Shutter"));
         action->setIcon(QIcon(":/img/icon_shutter.png"));
@@ -103,6 +107,10 @@ FormRules::FormRules(QWidget *parent) :
         action = web_menu->addAction(tr("Analog Input"));
         action->setIcon(QIcon(":/img/icon_analog.png"));
         connect(action, &QAction::triggered, [=]() { addCalaosItem(HW_WEB, ITEM_ANALOG); });
+
+        action = web_menu->addAction(tr("String Output"));
+        action->setIcon(QIcon(":/img/icon_text.png"));
+        connect(action, &QAction::triggered, [=]() { addCalaosItem(HW_WEB, ITEM_STRING); });
 
         QMenu *gpio_menu = add_menu->addMenu(QIcon("://img/chip.png"), "GPIO");
 
@@ -357,28 +365,49 @@ void FormRules::addCalaosItemInputSwitch(int item, int hw_type)
                 QMessageBox::critical(this, tr("Calaos Installer"), QString::fromUtf8("Unknown hardware type !"));
 }
 
-void FormRules::addCalaosItemLight(int item)
+void FormRules::addCalaosItemLight(int item, int hw_type)
 {
-        bool another;
-        do
+        if (hw_type == HW_WAGO)
         {
-                DialogNewWago dialog(item, current_room);
+                bool another;
+                do
+                {
+                        DialogNewWago dialog(item, current_room);
+                        if (dialog.exec() == QDialog::Accepted)
+                        {
+                                another = dialog.wantAnother();
+
+                                Output *output = dialog.getOutput();
+                                if (output)
+                                        addItemOutput(output, current_room, true);
+                                else
+                                {
+                                        QMessageBox::critical(this, tr("Calaos Installer"), QString::fromUtf8("Erreur lors de la création de l'objet !"));
+                                        another = false;
+                                }
+                        }
+                        else
+                                another = false;
+                }while (another);
+        }
+        else
+                QMessageBox::critical(this, tr("Calaos Installer"), QString::fromUtf8("Unknown hardware type !"));
+}
+
+void FormRules::addCalaosItemOutputString(int item, int hw_type)
+{
+        if (hw_type == HW_WEB)
+        {
+                DialogNewWebOutputString dialog(current_room);
                 if (dialog.exec() == QDialog::Accepted)
                 {
-                        another = dialog.wantAnother();
-
                         Output *output = dialog.getOutput();
                         if (output)
                                 addItemOutput(output, current_room, true);
-                        else
-                        {
-                                QMessageBox::critical(this, tr("Calaos Installer"), QString::fromUtf8("Erreur lors de la création de l'objet !"));
-                                another = false;
-                        }
                 }
-                else
-                        another = false;
-        }while (another);
+        }
+        else
+                QMessageBox::critical(this, tr("Calaos Installer"), QString::fromUtf8("Unknown hardware type !"));
 }
 
 void FormRules::addCalaosItem(int hw_type, int item)
@@ -425,7 +454,7 @@ void FormRules::addCalaosItem(int hw_type, int item)
                 break;
         case ITEM_LIGHT:
         {
-                addCalaosItemLight(item);
+                addCalaosItemLight(item, hw_type);
         }
                 break;
           case ITEM_SHUTTER:
@@ -595,7 +624,11 @@ void FormRules::addCalaosItem(int hw_type, int item)
                       }
               }
               break;
-
+        case ITEM_STRING:
+              {
+                    addCalaosItemOutputString(item, hw_type);
+              }
+              break;
           default:
                 QMessageBox::warning(this, tr("Calaos Installer"), QString::fromUtf8("Type d'elément (%1) inconnu!").arg(item));
         }
