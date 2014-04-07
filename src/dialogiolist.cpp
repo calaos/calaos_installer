@@ -1,7 +1,7 @@
 #include "dialogiolist.h"
 #include "ui_DialogIoList.h"
 
-DialogIOList::DialogIOList(Input *_in, Output *_out, QWidget *parent) :
+DialogIOList::DialogIOList(IOBase *_in, IOBase *_out, QWidget *parent) :
         QDialog(parent),
         ui(new Ui::DialogIOList),
         input(_in),
@@ -20,7 +20,7 @@ DialogIOList::DialogIOList(Input *_in, Output *_out, QWidget *parent) :
 
                         for (int j = 0;j < room->get_size_in();j++)
                         {
-                                Input *in = room->get_input(j);
+                                IOBase *in = room->get_input(j);
                                 if (in == input) continue;
 
                                 if (in->get_type() == input->get_type() ||
@@ -49,7 +49,7 @@ DialogIOList::DialogIOList(Input *_in, Output *_out, QWidget *parent) :
 
                         for (int j = 0;j < room->get_size_out();j++)
                         {
-                                Output *out = room->get_output(j);
+                                IOBase *out = room->get_output(j);
                                 if (out == output) continue;
 
                                 if (out->get_type() == output->get_type() ||
@@ -83,7 +83,7 @@ DialogIOList::~DialogIOList()
         delete ui;
 }
 
-Input *DialogIOList::getInput()
+IOBase *DialogIOList::getInput()
 {
         QTreeWidgetItemInput *item = dynamic_cast<QTreeWidgetItemInput *>(item_current);
         if (item)
@@ -92,7 +92,7 @@ Input *DialogIOList::getInput()
         return NULL;
 }
 
-Output *DialogIOList::getOutput()
+IOBase *DialogIOList::getOutput()
 {
         QTreeWidgetItemOutput *item = dynamic_cast<QTreeWidgetItemOutput *>(item_current);
         if (item)

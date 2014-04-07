@@ -54,8 +54,8 @@ void FormActionMail::setAction(QTreeWidgetItem *item, Rule *_rule, Action *_acti
         ui->comboCamera->setCurrentIndex(0);
         for (int i = 0;i < ListeRoom::Instance().get_nb_output();i++)
         {
-                Output *camera = ListeRoom::Instance().get_output(i);
-                if (IOBase::isCameraType(camera->get_param("type")))
+                IOBase *camera = ListeRoom::Instance().get_output(i);
+                if (camera->get_gui_type() == "camera")
                 {
                         ui->comboCamera->addItem(QString::fromUtf8(camera->get_param("name").c_str()),
                                                  QString::fromUtf8(camera->get_param("oid").c_str()));

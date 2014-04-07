@@ -51,11 +51,11 @@ void IOXmlWriter::writeRoom(Room *room)
         writeEndElement();
 }
 
-void IOXmlWriter::writeInput(Input *io)
+void IOXmlWriter::writeInput(IOBase *io)
 {
         string type = io->get_param("type");
 
-        if (IOBase::isAudioType(type) || IOBase::isCameraType(type))
+        if (io->get_gui_type() == "audio" || io->get_gui_type() == "camera")
                 return;
 
         if (type == "InternalBool" ||
@@ -81,7 +81,7 @@ void IOXmlWriter::writeInput(Input *io)
         }
         writeAttributes(attr);
 
-        InPlageHoraire *in = dynamic_cast<InPlageHoraire *>(io);
+        IOBase *in = io;
 
         //special case: InPlageHoraire
         if (type == "InPlageHoraire" && in)
@@ -137,7 +137,7 @@ void IOXmlWriter::writePlages(vector<Horaire> &day)
         }
 }
 
-void IOXmlWriter::writeOutput(Output *io)
+void IOXmlWriter::writeOutput(IOBase *io)
 {
         string type = io->get_param("type");
 
@@ -146,11 +146,11 @@ void IOXmlWriter::writeOutput(Output *io)
             type == "InternalInt" || type == "InternalString")
                 return;
 
-        if (IOBase::isCameraType(type))
+        if (io->get_gui_type() == "camera")
         {
                 writeStartElement("http://www.calaos.fr", "camera");
         }
-        else if (IOBase::isAudioType(type))
+        else if (io->get_gui_type() == "audio")
         {
                 writeStartElement("http://www.calaos.fr", "audio");
         }
@@ -240,8 +240,8 @@ void RuleXmlWriter::writeCondition(Rule *rule)
                                         Params &params_var = cond->get_params_var();
 
                                         string id = cond->get_input(j)->get_param("id");
-                                        if (IOBase::isAudioType(cond->get_input(j)->get_param("type")) ||
-                                            IOBase::isCameraType(cond->get_input(j)->get_param("type")))
+                                        if (cond->get_input(j)->get_gui_type() == "audio" ||
+                                            cond->get_input(j)->get_gui_type() == "camera")
                                                 id = cond->get_input(j)->get_param("iid");
 
                                         attr.clear();
@@ -267,8 +267,8 @@ void RuleXmlWriter::writeCondition(Rule *rule)
                                 writeStartElement("http://www.calaos.fr", "output");
 
                                 string id = cond->getOutput()->get_param("id");
-                                if (IOBase::isAudioType(cond->getOutput()->get_param("type")) ||
-                                    IOBase::isCameraType(cond->getOutput()->get_param("type")))
+                                if (cond->getOutput()->get_gui_type() == "audio" ||
+                                    cond->getOutput()->get_gui_type() == "camera")
                                         id = cond->getOutput()->get_param("oid");
 
                                 attr.clear();
@@ -307,8 +307,8 @@ void RuleXmlWriter::writeCondition(Rule *rule)
                                         QXmlStreamAttributes attr;
 
                                         string id = cond->getScriptInput(i)->get_param("id");
-                                        if (IOBase::isAudioType(cond->getScriptInput(i)->get_param("type")) ||
-                                            IOBase::isCameraType(cond->getScriptInput(i)->get_param("type")))
+                                        if (cond->getScriptInput(i)->get_gui_type() == "audio" ||
+                                            cond->getScriptInput(i)->get_gui_type() == "camera")
                                                 id = cond->getScriptInput(i)->get_param("iid");
 
                                         attr.append("id", QString::fromUtf8(id.c_str()));
@@ -354,8 +354,8 @@ void RuleXmlWriter::writeAction(Rule *rule)
                                         Params &params_var = action->get_params_var();
 
                                         string id = action->get_output(j)->get_param("id");
-                                        if (IOBase::isAudioType(action->get_output(j)->get_param("type")) ||
-                                            IOBase::isCameraType(action->get_output(j)->get_param("type")))
+                                        if (action->get_output(j)->get_gui_type() == "audio" ||
+                                            action->get_output(j)->get_gui_type() == "camera")
                                                 id = action->get_output(j)->get_param("oid");
 
                                         attr.clear();
@@ -526,8 +526,7 @@ void IOXmlReader::readInput(Room *room)
                 QMessageBox::critical(NULL, "Calaos Installer", QString::fromUtf8("L'entrée avec l'id \"%1\" existe déjà !").arg(QString(p["id"].c_str())));
         }
 
-        Input *in = ListeRoom::Instance().createInput(p, room);
-        InPlageHoraire *input = dynamic_cast<InPlageHoraire *>(in);
+        IOBase *in = ListeRoom::Instance().createInput(p, room);
 
         //Do cache of 849/842 only with WIDigitalBP/WIDIgitialTriple
         if (in->get_param("type") == "WIDigitalBP" ||
@@ -550,19 +549,19 @@ void IOXmlReader::readInput(Room *room)
                 if (isStartElement())
                 {
                         if (p["type"] == "InPlageHoraire" && name() == "lundi")
-                                readPlageDay(input->plg_lundi);
+                                readPlageDay(in->plg_lundi);
                         else if (p["type"] == "InPlageHoraire" && name() == "mardi")
-                                readPlageDay(input->plg_mardi);
+                                readPlageDay(in->plg_mardi);
                         else if (p["type"] == "InPlageHoraire" && name() == "mercredi")
-                                readPlageDay(input->plg_mercredi);
+                                readPlageDay(in->plg_mercredi);
                         else if (p["type"] == "InPlageHoraire" && name() == "jeudi")
-                                readPlageDay(input->plg_jeudi);
+                                readPlageDay(in->plg_jeudi);
                         else if (p["type"] == "InPlageHoraire" && name() == "vendredi")
-                                readPlageDay(input->plg_vendredi);
+                                readPlageDay(in->plg_vendredi);
                         else if (p["type"] == "InPlageHoraire" && name() == "samedi")
-                                readPlageDay(input->plg_samedi);
+                                readPlageDay(in->plg_samedi);
                         else if (p["type"] == "InPlageHoraire" && name() == "dimanche")
-                                readPlageDay(input->plg_dimanche);
+                                readPlageDay(in->plg_dimanche);
                 }
         }
 }
@@ -632,7 +631,7 @@ void IOXmlReader::readOutput(Room *room)
                 QMessageBox::critical(NULL, "Calaos Installer", QString::fromUtf8("La sortie avec l'id \"%1\" existe déjà !").arg(QString(p["id"].c_str())));
         }
 
-        Output *output = ListeRoom::Instance().createOutput(p, room);
+        IOBase *output = ListeRoom::Instance().createOutput(p, room);
 
         if (!output)
             return;
@@ -791,7 +790,7 @@ bool ProjectManager::loadRulesFromFile(QString &file)
                                         string val = node_in.attribute("val").toUtf8().data();
                                         string val_var = node_in.attribute("val_var").toUtf8().data();
 
-                                        Input *input = ListeRoom::Instance().get_input(id);
+                                        IOBase *input = ListeRoom::Instance().get_input(id);
 
                                         if (input)
                                         {
@@ -817,7 +816,7 @@ bool ProjectManager::loadRulesFromFile(QString &file)
                                         string val = node_in.attribute("val").toUtf8().data();
                                         string val_var = node_in.attribute("val_var").toUtf8().data();
 
-                                        Output *output = ListeRoom::Instance().get_output(id);
+                                        IOBase *output = ListeRoom::Instance().get_output(id);
 
                                         if (output)
                                         {
@@ -845,7 +844,7 @@ bool ProjectManager::loadRulesFromFile(QString &file)
                                         if (node_in.tagName() == "calaos:input")
                                         {
                                                 string id = node_in.attribute("id").toUtf8().data();
-                                                Input *input = ListeRoom::Instance().get_input(id);
+                                                IOBase *input = ListeRoom::Instance().get_input(id);
                                                 if (input)
                                                         cond->addScriptInput(input);
                                         }
@@ -884,7 +883,7 @@ bool ProjectManager::loadRulesFromFile(QString &file)
                                         string val = node_out.attribute("val").toUtf8().data();
                                         string val_var = node_out.attribute("val_var").toUtf8().data();
 
-                                        Output *output = ListeRoom::Instance().get_output(id);
+                                        IOBase *output = ListeRoom::Instance().get_output(id);
 
                                         if (output)
                                         {

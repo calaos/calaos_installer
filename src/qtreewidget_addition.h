@@ -39,57 +39,57 @@ class QTreeWidgetItemRoom: public QTreeWidgetItem
 class QTreeWidgetItemInput: public QTreeWidgetItem
 {
         protected:
-                Input *input;
+                IOBase *input;
 
         public:
-                QTreeWidgetItemInput(Input *r, int type = QTreeWidgetItem::UserType):
+                QTreeWidgetItemInput(IOBase *r, int type = QTreeWidgetItem::UserType):
                                 QTreeWidgetItem(type), input(r) {}
-                QTreeWidgetItemInput(Input *r, const QStringList & strings, int type = QTreeWidgetItem::UserType):
+                QTreeWidgetItemInput(IOBase *r, const QStringList & strings, int type = QTreeWidgetItem::UserType):
                                 QTreeWidgetItem(strings, type), input(r) {}
-                QTreeWidgetItemInput(Input *r, QTreeWidget *parent, int type = QTreeWidgetItem::UserType):
+                QTreeWidgetItemInput(IOBase *r, QTreeWidget *parent, int type = QTreeWidgetItem::UserType):
                                 QTreeWidgetItem(parent, type), input(r) {}
-                QTreeWidgetItemInput(Input *r, QTreeWidget *parent, const QStringList &strings, int type = QTreeWidgetItem::UserType):
+                QTreeWidgetItemInput(IOBase *r, QTreeWidget *parent, const QStringList &strings, int type = QTreeWidgetItem::UserType):
                                 QTreeWidgetItem(parent, strings, type), input(r) {}
-                QTreeWidgetItemInput(Input *r, QTreeWidget *parent, QTreeWidgetItem *preceding, int type = QTreeWidgetItem::UserType):
+                QTreeWidgetItemInput(IOBase *r, QTreeWidget *parent, QTreeWidgetItem *preceding, int type = QTreeWidgetItem::UserType):
                                 QTreeWidgetItem(parent, preceding, type), input(r) {}
-                QTreeWidgetItemInput(Input *r, QTreeWidgetItem *parent, int type = QTreeWidgetItem::UserType):
+                QTreeWidgetItemInput(IOBase *r, QTreeWidgetItem *parent, int type = QTreeWidgetItem::UserType):
                                 QTreeWidgetItem(parent, type), input(r) {}
-                QTreeWidgetItemInput(Input *r, QTreeWidgetItem *parent, const QStringList &strings, int type = QTreeWidgetItem::UserType):
+                QTreeWidgetItemInput(IOBase *r, QTreeWidgetItem *parent, const QStringList &strings, int type = QTreeWidgetItem::UserType):
                                 QTreeWidgetItem(parent, strings, type), input(r) {}
-                QTreeWidgetItemInput(Input *r, QTreeWidgetItem *parent, QTreeWidgetItem *preceding, int type = QTreeWidgetItem::UserType):
+                QTreeWidgetItemInput(IOBase *r, QTreeWidgetItem *parent, QTreeWidgetItem *preceding, int type = QTreeWidgetItem::UserType):
                                 QTreeWidgetItem(parent, preceding, type), input(r) {}
                 QTreeWidgetItemInput(const QTreeWidgetItemInput &other):
                                 QTreeWidgetItem(other), input(other.input) {}
 
-                Input *getInput() { return input; }
+                IOBase *getInput() { return input; }
 };
 
 class QTreeWidgetItemOutput: public QTreeWidgetItem
 {
         protected:
-                Output *output;
+                IOBase *output;
 
         public:
-                QTreeWidgetItemOutput(Output *r, int type = QTreeWidgetItem::UserType):
+                QTreeWidgetItemOutput(IOBase *r, int type = QTreeWidgetItem::UserType):
                                 QTreeWidgetItem(type), output(r) {}
-                QTreeWidgetItemOutput(Output *r, const QStringList & strings, int type = QTreeWidgetItem::UserType):
+                QTreeWidgetItemOutput(IOBase *r, const QStringList & strings, int type = QTreeWidgetItem::UserType):
                                 QTreeWidgetItem(strings, type), output(r) {}
-                QTreeWidgetItemOutput(Output *r, QTreeWidget *parent, int type = QTreeWidgetItem::UserType):
+                QTreeWidgetItemOutput(IOBase *r, QTreeWidget *parent, int type = QTreeWidgetItem::UserType):
                                 QTreeWidgetItem(parent, type), output(r) {}
-                QTreeWidgetItemOutput(Output *r, QTreeWidget *parent, const QStringList &strings, int type = QTreeWidgetItem::UserType):
+                QTreeWidgetItemOutput(IOBase *r, QTreeWidget *parent, const QStringList &strings, int type = QTreeWidgetItem::UserType):
                                 QTreeWidgetItem(parent, strings, type), output(r) {}
-                QTreeWidgetItemOutput(Output *r, QTreeWidget *parent, QTreeWidgetItem *preceding, int type = QTreeWidgetItem::UserType):
+                QTreeWidgetItemOutput(IOBase *r, QTreeWidget *parent, QTreeWidgetItem *preceding, int type = QTreeWidgetItem::UserType):
                                 QTreeWidgetItem(parent, preceding, type), output(r) {}
-                QTreeWidgetItemOutput(Output *r, QTreeWidgetItem *parent, int type = QTreeWidgetItem::UserType):
+                QTreeWidgetItemOutput(IOBase *r, QTreeWidgetItem *parent, int type = QTreeWidgetItem::UserType):
                                 QTreeWidgetItem(parent, type), output(r) {}
-                QTreeWidgetItemOutput(Output *r, QTreeWidgetItem *parent, const QStringList &strings, int type = QTreeWidgetItem::UserType):
+                QTreeWidgetItemOutput(IOBase *r, QTreeWidgetItem *parent, const QStringList &strings, int type = QTreeWidgetItem::UserType):
                                 QTreeWidgetItem(parent, strings, type), output(r) {}
-                QTreeWidgetItemOutput(Output *r, QTreeWidgetItem *parent, QTreeWidgetItem *preceding, int type = QTreeWidgetItem::UserType):
+                QTreeWidgetItemOutput(IOBase *r, QTreeWidgetItem *parent, QTreeWidgetItem *preceding, int type = QTreeWidgetItem::UserType):
                                 QTreeWidgetItem(parent, preceding, type), output(r) {}
                 QTreeWidgetItemOutput(const QTreeWidgetItemOutput &other):
                                 QTreeWidgetItem(other), output(other.output) {}
 
-                Output *getOutput() { return output; }
+                IOBase *getOutput() { return output; }
 };
 
 class QTreeWidgetItemRule: public QTreeWidgetItem

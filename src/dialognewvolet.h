@@ -22,7 +22,7 @@ class DialogNewVolet : public QDialog
                 explicit DialogNewVolet(Room *room, QWidget *parent = 0);
                 virtual ~DialogNewVolet();
 
-                Output *getOutput() { return volet; }
+                IOBase *getOutput() { return volet; }
 
         protected:
                 virtual void changeEvent(QEvent *e);
@@ -30,7 +30,7 @@ class DialogNewVolet : public QDialog
         private:
                 Ui::DialogNewVolet *ui;
                 string type;
-                Output *volet;
+                IOBase *volet;
                 Room *room;
 
         private slots:

@@ -47,8 +47,8 @@ void DialogNewScenario::on_buttonBox_accepted()
         else
                 p.Add("visible", "false");
 
-        Input *in = ListeRoom::Instance().createInput(p, room);
-        output = dynamic_cast<Output *>(in);
+        IOBase *in = ListeRoom::Instance().createInput(p, room);
+        output = in;
 
         accept();
 }

@@ -22,10 +22,10 @@ class DialogPlageHoraire : public QDialog
         Q_OBJECT
         Q_DISABLE_COPY(DialogPlageHoraire)
         public:
-                explicit DialogPlageHoraire(InPlageHoraire *p, QWidget *parent = 0);
+                explicit DialogPlageHoraire(IOBase *p, QWidget *parent = 0);
                 virtual ~DialogPlageHoraire();
 
-                InPlageHoraire *getPlageHoraire() { return plage; }
+                IOBase *getPlageHoraire() { return plage; }
 
         protected:
                 virtual void changeEvent(QEvent *e);
@@ -33,7 +33,7 @@ class DialogPlageHoraire : public QDialog
         private:
                 Ui::DialogPlageHoraire *ui;
 
-                InPlageHoraire *plage;
+                IOBase *plage;
                 vector<Horaire> *day;
 
 

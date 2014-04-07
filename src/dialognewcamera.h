@@ -22,14 +22,14 @@ class DialogNewCamera : public QDialog
                 explicit DialogNewCamera(Room *room, QWidget *parent = 0);
                 virtual ~DialogNewCamera();
 
-                Output *getOutput() { return output; }
+                IOBase *getOutput() { return output; }
 
         protected:
                 virtual void changeEvent(QEvent *e);
 
         private:
                 Ui::DialogNewCamera *ui;
-                Output *output;
+                IOBase *output;
                 Room *room;
 
         private slots:

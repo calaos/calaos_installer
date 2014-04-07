@@ -22,12 +22,12 @@ class DialogNewWebOutputString : public QDialog
 public:
         explicit DialogNewWebOutputString(Room *r, QWidget *parent = 0);
         ~DialogNewWebOutputString();
-        Output *getOutput() { return output; }
+        IOBase *getOutput() { return output; }
 
 private:
         Ui::DialogNewWebOutputString *ui;
         Room *room;
-        Output *output;
+        IOBase *output;
 
 private slots:
         void on_buttonBox_accepted();

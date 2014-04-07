@@ -2,7 +2,7 @@
 #include "ui_DialogCameraView.h"
 #include "mainwindow.h"
 
-DialogCameraView::DialogCameraView(Camera *cam, QWidget *parent) :
+DialogCameraView::DialogCameraView(IOBase *cam, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::DialogCameraView), camera(cam)
 {

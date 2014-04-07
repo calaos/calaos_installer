@@ -465,7 +465,7 @@ CalaosCompleter::CalaosCompleter(QObject *parent):
 
         for (int i = 0;i < ListeRoom::Instance().get_nb_input();i++)
         {
-                Input *input = ListeRoom::Instance().get_input(i);
+                IOBase *input = ListeRoom::Instance().get_input(i);
                 QStandardItem *it = new QStandardItem(QString::fromUtf8(input->get_param("name").c_str()));
                 it->setData(i);
                 item->appendRow(it);
@@ -477,7 +477,7 @@ CalaosCompleter::CalaosCompleter(QObject *parent):
 
         for (int i = 0;i < ListeRoom::Instance().get_nb_output();i++)
         {
-                Output *output = ListeRoom::Instance().get_output(i);
+                IOBase *output = ListeRoom::Instance().get_output(i);
                 QStandardItem *it = new QStandardItem(QString::fromUtf8(output->get_param("name").c_str()));
                 it->setData(i);
                 item->appendRow(it);
@@ -489,7 +489,7 @@ CalaosCompleter::CalaosCompleter(QObject *parent):
 
         for (int i = 0;i < ListeRoom::Instance().get_nb_output();i++)
         {
-                Output *output = ListeRoom::Instance().get_output(i);
+                IOBase *output = ListeRoom::Instance().get_output(i);
                 QStandardItem *it = new QStandardItem(QString::fromUtf8(output->get_param("name").c_str()));
                 it->setData(i);
                 item->appendRow(it);

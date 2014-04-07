@@ -16,8 +16,8 @@ class IOEditorSelection : public QFrame
                 QComboBox *getComboBox() { return combobox; }
                 QPushButton *getButton() { return button; }
 
-                Input *other_input;
-                Output *other_output;
+                IOBase *other_input;
+                IOBase *other_output;
 
         private:
                 QComboBox *combobox;

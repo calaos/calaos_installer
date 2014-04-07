@@ -94,8 +94,8 @@ void FormConditionStd::setCondition(QTreeWidgetItem *item, Rule *_rule, Conditio
 
         string type = io->get_param("type");
         string id = io->get_param("id");
-        if (IOBase::isAudioType(io->get_param("type")) ||
-            IOBase::isCameraType(io->get_param("type")))
+        if (io->get_gui_type() == "audio" ||
+            io->get_gui_type() == "camera")
                 id = io->get_param("iid");
 
         //Search room icon
@@ -219,7 +219,7 @@ void FormConditionStd::setCondition(QTreeWidgetItem *item, Rule *_rule, Conditio
         {
                 addActionMenu(QString::fromUtf8("20"), QString::fromUtf8("Evennement sur une témperature en °C"), QString::fromUtf8("20"));
         }
-        else if (IOBase::isAudioType(type))
+        else if (io->get_gui_type() == "audio")
         {
                 addActionMenu(QString::fromUtf8("onplay"), QString::fromUtf8("Evennement lors de la lecture"), QString::fromUtf8("onplay"));
                 addActionMenu(QString::fromUtf8("onpause"), QString::fromUtf8("Evennement lors de la pause"), QString::fromUtf8("onpause"));
@@ -242,15 +242,15 @@ void FormConditionStd::on_btMore_clicked()
 {
         if (condition->getType() == COND_STD)
         {
-                Input *input = NULL;
+                IOBase *input = NULL;
                 if (condition->get_size() > 0)
                         input = condition->get_input(0);
 
                 if (!input) return;
 
                 string id = input->get_param("id");
-                if (IOBase::isAudioType(input->get_param("type")) ||
-                    IOBase::isCameraType(input->get_param("type")))
+                if (input->get_gui_type() == "audio" ||
+                    input->get_gui_type() == "camera")
                         id = input->get_param("iid");
 
                 DialogIOList dio(input, NULL);
@@ -258,8 +258,8 @@ void FormConditionStd::on_btMore_clicked()
                 if (dio.exec() == QDialog::Accepted)
                 {
                         string var_id = dio.getInput()->get_param("id");
-                        if (IOBase::isAudioType(dio.getInput()->get_param("type")) ||
-                            IOBase::isCameraType(dio.getInput()->get_param("type")))
+                        if (dio.getInput()->get_gui_type() == "audio" ||
+                            dio.getInput()->get_gui_type() == "camera")
                                 var_id = dio.getInput()->get_param("iid");
 
                         condition->get_params().Add(id, "");
@@ -270,13 +270,13 @@ void FormConditionStd::on_btMore_clicked()
         }
         else
         {
-                Output *output = condition->getOutput();
+                IOBase *output = condition->getOutput();
 
                 if (!output) return;
 
                 string id = output->get_param("id");
-                if (IOBase::isAudioType(output->get_param("type")) ||
-                    IOBase::isCameraType(output->get_param("type")))
+                if (output->get_gui_type() == "audio" ||
+                    output->get_gui_type() == "camera")
                         id = output->get_param("iid");
 
                 DialogIOList dio(NULL, output);
@@ -284,8 +284,8 @@ void FormConditionStd::on_btMore_clicked()
                 if (dio.exec() == QDialog::Accepted)
                 {
                         string var_id = dio.getOutput()->get_param("id");
-                        if (IOBase::isAudioType(dio.getOutput()->get_param("type")) ||
-                            IOBase::isCameraType(dio.getOutput()->get_param("type")))
+                        if (dio.getOutput()->get_gui_type() == "audio" ||
+                            dio.getOutput()->get_gui_type() == "camera")
                                 var_id = dio.getOutput()->get_param("iid");
 
                         condition->setOutputParamVar(var_id);
@@ -302,15 +302,15 @@ void FormConditionStd::on_comboOp_currentIndexChanged(int)
 
         if (condition->getType() == COND_STD)
         {
-                Input *input = NULL;
+                IOBase *input = NULL;
                 if (condition->get_size() > 0)
                         input = condition->get_input(0);
 
                 if (!input) return;
 
                 string id = input->get_param("id");
-                if (IOBase::isAudioType(input->get_param("type")) ||
-                                IOBase::isCameraType(input->get_param("type")))
+                if (input->get_gui_type() == "audio" ||
+                    input->get_gui_type() == "camera")
                         id = input->get_param("iid");
 
                 int current = ui->comboOp->currentIndex();
@@ -320,13 +320,13 @@ void FormConditionStd::on_comboOp_currentIndexChanged(int)
         }
         else
         {
-                Output *output = condition->getOutput();
+                IOBase *output = condition->getOutput();
 
                 if (!output) return;
 
                 string id = output->get_param("id");
-                if (IOBase::isAudioType(output->get_param("type")) ||
-                                IOBase::isCameraType(output->get_param("type")))
+                if (output->get_gui_type() == "audio" ||
+                    output->get_gui_type() == "camera")
                         id = output->get_param("iid");
 
                 int current = ui->comboOp->currentIndex();
@@ -345,15 +345,15 @@ void FormConditionStd::on_editValue_textChanged(const QString &arg1)
         if (condition->getType() == COND_STD)
         {
 
-                Input *input = NULL;
+                IOBase *input = NULL;
                 if (condition->get_size() > 0)
                         input = condition->get_input(0);
 
                 if (!input) return;
 
                 string id = input->get_param("id");
-                if (IOBase::isAudioType(input->get_param("type")) ||
-                    IOBase::isCameraType(input->get_param("type")))
+                if (input->get_gui_type() == "audio" ||
+                    input->get_gui_type() == "camera")
                         id = input->get_param("iid");
 
                 string value = ui->editValue->text().toUtf8().constData();
@@ -363,13 +363,13 @@ void FormConditionStd::on_editValue_textChanged(const QString &arg1)
         }
         else
         {
-                Output *output = condition->getOutput();
+                IOBase *output = condition->getOutput();
 
                 if (!output) return;
 
                 string id = output->get_param("id");
-                if (IOBase::isAudioType(output->get_param("type")) ||
-                    IOBase::isCameraType(output->get_param("type")))
+                if (output->get_gui_type() == "audio" ||
+                    output->get_gui_type() == "camera")
                         id = output->get_param("iid");
 
                 string value = ui->editValue->text().toUtf8().constData();

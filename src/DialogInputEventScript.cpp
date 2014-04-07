@@ -20,7 +20,7 @@ DialogInputEventScript::DialogInputEventScript(Condition *cond, QWidget *parent)
 
                 for (int j = 0;j < room->get_size_in();j++)
                 {
-                        Input *in = room->get_input(j);
+                        IOBase *in = room->get_input(j);
 
                         QTreeWidgetItemInput *item = new QTreeWidgetItemInput(in, ui->tree_all);
 
@@ -31,7 +31,7 @@ DialogInputEventScript::DialogInputEventScript(Condition *cond, QWidget *parent)
 
         for (int i = 0;i < condition->getScriptInputSize();i++)
         {
-                Input *in = condition->getScriptInput(i);
+                IOBase *in = condition->getScriptInput(i);
 
                 QTreeWidgetItemInput *item = new QTreeWidgetItemInput(in, ui->tree_active);
 

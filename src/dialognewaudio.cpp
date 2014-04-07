@@ -45,8 +45,7 @@ void DialogNewAudio::on_buttonBox_accepted()
         p.Add("id", ui->edit_mac->text().toUtf8().constData());
         p.Add("type", "slim");
 
-        Audio *audio = ListeRoom::Instance().createAudio(p, room);
-        output = dynamic_cast<Output *>(audio);
+        output = ListeRoom::Instance().createAudio(p, room);
 
         accept();
 }
@@ -58,8 +57,8 @@ void DialogNewAudio::on_pushButton_clicked()
         {
                 Squeezebox *sq = d.getSelectedDevice();
 
-		if (!sq) 
-			return;
+        if (!sq)
+            return;
 
                 ui->edit_ip->setText(sq->server);
                 ui->edit_mac->setText(sq->id);

@@ -28,55 +28,53 @@ using namespace Calaos;
 Room::~Room()
 {
         while (inputs.size() > 0)
-                ListeRoom::Instance().deleteIO(inputs[0]);
+                ListeRoom::Instance().deleteIOInput(inputs[0]);
 
         while (outputs.size() > 0)
-                ListeRoom::Instance().deleteIO(outputs[0]);
+                ListeRoom::Instance().deleteIOOutput(outputs[0]);
 
         inputs.clear();
         outputs.clear();
 }
 //-----------------------------------------------------------------------------
-void Room::AddInput(Input *in)
+void Room::AddInput(IOBase *in)
 {
         inputs.push_back(in);
 }
 //-----------------------------------------------------------------------------
-void Room::AddOutput(Output *out)
+void Room::AddOutput(IOBase *out)
 {
         outputs.push_back(out);
 }
 //-----------------------------------------------------------------------------
 void Room::RemoveInput(int pos, bool del)
 {
-        vector<Input *>::iterator iter = inputs.begin();
+        vector<IOBase *>::iterator iter = inputs.begin();
         for (int i = 0;i < pos;iter++, i++) ;
         if (del) delete inputs[pos];
         inputs.erase(iter);
 }
 //-----------------------------------------------------------------------------
-void Room::RemoveInput(Input *input)
+void Room::RemoveInput(IOBase *input)
 {
-        Output *o = dynamic_cast<Output *>(input);
-        if (o)
-                outputs.erase(std::remove( outputs.begin(), outputs.end(), o) , outputs.end());
+        if (input->is_output())
+                outputs.erase(std::remove( outputs.begin(), outputs.end(), input) , outputs.end());
 
         inputs.erase(std::remove( inputs.begin(), inputs.end(), input) , inputs.end());
 }
 //-----------------------------------------------------------------------------
 void Room::RemoveOutput(int pos, bool del)
 {
-        vector<Output *>::iterator iter = outputs.begin();
+        vector<IOBase *>::iterator iter = outputs.begin();
         for (int i = 0;i < pos;iter++, i++) ;
         if (del) delete outputs[pos];
         outputs.erase(iter);
 }
 //-----------------------------------------------------------------------------
-void Room::RemoveOutput(Output *output)
+void Room::RemoveOutput(IOBase *output)
 {
-        Input *o = dynamic_cast<Input *>(output);
-        if (o)
-                inputs.erase(std::remove( inputs.begin(), inputs.end(), o) , inputs.end());;
+        if (output->is_input())
+                inputs.erase(std::remove( inputs.begin(), inputs.end(), output) , inputs.end());;
 
         outputs.erase(std::remove( outputs.begin(), outputs.end(), output) , outputs.end());
 }

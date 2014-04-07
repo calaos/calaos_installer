@@ -22,14 +22,14 @@ class DialogNewTime : public QDialog
                 explicit DialogNewTime(Room *room, QWidget *parent = 0);
                 virtual ~DialogNewTime();
 
-                Input *getInput() { return input; }
+                IOBase *getInput() { return input; }
 
         protected:
                 virtual void changeEvent(QEvent *e);
 
         private:
                 Ui::DialogNewTime *ui;
-                Input *input;
+                IOBase *input;
                 Room *room;
 
         private slots:

@@ -22,8 +22,8 @@ bool ConditionTreeWidget::dropMimeData(QTreeWidgetItem *, int, const QMimeData *
         {
                 string id = url.toString().toUtf8().data();
 
-                Input *input = ListeRoom::Instance().get_input(id);
-                Output *output = NULL;
+                IOBase *input = ListeRoom::Instance().get_input(id);
+                IOBase *output = NULL;
                 if (!input)
                 {
                         //In case id is a Audio/Cam output id
@@ -31,9 +31,8 @@ bool ConditionTreeWidget::dropMimeData(QTreeWidgetItem *, int, const QMimeData *
 
                         if (output)
                         {
-                                if (IOBase::isAudioType(output->get_param("type")))
-                                        input = ListeRoom::Instance().get_input(output->get_param("iid"));
-                                if (IOBase::isCameraType(output->get_param("type")))
+                                if (output->get_gui_type() == "audio" ||
+                                    output->get_gui_type() == "camera")
                                         input = ListeRoom::Instance().get_input(output->get_param("iid"));
                         }
 

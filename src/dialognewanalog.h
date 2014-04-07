@@ -22,8 +22,8 @@ class DialogNewAnalog : public QDialog
                 explicit DialogNewAnalog(Room *room, QWidget *parent = 0);
                 virtual ~DialogNewAnalog();
 
-                Input *getInput() { return dynamic_cast<Input *>(io); }
-                Output *getOutput() { return dynamic_cast<Output *>(io); }
+                IOBase *getInput() { return io->is_input()?io:nullptr; }
+                IOBase *getOutput() { return io->is_output()?io:nullptr; }
 
                 bool isInputType() { if (type == "WIAnalog") return true; return false; }
 

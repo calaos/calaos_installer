@@ -23,14 +23,14 @@ class DialogNewDaliRGB : public QDialog
                 explicit DialogNewDaliRGB(Room *room, QWidget *parent = 0);
                 virtual ~DialogNewDaliRGB();
 
-                Output *getOutput() { return dali; }
+                IOBase *getOutput() { return dali; }
 
         protected:
                 virtual void changeEvent(QEvent *e);
 
         private:
                 Ui::DialogNewDaliRGB *ui;
-                Output *dali;
+                IOBase *dali;
                 Room *room;
 
                 void setWagoDali(int address, bool group, bool enable);

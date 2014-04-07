@@ -22,14 +22,14 @@ public:
         explicit DialogNewOneWireTemp(Room *r, QWidget *parent = 0);
         virtual ~DialogNewOneWireTemp();
 
-        Input *getInput() { return temperature; }
+        IOBase *getInput() { return temperature; }
 
 protected:
         virtual void changeEvent(QEvent *e);
 
 private:
         Ui::DialogNewOneWireTemp *ui;
-        Input *temperature;
+        IOBase *temperature;
         Room *room;
 
 private slots:

@@ -25,8 +25,8 @@ class DialogNewWago : public QDialog
                 explicit DialogNewWago(int type, Room *room, QWidget *parent = 0);
                 virtual ~DialogNewWago();
 
-                Input *getInput() { return dynamic_cast<Input *>(io); }
-                Output *getOutput() { return dynamic_cast<Output *>(io); }
+                IOBase *getInput() { return io->is_input()?io:nullptr; }
+                IOBase *getOutput() { return io->is_output()?io:nullptr; }
 
                 bool wantAnother() { return another; }
 

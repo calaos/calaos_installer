@@ -26,28 +26,28 @@ Condition::~Condition()
 {
 }
 
-void Condition::Add(Input *in)
+void Condition::Add(IOBase *in)
 {
         inputs.push_back(in);
 }
 
 void Condition::Remove(int pos)
 {
-        vector<Input *>::iterator iter = inputs.begin();
+        vector<IOBase *>::iterator iter = inputs.begin();
         for (int i = 0;i < pos;iter++, i++) ;
         inputs.erase(iter);
 }
 
 void Condition::removeScriptInput(int pos)
 {
-        vector<Input *>::iterator iter = in_event.begin();
+        vector<IOBase *>::iterator iter = in_event.begin();
         for (int i = 0;i < pos;iter++, i++) ;
         in_event.erase(iter);
 }
 
-void Condition::removeScriptInput(Input *in)
+void Condition::removeScriptInput(IOBase *in)
 {
-        vector<Input *>::iterator iter = in_event.begin();
+        vector<IOBase *>::iterator iter = in_event.begin();
         for (int i = 0;i < (int)in_event.size() && in != in_event[i];iter++, i++) ;
         in_event.erase(iter);
 }

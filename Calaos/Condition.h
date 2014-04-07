@@ -34,7 +34,7 @@ class Condition
         protected:
                 int condition_type;
 
-                std::vector<Input *> inputs;
+                std::vector<IOBase *> inputs;
                 Params params;
                 Params ops;
 
@@ -45,10 +45,10 @@ class Condition
                 string script;
                 //These are declared inputs that will trigger the rule execution
                 //Most generaly, inputs are those used in the script
-                vector<Input *> in_event;
+                vector<IOBase *> in_event;
 
                 //Output condition
-                Output *output;
+                IOBase *output;
                 string output_param, output_param_var, output_oper;
 
         public:
@@ -59,11 +59,11 @@ class Condition
                 int getType() { return condition_type; }
 
                 /*-- Standard Condition --*/
-                void Add(Input *p);
+                void Add(IOBase *p);
                 bool Evaluate();
                 void Remove(int i);
 
-                Input *get_input(int i) { return inputs[i]; }
+                IOBase *get_input(int i) { return inputs[i]; }
                 Params &get_params() { return params; }
                 Params &get_operator() { return ops; }
                 Params &get_params_var() { return params_var; }
@@ -76,18 +76,18 @@ class Condition
 
                 /*-- Script Condition --*/
                 int getScriptInputSize() { return in_event.size(); }
-                Input *getScriptInput(int i) { return in_event[i]; }
-                void addScriptInput(Input *in) { in_event.push_back(in); }
+                IOBase *getScriptInput(int i) { return in_event[i]; }
+                void addScriptInput(IOBase *in) { in_event.push_back(in); }
                 void clearScriptInput() { in_event.clear(); }
                 void removeScriptInput(int i);
-                void removeScriptInput(Input *in);
+                void removeScriptInput(IOBase *in);
                 string getScript() { return script; }
                 void setScript(string s) { script = s; }
                 /*-- Script Condition --*/
 
                 /*-- Output Condition --*/
-                Output *getOutput() { return output; }
-                void setOutput(Output *o) { output = o; }
+                IOBase *getOutput() { return output; }
+                void setOutput(IOBase *o) { output = o; }
                 string getOutputParam() { return output_param; }
                 void setOutputParam(string param) { output_param = param; }
                 string getOutputOper() { return output_oper; }

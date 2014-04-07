@@ -22,14 +22,14 @@ class DialogNewTemp : public QDialog
                 explicit DialogNewTemp(Room *room, QWidget *parent = 0);
                 virtual ~DialogNewTemp();
 
-                Input *getInput() { return temperature; }
+                IOBase *getInput() { return temperature; }
 
         protected:
                 virtual void changeEvent(QEvent *e);
 
         private:
                 Ui::DialogNewTemp *ui;
-                Input *temperature;
+                IOBase *temperature;
                 Room *room;
 
         private slots:
