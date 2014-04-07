@@ -34,39 +34,30 @@ namespace Calaos
 class Registrar
 {
 public:
-    Registrar(string type, function<Input *(Params &)> classFunc);
-    Registrar(string type, function<Output *(Params &)> classFunc);
+    Registrar(string type, function<IOBase *(Params &)> classFunc);
 };
 
-#define REGISTER_FACTORY(NAME, TYPE, RETURNCLASS) static Registrar NAME##_reg_(#NAME, [](Params &_p) -> RETURNCLASS * { return new TYPE(_p); });
+#define REGISTER_FACTORY(NAME, GTYPE, DTYPE, ITYPE) \
+    static Registrar NAME##_reg_(#NAME, [](Params &_p) -> IOBase * { return new IOBase(_p, GTYPE, DTYPE, ITYPE); });
 
-#define REGISTER_INPUT_USERTYPE(NAME, TYPE) REGISTER_FACTORY(NAME, TYPE, Input)
-#define REGISTER_INPUT(TYPE) REGISTER_INPUT_USERTYPE(TYPE, TYPE)
-
-#define REGISTER_OUTPUT_USERTYPE(NAME, TYPE) REGISTER_FACTORY(NAME, TYPE, Output)
-#define REGISTER_OUTPUT(TYPE) REGISTER_OUTPUT_USERTYPE(TYPE, TYPE)
+#define REGISTER_INPUT(NAME, GTYPE, DTYPE) REGISTER_FACTORY(NAME, GTYPE, DTYPE, IOBase::IO_INPUT)
+#define REGISTER_OUTPUT(NAME, GTYPE, DTYPE) REGISTER_FACTORY(NAME, GTYPE, DTYPE, IOBase::IO_OUTPUT)
+#define REGISTER_INOUT(NAME, GTYPE, DTYPE) REGISTER_FACTORY(NAME, GTYPE, DTYPE, IOBase::IO_BOTH)
 
 class IOFactory
 {
 private:
     IOFactory() {}
 
-    unordered_map<string, function<Input *(Params &)>> inputFunctionRegistry;
-    unordered_map<string, function<Output *(Params &)>> outputFunctionRegistry;
+    unordered_map<string, function<IOBase *(Params &)>> ioFunctionRegistry;
 
 public:
 
-    Input *CreateInput(string type, Params &params);
-    Output *CreateOutput(string type, Params &params);
+    IOBase *CreateIO(string type, Params &params);
 
-    void RegisterClass(string type, function<Input *(Params &)> classFunc)
+    void RegisterClass(string type, function<IOBase *(Params &)> classFunc)
     {
-        inputFunctionRegistry[type] = classFunc;
-    }
-
-    void RegisterClass(string type, function<Output *(Params &)> classFunc)
-    {
-        outputFunctionRegistry[type] = classFunc;
+        ioFunctionRegistry[type] = classFunc;
     }
 
     static IOFactory &Instance()

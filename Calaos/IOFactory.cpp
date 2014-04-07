@@ -24,46 +24,24 @@
 
 using namespace Calaos;
 
-Registrar::Registrar(string type, function<Input *(Params &)> classFunc)
+Registrar::Registrar(string type, function<IOBase *(Params &)> classFunc)
 {
     std::transform(type.begin(), type.end(), type.begin(), Utils::to_lower());
     IOFactory::Instance().RegisterClass(type, classFunc);
 }
 
-Registrar::Registrar(string type, function<Output *(Params &)> classFunc)
+IOBase *IOFactory::CreateIO(std::string type, Params &params)
 {
-    std::transform(type.begin(), type.end(), type.begin(), Utils::to_lower());
-    IOFactory::Instance().RegisterClass(type, classFunc);
-}
-
-Input *IOFactory::CreateInput(std::string type, Params &params)
-{
-    Input *obj = nullptr;
+    IOBase *obj = nullptr;
 
     std::transform(type.begin(), type.end(), type.begin(), Utils::to_lower());
 
-    auto it = inputFunctionRegistry.find(type);
-    if (it != inputFunctionRegistry.end())
+    auto it = ioFunctionRegistry.find(type);
+    if (it != ioFunctionRegistry.end())
         obj = it->second(params);
 
     if (!obj)
-        qWarning() << type.c_str() << ": Unknown Input type !";
-
-    return obj;
-}
-
-Output *IOFactory::CreateOutput(std::string type, Params &params)
-{
-    Output *obj = nullptr;
-
-    std::transform(type.begin(), type.end(), type.begin(), Utils::to_lower());
-
-    auto it = outputFunctionRegistry.find(type);
-    if (it != outputFunctionRegistry.end())
-        obj = it->second(params);
-
-    if (!obj)
-        qWarning() << type.c_str() << ": Unknown Output type !";
+        qWarning() << type.c_str() << ": Unknown type !";
 
     return obj;
 }
