@@ -22,7 +22,7 @@ bool ActionTreeWidget::dropMimeData(QTreeWidgetItem *, int, const QMimeData *dat
         {
                 string id = url.toString().toUtf8().data();
 
-                Output *output = ListeRoom::Instance().get_output(id);
+                IOBase *output = ListeRoom::Instance().get_output(id);
                 if (!output) return false;
 
                 MainWindow *win = dynamic_cast<MainWindow *>(QApplication::activeWindow());

@@ -247,7 +247,7 @@ void FormRules::PopulateRoomsTree()
 
                 for (int j = 0;j < room->get_size_in();j++)
                 {
-                        Input *in = room->get_input(j);
+                        IOBase *in = room->get_input(j);
 
                         if (in->get_param("type") == "WIDigitalBP" ||
                             in->get_param("type") == "WIDigitalTriple" ||
@@ -269,7 +269,7 @@ void FormRules::PopulateRoomsTree()
 
                 for (int j = 0;j < room->get_size_out();j++)
                 {
-                        Output *out = room->get_output(j);
+                        IOBase *out = room->get_output(j);
                         addItemOutput(out, iroom);
 
                         QCoreApplication::processEvents();
@@ -332,8 +332,7 @@ void FormRules::addCalaosItemInputSwitch(int item, int hw_type)
                         if (dialog.exec() == QDialog::Accepted)
                         {
                                 another = dialog.wantAnother();
-
-                                Input *input = dialog.getInput();
+                                IOBase *input = dialog.getInput();
                                 if (input)
                                         addItemInput(input, current_room, true);
                                 else
@@ -352,7 +351,7 @@ void FormRules::addCalaosItemInputSwitch(int item, int hw_type)
                 DialogNewGpioInput dialog(current_room);
                 if (dialog.exec() == QDialog::Accepted)
                 {
-                        Input *input = dialog.getInput();
+                        IOBase *input = dialog.getInput();
                         if (input)
                                 addItemInput(input, current_room, true);
                         else
@@ -377,7 +376,7 @@ void FormRules::addCalaosItemLight(int item, int hw_type)
                         {
                                 another = dialog.wantAnother();
 
-                                Output *output = dialog.getOutput();
+                                IOBase *output = dialog.getOutput();
                                 if (output)
                                         addItemOutput(output, current_room, true);
                                 else
@@ -401,7 +400,7 @@ void FormRules::addCalaosItemOutputString(int item, int hw_type)
                 DialogNewWebOutputString dialog(current_room);
                 if (dialog.exec() == QDialog::Accepted)
                 {
-                        Output *output = dialog.getOutput();
+                        IOBase *output = dialog.getOutput();
                         if (output)
                                 addItemOutput(output, current_room, true);
                 }
@@ -462,7 +461,7 @@ void FormRules::addCalaosItem(int hw_type, int item)
                         DialogNewVolet dialog(current_room);
                         if (dialog.exec() == QDialog::Accepted)
                         {
-                                Output *output = dialog.getOutput();
+                                IOBase *output = dialog.getOutput();
                                 if (output)
                                         addItemOutput(output, current_room, true);
                                 else
@@ -475,7 +474,7 @@ void FormRules::addCalaosItem(int hw_type, int item)
                         DialogNewDali dialog(current_room);
                         if (dialog.exec() == QDialog::Accepted)
                         {
-                                Output *output = dialog.getOutput();
+                                IOBase *output = dialog.getOutput();
                                 if (output)
                                         addItemOutput(output, current_room, true);
                                 else
@@ -488,7 +487,7 @@ void FormRules::addCalaosItem(int hw_type, int item)
                         DialogNewDaliRGB dialog(current_room);
                         if (dialog.exec() == QDialog::Accepted)
                         {
-                                Output *output = dialog.getOutput();
+                                IOBase *output = dialog.getOutput();
                                 if (output)
                                         addItemOutput(output, current_room, true);
                                 else
@@ -504,7 +503,7 @@ void FormRules::addCalaosItem(int hw_type, int item)
                                 DialogNewTemp dialog(current_room);
                                 if (dialog.exec() == QDialog::Accepted)
                                 {
-                                        Input *input = dialog.getInput();
+                                        IOBase *input = dialog.getInput();
 
                                         if (input)
                                                 addItemInput(input, current_room, true);
@@ -517,7 +516,7 @@ void FormRules::addCalaosItem(int hw_type, int item)
                                 DialogNewOneWireTemp dialog(current_room);
                                 if (dialog.exec() == QDialog::Accepted)
                                 {
-                                        Input *input = dialog.getInput();
+                                        IOBase *input = dialog.getInput();
 
                                         if (input)
                                                 addItemInput(input, current_room, true);
@@ -535,7 +534,7 @@ void FormRules::addCalaosItem(int hw_type, int item)
                         DialogNewCamera dialog(current_room);
                         if (dialog.exec() == QDialog::Accepted)
                         {
-                                Output *output = dialog.getOutput();
+                                IOBase *output = dialog.getOutput();
                                 if (output)
                                         addItemOutput(output, current_room, true);
                                 else
@@ -548,7 +547,7 @@ void FormRules::addCalaosItem(int hw_type, int item)
                         DialogNewAudio dialog(current_room);
                         if (dialog.exec() == QDialog::Accepted)
                         {
-                                Output *output = dialog.getOutput();
+                                IOBase *output = dialog.getOutput();
                                 if (output)
                                         addItemOutput(output, current_room, true);
                                 else
@@ -561,7 +560,7 @@ void FormRules::addCalaosItem(int hw_type, int item)
                         DialogNewInternal dialog(current_room);
                         if (dialog.exec() == QDialog::Accepted)
                         {
-                                Output *output = dialog.getOutput();
+                                IOBase *output = dialog.getOutput();
                                 if (output)
                                         addItemOutput(output, current_room, true);
                                 else
@@ -574,7 +573,7 @@ void FormRules::addCalaosItem(int hw_type, int item)
                         DialogNewScenario dialog(current_room);
                         if (dialog.exec() == QDialog::Accepted)
                         {
-                                Output *output = dialog.getOutput();
+                                IOBase *output = dialog.getOutput();
                                 if (output)
                                         addItemOutput(output, current_room, true);
                                 else
@@ -587,11 +586,11 @@ void FormRules::addCalaosItem(int hw_type, int item)
                         DialogNewTime dialog(current_room);
                         if (dialog.exec() == QDialog::Accepted)
                         {
-                                Input *input = dialog.getInput();
+                                IOBase *input = dialog.getInput();
                                 if (input)
                                 {
                                         if (input->get_param("type") == "InputTimer")
-                                                addItemOutput(dynamic_cast<Output *>(input), current_room, true);
+                                                addItemOutput(input, current_room, true);
                                         else
                                                 addItemInput(input, current_room, true);
                                 }
@@ -607,7 +606,7 @@ void FormRules::addCalaosItem(int hw_type, int item)
                       {
                               if (dialog.isInputType())
                               {
-                                      Input *input = dialog.getInput();
+                                      IOBase *input = dialog.getInput();
                                       if (input)
                                               addItemInput(input, current_room, true);
                                       else
@@ -615,7 +614,7 @@ void FormRules::addCalaosItem(int hw_type, int item)
                               }
                               else
                               {
-                                      Output *output = dialog.getOutput();
+                                      IOBase *output = dialog.getOutput();
                                       if (output)
                                               addItemOutput(output, current_room, true);
                                       else
@@ -694,7 +693,7 @@ void FormRules::updateItemInfos(QTreeWidgetItemRoom *item)
         item->setData(0, Qt::StatusTipRole, s);
 }
 
-QTreeWidgetItemInput *FormRules::addItemInput(Input *in, Room *parent, bool selected)
+QTreeWidgetItemInput *FormRules::addItemInput(IOBase *in, Room *parent, bool selected)
 {
         QTreeWidgetItemIterator it(ui->tree_home);
         while (*it)
@@ -710,7 +709,7 @@ QTreeWidgetItemInput *FormRules::addItemInput(Input *in, Room *parent, bool sele
         return NULL;
 }
 
-QTreeWidgetItemInput *FormRules::addItemInput(Input *in, QTreeWidgetItemRoom *parent, bool selected)
+QTreeWidgetItemInput *FormRules::addItemInput(IOBase *in, QTreeWidgetItemRoom *parent, bool selected)
 {
         QTreeWidgetItemInput *item = new QTreeWidgetItemInput(in, parent);
 
@@ -725,7 +724,7 @@ QTreeWidgetItemInput *FormRules::addItemInput(Input *in, QTreeWidgetItemRoom *pa
 
 void FormRules::updateItemInfos(QTreeWidgetItemInput *item)
 {
-        Input *in = item->getInput();
+        IOBase *in = item->getInput();
 
         item->setData(0, Qt::DisplayRole, QString::fromUtf8(in->get_param("name").c_str()));
 
@@ -750,7 +749,7 @@ void FormRules::updateItemInfos(QTreeWidgetItemInput *item)
         item->setData(0, Qt::StatusTipRole, s);
 }
 
-QTreeWidgetItemOutput *FormRules::addItemOutput(Output *out, Room *parent, bool selected)
+QTreeWidgetItemOutput *FormRules::addItemOutput(IOBase *out, Room *parent, bool selected)
 {
         QTreeWidgetItemIterator it(ui->tree_home);
         while (*it)
@@ -766,7 +765,7 @@ QTreeWidgetItemOutput *FormRules::addItemOutput(Output *out, Room *parent, bool 
         return NULL;
 }
 
-QTreeWidgetItemOutput *FormRules::addItemOutput(Output *out, QTreeWidgetItemRoom *parent, bool selected)
+QTreeWidgetItemOutput *FormRules::addItemOutput(IOBase *out, QTreeWidgetItemRoom *parent, bool selected)
 {
         QTreeWidgetItemOutput *item = new QTreeWidgetItemOutput(out, parent);
 
@@ -781,7 +780,7 @@ QTreeWidgetItemOutput *FormRules::addItemOutput(Output *out, QTreeWidgetItemRoom
 
 void FormRules::updateItemInfos(QTreeWidgetItemOutput *item)
 {
-        Output *out = item->getOutput();
+        IOBase *out = item->getOutput();
 
         item->setData(0, Qt::DisplayRole, QString::fromUtf8(out->get_param("name").c_str()));
 
@@ -805,9 +804,9 @@ void FormRules::updateItemInfos(QTreeWidgetItemOutput *item)
         else if (type == "WODali" || type == "WODaliRVB" || type == "WONeon" ||
                  type == "X10Output" || type == "WebOutputLightRGB")
                 item->setData(0, Qt::DecorationRole, QIcon(":/img/icon_light_on.png"));
-        else if (IOBase::isAudioType(type))
+        else if (out->get_gui_type() == "audio")
                 item->setData(0, Qt::DecorationRole, QIcon(":/img/icon_sound.png"));
-        else if (IOBase::isCameraType(type))
+        else if (out->get_gui_type() == "camera")
                 item->setData(0, Qt::DecorationRole, QIcon(":/img/icon_camera_on.png"));
         else if (type == "WOAnalog")
                 item->setData(0, Qt::DecorationRole, QIcon(":/img/icon_analog.png"));
@@ -870,14 +869,14 @@ void FormRules::updateItemCondition(QTreeWidgetItem *item, Condition *condition)
                 string name, oper, value;
                 bool isParamValue = false;
 
-                Input *input = NULL;
+                IOBase *input = NULL;
                 if (condition->get_size() > 0)
                         input = condition->get_input(0);
                 if (!input) return;
 
                 string id = input->get_param("id");
-                if (IOBase::isAudioType(input->get_param("type")) ||
-                    IOBase::isCameraType(input->get_param("type")))
+                if (input->get_gui_type() == "audio" ||
+                    input->get_gui_type() == "camera")
                         id = input->get_param("iid");
 
                 name = input->get_param("name");
@@ -891,7 +890,7 @@ void FormRules::updateItemCondition(QTreeWidgetItem *item, Condition *condition)
                 if (condition->get_params_var().get_param(id) != "")
                 {
                         string var_id = condition->get_params_var().get_param(id);
-                        Input *in = ListeRoom::Instance().get_input(var_id);
+                        IOBase *in = ListeRoom::Instance().get_input(var_id);
                         if (in)
                         {
                                 value = "";
@@ -950,12 +949,12 @@ void FormRules::updateItemCondition(QTreeWidgetItem *item, Condition *condition)
                 string name, oper, value;
                 bool isParamValue = false;
 
-                Output *output = condition->getOutput();
+                IOBase *output = condition->getOutput();
                 if (!output) return;
 
                 string id = output->get_param("id");
-                if (IOBase::isAudioType(output->get_param("type")) ||
-                    IOBase::isCameraType(output->get_param("type")))
+                if (output->get_gui_type() == "audio" ||
+                    output->get_gui_type() == "camera")
                         id = output->get_param("iid");
 
                 name = output->get_param("name");
@@ -969,7 +968,7 @@ void FormRules::updateItemCondition(QTreeWidgetItem *item, Condition *condition)
                 if (condition->getOutputParamVar() != "")
                 {
                         string var_id = condition->getOutputParamVar();
-                        Output *out = ListeRoom::Instance().get_output(var_id);
+                        IOBase *out = ListeRoom::Instance().get_output(var_id);
                         if (out)
                         {
                                 value = "";
@@ -1059,15 +1058,15 @@ void FormRules::updateItemAction(QTreeWidgetItem *item, Action *action)
                 string name, value;
                 bool isParamValue = false;
 
-                Output *output = NULL;
+                IOBase *output = NULL;
                 if (action->get_size() > 0)
                         output = action->get_output(0);
 
                 if (!output) return;
 
                 string id = output->get_param("id");
-                if (IOBase::isAudioType(output->get_param("type")) ||
-                    IOBase::isCameraType(output->get_param("type")))
+                if (output->get_gui_type() == "audio" ||
+                    output->get_gui_type() == "camera")
                         id = output->get_param("oid");
 
                 name = output->get_param("name");
@@ -1075,7 +1074,7 @@ void FormRules::updateItemAction(QTreeWidgetItem *item, Action *action)
                 if (action->get_params_var().get_param(id) != "")
                 {
                         string var_id = action->get_params_var().get_param(id);
-                        Output *out = ListeRoom::Instance().get_output(var_id);
+                        IOBase *out = ListeRoom::Instance().get_output(var_id);
                         if (out)
                         {
                                 value = "";
@@ -1153,8 +1152,8 @@ void FormRules::goSelectRule()
         if (itinput)
         {
                 string id = itinput->getInput()->get_param("id");
-                if (IOBase::isAudioType(itinput->getInput()->get_param("type")) ||
-                    IOBase::isCameraType(itinput->getInput()->get_param("type")))
+                if (itinput->getInput()->get_gui_type() == "audio" ||
+                    itinput->getInput()->get_gui_type() == "camera")
                         id = itinput->getInput()->get_param("iid");
 
                 filter_text += id.c_str();
@@ -1164,8 +1163,8 @@ void FormRules::goSelectRule()
         if (itoutput)
         {
                 string id = itoutput->getOutput()->get_param("id");
-                if (IOBase::isAudioType(itoutput->getOutput()->get_param("type")) ||
-                    IOBase::isCameraType(itoutput->getOutput()->get_param("type")))
+                if (itoutput->getOutput()->get_gui_type() == "audio" ||
+                    itoutput->getOutput()->get_gui_type() == "camera")
                         id = itoutput->getOutput()->get_param("oid");
 
                 filter_text += id.c_str();
@@ -1252,7 +1251,7 @@ void FormRules::showPopup_tree(const QPoint point)
                 //Here we have to add Item action (ON/OFF/UP/DOWN/...)
                 if (itoutput)
                 {
-                        Output *o = itoutput->getOutput();
+                        IOBase *o = itoutput->getOutput();
 
                         if (o->get_param("type") == "WODigital" || o->get_param("type") == "WODali" || o->get_param("type") == "WODaliRVB")
                         {
@@ -1267,7 +1266,7 @@ void FormRules::showPopup_tree(const QPoint point)
                                 item_menu.addSeparator();
                         }
 
-                        if (IOBase::isCameraType(o->get_param("type")))
+                        if (o->get_gui_type() == "camera")
                         {
                                 action = item_menu.addAction(QString::fromUtf8("Voir la caméra"));
                                 action->setIcon(QIcon(":/img/icon_camera_on.png"));
@@ -1312,7 +1311,7 @@ void FormRules::showPopup_tree(const QPoint point)
 
                 if (itinput)
                 {
-                        Input *o = itinput->getInput();
+                        IOBase *o = itinput->getInput();
 
                         if (o->get_param("type") == "InPlageHoraire")
                         {
@@ -1372,7 +1371,7 @@ void FormRules::moveIOToRoom()
         QTreeWidgetItemOutput *itoutput = dynamic_cast<QTreeWidgetItemOutput *>(treeItem);
         if (itoutput)
         {
-                Output *output = itoutput->getOutput();
+                IOBase *output = itoutput->getOutput();
                 if (output)
                 {
                         int _i = ListeRoom::Instance().searchIO(output);
@@ -1396,7 +1395,7 @@ void FormRules::moveIOToRoom()
         QTreeWidgetItemInput *itinput = dynamic_cast<QTreeWidgetItemInput *>(treeItem);
         if (itinput)
         {
-                Input *input = itinput->getInput();
+                IOBase *input = itinput->getInput();
                 if (input)
                 {
                         int _i = ListeRoom::Instance().searchIO(input);
@@ -1477,7 +1476,7 @@ void FormRules::deleteItem()
         QTreeWidgetItemInput *itinput = dynamic_cast<QTreeWidgetItemInput *>(treeItem);
         if (itinput)
         {
-                ListeRoom::Instance().deleteIO(itinput->getInput());
+                ListeRoom::Instance().deleteIOInput(itinput->getInput());
                 delete itinput;
 
                 ui->tree_action->clear_all();
@@ -1491,7 +1490,7 @@ void FormRules::deleteItem()
         QTreeWidgetItemOutput *itoutput = dynamic_cast<QTreeWidgetItemOutput *>(treeItem);
         if (itoutput)
         {
-                ListeRoom::Instance().deleteIO(itoutput->getOutput());
+                ListeRoom::Instance().deleteIOOutput(itoutput->getOutput());
                 delete itoutput;
 
                 ui->tree_action->clear_all();
@@ -1641,7 +1640,7 @@ void FormRules::on_bt_rules_add_clicked()
                 QTreeWidgetItemInput *itinput = dynamic_cast<QTreeWidgetItemInput *>(ui->tree_home->selectedItems().first());
                 if (itinput)
                 {
-                        Input *input = itinput->getInput();
+                        IOBase *input = itinput->getInput();
                         name = input->get_param("name");
                 }
         }
@@ -1807,9 +1806,9 @@ void FormRules::itemShowCamera()
         QTreeWidgetItemOutput *itoutput = dynamic_cast<QTreeWidgetItemOutput *>(treeItem);
         if (itoutput)
         {
-                if (IOBase::isCameraType(itoutput->getOutput()->get_param("type")))
+                if (itoutput->getOutput()->get_gui_type() == "camera")
                 {
-                        DialogCameraView d(dynamic_cast<Camera *>(itoutput->getOutput()));
+                        DialogCameraView d(itoutput->getOutput());
                         d.DownloadPicture();
                         d.exec();
                 }
@@ -1825,7 +1824,7 @@ void FormRules::itemPlagesHoraires()
         {
                 if (itinput->getInput()->get_param("type") == "InPlageHoraire")
                 {
-                        DialogPlageHoraire d(dynamic_cast<InPlageHoraire *>(itinput->getInput()));
+                        DialogPlageHoraire d(itinput->getInput());
                         d.exec();
 
                         setProjectModified(true);
@@ -1849,7 +1848,7 @@ void FormRules::itemConvertInterTriple()
 
                         if (reply == QMessageBox::Yes)
                         {
-                                Input *input = itinput->getInput();
+                                IOBase *input = itinput->getInput();
 
                                 input->get_params().Add("type", "WIDigitalTriple");
                                 updateItemInfos(itinput);
@@ -1916,7 +1915,7 @@ void FormRules::itemConvertInterBP()
 
                         if (reply == QMessageBox::Yes)
                         {
-                                Input *input = itinput->getInput();
+                                IOBase *input = itinput->getInput();
 
                                 input->get_params().Add("type", "WIDigitalBP");
                                 updateItemInfos(itinput);
@@ -2007,10 +2006,10 @@ void FormRules::itemTempWizard()
                                         return;
                                 }
 
-                                Input *consigne = NULL;
+                                IOBase *consigne = NULL;
                                 for (int i = 0;i < room->get_size_in();i++)
                                 {
-                                        Input *in = room->get_input(i);
+                                        IOBase *in = room->get_input(i);
                                         if (in->get_param("type") == "InternalInt" &&
                                             in->get_param("name") == name.toUtf8().data())
                                         {
@@ -2028,8 +2027,7 @@ void FormRules::itemTempWizard()
 
                                         consigne = ListeRoom::Instance().createInput(p, room);
 
-                                        Output *output = dynamic_cast<Output *>(consigne);
-                                        if (output) addItemOutput(output, room, true);
+                                        if (consigne->is_output()) addItemOutput(consigne, room, true);
                                 }
 
                                 if (!consigne)
@@ -2188,7 +2186,7 @@ void FormRules::itemConvertVoletSmart()
 
                         if (reply == QMessageBox::Yes && itoutput->getOutput())
                         {
-                                Output *out = itoutput->getOutput();
+                                IOBase *out = itoutput->getOutput();
                                 out->get_params().Add("type", "WOVoletSmart");
 
                                 if (!out->get_params().Exists("time_up"))
@@ -2221,7 +2219,7 @@ void FormRules::itemConvertVoletStandard()
 
                         if (reply == QMessageBox::Yes && itoutput->getOutput())
                         {
-                                Output *out = itoutput->getOutput();
+                                IOBase *out = itoutput->getOutput();
                                 out->get_params().Add("type", "WOVolet");
 
                                 if (!out->get_params().Exists("time"))
@@ -2326,8 +2324,8 @@ void FormRules::on_filterEditRules_textChanged(QString filter_text)
                                                 searchList << action->get_output(j)->get_param("name").c_str();
 
                                                 string id = action->get_output(j)->get_param("id");
-                                                if (IOBase::isAudioType(action->get_output(j)->get_param("type")) ||
-                                                    IOBase::isCameraType(action->get_output(j)->get_param("type")))
+                                                if (action->get_output(j)->get_gui_type() == "audio" ||
+                                                    action->get_output(j)->get_gui_type() == "camera")
                                                         id = action->get_output(j)->get_param("oid");
 
                                                 searchList << id.c_str();
@@ -2346,8 +2344,8 @@ void FormRules::on_filterEditRules_textChanged(QString filter_text)
                                                 searchList << cond->get_input(j)->get_param("name").c_str();
 
                                                 string id = cond->get_input(j)->get_param("id");
-                                                if (IOBase::isAudioType(cond->get_input(j)->get_param("type")) ||
-                                                    IOBase::isCameraType(cond->get_input(j)->get_param("type")))
+                                                if (cond->get_input(j)->get_gui_type() == "audio" ||
+                                                    cond->get_input(j)->get_gui_type() == "camera")
                                                         id = cond->get_input(j)->get_param("iid");
 
                                                 searchList << id.c_str();
@@ -2572,7 +2570,7 @@ void FormRules::addCondition(int type)
 {
         if (type == COND_STD)
         {
-                Input *input = NULL;
+                IOBase *input = NULL;
                 QTreeWidgetItemInput *initem = dynamic_cast<QTreeWidgetItemInput *>(ui->tree_home->currentItem());
                 if (!initem)
                 {
@@ -2587,9 +2585,9 @@ void FormRules::addCondition(int type)
                                         input = ListeRoom::Instance().get_input(outitem->getOutput()->get_param("id"));
                                 }
 
-                                if (IOBase::isAudioType(type))
+                                if (outitem->getOutput()->get_gui_type() == "audio")
                                         input = ListeRoom::Instance().get_input(outitem->getOutput()->get_param("iid"));
-                                if (IOBase::isCameraType(type))
+                                if (outitem->getOutput()->get_gui_type() == "camera")
                                         input = ListeRoom::Instance().get_input(outitem->getOutput()->get_param("iid"));
                         }
                 }
@@ -2605,8 +2603,8 @@ void FormRules::addCondition(int type)
                 }
 
                 string id = input->get_param("id");
-                if (IOBase::isAudioType(input->get_param("type")) ||
-                    IOBase::isCameraType(input->get_param("type")))
+                if (input->get_gui_type() == "audio" ||
+                    input->get_gui_type() == "camera")
                         id = input->get_param("iid");
 
                 Rule *rule = getCurrentRule();
@@ -2641,12 +2639,12 @@ void FormRules::addCondition(int type)
                         return;
                 }
 
-                Output *output = initem->getOutput();
+                IOBase *output = initem->getOutput();
                 if (!output) return;
 
                 string id = output->get_param("id");
-                if (IOBase::isAudioType(output->get_param("type")) ||
-                    IOBase::isCameraType(output->get_param("type")))
+                if (output->get_gui_type() == "audio" ||
+                    output->get_gui_type() == "camera")
                         id = output->get_param("iid");
 
                 Rule *rule = getCurrentRule();
@@ -2702,12 +2700,12 @@ void FormRules::addAction(int type)
                         return;
                 }
 
-                Output *output = outitem->getOutput();
+                IOBase *output = outitem->getOutput();
                 if (!output) return;
 
                 string id = output->get_param("id");
-                if (IOBase::isAudioType(output->get_param("type")) ||
-                    IOBase::isCameraType(output->get_param("type")))
+                if (output->get_gui_type() == "audio" ||
+                    output->get_gui_type() == "camera")
                         id = output->get_param("oid");
 
                 Rule *rule = getCurrentRule();

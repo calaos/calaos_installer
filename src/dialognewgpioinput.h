@@ -23,14 +23,14 @@ public:
         explicit DialogNewGpioInput(Room *r, QWidget *parent = 0);
         virtual ~DialogNewGpioInput();
 
-        Input *getInput() { return input; }
+        IOBase *getInput() { return input; }
 
 protected:
         virtual void changeEvent(QEvent *e);
 
 private:
         Ui::DialogNewGpioInput *ui;
-        Input *input;
+        IOBase *input;
         Room *room;
 
 private slots:

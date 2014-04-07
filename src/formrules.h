@@ -64,10 +64,10 @@ class FormRules : public QWidget
                 void PopulateRulesTree();
 
                 QTreeWidgetItemRoom *addItemRoom(Room *room, bool selected = false);
-                QTreeWidgetItemInput *addItemInput(Input *in, QTreeWidgetItemRoom *parent, bool selected = false);
-                QTreeWidgetItemOutput *addItemOutput(Output *out, QTreeWidgetItemRoom *parent, bool selected = false);
-                QTreeWidgetItemInput *addItemInput(Input *in, Room *parent, bool selected = false);
-                QTreeWidgetItemOutput *addItemOutput(Output *out, Room *parent, bool selected = false);
+                QTreeWidgetItemInput *addItemInput(IOBase *in, QTreeWidgetItemRoom *parent, bool selected = false);
+                QTreeWidgetItemOutput *addItemOutput(IOBase *out, QTreeWidgetItemRoom *parent, bool selected = false);
+                QTreeWidgetItemInput *addItemInput(IOBase *in, Room *parent, bool selected = false);
+                QTreeWidgetItemOutput *addItemOutput(IOBase *out, Room *parent, bool selected = false);
 
                 QTreeWidgetItemRule *addItemRule(Rule *rule, bool selected = false);
                 QTreeWidgetItem *addItemCondition(Condition *condition, bool selected = false, bool show_popup = false);

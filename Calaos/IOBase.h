@@ -1,5 +1,5 @@
 /******************************************************************************
-**  Copyright (c) 2007-2008, Calaos. All Rights Reserved.
+**  Copyright (c) 2007-2014, Calaos. All Rights Reserved.
 **
 **  This file is part of Calaos Home.
 **
@@ -18,307 +18,95 @@
 **  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 **
 ******************************************************************************/
-//-----------------------------------------------------------------------------
+
 #ifndef S_IOBASE_H
 #define S_IOBASE_H
-//-----------------------------------------------------------------------------
+
 #include <Utils.h>
-//-----------------------------------------------------------------------------
+
 using namespace std;
 using namespace Utils;
-//-----------------------------------------------------------------------------
+
 namespace Calaos
 {
 
-class IOBase
-{
-        private:
-                //we store all params here
-                Params param;
-
-                double dvalue;
-                bool bvalue;
-                string svalue;
-
-        public:
-                IOBase(Params &p): param(p) { /* nothing */ }
-                virtual ~IOBase() { /* nothing */ }
-
-                virtual DATA_TYPE get_type() { return TBOOL; }
-
-                virtual void set_param(std::string opt, std::string val)
-                        { param.Add(opt, val); }
-                virtual std::string get_param(std::string opt)
-                        { return param[opt]; }
-                virtual Params &get_params()
-                        { return param; }
-
-                double get_value_double() { return dvalue; }
-                bool get_value_bool() { return bvalue; }
-                string get_value_string() { return svalue; }
-
-                void set_value(double v) { dvalue = v; }
-                void set_value(bool v) { bvalue = v; }
-                void set_value(string v) { svalue = v; }
-
-                static bool isCameraType(string type)
-                {
-                        if (type == "axis" || type == "gadspot" ||
-                            type == "planet" || type == "standard_mjpeg")
-                                return true;
-
-                        return false;
-                }
-
-                static bool isAudioType(string type)
-                {
-                        if (type == "slim")
-                                return true;
-
-                        return false;
-                }
-};
-
-class Input: public IOBase
-{
-        public:
-                Input(Params &p): IOBase(p) {}
-};
-
-class Output: public IOBase
-{
-        public:
-                Output(Params &p): IOBase(p) {}
-};
-
-class InputTime: public Input
-{
-        public:
-                InputTime(Params &p): Input(p) {}
-                virtual DATA_TYPE get_type() { return TBOOL; }
-};
-
-class InputTimer: public Input, public Output
-{
-        public:
-                InputTimer(Params &p): Input(p), Output(p) {}
-                virtual DATA_TYPE get_type() { return TBOOL; }
-
-                virtual void set_param(std::string opt, std::string val)
-                        { Input::set_param(opt, val); }
-                virtual std::string get_param(std::string opt)
-                        { return Input::get_param(opt); }
-                virtual Params &get_params()
-                        { return Input::get_params(); }
-};
-
-class WIDigital: public Input
-{
-        public:
-                WIDigital(Params &p): Input(p) {}
-                virtual DATA_TYPE get_type()
-                {
-                        if (get_param("type") == "WIDigitalTriple" ||
-                            get_param("type") == "WIDigitalLong")
-                                return TINT;
-
-                        return TBOOL;
-                }
-};
-
-class GpioInput: public Input
-{
-        public:
-                GpioInput(Params &p): Input(p) {}
-                virtual DATA_TYPE get_type()
-                {
-                        if (get_param("type") == "GpioInputSwitchTriple" ||
-                            get_param("type") == "GpioInputSwitchLongPress")
-                                return TINT;
-
-                        return TBOOL;
-                }
-};
-
-class WITemp: public Input
-{
-        public:
-                WITemp(Params &p): Input(p) {}
-                virtual DATA_TYPE get_type() { return TINT; }
-};
-
-class WIAnalog: public Input
-{
-        public:
-                WIAnalog(Params &p): Input(p) {}
-                virtual DATA_TYPE get_type() { return TINT; }
-};
-
-class Scenario: public Input, public Output
-{
-        public:
-                Scenario(Params &p): Input(p), Output(p) {}
-                virtual DATA_TYPE get_type() { return TBOOL; }
-
-                virtual void set_param(std::string opt, std::string val)
-                        { Input::set_param(opt, val); }
-                virtual std::string get_param(std::string opt)
-                        { return Input::get_param(opt); }
-                virtual Params &get_params()
-                        { return Input::get_params(); }
-};
-
 class Horaire
 {
-        public:
-                std::string shour, smin, ssec;
-                std::string ehour, emin, esec;
+public:
+    std::string shour, smin, ssec;
+    std::string ehour, emin, esec;
 
-                Horaire():shour("0"),smin("0"),ssec("0"),ehour("0"),emin("0"),esec("0"){;}
-};
-class InPlageHoraire: public Input
-{
-        public:
-                InPlageHoraire(Params &p): Input(p) {}
-                virtual DATA_TYPE get_type() { return TBOOL; }
-
-                vector<Horaire> plg_lundi;
-                vector<Horaire> plg_mardi;
-                vector<Horaire> plg_mercredi;
-                vector<Horaire> plg_jeudi;
-                vector<Horaire> plg_vendredi;
-                vector<Horaire> plg_samedi;
-                vector<Horaire> plg_dimanche;
-
-                void clear()
-                {
-                        plg_lundi.clear();
-                        plg_mardi.clear();
-                        plg_mercredi.clear();
-                        plg_jeudi.clear();
-                        plg_vendredi.clear();
-                        plg_samedi.clear();
-                        plg_dimanche.clear();
-                }
+    Horaire():shour("0"),smin("0"),ssec("0"),ehour("0"),emin("0"),esec("0"){;}
 };
 
-class Internal: public Input, public Output
+class IOBase
 {
-        public:
-                Internal(Params &p): Input(p), Output(p) {}
-                virtual DATA_TYPE get_type()
-                {
-                        if (Input::get_param("type") == "InternalBool") return TBOOL;
-                        if (Input::get_param("type") == "InternalInt") return TINT;
-                        if (Input::get_param("type") == "InternalString") return TSTRING;
+private:
+    //we store all params here
+    Params param;
 
-                        return TBOOL;
-                }
+    double dvalue;
+    bool bvalue;
+    string svalue;
 
-                virtual void set_param(std::string opt, std::string val)
-                        { Input::set_param(opt, val); }
-                virtual std::string get_param(std::string opt)
-                        { return Input::get_param(opt); }
-                virtual Params &get_params()
-                        { return Input::get_params(); }
-};
+    string gui_type;
+    DATA_TYPE basic_type;
 
-class OutputFake: public Output
-{
-        public:
-                OutputFake(Params &p): Output(p) {}
-                virtual DATA_TYPE get_type() { return TBOOL; }
-};
+    int io_type;
 
-class OutTouchscreen: public Output
-{
-        public:
-                OutTouchscreen(Params &p): Output(p) {}
-                virtual DATA_TYPE get_type() { return TSTRING; }
-};
+public:
 
-class WODigital: public Output
-{
-        public:
-                WODigital(Params &p): Output(p) {}
-                virtual DATA_TYPE get_type() { return TBOOL; }
-};
+    enum { IO_INPUT, IO_OUTPUT, IO_BOTH };
 
-class WONeon: public Output
-{
-        public:
-                WONeon(Params &p): Output(p) {}
-                virtual DATA_TYPE get_type() { return TSTRING; }
-};
+    IOBase(Params &p, string g, DATA_TYPE d, int i):
+        param(p),
+        gui_type(g),
+        basic_type(d),
+        io_type(i)
+    { }
+    virtual ~IOBase() { }
 
-class WOAnalog: public Output
-{
-        public:
-                WOAnalog(Params &p): Output(p) {}
-                virtual DATA_TYPE get_type() { return TINT; }
-};
+    virtual DATA_TYPE get_type() { return basic_type; }
 
-class WOVolet: public Output
-{
-        public:
-                WOVolet(Params &p): Output(p) {}
-                virtual DATA_TYPE get_type() { return TSTRING; }
-};
+    virtual void set_param(std::string opt, std::string val)
+    { param.Add(opt, val); }
+    virtual std::string get_param(std::string opt)
+    { return param[opt]; }
+    virtual Params &get_params()
+    { return param; }
 
-class WOVoletSmart: public Output
-{
-        public:
-                WOVoletSmart(Params &p): Output(p) {}
-                virtual DATA_TYPE get_type() { return TSTRING; }
-};
+    double get_value_double() { return dvalue; }
+    bool get_value_bool() { return bvalue; }
+    string get_value_string() { return svalue; }
 
-class WODali: public Output
-{
-        public:
-                WODali(Params &p): Output(p) {}
-                virtual DATA_TYPE get_type() { return TSTRING; }
-};
+    void set_value(double v) { dvalue = v; }
+    void set_value(bool v) { bvalue = v; }
+    void set_value(string v) { svalue = v; }
 
-class WODaliRVB: public Output
-{
-        public:
-                WODaliRVB(Params &p): Output(p) {}
-                virtual DATA_TYPE get_type() { return TSTRING; }
-};
+    string get_gui_type() { return gui_type; }
 
-class WebOutputString: public Output
-{
-        public:
-                WebOutputString(Params &p): Output(p) {}
-                virtual DATA_TYPE get_type() { return TSTRING; }
-};
+    bool is_input() { return io_type == IO_INPUT || io_type == IO_BOTH; }
+    bool is_output() { return io_type == IO_OUTPUT || io_type == IO_BOTH; }
+    bool is_inout() { return io_type == IO_BOTH; }
 
-class Audio: public Input, public Output
-{
-        public:
-                Audio(Params &p): Input(p), Output(p) {}
-                virtual DATA_TYPE get_type() { return TSTRING; }
+    vector<Horaire> plg_lundi;
+    vector<Horaire> plg_mardi;
+    vector<Horaire> plg_mercredi;
+    vector<Horaire> plg_jeudi;
+    vector<Horaire> plg_vendredi;
+    vector<Horaire> plg_samedi;
+    vector<Horaire> plg_dimanche;
 
-                virtual void set_param(std::string opt, std::string val)
-                        { Input::set_param(opt, val); }
-                virtual std::string get_param(std::string opt)
-                        { return Input::get_param(opt); }
-                virtual Params &get_params()
-                        { return Input::get_params(); }
-};
-
-class Camera: public Input, public Output
-{
-        public:
-                Camera(Params &p): Input(p), Output(p) {}
-                virtual DATA_TYPE get_type() { return TSTRING; }
-
-                virtual void set_param(std::string opt, std::string val)
-                        { Input::set_param(opt, val); }
-                virtual std::string get_param(std::string opt)
-                        { return Input::get_param(opt); }
-                virtual Params &get_params()
-                        { return Input::get_params(); }
+    void clear()
+    {
+            plg_lundi.clear();
+            plg_mardi.clear();
+            plg_mercredi.clear();
+            plg_jeudi.clear();
+            plg_vendredi.clear();
+            plg_samedi.clear();
+            plg_dimanche.clear();
+    }
 };
 
 }

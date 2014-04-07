@@ -53,7 +53,7 @@ void WagoUploader::createConfig()
                 if (rule->get_condition(0)->get_size() > 1) continue;
 
                 /* Search if the input is valid */
-                Input *input = rule->get_condition(0)->get_input(0);
+                IOBase *input = rule->get_condition(0)->get_input(0);
 
                 if (input->get_param("type") != "WIDigitalBP" &&
                     input->get_param("type") != "WIDigitalTriple" &&
@@ -83,7 +83,7 @@ void WagoUploader::createConfig()
                         continue;
 
                 /* Get the output */
-                Output *output = NULL;
+                IOBase *output = NULL;
                 string val;
                 for (int j = 0;j < rule->get_action(0)->get_size();j++)
                 {

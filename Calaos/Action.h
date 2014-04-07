@@ -33,7 +33,7 @@ class Action
         protected:
                 int action_type;
 
-                std::vector<Output *> outputs;
+                std::vector<IOBase *> outputs;
                 Params params;
 
                 //this is used to do the action
@@ -58,10 +58,10 @@ class Action
                 int getType() { return action_type; }
 
                 /*-- Standard Action --*/
-                void Add(Output *p);
+                void Add(IOBase *p);
                 void Remove(int i);
 
-                Output *get_output(int i) { return outputs[i]; }
+                IOBase *get_output(int i) { return outputs[i]; }
                 Params &get_params() { return params; }
                 void set_param(Params &p) { params = p; }
                 Params &get_params_var() { return params_var; }

@@ -4,7 +4,7 @@
 #include "dialogplageinput.h"
 #include <QTime>
 
-DialogPlageHoraire::DialogPlageHoraire(InPlageHoraire *p, QWidget *parent) :
+DialogPlageHoraire::DialogPlageHoraire(IOBase *p, QWidget *parent) :
         QDialog(parent),
         ui(new Ui::DialogPlageHoraire),
         plage(p)

@@ -22,14 +22,14 @@ class DialogNewScenario : public QDialog
                 explicit DialogNewScenario(Room *room, QWidget *parent = 0);
                 virtual ~DialogNewScenario();
 
-                Output *getOutput() { return output; }
+                IOBase *getOutput() { return output; }
 
         protected:
                 virtual void changeEvent(QEvent *e);
 
         private:
                 Ui::DialogNewScenario *ui;
-                Output *output;
+                IOBase *output;
                 Room *room;
 
         private slots:

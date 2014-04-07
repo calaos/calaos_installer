@@ -21,7 +21,7 @@ class DialogCameraView : public QDialog
                 Q_OBJECT
                 Q_DISABLE_COPY(DialogCameraView)
         public:
-                explicit DialogCameraView(Camera *camera, QWidget *parent = 0);
+                explicit DialogCameraView(IOBase *camera, QWidget *parent = 0);
                 virtual ~DialogCameraView();
 
                 void DownloadPicture();
@@ -32,7 +32,7 @@ class DialogCameraView : public QDialog
         private:
                 Ui::DialogCameraView *ui;
 
-                Camera *camera;
+                IOBase *camera;
 
 };
 

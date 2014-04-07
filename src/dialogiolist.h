@@ -18,11 +18,11 @@ class DialogIOList : public QDialog
         Q_OBJECT
 
         public:
-                DialogIOList(Input *input = NULL, Output *output = NULL, QWidget *parent = NULL);
+                DialogIOList(IOBase *input = NULL, IOBase *output = NULL, QWidget *parent = NULL);
                 ~DialogIOList();
 
-                Input *getInput();
-                Output *getOutput();
+                IOBase *getInput();
+                IOBase *getOutput();
 
         protected:
                 void changeEvent(QEvent *e);
@@ -33,8 +33,8 @@ class DialogIOList : public QDialog
         private:
                 Ui::DialogIOList *ui;
 
-                Input *input;
-                Output *output;
+                IOBase *input;
+                IOBase *output;
 
                 QTreeWidgetItem *item_current;
 };

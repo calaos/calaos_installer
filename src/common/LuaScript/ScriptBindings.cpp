@@ -137,7 +137,7 @@ int Lua_Calaos::getInputValue(lua_State *L)
         if (nb == 1 && lua_isstring(L, 1))
         {
                 string o = lua_tostring(L, 1);
-                Input *input = ListeRoom::Instance().get_input(o);
+                IOBase *input = ListeRoom::Instance().get_input(o);
 
                 if (!input)
                 {
@@ -178,7 +178,7 @@ int Lua_Calaos::getOutputValue(lua_State *L)
         if (nb == 1 && lua_isstring(L, 1))
         {
                 string o = lua_tostring(L, 1);
-                Output *output = ListeRoom::Instance().get_output(o);
+                IOBase *output = ListeRoom::Instance().get_output(o);
 
                 if (!output)
                 {
@@ -219,7 +219,7 @@ int Lua_Calaos::setOutputValue(lua_State *L)
         if (nb == 2 && lua_isstring(L, 1))
         {
                 string o = lua_tostring(L, 1);
-                Output *output = ListeRoom::Instance().get_output(o);
+                IOBase *output = ListeRoom::Instance().get_output(o);
 
                 if (!output)
                 {

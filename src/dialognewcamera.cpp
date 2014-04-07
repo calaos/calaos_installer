@@ -77,8 +77,7 @@ void DialogNewCamera::on_buttonBox_accepted()
                 return;
         }
 
-        Camera *cam = ListeRoom::Instance().createCamera(p, room);
-        output = dynamic_cast<Output *>(cam);
+        output = ListeRoom::Instance().createCamera(p, room);
 
         accept();
 }

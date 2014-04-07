@@ -22,14 +22,14 @@ class DialogNewInternal : public QDialog
                 explicit DialogNewInternal(Room *room, QWidget *parent = 0);
                 virtual ~DialogNewInternal();
 
-                Output *getOutput() { return output; }
+                IOBase *getOutput() { return output; }
 
         protected:
                 virtual void changeEvent(QEvent *e);
 
         private:
                 Ui::DialogNewInternal *ui;
-                Output *output;
+                IOBase *output;
                 Room *room;
 
         private slots:

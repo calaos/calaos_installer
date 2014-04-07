@@ -11,7 +11,7 @@ HomeTreeWidget::HomeTreeWidget(QWidget *parent):
 }
 
 bool HomeTreeWidget::dropMimeData(QTreeWidgetItem *parent, int, const QMimeData *data, Qt::DropAction)
-{     
+{
         QList<QUrl> urlList;
         QFileInfo info;
         QString fName;
@@ -46,7 +46,7 @@ bool HomeTreeWidget::dropMimeData(QTreeWidgetItem *parent, int, const QMimeData 
 
                         if (pitem)
                         {
-                                Output *output = ListeRoom::Instance().get_output(id);
+                                IOBase *output = ListeRoom::Instance().get_output(id);
                                 if (output)
                                 {
                                         int _i = ListeRoom::Instance().searchIO(output);
@@ -77,7 +77,7 @@ bool HomeTreeWidget::dropMimeData(QTreeWidgetItem *parent, int, const QMimeData 
                                         return true;
                                 }
 
-                                Input *input = ListeRoom::Instance().get_input(id);
+                                IOBase *input = ListeRoom::Instance().get_input(id);
                                 if (input)
                                 {
                                         int _i = ListeRoom::Instance().searchIO(input);
@@ -88,7 +88,6 @@ bool HomeTreeWidget::dropMimeData(QTreeWidgetItem *parent, int, const QMimeData 
 
                                         //delete old item
                                         old_room->RemoveInput(input);
-                                        Output *output = dynamic_cast<Output *>(input);
 
                                         QTreeWidgetItemIterator it(this);
                                         while (*it)
@@ -173,8 +172,8 @@ void HomeTreeWidget::mouseMoveEvent(QMouseEvent *event)
         if (itinput)
         {
                 string id = itinput->getInput()->get_param("id");
-                if (IOBase::isAudioType(itinput->getInput()->get_param("type")) ||
-                    IOBase::isCameraType(itinput->getInput()->get_param("type")))
+                if (itinput->getInput()->get_gui_type() == "audio" ||
+                    itinput->getInput()->get_gui_type() == "camera")
                         id = itinput->getInput()->get_param("iid");
 
                 QDrag *drag = new QDrag(this);
@@ -198,8 +197,8 @@ void HomeTreeWidget::mouseMoveEvent(QMouseEvent *event)
         if (itoutput)
         {
                 string id = itoutput->getOutput()->get_param("id");
-                if (IOBase::isAudioType(itoutput->getOutput()->get_param("type")) ||
-                    IOBase::isCameraType(itoutput->getOutput()->get_param("type")))
+                if (itoutput->getOutput()->get_gui_type() == "audio" ||
+                    itoutput->getOutput()->get_gui_type() == "camera")
                         id = itoutput->getOutput()->get_param("oid");
 
                 QDrag *drag = new QDrag(this);

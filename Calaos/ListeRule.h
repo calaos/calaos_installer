@@ -51,13 +51,13 @@ class ListeRule
                 void Add(Rule *p);
                 void Remove(int i);
                 void Remove(Rule *obj);
-                void RemoveRule(Input *obj); //remove all rules containing obj
-                void RemoveRule(Output *obj); //remove all rules containing obj
+                void RemoveRuleInput(IOBase *obj); //remove all rules containing obj
+                void RemoveRuleOutput(IOBase *obj); //remove all rules containing obj
 
                 void RemoveSpecialRules(string specialType);
 
-                Rule *searchRule(Input *input);
-                Rule *searchRule(Output *output);
+                Rule *searchRuleInput(IOBase *input);
+                Rule *searchRuleOutput(IOBase *output);
                 Rule *searchRule(string type, string name);
 
                 Rule *get_rule(int i);

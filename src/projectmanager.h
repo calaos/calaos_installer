@@ -44,9 +44,9 @@ class IOXmlWriter: public QXmlStreamWriter
 
         private:
                 void writeRoom(Room *room);
-                void writeInput(Input *io);
+                void writeInput(IOBase *io);
                 void writePlages(vector<Horaire> &day);
-                void writeOutput(Output *io);
+                void writeOutput(IOBase *io);
 };
 
 class RuleXmlWriter: public QXmlStreamWriter

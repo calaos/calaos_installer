@@ -26,14 +26,14 @@ Action::~Action()
 {
 }
 
-void Action::Add(Output *out)
+void Action::Add(IOBase *out)
 {
         outputs.push_back(out);
 }
 
 void Action::Remove(int pos)
 {
-        vector<Output *>::iterator iter = outputs.begin();
+        vector<IOBase *>::iterator iter = outputs.begin();
         for (int i = 0;i < pos;iter++, i++) ;
         outputs.erase(iter);
 }

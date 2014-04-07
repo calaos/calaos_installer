@@ -48,7 +48,7 @@ void FormActionStd::setAction(QTreeWidgetItem *item, Rule *_rule, Action *_actio
         ui->labelRuleName->setText(QString::fromUtf8(rule->get_name().c_str()));
         ui->labelRuleType->setText(QString::fromUtf8(rule->get_type().c_str()));
 
-        Output *output = NULL;
+        IOBase *output = NULL;
         if (action->get_size() > 0)
                 output = action->get_output(0);
 
@@ -58,8 +58,8 @@ void FormActionStd::setAction(QTreeWidgetItem *item, Rule *_rule, Action *_actio
 
         string type = output->get_param("type");
         string id = output->get_param("id");
-        if (IOBase::isAudioType(output->get_param("type")) ||
-            IOBase::isCameraType(output->get_param("type")))
+        if (output->get_gui_type() == "audio" ||
+            output->get_gui_type() == "camera")
                 id = output->get_param("oid");
 
         //Search room icon
@@ -195,7 +195,7 @@ void FormActionStd::setAction(QTreeWidgetItem *item, Rule *_rule, Action *_actio
                 addActionMenu(QString::fromUtf8("down_blue X"), QString::fromUtf8("Descendre le bleu de X pourcent"), QString::fromUtf8("down_blue 1"));
                 addActionMenu(QString::fromUtf8("set_blue X"), QString::fromUtf8("Mettre le bleu à X pourcent"), QString::fromUtf8("set_blue 1"));
         }
-        else if (IOBase::isAudioType(type))
+        else if (output->get_gui_type() == "audio")
         {
                 addActionMenu(QString::fromUtf8("play"), QString::fromUtf8("Lecture"), QString::fromUtf8("play"));
                 addActionMenu(QString::fromUtf8("pause"), QString::fromUtf8("Pause"), QString::fromUtf8("pause"));
@@ -213,7 +213,7 @@ void FormActionStd::setAction(QTreeWidgetItem *item, Rule *_rule, Action *_actio
                 addActionMenu(QString::fromUtf8("play ID"), QString::fromUtf8("Lire un élément de la base de donnée"), QString::fromUtf8("play 0"));
                 addActionMenu(QString::fromUtf8("add ID"), QString::fromUtf8("Ajoute un élément à la playlist"), QString::fromUtf8("add 0"));
         }
-        else if (IOBase::isCameraType(type))
+        else if (output->get_gui_type() == "camera")
         {
                 addActionMenu(QString::fromUtf8("recall X"), QString::fromUtf8("Rappeler la position X"), QString::fromUtf8("recall 0"));
                 addActionMenu(QString::fromUtf8("save X"), QString::fromUtf8("Sauvegarder à la position X"), QString::fromUtf8("save 0"));
@@ -233,7 +233,7 @@ void FormActionStd::setAction(QTreeWidgetItem *item, Rule *_rule, Action *_actio
 
 void FormActionStd::on_btMore_clicked()
 {
-        Output *output = NULL;
+        IOBase *output = NULL;
         if (action->get_size() > 0)
                 output = action->get_output(0);
 
@@ -241,8 +241,8 @@ void FormActionStd::on_btMore_clicked()
 
         string type = output->get_param("type");
         string id = output->get_param("id");
-        if (IOBase::isAudioType(output->get_param("type")) ||
-            IOBase::isCameraType(output->get_param("type")))
+        if (output->get_gui_type() == "audio" ||
+            output->get_gui_type() == "camera")
                 id = output->get_param("oid");
 
         DialogIOList dio(NULL, output);
@@ -250,8 +250,8 @@ void FormActionStd::on_btMore_clicked()
         if (dio.exec() == QDialog::Accepted)
         {
                  string var_id = dio.getOutput()->get_param("id");
-                 if (IOBase::isAudioType(dio.getOutput()->get_param("type")) ||
-                     IOBase::isCameraType(dio.getOutput()->get_param("type")))
+                 if (dio.getOutput()->get_gui_type() == "audio" ||
+                     dio.getOutput()->get_gui_type() == "camera")
                          var_id = dio.getOutput()->get_param("iid");
 
                  action->get_params_var().Add(id, var_id);
@@ -282,7 +282,7 @@ void FormActionStd::on_editValue_textChanged(const QString &arg1)
 {
         if (onStart) return;
 
-        Output *output = NULL;
+        IOBase *output = NULL;
         if (action->get_size() > 0)
                 output = action->get_output(0);
 
@@ -290,8 +290,8 @@ void FormActionStd::on_editValue_textChanged(const QString &arg1)
 
         string type = output->get_param("type");
         string id = output->get_param("id");
-        if (IOBase::isAudioType(output->get_param("type")) ||
-            IOBase::isCameraType(output->get_param("type")))
+        if (output->get_gui_type() == "audio" ||
+            output->get_gui_type() == "camera")
                 id = output->get_param("oid");
 
         string value = ui->editValue->text().toUtf8().constData();

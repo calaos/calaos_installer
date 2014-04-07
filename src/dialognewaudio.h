@@ -22,14 +22,14 @@ class DialogNewAudio : public QDialog
                 explicit DialogNewAudio(Room *room, QWidget *parent = 0);
                 virtual ~DialogNewAudio();
 
-                Output *getOutput() { return output; }
+                IOBase *getOutput() { return output; }
 
         protected:
                 virtual void changeEvent(QEvent *e);
 
         private:
                 Ui::DialogNewAudio *ui;
-                Output *output;
+                IOBase *output;
                 Room *room;
 
         private slots:

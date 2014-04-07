@@ -91,8 +91,8 @@ int ListeRoom::searchIO(IOBase *io)
         {
                 for (int m = 0;m < rooms[j]->get_size_in();m++)
                 {
-                        Input *in = rooms[j]->get_input(m);
-                        if (in == dynamic_cast<Input *>(io))
+                        IOBase *in = rooms[j]->get_input(m);
+                        if (in == dynamic_cast<IOBase *>(io))
                         {
                                 return j;
                         }
@@ -100,8 +100,8 @@ int ListeRoom::searchIO(IOBase *io)
 
                 for (int m = 0;m < rooms[j]->get_size_out();m++)
                 {
-                        Output *out = rooms[j]->get_output(m);
-                        if (out == dynamic_cast<Output *>(io))
+                        IOBase *out = rooms[j]->get_output(m);
+                        if (out == dynamic_cast<IOBase *>(io))
                         {
                                 return j;
                         }
@@ -111,13 +111,13 @@ int ListeRoom::searchIO(IOBase *io)
         return -1;
 }
 //-----------------------------------------------------------------------------
-Input *ListeRoom::get_input(std::string i)
+IOBase *ListeRoom::get_input(std::string i)
 {
         for (uint j = 0;j < rooms.size();j++)
         {
                 for (int m = 0;m < rooms[j]->get_size_in();m++)
                 {
-                        Input *in = rooms[j]->get_input(m);
+                        IOBase *in = rooms[j]->get_input(m);
                         if (in->get_param("id") == i || in->get_param("iid") == i)
                         {
                                 return in;
@@ -128,13 +128,13 @@ Input *ListeRoom::get_input(std::string i)
         return NULL;
 }
 //-----------------------------------------------------------------------------
-Output *ListeRoom::get_output(std::string i)
+IOBase *ListeRoom::get_output(std::string i)
 {
         for (uint j = 0;j < rooms.size();j++)
         {
                 for (int m = 0;m < rooms[j]->get_size_out();m++)
                 {
-                        Output *out = rooms[j]->get_output(m);
+                        IOBase *out = rooms[j]->get_output(m);
                         if (out->get_param("id") == i || out->get_param("oid") == i)
                         {
                                 return out;
@@ -145,7 +145,7 @@ Output *ListeRoom::get_output(std::string i)
         return NULL;
 }
 //-----------------------------------------------------------------------------
-Input *ListeRoom::get_input(int i)
+IOBase *ListeRoom::get_input(int i)
 {
         int cpt = 0;
 
@@ -153,7 +153,7 @@ Input *ListeRoom::get_input(int i)
         {
                 for (int m = 0;m < rooms[j]->get_size_in();m++)
                 {
-                        Input *in = rooms[j]->get_input(m);
+                        IOBase *in = rooms[j]->get_input(m);
                         if (cpt == i)
                         {
                                 return in;
@@ -166,7 +166,7 @@ Input *ListeRoom::get_input(int i)
         return NULL;
 }
 //-----------------------------------------------------------------------------
-Output *ListeRoom::get_output(int i)
+IOBase *ListeRoom::get_output(int i)
 {
         int cpt = 0;
 
@@ -174,7 +174,7 @@ Output *ListeRoom::get_output(int i)
         {
                 for (int m = 0;m < rooms[j]->get_size_out();m++)
                 {
-                        Output *out = rooms[j]->get_output(m);
+                        IOBase *out = rooms[j]->get_output(m);
                         if (cpt == i)
                         {
                                 return out;
@@ -187,14 +187,14 @@ Output *ListeRoom::get_output(int i)
         return NULL;
 }
 //-----------------------------------------------------------------------------
-bool ListeRoom::delete_input(Input *input, bool del)
+bool ListeRoom::delete_input(IOBase *input, bool del)
 {
         bool done = false;
         for (uint j = 0;!done && j < rooms.size();j++)
         {
                 for (int m = 0;!done && m < get_room(j)->get_size_in();m++)
                 {
-                        Input *in = get_room(j)->get_input(m);
+                        IOBase *in = get_room(j)->get_input(m);
                         if (in == input)
                         {
                                 get_room(j)->RemoveInput(m, del);
@@ -206,14 +206,14 @@ bool ListeRoom::delete_input(Input *input, bool del)
         return done;
 }
 //-----------------------------------------------------------------------------
-bool ListeRoom::delete_output(Output *output, bool del)
+bool ListeRoom::delete_output(IOBase *output, bool del)
 {
         bool done = false;
         for (uint j = 0;!done && j < rooms.size();j++)
         {
                 for (int m = 0;!done && m < get_room(j)->get_size_out();m++)
                 {
-                        Output *out = get_room(j)->get_output(m);
+                        IOBase *out = get_room(j)->get_output(m);
                         if (out == output)
                         {
                                 get_room(j)->RemoveOutput(m, del);
@@ -255,20 +255,20 @@ int ListeRoom::get_nb_output()
         return cpt;
 }
 //-----------------------------------------------------------------------------
-Input *ListeRoom::get_chauffage_var(std::string chauff_id, ChauffType type)
+IOBase *ListeRoom::get_chauffage_var(std::string chauff_id, ChauffType type)
 {
         for (uint j = 0;j < rooms.size();j++)
         {
                 for (int m = 0;m < rooms[j]->get_size_in();m++)
                 {
-                        Input *in = rooms[j]->get_input(m);
+                        IOBase *in = rooms[j]->get_input(m);
                         if (in->get_param("chauffage_id") == chauff_id)
                         {
                                 switch (type)
                                 {
-                                  case PLAGE_HORAIRE: if (in->get_param("type") == "InPlageHoraire") return in; break;
-                                  case CONSIGNE: if (in->get_param("type") == "InternalInt") return in; break;
-                                  case ACTIVE: if (in->get_param("type") == "InternalBool") return in; break;
+                                  case PLAGE_HORAIRE: if (in->get_gui_type() == "time_range") return in; break;
+                                  case CONSIGNE: if (in->get_gui_type() == "var_int") return in; break;
+                                  case ACTIVE: if (in->get_gui_type() == "var_bool") return in; break;
                                 }
                         }
                 }
@@ -289,13 +289,13 @@ Room *ListeRoom::searchRoomByName(string name, string type)
         return r;
 }
 
-Room *ListeRoom::searchRoomByInput(Input *input)
+Room *ListeRoom::searchRoomByInput(IOBase *input)
 {
         for (uint j = 0;j < rooms.size();j++)
         {
                 for (int m = 0;m < rooms[j]->get_size_in();m++)
                 {
-                        Input *in = rooms[j]->get_input(m);
+                        IOBase *in = rooms[j]->get_input(m);
                         if (in == input)
                         {
                                 return rooms[j];
@@ -306,13 +306,13 @@ Room *ListeRoom::searchRoomByInput(Input *input)
         return NULL;
 }
 
-Room *ListeRoom::searchRoomByOutput(Output *output)
+Room *ListeRoom::searchRoomByOutput(IOBase *output)
 {
         for (uint j = 0;j < rooms.size();j++)
         {
                 for (int m = 0;m < rooms[j]->get_size_out();m++)
                 {
-                        Output *out = rooms[j]->get_output(m);
+                        IOBase *out = rooms[j]->get_output(m);
                         if (out == output)
                         {
                                 return rooms[j];
@@ -342,157 +342,32 @@ string ListeRoom::getRoomType(int type)
         }
 }
 //-----------------------------------------------------------------------------
-bool ListeRoom::deleteIO(Input *input)
+bool ListeRoom::deleteIOInput(IOBase *input)
 {
         //first delete all rules using "input"
-        ListeRule::Instance().RemoveRule(input);
+        ListeRule::Instance().RemoveRuleInput(input);
 
-        bool done = false;
-        if (IOBase::isAudioType(input->get_param("type")) ||
-            IOBase::isCameraType(input->get_param("type")))
-        {
-                Camera *cam = dynamic_cast<Camera *>(input);
-                if (cam)
-                {
-                        Output *o = dynamic_cast<Output *> (cam);
-                        ListeRule::Instance().RemoveRule(o);
-                        if (o)
-                                ListeRoom::Instance().delete_output(o, false);
-                }
+        if (input->is_inout())
+            ListeRoom::Instance().delete_output(input, false);
 
-                Audio *audio = dynamic_cast<Audio *>(input);
-                if (audio)
-                {
-                        Output *o = dynamic_cast<Output *> (audio);
-                        ListeRule::Instance().RemoveRule(o);
-                        if (o)
-                                ListeRoom::Instance().delete_output(o, false);
-                }
-        }
-
-        if (input->get_param("type") == "InputTimer")
-        {
-                //also delete the output
-                InputTimer *tm = dynamic_cast<InputTimer *> (input);
-                Output *o = dynamic_cast<Output *> (tm);
-                ListeRule::Instance().RemoveRule(o);
-                if (o) ListeRoom::Instance().delete_output(o, false);
-        }
-
-        if (input->get_param("type") == "scenario" || input->get_param("type") == "Scenario")
-        {
-                //also delete the output
-                Scenario *sc = dynamic_cast<Scenario *> (input);
-                if (sc)
-                {
-                        Output *o = dynamic_cast<Output *> (sc);
-                        ListeRule::Instance().RemoveRule(o);
-                        if (o)
-                                ListeRoom::Instance().delete_output(o, false);
-                }
-        }
-
-        if (input->get_param("type") == "InternalBool" ||
-            input->get_param("type") == "InternalInt" ||
-            input->get_param("type") == "InternalString")
-        {
-                //also delete the output
-                Internal *internal = dynamic_cast<Internal *> (input);
-
-                if (internal)
-                {
-                        Output *o = dynamic_cast<Output *> (internal);
-                        ListeRule::Instance().RemoveRule(o);
-                        if (o)
-                                ListeRoom::Instance().delete_output(o, false);
-                }
-        }
-
-        done = ListeRoom::Instance().delete_input(input);
-
-        return done;
+        return ListeRoom::Instance().delete_input(input);
 }
 
 
-bool ListeRoom::deleteIO(Output *output)
+bool ListeRoom::deleteIOOutput(IOBase *output)
 {
         //first delete all rules using "output"
-        ListeRule::Instance().RemoveRule(output);
+        ListeRule::Instance().RemoveRuleOutput(output);
 
-        bool done = false;
-        if (IOBase::isAudioType(output->get_param("type")) ||
-            IOBase::isCameraType(output->get_param("type")))
-        {
-                Camera *cam = dynamic_cast<Camera *>(output);
-                if (cam)
-                {
-                        Input *o = dynamic_cast<Input *> (cam);
-                        ListeRule::Instance().RemoveRule(o);
-                        if (o)
-                                ListeRoom::Instance().delete_input(o, false);
-                }
+        if (output->is_inout())
+            ListeRoom::Instance().delete_input(output, false);
 
-                Audio *audio = dynamic_cast<Audio *>(output);
-                if (audio)
-                {
-                        Input *o = dynamic_cast<Input *> (audio);
-                        ListeRule::Instance().RemoveRule(o);
-                        if (o)
-                                ListeRoom::Instance().delete_input(o, false);
-                }
-        }
-
-
-        if (output->get_param("type") != "OutTouchscreen")
-        {
-                if (output->get_param("type") == "InputTimer")
-                {
-                        //also delete the input
-                        InputTimer *tm = dynamic_cast<InputTimer *> (output);
-                        Input *in = dynamic_cast<Input *> (tm);
-                        ListeRule::Instance().RemoveRule(in);
-                        if (in) ListeRoom::Instance().delete_input(in, false);
-                }
-
-                if (output->get_param("type") == "scenario"
-                                || output->get_param("type") == "Scenario")
-                {
-                        //also delete the output
-                        Scenario *sc = dynamic_cast<Scenario *> (output);
-                        if (sc)
-                        {
-                                Input *o = dynamic_cast<Input *> (sc);
-                                ListeRule::Instance().RemoveRule(o);
-                                if (o) ListeRoom::Instance().delete_input(o, false);
-                        }
-                }
-
-                if (output->get_param("type") == "InternalBool" ||
-                    output->get_param("type") == "InternalInt" ||
-                    output->get_param("type") == "InternalString")
-                {
-                        //also delete the output
-                        Internal *internal = dynamic_cast<Internal *> (output);
-                        if (internal)
-                        {
-                                Input *o = dynamic_cast<Input *> (internal);
-                                if (o)
-                                {
-                                        ListeRule::Instance().RemoveRule(o);
-                                        ListeRoom::Instance().delete_input(o, false);
-                                }
-                        }
-                }
-
-                done = ListeRoom::Instance().delete_output(output);
-        }
-
-        return done;
+        return ListeRoom::Instance().delete_output(output);
 }
 
-Input* ListeRoom::createInput(Params param, Room *room)
+IOBase* ListeRoom::createInput(Params param, Room *room)
 {
-        Input *input = NULL;
+        IOBase *input = NULL;
 
         if (!param.Exists("name")) param.Add("name", "Input");
         if (!param.Exists("type")) param.Add("type", "WIDigitalBP");
@@ -531,48 +406,45 @@ Input* ListeRoom::createInput(Params param, Room *room)
         {
                 if (!param.Exists("msec")) param.Add("msec", "0");
                 std::string type = param["type"];
-                input = IOFactory::CreateInput(type, param);
+                input = IOFactory::Instance().CreateIO(type, param);
                 if (input) room->AddInput(input);
 
                 //also add the it as an output
-                InputTimer *o = dynamic_cast<InputTimer *> (input);
-                if (o) room->AddOutput(o);
+                if (input) room->AddOutput(input);
         }
         else if (param["type"] == "scenario")
         {
                 std::string type = param["type"];
-                input = IOFactory::CreateInput(type, param);
+                input = IOFactory::Instance().CreateIO(type, param);
                 if (input) room->AddInput(input);
 
                 //also add it as an output
-                Scenario *o = dynamic_cast<Scenario *> (input);
-                if (o) room->AddOutput(o);
+                if (input) room->AddOutput(input);
         }
         else if (param["type"] == "InternalBool" || param["type"] == "InternalInt" || param["type"] == "InternalString")
         {
                 if (!param.Exists("name")) param.Add("name", "Value");
 
                 std::string type = param["type"];
-                input = IOFactory::CreateInput(type, param);
+                input = IOFactory::Instance().CreateIO(type, param);
                 if (input) room->AddInput(input);
 
                 //also add it as an output
-                Internal *o = dynamic_cast<Internal *> (input);
-                if (o) room->AddOutput(o);
+                if (input) room->AddOutput(input);
         }
         else
         {
                 std::string type = param["type"];
-                input = IOFactory::CreateInput(type, param);
+                input = IOFactory::Instance().CreateIO(type, param);
                 if (input) room->AddInput(input);
         }
 
         return input;
 }
 
-Output* ListeRoom::createOutput(Params param, Room *room)
+IOBase* ListeRoom::createOutput(Params param, Room *room)
 {
-        Output *output = NULL;
+        IOBase *output = NULL;
 
         if (!param.Exists("name")) param.Add("name", "Output");
         if (!param.Exists("type")) param.Add("type", "WODigital");
@@ -609,16 +481,14 @@ Output* ListeRoom::createOutput(Params param, Room *room)
         if (!param.Exists("id")) param.Add("id", ListeRoom::get_new_id("output_"));
 
         std::string type = param["type"];
-        output = IOFactory::CreateOutput(type, param);
+        output = IOFactory::Instance().CreateIO(type, param);
         if (output) room->AddOutput(output);
 
         return output;
 }
 
-Camera* ListeRoom::createCamera(Params param, Room *room)
+IOBase* ListeRoom::createCamera(Params param, Room *room)
 {
-        Camera *camera = NULL;
-
         if (!param.Exists("name")) param.Add("name", "Camera");
         if (!param.Exists("type")) param.Add("type", "axis");
         if (!param.Exists("host")) param.Add("host", "192.168.1.10");
@@ -628,20 +498,15 @@ Camera* ListeRoom::createCamera(Params param, Room *room)
         if (!param.Exists("id")) param.Add("id", param["iid"] + "_" + param["oid"]);
         if (!param.Exists("model")) param.Add("model", "");
 
-        Output *output = IOFactory::CreateOutput("Camera", param);
+        IOBase *output = IOFactory::Instance().CreateIO("Camera", param);
         if (output) room->AddOutput(output);
+        if (output) room->AddInput(output);
 
-        camera = dynamic_cast<Camera *> (output);
-        Input *input = dynamic_cast<Input *> (output);
-        if (input) room->AddInput(input);
-
-        return camera;
+        return output;
 }
 
-Audio* ListeRoom::createAudio(Params param, Room *room)
+IOBase *ListeRoom::createAudio(Params param, Room *room)
 {
-        Audio *audio = NULL;
-
         if (!param.Exists("name")) param.Add("name", "Lecteur Audio");
         if (!param.Exists("type")) param.Add("type", "slim");
         if (!param.Exists("host")) param.Add("host", "192.168.1.10");
@@ -649,14 +514,11 @@ Audio* ListeRoom::createAudio(Params param, Room *room)
         if (!param.Exists("oid")) param.Add("oid", ListeRoom::get_new_id("output_"));
         if (!param.Exists("iid")) param.Add("iid", ListeRoom::get_new_id("input_"));
 
-        Output *output = IOFactory::CreateOutput("Audio", param);
+        IOBase *output = IOFactory::Instance().CreateIO("Audio", param);
         if (output) room->AddOutput(output);
+        if (output) room->AddInput(output);
 
-        audio = dynamic_cast<Audio *> (output);
-        Input *input = dynamic_cast<Input *> (output);
-        if (input) room->AddInput(input);
-
-        return audio;
+        return output;
 }
 
 std::string ListeRoom::get_new_id(std::string prefix)
@@ -665,8 +527,8 @@ std::string ListeRoom::get_new_id(std::string prefix)
         bool found = false;
         while (!found)
         {
-                Input *in = ListeRoom::Instance().get_input(prefix + Utils::to_string(cpt));
-                Output *out = ListeRoom::Instance().get_output(prefix + Utils::to_string(cpt));
+                IOBase *in = ListeRoom::Instance().get_input(prefix + Utils::to_string(cpt));
+                IOBase *out = ListeRoom::Instance().get_output(prefix + Utils::to_string(cpt));
 
                 if (!in && !out)
                         found = true;
@@ -687,7 +549,7 @@ std::string ListeRoom::get_new_varsave()
                 Room *room = ListeRoom::Instance().get_room(j);
                 for (int m = 0;m < room->get_size_out();m++)
                 {
-                        Output *o = room->get_output(m);
+                        IOBase *o = room->get_output(m);
                         if (o->get_param("type") == "WOVoletSmart" &&
                             o->get_params().Exists("var_save"))
                         {

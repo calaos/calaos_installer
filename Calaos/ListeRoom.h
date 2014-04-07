@@ -63,36 +63,36 @@ class ListeRoom
 
                 bool roomExists(Room *room);
 
-                Input *get_input(std::string i);
-                Output *get_output(std::string i);
+                IOBase *get_input(std::string i);
+                IOBase *get_output(std::string i);
 
                 //return -1 if not found, else return room id
                 int searchIO(IOBase *io);
 
-                Input *get_input(int i);
-                Output *get_output(int i);
-                bool delete_input(Input *in, bool del = true);
-                bool delete_output(Output *out, bool del = true);
+                IOBase *get_input(int i);
+                IOBase *get_output(int i);
+                bool delete_input(IOBase *in, bool del = true);
+                bool delete_output(IOBase *out, bool del = true);
 
                 int get_nb_input();
                 int get_nb_output();
 
-                Input *get_chauffage_var(std::string chauff_id, ChauffType type);
+                IOBase *get_chauffage_var(std::string chauff_id, ChauffType type);
 
                 int size() { return rooms.size(); }
 
                 Room *searchRoomByName(string name, string type);
 
-                Room *searchRoomByInput(Input *);
-                Room *searchRoomByOutput(Output *);
+                Room *searchRoomByInput(IOBase *);
+                Room *searchRoomByOutput(IOBase *);
 
-                bool deleteIO(Input *input);
-                bool deleteIO(Output *output);
+                bool deleteIOInput(IOBase *input);
+                bool deleteIOOutput(IOBase *output);
 
-                Input* createInput(Params param, Room *room);
-                Output* createOutput(Params param, Room *room);
-                Camera* createCamera(Params param, Room *room);
-                Audio* createAudio(Params param, Room *room);
+                IOBase *createInput(Params param, Room *room);
+                IOBase *createOutput(Params param, Room *room);
+                IOBase *createCamera(Params param, Room *room);
+                IOBase *createAudio(Params param, Room *room);
 
                 static string get_new_id(string prefix);
                 static string get_new_varsave();

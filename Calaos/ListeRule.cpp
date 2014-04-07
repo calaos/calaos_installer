@@ -64,7 +64,7 @@ Rule *ListeRule::get_rule(int i)
         return rules[i];
 }
 //-----------------------------------------------------------------------------
-void ListeRule::RemoveRule(Input *obj)
+void ListeRule::RemoveRuleInput(IOBase *obj)
 {
         //delete all rules using "output"
         for (uint i = 0;i < rules.size();i++)
@@ -94,7 +94,7 @@ void ListeRule::RemoveRule(Input *obj)
         }
 }
 //-----------------------------------------------------------------------------
-void ListeRule::RemoveRule(Output *obj)
+void ListeRule::RemoveRuleOutput(IOBase *obj)
 {
         //delete all rules using "output"
         for (uint i = 0;i < rules.size();i++)
@@ -138,7 +138,7 @@ Rule *ListeRule::searchRule(string type, string name)
         return NULL;
 }
 //-----------------------------------------------------------------------------
-Rule *ListeRule::searchRule(Input *input)
+Rule *ListeRule::searchRuleInput(IOBase *input)
 {
         for (uint i = 0;i < rules.size();i++)
         {
@@ -159,7 +159,7 @@ Rule *ListeRule::searchRule(Input *input)
         return NULL;
 }
 //-----------------------------------------------------------------------------
-Rule *ListeRule::searchRule(Output *output)
+Rule *ListeRule::searchRuleOutput(IOBase *output)
 {
         for (uint i = 0;i < rules.size();i++)
         {

@@ -38,8 +38,8 @@ class Room
                 std::string type;
                 int hits;
 
-                std::vector<Input *> inputs;
-                std::vector<Output *> outputs;
+                std::vector<IOBase *> inputs;
+                std::vector<IOBase *> outputs;
 
         public:
                 Room(std::string _name, std::string _type, int _hits = 0)
@@ -56,15 +56,15 @@ class Room
                 int get_hits() { return hits; }
                 void set_hits(int h) { hits = h; }
 
-                void AddInput(Input *p);
+                void AddInput(IOBase *p);
                 void RemoveInput(int i, bool del = true);
-                void RemoveInput(Input *input);
-                void AddOutput(Output *p);
+                void RemoveInput(IOBase *input);
+                void AddOutput(IOBase *p);
                 void RemoveOutput(int i, bool del = true);
-                void RemoveOutput(Output *output);
+                void RemoveOutput(IOBase *output);
 
-                Input *get_input(int i) { return inputs[i]; }
-                Output *get_output(int i) { return outputs[i]; }
+                IOBase *get_input(int i) { return inputs[i]; }
+                IOBase *get_output(int i) { return outputs[i]; }
 
                 int get_size_in() { return inputs.size(); }
                 int get_size_out() { return outputs.size(); }

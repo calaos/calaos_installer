@@ -660,7 +660,7 @@ QString TextEdit::readFile(QString f)
         return (codec->toUnicode(data));
 }
 
-bool _sort_input_by_var(Input *in1, Input *in2)
+bool _sort_input_by_var(IOBase *in1, IOBase *in2)
 {
         int var1, var2;
         from_string(in1->get_param("var"), var1);
@@ -669,7 +669,7 @@ bool _sort_input_by_var(Input *in1, Input *in2)
         return (var1 < var2);
 }
 
-bool _sort_output_by_var(Output *out1, Output *out2)
+bool _sort_output_by_var(IOBase *out1, IOBase *out2)
 {
         int var1, var2;
         from_string(out1->get_param("var"), var1);
@@ -678,7 +678,7 @@ bool _sort_output_by_var(Output *out1, Output *out2)
         return (var1 < var2);
 }
 
-bool _sort_output_dali(Output *out1, Output *out2)
+bool _sort_output_dali(IOBase *out1, IOBase *out2)
 {
         int var1, var2;
         from_string(out1->get_param("address"), var1);
@@ -702,16 +702,16 @@ void TextEdit::loadIOList()
 
         html += header;
 
-        vector<Input *> wago_inputs_digital;
-        vector<Input *> wago_inputs_digital_knx;
-        vector<Input *> wago_inputs_analog;
-        vector<Input *> wago_inputs_temp;
+        vector<IOBase *> wago_inputs_digital;
+        vector<IOBase *> wago_inputs_digital_knx;
+        vector<IOBase *> wago_inputs_analog;
+        vector<IOBase *> wago_inputs_temp;
 
-        vector<Output *> wago_outputs_digital;
-        vector<Output *> wago_outputs_digital_knx;
-        vector<Output *> wago_outputs_dali;
-        vector<Output *> wago_outputs_dali_group;
-        vector<Output *> wago_outputs_analog;
+        vector<IOBase *> wago_outputs_digital;
+        vector<IOBase *> wago_outputs_digital_knx;
+        vector<IOBase *> wago_outputs_dali;
+        vector<IOBase *> wago_outputs_dali_group;
+        vector<IOBase *> wago_outputs_analog;
 
         vector<IOBase *> temp_ios; //handle temporary IOs
 
@@ -721,13 +721,13 @@ void TextEdit::loadIOList()
 
                 for (int j = 0;j < r->get_size_in();j++)
                 {
-                        Input *in = r->get_input(j);
+                        IOBase *in = r->get_input(j);
 
                         if (in->get_param("type") == "WIDigitalBP" ||
                             in->get_param("type") == "WIDigitalTriple" ||
                             in->get_param("type") == "WIDigitalLong")
                         {
-                                Input *nin = new Input(in->get_params());
+                                IOBase *nin = new IOBase(*in);
                                 nin->set_param("room_name", r->get_name());
                                 nin->set_param("room_type", r->get_type());
 
@@ -740,7 +740,7 @@ void TextEdit::loadIOList()
                         }
                         else if (in->get_param("type") == "WITemp")
                         {
-                                Input *nin = new Input(in->get_params());
+                                IOBase *nin = new IOBase(*in);
                                 nin->set_param("room_name", r->get_name());
                                 nin->set_param("room_type", r->get_type());
 
@@ -750,7 +750,7 @@ void TextEdit::loadIOList()
                         }
                         else if (in->get_param("type") == "WIAnalog")
                         {
-                                Input *nin = new Input(in->get_params());
+                                IOBase *nin = new IOBase(*in);
                                 nin->set_param("room_name", r->get_name());
                                 nin->set_param("room_type", r->get_type());
 
@@ -762,11 +762,11 @@ void TextEdit::loadIOList()
 
                 for (int j = 0;j < r->get_size_out();j++)
                 {
-                        Output *out = r->get_output(j);
+                        IOBase *out = r->get_output(j);
 
                         if (out->get_param("type") == "WODigital")
                         {
-                                Output *nout = new Output(out->get_params());
+                                IOBase *nout = new IOBase(*out);
                                 nout->set_param("room_name", r->get_name());
                                 nout->set_param("room_type", r->get_type());
 
@@ -780,8 +780,8 @@ void TextEdit::loadIOList()
                         else if (out->get_param("type") == "WOVolet" ||
                                  out->get_param("type") == "WOVoletSmart")
                         {
-                                Output *volet_up = new Output(out->get_params());
-                                Output *volet_down = new Output(out->get_params());
+                                IOBase *volet_up = new IOBase(*out);
+                                IOBase *volet_down = new IOBase(*out);
 
                                 volet_up->set_param("room_name", r->get_name());
                                 volet_up->set_param("room_type", r->get_type());
@@ -811,7 +811,7 @@ void TextEdit::loadIOList()
                         }
                         else if (out->get_param("type") == "WODali")
                         {
-                                Output *nout = new Output(out->get_params());
+                                IOBase *nout = new IOBase(*out);
                                 nout->set_param("room_name", r->get_name());
                                 nout->set_param("room_type", r->get_type());
 
@@ -824,9 +824,9 @@ void TextEdit::loadIOList()
                         }
                         else if (out->get_param("type") == "WODaliRVB")
                         {
-                                Output *dali_r = new Output(out->get_params());
-                                Output *dali_g = new Output(out->get_params());
-                                Output *dali_b = new Output(out->get_params());
+                                IOBase *dali_r = new IOBase(*out);
+                                IOBase *dali_g = new IOBase(*out);
+                                IOBase *dali_b = new IOBase(*out);
 
                                 dali_r->set_param("room_name", r->get_name());
                                 dali_r->set_param("room_type", r->get_type());
@@ -864,7 +864,7 @@ void TextEdit::loadIOList()
                         }
                         else if (out->get_param("type") == "WOAnalog")
                         {
-                                Output *nout = new Output(out->get_params());
+                                IOBase *nout = new IOBase(*out);
                                 nout->set_param("room_name", r->get_name());
                                 nout->set_param("room_type", r->get_type());
 
@@ -1152,7 +1152,7 @@ void TextEdit::loadRooms()
                 html += inputs;
                 for (int j = 0;j < r->get_size_in();j++)
                 {
-                        Input *in = r->get_input(j);
+                        IOBase *in = r->get_input(j);
 
                         QString icon, var, knx;
 
@@ -1188,7 +1188,7 @@ void TextEdit::loadRooms()
                 html += outputs;
                 for (int j = 0;j < r->get_size_out();j++)
                 {
-                        Output *out = r->get_output(j);
+                        IOBase *out = r->get_output(j);
 
                         QString icon, name, var, dali, knx;
 
