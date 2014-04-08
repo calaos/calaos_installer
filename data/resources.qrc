@@ -103,5 +103,6 @@
         <file>img/zibase.png</file>
         <file>img/web.png</file>
         <file>img/chip.png</file>
+        <file>img/icon_unkown.png</file>
     </qresource>
 </RCC>

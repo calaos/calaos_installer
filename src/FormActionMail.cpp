@@ -50,7 +50,7 @@ void FormActionMail::setAction(QTreeWidgetItem *item, Rule *_rule, Action *_acti
 
         setDone = false;
         ui->comboCamera->clear();
-        ui->comboCamera->addItem(QString::fromUtf8("<Aucun>"), QString::fromUtf8(""));
+        ui->comboCamera->addItem(tr("<None>"), QString::fromUtf8(""));
         ui->comboCamera->setCurrentIndex(0);
         for (int i = 0;i < ListeRoom::Instance().get_nb_output();i++)
         {

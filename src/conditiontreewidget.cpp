@@ -54,14 +54,14 @@ bool ConditionTreeWidget::dropMimeData(QTreeWidgetItem *, int, const QMimeData *
 
                         cond->get_operator().Add(id, "==");
 
-                        if (input->get_param("type") == "WIDigitalBP" || input->get_param("type") == "InputTime" ||
-                                        input->get_param("type") == "InputTimer" || input->get_param("type") == "Scenario" ||
-                                        input->get_param("type") == "scenario" || input->get_param("type") == "InPlageHoraire" ||
-                                        input->get_param("type") == "InternalBool")
-                                cond->get_params().Add(id, "true");
-                        else if (input->get_param("type") == "WIDigitalTriple" ||
-                                 input->get_param("type") == "WIDigitalLong")
-                                cond->get_params().Add(id, "1");
+                        if (input->get_gui_type() == "switch" || input->get_gui_type() == "time" ||
+                            input->get_gui_type() == "timer" || input->get_gui_type() == "scenario" ||
+                            input->get_gui_type() == "time_range" || input->get_gui_type() == "var_bool")
+                              cond->get_params().Add(id, "true");
+                        else if (input->get_gui_type() == "switch3" ||
+                                 input->get_gui_type() == "switch_long")
+                              cond->get_params().Add(id, "1");
+
                 }
                 else
                 {

@@ -84,6 +84,7 @@ public:
     void set_value(string v) { svalue = v; }
 
     string get_gui_type() { return gui_type; }
+    void set_gui_type(string s) { gui_type = s; }
 
     bool is_input() { return io_type == IO_INPUT || io_type == IO_BOTH; }
     bool is_output() { return io_type == IO_OUTPUT || io_type == IO_BOTH; }

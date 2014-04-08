@@ -34,11 +34,11 @@ bool ActionTreeWidget::dropMimeData(QTreeWidgetItem *, int, const QMimeData *dat
 
                 action->Add(output);
 
-                if (output->get_param("type") == "WODigital" || output->get_param("type") == "WODali" ||
-                    output->get_param("type") == "WODaliRVB" || output->get_param("type") == "WONeon" ||
-                    output->get_param("type") == "WOVolet" || output->get_param("type") == "WOVoletSmart")
+                if (output->get_gui_type() == "light" || output->get_gui_type() == "light_dimmer" ||
+                    output->get_gui_type() == "light_rgb" || output->get_gui_type() == "shutter" ||
+                    output->get_gui_type() == "shutter_smart" || output->get_gui_type() == "var_bool")
                       action->get_params().Add(id, "toggle");
-                else if (output->get_param("type") == "scenario" || output->get_param("type") == "InputTimer")
+                else if (output->get_gui_type() == "scenario" || output->get_gui_type() == "timer")
                       action->get_params().Add(id, "true");
 
                 rule->AddAction(action);

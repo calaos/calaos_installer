@@ -48,7 +48,7 @@ void DialogScriptEditor::on_pushButton_Valid_clicked()
                 format.setForeground(QBrush(Qt::darkGreen));
                 ui->logEdit->setCurrentCharFormat(format);
 
-                QString t(QString::fromUtf8("Le script s'est executé avec succès."));
+                QString t(tr("The script was successfully executed."));
                 ui->logEdit->appendPlainText(t);
         }
         else
@@ -84,9 +84,9 @@ bool DialogScriptEditor::Execute()
                 ui->logEdit->setCurrentCharFormat(format);
 
                 if (v)
-                        ui->logEdit->appendPlainText(QString::fromUtf8("Le script a renvoyé \"true\""));
+                        ui->logEdit->appendPlainText(tr("The script returns \"true\""));
                 else
-                        ui->logEdit->appendPlainText(QString::fromUtf8("Le script a renvoyé \"false\""));
+                        ui->logEdit->appendPlainText(tr("The script returns \"false\""));
         }
 
         return !ScriptManager::Instance().hasError();

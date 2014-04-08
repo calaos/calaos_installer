@@ -11,10 +11,10 @@ ClearLineEdit::ClearLineEdit(QWidget *parent) :
         clearButton->setIconSize(pixmap.size());
         clearButton->setCursor(Qt::ArrowCursor);
         clearButton->setStyleSheet("QToolButton { border: none; padding: 0px; }");
-        clearButton->setToolTip(QString::fromUtf8("Efface le texte"));
+        clearButton->setToolTip(tr("Clear text"));
         clearButton->hide();
 
-        label = new QLabel("Filtre...", this);
+        label = new QLabel(tr("Filter..."), this);
         label->resize(size());
         label->setStyleSheet("QLabel { font-style: italic; color: #aaa; margin-left: 5px; }");
 

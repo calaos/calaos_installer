@@ -75,7 +75,7 @@ void DialogNewTime::on_buttonBox_accepted()
         }
         else
         {
-                QMessageBox::warning(this, tr("Calaos Installer"), QString::fromUtf8("Type inconnu!"));
+                QMessageBox::warning(this, tr("Calaos Installer"), tr("Unknown type!"));
 
                 return;
         }

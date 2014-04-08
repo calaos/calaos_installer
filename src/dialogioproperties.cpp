@@ -12,7 +12,7 @@ DialogIOProperties::DialogIOProperties(const Params &p, int t, QWidget *parent) 
         ui->setupUi(this);
 
         QStringList headers;
-        headers << QString::fromUtf8("Propriétés") << QString::fromUtf8("Valeur");
+        headers << tr("Properties") << tr("Value");
         ui->treeProperties->setHeaderLabels(headers);
 
         for (int i = 0;i < params.size();i++)
@@ -61,8 +61,8 @@ void DialogIOProperties::changeEvent(QEvent *e)
 void DialogIOProperties::on_addButton_clicked()
 {
         bool ok;
-        QString text = QInputDialog::getText(this, QString::fromUtf8("Nouveau paramètre"),
-                                          QString::fromUtf8("Entrez un nom de paramètre"), QLineEdit::Normal,
+        QString text = QInputDialog::getText(this, tr("New property"),
+                                          tr("Enter a property name"), QLineEdit::Normal,
                                           QString(), &ok);
 
         if (ok && !text.isEmpty())
@@ -71,7 +71,7 @@ void DialogIOProperties::on_addButton_clicked()
 
                 if (params.Exists(key))
                 {
-                        QMessageBox::warning(this, tr("Calaos Installer"), QString::fromUtf8("Ce paramètre existe déjà !"));
+                        QMessageBox::warning(this, tr("Calaos Installer"), tr("This property already exists!"));
 
                         return;
                 }
@@ -98,7 +98,7 @@ void DialogIOProperties::on_delButton_clicked()
 
                 if (key == "type" || key == "name")
                 {
-                        QMessageBox::warning(this, tr("Calaos Installer"), QString::fromUtf8("Ce paramètre ne peut pas être supprimé !"));
+                        QMessageBox::warning(this, tr("Calaos Installer"), tr("This property cannot be deleted!"));
                         return;
                 }
 
@@ -122,13 +122,13 @@ void DialogIOProperties::on_modifyButton_clicked()
         //      change type on the fly could be great.
         if (key == "type" && type != OBJ_RULE)
         {
-                QMessageBox::warning(this, tr("Calaos Installer"), QString::fromUtf8("Ce paramètre ne peut pas être modifié !"));
+                QMessageBox::warning(this, tr("Calaos Installer"), tr("This property can't be changed!"));
                 return;
         }
 
         bool ok;
-        QString text = QInputDialog::getText(this, QString::fromUtf8("Modifier la valeur"),
-                                          QString::fromUtf8("Modifier le paramètre: \"%1\"").arg(QString::fromUtf8(key.c_str())), QLineEdit::Normal,
+        QString text = QInputDialog::getText(this, tr("Change the value"),
+                                          tr("Change the property: \"%1\"").arg(QString::fromUtf8(key.c_str())), QLineEdit::Normal,
                                           QString::fromUtf8(value.c_str()), &ok);
         if (ok && !text.isEmpty())
         {
@@ -151,7 +151,7 @@ void DialogIOProperties::on_buttonBox_accepted()
                 Room *room = ListeRoom::Instance().searchRoomByName(params["name"], params["type"]);
                 if (room && to_string(room->get_hits()) == params["hits"])
                 {
-                        QMessageBox::warning(this, tr("Calaos Installer"), QString::fromUtf8("Cette pièce existe déjà !"));
+                        QMessageBox::warning(this, tr("Calaos Installer"), tr("This room already exists!"));
                         return;
                 }
         }

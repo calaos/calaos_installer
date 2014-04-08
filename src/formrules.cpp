@@ -249,17 +249,14 @@ void FormRules::PopulateRoomsTree()
                 {
                         IOBase *in = room->get_input(j);
 
-                        if (in->get_param("type") == "WIDigitalBP" ||
-                            in->get_param("type") == "WIDigitalTriple" ||
-                            in->get_param("type") == "WIDigitalLong" ||
-                            in->get_param("type") == "InPlageHoraire" ||
-                            in->get_param("type") == "InputTime" ||
-                            in->get_param("type") == "WITemp" ||
-                            in->get_param("type") == "OWTemp" ||
-                            in->get_param("type") == "WIAnalog" ||
-                            in->get_param("type") == "GpioInputSwitch" ||
-                            in->get_param("type") == "GpioInputSwitchLongPress" ||
-                            in->get_param("type") == "GpioInputSwitchTriple")
+                        if (in->get_gui_type() == "switch" ||
+                            in->get_gui_type() == "switch3" ||
+                            in->get_gui_type() == "switch_long" ||
+                            in->get_gui_type() == "time" ||
+                            in->get_gui_type() == "time_range" ||
+                            in->get_gui_type() == "temp" ||
+                            in->get_gui_type() == "analog_in" ||
+                            in->get_gui_type() == "string_in")
                         {
                                 addItemInput(in, iroom);
                         }
@@ -728,16 +725,19 @@ void FormRules::updateItemInfos(QTreeWidgetItemInput *item)
 
         item->setData(0, Qt::DisplayRole, QString::fromUtf8(in->get_param("name").c_str()));
 
-        string type = in->get_param("type");
-        if (type == "WIDigitalBP" || type == "WIDigitalTriple" || type == "WIDigitalLong" ||
-            type == "GpioInputSwitch" || type == "GpioInputSwitchLongPress" || type == "GpioInputSwitchTriple")
+        string type = in->get_gui_type();
+        if (type == "switch" ||
+            type == "switch3" ||
+            type == "switch_long")
                 item->setData(0, Qt::DecorationRole, QIcon(":/img/icon_inter.png"));
-        else if (type == "WITemp" || type == "OWTemp")
+        else if (type == "temp")
                 item->setData(0, Qt::DecorationRole, QIcon(":/img/temp.png"));
-        else if (type == "InPlageHoraire" || type == "InputTime")
+        else if (type == "time_range" || type == "time")
                 item->setData(0, Qt::DecorationRole, QIcon(":/img/icon_clock.png"));
-        else if (type == "WIAnalog")
+        else if (type == "analog_in")
                 item->setData(0, Qt::DecorationRole, QIcon(":/img/icon_analog.png"));
+        else
+                item->setData(0, Qt::DecorationRole, QIcon(":/img/icon_unknown.png"));
 
         QString s = QString::fromUtf8(in->get_param("name").c_str());
         s += " (" + QString::fromUtf8(in->get_param("type").c_str()) + ")";
@@ -784,32 +784,29 @@ void FormRules::updateItemInfos(QTreeWidgetItemOutput *item)
 
         item->setData(0, Qt::DisplayRole, QString::fromUtf8(out->get_param("name").c_str()));
 
-        string type = out->get_param("type");
-        if (type == "WODigital" && out->get_param("gtype") == "light")
+        string type = out->get_gui_type();
+        if (type == "light" || type == "light_dimmer" || type == "light_rgb")
                 item->setData(0, Qt::DecorationRole, QIcon(":/img/icon_light_on.png"));
-        else if (type == "WODigital" && out->get_param("gtype") != "light")
-                item->setData(0, Qt::DecorationRole, QIcon(":/img/icon_tor_on.png"));
-        else if (type == "WOVolet" || out->get_param("type") == "WOVoletSmart")
+        else if (type == "shutter" || type == "shutter_smart")
                 item->setData(0, Qt::DecorationRole, QIcon(":/img/icon_shutter.png"));
-        else if (type == "Scenario" || type == "scenario")
+        else if (type == "scenario")
                 item->setData(0, Qt::DecorationRole, QIcon(":/img/icon_scenario.png"));
-        else if (type == "InputTimer")
+        else if (type == "timer")
                 item->setData(0, Qt::DecorationRole, QIcon(":/img/icon_clock.png"));
-        else if (type == "InternalBool")
+        else if (type == "var_bool")
                 item->setData(0, Qt::DecorationRole, QIcon(":/img/icon_bool_on.png"));
-        else if (type == "InternalInt")
+        else if (type == "var_int")
                 item->setData(0, Qt::DecorationRole, QIcon(":/img/icon_int.png"));
-        else if (type == "InternalString" || type == "WebOutputString")
+        else if (type == "var_string" || type == "string_out")
                 item->setData(0, Qt::DecorationRole, QIcon(":/img/text.png"));
-        else if (type == "WODali" || type == "WODaliRVB" || type == "WONeon" ||
-                 type == "X10Output" || type == "WebOutputLightRGB")
-                item->setData(0, Qt::DecorationRole, QIcon(":/img/icon_light_on.png"));
-        else if (out->get_gui_type() == "audio")
+        else if (type == "audio")
                 item->setData(0, Qt::DecorationRole, QIcon(":/img/icon_sound.png"));
-        else if (out->get_gui_type() == "camera")
+        else if (type == "camera")
                 item->setData(0, Qt::DecorationRole, QIcon(":/img/icon_camera_on.png"));
-        else if (type == "WOAnalog")
+        else if (type == "analog_out")
                 item->setData(0, Qt::DecorationRole, QIcon(":/img/icon_analog.png"));
+        else
+                item->setData(0, Qt::DecorationRole, QIcon(":/img/icon_unknown.png"));
 
         QString s = QString::fromUtf8(out->get_param("name").c_str());
         s += " (" + QString::fromUtf8(out->get_param("type").c_str()) + ")";
@@ -1313,7 +1310,7 @@ void FormRules::showPopup_tree(const QPoint point)
                 {
                         IOBase *o = itinput->getInput();
 
-                        if (o->get_param("type") == "InPlageHoraire")
+                        if (o->get_gui_type() == "time_range")
                         {
                                 action = item_menu.addAction(QString::fromUtf8("Modifier les plages horaires..."));
                                 action->setIcon(QIcon(":/img/icon_clock.png"));
@@ -1322,8 +1319,38 @@ void FormRules::showPopup_tree(const QPoint point)
                                 item_menu.addSeparator();
                         }
 
-                        if (o->get_param("type") == "WIDigitalBP")
+                        if (o->get_gui_type() == "switch")
                         {
+                                action = item_menu.addAction(tr("Convert in triple switch..."));
+                                action->setIcon(QIcon(":/img/icon_inter.png"));
+                                connect(action, SIGNAL(triggered()), this, SLOT(itemConvertInterTriple()));
+
+                                action = item_menu.addAction(tr("Convert in long press switch..."));
+                                action->setIcon(QIcon(":/img/icon_inter.png"));
+                                connect(action, SIGNAL(triggered()), this, SLOT(itemConvertInterLong()));
+
+                                item_menu.addSeparator();
+                        }
+
+                        if (o->get_gui_type() == "switch3")
+                        {
+                                action = item_menu.addAction(QString::fromUtf8("Convert in normal switch..."));
+                                action->setIcon(QIcon(":/img/icon_inter.png"));
+                                connect(action, SIGNAL(triggered()), this, SLOT(itemConvertInterBP()));
+
+                                action = item_menu.addAction(tr("Convert in long press switch..."));
+                                action->setIcon(QIcon(":/img/icon_inter.png"));
+                                connect(action, SIGNAL(triggered()), this, SLOT(itemConvertInterLong()));
+
+                                item_menu.addSeparator();
+                        }
+
+                        if (o->get_gui_type() == "switch_long")
+                        {
+                                action = item_menu.addAction(QString::fromUtf8("Convert in normal switch..."));
+                                action->setIcon(QIcon(":/img/icon_inter.png"));
+                                connect(action, SIGNAL(triggered()), this, SLOT(itemConvertInterBP()));
+
                                 action = item_menu.addAction(tr("Convert in triple switch..."));
                                 action->setIcon(QIcon(":/img/icon_inter.png"));
                                 connect(action, SIGNAL(triggered()), this, SLOT(itemConvertInterTriple()));
@@ -1331,16 +1358,7 @@ void FormRules::showPopup_tree(const QPoint point)
                                 item_menu.addSeparator();
                         }
 
-                        if (o->get_param("type") == "WIDigitalTriple")
-                        {
-                                action = item_menu.addAction(QString::fromUtf8("Convert in normal switch..."));
-                                action->setIcon(QIcon(":/img/icon_inter.png"));
-                                connect(action, SIGNAL(triggered()), this, SLOT(itemConvertInterBP()));
-
-                                item_menu.addSeparator();
-                        }
-
-                        if (o->get_param("type") == "WITemp" || o->get_param("type") == "OWTemp")
+                        if (o->get_gui_type() == "temp")
                         {
                                 action = item_menu.addAction(QString::fromUtf8("Associer à une consigne..."));
                                 action->setIcon(QIcon(":/img/icon_temp.png"));
@@ -1822,7 +1840,7 @@ void FormRules::itemPlagesHoraires()
         QTreeWidgetItemInput *itinput = dynamic_cast<QTreeWidgetItemInput *>(treeItem);
         if (itinput)
         {
-                if (itinput->getInput()->get_param("type") == "InPlageHoraire")
+                if (itinput->getInput()->get_gui_type() == "time_range")
                 {
                         DialogPlageHoraire d(itinput->getInput());
                         d.exec();
@@ -1839,25 +1857,50 @@ void FormRules::itemConvertInterTriple()
         QTreeWidgetItemInput *itinput = dynamic_cast<QTreeWidgetItemInput *>(treeItem);
         if (itinput)
         {
-                if (itinput->getInput()->get_param("type") == "WIDigitalBP")
+                if (itinput->getInput()->get_gui_type() == "switch" ||
+                    itinput->getInput()->get_gui_type() == "switch_long")
                 {
                         QMessageBox::StandardButton reply;
                         reply = QMessageBox::question(this, tr("Calaos Installer"),
-                                              QString::fromUtf8("Etes vous sûr de vouloir convertir en interrupteur triple?"),
+                                              tr("Are you sure to convert this switch into a triple click switch?"),
                                               QMessageBox::Yes | QMessageBox::No);
 
                         if (reply == QMessageBox::Yes)
                         {
                                 IOBase *input = itinput->getInput();
 
-                                input->get_params().Add("type", "WIDigitalTriple");
+                                QString old_type = QString::fromUtf8(input->get_gui_type().c_str());
+
+                                //Change WAGO
+                                if (input->get_param("type") == "WIDigitalBP" ||
+                                    input->get_param("type") == "WIDigitalLong")
+                                    input->get_params().Add("type", "WIDigitalTriple");
+
+                                //Change GPIO
+                                else if (input->get_param("type") == "GpioInputSwitch" ||
+                                         input->get_param("type") == "GpioInputSwitchLongPress")
+                                    input->get_params().Add("type", "GpioInputSwitchTriple");
+
+                                else
+                                {
+                                    QMessageBox::warning(this, tr("Calaos Installer"), tr("Sorry, this is not implemented !"));
+                                    return;
+                                }
+
+                                input->set_gui_type("switch3");
                                 updateItemInfos(itinput);
 
                                 goSelectRule();
 
+                                if (old_type != "switch")
+                                {
+                                    setProjectModified(true);
+                                    return;
+                                }
+
                                 QMessageBox::StandardButton reply;
                                 reply = QMessageBox::question(this, tr("Calaos Installer"),
-                                                      QString::fromUtf8("Voulez vous transformer automatiquement les règles?"),
+                                                      tr("Do you want to automatically convert the rules?"),
                                                       QMessageBox::Yes | QMessageBox::No);
 
                                 if (reply == QMessageBox::Yes)
@@ -1906,25 +1949,43 @@ void FormRules::itemConvertInterBP()
         QTreeWidgetItemInput *itinput = dynamic_cast<QTreeWidgetItemInput *>(treeItem);
         if (itinput)
         {
-                if (itinput->getInput()->get_param("type") == "WIDigitalTriple")
+            if (itinput->getInput()->get_gui_type() == "switch3" ||
+                itinput->getInput()->get_gui_type() == "switch_long")
                 {
                         QMessageBox::StandardButton reply;
                         reply = QMessageBox::question(this, tr("Calaos Installer"),
-                                              QString::fromUtf8("Etes vous sûr de vouloir convertir en interrupteur classique?"),
+                                              tr("Are you sure to convert this switch into a standard switch?"),
                                               QMessageBox::Yes | QMessageBox::No);
 
                         if (reply == QMessageBox::Yes)
                         {
                                 IOBase *input = itinput->getInput();
 
-                                input->get_params().Add("type", "WIDigitalBP");
+                                //Change WAGO
+                                if (input->get_param("type") == "WIDigitalTriple" ||
+                                    input->get_param("type") == "WIDigitalLong")
+                                    input->get_params().Add("type", "WIDigitalBP");
+
+                                //Change GPIO
+                                else if (input->get_param("type") == "GpioInputSwitchTriple" ||
+                                         input->get_param("type") == "GpioInputSwitchLongPress")
+                                    input->get_params().Add("type", "GpioInputSwitch");
+
+                                else
+                                {
+                                    QMessageBox::warning(this, tr("Calaos Installer"), tr("Sorry, this is not implemented !"));
+                                    return;
+                                }
+
+
+                                input->set_gui_type("switch");
                                 updateItemInfos(itinput);
 
                                 goSelectRule();
 
                                 QMessageBox::StandardButton reply;
                                 reply = QMessageBox::question(this, tr("Calaos Installer"),
-                                                      QString::fromUtf8("Voulez vous transformer automatiquement les règles?"),
+                                                      tr("Do you want to automatically convert the rules?"),
                                                       QMessageBox::Yes | QMessageBox::No);
 
                                 if (reply == QMessageBox::Yes)
@@ -1977,6 +2038,98 @@ void FormRules::itemConvertInterBP()
         }
 }
 
+void FormRules::itemConvertInterLong()
+{
+        if (!treeItem) return;
+
+        QTreeWidgetItemInput *itinput = dynamic_cast<QTreeWidgetItemInput *>(treeItem);
+        if (itinput)
+        {
+                if (itinput->getInput()->get_gui_type() == "switch" ||
+                    itinput->getInput()->get_gui_type() == "switch3")
+                {
+                        QMessageBox::StandardButton reply;
+                        reply = QMessageBox::question(this, tr("Calaos Installer"),
+                                              tr("Are you sure to convert this switch into a long press switch?"),
+                                              QMessageBox::Yes | QMessageBox::No);
+
+                        if (reply == QMessageBox::Yes)
+                        {
+                                IOBase *input = itinput->getInput();
+
+                                QString old_type = QString::fromUtf8(input->get_gui_type().c_str());
+
+                                //Change WAGO
+                                if (input->get_param("type") == "WIDigitalBP" ||
+                                    input->get_param("type") == "WIDigitalTriple")
+                                    input->get_params().Add("type", "WIDigitalLong");
+
+                                //Change GPIO
+                                else if (input->get_param("type") == "GpioInputSwitch" ||
+                                         input->get_param("type") == "GpioInputSwitchTriple")
+                                    input->get_params().Add("type", "GpioInputSwitchLongPress");
+
+                                else
+                                {
+                                    QMessageBox::warning(this, tr("Calaos Installer"), tr("Sorry, this is not implemented !"));
+                                    return;
+                                }
+
+                                input->set_gui_type("switch_long");
+                                updateItemInfos(itinput);
+
+                                goSelectRule();
+
+                                if (old_type != "switch")
+                                {
+                                    setProjectModified(true);
+                                    return;
+                                }
+
+                                QMessageBox::StandardButton reply;
+                                reply = QMessageBox::question(this, tr("Calaos Installer"),
+                                                      tr("Do you want to automatically convert the rules?"),
+                                                      QMessageBox::Yes | QMessageBox::No);
+
+                                if (reply == QMessageBox::Yes)
+                                {
+                                        QTreeWidgetItemIterator it(ui->tree_rules);
+                                        while (*it)
+                                        {
+                                                QTreeWidgetItemRule *item = dynamic_cast<QTreeWidgetItemRule *>(*it);
+                                                if (!item)
+                                                {
+                                                        ++it;
+                                                        continue;
+                                                }
+
+                                                Rule *rule = item->getRule();
+
+                                                for (int i = 0;i < rule->get_size_conds();i++)
+                                                {
+                                                        Condition *cond = rule->get_condition(i);
+                                                        for (int j = 0;j < cond->get_size();j++)
+                                                        {
+                                                                if (input == cond->get_input(j))
+                                                                {
+                                                                        cond->get_params().Add(input->get_param("id"), "1");
+                                                                }
+                                                        }
+                                                }
+
+                                                ++it;
+                                        }
+
+                                        //refresh ui
+                                        on_tree_rules_currentItemChanged(ui->tree_rules->currentItem(), NULL);
+                                }
+
+                                setProjectModified(true);
+                        }
+                }
+        }
+}
+
 void FormRules::itemTempWizard()
 {
         if (!treeItem) return;
@@ -1984,8 +2137,7 @@ void FormRules::itemTempWizard()
         QTreeWidgetItemInput *itinput = dynamic_cast<QTreeWidgetItemInput *>(treeItem);
         if (itinput)
         {
-                if (itinput->getInput()->get_param("type") == "WITemp" ||
-                    itinput->getInput()->get_param("type") == "OWTemp")
+                if (itinput->getInput()->get_gui_type() == "temp")
                 {
                         TempWizard wizard;
 
@@ -2010,7 +2162,7 @@ void FormRules::itemTempWizard()
                                 for (int i = 0;i < room->get_size_in();i++)
                                 {
                                         IOBase *in = room->get_input(i);
-                                        if (in->get_param("type") == "InternalInt" &&
+                                        if (in->get_gui_type() == "var_int" &&
                                             in->get_param("name") == name.toUtf8().data())
                                         {
                                                 consigne = in;
@@ -2032,7 +2184,7 @@ void FormRules::itemTempWizard()
 
                                 if (!consigne)
                                 {
-                                        QMessageBox::critical(this, tr("Calaos Installer"), QString::fromUtf8("Erreur interne !"));
+                                        QMessageBox::critical(this, tr("Calaos Installer"), tr("Internal error!"));
 
                                         return;
                                 }
@@ -2056,7 +2208,7 @@ void FormRules::itemTempWizard()
                                 {
                                         //The rule (if input <= consigne)
                                         {
-                                                Rule *rule = new Rule(room->get_name(), "chauffage on");
+                                                Rule *rule = new Rule(room->get_name(), "heat on");
                                                 addItemRule(rule, true);
 
                                                 Condition *cond = new Condition(COND_STD);
@@ -2074,7 +2226,7 @@ void FormRules::itemTempWizard()
 
                                         //The rule (if input > consigne)
                                         {
-                                                Rule *rule = new Rule(room->get_name(), "chauffage off");
+                                                Rule *rule = new Rule(room->get_name(), "heat off");
                                                 addItemRule(rule, true);
 
                                                 Condition *cond = new Condition(COND_STD);
@@ -2549,11 +2701,11 @@ void FormRules::showPopup_rule(const QPoint point)
 
         QAction *action = NULL;
 
-        action = item_menu.addAction(QString::fromUtf8("Propriétés"));
+        action = item_menu.addAction(tr("Properties"));
         action->setIcon(QIcon(":/img/document-properties.png"));
         connect(action, SIGNAL(triggered()), this, SLOT(showPropertiesItem()));
         item_menu.addSeparator();
-        action = item_menu.addAction(QString::fromUtf8("Supprimer"));
+        action = item_menu.addAction(tr("Delete"));
         action->setIcon(QIcon(":/img/user-trash.png"));
         connect(action, SIGNAL(triggered()), this, SLOT(on_bt_rules_del_clicked()));
 
@@ -2577,10 +2729,10 @@ void FormRules::addCondition(int type)
                         QTreeWidgetItemOutput *outitem = dynamic_cast<QTreeWidgetItemOutput *>(ui->tree_home->currentItem());
                         if (outitem)
                         {
-                                string type = outitem->getOutput()->get_param("type");
-                                if (type == "InputTimer" || type == "scenario" ||
-                                    type == "Scenario" || type == "InternalBool" ||
-                                    type == "InternalInt" || type == "InternalString")
+                                string type = outitem->getOutput()->get_gui_type();
+                                if (type == "timer" || type == "scenario" ||
+                                    type == "var_bool" || type == "var_int" ||
+                                    type == "var_string")
                                 {
                                         input = ListeRoom::Instance().get_input(outitem->getOutput()->get_param("id"));
                                 }
@@ -2598,7 +2750,7 @@ void FormRules::addCondition(int type)
 
                 if (!input)
                 {
-                        QMessageBox::warning(this, tr("Calaos Installer"), QString::fromUtf8("Vous devez sélectionner une entrée."));
+                        QMessageBox::warning(this, tr("Calaos Installer"), tr("You must select an input."));
                         return;
                 }
 
@@ -2615,13 +2767,12 @@ void FormRules::addCondition(int type)
 
                 cond->get_operator().Add(id, "==");
 
-                if (input->get_param("type") == "WIDigitalBP" || input->get_param("type") == "InputTime" ||
-                    input->get_param("type") == "InputTimer" || input->get_param("type") == "Scenario" ||
-                    input->get_param("type") == "scenario" || input->get_param("type") == "InPlageHoraire" ||
-                    input->get_param("type") == "InternalBool")
+                if (input->get_gui_type() == "switch" || input->get_gui_type() == "time" ||
+                    input->get_gui_type() == "timer" || input->get_gui_type() == "scenario" ||
+                    input->get_gui_type() == "time_range" || input->get_gui_type() == "var_bool")
                       cond->get_params().Add(id, "true");
-                else if (input->get_param("type") == "WIDigitalTriple" ||
-                         input->get_param("type") == "WIDigitalLong")
+                else if (input->get_gui_type() == "switch3" ||
+                         input->get_gui_type() == "switch_long")
                       cond->get_params().Add(id, "1");
 
                 rule->AddCondition(cond);
@@ -2635,7 +2786,7 @@ void FormRules::addCondition(int type)
                 QTreeWidgetItemOutput *initem = dynamic_cast<QTreeWidgetItemOutput *>(ui->tree_home->currentItem());
                 if (!initem)
                 {
-                        QMessageBox::warning(this, tr("Calaos Installer"), QString::fromUtf8("Vous devez sélectionner une sortie."));
+                        QMessageBox::warning(this, tr("Calaos Installer"), tr("You must select an output."));
                         return;
                 }
 
@@ -2696,7 +2847,7 @@ void FormRules::addAction(int type)
                 QTreeWidgetItemOutput *outitem = dynamic_cast<QTreeWidgetItemOutput *>(ui->tree_home->currentItem());
                 if (!outitem)
                 {
-                        QMessageBox::warning(this, tr("Calaos Installer"), QString::fromUtf8("Vous devez sélectionner une sortie."));
+                        QMessageBox::warning(this, tr("Calaos Installer"), tr("You must select an output."));
                         return;
                 }
 
@@ -2715,11 +2866,11 @@ void FormRules::addAction(int type)
 
                 action->Add(output);
 
-                if (output->get_param("type") == "WODigital" || output->get_param("type") == "WODali" ||
-                    output->get_param("type") == "WODaliRVB" || output->get_param("type") == "WONeon" ||
-                    output->get_param("type") == "WOVolet" || output->get_param("type") == "WOVoletSmart")
+                if (output->get_gui_type() == "light" || output->get_gui_type() == "light_dimmer" ||
+                    output->get_gui_type() == "light_rgb" || output->get_gui_type() == "shutter" ||
+                    output->get_gui_type() == "shutter_smart" || output->get_gui_type() == "var_bool")
                       action->get_params().Add(id, "toggle");
-                else if (output->get_param("type") == "scenario" || output->get_param("type") == "InputTimer")
+                else if (output->get_gui_type() == "scenario" || output->get_gui_type() == "timer")
                       action->get_params().Add(id, "true");
 
                 rule->AddAction(action);
@@ -2775,7 +2926,7 @@ void FormRules::deleteItemCondition()
 
         QMessageBox::StandardButton reply;
         reply = QMessageBox::question(this, tr("Calaos Installer"),
-                              QString::fromUtf8("Etes vous sûr de vouloir supprimer l'élément \"%1\"").arg(treeItem_condition->data(0, TwoLineItemDelegate::headerTextRole).toString()),
+                              tr("Are you sure to delete the item \"%1\"").arg(treeItem_condition->data(0, TwoLineItemDelegate::headerTextRole).toString()),
                               QMessageBox::Yes | QMessageBox::No);
 
         if (reply != QMessageBox::Yes)
@@ -2804,7 +2955,7 @@ void FormRules::deleteItemAction()
 
         QMessageBox::StandardButton reply;
         reply = QMessageBox::question(this, tr("Calaos Installer"),
-                              QString::fromUtf8("Etes vous sûr de vouloir supprimer l'élément \"%1\"").arg(treeItem_action->data(0, TwoLineItemDelegate::headerTextRole).toString()),
+                              tr("Are you sure to delete the item \"%1\"").arg(treeItem_action->data(0, TwoLineItemDelegate::headerTextRole).toString()),
                               QMessageBox::Yes | QMessageBox::No);
 
         if (reply != QMessageBox::Yes)

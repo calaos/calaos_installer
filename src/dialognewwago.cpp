@@ -11,7 +11,7 @@ DialogNewWago::DialogNewWago(int t, Room *r, QWidget *parent) :
 {
         ui->setupUi(this);
 
-        moreButton = new QPushButton(QString::fromUtf8("Ok, suivant"), this);
+        moreButton = new QPushButton(tr("Ok, next"), this);
         moreButton->setAutoDefault(true);
         ui->buttonBox->addButton(moreButton, QDialogButtonBox::ActionRole);
 
@@ -116,7 +116,7 @@ void DialogNewWago::on_button_detect_clicked()
 
                 detect_in_progress = true;
 
-                ui->button_detect->setText(QString::fromUtf8("Arrêter..."));
+                ui->button_detect->setText(tr("Stop..."));
                 ui->edit_name->setEnabled(false);
                 ui->spin_var->setEnabled(false);
                 ui->checkKNX->setEnabled(false);
@@ -135,7 +135,7 @@ void DialogNewWago::on_button_detect_clicked()
         {
                 detect_in_progress = false;
 
-                ui->button_detect->setText(QString::fromUtf8("Détection"));
+                ui->button_detect->setText(tr("Detection"));
                 ui->edit_name->setEnabled(true);
                 ui->spin_var->setEnabled(true);
                 ui->checkKNX->setEnabled(true);

@@ -87,12 +87,12 @@ void DialogNewVolet::on_check_smart_stateChanged(int )
         {
                 ui->label_time_down->hide();
                 ui->spin_time_down->hide();
-                ui->label_time_up->setText(QString::fromUtf8("Durée (sec.) :"));
+                ui->label_time_up->setText(tr("Duration (sec.) :"));
         }
         else
         {
                 ui->label_time_down->show();
                 ui->spin_time_down->show();
-                ui->label_time_up->setText(QString::fromUtf8("Durée de la montée (sec.) :"));
+                ui->label_time_up->setText(tr("Up duration (sec.) :"));
         }
 }

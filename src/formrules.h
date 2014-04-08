@@ -140,6 +140,7 @@ protected:
                 void itemPlagesHoraires();
                 void itemConvertInterTriple();
                 void itemConvertInterBP();
+                void itemConvertInterLong();
                 void itemConvertVoletStandard();
                 void itemConvertVoletSmart();
                 void itemTempWizard();
