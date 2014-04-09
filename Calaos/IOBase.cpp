@@ -50,7 +50,6 @@ REGISTER_INPUT(ZibaseDigitalIn, "switch", TBOOL)
 /* Declare output class/type */
 REGISTER_OUTPUT(OutputFake, "light", TBOOL)
 REGISTER_OUTPUT(GpioOutputSwitch, "light", TBOOL)
-REGISTER_OUTPUT(AVReceiver, "avreceiver", TSTRING)
 REGISTER_OUTPUT(WOAnalog, "analog_out", TINT)
 REGISTER_OUTPUT(WagoOutputAnalog, "analog_out", TINT)
 REGISTER_OUTPUT(WODali, "light_dimmer", TSTRING)
@@ -72,6 +71,7 @@ REGISTER_INOUT(Scenario, "scenario", TBOOL)
 REGISTER_INOUT(InternalInt, "var_int", TINT)
 REGISTER_INOUT(InternalBool, "var_bool", TBOOL)
 REGISTER_INOUT(InternalString, "var_string", TSTRING)
+REGISTER_INOUT(AVReceiver, "avreceiver", TSTRING)
 
 /* register music zones as Audio class */
 REGISTER_INOUT(slim, "audio", TSTRING)
