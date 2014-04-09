@@ -141,8 +141,8 @@ public slots:
     void itemConvertInterTriple();
     void itemConvertInterBP();
     void itemConvertInterLong();
-    void itemConvertVoletStandard();
-    void itemConvertVoletSmart();
+    void itemConvertShutterStandard();
+    void itemConvertShutterSmart();
     void itemTempWizard();
 
     void ClearProject();

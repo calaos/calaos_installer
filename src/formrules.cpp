@@ -1274,36 +1274,39 @@ void FormRules::showPopup_tree(const QPoint point)
             }
 
 
-            if (o->get_param("type") == "WOVolet" || o->get_param("type") == "WOVoletSmart")
+            if (o->get_gui_type() == "shutter" || o->get_gui_type() == "shutter_smart")
             {
-                if (o->get_param("type") == "WOVoletSmart")
+                if (o->get_gui_type() == "shutter_smart")
                 {
                     action = item_menu.addAction(tr("Convert to normal shutter"));
                     action->setIcon(QIcon(":/img/icon_shutter.png"));
-                    connect(action, SIGNAL(triggered()), this, SLOT(itemConvertVoletStandard()));
+                    connect(action, SIGNAL(triggered()), this, SLOT(itemConvertShutterStandard()));
                 }
                 else
                 {
                     action = item_menu.addAction(tr("Convert to smart shutter"));
                     action->setIcon(QIcon(":/img/icon_shutter.png"));
-                    connect(action, SIGNAL(triggered()), this, SLOT(itemConvertVoletSmart()));
+                    connect(action, SIGNAL(triggered()), this, SLOT(itemConvertShutterSmart()));
                 }
 
                 item_menu.addSeparator();
 
-                action = item_menu.addAction(tr("Up"));
-                action->setIcon(QIcon(":/img/icon_shutter.png"));
-                connect(action, SIGNAL(triggered()), this, SLOT(itemVoletUp()));
+                if (o->get_param("type") == "WOVolet" || o->get_param("type") == "WOVoletSmart")
+                {
+                    action = item_menu.addAction(tr("Up"));
+                    action->setIcon(QIcon(":/img/icon_shutter.png"));
+                    connect(action, SIGNAL(triggered()), this, SLOT(itemVoletUp()));
 
-                action = item_menu.addAction(tr("Down"));
-                action->setIcon(QIcon(":/img/icon_shutter.png"));
-                connect(action, SIGNAL(triggered()), this, SLOT(itemVoletDown()));
+                    action = item_menu.addAction(tr("Down"));
+                    action->setIcon(QIcon(":/img/icon_shutter.png"));
+                    connect(action, SIGNAL(triggered()), this, SLOT(itemVoletDown()));
 
-                action = item_menu.addAction(tr("Stop"));
-                action->setIcon(QIcon(":/img/icon_shutter.png"));
-                connect(action, SIGNAL(triggered()), this, SLOT(itemVoletStop()));
+                    action = item_menu.addAction(tr("Stop"));
+                    action->setIcon(QIcon(":/img/icon_shutter.png"));
+                    connect(action, SIGNAL(triggered()), this, SLOT(itemVoletStop()));
 
-                item_menu.addSeparator();
+                    item_menu.addSeparator();
+                }
             }
         }
 
@@ -2324,14 +2327,14 @@ void FormRules::itemVoletStop()
     }
 }
 
-void FormRules::itemConvertVoletSmart()
+void FormRules::itemConvertShutterSmart()
 {
     if (!treeItem) return;
 
     QTreeWidgetItemOutput *itoutput = dynamic_cast<QTreeWidgetItemOutput *>(treeItem);
     if (itoutput)
     {
-        if (itoutput->getOutput()->get_param("type") == "WOVolet")
+        if (itoutput->getOutput()->get_gui_type() == "shutter")
         {
             QMessageBox::StandardButton reply;
             reply = QMessageBox::question(this, tr("Calaos Installer"),
@@ -2341,15 +2344,23 @@ void FormRules::itemConvertVoletSmart()
             if (reply == QMessageBox::Yes && itoutput->getOutput())
             {
                 IOBase *out = itoutput->getOutput();
-                out->get_params().Add("type", "WOVoletSmart");
 
-                if (!out->get_params().Exists("time_up"))
-                    out->get_params().Add("time_up", out->get_param("time"));
-                if (!out->get_params().Exists("time_down"))
-                    out->get_params().Add("time_down", out->get_param("time"));
+                if (out->get_param("type") == "WOVolet")
+                {
+                    out->get_params().Add("type", "WOVoletSmart");
+                    if (!out->get_params().Exists("time_up"))
+                        out->get_params().Add("time_up", out->get_param("time"));
+                    if (!out->get_params().Exists("time_down"))
+                        out->get_params().Add("time_down", out->get_param("time"));
+                    if (!out->get_params().Exists("var_save")) out->get_params().Add("var_save", ListeRoom::get_new_varsave());
+                }
+                else
+                {
+                    QMessageBox::warning(this, tr("Calaos Installer"), tr("Sorry, this is not implemented !"));
+                    return;
+                }
 
-                if (!out->get_params().Exists("var_save")) out->get_params().Add("var_save", ListeRoom::get_new_varsave());
-
+                out->set_gui_type("shutter_smart");
                 updateItemInfos(itoutput);
                 setProjectModified(true);
             }
@@ -2357,14 +2368,14 @@ void FormRules::itemConvertVoletSmart()
     }
 }
 
-void FormRules::itemConvertVoletStandard()
+void FormRules::itemConvertShutterStandard()
 {
     if (!treeItem) return;
 
     QTreeWidgetItemOutput *itoutput = dynamic_cast<QTreeWidgetItemOutput *>(treeItem);
     if (itoutput)
     {
-        if (itoutput->getOutput()->get_param("type") == "WOVoletSmart")
+        if (itoutput->getOutput()->get_gui_type() == "shutter_smart")
         {
             QMessageBox::StandardButton reply;
             reply = QMessageBox::question(this, tr("Calaos Installer"),
@@ -2374,12 +2385,22 @@ void FormRules::itemConvertVoletStandard()
             if (reply == QMessageBox::Yes && itoutput->getOutput())
             {
                 IOBase *out = itoutput->getOutput();
-                out->get_params().Add("type", "WOVolet");
 
-                if (!out->get_params().Exists("time"))
-                    out->get_params().Add("time", out->get_param("time_up"));
+                if (out->get_param("type") == "WOVoletSmart")
+                {
+                    out->get_params().Add("type", "WOVolet");
+                    if (!out->get_params().Exists("time"))
+                        out->get_params().Add("time", out->get_param("time_up"));
 
-                out->get_params().Delete("var_save");
+                    out->get_params().Delete("var_save");
+                }
+                else
+                {
+                    QMessageBox::warning(this, tr("Calaos Installer"), tr("Sorry, this is not implemented !"));
+                    return;
+                }
+
+                out->set_gui_type("shutter");
 
                 updateItemInfos(itoutput);
                 setProjectModified(true);
