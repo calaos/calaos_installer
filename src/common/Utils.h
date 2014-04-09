@@ -124,13 +124,13 @@ typedef unsigned int uint;
 
 /* These macros are usefull to delete/free/... an object and set it to NULL */
 #define DELETE_NULL(p) \
-        if (p) { delete p; p = NULL; }
+    if (p) { delete p; p = NULL; }
 
 #define FREE_NULL(p) \
-        if (p) { free(p); p = NULL; }
+    if (p) { free(p); p = NULL; }
 
 #define DELETE_NULL_FUNC(fn, p) \
-        if (p) { fn(p); p = NULL; }
+    if (p) { fn(p); p = NULL; }
 
 //Curl callback
 int CURL_write_callback(void *buffer, size_t size, size_t nmemb, void *stream);
@@ -138,152 +138,152 @@ int CURL_writebuf_callback(void *buffer, size_t size, size_t nmemb, void *stream
 //-----------------------------------------------------------------------------
 namespace Utils
 {
-        bool file_copy(std::string source, std::string dest);
+bool file_copy(std::string source, std::string dest);
 
-        string url_encode(string str);
-        string url_decode(string str);
-        std::string url_decode2(std::string str); //decode 2 times
-        int htoi(char *s);
-        string time2string(long s, long ms = 0);
-        string time2string_digit(long s, long ms = 0);
+string url_encode(string str);
+string url_decode(string str);
+std::string url_decode2(std::string str); //decode 2 times
+int htoi(char *s);
+string time2string(long s, long ms = 0);
+string time2string_digit(long s, long ms = 0);
 
-        /* usefull string utilities */
-        void split(const string &str, vector<string> &tokens, const string &delimiters = " ", int max = 0);
-        void remove_tag(string &source, const string begin_tag, const string end_tag);
-        void replace_str(string &source, const string searchstr, const string replacestr);
-        void trim_right(std::string &source, const std::string &t);
-        void trim_left(std::string &source, const std::string &t);
+/* usefull string utilities */
+void split(const string &str, vector<string> &tokens, const string &delimiters = " ", int max = 0);
+void remove_tag(string &source, const string begin_tag, const string end_tag);
+void replace_str(string &source, const string searchstr, const string replacestr);
+void trim_right(std::string &source, const std::string &t);
+void trim_left(std::string &source, const std::string &t);
 
-        //Return a value rounded to 2 decimal after the dot
-        double roundValue(double value);
+//Return a value rounded to 2 decimal after the dot
+double roundValue(double value);
 
-        //Parse a result string into an array of Params.
-        void parseParamsItemList(string l, vector<Params> &res, int start_at = 0);
+//Parse a result string into an array of Params.
+void parseParamsItemList(string l, vector<Params> &res, int start_at = 0);
 
-        //!decode a BASE64 string
-        std::string Base64_decode(std::string &str);
-        void *Base64_decode_data(std::string &str);
-        //!encode a BASE64 string
-        std::string Base64_encode(std::string &str);
-        std::string Base64_encode(void *data, int size);
+//!decode a BASE64 string
+std::string Base64_decode(std::string &str);
+void *Base64_decode_data(std::string &str);
+//!encode a BASE64 string
+std::string Base64_encode(std::string &str);
+std::string Base64_encode(void *data, int size);
 
-        //-----------------------------------------------------------------------------
-        template<typename T>
-                bool is_of_type(const std::string &str)
-                {
-                        std::istringstream iss(str);
-                        T tmp;
-                        return (iss >> tmp) && (iss.eof());
-                }
-        template<typename T>
-                bool from_string(const std::string &str, T &dest)
-                {
-                        std::istringstream iss(str);
-                        return iss >> dest != 0;
-                }
-        template<typename T>
-                std::string to_string( const T & Value )
-                {
-                        std::ostringstream oss;
-                        oss << Value;
-                        return oss.str();
-                }
-        //Some usefull fonctors
-        struct UrlDecode
-        {
-                template <class T> void operator ()(T &str) const
-                {
-                        str = Utils::url_decode2(str);
-                }
-        };
-        struct Delete
-        {
-                template <class T> void operator ()(T *&p) const
-                {
-                        DELETE_NULL(p)
-                }
-        };
-        class to_lower
-        {
-                public:
-                        char operator() (char c) const
-                        {
-                                return tolower(c);
-                        }
-        };
-        class to_upper
-        {
-                public:
-                        char operator() (char c) const
-                        {
-                                return toupper(c);
-                        }
-        };
+//-----------------------------------------------------------------------------
+template<typename T>
+bool is_of_type(const std::string &str)
+{
+    std::istringstream iss(str);
+    T tmp;
+    return (iss >> tmp) && (iss.eof());
+}
+template<typename T>
+bool from_string(const std::string &str, T &dest)
+{
+    std::istringstream iss(str);
+    return iss >> dest != 0;
+}
+template<typename T>
+std::string to_string( const T & Value )
+{
+    std::ostringstream oss;
+    oss << Value;
+    return oss.str();
+}
+//Some usefull fonctors
+struct UrlDecode
+{
+    template <class T> void operator ()(T &str) const
+    {
+        str = Utils::url_decode2(str);
+    }
+};
+struct Delete
+{
+    template <class T> void operator ()(T *&p) const
+    {
+        DELETE_NULL(p)
+    }
+};
+class to_lower
+{
+public:
+    char operator() (char c) const
+    {
+        return tolower(c);
+    }
+};
+class to_upper
+{
+public:
+    char operator() (char c) const
+    {
+        return toupper(c);
+    }
+};
 
-        class DeletorBase
-        {
-                public:
-                virtual ~DeletorBase() {}
-                virtual void operator() (void *b) const
-                {
-                        (void)b;
-                        cerr << "DeletorBase() called, this is an error. It should never happen"
-                             << ", because it means the application leaks memory!" << endl;
-                }
-        };
+class DeletorBase
+{
+public:
+    virtual ~DeletorBase() {}
+    virtual void operator() (void *b) const
+    {
+        (void)b;
+        cerr << "DeletorBase() called, this is an error. It should never happen"
+             << ", because it means the application leaks memory!" << endl;
+    }
+};
 
-        //Fonctor to delete a void * with a specified type
-        template<typename T>
-        class DeletorT: public DeletorBase
-        {
-                public:
-                virtual void operator() (void *b) const
-                {
-                        T base = reinterpret_cast<T>(b);
-                        if (base) delete base;
-                }
-        };
-        //-----------------------------------------------------------------------------
-        //Used by the CURL callback
-        typedef struct file_curl
-        {
-                char *fname;
-                FILE *fp;
-        } File_CURL;
-        typedef struct buffer_curl
-        {
-                void *buffer;
-                unsigned int bufsize;
-        } Buffer_CURL;
-        //-----------------------------------------------------------------------------
-        class line_exception : public std::exception
-        {
-                private:
-                        std::string msg;
+//Fonctor to delete a void * with a specified type
+template<typename T>
+class DeletorT: public DeletorBase
+{
+public:
+    virtual void operator() (void *b) const
+    {
+        T base = reinterpret_cast<T>(b);
+        if (base) delete base;
+    }
+};
+//-----------------------------------------------------------------------------
+//Used by the CURL callback
+typedef struct file_curl
+{
+    char *fname;
+    FILE *fp;
+} File_CURL;
+typedef struct buffer_curl
+{
+    void *buffer;
+    unsigned int bufsize;
+} Buffer_CURL;
+//-----------------------------------------------------------------------------
+class line_exception : public std::exception
+{
+private:
+    std::string msg;
 
-                public:
-                        line_exception( const char * Msg, int Line )
-                        {
-                                std::ostringstream oss;
-                                oss << "Error line " << Line << " : " << Msg;
-                                msg = oss.str();
-                        }
+public:
+    line_exception( const char * Msg, int Line )
+    {
+        std::ostringstream oss;
+        oss << "Error line " << Line << " : " << Msg;
+        msg = oss.str();
+    }
 
-                        virtual ~line_exception() throw()
-                        { }
+    virtual ~line_exception() throw()
+    { }
 
-                        virtual const char * what() const throw()
-                        {
-                                return msg.c_str();
-                        }
-        };
+    virtual const char * what() const throw()
+    {
+        return msg.c_str();
+    }
+};
 
 
-        //-----------------------------------------------------------------------------
-        typedef enum { TBOOL, TINT, TSTRING, TUNKNOWN } DATA_TYPE;
-        //-----------------------------------------------------------------------------
-        typedef unsigned short UWord;
-        //-----------------------------------------------------------------------------
+//-----------------------------------------------------------------------------
+typedef enum { TBOOL, TINT, TSTRING, TUNKNOWN } DATA_TYPE;
+//-----------------------------------------------------------------------------
+typedef unsigned short UWord;
+//-----------------------------------------------------------------------------
 }
 //-----------------------------------------------------------------------------
 #endif

@@ -13,26 +13,26 @@ using namespace Calaos;
 
 namespace Ui
 {
-        class DialogCameraView;
+class DialogCameraView;
 }
 
 class DialogCameraView : public QDialog
 {
-                Q_OBJECT
-                Q_DISABLE_COPY(DialogCameraView)
-        public:
-                explicit DialogCameraView(IOBase *camera, QWidget *parent = 0);
-                virtual ~DialogCameraView();
+    Q_OBJECT
+    Q_DISABLE_COPY(DialogCameraView)
+public:
+    explicit DialogCameraView(IOBase *camera, QWidget *parent = 0);
+    virtual ~DialogCameraView();
 
-                void DownloadPicture();
+    void DownloadPicture();
 
-        protected:
-                virtual void changeEvent(QEvent *e);
+protected:
+    virtual void changeEvent(QEvent *e);
 
-        private:
-                Ui::DialogCameraView *ui;
+private:
+    Ui::DialogCameraView *ui;
 
-                IOBase *camera;
+    IOBase *camera;
 
 };
 

@@ -5,24 +5,24 @@
 
 namespace Ui
 {
-        class DialogMailMessage;
+class DialogMailMessage;
 }
 
 class DialogMailMessage : public QDialog
 {
-        Q_OBJECT
+    Q_OBJECT
 
-        public:
-                explicit DialogMailMessage(QString msg, QWidget *parent = 0);
-                ~DialogMailMessage();
+public:
+    explicit DialogMailMessage(QString msg, QWidget *parent = 0);
+    ~DialogMailMessage();
 
-                QString getMessage();
+    QString getMessage();
 
-        protected:
-                void changeEvent(QEvent *e);
+protected:
+    void changeEvent(QEvent *e);
 
-        private:
-                Ui::DialogMailMessage *ui;
+private:
+    Ui::DialogMailMessage *ui;
 };
 
 #endif // DIALOGMAILMESSAGE_H

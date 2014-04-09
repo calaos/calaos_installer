@@ -36,36 +36,36 @@ namespace Calaos
 
 class ListeRule
 {
-        protected:
-                std::vector<Rule *> rules;
+protected:
+    std::vector<Rule *> rules;
 
-                ListeRule()
-                        { }
+    ListeRule()
+    { }
 
-        public:
-                //singleton
-                static ListeRule &Instance();
+public:
+    //singleton
+    static ListeRule &Instance();
 
-                ~ListeRule();
+    ~ListeRule();
 
-                void Add(Rule *p);
-                void Remove(int i);
-                void Remove(Rule *obj);
-                void RemoveRuleInput(IOBase *obj); //remove all rules containing obj
-                void RemoveRuleOutput(IOBase *obj); //remove all rules containing obj
+    void Add(Rule *p);
+    void Remove(int i);
+    void Remove(Rule *obj);
+    void RemoveRuleInput(IOBase *obj); //remove all rules containing obj
+    void RemoveRuleOutput(IOBase *obj); //remove all rules containing obj
 
-                void RemoveSpecialRules(string specialType);
+    void RemoveSpecialRules(string specialType);
 
-                Rule *searchRuleInput(IOBase *input);
-                Rule *searchRuleOutput(IOBase *output);
-                Rule *searchRule(string type, string name);
+    Rule *searchRuleInput(IOBase *input);
+    Rule *searchRuleOutput(IOBase *output);
+    Rule *searchRule(string type, string name);
 
-                Rule *get_rule(int i);
-                Rule *operator[] (int i) const;
+    Rule *get_rule(int i);
+    Rule *operator[] (int i) const;
 
-                int size() { return rules.size(); }
+    int size() { return rules.size(); }
 
-                void clear();
+    void clear();
 };
 
 }

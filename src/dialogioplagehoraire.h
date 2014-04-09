@@ -14,34 +14,34 @@ using namespace Calaos;
 
 namespace Ui
 {
-        class DialogPlageHoraire;
+class DialogPlageHoraire;
 }
 
 class DialogPlageHoraire : public QDialog
 {
-        Q_OBJECT
-        Q_DISABLE_COPY(DialogPlageHoraire)
-        public:
-                explicit DialogPlageHoraire(IOBase *p, QWidget *parent = 0);
-                virtual ~DialogPlageHoraire();
+    Q_OBJECT
+    Q_DISABLE_COPY(DialogPlageHoraire)
+public:
+    explicit DialogPlageHoraire(IOBase *p, QWidget *parent = 0);
+    virtual ~DialogPlageHoraire();
 
-                IOBase *getPlageHoraire() { return plage; }
+    IOBase *getPlageHoraire() { return plage; }
 
-        protected:
-                virtual void changeEvent(QEvent *e);
+protected:
+    virtual void changeEvent(QEvent *e);
 
-        private:
-                Ui::DialogPlageHoraire *ui;
+private:
+    Ui::DialogPlageHoraire *ui;
 
-                IOBase *plage;
-                vector<Horaire> *day;
+    IOBase *plage;
+    vector<Horaire> *day;
 
 
-        private slots:
-                void on_modifyButton_clicked();
-                void on_delButton_clicked();
-                void on_addButton_clicked();
-                void on_listDay_currentRowChanged(int currentRow);
+private slots:
+    void on_modifyButton_clicked();
+    void on_delButton_clicked();
+    void on_addButton_clicked();
+    void on_listDay_currentRowChanged(int currentRow);
 };
 
 #endif // DIALOGPLAGEHORAIRE_H

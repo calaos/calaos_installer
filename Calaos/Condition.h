@@ -31,70 +31,70 @@ enum { COND_UNKONWN = 0, COND_STD, COND_START, COND_SCRIPT, COND_OUTPUT };
 
 class Condition
 {
-        protected:
-                int condition_type;
+protected:
+    int condition_type;
 
-                std::vector<IOBase *> inputs;
-                Params params;
-                Params ops;
+    std::vector<IOBase *> inputs;
+    Params params;
+    Params ops;
 
-                //this is used to do the condition test
-                //based on another input
-                Params params_var;
+    //this is used to do the condition test
+    //based on another input
+    Params params_var;
 
-                string script;
-                //These are declared inputs that will trigger the rule execution
-                //Most generaly, inputs are those used in the script
-                vector<IOBase *> in_event;
+    string script;
+    //These are declared inputs that will trigger the rule execution
+    //Most generaly, inputs are those used in the script
+    vector<IOBase *> in_event;
 
-                //Output condition
-                IOBase *output;
-                string output_param, output_param_var, output_oper;
+    //Output condition
+    IOBase *output;
+    string output_param, output_param_var, output_oper;
 
-        public:
-                Condition(int ctype): condition_type(ctype)
-                        { }
-                ~Condition();
+public:
+    Condition(int ctype): condition_type(ctype)
+    { }
+    ~Condition();
 
-                int getType() { return condition_type; }
+    int getType() { return condition_type; }
 
-                /*-- Standard Condition --*/
-                void Add(IOBase *p);
-                bool Evaluate();
-                void Remove(int i);
+    /*-- Standard Condition --*/
+    void Add(IOBase *p);
+    bool Evaluate();
+    void Remove(int i);
 
-                IOBase *get_input(int i) { return inputs[i]; }
-                Params &get_params() { return params; }
-                Params &get_operator() { return ops; }
-                Params &get_params_var() { return params_var; }
-                void set_param(Params &p) { params = p; }
-                void set_operator(Params &p) { ops = p; }
-                void set_param_var(Params &p) { params_var = p; }
+    IOBase *get_input(int i) { return inputs[i]; }
+    Params &get_params() { return params; }
+    Params &get_operator() { return ops; }
+    Params &get_params_var() { return params_var; }
+    void set_param(Params &p) { params = p; }
+    void set_operator(Params &p) { ops = p; }
+    void set_param_var(Params &p) { params_var = p; }
 
-                int get_size() { return inputs.size(); }
-                /*-- Standard Condition --*/
+    int get_size() { return inputs.size(); }
+    /*-- Standard Condition --*/
 
-                /*-- Script Condition --*/
-                int getScriptInputSize() { return in_event.size(); }
-                IOBase *getScriptInput(int i) { return in_event[i]; }
-                void addScriptInput(IOBase *in) { in_event.push_back(in); }
-                void clearScriptInput() { in_event.clear(); }
-                void removeScriptInput(int i);
-                void removeScriptInput(IOBase *in);
-                string getScript() { return script; }
-                void setScript(string s) { script = s; }
-                /*-- Script Condition --*/
+    /*-- Script Condition --*/
+    int getScriptInputSize() { return in_event.size(); }
+    IOBase *getScriptInput(int i) { return in_event[i]; }
+    void addScriptInput(IOBase *in) { in_event.push_back(in); }
+    void clearScriptInput() { in_event.clear(); }
+    void removeScriptInput(int i);
+    void removeScriptInput(IOBase *in);
+    string getScript() { return script; }
+    void setScript(string s) { script = s; }
+    /*-- Script Condition --*/
 
-                /*-- Output Condition --*/
-                IOBase *getOutput() { return output; }
-                void setOutput(IOBase *o) { output = o; }
-                string getOutputParam() { return output_param; }
-                void setOutputParam(string param) { output_param = param; }
-                string getOutputOper() { return output_oper; }
-                void setOutputOper(string p) { output_oper = p; }
-                string getOutputParamVar() { return output_param_var; }
-                void setOutputParamVar(string param) { output_param_var = param; }
-                /*-- Output Condition --*/
+    /*-- Output Condition --*/
+    IOBase *getOutput() { return output; }
+    void setOutput(IOBase *o) { output = o; }
+    string getOutputParam() { return output_param; }
+    void setOutputParam(string param) { output_param = param; }
+    string getOutputOper() { return output_oper; }
+    void setOutputOper(string p) { output_oper = p; }
+    string getOutputParamVar() { return output_param_var; }
+    void setOutputParamVar(string param) { output_param_var = param; }
+    /*-- Output Condition --*/
 
 };
 

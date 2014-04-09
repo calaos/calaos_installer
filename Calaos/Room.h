@@ -33,41 +33,41 @@ namespace Calaos
 
 class Room
 {
-        protected:
-                std::string name;
-                std::string type;
-                int hits;
+protected:
+    std::string name;
+    std::string type;
+    int hits;
 
-                std::vector<IOBase *> inputs;
-                std::vector<IOBase *> outputs;
+    std::vector<IOBase *> inputs;
+    std::vector<IOBase *> outputs;
 
-        public:
-                Room(std::string _name, std::string _type, int _hits = 0)
-                                : name(_name), type(_type), hits(_hits)
-                        { }
-                ~Room();
+public:
+    Room(std::string _name, std::string _type, int _hits = 0)
+        : name(_name), type(_type), hits(_hits)
+    { }
+    ~Room();
 
-                std::string &get_name() { return name; }
-                void set_name(std::string &s) { name = s; }
+    std::string &get_name() { return name; }
+    void set_name(std::string &s) { name = s; }
 
-                std::string &get_type() { return type; }
-                void set_type(std::string &s) { type = s; }
+    std::string &get_type() { return type; }
+    void set_type(std::string &s) { type = s; }
 
-                int get_hits() { return hits; }
-                void set_hits(int h) { hits = h; }
+    int get_hits() { return hits; }
+    void set_hits(int h) { hits = h; }
 
-                void AddInput(IOBase *p);
-                void RemoveInput(int i, bool del = true);
-                void RemoveInput(IOBase *input);
-                void AddOutput(IOBase *p);
-                void RemoveOutput(int i, bool del = true);
-                void RemoveOutput(IOBase *output);
+    void AddInput(IOBase *p);
+    void RemoveInput(int i, bool del = true);
+    void RemoveInput(IOBase *input);
+    void AddOutput(IOBase *p);
+    void RemoveOutput(int i, bool del = true);
+    void RemoveOutput(IOBase *output);
 
-                IOBase *get_input(int i) { return inputs[i]; }
-                IOBase *get_output(int i) { return outputs[i]; }
+    IOBase *get_input(int i) { return inputs[i]; }
+    IOBase *get_output(int i) { return outputs[i]; }
 
-                int get_size_in() { return inputs.size(); }
-                int get_size_out() { return outputs.size(); }
+    int get_size_in() { return inputs.size(); }
+    int get_size_out() { return outputs.size(); }
 };
 //-----------------------------------------------------------------------------
 //-----------------------------------------------------------------------------

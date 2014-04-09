@@ -56,25 +56,25 @@ QVariant Json::parseValue(const QString &json, int &index, bool &success)
     //checking out the upcoming token
     switch(Json::lookAhead(json, index))
     {
-        case JsonTokenString:
-            return Json::parseString(json, index, success);
-        case JsonTokenNumber:
-            return Json::parseNumber(json, index);
-        case JsonTokenCurlyOpen:
-            return Json::parseObject(json, index, success);
-        case JsonTokenSquaredOpen:
-            return Json::parseArray(json, index, success);
-        case JsonTokenTrue:
-            Json::nextToken(json, index);
-            return QVariant(true);
-        case JsonTokenFalse:
-            Json::nextToken(json, index);
-            return QVariant(false);
-        case JsonTokenNull:
-            Json::nextToken(json, index);
-            return QVariant();
-        case JsonTokenNone:
-            break;
+    case JsonTokenString:
+        return Json::parseString(json, index, success);
+    case JsonTokenNumber:
+        return Json::parseNumber(json, index);
+    case JsonTokenCurlyOpen:
+        return Json::parseObject(json, index, success);
+    case JsonTokenSquaredOpen:
+        return Json::parseArray(json, index, success);
+    case JsonTokenTrue:
+        Json::nextToken(json, index);
+        return QVariant(true);
+    case JsonTokenFalse:
+        Json::nextToken(json, index);
+        return QVariant(false);
+    case JsonTokenNull:
+        Json::nextToken(json, index);
+        return QVariant();
+    case JsonTokenNone:
+        break;
     }
 
     //If there were no tokens, flag the failure and return an empty QVariant
@@ -102,8 +102,8 @@ QVariant Json::parseObject(const QString &json, int &index, bool &success)
 
         if(token == JsonTokenNone)
         {
-             success = false;
-             return QVariantMap();
+            success = false;
+            return QVariantMap();
         }
         else if(token == JsonTokenComma)
         {
@@ -374,16 +374,16 @@ int Json::nextToken(const QString &json, int &index)
     index++;
     switch(c.toLatin1())
     {
-        case '{': return JsonTokenCurlyOpen;
-        case '}': return JsonTokenCurlyClose;
-        case '[': return JsonTokenSquaredOpen;
-        case ']': return JsonTokenSquaredClose;
-        case ',': return JsonTokenComma;
-        case '"': return JsonTokenString;
-        case '0': case '1': case '2': case '3': case '4':
-        case '5': case '6': case '7': case '8': case '9':
-        case '-': return JsonTokenNumber;
-        case ':': return JsonTokenColon;
+    case '{': return JsonTokenCurlyOpen;
+    case '}': return JsonTokenCurlyClose;
+    case '[': return JsonTokenSquaredOpen;
+    case ']': return JsonTokenSquaredClose;
+    case ',': return JsonTokenComma;
+    case '"': return JsonTokenString;
+    case '0': case '1': case '2': case '3': case '4':
+    case '5': case '6': case '7': case '8': case '9':
+    case '-': return JsonTokenNumber;
+    case ':': return JsonTokenColon;
     }
 
     index--;

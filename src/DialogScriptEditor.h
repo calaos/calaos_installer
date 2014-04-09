@@ -7,54 +7,54 @@
 #include <ScriptManager.h>
 
 namespace Ui {
-        class DialogScriptEditor;
+class DialogScriptEditor;
 }
 
 class DialogScriptEditor : public QDialog
 {
-        Q_OBJECT
+    Q_OBJECT
 
-        public:
-                explicit DialogScriptEditor(QString script, QWidget *parent = 0);
-                ~DialogScriptEditor();
+public:
+    explicit DialogScriptEditor(QString script, QWidget *parent = 0);
+    ~DialogScriptEditor();
 
-                QString getScript();
+    QString getScript();
 
-        protected:
-                void changeEvent(QEvent *e);
+protected:
+    void changeEvent(QEvent *e);
 
-        private:
-                Ui::DialogScriptEditor *ui;
+private:
+    Ui::DialogScriptEditor *ui;
 
-                CodeEditor *codeEditor;
-                bool scriptError;
+    CodeEditor *codeEditor;
+    bool scriptError;
 
-                bool Execute();
+    bool Execute();
 
-        private slots:
-                void on_pushButton_Ok_clicked();
-                void on_pushButton_Valid_clicked();
-                void on_print_message(QString msg);
+private slots:
+    void on_pushButton_Ok_clicked();
+    void on_pushButton_Valid_clicked();
+    void on_print_message(QString msg);
 };
 
 class LuaPrinter: public QObject
 {
-        Q_OBJECT
+    Q_OBJECT
 
-        public:
-                static LuaPrinter &Instance()
-                {
-                        static LuaPrinter lp;
-                        return lp;
-                }
+public:
+    static LuaPrinter &Instance()
+    {
+        static LuaPrinter lp;
+        return lp;
+    }
 
-                void Print(QString msg) { emit print(msg); }
+    void Print(QString msg) { emit print(msg); }
 
-        signals:
-                void print(QString msg);
+signals:
+    void print(QString msg);
 
-        private:
-                LuaPrinter(): QObject() {}
+private:
+    LuaPrinter(): QObject() {}
 };
 
 #endif // DIALOGSCRIPTEDITOR_H

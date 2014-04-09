@@ -6,85 +6,85 @@
 
 namespace Ui
 {
-        class FormDali;
+class FormDali;
 }
 
 class FormDali : public QWidget
 {
-        Q_OBJECT
+    Q_OBJECT
 
-        public:
-                explicit FormDali(QWidget *parent = 0);
-                ~FormDali();
+public:
+    explicit FormDali(QWidget *parent = 0);
+    ~FormDali();
 
-                void Init();
+    void Init();
 
-        protected:
-                void changeEvent(QEvent *e);
+protected:
+    void changeEvent(QEvent *e);
 
-        private:
-                Ui::FormDali *ui;
+private:
+    Ui::FormDali *ui;
 
-                QMenu *menu_addressing;
-                QPointer<QTimer> timer_addressing;
+    QMenu *menu_addressing;
+    QPointer<QTimer> timer_addressing;
 
-                QVector<bool> itemsCache;
-                QMap<QListWidgetItem *, int> mapCache;
-                QMap<QListWidgetItem *, int>::const_iterator mapIter;
+    QVector<bool> itemsCache;
+    QMap<QListWidgetItem *, int> mapCache;
+    QMap<QListWidgetItem *, int>::const_iterator mapIter;
 
-                QVector<QString> cacheGroups;
+    QVector<QString> cacheGroups;
 
-                QPointer<QAnimationLabel> spinner;
+    QPointer<QAnimationLabel> spinner;
 
-                int currentGroup;
+    int currentGroup;
 
-                void DisableControls();
-                void EnableControls();
+    void DisableControls();
+    void EnableControls();
 
-                void LoadGroup();
-                void ShowGroup(int grp);
+    void LoadGroup();
+    void ShowGroup(int grp);
 
-        signals:
-                void closeDaliForm();
+signals:
+    void closeDaliForm();
 
-        private slots:
-                void on_buttonGrpBlinkStop_clicked();
-                void on_buttonGrpBlink_clicked();
-                void on_buttonGrpOff_clicked();
-                void on_buttonGrpOn_clicked();
-                void on_listGroups_customContextMenuRequested(QPoint pos);
-                void on_listLights_customContextMenuRequested(QPoint pos);
-                void on_comboGroups_currentIndexChanged(int index);
-                void on_sliderLight_sliderReleased();
-                void on_buttonAdvanced_clicked();
-                void on_buttonBlinkStop_clicked();
-                void on_buttonBlink_clicked();
-                void on_buttonOff_clicked();
-                void on_buttonOn_clicked();
-                void on_listLights_currentItemChanged(QListWidgetItem* current, QListWidgetItem* previous);
-                void on_pushButton_clicked();
-                void on_buttonCentralOff_clicked();
-                void on_buttonCentralOn_clicked();
-                void on_buttonAddressing_clicked();
+private slots:
+    void on_buttonGrpBlinkStop_clicked();
+    void on_buttonGrpBlink_clicked();
+    void on_buttonGrpOff_clicked();
+    void on_buttonGrpOn_clicked();
+    void on_listGroups_customContextMenuRequested(QPoint pos);
+    void on_listLights_customContextMenuRequested(QPoint pos);
+    void on_comboGroups_currentIndexChanged(int index);
+    void on_sliderLight_sliderReleased();
+    void on_buttonAdvanced_clicked();
+    void on_buttonBlinkStop_clicked();
+    void on_buttonBlink_clicked();
+    void on_buttonOff_clicked();
+    void on_buttonOn_clicked();
+    void on_listLights_currentItemChanged(QListWidgetItem* current, QListWidgetItem* previous);
+    void on_pushButton_clicked();
+    void on_buttonCentralOff_clicked();
+    void on_buttonCentralOn_clicked();
+    void on_buttonAddressing_clicked();
 
-                void searchDevices_cb(QString cmd, QString res);
+    void searchDevices_cb(QString cmd, QString res);
 
-                void newAddressing();
-                void expansionAddressing();
+    void newAddressing();
+    void expansionAddressing();
 
-                void addToGroup();
-                void delFromGroup();
+    void addToGroup();
+    void delFromGroup();
 
-                void deleteAddress();
-                void changeAddress(int new_address);
+    void deleteAddress();
+    void changeAddress(int new_address);
 
-                void addressingInProgress_cb();
-                void addressingStatus_cb(QString cmd, QString res);
+    void addressingInProgress_cb();
+    void addressingStatus_cb(QString cmd, QString res);
 
-                void Init_cb(QString cmd, QString res);
-                void LoadGroups_cb(QString cmd, QString res);
-                void modifyGroup_cb(QString cmd, QString res);
-                void advancedInfo_cb(QString cmd, QString res);
+    void Init_cb(QString cmd, QString res);
+    void LoadGroups_cb(QString cmd, QString res);
+    void modifyGroup_cb(QString cmd, QString res);
+    void advancedInfo_cb(QString cmd, QString res);
 };
 
 #endif // FORMDALI_H

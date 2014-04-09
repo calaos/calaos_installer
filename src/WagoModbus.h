@@ -31,27 +31,27 @@ typedef QByteArray Modbus;
 
 class WagoModbus : public QObject
 {
-        Q_OBJECT
+    Q_OBJECT
 
-        private:
-                QTcpSocket *modbusSocket;
-                Modbus request;
+private:
+    QTcpSocket *modbusSocket;
+    Modbus request;
 
-        public:
-                WagoModbus(QObject *parent = NULL);
-                ~WagoModbus();
+public:
+    WagoModbus(QObject *parent = NULL);
+    ~WagoModbus();
 
-                static void createModbusRequest(Modbus &req, int function, int addr, int data);
-                void sendRequest(Modbus &query);
+    static void createModbusRequest(Modbus &req, int function, int addr, int data);
+    void sendRequest(Modbus &query);
 
-        signals:
-                void requestDone(bool success, Modbus &res);
+signals:
+    void requestDone(bool success, Modbus &res);
 
-        private slots:
-                void modbusReadTCPPacket();
-                void modbusTcpError(QAbstractSocket::SocketError socketError);
-                void modbusTcpConnected();
-                void modbusTcpDisconnected();
+private slots:
+    void modbusReadTCPPacket();
+    void modbusTcpError(QAbstractSocket::SocketError socketError);
+    void modbusTcpConnected();
+    void modbusTcpDisconnected();
 };
 
 #endif // WAGOMODBUS_H

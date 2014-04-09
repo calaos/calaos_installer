@@ -12,44 +12,44 @@ using namespace Calaos;
 
 namespace Ui
 {
-        class FormConditionStd;
+class FormConditionStd;
 }
 
 class FormConditionStd : public QWidget
 {
-        Q_OBJECT
+    Q_OBJECT
 
-        public:
-                explicit FormConditionStd(QWidget *parent = 0);
-                ~FormConditionStd();
+public:
+    explicit FormConditionStd(QWidget *parent = 0);
+    ~FormConditionStd();
 
-                void setCondition(QTreeWidgetItem *item, Rule *rule, Condition *condition);
+    void setCondition(QTreeWidgetItem *item, Rule *rule, Condition *condition);
 
-        private:
-                Ui::FormConditionStd *ui;
+private:
+    Ui::FormConditionStd *ui;
 
-                string getRoomIcon(string room_type);
+    string getRoomIcon(string room_type);
 
-        protected:
-                void changeEvent(QEvent *e);
+protected:
+    void changeEvent(QEvent *e);
 
-                Rule *rule;
-                Condition *condition;
-                QTreeWidgetItem *qitem;
+    Rule *rule;
+    Condition *condition;
+    QTreeWidgetItem *qitem;
 
-                bool onStart;
+    bool onStart;
 
-                QMenu *actionMenu;
+    QMenu *actionMenu;
 
-                void addActionMenu(QString action, QString help, QString cmd);
+    void addActionMenu(QString action, QString help, QString cmd);
 
-        private slots:
-                void menuAction(RuleActionMenu *);
+private slots:
+    void menuAction(RuleActionMenu *);
 
-                void on_btMore_clicked();
-                void on_editValue_textChanged(const QString &arg1);
-                void on_buttonMore_clicked();
-                void on_comboOp_currentIndexChanged(int);
+    void on_btMore_clicked();
+    void on_editValue_textChanged(const QString &arg1);
+    void on_buttonMore_clicked();
+    void on_comboOp_currentIndexChanged(int);
 };
 
 #endif // FORMCONDITIONSTD_H

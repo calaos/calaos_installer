@@ -100,13 +100,13 @@ public:
 
     void clear()
     {
-            plg_lundi.clear();
-            plg_mardi.clear();
-            plg_mercredi.clear();
-            plg_jeudi.clear();
-            plg_vendredi.clear();
-            plg_samedi.clear();
-            plg_dimanche.clear();
+        plg_lundi.clear();
+        plg_mardi.clear();
+        plg_mercredi.clear();
+        plg_jeudi.clear();
+        plg_vendredi.clear();
+        plg_samedi.clear();
+        plg_dimanche.clear();
     }
 };
 

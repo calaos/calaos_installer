@@ -2,32 +2,32 @@
 #include "ui_DialogMailMessage.h"
 
 DialogMailMessage::DialogMailMessage(QString msg, QWidget *parent) :
-                QDialog(parent),
-                ui(new Ui::DialogMailMessage)
+    QDialog(parent),
+    ui(new Ui::DialogMailMessage)
 {
-        ui->setupUi(this);
+    ui->setupUi(this);
 
-        ui->textEdit->setPlainText(msg);
+    ui->textEdit->setPlainText(msg);
 }
 
 DialogMailMessage::~DialogMailMessage()
 {
-        delete ui;
+    delete ui;
 }
 
 void DialogMailMessage::changeEvent(QEvent *e)
 {
-        QDialog::changeEvent(e);
-        switch (e->type()) {
-        case QEvent::LanguageChange:
-                ui->retranslateUi(this);
-                break;
-        default:
-                break;
-        }
+    QDialog::changeEvent(e);
+    switch (e->type()) {
+    case QEvent::LanguageChange:
+        ui->retranslateUi(this);
+        break;
+    default:
+        break;
+    }
 }
 
 QString DialogMailMessage::getMessage()
 {
-        return ui->textEdit->toPlainText();
+    return ui->textEdit->toPlainText();
 }

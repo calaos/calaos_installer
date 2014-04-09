@@ -16,25 +16,25 @@ class DialogNewGpioInput;
 
 class DialogNewGpioInput : public QDialog
 {
-        Q_OBJECT
-        Q_DISABLE_COPY(DialogNewGpioInput)
+    Q_OBJECT
+    Q_DISABLE_COPY(DialogNewGpioInput)
 
 public:
-        explicit DialogNewGpioInput(Room *r, QWidget *parent = 0);
-        virtual ~DialogNewGpioInput();
+    explicit DialogNewGpioInput(Room *r, QWidget *parent = 0);
+    virtual ~DialogNewGpioInput();
 
-        IOBase *getInput() { return input; }
+    IOBase *getInput() { return input; }
 
 protected:
-        virtual void changeEvent(QEvent *e);
+    virtual void changeEvent(QEvent *e);
 
 private:
-        Ui::DialogNewGpioInput *ui;
-        IOBase *input;
-        Room *room;
+    Ui::DialogNewGpioInput *ui;
+    IOBase *input;
+    Room *room;
 
 private slots:
-        void on_buttonBox_accepted();
+    void on_buttonBox_accepted();
 };
 
 #endif // DIALOGNEWGPIOINPUT_H

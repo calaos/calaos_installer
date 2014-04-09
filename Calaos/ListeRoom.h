@@ -43,63 +43,63 @@ typedef enum { PLAGE_HORAIRE, CONSIGNE, ACTIVE } ChauffType;
 //-----------------------------------------------------------------------------
 class ListeRoom
 {
-        protected:
-                std::vector<Room *> rooms;
+protected:
+    std::vector<Room *> rooms;
 
-                ListeRoom()
-                        { }
+    ListeRoom()
+    { }
 
-        public:
-                //singleton
-                static ListeRoom &Instance();
+public:
+    //singleton
+    static ListeRoom &Instance();
 
-                ~ListeRoom();
+    ~ListeRoom();
 
-                void Add(Room *p);
-                void Remove(int i);
-                void Remove(Room *room);
-                Room *get_room(int i);
-                Room *operator[] (int i) const;
+    void Add(Room *p);
+    void Remove(int i);
+    void Remove(Room *room);
+    Room *get_room(int i);
+    Room *operator[] (int i) const;
 
-                bool roomExists(Room *room);
+    bool roomExists(Room *room);
 
-                IOBase *get_input(std::string i);
-                IOBase *get_output(std::string i);
+    IOBase *get_input(std::string i);
+    IOBase *get_output(std::string i);
 
-                //return -1 if not found, else return room id
-                int searchIO(IOBase *io);
+    //return -1 if not found, else return room id
+    int searchIO(IOBase *io);
 
-                IOBase *get_input(int i);
-                IOBase *get_output(int i);
-                bool delete_input(IOBase *in, bool del = true);
-                bool delete_output(IOBase *out, bool del = true);
+    IOBase *get_input(int i);
+    IOBase *get_output(int i);
+    bool delete_input(IOBase *in, bool del = true);
+    bool delete_output(IOBase *out, bool del = true);
 
-                int get_nb_input();
-                int get_nb_output();
+    int get_nb_input();
+    int get_nb_output();
 
-                IOBase *get_chauffage_var(std::string chauff_id, ChauffType type);
+    IOBase *get_chauffage_var(std::string chauff_id, ChauffType type);
 
-                int size() { return rooms.size(); }
+    int size() { return rooms.size(); }
 
-                Room *searchRoomByName(string name, string type);
+    Room *searchRoomByName(string name, string type);
 
-                Room *searchRoomByInput(IOBase *);
-                Room *searchRoomByOutput(IOBase *);
+    Room *searchRoomByInput(IOBase *);
+    Room *searchRoomByOutput(IOBase *);
 
-                bool deleteIOInput(IOBase *input);
-                bool deleteIOOutput(IOBase *output);
+    bool deleteIOInput(IOBase *input);
+    bool deleteIOOutput(IOBase *output);
 
-                IOBase *createInput(Params param, Room *room);
-                IOBase *createOutput(Params param, Room *room);
-                IOBase *createCamera(Params param, Room *room);
-                IOBase *createAudio(Params param, Room *room);
+    IOBase *createInput(Params param, Room *room);
+    IOBase *createOutput(Params param, Room *room);
+    IOBase *createCamera(Params param, Room *room);
+    IOBase *createAudio(Params param, Room *room);
 
-                static string get_new_id(string prefix);
-                static string get_new_varsave();
+    static string get_new_id(string prefix);
+    static string get_new_varsave();
 
-                static string getRoomType(int type);
+    static string getRoomType(int type);
 
-                void clear();
+    void clear();
 };
 
 }

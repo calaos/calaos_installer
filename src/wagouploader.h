@@ -16,52 +16,52 @@ enum { TWAGO_NONE = 0, TWAGO_TELERUPTEUR, TWAGO_DIRECT, TWAGO_VOLET, TWAGO_VOLET
 
 class WagoRuleCommand
 {
-        public:
+public:
 
-                WagoRuleCommand(): input(0), type(TWAGO_NONE),
-                               addr1(0), addr2(0),
-                               sameas(-1), type_sent(false)
-                { }
+    WagoRuleCommand(): input(0), type(TWAGO_NONE),
+        addr1(0), addr2(0),
+        sameas(-1), type_sent(false)
+    { }
 
-        int input;
-        int type;
-        int addr1;
-        int addr2;
-        int sameas;
-        bool type_sent;
+    int input;
+    int type;
+    int addr1;
+    int addr2;
+    int sameas;
+    bool type_sent;
 };
 
 class WagoUploader : public QObject
 {
-        Q_OBJECT
+    Q_OBJECT
 
-        public:
-                WagoUploader(QObject *parent = NULL);
-                ~WagoUploader();
+public:
+    WagoUploader(QObject *parent = NULL);
+    ~WagoUploader();
 
-        public slots:
-                void startUpload(QString ip);
-                void stopUpload();
+public slots:
+    void startUpload(QString ip);
+    void stopUpload();
 
-        signals:
-                /* Signal emited when status of uploading updates */
-                void statusUpdate(int status);
+signals:
+    /* Signal emited when status of uploading updates */
+    void statusUpdate(int status);
 
-                /* update progess for uploading 0-100 */
-                void progressUpdate(int percent);
+    /* update progess for uploading 0-100 */
+    void progressUpdate(int percent);
 
-        private:
-                bool quit;
-                QList<WagoRuleCommand> commands;
-                int upload_num;
-                QTimer *timer;
-                QString wago_ip;
+private:
+    bool quit;
+    QList<WagoRuleCommand> commands;
+    int upload_num;
+    QTimer *timer;
+    QString wago_ip;
 
-                void createConfig();
-                void uploadConfig();
+    void createConfig();
+    void uploadConfig();
 
-        private slots:
-                void timerUpload();
+private slots:
+    void timerUpload();
 };
 
 #endif // WAGOUPLOADER_H

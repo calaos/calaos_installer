@@ -26,74 +26,74 @@
 
 namespace Calaos
 {
-        enum { ACTION_UNKONWN = 0, ACTION_STD, ACTION_MAIL, ACTION_SCRIPT, ACTION_TOUCHSCREEN };
+enum { ACTION_UNKONWN = 0, ACTION_STD, ACTION_MAIL, ACTION_SCRIPT, ACTION_TOUCHSCREEN };
 
 class Action
 {
-        protected:
-                int action_type;
+protected:
+    int action_type;
 
-                std::vector<IOBase *> outputs;
-                Params params;
+    std::vector<IOBase *> outputs;
+    Params params;
 
-                //this is used to do the action
-                //based on another output state
-                Params params_var;
+    //this is used to do the action
+    //based on another output state
+    Params params_var;
 
-                string mail_sender;
-                string mail_recipients;
-                string mail_subject;
-                string mail_attachment;
-                string mail_message;
+    string mail_sender;
+    string mail_recipients;
+    string mail_subject;
+    string mail_attachment;
+    string mail_message;
 
-                string script;
+    string script;
 
-                string action_touchscreen;
+    string action_touchscreen;
 
-        public:
-                Action(int atype): action_type(atype)
-                        { }
-                ~Action();
+public:
+    Action(int atype): action_type(atype)
+    { }
+    ~Action();
 
-                int getType() { return action_type; }
+    int getType() { return action_type; }
 
-                /*-- Standard Action --*/
-                void Add(IOBase *p);
-                void Remove(int i);
+    /*-- Standard Action --*/
+    void Add(IOBase *p);
+    void Remove(int i);
 
-                IOBase *get_output(int i) { return outputs[i]; }
-                Params &get_params() { return params; }
-                void set_param(Params &p) { params = p; }
-                Params &get_params_var() { return params_var; }
-                void set_param_var(Params &p) { params_var = p; }
+    IOBase *get_output(int i) { return outputs[i]; }
+    Params &get_params() { return params; }
+    void set_param(Params &p) { params = p; }
+    Params &get_params_var() { return params_var; }
+    void set_param_var(Params &p) { params_var = p; }
 
-                int get_size() { return outputs.size(); }
-                /*-- Standard Action --*/
+    int get_size() { return outputs.size(); }
+    /*-- Standard Action --*/
 
 
-                /*-- Mail Action --*/
-                string getMailSender() { return mail_sender; }
-                string getMailRecipients() { return mail_recipients; }
-                string getMailSubject() { return mail_subject; }
-                string getMailAttachment() { return mail_attachment; }
-                string getMailMessage() { return mail_message; }
+    /*-- Mail Action --*/
+    string getMailSender() { return mail_sender; }
+    string getMailRecipients() { return mail_recipients; }
+    string getMailSubject() { return mail_subject; }
+    string getMailAttachment() { return mail_attachment; }
+    string getMailMessage() { return mail_message; }
 
-                void setMailSender(string s) { mail_sender = s; }
-                void setMailRecipients(string s) { mail_recipients = s; }
-                void setMailSubject(string s) { mail_subject = s; }
-                void setMailAttachment(string s) { mail_attachment = s; }
-                void setMailMessage(string s) { mail_message = s; }
-                /*-- Mail Action --*/
+    void setMailSender(string s) { mail_sender = s; }
+    void setMailRecipients(string s) { mail_recipients = s; }
+    void setMailSubject(string s) { mail_subject = s; }
+    void setMailAttachment(string s) { mail_attachment = s; }
+    void setMailMessage(string s) { mail_message = s; }
+    /*-- Mail Action --*/
 
-                /*-- Script Action --*/
-                string getScript() { return script; }
-                void setScript(string s) { script = s; }
-                /*-- Script Action --*/
+    /*-- Script Action --*/
+    string getScript() { return script; }
+    void setScript(string s) { script = s; }
+    /*-- Script Action --*/
 
-                /*-- Touchscreen Action --*/
-                string getTouchscreenAction() { return action_touchscreen; }
-                void setTouchscreenAction(string s) { action_touchscreen = s; }
-                /*-- Touchscreen Action --*/
+    /*-- Touchscreen Action --*/
+    string getTouchscreenAction() { return action_touchscreen; }
+    void setTouchscreenAction(string s) { action_touchscreen = s; }
+    /*-- Touchscreen Action --*/
 
 };
 

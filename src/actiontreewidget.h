@@ -7,17 +7,17 @@
 
 class ActionTreeWidget : public QTreeWidget
 {
-        public:
-                ActionTreeWidget(QWidget *parent = 0);
+public:
+    ActionTreeWidget(QWidget *parent = 0);
 
-                bool dropMimeData(QTreeWidgetItem *parent, int index,
-                                  const QMimeData *data, Qt::DropAction action);
+    bool dropMimeData(QTreeWidgetItem *parent, int index,
+                      const QMimeData *data, Qt::DropAction action);
 
-//                QMimeData *mimeData(const QList<QTreeWidgetItem *> items) const;
-                QStringList mimeTypes() const;
-                Qt::DropActions supportedDropActions () const;
+    //                QMimeData *mimeData(const QList<QTreeWidgetItem *> items) const;
+    QStringList mimeTypes() const;
+    Qt::DropActions supportedDropActions () const;
 
-                void clear_all();
+    void clear_all();
 };
 
 #endif // ACTIONTREEWIDGET_H

@@ -21,107 +21,107 @@
 #include "WagoModbus.h"
 
 WagoModbus::WagoModbus(QObject *parent):
-        QObject(parent),
-        modbusSocket(new QTcpSocket(this))
+    QObject(parent),
+    modbusSocket(new QTcpSocket(this))
 {
-        connect(modbusSocket, SIGNAL(readyRead()), this, SLOT(modbusReadTCPPacket()));
-        connect(modbusSocket, SIGNAL(connected()), this, SLOT(modbusTcpConnected()));
-        connect(modbusSocket, SIGNAL(error (QAbstractSocket::SocketError)),
-                this, SLOT(modbusTcpError(QAbstractSocket::SocketError)));
-        connect(modbusSocket, SIGNAL(disconnected()), this, SLOT(modbusTcpDisconnected()));
+    connect(modbusSocket, SIGNAL(readyRead()), this, SLOT(modbusReadTCPPacket()));
+    connect(modbusSocket, SIGNAL(connected()), this, SLOT(modbusTcpConnected()));
+    connect(modbusSocket, SIGNAL(error (QAbstractSocket::SocketError)),
+            this, SLOT(modbusTcpError(QAbstractSocket::SocketError)));
+    connect(modbusSocket, SIGNAL(disconnected()), this, SLOT(modbusTcpDisconnected()));
 }
 
 WagoModbus::~WagoModbus()
 {
-        if (modbusSocket)
-        {
-                modbusSocket->deleteLater();
-        }
+    if (modbusSocket)
+    {
+        modbusSocket->deleteLater();
+    }
 }
 
 void WagoModbus::sendRequest(Modbus &query)
 {
-        request = query;
+    request = query;
 
-        modbusSocket->connectToHost(ConfigOptions::Instance().getWagoHost(), 502);
+    modbusSocket->connectToHost(ConfigOptions::Instance().getWagoHost(), 502);
 }
 
 void WagoModbus::modbusReadTCPPacket()
 {
-        QByteArray res = modbusSocket->readAll();
+    QByteArray res = modbusSocket->readAll();
 
-        modbusSocket->close();
+    modbusSocket->close();
 
-        /* Do some check on modbus result */
-        if (request[0] != res[0] || request[1] != res[1] ||
-            res.size() <= 10)
-        {
-                emit requestDone(false, res);
+    /* Do some check on modbus result */
+    if (request[0] != res[0] || request[1] != res[1] ||
+        res.size() <= 10)
+    {
+        emit requestDone(false, res);
 
-                return;
-        }
+        return;
+    }
 
-        emit requestDone(true, res);
+    emit requestDone(true, res);
 }
 
 void WagoModbus::modbusTcpError(QAbstractSocket::SocketError socketError)
 {
-        qDebug() << "modbusTcpError: error: " << modbusSocket->errorString();
+    qDebug() << "modbusTcpError: error: " << modbusSocket->errorString();
 
-        Modbus data;
-        emit requestDone(false, data);
+    Modbus data;
+    emit requestDone(false, data);
 }
 
 void WagoModbus::modbusTcpConnected()
 {
-        qint64 dataSent = 0;
-        while(dataSent < sizeof(request.size()))
-        {
-                qint64 sentNow = modbusSocket->write(request.constData() + dataSent, request.size());
-                if(sentNow >= 0)
-                        dataSent += sentNow;
-                else
-                        return;
-        }
+    qint64 dataSent = 0;
+    while(dataSent < sizeof(request.size()))
+    {
+        qint64 sentNow = modbusSocket->write(request.constData() + dataSent, request.size());
+        if(sentNow >= 0)
+            dataSent += sentNow;
+        else
+            return;
+    }
 }
 
 void WagoModbus::modbusTcpDisconnected()
 {
-        qDebug() << "modbusTcpDisconnected: disconnected !";
+    qDebug() << "modbusTcpDisconnected: disconnected !";
 }
 
 void WagoModbus::createModbusRequest(Modbus &req, int function, int addr, int data)
 {
-        req.clear();
-        req.resize(MODBUS_LENGTH_MIN);
+    req.clear();
+    req.resize(MODBUS_LENGTH_MIN);
 
-        /* Extract from MODBUS Messaging on TCP/IP Implementation Guide V1.0b
+    /* Extract from MODBUS Messaging on TCP/IP Implementation Guide V1.0b
                (page 23/46):
                The transaction identifier is used to associate the future response
                with the request. So, at a time, on a TCP connection, this identifier
                must be unique. */
-        static quint16 transac_id = 0;
+    static quint16 transac_id = 0;
 
-        if (transac_id < 65535)
-                transac_id++;
-        else
-                transac_id = 0;
-        req[0] = transac_id >> 8;
-        req[1] = transac_id & 0x00ff;
+    if (transac_id < 65535)
+        transac_id++;
+    else
+        transac_id = 0;
+    req[0] = transac_id >> 8;
+    req[1] = transac_id & 0x00ff;
 
-        /* Protocol Modbus */
-        req[2] = 0;
-        req[3] = 0;
+    /* Protocol Modbus */
+    req[2] = 0;
+    req[3] = 0;
 
-        /* Length */
-        int mbap_length = req.length() - 6;
-        req[4] = mbap_length >> 8;
-        req[5] = mbap_length & 0x00FF;
+    /* Length */
+    int mbap_length = req.length() - 6;
+    req[4] = mbap_length >> 8;
+    req[5] = mbap_length & 0x00FF;
 
-        req[6] = 1;
-        req[7] = function;
-        req[8] = addr >> 8;
-        req[9] = addr & 0x00ff;
-        req[10] = data >> 8;
-        req[11] = data & 0x00ff;
+    req[6] = 1;
+    req[7] = function;
+    req[8] = addr >> 8;
+    req[9] = addr & 0x00ff;
+    req[10] = data >> 8;
+    req[11] = data & 0x00ff;
 }

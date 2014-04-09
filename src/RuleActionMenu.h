@@ -7,26 +7,26 @@ const QString RuleActionTpl = "<span style=\"font-style:italic; color: rgb(150, 
 
 class RuleActionMenu : public QWidgetAction
 {
-        Q_OBJECT
-        public:
-                explicit RuleActionMenu(QWidget *parent, QString &title, QString &help, QString &command);
-                
-                QLabel *getActionLabel() { return actionLabel; }
-                QLabel *getHelpLabel() { return helpLabel; }
+    Q_OBJECT
+public:
+    explicit RuleActionMenu(QWidget *parent, QString &title, QString &help, QString &command);
 
-                QString &getCommand() { return command; }
+    QLabel *getActionLabel() { return actionLabel; }
+    QLabel *getHelpLabel() { return helpLabel; }
 
-        private:
-                QLabel *actionLabel;
-                QLabel *helpLabel;
-                QString command;
+    QString &getCommand() { return command; }
 
-        signals:
-                void triggered(RuleActionMenu *action);
-                
-        private slots:
-                void emitSignal();
-                
+private:
+    QLabel *actionLabel;
+    QLabel *helpLabel;
+    QString command;
+
+signals:
+    void triggered(RuleActionMenu *action);
+
+private slots:
+    void emitSignal();
+
 };
 
 #endif // RULEACTIONMENU_H

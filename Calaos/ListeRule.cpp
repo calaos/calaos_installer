@@ -25,180 +25,180 @@ using namespace Calaos;
 //-----------------------------------------------------------------------------
 ListeRule &ListeRule::Instance()
 {
-        static ListeRule inst;
+    static ListeRule inst;
 
-        return inst;
+    return inst;
 }
 //-----------------------------------------------------------------------------
 ListeRule::~ListeRule()
 {
-        clear();
+    clear();
 }
 //-----------------------------------------------------------------------------
 void ListeRule::Add(Rule *p)
 {
-        rules.push_back(p);
+    rules.push_back(p);
 }
 //-----------------------------------------------------------------------------
 void ListeRule::Remove(int pos)
 {
-        vector<Rule *>::iterator iter = rules.begin();
-        for (int i = 0;i < pos;iter++, i++) ;
-        delete rules[pos];
-        rules.erase(iter);
+    vector<Rule *>::iterator iter = rules.begin();
+    for (int i = 0;i < pos;iter++, i++) ;
+    delete rules[pos];
+    rules.erase(iter);
 }
 //-----------------------------------------------------------------------------
 Rule *ListeRule::operator[] (int i) const
 {
-        return rules[i];
+    return rules[i];
 }
 //-----------------------------------------------------------------------------
 void ListeRule::Remove(Rule *obj)
 {
-        rules.erase( std::remove( rules.begin(), rules.end(), obj) , rules.end());
-        delete obj;
+    rules.erase( std::remove( rules.begin(), rules.end(), obj) , rules.end());
+    delete obj;
 }
 //-----------------------------------------------------------------------------
 Rule *ListeRule::get_rule(int i)
 {
-        return rules[i];
+    return rules[i];
 }
 //-----------------------------------------------------------------------------
 void ListeRule::RemoveRuleInput(IOBase *obj)
 {
-        //delete all rules using "output"
-        for (uint i = 0;i < rules.size();i++)
+    //delete all rules using "output"
+    for (uint i = 0;i < rules.size();i++)
+    {
+        Rule *rule = get_rule(i);
+        Rule *rule_to_del = NULL;
+        for (int j = 0;j < rule->get_size_conds();j++)
         {
-                Rule *rule = get_rule(i);
-                Rule *rule_to_del = NULL;
-                for (int j = 0;j < rule->get_size_conds();j++)
-                {
-                        Condition *cond = rule->get_condition(j);
-                        for (int k = 0;k < cond->get_size();k++)
-                        {
-                                if (obj->get_param("id") == cond->get_input(k)->get_param("id"))
-                                        rule_to_del = rule;
-                                if (obj->get_param("iid") == cond->get_input(k)->get_param("id") && obj->get_param("iid") != "")
-                                        rule_to_del = rule;
-                                if (obj->get_param("id") == cond->get_input(k)->get_param("iid") && cond->get_input(k)->get_param("iid") != "")
-                                        rule_to_del = rule;
-                                if (obj->get_param("iid") == cond->get_input(k)->get_param("iid") && obj->get_param("iid") != "")
-                                        rule_to_del = rule;
-                        }
-                }
-                if (rule_to_del)
-                {
-                        Remove(rule_to_del);
-                        i--;
-                }
+            Condition *cond = rule->get_condition(j);
+            for (int k = 0;k < cond->get_size();k++)
+            {
+                if (obj->get_param("id") == cond->get_input(k)->get_param("id"))
+                    rule_to_del = rule;
+                if (obj->get_param("iid") == cond->get_input(k)->get_param("id") && obj->get_param("iid") != "")
+                    rule_to_del = rule;
+                if (obj->get_param("id") == cond->get_input(k)->get_param("iid") && cond->get_input(k)->get_param("iid") != "")
+                    rule_to_del = rule;
+                if (obj->get_param("iid") == cond->get_input(k)->get_param("iid") && obj->get_param("iid") != "")
+                    rule_to_del = rule;
+            }
         }
+        if (rule_to_del)
+        {
+            Remove(rule_to_del);
+            i--;
+        }
+    }
 }
 //-----------------------------------------------------------------------------
 void ListeRule::RemoveRuleOutput(IOBase *obj)
 {
-        //delete all rules using "output"
-        for (uint i = 0;i < rules.size();i++)
+    //delete all rules using "output"
+    for (uint i = 0;i < rules.size();i++)
+    {
+        Rule *rule = get_rule(i);
+        Rule *rule_to_del = NULL;
+        for (int j = 0;j < rule->get_size_actions();j++)
         {
-                Rule *rule = get_rule(i);
-                Rule *rule_to_del = NULL;
-                for (int j = 0;j < rule->get_size_actions();j++)
-                {
-                        Action *action = rule->get_action(j);
-                        for (int k = 0;k < action->get_size();k++)
-                        {
-                                if (obj->get_param("id") == action->get_output(k)->get_param("id"))
-                                        rule_to_del = rule;
-                                if (obj->get_param("oid") == action->get_output(k)->get_param("id") && obj->get_param("oid") != "")
-                                        rule_to_del = rule;
-                                if (obj->get_param("id") == action->get_output(k)->get_param("oid") && action->get_output(k)->get_param("oid") != "")
-                                        rule_to_del = rule;
-                                if (obj->get_param("oid") == action->get_output(k)->get_param("oid") && obj->get_param("oid") != "")
-                                        rule_to_del = rule;
-                        }
-                }
-                if (rule_to_del)
-                {
-                        Remove(rule_to_del);
-                        i--;
-                }
+            Action *action = rule->get_action(j);
+            for (int k = 0;k < action->get_size();k++)
+            {
+                if (obj->get_param("id") == action->get_output(k)->get_param("id"))
+                    rule_to_del = rule;
+                if (obj->get_param("oid") == action->get_output(k)->get_param("id") && obj->get_param("oid") != "")
+                    rule_to_del = rule;
+                if (obj->get_param("id") == action->get_output(k)->get_param("oid") && action->get_output(k)->get_param("oid") != "")
+                    rule_to_del = rule;
+                if (obj->get_param("oid") == action->get_output(k)->get_param("oid") && obj->get_param("oid") != "")
+                    rule_to_del = rule;
+            }
         }
+        if (rule_to_del)
+        {
+            Remove(rule_to_del);
+            i--;
+        }
+    }
 }
 //-----------------------------------------------------------------------------
 Rule *ListeRule::searchRule(string type, string name)
 {
-        for (uint i = 0;i < rules.size();i++)
+    for (uint i = 0;i < rules.size();i++)
+    {
+        if (rules[i]->get_name() == name &&
+            rules[i]->get_type() == type)
         {
-                if (rules[i]->get_name() == name &&
-                    rules[i]->get_type() == type)
-                {
-                        return rules[i];
-                }
+            return rules[i];
         }
+    }
 
-        return NULL;
+    return NULL;
 }
 //-----------------------------------------------------------------------------
 Rule *ListeRule::searchRuleInput(IOBase *input)
 {
-        for (uint i = 0;i < rules.size();i++)
+    for (uint i = 0;i < rules.size();i++)
+    {
+        Rule *rule = rules[i];
+        for (int j = 0;j < rule->get_size_conds();j++)
         {
-                Rule *rule = rules[i];
-                for (int j = 0;j < rule->get_size_conds();j++)
+            Condition *cond = rule->get_condition(j);
+            for (int k = 0;k < cond->get_size();k++)
+            {
+                if (cond->get_input(k) == input)
                 {
-                        Condition *cond = rule->get_condition(j);
-                        for (int k = 0;k < cond->get_size();k++)
-                        {
-                                if (cond->get_input(k) == input)
-                                {
-                                        return rules[i];
-                                }
-                        }
+                    return rules[i];
                 }
+            }
         }
+    }
 
-        return NULL;
+    return NULL;
 }
 //-----------------------------------------------------------------------------
 Rule *ListeRule::searchRuleOutput(IOBase *output)
 {
-        for (uint i = 0;i < rules.size();i++)
+    for (uint i = 0;i < rules.size();i++)
+    {
+        Rule *rule = rules[i];
+        for (int j = 0;j < rule->get_size_actions();j++)
         {
-                Rule *rule = rules[i];
-                for (int j = 0;j < rule->get_size_actions();j++)
+            Action *action = rule->get_action(j);
+            for (int k = 0;k < action->get_size();k++)
+            {
+                if (action->get_output(k) == output)
                 {
-                        Action *action = rule->get_action(j);
-                        for (int k = 0;k < action->get_size();k++)
-                        {
-                                if (action->get_output(k) == output)
-                                {
-                                        return rules[i];
-                                }
-                        }
+                    return rules[i];
                 }
+            }
         }
+    }
 
-        return NULL;
+    return NULL;
 }
 //-----------------------------------------------------------------------------
 void ListeRule::RemoveSpecialRules(string specialType)
 {
-        for (uint i = 0;i < rules.size();i++)
-        {
-                Rule *rule = get_rule(i);
+    for (uint i = 0;i < rules.size();i++)
+    {
+        Rule *rule = get_rule(i);
 
-                if(rule->get_specialType() == specialType)
-                {
-                        Remove(rule);
-                        i=0;
-                }
+        if(rule->get_specialType() == specialType)
+        {
+            Remove(rule);
+            i=0;
         }
+    }
 }
 //-----------------------------------------------------------------------------
 void ListeRule::clear()
 {
-        for (uint i = 0;i < rules.size();i++)
-                delete rules[i];
+    for (uint i = 0;i < rules.size();i++)
+        delete rules[i];
 
-        rules.clear();
+    rules.clear();
 }
 //-----------------------------------------------------------------------------

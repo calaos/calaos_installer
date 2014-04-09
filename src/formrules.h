@@ -49,124 +49,124 @@ enum { ITEM_ROOM=0, ITEM_INPUT_SWITCH, ITEM_LIGHT, ITEM_SHUTTER, ITEM_DALI,
 
 namespace Ui
 {
-        class FormRules;
+class FormRules;
 }
 
 class FormRules : public QWidget
 {
-        Q_OBJECT
+    Q_OBJECT
 
-        public:
-                explicit FormRules(QWidget *parent = 0);
-                ~FormRules();
+public:
+    explicit FormRules(QWidget *parent = 0);
+    ~FormRules();
 
-                void PopulateRoomsTree();
-                void PopulateRulesTree();
+    void PopulateRoomsTree();
+    void PopulateRulesTree();
 
-                QTreeWidgetItemRoom *addItemRoom(Room *room, bool selected = false);
-                QTreeWidgetItemInput *addItemInput(IOBase *in, QTreeWidgetItemRoom *parent, bool selected = false);
-                QTreeWidgetItemOutput *addItemOutput(IOBase *out, QTreeWidgetItemRoom *parent, bool selected = false);
-                QTreeWidgetItemInput *addItemInput(IOBase *in, Room *parent, bool selected = false);
-                QTreeWidgetItemOutput *addItemOutput(IOBase *out, Room *parent, bool selected = false);
+    QTreeWidgetItemRoom *addItemRoom(Room *room, bool selected = false);
+    QTreeWidgetItemInput *addItemInput(IOBase *in, QTreeWidgetItemRoom *parent, bool selected = false);
+    QTreeWidgetItemOutput *addItemOutput(IOBase *out, QTreeWidgetItemRoom *parent, bool selected = false);
+    QTreeWidgetItemInput *addItemInput(IOBase *in, Room *parent, bool selected = false);
+    QTreeWidgetItemOutput *addItemOutput(IOBase *out, Room *parent, bool selected = false);
 
-                QTreeWidgetItemRule *addItemRule(Rule *rule, bool selected = false);
-                QTreeWidgetItem *addItemCondition(Condition *condition, bool selected = false, bool show_popup = false);
-                QTreeWidgetItem *addItemAction(Action *action, bool selected = false, bool show_popup = false);
+    QTreeWidgetItemRule *addItemRule(Rule *rule, bool selected = false);
+    QTreeWidgetItem *addItemCondition(Condition *condition, bool selected = false, bool show_popup = false);
+    QTreeWidgetItem *addItemAction(Action *action, bool selected = false, bool show_popup = false);
 
-                static void updateItemInfos(QTreeWidgetItemRoom *item);
-                static void updateItemInfos(QTreeWidgetItemInput *item);
-                static void updateItemInfos(QTreeWidgetItemOutput *item);
-                static void updateItemInfos(QTreeWidgetItemRule *item);
-                static void updateItemCondition(QTreeWidgetItem *item, Condition *condition);
-                static void updateItemAction(QTreeWidgetItem *item, Action *action);
+    static void updateItemInfos(QTreeWidgetItemRoom *item);
+    static void updateItemInfos(QTreeWidgetItemInput *item);
+    static void updateItemInfos(QTreeWidgetItemOutput *item);
+    static void updateItemInfos(QTreeWidgetItemRule *item);
+    static void updateItemCondition(QTreeWidgetItem *item, Condition *condition);
+    static void updateItemAction(QTreeWidgetItem *item, Action *action);
 
-                Rule *getCurrentRule();
+    Rule *getCurrentRule();
 
-                bool projectChanged() { return project_changed; }
+    bool projectChanged() { return project_changed; }
 
-                static QString getIconFromRoom(Room *room);
+    static QString getIconFromRoom(Room *room);
 
-                void addCalaosItemInputSwitch(int item, int hw_type);
-                void addCalaosItemLight(int item, int hw_type);
-                void addCalaosItemOutputString(int item, int hw_type);
+    void addCalaosItemInputSwitch(int item, int hw_type);
+    void addCalaosItemLight(int item, int hw_type);
+    void addCalaosItemOutputString(int item, int hw_type);
 protected:
-                void changeEvent(QEvent *e);
+    void changeEvent(QEvent *e);
 
-        private:
-                Ui::FormRules *ui;
+private:
+    Ui::FormRules *ui;
 
-                Room *current_room; //Current used room in the interface
+    Room *current_room; //Current used room in the interface
 
-                QMenu *add_menu, *addConditionMenu, *addActionMenu;
+    QMenu *add_menu, *addConditionMenu, *addActionMenu;
 
-                //Item used by right-click menu in tree
-                QTreeWidgetItem *treeItem, *treeItem_condition, *treeItem_action;
+    //Item used by right-click menu in tree
+    QTreeWidgetItem *treeItem, *treeItem_condition, *treeItem_action;
 
-                bool project_changed;
+    bool project_changed;
 
-                FormConditionStd *popupConditionStd;
-                FormConditionStart *popupConditionStart;
-                FormConditionScript *popupConditionScript;
+    FormConditionStd *popupConditionStd;
+    FormConditionStart *popupConditionStart;
+    FormConditionScript *popupConditionScript;
 
-                FormActionStd *popupActionStd;
-                FormActionMail *popupActionMail;
-                FormActionScript *popupActionScript;
-                FormActionTouchscreen *popupActionTouchscreen;
+    FormActionStd *popupActionStd;
+    FormActionMail *popupActionMail;
+    FormActionScript *popupActionScript;
+    FormActionTouchscreen *popupActionTouchscreen;
 
-        signals:
-                void projectModified(bool modified);
+signals:
+    void projectModified(bool modified);
 
 
-        public slots:
-                void addCalaosItem(int hw_type, int item);
-                void showPopup_tree(const QPoint point);
-                void showPopup_condition(const QPoint point);
-                void showPopup_action(const QPoint point);
-                void showPopup_rule(const QPoint point);
-                void deleteItem();
-                void deleteItemCondition();
-                void deleteItemAction();
-                void goSelectRule();
-                void showPropertiesItem();
-                void addCondition(int type);
-                void addAction(int type);
+public slots:
+    void addCalaosItem(int hw_type, int item);
+    void showPopup_tree(const QPoint point);
+    void showPopup_condition(const QPoint point);
+    void showPopup_action(const QPoint point);
+    void showPopup_rule(const QPoint point);
+    void deleteItem();
+    void deleteItemCondition();
+    void deleteItemAction();
+    void goSelectRule();
+    void showPropertiesItem();
+    void addCondition(int type);
+    void addAction(int type);
 
-                void itemLightOn();
-                void itemLightOff();
-                void itemVoletUp();
-                void itemVoletDown();
-                void itemVoletStop();
-                void itemShowCamera();
-                void itemPlagesHoraires();
-                void itemConvertInterTriple();
-                void itemConvertInterBP();
-                void itemConvertInterLong();
-                void itemConvertVoletStandard();
-                void itemConvertVoletSmart();
-                void itemTempWizard();
+    void itemLightOn();
+    void itemLightOff();
+    void itemVoletUp();
+    void itemVoletDown();
+    void itemVoletStop();
+    void itemShowCamera();
+    void itemPlagesHoraires();
+    void itemConvertInterTriple();
+    void itemConvertInterBP();
+    void itemConvertInterLong();
+    void itemConvertVoletStandard();
+    void itemConvertVoletSmart();
+    void itemTempWizard();
 
-                void ClearProject();
-                void setProjectModified(bool modified);
+    void ClearProject();
+    void setProjectModified(bool modified);
 
-                void moveIOToRoom();
+    void moveIOToRoom();
 
-        private slots:
-                void on_bt_action_down_clicked();
-                void on_bt_action_up_clicked();
-                void on_bt_condition_down_clicked();
-                void on_bt_condition_up_clicked();
-                void on_tree_rules_itemDoubleClicked(QTreeWidgetItem* item, int column);
-                void on_bt_action_del_clicked();
-                void on_bt_condition_del_clicked();
-                void on_tree_action_itemClicked(QTreeWidgetItem* item, int column);
-                void on_tree_condition_itemClicked(QTreeWidgetItem* item, int column);
-                void on_filterEditRules_textChanged(QString );
-                void on_filterEditHome_textChanged(QString );
-                void on_bt_rules_del_clicked();
-                void on_tree_rules_currentItemChanged(QTreeWidgetItem* current, QTreeWidgetItem* previous);
-                void on_bt_rules_add_clicked();
-                void on_tree_home_itemDoubleClicked(QTreeWidgetItem* item, int column);
-                void on_tree_home_currentItemChanged(QTreeWidgetItem* current, QTreeWidgetItem* previous);
+private slots:
+    void on_bt_action_down_clicked();
+    void on_bt_action_up_clicked();
+    void on_bt_condition_down_clicked();
+    void on_bt_condition_up_clicked();
+    void on_tree_rules_itemDoubleClicked(QTreeWidgetItem* item, int column);
+    void on_bt_action_del_clicked();
+    void on_bt_condition_del_clicked();
+    void on_tree_action_itemClicked(QTreeWidgetItem* item, int column);
+    void on_tree_condition_itemClicked(QTreeWidgetItem* item, int column);
+    void on_filterEditRules_textChanged(QString );
+    void on_filterEditHome_textChanged(QString );
+    void on_bt_rules_del_clicked();
+    void on_tree_rules_currentItemChanged(QTreeWidgetItem* current, QTreeWidgetItem* previous);
+    void on_bt_rules_add_clicked();
+    void on_tree_home_itemDoubleClicked(QTreeWidgetItem* item, int column);
+    void on_tree_home_currentItemChanged(QTreeWidgetItem* current, QTreeWidgetItem* previous);
 };
 
 #endif // FORMRULES_H

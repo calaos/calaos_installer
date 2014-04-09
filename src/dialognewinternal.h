@@ -11,32 +11,32 @@ using namespace Calaos;
 
 namespace Ui
 {
-        class DialogNewInternal;
+class DialogNewInternal;
 }
 
 class DialogNewInternal : public QDialog
 {
-                Q_OBJECT
-                Q_DISABLE_COPY(DialogNewInternal)
-        public:
-                explicit DialogNewInternal(Room *room, QWidget *parent = 0);
-                virtual ~DialogNewInternal();
+    Q_OBJECT
+    Q_DISABLE_COPY(DialogNewInternal)
+public:
+    explicit DialogNewInternal(Room *room, QWidget *parent = 0);
+    virtual ~DialogNewInternal();
 
-                IOBase *getOutput() { return output; }
+    IOBase *getOutput() { return output; }
 
-        protected:
-                virtual void changeEvent(QEvent *e);
+protected:
+    virtual void changeEvent(QEvent *e);
 
-        private:
-                Ui::DialogNewInternal *ui;
-                IOBase *output;
-                Room *room;
+private:
+    Ui::DialogNewInternal *ui;
+    IOBase *output;
+    Room *room;
 
-        private slots:
-                void on_radioButton_text_clicked();
-                void on_radioButton_int_clicked();
-                void on_radioButton_bool_clicked();
-                void on_buttonBox_accepted();
+private slots:
+    void on_radioButton_text_clicked();
+    void on_radioButton_int_clicked();
+    void on_radioButton_bool_clicked();
+    void on_buttonBox_accepted();
 };
 
 #endif // DIALOGNEWAUDIO_H

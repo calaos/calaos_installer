@@ -11,29 +11,29 @@ using namespace Calaos;
 
 namespace Ui
 {
-        class DialogNewScenario;
+class DialogNewScenario;
 }
 
 class DialogNewScenario : public QDialog
 {
-                Q_OBJECT
-                Q_DISABLE_COPY(DialogNewScenario)
-        public:
-                explicit DialogNewScenario(Room *room, QWidget *parent = 0);
-                virtual ~DialogNewScenario();
+    Q_OBJECT
+    Q_DISABLE_COPY(DialogNewScenario)
+public:
+    explicit DialogNewScenario(Room *room, QWidget *parent = 0);
+    virtual ~DialogNewScenario();
 
-                IOBase *getOutput() { return output; }
+    IOBase *getOutput() { return output; }
 
-        protected:
-                virtual void changeEvent(QEvent *e);
+protected:
+    virtual void changeEvent(QEvent *e);
 
-        private:
-                Ui::DialogNewScenario *ui;
-                IOBase *output;
-                Room *room;
+private:
+    Ui::DialogNewScenario *ui;
+    IOBase *output;
+    Room *room;
 
-        private slots:
-                void on_buttonBox_accepted();
+private slots:
+    void on_buttonBox_accepted();
 };
 
 #endif // DIALOGNEWSCENARIO_H

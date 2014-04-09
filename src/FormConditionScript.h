@@ -9,32 +9,32 @@ using namespace Calaos;
 
 namespace Ui
 {
-        class FormConditionScript;
+class FormConditionScript;
 }
 
 class FormConditionScript : public QWidget
 {
-        Q_OBJECT
+    Q_OBJECT
 
-        public:
-                explicit FormConditionScript(QWidget *parent = 0);
-                ~FormConditionScript();
+public:
+    explicit FormConditionScript(QWidget *parent = 0);
+    ~FormConditionScript();
 
-                void setCondition(QTreeWidgetItem *item, Rule *rule, Condition *condition);
+    void setCondition(QTreeWidgetItem *item, Rule *rule, Condition *condition);
 
-        private:
-                Ui::FormConditionScript *ui;
+private:
+    Ui::FormConditionScript *ui;
 
-        protected:
-                void changeEvent(QEvent *e);
+protected:
+    void changeEvent(QEvent *e);
 
-                Rule *rule;
-                Condition *condition;
-                QTreeWidgetItem *qitem;
+    Rule *rule;
+    Condition *condition;
+    QTreeWidgetItem *qitem;
 
-        private slots:
-                void on_btEditScript_clicked();
-                void on_btEditInput_clicked();
+private slots:
+    void on_btEditScript_clicked();
+    void on_btEditInput_clicked();
 };
 
 #endif // FORMCONDITIONSCRIPT_H

@@ -11,29 +11,29 @@ using namespace Calaos;
 
 namespace Ui
 {
-        class DialogNewTemp;
+class DialogNewTemp;
 }
 
 class DialogNewTemp : public QDialog
 {
-                Q_OBJECT
-                Q_DISABLE_COPY(DialogNewTemp)
-        public:
-                explicit DialogNewTemp(Room *room, QWidget *parent = 0);
-                virtual ~DialogNewTemp();
+    Q_OBJECT
+    Q_DISABLE_COPY(DialogNewTemp)
+public:
+    explicit DialogNewTemp(Room *room, QWidget *parent = 0);
+    virtual ~DialogNewTemp();
 
-                IOBase *getInput() { return temperature; }
+    IOBase *getInput() { return temperature; }
 
-        protected:
-                virtual void changeEvent(QEvent *e);
+protected:
+    virtual void changeEvent(QEvent *e);
 
-        private:
-                Ui::DialogNewTemp *ui;
-                IOBase *temperature;
-                Room *room;
+private:
+    Ui::DialogNewTemp *ui;
+    IOBase *temperature;
+    Room *room;
 
-        private slots:
-                void on_buttonBox_accepted();
+private slots:
+    void on_buttonBox_accepted();
 };
 
 #endif // DIALOGNEWTEMP_H

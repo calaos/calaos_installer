@@ -17,25 +17,25 @@
  * to display it in a QLabel.
  */
 class QAnimationLabel : public QWidget {
-        Q_OBJECT
+    Q_OBJECT
 public:
-        QAnimationLabel(QString animationPath,
-                        QWidget* parent);
-        QAnimationLabel(QString animationPath,
-                        QSize size,
-                        QWidget* parent);
-        virtual ~QAnimationLabel();
+    QAnimationLabel(QString animationPath,
+                    QWidget* parent);
+    QAnimationLabel(QString animationPath,
+                    QSize size,
+                    QWidget* parent);
+    virtual ~QAnimationLabel();
 
 public slots:
-        void start();
-        void stop();
+    void start();
+    void stop();
 
 private:
-        QPointer<QLabel> _container;
-        QPointer<QMovie> _animation;
+    QPointer<QLabel> _container;
+    QPointer<QMovie> _animation;
 
-        void init(const QString& animationPath,
-                  const QSize& size);
+    void init(const QString& animationPath,
+              const QSize& size);
 };
 
 #endif /* QANIMATIONLABEL_H_ */

@@ -11,29 +11,29 @@ using namespace Calaos;
 
 namespace Ui
 {
-        class DialogNewCamera;
+class DialogNewCamera;
 }
 
 class DialogNewCamera : public QDialog
 {
-                Q_OBJECT
-                Q_DISABLE_COPY(DialogNewCamera)
-        public:
-                explicit DialogNewCamera(Room *room, QWidget *parent = 0);
-                virtual ~DialogNewCamera();
+    Q_OBJECT
+    Q_DISABLE_COPY(DialogNewCamera)
+public:
+    explicit DialogNewCamera(Room *room, QWidget *parent = 0);
+    virtual ~DialogNewCamera();
 
-                IOBase *getOutput() { return output; }
+    IOBase *getOutput() { return output; }
 
-        protected:
-                virtual void changeEvent(QEvent *e);
+protected:
+    virtual void changeEvent(QEvent *e);
 
-        private:
-                Ui::DialogNewCamera *ui;
-                IOBase *output;
-                Room *room;
+private:
+    Ui::DialogNewCamera *ui;
+    IOBase *output;
+    Room *room;
 
-        private slots:
-                void on_buttonBox_accepted();
+private slots:
+    void on_buttonBox_accepted();
 };
 
 #endif // DIALOGNEWCAMERA_H

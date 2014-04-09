@@ -16,23 +16,23 @@ using namespace std;
 
 namespace log4cpp
 {
-	typedef std::ostream Category;
-	
-	namespace Priority
-	{
-		const string EMERG = "EMERG: ";
-		const string FATAL = "FATAL: ";
-		const string ALERT = "ALERT: ";
-		const string CRIT = "CRIT: ";
-		const string ERROR = "ERROR: ";
-		const string WARN = "WARN: ";
-		const string NOTICE = "NOTICE: ";
-		const string INFO = "INFO: ";
-		const string DEBUG = "DEBUG: ";
-		const string NOTSET = "NOTSET: ";
-	};
-	
-	const string eol = "\n";
+typedef std::ostream Category;
+
+namespace Priority
+{
+const string EMERG = "EMERG: ";
+const string FATAL = "FATAL: ";
+const string ALERT = "ALERT: ";
+const string CRIT = "CRIT: ";
+const string ERROR = "ERROR: ";
+const string WARN = "WARN: ";
+const string NOTICE = "NOTICE: ";
+const string INFO = "INFO: ";
+const string DEBUG = "DEBUG: ";
+const string NOTSET = "NOTSET: ";
+};
+
+const string eol = "\n";
 }
 
 #endif

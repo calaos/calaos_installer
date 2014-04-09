@@ -10,18 +10,18 @@ using namespace Calaos;
 
 class IOEditorSelection : public QFrame
 {
-        public:
-                IOEditorSelection(QWidget *parent = 0);
+public:
+    IOEditorSelection(QWidget *parent = 0);
 
-                QComboBox *getComboBox() { return combobox; }
-                QPushButton *getButton() { return button; }
+    QComboBox *getComboBox() { return combobox; }
+    QPushButton *getButton() { return button; }
 
-                IOBase *other_input;
-                IOBase *other_output;
+    IOBase *other_input;
+    IOBase *other_output;
 
-        private:
-                QComboBox *combobox;
-                QPushButton *button;
+private:
+    QComboBox *combobox;
+    QPushButton *button;
 
 };
 

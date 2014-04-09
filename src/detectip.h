@@ -10,28 +10,28 @@ using namespace std;
 
 class DetectIP: public QObject
 {
-        Q_OBJECT
-        Q_DISABLE_COPY(DetectIP)
-        public:
-                static DetectIP &Instance()
-                {
-                        static DetectIP dip;
-                        return dip;
-                }
+    Q_OBJECT
+    Q_DISABLE_COPY(DetectIP)
+public:
+    static DetectIP &Instance()
+    {
+        static DetectIP dip;
+        return dip;
+    }
 
-                void startDetectIP();
-                string getLocalIP() { return ip; }
+    void startDetectIP();
+    string getLocalIP() { return ip; }
 
-        private:
-                DetectIP();
+private:
+    DetectIP();
 
-                QTcpSocket *tcpSocket;
+    QTcpSocket *tcpSocket;
 
-                string ip;
+    string ip;
 
-        private slots:
-                void sock_connected();
-                void sock_error(QAbstractSocket::SocketError error);
+private slots:
+    void sock_connected();
+    void sock_error(QAbstractSocket::SocketError error);
 };
 
 #endif // DETECTIP_H

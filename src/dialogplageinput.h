@@ -6,29 +6,29 @@
 
 namespace Ui
 {
-    class DialogPlageInput;
+class DialogPlageInput;
 }
 
 class DialogPlageInput : public QDialog
 {
-        Q_OBJECT
-        Q_DISABLE_COPY(DialogPlageInput)
+    Q_OBJECT
+    Q_DISABLE_COPY(DialogPlageInput)
 
-        public:
-                explicit DialogPlageInput(QWidget *parent = 0);
-                ~DialogPlageInput();
+public:
+    explicit DialogPlageInput(QWidget *parent = 0);
+    ~DialogPlageInput();
 
-                QTime getTimeBegin();
-                QTime getTimeEnd();
+    QTime getTimeBegin();
+    QTime getTimeEnd();
 
-                void setTimeBegin(QTime t);
-                void setTimeEnd(QTime t);
+    void setTimeBegin(QTime t);
+    void setTimeEnd(QTime t);
 
-        protected:
-                void changeEvent(QEvent *e);
+protected:
+    void changeEvent(QEvent *e);
 
-        private:
-                Ui::DialogPlageInput *ui;
+private:
+    Ui::DialogPlageInput *ui;
 };
 
 #endif // DIALOGPLAGEINPUT_H

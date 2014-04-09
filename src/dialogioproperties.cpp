@@ -2,164 +2,164 @@
 #include "ui_DialogIoProperties.h"
 
 DialogIOProperties::DialogIOProperties(const Params &p, int t, QWidget *parent) :
-        QDialog(parent),
-        ui(new Ui::DialogIOProperties),
-        params(p),
-        type(t),
-        current_item(NULL),
-        modified(false)
+    QDialog(parent),
+    ui(new Ui::DialogIOProperties),
+    params(p),
+    type(t),
+    current_item(NULL),
+    modified(false)
 {
-        ui->setupUi(this);
+    ui->setupUi(this);
 
-        QStringList headers;
-        headers << tr("Properties") << tr("Value");
-        ui->treeProperties->setHeaderLabels(headers);
+    QStringList headers;
+    headers << tr("Properties") << tr("Value");
+    ui->treeProperties->setHeaderLabels(headers);
 
-        for (int i = 0;i < params.size();i++)
-        {
-                string key, value;
-                params.get_item(i, key, value);
+    for (int i = 0;i < params.size();i++)
+    {
+        string key, value;
+        params.get_item(i, key, value);
 
-                QTreeWidgetItem *item = new QTreeWidgetItem(ui->treeProperties);
-                item->setData(0, Qt::DisplayRole, QString::fromUtf8(key.c_str()));
-                item->setData(1, Qt::DisplayRole, QString::fromUtf8(value.c_str()));
+        QTreeWidgetItem *item = new QTreeWidgetItem(ui->treeProperties);
+        item->setData(0, Qt::DisplayRole, QString::fromUtf8(key.c_str()));
+        item->setData(1, Qt::DisplayRole, QString::fromUtf8(value.c_str()));
 
-                item->setData(0, Qt::DecorationRole, QIcon(":/img/document-properties.png"));
+        item->setData(0, Qt::DecorationRole, QIcon(":/img/document-properties.png"));
 
-                if (i == 0)
-                        item->setSelected(true);
-        }
+        if (i == 0)
+            item->setSelected(true);
+    }
 
-        if (type == OBJ_ROOM || type == OBJ_RULE)
-        {
-                ui->addButton->setDisabled(true);
-                ui->delButton->setDisabled(true);
-        }
+    if (type == OBJ_ROOM || type == OBJ_RULE)
+    {
+        ui->addButton->setDisabled(true);
+        ui->delButton->setDisabled(true);
+    }
 
-        ui->treeProperties->resizeColumnToContents(0);
-        ui->treeProperties->resizeColumnToContents(1);
+    ui->treeProperties->resizeColumnToContents(0);
+    ui->treeProperties->resizeColumnToContents(1);
 }
 
 DialogIOProperties::~DialogIOProperties()
 {
-        delete ui;
+    delete ui;
 }
 
 void DialogIOProperties::changeEvent(QEvent *e)
 {
-        QDialog::changeEvent(e);
-        switch (e->type())
-        {
-          case QEvent::LanguageChange:
-                ui->retranslateUi(this);
-                break;
-          default:
-                break;
-        }
+    QDialog::changeEvent(e);
+    switch (e->type())
+    {
+    case QEvent::LanguageChange:
+        ui->retranslateUi(this);
+        break;
+    default:
+        break;
+    }
 }
 
 void DialogIOProperties::on_addButton_clicked()
 {
-        bool ok;
-        QString text = QInputDialog::getText(this, tr("New property"),
-                                          tr("Enter a property name"), QLineEdit::Normal,
-                                          QString(), &ok);
+    bool ok;
+    QString text = QInputDialog::getText(this, tr("New property"),
+                                         tr("Enter a property name"), QLineEdit::Normal,
+                                         QString(), &ok);
 
-        if (ok && !text.isEmpty())
+    if (ok && !text.isEmpty())
+    {
+        string key = text.toUtf8().data();
+
+        if (params.Exists(key))
         {
-                string key = text.toUtf8().data();
+            QMessageBox::warning(this, tr("Calaos Installer"), tr("This property already exists!"));
 
-                if (params.Exists(key))
-                {
-                        QMessageBox::warning(this, tr("Calaos Installer"), tr("This property already exists!"));
-
-                        return;
-                }
-
-                params.Add(key, "");
-
-                QTreeWidgetItem *item = new QTreeWidgetItem(ui->treeProperties);
-                item->setData(0, Qt::DisplayRole, QString::fromUtf8(key.c_str()));
-                item->setData(1, Qt::DisplayRole, QString());
-                item->setData(0, Qt::DecorationRole, QIcon(":/img/document-properties.png"));
-                ui->treeProperties->setCurrentItem(item);
-
-                on_modifyButton_clicked();
-
-                modified = true;
+            return;
         }
+
+        params.Add(key, "");
+
+        QTreeWidgetItem *item = new QTreeWidgetItem(ui->treeProperties);
+        item->setData(0, Qt::DisplayRole, QString::fromUtf8(key.c_str()));
+        item->setData(1, Qt::DisplayRole, QString());
+        item->setData(0, Qt::DecorationRole, QIcon(":/img/document-properties.png"));
+        ui->treeProperties->setCurrentItem(item);
+
+        on_modifyButton_clicked();
+
+        modified = true;
+    }
 }
 
 void DialogIOProperties::on_delButton_clicked()
 {
-        if (current_item)
+    if (current_item)
+    {
+        string key = current_item->text(0).toUtf8().data();
+
+        if (key == "type" || key == "name")
         {
-                string key = current_item->text(0).toUtf8().data();
-
-                if (key == "type" || key == "name")
-                {
-                        QMessageBox::warning(this, tr("Calaos Installer"), tr("This property cannot be deleted!"));
-                        return;
-                }
-
-                params.Delete(key);
-                delete current_item;
-
-                modified = true;
+            QMessageBox::warning(this, tr("Calaos Installer"), tr("This property cannot be deleted!"));
+            return;
         }
+
+        params.Delete(key);
+        delete current_item;
+
+        modified = true;
+    }
 }
 
 void DialogIOProperties::on_modifyButton_clicked()
 {
-        if (!current_item) return;
+    if (!current_item) return;
 
-        string key, value;
+    string key, value;
 
-        key = current_item->text(0).toUtf8().data();
-        value = params[key];
+    key = current_item->text(0).toUtf8().data();
+    value = params[key];
 
-        //TODO: for now user can't change an object type. In the future being able to
-        //      change type on the fly could be great.
-        if (key == "type" && type != OBJ_RULE)
-        {
-                QMessageBox::warning(this, tr("Calaos Installer"), tr("This property can't be changed!"));
-                return;
-        }
+    //TODO: for now user can't change an object type. In the future being able to
+    //      change type on the fly could be great.
+    if (key == "type" && type != OBJ_RULE)
+    {
+        QMessageBox::warning(this, tr("Calaos Installer"), tr("This property can't be changed!"));
+        return;
+    }
 
-        bool ok;
-        QString text = QInputDialog::getText(this, tr("Change the value"),
-                                          tr("Change the property: \"%1\"").arg(QString::fromUtf8(key.c_str())), QLineEdit::Normal,
-                                          QString::fromUtf8(value.c_str()), &ok);
-        if (ok && !text.isEmpty())
-        {
-                params.Add(key, text.toUtf8().data());
-                current_item->setData(1, Qt::DisplayRole, text);
+    bool ok;
+    QString text = QInputDialog::getText(this, tr("Change the value"),
+                                         tr("Change the property: \"%1\"").arg(QString::fromUtf8(key.c_str())), QLineEdit::Normal,
+                                         QString::fromUtf8(value.c_str()), &ok);
+    if (ok && !text.isEmpty())
+    {
+        params.Add(key, text.toUtf8().data());
+        current_item->setData(1, Qt::DisplayRole, text);
 
-                modified = true;
-        }
+        modified = true;
+    }
 }
 
 void DialogIOProperties::on_treeProperties_currentItemChanged(QTreeWidgetItem* current, QTreeWidgetItem*)
 {
-        current_item = current;
+    current_item = current;
 }
 
 void DialogIOProperties::on_buttonBox_accepted()
 {
-        if (modified && type == OBJ_ROOM)
+    if (modified && type == OBJ_ROOM)
+    {
+        Room *room = ListeRoom::Instance().searchRoomByName(params["name"], params["type"]);
+        if (room && to_string(room->get_hits()) == params["hits"])
         {
-                Room *room = ListeRoom::Instance().searchRoomByName(params["name"], params["type"]);
-                if (room && to_string(room->get_hits()) == params["hits"])
-                {
-                        QMessageBox::warning(this, tr("Calaos Installer"), tr("This room already exists!"));
-                        return;
-                }
+            QMessageBox::warning(this, tr("Calaos Installer"), tr("This room already exists!"));
+            return;
         }
+    }
 
-        accept();
+    accept();
 }
 
 void DialogIOProperties::on_treeProperties_itemDoubleClicked(QTreeWidgetItem *, int)
 {
-        on_modifyButton_clicked();
+    on_modifyButton_clicked();
 }

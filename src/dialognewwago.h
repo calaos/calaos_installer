@@ -14,46 +14,46 @@ using namespace Calaos;
 
 namespace Ui
 {
-        class DialogNewWago;
+class DialogNewWago;
 }
 
 class DialogNewWago : public QDialog
 {
-                Q_OBJECT
-                Q_DISABLE_COPY(DialogNewWago)
-        public:
-                explicit DialogNewWago(int type, Room *room, QWidget *parent = 0);
-                virtual ~DialogNewWago();
+    Q_OBJECT
+    Q_DISABLE_COPY(DialogNewWago)
+public:
+    explicit DialogNewWago(int type, Room *room, QWidget *parent = 0);
+    virtual ~DialogNewWago();
 
-                IOBase *getInput() { return io->is_input()?io:nullptr; }
-                IOBase *getOutput() { return io->is_output()?io:nullptr; }
+    IOBase *getInput() { return io->is_input()?io:nullptr; }
+    IOBase *getOutput() { return io->is_output()?io:nullptr; }
 
-                bool wantAnother() { return another; }
+    bool wantAnother() { return another; }
 
-        protected:
-                virtual void changeEvent(QEvent *e);
+protected:
+    virtual void changeEvent(QEvent *e);
 
-        private:
-                Ui::DialogNewWago *ui;
-                string type;
-                IOBase *io;
-                Room *room;
-                bool detect_in_progress;
-                bool another;
-                QPushButton *moreButton;
-                QPointer<QAnimationLabel> spinner;
+private:
+    Ui::DialogNewWago *ui;
+    string type;
+    IOBase *io;
+    Room *room;
+    bool detect_in_progress;
+    bool another;
+    QPushButton *moreButton;
+    QPointer<QAnimationLabel> spinner;
 
-                void setWagoOutput(bool enable);
+    void setWagoOutput(bool enable);
 
-        private slots:
-                void on_check841_stateChanged(int );
-                void on_checkKNX_stateChanged(int );
-                void on_buttonBox_clicked(QAbstractButton* button);
-                void on_button_test_disable_clicked();
-                void on_button_test_enable_clicked();
-                void on_button_detect_clicked();
-                void on_buttonBox_accepted();
-                void processUDPRequest(QString &command, QString response);
+private slots:
+    void on_check841_stateChanged(int );
+    void on_checkKNX_stateChanged(int );
+    void on_buttonBox_clicked(QAbstractButton* button);
+    void on_button_test_disable_clicked();
+    void on_button_test_enable_clicked();
+    void on_button_detect_clicked();
+    void on_buttonBox_accepted();
+    void processUDPRequest(QString &command, QString response);
 };
 
 #endif // DIALOGNEWROOM_H

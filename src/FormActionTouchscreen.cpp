@@ -5,57 +5,57 @@
 #include "DialogMailMessage.h"
 
 FormActionTouchscreen::FormActionTouchscreen(QWidget *parent) :
-        QWidget(parent),
-        ui(new Ui::FormActionTouchscreen),
-        rule(NULL), action(NULL)
+    QWidget(parent),
+    ui(new Ui::FormActionTouchscreen),
+    rule(NULL), action(NULL)
 {
-        ui->setupUi(this);
+    ui->setupUi(this);
 
-        setWindowFlags(Qt::Popup);
-        setFocusPolicy(Qt::NoFocus);
-        setFocusProxy(parent);
-        setMouseTracking(true);
+    setWindowFlags(Qt::Popup);
+    setFocusPolicy(Qt::NoFocus);
+    setFocusProxy(parent);
+    setMouseTracking(true);
 }
 
 FormActionTouchscreen::~FormActionTouchscreen()
 {
-        delete ui;
+    delete ui;
 }
 
 void FormActionTouchscreen::changeEvent(QEvent *e)
 {
-        QWidget::changeEvent(e);
-        switch (e->type())
-        {
-        case QEvent::LanguageChange:
-                ui->retranslateUi(this);
-                break;
-        default:
-                break;
-        }
+    QWidget::changeEvent(e);
+    switch (e->type())
+    {
+    case QEvent::LanguageChange:
+        ui->retranslateUi(this);
+        break;
+    default:
+        break;
+    }
 }
 
 void FormActionTouchscreen::setAction(QTreeWidgetItem *item, Rule *_rule, Action *_action)
 {
-        rule = _rule;
-        action = _action;
-        qitem = item;
+    rule = _rule;
+    action = _action;
+    qitem = item;
 
-        setDone = false;
+    setDone = false;
 
-        ui->labelRuleName->setText(QString::fromUtf8(rule->get_name().c_str()));
-        ui->labelRuleType->setText(QString::fromUtf8(rule->get_type().c_str()));
+    ui->labelRuleName->setText(QString::fromUtf8(rule->get_name().c_str()));
+    ui->labelRuleType->setText(QString::fromUtf8(rule->get_type().c_str()));
 
-        ui->editAction->setText(QString::fromUtf8(action->getTouchscreenAction().c_str()));
+    ui->editAction->setText(QString::fromUtf8(action->getTouchscreenAction().c_str()));
 
-        setDone = true;
+    setDone = true;
 }
 
 void FormActionTouchscreen::on_editAction_textChanged(QString text)
 {
-        if (!setDone) return;
+    if (!setDone) return;
 
-        action->setTouchscreenAction(text.toUtf8().data());
+    action->setTouchscreenAction(text.toUtf8().data());
 
-        FormRules::updateItemAction(qitem, action);
+    FormRules::updateItemAction(qitem, action);
 }

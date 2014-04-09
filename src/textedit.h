@@ -106,19 +106,19 @@ private:
     void alignmentChanged(Qt::Alignment a);
 
     QAction
-        *actionTextBold,
-        *actionTextUnderline,
-        *actionTextItalic,
-        *actionTextColor,
-        *actionAlignLeft,
-        *actionAlignCenter,
-        *actionAlignRight,
-        *actionAlignJustify,
-        *actionUndo,
-        *actionRedo,
-        *actionCut,
-        *actionCopy,
-        *actionPaste;
+    *actionTextBold,
+    *actionTextUnderline,
+    *actionTextItalic,
+    *actionTextColor,
+    *actionAlignLeft,
+    *actionAlignCenter,
+    *actionAlignRight,
+    *actionAlignJustify,
+    *actionUndo,
+    *actionRedo,
+    *actionCut,
+    *actionCopy,
+    *actionPaste;
 
     QComboBox *comboStyle;
     QFontComboBox *comboFont;

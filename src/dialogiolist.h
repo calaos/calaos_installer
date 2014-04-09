@@ -10,33 +10,33 @@ using namespace Calaos;
 
 namespace Ui
 {
-        class DialogIOList;
+class DialogIOList;
 }
 
 class DialogIOList : public QDialog
 {
-        Q_OBJECT
+    Q_OBJECT
 
-        public:
-                DialogIOList(IOBase *input = NULL, IOBase *output = NULL, QWidget *parent = NULL);
-                ~DialogIOList();
+public:
+    DialogIOList(IOBase *input = NULL, IOBase *output = NULL, QWidget *parent = NULL);
+    ~DialogIOList();
 
-                IOBase *getInput();
-                IOBase *getOutput();
+    IOBase *getInput();
+    IOBase *getOutput();
 
-        protected:
-                void changeEvent(QEvent *e);
+protected:
+    void changeEvent(QEvent *e);
 
-        private slots:
-                void on_treeWidget_currentItemChanged(QTreeWidgetItem *current, QTreeWidgetItem *previous);
+private slots:
+    void on_treeWidget_currentItemChanged(QTreeWidgetItem *current, QTreeWidgetItem *previous);
 
-        private:
-                Ui::DialogIOList *ui;
+private:
+    Ui::DialogIOList *ui;
 
-                IOBase *input;
-                IOBase *output;
+    IOBase *input;
+    IOBase *output;
 
-                QTreeWidgetItem *item_current;
+    QTreeWidgetItem *item_current;
 };
 
 #endif // DIALOGIOLIST_H

@@ -9,31 +9,31 @@ using namespace Calaos;
 
 namespace Ui
 {
-        class FormActionScript;
+class FormActionScript;
 }
 
 class FormActionScript : public QWidget
 {
-        Q_OBJECT
+    Q_OBJECT
 
-        public:
-                explicit FormActionScript(QWidget *parent = 0);
-                ~FormActionScript();
+public:
+    explicit FormActionScript(QWidget *parent = 0);
+    ~FormActionScript();
 
-                void setAction(QTreeWidgetItem *item, Rule *rule, Action *action);
+    void setAction(QTreeWidgetItem *item, Rule *rule, Action *action);
 
-        private:
-                Ui::FormActionScript *ui;
+private:
+    Ui::FormActionScript *ui;
 
-        protected:
-                void changeEvent(QEvent *e);
+protected:
+    void changeEvent(QEvent *e);
 
-                Rule *rule;
-                Action *action;
-                QTreeWidgetItem *qitem;
+    Rule *rule;
+    Action *action;
+    QTreeWidgetItem *qitem;
 
-        private slots:
-                void on_btEditScript_clicked();
+private slots:
+    void on_btEditScript_clicked();
 };
 
 #endif // FORMACTIONSCRIPT_H

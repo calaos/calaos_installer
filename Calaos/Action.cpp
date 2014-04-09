@@ -28,12 +28,12 @@ Action::~Action()
 
 void Action::Add(IOBase *out)
 {
-        outputs.push_back(out);
+    outputs.push_back(out);
 }
 
 void Action::Remove(int pos)
 {
-        vector<IOBase *>::iterator iter = outputs.begin();
-        for (int i = 0;i < pos;iter++, i++) ;
-        outputs.erase(iter);
+    vector<IOBase *>::iterator iter = outputs.begin();
+    for (int i = 0;i < pos;iter++, i++) ;
+    outputs.erase(iter);
 }

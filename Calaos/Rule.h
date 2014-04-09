@@ -30,44 +30,44 @@ namespace Calaos
 
 class Rule
 {
-        protected:
-                std::vector<Condition *> conds;
-                std::vector<Action *> actions;
+protected:
+    std::vector<Condition *> conds;
+    std::vector<Action *> actions;
 
-                std::string type, name;
-                string specialType;
+    std::string type, name;
+    string specialType;
 
-        public:
-                Rule(string _type, string _name, string _specialType = ""):
-                        type(_type), name(_name), specialType(_specialType)
-                        { }
-                ~Rule();
+public:
+    Rule(string _type, string _name, string _specialType = ""):
+        type(_type), name(_name), specialType(_specialType)
+    { }
+    ~Rule();
 
-                void AddCondition(Condition *p);
-                void AddAction(Action *p);
-                void RemoveCondition(int i);
-                void RemoveAction(int i);
+    void AddCondition(Condition *p);
+    void AddAction(Action *p);
+    void RemoveCondition(int i);
+    void RemoveAction(int i);
 
-                void MoveConditionUp(int pos);
-                void MoveConditionDown(int pos);
-                void MoveActionUp(int pos);
-                void MoveActionDown(int pos);
+    void MoveConditionUp(int pos);
+    void MoveConditionDown(int pos);
+    void MoveActionUp(int pos);
+    void MoveActionDown(int pos);
 
-                Condition *get_condition(int i) { return conds[i]; }
-                Action *get_action(int i) { return actions[i]; }
+    Condition *get_condition(int i) { return conds[i]; }
+    Action *get_action(int i) { return actions[i]; }
 
-                int get_size_conds() { return conds.size(); }
-                int get_size_actions() { return actions.size(); }
+    int get_size_conds() { return conds.size(); }
+    int get_size_actions() { return actions.size(); }
 
-                string get_type() { return type; }
-                string get_name() { return name; }
-                string get_specialType() { return specialType; }
+    string get_type() { return type; }
+    string get_name() { return name; }
+    string get_specialType() { return specialType; }
 
-                void set_type(string s) { type = s; }
-                void set_name(string s) { name = s; }
-                void set_SpecialType(string s) { specialType = s; }
+    void set_type(string s) { type = s; }
+    void set_name(string s) { name = s; }
+    void set_SpecialType(string s) { specialType = s; }
 
-                void Print();
+    void Print();
 };
 
 }
