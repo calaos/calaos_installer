@@ -55,7 +55,7 @@ void IOXmlWriter::writeInput(IOBase *io)
 {
     string type = io->get_param("type");
 
-    if (io->get_gui_type() == "audio" || io->get_gui_type() == "camera")
+    if (io->get_gui_type() == "audio" || io->get_gui_type() == "camera" || io->get_gui_type() == "avreceiver")
         return;
 
     if (type == "InternalBool" ||
@@ -450,7 +450,7 @@ bool IOXmlReader::readFile(QIODevice *device)
                 readHome();
             }
             else
-                raiseError(QString::fromUtf8("Ce fichier n'est pas un fichier IO Calaos."));
+                raiseError(tr("This file is not correctly formated!"));
         }
     }
 
@@ -523,7 +523,7 @@ void IOXmlReader::readInput(Room *room)
 
     if (ListeRoom::Instance().get_input(p["id"]))
     {
-        QMessageBox::critical(NULL, "Calaos Installer", QString::fromUtf8("L'entrée avec l'id \"%1\" existe déjà !").arg(QString(p["id"].c_str())));
+        QMessageBox::critical(NULL, "Calaos Installer", QString(tr("Input with id \"%1\" already exists!")).arg(QString(p["id"].c_str())));
     }
 
     IOBase *in = ListeRoom::Instance().createInput(p, room);
@@ -628,7 +628,7 @@ void IOXmlReader::readOutput(Room *room)
 
     if (ListeRoom::Instance().get_output(p["id"]))
     {
-        QMessageBox::critical(NULL, "Calaos Installer", QString::fromUtf8("La sortie avec l'id \"%1\" existe déjà !").arg(QString(p["id"].c_str())));
+        QMessageBox::critical(NULL, "Calaos Installer", QString(tr("Output with id \"%1\" already exists!")).arg(QString(p["id"].c_str())));
     }
 
     IOBase *output = ListeRoom::Instance().createOutput(p, room);
