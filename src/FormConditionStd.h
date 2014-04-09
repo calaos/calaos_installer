@@ -50,6 +50,7 @@ private slots:
     void on_editValue_textChanged(const QString &arg1);
     void on_buttonMore_clicked();
     void on_comboOp_currentIndexChanged(int);
+    void on_checkTrigger_stateChanged(int arg1);
 };
 
 #endif // FORMCONDITIONSTD_H

@@ -159,6 +159,8 @@ void FormConditionStd::setCondition(QTreeWidgetItem *item, Rule *_rule, Conditio
     ui->editValue->clear();
     ui->buttonMore->setEnabled(true);
 
+    ui->checkTrigger->setChecked(condition->isTrigger());
+
     if (condition->getType() == COND_STD)
         ui->editValue->setText(QString::fromUtf8(condition->get_params().get_param(id).c_str()));
     else
@@ -427,4 +429,9 @@ void FormConditionStd::on_buttonMore_clicked()
 void FormConditionStd::menuAction(RuleActionMenu *action)
 {
     ui->editValue->setText(action->getCommand());
+}
+
+void FormConditionStd::on_checkTrigger_stateChanged(int)
+{
+    condition->setTrigger(ui->checkTrigger->isChecked());
 }
