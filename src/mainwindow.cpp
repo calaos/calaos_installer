@@ -44,7 +44,7 @@ MainWindow::MainWindow(QWidget *parent):
     statusBar()->addPermanentWidget(progressBar);
     progressBar->hide();
 
-    statusConnectText = new QLabel(QString::fromUtf8("Déconnecté."), this);
+    statusConnectText = new QLabel(tr("Disconnected."), this);
     statusBar()->addPermanentWidget(statusConnectText);
 
     statusConnectIcon = new QLabel(this);
@@ -56,7 +56,7 @@ MainWindow::MainWindow(QWidget *parent):
 
     connect(ui->widgetDali, SIGNAL(closeDaliForm()), this, SLOT(closeDaliForm_clicked()));
 
-    project_path = "Nouveau";
+    project_path = tr("New");
 
     /* Search and create a new temp dir */
     tempDir.setPath(QDir::tempPath());
@@ -140,7 +140,7 @@ void MainWindow::projectChanged(bool changed)
 {
     if (changed)
     {
-        setWindowTitle(QString::fromUtf8("Calaos Installer: [modified] %1").arg(project_path));
+        setWindowTitle(QString::fromUtf8("Calaos Installer: [*] %1").arg(project_path));
         ui->labelProjectName->setText(QString::fromUtf8("[*] %1").arg(project_path));
     }
     else
@@ -156,7 +156,7 @@ void MainWindow::closeEvent(QCloseEvent *event)
     {
         QMessageBox::StandardButton reply;
         reply = QMessageBox::question(this, tr("Calaos Installer"),
-                                      QString::fromUtf8("Un projet est ouvert et modifié, voulez-vous l'enregistrer?"),
+                                      tr("The project was modified, do you want to save it?"),
                                       QMessageBox::Yes | QMessageBox::No);
 
         if (reply == QMessageBox::Yes)
@@ -176,7 +176,7 @@ void MainWindow::closeEvent(QCloseEvent *event)
 
 void MainWindow::on_actionSauvegarder_un_projet_triggered()
 {
-    QString dir = QFileDialog::getExistingDirectory(this, QString::fromUtf8("Choisir un dossier de projet..."),
+    QString dir = QFileDialog::getExistingDirectory(this, tr("Choose a project folder..."),
                                                     QDir::homePath(),
                                                     QFileDialog::ShowDirsOnly
                                                     | QFileDialog::DontResolveSymlinks);
@@ -192,7 +192,7 @@ void MainWindow::on_actionNouveau_projet_triggered()
     {
         QMessageBox::StandardButton reply;
         reply = QMessageBox::question(this, tr("Calaos Installer"),
-                                      QString::fromUtf8("Un projet est ouvert et modifié, voulez-vous l'enregistrer?"),
+                                      tr("The project was modified, do you want to save it?"),
                                       QMessageBox::Yes | QMessageBox::No);
 
         if (reply == QMessageBox::Yes)
@@ -210,7 +210,7 @@ void MainWindow::on_actionNouveau_projet_triggered()
 
 void MainWindow::on_actionSauvegarder_triggered()
 {
-    if (project_path.isEmpty() || project_path == "Nouveau")
+    if (project_path.isEmpty() || project_path == "new")
         on_actionSauvegarder_un_projet_triggered();
 
     Save();
@@ -229,7 +229,7 @@ void MainWindow::Save(QString path)
 
     ui->widgetRules->setProjectModified(false);
 
-    statusBar()->showMessage(QString::fromUtf8("Projet sauvegardé: ") + project_path, 3000);
+    statusBar()->showMessage(QString(tr("Projcet saved: %1")).arg(project_path), 3000);
 }
 
 void MainWindow::Load(QString path)
@@ -237,7 +237,7 @@ void MainWindow::Load(QString path)
     if (!path.isEmpty())
         project_path = path;
 
-    QProgressDialog bar("Chargement en cours...", 0, 0, 0, this);
+    QProgressDialog bar(tr("Loading in progress..."), 0, 0, 0, this);
     bar.setWindowModality(Qt::ApplicationModal);
     bar.show();
 
@@ -254,7 +254,7 @@ void MainWindow::Load(QString path)
 
     ui->widgetRules->setProjectModified(false);
 
-    statusBar()->showMessage(QString::fromUtf8("Projet chargé: ") + project_path, 3000);
+    statusBar()->showMessage(QString(tr("Project loaded: %1")).arg(project_path), 3000);
 }
 
 void MainWindow::on_actionCharger_un_projet_triggered()
@@ -263,14 +263,14 @@ void MainWindow::on_actionCharger_un_projet_triggered()
     {
         QMessageBox::StandardButton reply;
         reply = QMessageBox::question(this, tr("Calaos Installer"),
-                                      QString::fromUtf8("Un projet est ouvert et modifié, voulez-vous l'enregistrer?"),
+                                      tr("The project was modified, do you want to save it?"),
                                       QMessageBox::Yes | QMessageBox::No);
 
         if (reply == QMessageBox::Yes)
             on_actionSauvegarder_triggered();
     }
 
-    QString dir = QFileDialog::getExistingDirectory(this, QString::fromUtf8("Choisir un dossier de projet..."),
+    QString dir = QFileDialog::getExistingDirectory(this, tr("Choose a project folder..."),
                                                     QDir::homePath(),
                                                     QFileDialog::ShowDirsOnly
                                                     | QFileDialog::DontResolveSymlinks);
@@ -293,7 +293,7 @@ void MainWindow::on_actionOuvrir_un_projet_en_ligne_triggered()
     {
         QMessageBox::StandardButton reply;
         reply = QMessageBox::question(this, tr("Calaos Installer"),
-                                      QString::fromUtf8("Un projet est ouvert et modifié, voulez-vous l'enregistrer?"),
+                                      tr("The project was modified, do you want to save it?"),
                                       QMessageBox::Yes | QMessageBox::No);
 
         if (reply == QMessageBox::Yes)
@@ -351,19 +351,19 @@ void MainWindow::wagoStatusProgress(int status)
 {
     if (status == WAGOST_START)
     {
-        progressBar->setFormat(QString::fromUtf8("Veuillez patienter..."));
+        progressBar->setFormat(tr("Please wait..."));
     }
     else if (status == WAGOST_CREATING)
     {
-        progressBar->setFormat(QString::fromUtf8("Création %p%"));
+        progressBar->setFormat(QString(tr("Creating %p%")));
     }
     else if (status == WAGOST_UPLOADING)
     {
-        progressBar->setFormat(QString::fromUtf8("Chargement automate %p%"));
+        progressBar->setFormat(QString(tr("Loading PLC %p%")));
     }
     else if (status == WAGOST_ABORTED)
     {
-        progressBar->setFormat(QString::fromUtf8("Annulé"));
+        progressBar->setFormat(tr("Canceled"));
         progressBar->setValue(0);
     }
     else if (status == WAGOST_DONE)
@@ -396,7 +396,7 @@ void MainWindow::wagoConnected(QString &, bool)
     ui->actionDALI->setEnabled(true);
     ui->actionMise_jour_Automate->setEnabled(true);
 
-    statusConnectText->setText(QString::fromUtf8("Connecté (") + WagoConnect::Instance().getWagoVersion() + ")");
+    statusConnectText->setText(QString(tr("Connected (%1)")).arg(WagoConnect::Instance().getWagoVersion()));
     statusConnectIcon->setPixmap(QPixmap(":/img/user-online_16x16.png"));
 }
 
@@ -408,7 +408,7 @@ void MainWindow::wagoDisconnected()
     ui->actionDALI->setEnabled(false);
     ui->actionMise_jour_Automate->setEnabled(false);
 
-    statusConnectText->setText(QString::fromUtf8("Déconnecté."));
+    statusConnectText->setText(tr("Disconnected."));
     statusConnectIcon->setPixmap(QPixmap(":/img/user-invisible_16x16.png"));
 }
 
@@ -418,7 +418,7 @@ void MainWindow::wagoUpdateNeeded(QString version, QString new_version)
         WagoConnect::Instance().getWagoType() == "750-849")
     {
         if (QMessageBox::question(NULL, tr("Calaos Installer"),
-                                  QString::fromUtf8("L'automate doit être mis à jour.\n\nIl est actuellement en version %1, la dernière version est la %2.\nVous pouvez le faire maintenant, et l'automate sera réinitialisé.\n\nVoulez-vous le faire maintenant?").arg(version, new_version),
+                                  QString(tr("The WAGO PLC have to be upgraded.\n\nIt is actually running the version %1, the last version is %2.\nYou can do it now, but the PLC memory would be cleared.\n\nDo you want to do it now?")).arg(version).arg(new_version),
                                   QMessageBox::Yes,
                                   QMessageBox::No) == QMessageBox::Yes)
         {
@@ -462,16 +462,16 @@ void MainWindow::wagoError(int error)
     //                        on_actionSe_connecter_triggered();
     //                break;
     case WERROR_CONNECT_FAILED:
-        QMessageBox::critical(this, tr("Calaos Installer"), QString::fromUtf8("La connection a échoué !"));
+        QMessageBox::critical(this, tr("Calaos Installer"), tr("Connection failed!"));
         break;
     case WERROR_NOTCONNECTED:
-        QMessageBox::critical(this, tr("Calaos Installer"), QString::fromUtf8("L'automate n'est pas connecté !"));
+        QMessageBox::critical(this, tr("Calaos Installer"), tr("Wago PLC is not connected!"));
         break;
     case WERROR_TIMEOUT:
-        QMessageBox::critical(this, tr("Calaos Installer"), QString::fromUtf8("Le délai d'attente de la réponse est dépassé ! Erreur dans la réponse."));
+        QMessageBox::critical(this, tr("Calaos Installer"), tr("Wait timeout reached, error in communication!"));
         break;
     default:
-        QMessageBox::critical(this, tr("Calaos Installer"), QString::fromUtf8("Une erreur inconnue est survenue !"));
+        QMessageBox::critical(this, tr("Calaos Installer"), tr("Unknown error!"));
         break;
     }
 }
@@ -486,14 +486,16 @@ void MainWindow::on_actionDALI_triggered()
     if (WagoConnect::Instance().getConnectionStatus() == WAGO_CONNECTED)
     {
         if (WagoConnect::Instance().getWagoType() == "750-841" ||
-            WagoConnect::Instance().getWagoType() == "750-849")
+            WagoConnect::Instance().getWagoType() == "750-849" ||
+            WagoConnect::Instance().getWagoType() == "750-880" ||
+            WagoConnect::Instance().getWagoType() == "750-881")
         {
             ShowPage(PAGE_DALI);
             ui->widgetDali->Init();
         }
         else
         {
-            QMessageBox::critical(this, tr("Calaos Installer"), QString::fromUtf8("L'adressage DALI n'est supporté que sur les contrôleurs\nWago 750-841 et 750-849!"));
+            QMessageBox::critical(this, tr("Calaos Installer"), tr("DALI configuration tool is not available on your PLC!"));
         }
     }
     else
@@ -547,7 +549,7 @@ void MainWindow::on_actionMise_jour_Automate_triggered()
             WagoConnect::Instance().getWagoType() == "750-849")
         {
             if (QMessageBox::question(NULL, tr("Calaos Installer"),
-                                      QString::fromUtf8("L'automate peut être mis à jour à la dernière version.\n\nVoulez-vous le faire maintenant?"),
+                                      tr("Your PLC can be upgraded to the latest version right now, do it?"),
                                       QMessageBox::Yes,
                                       QMessageBox::No) == QMessageBox::Yes)
             {
@@ -556,7 +558,7 @@ void MainWindow::on_actionMise_jour_Automate_triggered()
         }
         else
         {
-            QMessageBox::critical(this, tr("Calaos Installer"), QString::fromUtf8("La mise à jour n'est supporté que sur les contrôleurs\nWago 750-841 et 750-849!"));
+            QMessageBox::critical(this, tr("Calaos Installer"), tr("Wago PLC upgrade not supported on your PLC!"));
         }
     }
     else
