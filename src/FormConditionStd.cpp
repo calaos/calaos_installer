@@ -93,6 +93,7 @@ void FormConditionStd::setCondition(QTreeWidgetItem *item, Rule *_rule, Conditio
     onStart = true;
 
     string type = io->get_param("type");
+    string gtype = io->get_gui_type();
     string id = io->get_param("id");
     if (io->get_gui_type() == "audio" ||
         io->get_gui_type() == "camera")
@@ -163,63 +164,92 @@ void FormConditionStd::setCondition(QTreeWidgetItem *item, Rule *_rule, Conditio
     else
         ui->editValue->setText(QString::fromUtf8(condition->getOutputParam().c_str()));
 
-    if (type == "InputTime")
+    if (gtype == "time")
     {
         addActionMenu(QString::fromUtf8("true"), QString::fromUtf8("Evennement sur heure/date choisie"), QString::fromUtf8("true"));
         addActionMenu(QString::fromUtf8("false"), QString::fromUtf8("Evennement en dehors de l'heure/date choisie"), QString::fromUtf8("false"));
-        addActionMenu(QString::fromUtf8("changed"), QString::fromUtf8("Evennement sur n'importe quel état"), QString::fromUtf8("changed"));
+        addActionMenu(QString::fromUtf8("changed"), tr("On any event change"), QString::fromUtf8("changed"));
     }
-    else if (type == "InputTimer")
+    else if (gtype == "timer")
     {
         addActionMenu(QString::fromUtf8("true"), QString::fromUtf8("Evennement sur tempo terminé"), QString::fromUtf8("true"));
         addActionMenu(QString::fromUtf8("false"), QString::fromUtf8("Evennement sur tempo non terminé"), QString::fromUtf8("false"));
-        addActionMenu(QString::fromUtf8("changed"), QString::fromUtf8("Evennement sur n'importe quel état"), QString::fromUtf8("changed"));
+        addActionMenu(QString::fromUtf8("changed"), tr("On any event change"), QString::fromUtf8("changed"));
     }
-    else if (type == "WIDigitalBP")
+    else if (gtype == "switch")
     {
         addActionMenu(QString::fromUtf8("true"), QString::fromUtf8("L'entrée est activé"), QString::fromUtf8("true"));
         addActionMenu(QString::fromUtf8("false"), QString::fromUtf8("L'entrée est désactivé"), QString::fromUtf8("false"));
-        addActionMenu(QString::fromUtf8("changed"), QString::fromUtf8("Evennement sur n'importe quel état"), QString::fromUtf8("changed"));
+        addActionMenu(QString::fromUtf8("changed"), tr("On any event change"), QString::fromUtf8("changed"));
     }
-    else if (type == "scenario")
+    else if (gtype == "scenario")
     {
         addActionMenu(QString::fromUtf8("true"), QString::fromUtf8("Le bouton scénario est executé"), QString::fromUtf8("true"));
-        addActionMenu(QString::fromUtf8("changed"), QString::fromUtf8("Evennement sur n'importe quel état"), QString::fromUtf8("changed"));
+        addActionMenu(QString::fromUtf8("changed"), tr("On any event change"), QString::fromUtf8("changed"));
     }
-    else if (type == "InPlageHoraire")
+    else if (gtype == "time_range")
     {
         addActionMenu(QString::fromUtf8("true"), QString::fromUtf8("Evennement sur entrée dans la plage horaire"), QString::fromUtf8("true"));
         addActionMenu(QString::fromUtf8("false"), QString::fromUtf8("Evennement sur sortie de la plage horaire"), QString::fromUtf8("false"));
-        addActionMenu(QString::fromUtf8("changed"), QString::fromUtf8("Evennement sur n'importe quel état"), QString::fromUtf8("changed"));
+        addActionMenu(QString::fromUtf8("changed"), tr("On any event change"), QString::fromUtf8("changed"));
     }
-    else if (type == "InternalBool")
+    else if (gtype == "var_bool")
     {
         addActionMenu(QString::fromUtf8("true"), QString::fromUtf8("La variable est activée"), QString::fromUtf8("true"));
         addActionMenu(QString::fromUtf8("false"), QString::fromUtf8("La variable est désactivée"), QString::fromUtf8("false"));
-        addActionMenu(QString::fromUtf8("changed"), QString::fromUtf8("Evennement sur n'importe quel état"), QString::fromUtf8("changed"));
+        addActionMenu(QString::fromUtf8("changed"), tr("On any event change"), QString::fromUtf8("changed"));
     }
-    else if (type == "WODigital")
+    else if (gtype == "light")
     {
         addActionMenu(QString::fromUtf8("true"), QString::fromUtf8("La sortie est activée"), QString::fromUtf8("true"));
         addActionMenu(QString::fromUtf8("false"), QString::fromUtf8("La sortie est désactivée"), QString::fromUtf8("false"));
-        addActionMenu(QString::fromUtf8("changed"), QString::fromUtf8("Evennement sur n'importe quel état"), QString::fromUtf8("changed"));
+        addActionMenu(QString::fromUtf8("changed"), tr("On any event change"), QString::fromUtf8("changed"));
     }
-    else if (type == "WIDigitalTriple")
+    else if (gtype == "light_dimmer")
+    {
+        addActionMenu(QString::fromUtf8("true"), tr("The light is on"), QString::fromUtf8("true"));
+        addActionMenu(QString::fromUtf8("false"), tr("The light is off"), QString::fromUtf8("false"));
+        addActionMenu(QString::fromUtf8("50"), tr("The light is at X%"), QString::fromUtf8("50"));
+        addActionMenu(QString::fromUtf8("changed"), tr("On any event change"), QString::fromUtf8("changed"));
+    }
+    else if (gtype == "light_rgb")
+    {
+        addActionMenu(QString::fromUtf8("true"), tr("The light is on"), QString::fromUtf8("true"));
+        addActionMenu(QString::fromUtf8("false"), tr("The light is off"), QString::fromUtf8("false"));
+        addActionMenu(QString::fromUtf8("123"), tr("The light is at XXXX color"), QString::fromUtf8("123"));
+        addActionMenu(QString::fromUtf8("changed"), tr("On any event change"), QString::fromUtf8("changed"));
+    }
+    else if (gtype == "shutter")
+    {
+        addActionMenu(QString::fromUtf8("open"), tr("The shutter is open"), QString::fromUtf8("open"));
+        addActionMenu(QString::fromUtf8("closed"), tr("The shutter is closed"), QString::fromUtf8("closed"));
+        addActionMenu(QString::fromUtf8("stop"), tr("The shutter is stopped"), QString::fromUtf8("stop"));
+        addActionMenu(QString::fromUtf8("changed"), tr("On any event change"), QString::fromUtf8("changed"));
+    }
+    else if (gtype == "shutter_smart")
+    {
+        addActionMenu(QString::fromUtf8("open"), tr("The shutter is open"), QString::fromUtf8("open"));
+        addActionMenu(QString::fromUtf8("closed"), tr("The shutter is closed"), QString::fromUtf8("closed"));
+        addActionMenu(QString::fromUtf8("stop"), tr("The shutter is stopped"), QString::fromUtf8("stop"));
+        addActionMenu(QString::fromUtf8("50"), tr("The shutter is at X%"), QString::fromUtf8("50"));
+        addActionMenu(QString::fromUtf8("changed"), tr("On any event change"), QString::fromUtf8("changed"));
+    }
+    else if (gtype == "switch3")
     {
         addActionMenu(QString::fromUtf8("1"), QString::fromUtf8("Evennement sur 1 appui"), QString::fromUtf8("1"));
         addActionMenu(QString::fromUtf8("2"), QString::fromUtf8("Evennement sur 2 appuis"), QString::fromUtf8("2"));
         addActionMenu(QString::fromUtf8("3"), QString::fromUtf8("Evennement sur 3 appuis"), QString::fromUtf8("3"));
     }
-    else if (type == "WIDigitalLong")
+    else if (gtype == "switch_long")
     {
         addActionMenu(QString::fromUtf8("1"), tr("Event on normal click"), QString::fromUtf8("1"));
         addActionMenu(QString::fromUtf8("2"), tr("Event on long press"), QString::fromUtf8("2"));
     }
-    else if (type == "WITemp" || type == "OWTemp")
+    else if (gtype == "temp")
     {
         addActionMenu(QString::fromUtf8("20"), QString::fromUtf8("Evennement sur une témperature en °C"), QString::fromUtf8("20"));
     }
-    else if (io->get_gui_type() == "audio")
+    else if (gtype == "audio")
     {
         addActionMenu(QString::fromUtf8("onplay"), QString::fromUtf8("Evennement lors de la lecture"), QString::fromUtf8("onplay"));
         addActionMenu(QString::fromUtf8("onpause"), QString::fromUtf8("Evennement lors de la pause"), QString::fromUtf8("onpause"));

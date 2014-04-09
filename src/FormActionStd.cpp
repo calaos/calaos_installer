@@ -57,6 +57,7 @@ void FormActionStd::setAction(QTreeWidgetItem *item, Rule *_rule, Action *_actio
     onStart = true;
 
     string type = output->get_param("type");
+    string gtype = output->get_gui_type();
     string id = output->get_param("id");
     if (output->get_gui_type() == "audio" ||
         output->get_gui_type() == "camera")
@@ -110,30 +111,24 @@ void FormActionStd::setAction(QTreeWidgetItem *item, Rule *_rule, Action *_actio
     actionMenu->clear();
     ui->buttonMore->setEnabled(true);
 
-    if (type == "OutputFake")
-    {
-        addActionMenu(QString::fromUtf8("true"), QString::fromUtf8("Activer la sortie"), QString::fromUtf8("true"));
-        addActionMenu(QString::fromUtf8("false"), QString::fromUtf8("Désactiver la sortie"), QString::fromUtf8("false"));
-        addActionMenu(QString::fromUtf8("toggle"), QString::fromUtf8("Inverser l'état de la sortie"), QString::fromUtf8("toggle"));
-    }
-    else if (type == "InputTimer")
+    if (gtype == "timer")
     {
         addActionMenu(QString::fromUtf8("start / true"), QString::fromUtf8("Démarre la tempo"), QString::fromUtf8("true"));
         addActionMenu(QString::fromUtf8("stop / false"), QString::fromUtf8("Arrête la tempo"), QString::fromUtf8("false"));
         addActionMenu(QString::fromUtf8("h:m:s:ms"), QString::fromUtf8("Change la durée de la tempo"), QString::fromUtf8("0:0:0:200"));
     }
-    else if (type == "scenario")
+    else if (gtype == "scenario")
     {
         addActionMenu(QString::fromUtf8("true"), QString::fromUtf8("Lance le scénario"), QString::fromUtf8("true"));
         addActionMenu(QString::fromUtf8("false"), QString::fromUtf8("Arrête le scénario (si possible)"), QString::fromUtf8("false"));
     }
-    else if (type == "InternalBool")
+    else if (gtype == "var_bool")
     {
         addActionMenu(QString::fromUtf8("true"), QString::fromUtf8("Mets l'état actif"), QString::fromUtf8("true"));
         addActionMenu(QString::fromUtf8("false"), QString::fromUtf8("Mets l'état inactif"), QString::fromUtf8("false"));
         addActionMenu(QString::fromUtf8("toggle"), QString::fromUtf8("Inverse l'état"), QString::fromUtf8("toggle"));
     }
-    else if (type == "WODigital")
+    else if (gtype == "light")
     {
         addActionMenu(QString::fromUtf8("true"), QString::fromUtf8("Allume la lumière"), QString::fromUtf8("true"));
         addActionMenu(QString::fromUtf8("false"), QString::fromUtf8("Eteint la lumière"), QString::fromUtf8("false"));
@@ -141,7 +136,7 @@ void FormActionStd::setAction(QTreeWidgetItem *item, Rule *_rule, Action *_actio
         addActionMenu(QString::fromUtf8("impulse X"), QString::fromUtf8("Allume la lumière pendant X ms"), QString::fromUtf8("impulse 500"));
         addActionMenu(QString::fromUtf8("impulse W X Y Z"), QString::fromUtf8("Allume/éteint la lumière suivant un schéma"), QString::fromUtf8("impulse 500 200 500 200"));
     }
-    else if (type == "WOVolet")
+    else if (gtype == "shutter")
     {
         addActionMenu(QString::fromUtf8("up"), QString::fromUtf8("Monte le volet"), QString::fromUtf8("up"));
         addActionMenu(QString::fromUtf8("down"), QString::fromUtf8("Descend le volet"), QString::fromUtf8("down"));
@@ -150,7 +145,7 @@ void FormActionStd::setAction(QTreeWidgetItem *item, Rule *_rule, Action *_actio
         addActionMenu(QString::fromUtf8("impulse up X"), QString::fromUtf8("Impulsion sur la montée de X ms"), QString::fromUtf8("impulse up 200"));
         addActionMenu(QString::fromUtf8("impulse down X"), QString::fromUtf8("Impulsion sur la montée de X ms"), QString::fromUtf8("impulse down 200"));
     }
-    else if (type == "WOVoletSmart")
+    else if (gtype == "shutter_smart")
     {
         addActionMenu(QString::fromUtf8("up"), QString::fromUtf8("Monte le volet"), QString::fromUtf8("up"));
         addActionMenu(QString::fromUtf8("down"), QString::fromUtf8("Descend le volet"), QString::fromUtf8("down"));
@@ -163,7 +158,7 @@ void FormActionStd::setAction(QTreeWidgetItem *item, Rule *_rule, Action *_actio
         addActionMenu(QString::fromUtf8("down X"), QString::fromUtf8("Descend le volet de X pourcent"), QString::fromUtf8("down 2"));
         addActionMenu(QString::fromUtf8("calibrate"), QString::fromUtf8("Lance la calibration du volet"), QString::fromUtf8("calibrate"));
     }
-    else if (type == "WODali" || type == "WONeon")
+    else if (gtype == "light_dimmer")
     {
         addActionMenu(QString::fromUtf8("true"), QString::fromUtf8("Allume la lumière"), QString::fromUtf8("true"));
         addActionMenu(QString::fromUtf8("false"), QString::fromUtf8("Eteint la lumière"), QString::fromUtf8("false"));
@@ -172,14 +167,10 @@ void FormActionStd::setAction(QTreeWidgetItem *item, Rule *_rule, Action *_actio
         addActionMenu(QString::fromUtf8("set off X"), QString::fromUtf8("Mettre à X pourcent sans allumer"), QString::fromUtf8("set off 50"));
         addActionMenu(QString::fromUtf8("up X"), QString::fromUtf8("Monter l'intensité de X pourcent"), QString::fromUtf8("up 2"));
         addActionMenu(QString::fromUtf8("down X"), QString::fromUtf8("Descendre l'intensité de X pourcent"), QString::fromUtf8("down 2"));
-
-        if (type == "WODali")
-        {
-            addActionMenu(QString::fromUtf8("hold press"), QString::fromUtf8("Varier l'intensité appui"), QString::fromUtf8("hold press"));
-            addActionMenu(QString::fromUtf8("hold stop"), QString::fromUtf8("Varier l'intensité relachement"), QString::fromUtf8("hold stop"));
-        }
+        addActionMenu(QString::fromUtf8("hold press"), QString::fromUtf8("Varier l'intensité appui"), QString::fromUtf8("hold press"));
+        addActionMenu(QString::fromUtf8("hold stop"), QString::fromUtf8("Varier l'intensité relachement"), QString::fromUtf8("hold stop"));
     }
-    else if (type == "WODaliRVB")
+    else if (gtype == "light_rgb")
     {
         addActionMenu(QString::fromUtf8("true"), QString::fromUtf8("Allume la lumière"), QString::fromUtf8("true"));
         addActionMenu(QString::fromUtf8("false"), QString::fromUtf8("Eteint la lumière"), QString::fromUtf8("false"));
@@ -195,7 +186,7 @@ void FormActionStd::setAction(QTreeWidgetItem *item, Rule *_rule, Action *_actio
         addActionMenu(QString::fromUtf8("down_blue X"), QString::fromUtf8("Descendre le bleu de X pourcent"), QString::fromUtf8("down_blue 1"));
         addActionMenu(QString::fromUtf8("set_blue X"), QString::fromUtf8("Mettre le bleu à X pourcent"), QString::fromUtf8("set_blue 1"));
     }
-    else if (output->get_gui_type() == "audio")
+    else if (gtype == "audio")
     {
         addActionMenu(QString::fromUtf8("play"), QString::fromUtf8("Lecture"), QString::fromUtf8("play"));
         addActionMenu(QString::fromUtf8("pause"), QString::fromUtf8("Pause"), QString::fromUtf8("pause"));
@@ -213,7 +204,7 @@ void FormActionStd::setAction(QTreeWidgetItem *item, Rule *_rule, Action *_actio
         addActionMenu(QString::fromUtf8("play ID"), QString::fromUtf8("Lire un élément de la base de donnée"), QString::fromUtf8("play 0"));
         addActionMenu(QString::fromUtf8("add ID"), QString::fromUtf8("Ajoute un élément à la playlist"), QString::fromUtf8("add 0"));
     }
-    else if (output->get_gui_type() == "camera")
+    else if (gtype == "camera")
     {
         addActionMenu(QString::fromUtf8("recall X"), QString::fromUtf8("Rappeler la position X"), QString::fromUtf8("recall 0"));
         addActionMenu(QString::fromUtf8("save X"), QString::fromUtf8("Sauvegarder à la position X"), QString::fromUtf8("save 0"));
