@@ -56,7 +56,7 @@ private:
 
 public:
 
-    enum { IO_INPUT, IO_OUTPUT, IO_BOTH };
+    enum { IO_NONE = 0, IO_INPUT, IO_OUTPUT, IO_BOTH };
 
     IOBase(Params &p, string g, DATA_TYPE d, int i):
         param(p),

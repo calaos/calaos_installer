@@ -435,7 +435,7 @@ IOBase* ListeRoom::createInput(Params param, Room *room)
     else
     {
         std::string type = param["type"];
-        input = IOFactory::Instance().CreateIO(type, param);
+        input = IOFactory::Instance().CreateIO(type, param, IOBase::IO_INPUT);
         if (input) room->AddInput(input);
     }
 
@@ -481,7 +481,7 @@ IOBase* ListeRoom::createOutput(Params param, Room *room)
     if (!param.Exists("id")) param.Add("id", ListeRoom::get_new_id("output_"));
 
     std::string type = param["type"];
-    output = IOFactory::Instance().CreateIO(type, param);
+    output = IOFactory::Instance().CreateIO(type, param, IOBase::IO_OUTPUT);
     if (output) room->AddOutput(output);
 
     return output;
@@ -498,7 +498,7 @@ IOBase* ListeRoom::createCamera(Params param, Room *room)
     if (!param.Exists("id")) param.Add("id", param["iid"] + "_" + param["oid"]);
     if (!param.Exists("model")) param.Add("model", "");
 
-    IOBase *output = IOFactory::Instance().CreateIO("Camera", param);
+    IOBase *output = IOFactory::Instance().CreateIO("Camera", param, IOBase::IO_BOTH);
     if (output) room->AddOutput(output);
     if (output) room->AddInput(output);
 
@@ -514,7 +514,7 @@ IOBase *ListeRoom::createAudio(Params param, Room *room)
     if (!param.Exists("oid")) param.Add("oid", ListeRoom::get_new_id("output_"));
     if (!param.Exists("iid")) param.Add("iid", ListeRoom::get_new_id("input_"));
 
-    IOBase *output = IOFactory::Instance().CreateIO("Audio", param);
+    IOBase *output = IOFactory::Instance().CreateIO("Audio", param, IOBase::IO_BOTH);
     if (output) room->AddOutput(output);
     if (output) room->AddInput(output);
 

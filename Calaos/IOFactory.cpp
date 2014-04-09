@@ -30,7 +30,7 @@ Registrar::Registrar(string type, function<IOBase *(Params &)> classFunc)
     IOFactory::Instance().RegisterClass(type, classFunc);
 }
 
-IOBase *IOFactory::CreateIO(std::string type, Params &params)
+IOBase *IOFactory::CreateIO(std::string type, Params &params, int io_type)
 {
     IOBase *obj = nullptr;
 
@@ -43,7 +43,7 @@ IOBase *IOFactory::CreateIO(std::string type, Params &params)
     if (!obj)
     {
         qWarning() << type.c_str() << ": Unknown type! Creating a default IO";
-        obj = new IOBase(params, "unkown", TSTRING, IOBase::IO_BOTH);
+        obj = new IOBase(params, "unknown", TSTRING, io_type);
     }
 
     return obj;

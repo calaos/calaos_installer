@@ -66,6 +66,8 @@ void IOXmlWriter::writeInput(IOBase *io)
     }
     else
     {
+        if (io->is_inout() && io->get_gui_type() != "scenario") return; //We don't want to write the input when IO is IO_BOTH, except for scenario
+
         writeStartElement("http://www.calaos.fr", "input");
     }
 
@@ -450,7 +452,7 @@ bool IOXmlReader::readFile(QIODevice *device)
                 readHome();
             }
             else
-                raiseError(tr("This file is not correctly formated!"));
+                raiseError(QObject::tr("This file is not correctly formated!"));
         }
     }
 
@@ -523,7 +525,7 @@ void IOXmlReader::readInput(Room *room)
 
     if (ListeRoom::Instance().get_input(p["id"]))
     {
-        QMessageBox::critical(NULL, "Calaos Installer", QString(tr("Input with id \"%1\" already exists!")).arg(QString(p["id"].c_str())));
+        QMessageBox::critical(NULL, "Calaos Installer", QString(QObject::tr("Input with id \"%1\" already exists!")).arg(QString(p["id"].c_str())));
     }
 
     IOBase *in = ListeRoom::Instance().createInput(p, room);
@@ -628,7 +630,7 @@ void IOXmlReader::readOutput(Room *room)
 
     if (ListeRoom::Instance().get_output(p["id"]))
     {
-        QMessageBox::critical(NULL, "Calaos Installer", QString(tr("Output with id \"%1\" already exists!")).arg(QString(p["id"].c_str())));
+        QMessageBox::critical(NULL, "Calaos Installer", QString(QObject::tr("Output with id \"%1\" already exists!")).arg(QString(p["id"].c_str())));
     }
 
     IOBase *output = ListeRoom::Instance().createOutput(p, room);

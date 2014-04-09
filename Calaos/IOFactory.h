@@ -53,7 +53,7 @@ private:
 
 public:
 
-    IOBase *CreateIO(string type, Params &params);
+    IOBase *CreateIO(string type, Params &params, int io_type = IOBase::IO_NONE);
 
     void RegisterClass(string type, function<IOBase *(Params &)> classFunc)
     {
