@@ -3,6 +3,7 @@
 
 #include "TwoLineItemDelegate.h"
 #include "mainwindow.h"
+#include "DialogEditTimeRange.h"
 
 FormRules::FormRules(QWidget *parent) :
                 QWidget(parent),
@@ -1842,7 +1843,8 @@ void FormRules::itemPlagesHoraires()
         {
                 if (itinput->getInput()->get_gui_type() == "time_range")
                 {
-                        DialogPlageHoraire d(itinput->getInput());
+                        //DialogPlageHoraire d(itinput->getInput());
+                        DialogEditTimeRange d;
                         d.exec();
 
                         setProjectModified(true);

@@ -82,7 +82,8 @@ SOURCES += src/main.cpp \
     src/dialognewonewiretemp.cpp \
     src/dialognewgpioinput.cpp \
     Calaos/IOBase.cpp \
-    src/dialognewweboutputstring.cpp
+    src/dialognewweboutputstring.cpp \
+    src/DialogEditTimeRange.cpp
 
 HEADERS += src/mainwindow.h \
     src/common/Utils.h \
@@ -162,7 +163,8 @@ HEADERS += src/mainwindow.h \
     src/ftp/qftp.h \
     src/dialognewonewiretemp.h \
     src/dialognewgpioinput.h \
-    src/dialognewweboutputstring.h
+    src/dialognewweboutputstring.h \
+    src/DialogEditTimeRange.h
 FORMS += \
     data/FormConditionStd.ui \
     data/FormActionStd.ui \
@@ -203,7 +205,8 @@ FORMS += \
     data/DialogIoProperties.ui \
     data/FormRules.ui \
     data/FormDali.ui \
-    data/DialogNewWebOutputString.ui
+    data/DialogNewWebOutputString.ui \
+    data/DialogEditTimeRange.ui
 RESOURCES += data/resources.qrc \
     data/textedit.qrc \
     data/wago_firmwares.qrc
