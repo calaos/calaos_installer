@@ -33,6 +33,7 @@ class Condition
 {
 protected:
     int condition_type;
+    bool condition_trigger = true; //All conditions are triggered by default
 
     std::vector<IOBase *> inputs;
     Params params;
@@ -57,6 +58,8 @@ public:
     ~Condition();
 
     int getType() { return condition_type; }
+    bool isTrigger() { return condition_trigger; }
+    void setTrigger(bool b) { condition_trigger = b; }
 
     /*-- Standard Condition --*/
     void Add(IOBase *p);

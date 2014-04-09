@@ -233,6 +233,7 @@ void RuleXmlWriter::writeCondition(Rule *rule)
                 writeStartElement("http://www.calaos.fr", "condition");
                 QXmlStreamAttributes attr;
                 attr.append("type", "standard");
+                attr.append("trigger", cond->isTrigger()?"true":"false");
                 writeAttributes(attr);
 
                 writeStartElement("http://www.calaos.fr", "input");
@@ -783,6 +784,10 @@ bool ProjectManager::loadRulesFromFile(QString &file)
             if (cond_type == "standard" || cond_type == "")
             {
                 cond = new Condition(COND_STD);
+                string cond_trig = node_cond.attribute("trigger").toUtf8().data();
+
+                if (cond_trig == "false")
+                    cond->setTrigger(false);
 
                 QDomElement node_in = node_cond.firstChildElement("calaos:input");
                 while(!node_in.isNull())
