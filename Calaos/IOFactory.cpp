@@ -41,7 +41,10 @@ IOBase *IOFactory::CreateIO(std::string type, Params &params)
         obj = it->second(params);
 
     if (!obj)
-        qWarning() << type.c_str() << ": Unknown type !";
+    {
+        qWarning() << type.c_str() << ": Unknown type! Creating a default IO";
+        obj = new IOBase(params, "unkown", TSTRING, IOBase::IO_BOTH);
+    }
 
     return obj;
 }
