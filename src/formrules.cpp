@@ -223,7 +223,7 @@ void FormRules::PopulateRoomsTree()
     QCoreApplication::processEvents();
 
     QStringList headers;
-    headers << QString::fromUtf8("Maison");
+    headers << tr("Home");
     ui->tree_home->setHeaderLabels(headers);
 
     ui->tree_condition->header()->setSectionsMovable(false);
@@ -283,7 +283,7 @@ void FormRules::PopulateRoomsTree()
 void FormRules::PopulateRulesTree()
 {
     QStringList headers;
-    headers << QString::fromUtf8("Type") << QString::fromUtf8("Nom");
+    headers << tr("Type") << tr("Name");
     ui->tree_rules->setHeaderLabels(headers);
     ui->tree_condition->header()->setSectionResizeMode(QHeaderView::Interactive);
     ui->tree_action->header()->setSectionResizeMode(QHeaderView::Interactive);
@@ -335,7 +335,7 @@ void FormRules::addCalaosItemInputSwitch(int item, int hw_type)
                     addItemInput(input, current_room, true);
                 else
                 {
-                    QMessageBox::critical(this, tr("Calaos Installer"), QString::fromUtf8("Erreur lors de la création de l'objet !"));
+                    QMessageBox::critical(this, tr("Calaos Installer"), tr("Error when creating the object!"));
                     another = false;
                 }
             }
@@ -354,12 +354,12 @@ void FormRules::addCalaosItemInputSwitch(int item, int hw_type)
                 addItemInput(input, current_room, true);
             else
             {
-                QMessageBox::critical(this, tr("Calaos Installer"), QString::fromUtf8("Error creating object !"));
+                QMessageBox::critical(this, tr("Calaos Installer"), tr("Error creating object !"));
             }
         }
     }
     else
-        QMessageBox::critical(this, tr("Calaos Installer"), QString::fromUtf8("Unknown hardware type !"));
+        QMessageBox::critical(this, tr("Calaos Installer"), tr("Unknown hardware type !"));
 }
 
 void FormRules::addCalaosItemLight(int item, int hw_type)
@@ -379,7 +379,7 @@ void FormRules::addCalaosItemLight(int item, int hw_type)
                     addItemOutput(output, current_room, true);
                 else
                 {
-                    QMessageBox::critical(this, tr("Calaos Installer"), QString::fromUtf8("Erreur lors de la création de l'objet !"));
+                    QMessageBox::critical(this, tr("Calaos Installer"), tr("Error when creating the object!"));
                     another = false;
                 }
             }
@@ -388,7 +388,7 @@ void FormRules::addCalaosItemLight(int item, int hw_type)
         }while (another);
     }
     else
-        QMessageBox::critical(this, tr("Calaos Installer"), QString::fromUtf8("Unknown hardware type !"));
+        QMessageBox::critical(this, tr("Calaos Installer"), tr("Unknown hardware type !"));
 }
 
 void FormRules::addCalaosItemOutputString(int item, int hw_type)
@@ -404,7 +404,7 @@ void FormRules::addCalaosItemOutputString(int item, int hw_type)
         }
     }
     else
-        QMessageBox::critical(this, tr("Calaos Installer"), QString::fromUtf8("Unknown hardware type !"));
+        QMessageBox::critical(this, tr("Calaos Installer"), tr("Unknown hardware type !"));
 }
 
 void FormRules::addCalaosItem(int hw_type, int item)
@@ -414,12 +414,12 @@ void FormRules::addCalaosItem(int hw_type, int item)
     {
         if (ListeRoom::Instance().size() <= 0)
         {
-            QMessageBox::warning(this, tr("Calaos Installer"), QString::fromUtf8("Vous devez créer au moins une pièce !"));
+            QMessageBox::warning(this, tr("Calaos Installer"), tr("You need to add one room at least!"));
             return;
         }
         else
         {
-            QMessageBox::warning(this, tr("Calaos Installer"), QString::fromUtf8("Vous devez sélectionner une pièce pour ajouter des éléments !"));
+            QMessageBox::warning(this, tr("Calaos Installer"), tr("You must select a room prior adding elements!"));
             return;
         }
     }
@@ -463,7 +463,7 @@ void FormRules::addCalaosItem(int hw_type, int item)
             if (output)
                 addItemOutput(output, current_room, true);
             else
-                QMessageBox::critical(this, tr("Calaos Installer"), QString::fromUtf8("Erreur lors de la création de l'objet !"));
+                QMessageBox::critical(this, tr("Calaos Installer"), tr("Error when creating the object!"));
         }
     }
         break;
@@ -476,7 +476,7 @@ void FormRules::addCalaosItem(int hw_type, int item)
             if (output)
                 addItemOutput(output, current_room, true);
             else
-                QMessageBox::critical(this, tr("Calaos Installer"), QString::fromUtf8("Erreur lors de la création de l'objet !"));
+                QMessageBox::critical(this, tr("Calaos Installer"), tr("Error when creating the object!"));
         }
     }
         break;
@@ -489,7 +489,7 @@ void FormRules::addCalaosItem(int hw_type, int item)
             if (output)
                 addItemOutput(output, current_room, true);
             else
-                QMessageBox::critical(this, tr("Calaos Installer"), QString::fromUtf8("Erreur lors de la création de l'objet !"));
+                QMessageBox::critical(this, tr("Calaos Installer"), tr("Error when creating the object!"));
         }
     }
         break;
@@ -506,7 +506,7 @@ void FormRules::addCalaosItem(int hw_type, int item)
                 if (input)
                     addItemInput(input, current_room, true);
                 else
-                    QMessageBox::critical(this, tr("Calaos Installer"), QString::fromUtf8("Erreur lors de la création de l'objet !"));
+                    QMessageBox::critical(this, tr("Calaos Installer"), tr("Error when creating the object!"));
             }
         }
         else if (hw_type == HW_ONEWIRE)
@@ -519,11 +519,11 @@ void FormRules::addCalaosItem(int hw_type, int item)
                 if (input)
                     addItemInput(input, current_room, true);
                 else
-                    QMessageBox::critical(this, tr("Calaos Installer"), QString::fromUtf8("Erreur lors de la création de l'objet !"));
+                    QMessageBox::critical(this, tr("Calaos Installer"), tr("Error when creating the object!"));
             }
         }
         else
-            QMessageBox::critical(this, tr("Calaos Installer"), QString::fromUtf8("Unknown hardware type"));
+            QMessageBox::critical(this, tr("Calaos Installer"), tr("Unknown hardware type"));
 
     }
         break;
@@ -536,7 +536,7 @@ void FormRules::addCalaosItem(int hw_type, int item)
             if (output)
                 addItemOutput(output, current_room, true);
             else
-                QMessageBox::critical(this, tr("Calaos Installer"), QString::fromUtf8("Erreur lors de la création de l'objet !"));
+                QMessageBox::critical(this, tr("Calaos Installer"), tr("Error when creating the object!"));
         }
     }
         break;
@@ -549,7 +549,7 @@ void FormRules::addCalaosItem(int hw_type, int item)
             if (output)
                 addItemOutput(output, current_room, true);
             else
-                QMessageBox::critical(this, tr("Calaos Installer"), QString::fromUtf8("Erreur lors de la création de l'objet !"));
+                QMessageBox::critical(this, tr("Calaos Installer"), tr("Error when creating the object!"));
         }
     }
         break;
@@ -562,7 +562,7 @@ void FormRules::addCalaosItem(int hw_type, int item)
             if (output)
                 addItemOutput(output, current_room, true);
             else
-                QMessageBox::critical(this, tr("Calaos Installer"), QString::fromUtf8("Erreur lors de la création de l'objet !"));
+                QMessageBox::critical(this, tr("Calaos Installer"), tr("Error when creating the object!"));
         }
     }
         break;
@@ -575,7 +575,7 @@ void FormRules::addCalaosItem(int hw_type, int item)
             if (output)
                 addItemOutput(output, current_room, true);
             else
-                QMessageBox::critical(this, tr("Calaos Installer"), QString::fromUtf8("Erreur lors de la création de l'objet !"));
+                QMessageBox::critical(this, tr("Calaos Installer"), tr("Error when creating the object!"));
         }
     }
         break;
@@ -593,7 +593,7 @@ void FormRules::addCalaosItem(int hw_type, int item)
                     addItemInput(input, current_room, true);
             }
             else
-                QMessageBox::critical(this, tr("Calaos Installer"), QString::fromUtf8("Erreur lors de la création de l'objet !"));
+                QMessageBox::critical(this, tr("Calaos Installer"), tr("Error when creating the object!"));
         }
     }
         break;
@@ -608,7 +608,7 @@ void FormRules::addCalaosItem(int hw_type, int item)
                 if (input)
                     addItemInput(input, current_room, true);
                 else
-                    QMessageBox::critical(this, tr("Calaos Installer"), QString::fromUtf8("Erreur lors de la création de l'objet !"));
+                    QMessageBox::critical(this, tr("Calaos Installer"), tr("Error when creating the object!"));
             }
             else
             {
@@ -616,7 +616,7 @@ void FormRules::addCalaosItem(int hw_type, int item)
                 if (output)
                     addItemOutput(output, current_room, true);
                 else
-                    QMessageBox::critical(this, tr("Calaos Installer"), QString::fromUtf8("Erreur lors de la création de l'objet !"));
+                    QMessageBox::critical(this, tr("Calaos Installer"), tr("Error when creating the object!"));
             }
         }
     }
@@ -627,7 +627,7 @@ void FormRules::addCalaosItem(int hw_type, int item)
     }
         break;
     default:
-        QMessageBox::warning(this, tr("Calaos Installer"), QString::fromUtf8("Type d'elément (%1) inconnu!").arg(item));
+        QMessageBox::warning(this, tr("Calaos Installer"), QString(tr("Unknown type (%1)")).arg(item));
     }
 }
 
@@ -1023,12 +1023,12 @@ void FormRules::updateItemCondition(QTreeWidgetItem *item, Condition *condition)
     }
     else if (condition->getType() == COND_START)
     {
-        item->setData(0, Qt::DisplayRole, QString::fromUtf8("Démarrage"));
+        item->setData(0, Qt::DisplayRole, tr("Start"));
         item->setData(0, Qt::DecorationRole, QIcon(":/img/icon_rule_start.png"));
     }
     else if (condition->getType() == COND_SCRIPT)
     {
-        item->setData(0, Qt::DisplayRole, QString::fromUtf8("Script"));
+        item->setData(0, Qt::DisplayRole, tr("Script"));
         item->setData(0, Qt::DecorationRole, QIcon(":/img/icon_rule_script.png"));
     }
 }
@@ -1124,17 +1124,17 @@ void FormRules::updateItemAction(QTreeWidgetItem *item, Action *action)
     }
     else if (action->getType() == ACTION_MAIL)
     {
-        item->setData(0, Qt::DisplayRole, QString::fromUtf8("E-Mail"));
+        item->setData(0, Qt::DisplayRole, tr("EMail"));
         item->setData(0, Qt::DecorationRole, QIcon(":/img/icon_rule_mail.png"));
     }
     else if (action->getType() == ACTION_SCRIPT)
     {
-        item->setData(0, Qt::DisplayRole, QString::fromUtf8("Script"));
+        item->setData(0, Qt::DisplayRole, tr("Script"));
         item->setData(0, Qt::DecorationRole, QIcon(":/img/icon_rule_script.png"));
     }
     else if (action->getType() == ACTION_TOUCHSCREEN)
     {
-        item->setData(0, Qt::DisplayRole, QString::fromUtf8("Ecran tactile"));
+        item->setData(0, Qt::DisplayRole, tr("Touchscreen"));
         item->setData(1, Qt::DisplayRole, QString::fromUtf8(action->getTouchscreenAction().c_str()));
         item->setData(0, Qt::DecorationRole, QIcon(":/img/icon_rule.png"));
     }
@@ -1211,7 +1211,7 @@ void FormRules::showPopup_tree(const QPoint point)
 
         treeItem = item;
 
-        action = item_menu.addAction(QString::fromUtf8("Voir la règle associé"));
+        action = item_menu.addAction(tr("Display the associated rules"));
         action->setIcon(QIcon(":/img/go-last.png"));
         connect(action, SIGNAL(triggered()), this, SLOT(goSelectRule()));
 
@@ -1221,7 +1221,7 @@ void FormRules::showPopup_tree(const QPoint point)
         if (ListeRoom::Instance().size() > 1 &&
             (itoutput || itinput))
         {
-            QMenu *moveMenu = item_menu.addMenu(QString::fromUtf8("Déplacer vers..."));
+            QMenu *moveMenu = item_menu.addMenu(tr("Move to..."));
             Room *current;
 
             if (itinput) current = ListeRoom::Instance().searchRoomByInput(itinput->getInput());
@@ -1240,7 +1240,7 @@ void FormRules::showPopup_tree(const QPoint point)
             }
         }
 
-        action = item_menu.addAction(QString::fromUtf8("Supprimer"));
+        action = item_menu.addAction(tr("Delete"));
         action->setIcon(QIcon(":/img/user-trash.png"));
         connect(action, SIGNAL(triggered()), this, SLOT(deleteItem()));
 
@@ -1253,11 +1253,11 @@ void FormRules::showPopup_tree(const QPoint point)
 
             if (o->get_param("type") == "WODigital" || o->get_param("type") == "WODali" || o->get_param("type") == "WODaliRVB")
             {
-                action = item_menu.addAction(QString::fromUtf8("Allumer"));
+                action = item_menu.addAction(tr("Switch on"));
                 action->setIcon(QIcon(":/img/icon_light_on.png"));
                 connect(action, SIGNAL(triggered()), this, SLOT(itemLightOn()));
 
-                action = item_menu.addAction(QString::fromUtf8("Eteindre"));
+                action = item_menu.addAction(tr("Switch off"));
                 action->setIcon(QIcon(":/img/icon_light_on.png"));
                 connect(action, SIGNAL(triggered()), this, SLOT(itemLightOff()));
 
@@ -1266,7 +1266,7 @@ void FormRules::showPopup_tree(const QPoint point)
 
             if (o->get_gui_type() == "camera")
             {
-                action = item_menu.addAction(QString::fromUtf8("Voir la caméra"));
+                action = item_menu.addAction(tr("Display the camera view"));
                 action->setIcon(QIcon(":/img/icon_camera_on.png"));
                 connect(action, SIGNAL(triggered()), this, SLOT(itemShowCamera()));
 
@@ -1278,28 +1278,28 @@ void FormRules::showPopup_tree(const QPoint point)
             {
                 if (o->get_param("type") == "WOVoletSmart")
                 {
-                    action = item_menu.addAction(QString::fromUtf8("Convertir en volet classique"));
+                    action = item_menu.addAction(tr("Convert to normal shutter"));
                     action->setIcon(QIcon(":/img/icon_shutter.png"));
                     connect(action, SIGNAL(triggered()), this, SLOT(itemConvertVoletStandard()));
                 }
                 else
                 {
-                    action = item_menu.addAction(QString::fromUtf8("Convertir en volet intelligent"));
+                    action = item_menu.addAction(tr("Convert to smart shutter"));
                     action->setIcon(QIcon(":/img/icon_shutter.png"));
                     connect(action, SIGNAL(triggered()), this, SLOT(itemConvertVoletSmart()));
                 }
 
                 item_menu.addSeparator();
 
-                action = item_menu.addAction(QString::fromUtf8("Monter"));
+                action = item_menu.addAction(tr("Up"));
                 action->setIcon(QIcon(":/img/icon_shutter.png"));
                 connect(action, SIGNAL(triggered()), this, SLOT(itemVoletUp()));
 
-                action = item_menu.addAction(QString::fromUtf8("Descendre"));
+                action = item_menu.addAction(tr("Down"));
                 action->setIcon(QIcon(":/img/icon_shutter.png"));
                 connect(action, SIGNAL(triggered()), this, SLOT(itemVoletDown()));
 
-                action = item_menu.addAction(QString::fromUtf8("Arrêter"));
+                action = item_menu.addAction(tr("Stop"));
                 action->setIcon(QIcon(":/img/icon_shutter.png"));
                 connect(action, SIGNAL(triggered()), this, SLOT(itemVoletStop()));
 
@@ -1313,7 +1313,7 @@ void FormRules::showPopup_tree(const QPoint point)
 
             if (o->get_gui_type() == "time_range")
             {
-                action = item_menu.addAction(QString::fromUtf8("Modifier les plages horaires..."));
+                action = item_menu.addAction(tr("Edit the time ranges..."));
                 action->setIcon(QIcon(":/img/icon_clock.png"));
                 connect(action, SIGNAL(triggered()), this, SLOT(itemPlagesHoraires()));
 
@@ -1335,7 +1335,7 @@ void FormRules::showPopup_tree(const QPoint point)
 
             if (o->get_gui_type() == "switch3")
             {
-                action = item_menu.addAction(QString::fromUtf8("Convert in normal switch..."));
+                action = item_menu.addAction(tr("Convert in normal switch..."));
                 action->setIcon(QIcon(":/img/icon_inter.png"));
                 connect(action, SIGNAL(triggered()), this, SLOT(itemConvertInterBP()));
 
@@ -1348,7 +1348,7 @@ void FormRules::showPopup_tree(const QPoint point)
 
             if (o->get_gui_type() == "switch_long")
             {
-                action = item_menu.addAction(QString::fromUtf8("Convert in normal switch..."));
+                action = item_menu.addAction(tr("Convert in normal switch..."));
                 action->setIcon(QIcon(":/img/icon_inter.png"));
                 connect(action, SIGNAL(triggered()), this, SLOT(itemConvertInterBP()));
 
@@ -1361,7 +1361,7 @@ void FormRules::showPopup_tree(const QPoint point)
 
             if (o->get_gui_type() == "temp")
             {
-                action = item_menu.addAction(QString::fromUtf8("Associer à une consigne..."));
+                action = item_menu.addAction(tr("Link a setpoint..."));
                 action->setIcon(QIcon(":/img/icon_temp.png"));
                 connect(action, SIGNAL(triggered()), this, SLOT(itemTempWizard()));
 
@@ -1369,7 +1369,7 @@ void FormRules::showPopup_tree(const QPoint point)
             }
         }
 
-        action = item_menu.addAction(QString::fromUtf8("Propriétés"));
+        action = item_menu.addAction(tr("Properties"));
         action->setIcon(QIcon(":/img/document-properties.png"));
         connect(action, SIGNAL(triggered()), this, SLOT(showPropertiesItem()));
 
@@ -1450,7 +1450,7 @@ void FormRules::showPopup_condition(const QPoint point)
 
     treeItem_condition = item;
 
-    action = item_menu.addAction(QString::fromUtf8("Supprimer"));
+    action = item_menu.addAction(tr("Delete"));
     action->setIcon(QIcon(":/img/user-trash.png"));
     connect(action, SIGNAL(triggered()), this, SLOT(deleteItemCondition()));
 
@@ -1471,7 +1471,7 @@ void FormRules::showPopup_action(const QPoint point)
 
     treeItem_action = item;
 
-    action = item_menu.addAction(QString::fromUtf8("Supprimer"));
+    action = item_menu.addAction(tr("Delete"));
     action->setIcon(QIcon(":/img/user-trash.png"));
     connect(action, SIGNAL(triggered()), this, SLOT(deleteItemAction()));
 
@@ -1484,7 +1484,7 @@ void FormRules::deleteItem()
 
     QMessageBox::StandardButton reply;
     reply = QMessageBox::question(this, tr("Calaos Installer"),
-                                  QString::fromUtf8("Etes vous sûr de vouloir supprimer l'élément \"%1\"").arg(treeItem->text(0)),
+                                  QString(tr("Are you sure to delete item \"%1\"")).arg(treeItem->text(0)),
                                   QMessageBox::Yes | QMessageBox::No);
 
     if (reply != QMessageBox::Yes)
@@ -1671,7 +1671,7 @@ void FormRules::on_bt_rules_add_clicked()
         if (rule)
             addItemRule(rule, true);
         else
-            QMessageBox::critical(this, tr("Calaos Installer"), QString::fromUtf8("Erreur lors de la création de l'objet !"));
+            QMessageBox::critical(this, tr("Calaos Installer"), tr("Error when creating the object!"));
     }
 }
 
@@ -1718,7 +1718,7 @@ void FormRules::on_bt_rules_del_clicked()
     {
         QMessageBox::StandardButton reply;
         reply = QMessageBox::question(this, tr("Calaos Installer"),
-                                      QString::fromUtf8("Etes vous sûr de vouloir supprimer la règle?"),
+                                      tr("Are you sure to delete the rule?"),
                                       QMessageBox::Yes | QMessageBox::No);
 
         if (reply == QMessageBox::Yes)
@@ -2026,7 +2026,7 @@ void FormRules::itemConvertInterBP()
 
                     if (more_click_found)
                     {
-                        QMessageBox::warning(this, tr("Calaos Installer"), QString::fromUtf8("Attention, les règles double/triple click n'ont pas été convertis."));
+                        QMessageBox::warning(this, tr("Calaos Installer"), tr("Warning, the rules with double/triple were not converted, do it manually."));
                     }
 
                     //refresh ui
@@ -2155,7 +2155,7 @@ void FormRules::itemTempWizard()
 
                 if (!room)
                 {
-                    QMessageBox::critical(this, tr("Calaos Installer"), QString::fromUtf8("Erreur interne !"));
+                    QMessageBox::critical(this, tr("Calaos Installer"), tr("Internal error!"));
 
                     return;
                 }
@@ -2335,7 +2335,7 @@ void FormRules::itemConvertVoletSmart()
         {
             QMessageBox::StandardButton reply;
             reply = QMessageBox::question(this, tr("Calaos Installer"),
-                                          QString::fromUtf8("Etes vous sûr de vouloir convertir en volet intelligent?"),
+                                          tr("Do you want to convert to a smart shutter?"),
                                           QMessageBox::Yes | QMessageBox::No);
 
             if (reply == QMessageBox::Yes && itoutput->getOutput())
@@ -2368,7 +2368,7 @@ void FormRules::itemConvertVoletStandard()
         {
             QMessageBox::StandardButton reply;
             reply = QMessageBox::question(this, tr("Calaos Installer"),
-                                          QString::fromUtf8("Etes vous sûr de vouloir convertir en volet classique?"),
+                                          tr("Do you want to convert to normal shutter?"),
                                           QMessageBox::Yes | QMessageBox::No);
 
             if (reply == QMessageBox::Yes && itoutput->getOutput())
