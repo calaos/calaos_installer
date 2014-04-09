@@ -937,12 +937,11 @@ void FormRules::updateItemCondition(QTreeWidgetItem *item, Condition *condition)
         item->setData(2, Qt::ToolTipRole, s);
         item->setData(2, Qt::StatusTipRole, s);
 
-        item->setFlags(item->flags() | Qt::ItemIsEditable);
         item->setSizeHint(0, QSize(0, 25));
 
         item->setData(0, Qt::DecorationRole, QIcon(":/img/icon_rule.png"));
     }
-    if (condition->getType() == COND_OUTPUT)
+    else if (condition->getType() == COND_OUTPUT)
     {
         string name, oper, value;
         bool isParamValue = false;
@@ -990,7 +989,6 @@ void FormRules::updateItemCondition(QTreeWidgetItem *item, Condition *condition)
         else
             value = condition->getOutputParam();
 
-
         item->setData(1, Qt::DisplayRole, QString::fromUtf8(oper.c_str()));
 
         if (!isParamValue)
@@ -1016,7 +1014,6 @@ void FormRules::updateItemCondition(QTreeWidgetItem *item, Condition *condition)
         item->setData(2, Qt::ToolTipRole, s);
         item->setData(2, Qt::StatusTipRole, s);
 
-        item->setFlags(item->flags() | Qt::ItemIsEditable);
         item->setSizeHint(0, QSize(0, 25));
 
         item->setData(0, Qt::DecorationRole, QIcon(":/img/icon_rule_out.png"));
@@ -1031,6 +1028,10 @@ void FormRules::updateItemCondition(QTreeWidgetItem *item, Condition *condition)
         item->setData(0, Qt::DisplayRole, tr("Script"));
         item->setData(0, Qt::DecorationRole, QIcon(":/img/icon_rule_script.png"));
     }
+
+    item->treeWidget()->resizeColumnToContents(0);
+    item->treeWidget()->resizeColumnToContents(1);
+    item->treeWidget()->resizeColumnToContents(2);
 }
 
 QTreeWidgetItem *FormRules::addItemAction(Action *action, bool selected, bool show_popup)
@@ -1138,6 +1139,9 @@ void FormRules::updateItemAction(QTreeWidgetItem *item, Action *action)
         item->setData(1, Qt::DisplayRole, QString::fromUtf8(action->getTouchscreenAction().c_str()));
         item->setData(0, Qt::DecorationRole, QIcon(":/img/icon_rule.png"));
     }
+
+    item->treeWidget()->resizeColumnToContents(0);
+    item->treeWidget()->resizeColumnToContents(1);
 }
 
 void FormRules::goSelectRule()

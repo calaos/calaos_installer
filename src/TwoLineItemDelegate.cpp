@@ -1,12 +1,13 @@
 #include "TwoLineItemDelegate.h"
 
-TwoLineItemDelegate::TwoLineItemDelegate()
+TwoLineItemDelegate::TwoLineItemDelegate():
+    QStyledItemDelegate()
 {
 }
 
 QSize TwoLineItemDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
-    if (!index.data(headerTextRole).isValid())
+    if (index.column() != 0)
         return QStyledItemDelegate::sizeHint(option, index);
 
     QIcon icon = qvariant_cast<QIcon>(index.data(Qt::DecorationRole));
@@ -20,9 +21,15 @@ QSize TwoLineItemDelegate::sizeHint(const QStyleOptionViewItem &option, const QM
 
     QFontMetrics fm(font), subfm(subFont);
 
-    return QSize(iconsize.width(), fm.height() + subfm.height() + 8);
-}
+    QString headerText = qvariant_cast<QString>(index.data(headerTextRole));
+    QString subText = qvariant_cast<QString>(index.data(subHeaderTextRole));
 
+    int textWidth = fm.width(headerText);
+    int subWidth = subfm.width(subText);
+    if (textWidth < subWidth) textWidth = subWidth;
+
+    return QSize(iconsize.width() + textWidth + 10, fm.height() + subfm.height() + 8);
+}
 
 void TwoLineItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
