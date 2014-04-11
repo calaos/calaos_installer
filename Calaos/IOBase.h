@@ -23,21 +23,13 @@
 #define S_IOBASE_H
 
 #include <Utils.h>
+#include "TimeRange.h"
 
 using namespace std;
 using namespace Utils;
 
 namespace Calaos
 {
-
-class Horaire
-{
-public:
-    std::string shour, smin, ssec;
-    std::string ehour, emin, esec;
-
-    Horaire():shour("0"),smin("0"),ssec("0"),ehour("0"),emin("0"),esec("0"){;}
-};
 
 class IOBase
 {
@@ -90,24 +82,19 @@ public:
     bool is_output() { return io_type == IO_OUTPUT || io_type == IO_BOTH; }
     bool is_inout() { return io_type == IO_BOTH; }
 
-    vector<Horaire> plg_lundi;
-    vector<Horaire> plg_mardi;
-    vector<Horaire> plg_mercredi;
-    vector<Horaire> plg_jeudi;
-    vector<Horaire> plg_vendredi;
-    vector<Horaire> plg_samedi;
-    vector<Horaire> plg_dimanche;
 
-    void clear()
-    {
-        plg_lundi.clear();
-        plg_mardi.clear();
-        plg_mercredi.clear();
-        plg_jeudi.clear();
-        plg_vendredi.clear();
-        plg_samedi.clear();
-        plg_dimanche.clear();
-    }
+    //For time ranges
+    vector<TimeRange> range_monday;
+    vector<TimeRange> range_tuesday;
+    vector<TimeRange> range_wednesday;
+    vector<TimeRange> range_thursday;
+    vector<TimeRange> range_friday;
+    vector<TimeRange> range_saturday;
+    vector<TimeRange> range_sunday;
+
+    //months where InPlageHoraire is activated
+    enum { JANUARY = 0, FEBRUARY, MARCH, APRIL, MAY, JUNE, JULY, AUGUST, SEPTEMBER, OCTOBER, NOVEMBER, DECEMBER };
+    bitset<12> range_months;
 };
 
 }

@@ -1850,11 +1850,12 @@ void FormRules::itemPlagesHoraires()
     {
         if (itinput->getInput()->get_gui_type() == "time_range")
         {
-            //DialogPlageHoraire d(itinput->getInput());
-            DialogEditTimeRange d;
-            d.exec();
-
-            setProjectModified(true);
+            DialogEditTimeRange d(itinput->getInput());
+            if (d.exec() == QDialog::Accepted)
+            {
+                d.save();
+                setProjectModified(true);
+            }
         }
     }
 }

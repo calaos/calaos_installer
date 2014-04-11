@@ -31,8 +31,8 @@ private:
     void readInternal(Room *room);
     void readCamera(Room *room);
     void readAudio(Room *room);
-    void readPlageDay(vector<Horaire> &day);
-    void readPlage(Horaire &horaire);
+    void readPlageDay(vector<TimeRange> &day);
+    void readPlage(TimeRange &horaire);
 };
 
 class IOXmlWriter: public QXmlStreamWriter
@@ -45,7 +45,7 @@ public:
 private:
     void writeRoom(Room *room);
     void writeInput(IOBase *io);
-    void writePlages(vector<Horaire> &day);
+    void writePlages(vector<TimeRange> &day);
     void writeOutput(IOBase *io);
 };
 

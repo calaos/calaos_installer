@@ -48,8 +48,6 @@ SOURCES += src/main.cpp \
     src/dialogsaveonline.cpp \
     src/formpost.cpp \
     src/dialogiolist.cpp \
-    src/dialogioplagehoraire.cpp \
-    src/dialogplageinput.cpp \
     src/formdali.cpp \
     src/dialogdalideviceconfig.cpp \
     src/dialogdetectsqueezebox.cpp \
@@ -83,7 +81,8 @@ SOURCES += src/main.cpp \
     src/dialognewgpioinput.cpp \
     Calaos/IOBase.cpp \
     src/dialognewweboutputstring.cpp \
-    src/DialogEditTimeRange.cpp
+    src/DialogEditTimeRange.cpp \
+    Calaos/TimeRange.cpp
 
 HEADERS += src/mainwindow.h \
     src/common/Utils.h \
@@ -127,8 +126,6 @@ HEADERS += src/mainwindow.h \
     src/formpost.h \
     src/dialogiolist.h \
     src/qtreewidget_addition.h \
-    src/dialogioplagehoraire.h \
-    src/dialogplageinput.h \
     src/formdali.h \
     src/dialogdalideviceconfig.h \
     src/dialogdetectsqueezebox.h \
@@ -164,7 +161,8 @@ HEADERS += src/mainwindow.h \
     src/dialognewonewiretemp.h \
     src/dialognewgpioinput.h \
     src/dialognewweboutputstring.h \
-    src/DialogEditTimeRange.h
+    src/DialogEditTimeRange.h \
+    Calaos/TimeRange.h
 FORMS += \
     data/FormConditionStd.ui \
     data/FormActionStd.ui \

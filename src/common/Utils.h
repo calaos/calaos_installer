@@ -45,6 +45,7 @@
 #include <math.h>
 #include <Params.h>
 #include <base64.h>
+#include <QtCore>
 
 //-----------------------------------------------------------------------------
 using namespace std;
@@ -131,6 +132,12 @@ typedef unsigned int uint;
 
 #define DELETE_NULL_FUNC(fn, p) \
     if (p) { fn(p); p = NULL; }
+
+#define cDebug qDebug
+#define cInfo qDebug
+#define cWarning qDebug
+#define cError qDebug
+#define cCritical qDebug
 
 //Curl callback
 int CURL_write_callback(void *buffer, size_t size, size_t nmemb, void *stream);

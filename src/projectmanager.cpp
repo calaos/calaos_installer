@@ -73,6 +73,17 @@ void IOXmlWriter::writeInput(IOBase *io)
 
     QXmlStreamAttributes attr;
 
+    if (io->get_gui_type() == "time_range")
+    {
+        //Save months
+        stringstream ssmonth;
+        ssmonth << io->range_months;
+        string str = ssmonth.str();
+        std::reverse(str.begin(), str.end());
+        attr.append(QString("months"),
+                    QString::fromUtf8(str.c_str()));
+    }
+
     for (int i = 0;i < io->get_params().size();i++)
     {
         string key, value;
@@ -89,36 +100,36 @@ void IOXmlWriter::writeInput(IOBase *io)
     if (type == "InPlageHoraire" && in)
     {
         writeStartElement("http://www.calaos.fr", "lundi");
-        writePlages(in->plg_lundi);
+        writePlages(in->range_monday);
         writeEndElement();
         writeStartElement("http://www.calaos.fr", "mardi");
-        writePlages(in->plg_mardi);
+        writePlages(in->range_tuesday);
         writeEndElement();
         writeStartElement("http://www.calaos.fr", "mercredi");
-        writePlages(in->plg_mercredi);
+        writePlages(in->range_wednesday);
         writeEndElement();
         writeStartElement("http://www.calaos.fr", "jeudi");
-        writePlages(in->plg_jeudi);
+        writePlages(in->range_thursday);
         writeEndElement();
         writeStartElement("http://www.calaos.fr", "vendredi");
-        writePlages(in->plg_vendredi);
+        writePlages(in->range_friday);
         writeEndElement();
         writeStartElement("http://www.calaos.fr", "samedi");
-        writePlages(in->plg_samedi);
+        writePlages(in->range_saturday);
         writeEndElement();
         writeStartElement("http://www.calaos.fr", "dimanche");
-        writePlages(in->plg_dimanche);
+        writePlages(in->range_sunday);
         writeEndElement();
     }
 
     writeEndElement();
 }
 
-void IOXmlWriter::writePlages(vector<Horaire> &day)
+void IOXmlWriter::writePlages(vector<TimeRange> &day)
 {
     for (uint i = 0;i < day.size();i++)
     {
-        Horaire &h = day[i];
+        TimeRange &h = day[i];
 
         writeStartElement("http://www.calaos.fr", "plage");
         QXmlStreamAttributes attr;
@@ -128,12 +139,21 @@ void IOXmlWriter::writePlages(vector<Horaire> &day)
                     QString::fromUtf8(h.smin.c_str()));
         attr.append(QString::fromUtf8("start_sec"),
                     QString::fromUtf8(h.ssec.c_str()));
+        attr.append(QString::fromUtf8("start_type"),
+                    QString("%1").arg(h.start_type));
+        attr.append(QString::fromUtf8("start_offset"),
+                    QString("%1").arg(h.start_offset));
+
         attr.append(QString::fromUtf8("end_hour"),
                     QString::fromUtf8(h.ehour.c_str()));
         attr.append(QString::fromUtf8("end_min"),
                     QString::fromUtf8(h.emin.c_str()));
         attr.append(QString::fromUtf8("end_sec"),
                     QString::fromUtf8(h.esec.c_str()));
+        attr.append(QString::fromUtf8("end_type"),
+                    QString("%1").arg(h.end_type));
+        attr.append(QString::fromUtf8("end_offset"),
+                    QString("%1").arg(h.end_offset));
         writeAttributes(attr);
         writeEndElement();
     }
@@ -531,6 +551,22 @@ void IOXmlReader::readInput(Room *room)
 
     IOBase *in = ListeRoom::Instance().createInput(p, room);
 
+    if (in->get_gui_type() == "time_range")
+    {
+        string m = p["months"];
+        p.Delete("months");
+        std::reverse(m.begin(), m.end());
+        try
+        {
+            bitset<12> mset(m);
+            in->range_months = mset;
+        }
+        catch(...)
+        {
+            in->range_months.set(); //set all months by default
+        }
+    }
+
     //Do cache of 849/842 only with WIDigitalBP/WIDIgitialTriple
     if (in->get_param("type") == "WIDigitalBP" ||
         in->get_param("type") == "WIDigitalTriple" ||
@@ -552,24 +588,24 @@ void IOXmlReader::readInput(Room *room)
         if (isStartElement())
         {
             if (p["type"] == "InPlageHoraire" && name() == "lundi")
-                readPlageDay(in->plg_lundi);
+                readPlageDay(in->range_monday);
             else if (p["type"] == "InPlageHoraire" && name() == "mardi")
-                readPlageDay(in->plg_mardi);
+                readPlageDay(in->range_tuesday);
             else if (p["type"] == "InPlageHoraire" && name() == "mercredi")
-                readPlageDay(in->plg_mercredi);
+                readPlageDay(in->range_wednesday);
             else if (p["type"] == "InPlageHoraire" && name() == "jeudi")
-                readPlageDay(in->plg_jeudi);
+                readPlageDay(in->range_thursday);
             else if (p["type"] == "InPlageHoraire" && name() == "vendredi")
-                readPlageDay(in->plg_vendredi);
+                readPlageDay(in->range_friday);
             else if (p["type"] == "InPlageHoraire" && name() == "samedi")
-                readPlageDay(in->plg_samedi);
+                readPlageDay(in->range_saturday);
             else if (p["type"] == "InPlageHoraire" && name() == "dimanche")
-                readPlageDay(in->plg_dimanche);
+                readPlageDay(in->range_sunday);
         }
     }
 }
 
-void IOXmlReader::readPlageDay(vector<Horaire> &day)
+void IOXmlReader::readPlageDay(vector<TimeRange> &day)
 {
     while (!atEnd())
     {
@@ -582,7 +618,7 @@ void IOXmlReader::readPlageDay(vector<Horaire> &day)
         {
             if (name() == "plage")
             {
-                Horaire h;
+                TimeRange h;
                 readPlage(h);
                 day.push_back(h);
             }
@@ -590,7 +626,7 @@ void IOXmlReader::readPlageDay(vector<Horaire> &day)
     }
 }
 
-void IOXmlReader::readPlage(Horaire &horaire)
+void IOXmlReader::readPlage(TimeRange &horaire)
 {
     for (int i = 0;i < attributes().size();i++)
     {
@@ -601,12 +637,21 @@ void IOXmlReader::readPlage(Horaire &horaire)
             horaire.smin = attr.value().toString().toUtf8().data();
         if (attr.name() == "start_sec")
             horaire.ssec = attr.value().toString().toUtf8().data();
+        if (attr.name() == "start_type")
+            horaire.start_type = attr.value().toString().toInt();
+        if (attr.name() == "start_offset")
+            horaire.start_offset = attr.value().toString().toInt();
+
         if (attr.name() == "end_hour")
             horaire.ehour = attr.value().toString().toUtf8().data();
         if (attr.name() == "end_min")
             horaire.emin = attr.value().toString().toUtf8().data();
         if (attr.name() == "end_sec")
             horaire.esec = attr.value().toString().toUtf8().data();
+        if (attr.name() == "end_type")
+            horaire.end_type = attr.value().toString().toInt();
+        if (attr.name() == "end_offset")
+            horaire.end_offset = attr.value().toString().toInt();
     }
 
     while (!atEnd())
