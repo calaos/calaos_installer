@@ -55,7 +55,9 @@ public:
         gui_type(g),
         basic_type(d),
         io_type(i)
-    { }
+    {
+        range_months.set();
+    }
     virtual ~IOBase() { }
 
     virtual DATA_TYPE get_type() { return basic_type; }
