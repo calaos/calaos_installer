@@ -554,7 +554,7 @@ void IOXmlReader::readInput(Room *room)
     if (in->get_gui_type() == "time_range")
     {
         string m = p["months"];
-        p.Delete("months");
+        in->get_params().Delete("months");
         std::reverse(m.begin(), m.end());
         try
         {
