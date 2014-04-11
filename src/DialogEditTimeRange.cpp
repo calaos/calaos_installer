@@ -261,6 +261,7 @@ void DialogEditTimeRange::on_delButton_clicked()
     TimeRange range = item->data(0, TimeRangeRole).value<TimeRange>();
 
     deleteTimeRange(range);
+    reloadTimeRanges();
 }
 
 void DialogEditTimeRange::on_treeRanges_currentItemChanged(QTreeWidgetItem *, QTreeWidgetItem *)
@@ -366,8 +367,6 @@ void DialogEditTimeRange::deleteTimeRange(TimeRange &range)
     delRange(input->range_friday);
     delRange(input->range_saturday);
     delRange(input->range_sunday);
-
-    reloadTimeRanges();
 }
 
 void DialogEditTimeRange::on_pushButtonApply_clicked()
@@ -429,13 +428,20 @@ void DialogEditTimeRange::on_pushButtonApply_clicked()
         currentEdit.esec = currentEdit.ssec;
     }
 
-    if (ui->checkBoxMonday->isChecked()) input->range_monday.push_back(currentEdit);
-    if (ui->checkBoxTuesday->isChecked()) input->range_tuesday.push_back(currentEdit);
-    if (ui->checkBoxWednesday->isChecked()) input->range_wednesday.push_back(currentEdit);
-    if (ui->checkBoxThursday->isChecked()) input->range_thursday.push_back(currentEdit);
-    if (ui->checkBoxFriday->isChecked()) input->range_friday.push_back(currentEdit);
-    if (ui->checkBoxSaturday->isChecked()) input->range_saturday.push_back(currentEdit);
-    if (ui->checkBoxSunday->isChecked()) input->range_sunday.push_back(currentEdit);
+    if (ui->checkBoxMonday->isChecked())
+        input->range_monday.push_back(currentEdit);
+    if (ui->checkBoxTuesday->isChecked())
+        input->range_tuesday.push_back(currentEdit);
+    if (ui->checkBoxWednesday->isChecked())
+        input->range_wednesday.push_back(currentEdit);
+    if (ui->checkBoxThursday->isChecked())
+        input->range_thursday.push_back(currentEdit);
+    if (ui->checkBoxFriday->isChecked())
+        input->range_friday.push_back(currentEdit);
+    if (ui->checkBoxSaturday->isChecked())
+        input->range_saturday.push_back(currentEdit);
+    if (ui->checkBoxSunday->isChecked())
+        input->range_sunday.push_back(currentEdit);
 
     reloadTimeRanges();
 }
