@@ -93,6 +93,7 @@ public:
     IOBase *createOutput(Params param, Room *room);
     IOBase *createCamera(Params param, Room *room);
     IOBase *createAudio(Params param, Room *room);
+    IOBase *createAVR(Params param, Room *room);
 
     static string get_new_id(string prefix);
     static string get_new_varsave();

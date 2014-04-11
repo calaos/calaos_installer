@@ -521,6 +521,20 @@ IOBase *ListeRoom::createAudio(Params param, Room *room)
     return output;
 }
 
+IOBase *ListeRoom::createAVR(Params param, Room *room)
+{
+    if (!param.Exists("name")) param.Add("name", "A/V Receiver");
+    if (!param.Exists("type")) param.Add("type", "AVReceiver");
+    if (!param.Exists("model")) param.Add("model", "pioneer");
+    if (!param.Exists("host")) param.Add("host", "192.168.1.10");
+
+    IOBase *output = IOFactory::Instance().CreateIO("AVReceiver", param, IOBase::IO_BOTH);
+    if (output) room->AddOutput(output);
+    if (output) room->AddInput(output);
+
+    return output;
+}
+
 std::string ListeRoom::get_new_id(std::string prefix)
 {
     int cpt = 0;
