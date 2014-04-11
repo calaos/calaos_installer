@@ -23,7 +23,7 @@ public:
 private slots:
     void on_checkBoxEndTime_stateChanged(int);
 
-    void on_comboTypeStart_currentIndexChanged(int index);
+    void on_comboTypeStart_currentIndexChanged(int);
 
     void on_comboTypeEnd_currentIndexChanged(int index);
 

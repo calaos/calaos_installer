@@ -10,6 +10,10 @@ DialogEditTimeRange::DialogEditTimeRange(IOBase *in) :
     ui->setupUi(this);
     ui->treeRanges->setItemDelegate(new TwoLineItemDelegate());
 
+    QStringList headers;
+    headers << tr("Time range");
+    ui->treeRanges->setHeaderLabels(headers);
+
     items_months.push_back(ui->checkBoxJanuary);
     items_months.push_back(ui->checkBoxFebruar);
     items_months.push_back(ui->checkBoxMarch);
@@ -95,9 +99,9 @@ void DialogEditTimeRange::reloadTimeRanges()
         bool same = range.isSameStartEnd();
         string starttxt, subtxt;
         if (same)
-            starttxt = tr("Execute at").toUtf8().constData();
+            starttxt = tr("Execute at ").toUtf8().constData();
         else
-            starttxt = tr("Start at").toUtf8().constData();
+            starttxt = tr("Start at ").toUtf8().constData();
 
         auto offsetString = [=](bool isstart)
         {
@@ -146,7 +150,7 @@ void DialogEditTimeRange::reloadTimeRanges()
 
         if (!same)
         {
-            subtxt = tr("stop at ").toUtf8().constData();
+            subtxt = tr("Stop at ").toUtf8().constData();
 
             if (range.end_type == TimeRange::HTYPE_NORMAL)
                 subtxt += subtxt + Utils::time2string_digit(range.getEndTimeSec());
