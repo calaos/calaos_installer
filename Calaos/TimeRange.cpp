@@ -64,7 +64,8 @@ bool TimeRange::operator==(const TimeRange &other) const
             ssec == other.ssec &&
             ehour == other.ehour &&
             emin == other.emin &&
-            esec == other.esec);
+            esec == other.esec &&
+            isNewRange == other.isNewRange);
 }
 
 bool TimeRange::operator!=(const TimeRange &other) const

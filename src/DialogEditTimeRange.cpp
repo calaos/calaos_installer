@@ -93,82 +93,7 @@ void DialogEditTimeRange::reloadTimeRanges()
     sortTimeRange(input->range_sunday, 6);
 
     for (TimeRange &range: trange_sorted)
-    {
-        QTreeWidgetItem *item = new QTreeWidgetItem(ui->treeRanges);
-
-        bool same = range.isSameStartEnd();
-        string starttxt, subtxt;
-        if (same)
-            starttxt = tr("Execute at ").toUtf8().constData();
-        else
-            starttxt = tr("Start at ").toUtf8().constData();
-
-        auto offsetString = [=](bool isstart)
-        {
-            if (isstart)
-            {
-                int h, m, s;
-                from_string(range.shour, h);
-                from_string(range.smin, m);
-                from_string(range.ssec, s);
-                int v = h * 3600 + m * 60 + s;
-
-                if (range.start_offset == 1)
-                    return string(" +") + Utils::time2string_digit(v);
-                else if (range.start_offset == -1)
-                    return string(" -") + Utils::time2string_digit(v);
-
-            }
-            else
-            {
-                int h, m, s;
-                from_string(range.ehour, h);
-                from_string(range.emin, m);
-                from_string(range.esec, s);
-                int v = h * 3600 + m * 60 + s;
-
-                if (range.end_offset == 1)
-                    return string(" +") + Utils::time2string_digit(v);
-                else
-                    if (range.end_offset == -1)
-                        return string(" -") + Utils::time2string_digit(v);
-            }
-
-            return string();
-        };
-
-        if (range.start_type == TimeRange::HTYPE_NORMAL)
-            starttxt = starttxt + Utils::time2string_digit(range.getStartTimeSec());
-        else if (range.start_type == TimeRange::HTYPE_SUNRISE)
-            starttxt = starttxt + tr("Sunrise").toUtf8().constData() + offsetString(true) + " (" + Utils::time2string_digit(range.getStartTimeSec()) + ")";
-        else if (range.start_type == TimeRange::HTYPE_SUNSET)
-            starttxt = starttxt + tr("Sunset").toUtf8().constData() + offsetString(true) + " (" + Utils::time2string_digit(range.getStartTimeSec()) + ")";
-        else if (range.start_type == TimeRange::HTYPE_NOON)
-            starttxt = starttxt + tr("Noon").toUtf8().constData() + offsetString(true) + " (" + Utils::time2string_digit(range.getStartTimeSec()) + ")";
-
-        item->setData(0, TwoLineItemDelegate::headerTextRole, QString::fromUtf8(starttxt.c_str()));
-
-        if (!same)
-        {
-            subtxt = tr("Stop at ").toUtf8().constData();
-
-            if (range.end_type == TimeRange::HTYPE_NORMAL)
-                subtxt += Utils::time2string_digit(range.getEndTimeSec());
-            else if (range.end_type == TimeRange::HTYPE_SUNRISE)
-                subtxt += tr("Sunrise").toUtf8().constData() + offsetString(false) + " (" + Utils::time2string_digit(range.getEndTimeSec()) + ")";
-            else if (range.end_type == TimeRange::HTYPE_SUNSET)
-                subtxt += tr("Sunset").toUtf8().constData() + offsetString(false) + " (" + Utils::time2string_digit(range.getEndTimeSec()) + ")";
-            else if (range.end_type == TimeRange::HTYPE_NOON)
-                subtxt += tr("Noon").toUtf8().constData() + offsetString(false) + " (" + Utils::time2string_digit(range.getEndTimeSec()) + ")";
-
-            item->setData(0, TwoLineItemDelegate::subHeaderTextRole, QString::fromUtf8(subtxt.c_str()));
-        }
-
-        QVariant uservalue = QVariant::fromValue<TimeRange>(range);
-        item->setData(0, TimeRangeRole, uservalue);
-
-        item->setIcon(0, QIcon(":/img/icon_clock.png"));
-    }
+        addTreeItem(range);
 
     //reload months
     for (uint i = 0;i < items_months.size();i++)
@@ -176,6 +101,84 @@ void DialogEditTimeRange::reloadTimeRanges()
 
     ui->groupBoxRange->setEnabled(false);
     clearRangeEdit();
+}
+
+void DialogEditTimeRange::addTreeItem(TimeRange &range)
+{
+    QTreeWidgetItem *item = new QTreeWidgetItem(ui->treeRanges);
+
+    bool same = range.isSameStartEnd();
+    string starttxt, subtxt;
+    if (same)
+        starttxt = tr("Execute at ").toUtf8().constData();
+    else
+        starttxt = tr("Start at ").toUtf8().constData();
+
+    auto offsetString = [=](bool isstart)
+    {
+        if (isstart)
+        {
+            int h, m, s;
+            from_string(range.shour, h);
+            from_string(range.smin, m);
+            from_string(range.ssec, s);
+            int v = h * 3600 + m * 60 + s;
+
+            if (range.start_offset == 1)
+                return string(" +") + Utils::time2string_digit(v);
+            else if (range.start_offset == -1)
+                return string(" -") + Utils::time2string_digit(v);
+
+        }
+        else
+        {
+            int h, m, s;
+            from_string(range.ehour, h);
+            from_string(range.emin, m);
+            from_string(range.esec, s);
+            int v = h * 3600 + m * 60 + s;
+
+            if (range.end_offset == 1)
+                return string(" +") + Utils::time2string_digit(v);
+            else
+                if (range.end_offset == -1)
+                    return string(" -") + Utils::time2string_digit(v);
+        }
+
+        return string();
+    };
+
+    if (range.start_type == TimeRange::HTYPE_NORMAL)
+        starttxt = starttxt + Utils::time2string_digit(range.getStartTimeSec());
+    else if (range.start_type == TimeRange::HTYPE_SUNRISE)
+        starttxt = starttxt + tr("Sunrise").toUtf8().constData() + offsetString(true) + " (" + Utils::time2string_digit(range.getStartTimeSec()) + ")";
+    else if (range.start_type == TimeRange::HTYPE_SUNSET)
+        starttxt = starttxt + tr("Sunset").toUtf8().constData() + offsetString(true) + " (" + Utils::time2string_digit(range.getStartTimeSec()) + ")";
+    else if (range.start_type == TimeRange::HTYPE_NOON)
+        starttxt = starttxt + tr("Noon").toUtf8().constData() + offsetString(true) + " (" + Utils::time2string_digit(range.getStartTimeSec()) + ")";
+
+    item->setData(0, TwoLineItemDelegate::headerTextRole, QString::fromUtf8(starttxt.c_str()));
+
+    if (!same)
+    {
+        subtxt = tr("Stop at ").toUtf8().constData();
+
+        if (range.end_type == TimeRange::HTYPE_NORMAL)
+            subtxt += Utils::time2string_digit(range.getEndTimeSec());
+        else if (range.end_type == TimeRange::HTYPE_SUNRISE)
+            subtxt += tr("Sunrise").toUtf8().constData() + offsetString(false) + " (" + Utils::time2string_digit(range.getEndTimeSec()) + ")";
+        else if (range.end_type == TimeRange::HTYPE_SUNSET)
+            subtxt += tr("Sunset").toUtf8().constData() + offsetString(false) + " (" + Utils::time2string_digit(range.getEndTimeSec()) + ")";
+        else if (range.end_type == TimeRange::HTYPE_NOON)
+            subtxt += tr("Noon").toUtf8().constData() + offsetString(false) + " (" + Utils::time2string_digit(range.getEndTimeSec()) + ")";
+
+        item->setData(0, TwoLineItemDelegate::subHeaderTextRole, QString::fromUtf8(subtxt.c_str()));
+    }
+
+    QVariant uservalue = QVariant::fromValue<TimeRange>(range);
+    item->setData(0, TimeRangeRole, uservalue);
+
+    item->setIcon(0, QIcon(":/img/icon_clock.png"));
 }
 
 void DialogEditTimeRange::clearRangeEdit()
@@ -243,15 +246,10 @@ void DialogEditTimeRange::on_comboSunEnd_currentIndexChanged(int index)
 void DialogEditTimeRange::on_addButton_clicked()
 {
     TimeRange t;
-    input->range_monday.push_back(t);
-    input->range_tuesday.push_back(t);
-    input->range_wednesday.push_back(t);
-    input->range_thursday.push_back(t);
-    input->range_friday.push_back(t);
-    input->range_saturday.push_back(t);
-    input->range_sunday.push_back(t);
+    t.isNewRange = true;
+    t.dayOfWeek.set();
 
-    reloadTimeRanges();
+    addTreeItem(t);
 }
 
 void DialogEditTimeRange::on_delButton_clicked()

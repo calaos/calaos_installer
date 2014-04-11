@@ -77,6 +77,9 @@ public:
 
     //flag to ease the loading in UI
     bitset<7> dayOfWeek;
+
+    //flag for UI to know if it's a newly created range
+    bool isNewRange = false;
 };
 
 Q_DECLARE_METATYPE(TimeRange)

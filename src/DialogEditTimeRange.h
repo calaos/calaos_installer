@@ -57,6 +57,7 @@ private:
     void clearRangeEdit();
     void deleteTimeRange(TimeRange &range);
     void editTimeRange();
+    void addTreeItem(TimeRange &range);
 };
 
 #endif // DIALOGEDITTIMERANGE_H
