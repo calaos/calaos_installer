@@ -49,6 +49,10 @@ DialogEditTimeRange::~DialogEditTimeRange()
 
 void DialogEditTimeRange::save()
 {
+    //set months from checkboxes
+    for (uint i = 0;i < items_months.size();i++)
+        input->range_months.set(i, items_months[i]->isChecked());
+
     inTimeRange->range_monday = input->range_monday;
     inTimeRange->range_tuesday = input->range_tuesday;
     inTimeRange->range_wednesday = input->range_wednesday;
