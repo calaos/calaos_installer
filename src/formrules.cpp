@@ -4,6 +4,7 @@
 #include "TwoLineItemDelegate.h"
 #include "mainwindow.h"
 #include "DialogEditTimeRange.h"
+#include "DialogNewAVReceiver.h"
 
 FormRules::FormRules(QWidget *parent) :
     QWidget(parent),
@@ -318,93 +319,210 @@ void FormRules::setProjectModified(bool modified)
     emit projectModified(project_changed);
 }
 
-void FormRules::addCalaosItemInputSwitch(int item, int hw_type)
+IOBase *FormRules::addCalaosItemInputSwitch(int item, int hw_type)
 {
+    IOBase *input = nullptr;
+    bool another;
+
     if (hw_type == HW_WAGO)
     {
-        bool another;
-
         do
         {
             DialogNewWago dialog(item, current_room);
             if (dialog.exec() == QDialog::Accepted)
             {
                 another = dialog.wantAnother();
-                IOBase *input = dialog.getInput();
-                if (input)
-                    addItemInput(input, current_room, true);
-                else
-                {
-                    QMessageBox::critical(this, tr("Calaos Installer"), tr("Error when creating the object!"));
-                    another = false;
-                }
+                input = dialog.getInput();
             }
             else
                 another = false;
-
         } while (another);
     }
     else if (hw_type == HW_GPIO)
     {
         DialogNewGpioInput dialog(current_room);
         if (dialog.exec() == QDialog::Accepted)
-        {
-            IOBase *input = dialog.getInput();
-            if (input)
-                addItemInput(input, current_room, true);
-            else
-            {
-                QMessageBox::critical(this, tr("Calaos Installer"), tr("Error creating object !"));
-            }
-        }
+            input = dialog.getInput();
     }
-    else
-        QMessageBox::critical(this, tr("Calaos Installer"), tr("Unknown hardware type !"));
+
+    return input;
 }
 
-void FormRules::addCalaosItemLight(int item, int hw_type)
+IOBase *FormRules::addCalaosItemLight(int item, int hw_type)
 {
+    bool another;
+    IOBase *output = nullptr;
+
     if (hw_type == HW_WAGO)
     {
-        bool another;
         do
         {
             DialogNewWago dialog(item, current_room);
             if (dialog.exec() == QDialog::Accepted)
             {
                 another = dialog.wantAnother();
-
-                IOBase *output = dialog.getOutput();
-                if (output)
-                    addItemOutput(output, current_room, true);
-                else
-                {
-                    QMessageBox::critical(this, tr("Calaos Installer"), tr("Error when creating the object!"));
-                    another = false;
-                }
+                output = dialog.getOutput();
             }
             else
                 another = false;
-        }while (another);
+        } while (another);
     }
-    else
-        QMessageBox::critical(this, tr("Calaos Installer"), tr("Unknown hardware type !"));
+
+    return output;
 }
 
-void FormRules::addCalaosItemOutputString(int item, int hw_type)
+IOBase *FormRules::addCalaosItemOutputString(int item, int hw_type)
 {
+    IOBase *output = nullptr;
+
     if (hw_type == HW_WEB)
     {
         DialogNewWebOutputString dialog(current_room);
         if (dialog.exec() == QDialog::Accepted)
+            output = dialog.getOutput();
+    }
+
+    return output;
+}
+
+IOBase *FormRules::addCalaosItemShutter(int item, int hw_type)
+{
+    IOBase *output = nullptr;
+
+    if (hw_type == HW_WAGO)
+    {
+        DialogNewVolet dialog(current_room);
+        if (dialog.exec() == QDialog::Accepted)
+            output = dialog.getOutput();
+    }
+
+    return output;
+}
+
+IOBase *FormRules::addCalaosItemDimmer(int item, int hw_type)
+{
+    IOBase *output = nullptr;
+
+    if (hw_type == HW_WAGO)
+    {
+        DialogNewDali dialog(current_room);
+        if (dialog.exec() == QDialog::Accepted)
+            output = dialog.getOutput();
+    }
+
+    return output;
+}
+
+IOBase *FormRules::addCalaosItemRGB(int item, int hw_type)
+{
+    IOBase *output = nullptr;
+
+    if (hw_type == HW_WAGO)
+    {
+        DialogNewDaliRGB dialog(current_room);
+        if (dialog.exec() == QDialog::Accepted)
+            output = dialog.getOutput();
+    }
+
+    return output;
+}
+
+IOBase *FormRules::addCalaosItemTemp(int item, int hw_type)
+{
+    IOBase *io = nullptr;
+
+    if (hw_type == HW_WAGO)
+    {
+        DialogNewTemp dialog(current_room);
+        if (dialog.exec() == QDialog::Accepted)
+            io = dialog.getInput();
+    }
+    else if (hw_type == HW_ONEWIRE)
+    {
+        DialogNewOneWireTemp dialog(current_room);
+        if (dialog.exec() == QDialog::Accepted)
+            io = dialog.getInput();
+    }
+
+    return io;
+}
+
+IOBase *FormRules::addCalaosItemCamera(int item, int hw_type)
+{
+    IOBase *io = nullptr;
+
+    DialogNewCamera dialog(current_room);
+    if (dialog.exec() == QDialog::Accepted)
+        io = dialog.getOutput();
+
+    return io;
+}
+
+IOBase *FormRules::addCalaosItemAudio(int item, int hw_type)
+{
+    IOBase *io = nullptr;
+
+    DialogNewAudio dialog(current_room);
+    if (dialog.exec() == QDialog::Accepted)
+        io = dialog.getOutput();
+
+    return io;
+}
+
+IOBase *FormRules::addCalaosItemAVR(int item, int hw_type)
+{
+    IOBase *io = nullptr;
+
+    DialogNewAVReceiver dialog(current_room);
+    if (dialog.exec() == QDialog::Accepted)
+        io = dialog.getOutput();
+
+    return io;
+}
+
+IOBase *FormRules::addCalaosItemInternal(int item, int hw_type)
+{
+    IOBase *io = nullptr;
+
+    if (item == ITEM_INTERN)
+    {
+        DialogNewInternal dialog(current_room);
+        if (dialog.exec() == QDialog::Accepted)
+            io = dialog.getOutput();
+    }
+    else if (item == ITEM_SCENARIO)
+    {
+        DialogNewScenario dialog(current_room);
+        if (dialog.exec() == QDialog::Accepted)
+            io = dialog.getOutput();
+    }
+    else if (item == ITEM_TIME)
+    {
+        DialogNewTime dialog(current_room);
+        if (dialog.exec() == QDialog::Accepted)
+            io = dialog.getInput();
+    }
+
+    return io;
+}
+
+IOBase *FormRules::addCalaosItemAnalog(int item, int hw_type)
+{
+    IOBase *io = nullptr;
+
+    if (hw_type == HW_WAGO)
+    {
+        DialogNewAnalog dialog(current_room);
+        if (dialog.exec() == QDialog::Accepted)
         {
-            IOBase *output = dialog.getOutput();
-            if (output)
-                addItemOutput(output, current_room, true);
+            if (dialog.isInputType())
+                io = dialog.getInput();
+            else
+                io = dialog.getOutput();
         }
     }
-    else
-        QMessageBox::critical(this, tr("Calaos Installer"), tr("Unknown hardware type !"));
+
+    return io;
 }
 
 void FormRules::addCalaosItem(int hw_type, int item)
@@ -425,6 +543,7 @@ void FormRules::addCalaosItem(int hw_type, int item)
     }
 
     setProjectModified(true);
+    IOBase *res = nullptr;
 
     switch (item)
     {
@@ -445,190 +564,61 @@ void FormRules::addCalaosItem(int hw_type, int item)
         break;
 
     case ITEM_INPUT_SWITCH:
-    {
-        addCalaosItemInputSwitch(item, hw_type);
-    }
+        res = addCalaosItemInputSwitch(item, hw_type);
         break;
     case ITEM_LIGHT:
-    {
-        addCalaosItemLight(item, hw_type);
-    }
+        res = addCalaosItemLight(item, hw_type);
         break;
     case ITEM_SHUTTER:
-    {
-        DialogNewVolet dialog(current_room);
-        if (dialog.exec() == QDialog::Accepted)
-        {
-            IOBase *output = dialog.getOutput();
-            if (output)
-                addItemOutput(output, current_room, true);
-            else
-                QMessageBox::critical(this, tr("Calaos Installer"), tr("Error when creating the object!"));
-        }
-    }
+        res = addCalaosItemShutter(item, hw_type);
         break;
     case ITEM_DALI:
-    {
-        DialogNewDali dialog(current_room);
-        if (dialog.exec() == QDialog::Accepted)
-        {
-            IOBase *output = dialog.getOutput();
-            if (output)
-                addItemOutput(output, current_room, true);
-            else
-                QMessageBox::critical(this, tr("Calaos Installer"), tr("Error when creating the object!"));
-        }
-    }
+        res = addCalaosItemDimmer(item, hw_type);
         break;
     case ITEM_DALIRGB:
-    {
-        DialogNewDaliRGB dialog(current_room);
-        if (dialog.exec() == QDialog::Accepted)
-        {
-            IOBase *output = dialog.getOutput();
-            if (output)
-                addItemOutput(output, current_room, true);
-            else
-                QMessageBox::critical(this, tr("Calaos Installer"), tr("Error when creating the object!"));
-        }
-    }
+        res = addCalaosItemRGB(item, hw_type);
         break;
     case ITEM_TEMP:
-    {
-        qDebug() << "HW TYPE : " << hw_type;
-        if (hw_type == HW_WAGO)
-        {
-            DialogNewTemp dialog(current_room);
-            if (dialog.exec() == QDialog::Accepted)
-            {
-                IOBase *input = dialog.getInput();
-
-                if (input)
-                    addItemInput(input, current_room, true);
-                else
-                    QMessageBox::critical(this, tr("Calaos Installer"), tr("Error when creating the object!"));
-            }
-        }
-        else if (hw_type == HW_ONEWIRE)
-        {
-            DialogNewOneWireTemp dialog(current_room);
-            if (dialog.exec() == QDialog::Accepted)
-            {
-                IOBase *input = dialog.getInput();
-
-                if (input)
-                    addItemInput(input, current_room, true);
-                else
-                    QMessageBox::critical(this, tr("Calaos Installer"), tr("Error when creating the object!"));
-            }
-        }
-        else
-            QMessageBox::critical(this, tr("Calaos Installer"), tr("Unknown hardware type"));
-
-    }
+        res = addCalaosItemTemp(item, hw_type);
         break;
     case ITEM_CAMERA:
-    {
-        DialogNewCamera dialog(current_room);
-        if (dialog.exec() == QDialog::Accepted)
-        {
-            IOBase *output = dialog.getOutput();
-            if (output)
-                addItemOutput(output, current_room, true);
-            else
-                QMessageBox::critical(this, tr("Calaos Installer"), tr("Error when creating the object!"));
-        }
-    }
+        res = addCalaosItemCamera(item, hw_type);
         break;
     case ITEM_MUSIC:
-    {
-        DialogNewAudio dialog(current_room);
-        if (dialog.exec() == QDialog::Accepted)
-        {
-            IOBase *output = dialog.getOutput();
-            if (output)
-                addItemOutput(output, current_room, true);
-            else
-                QMessageBox::critical(this, tr("Calaos Installer"), tr("Error when creating the object!"));
-        }
-    }
+        res = addCalaosItemAudio(item, hw_type);
+        break;
+    case ITEM_AVR:
+        res = addCalaosItemAVR(item, hw_type);
         break;
     case ITEM_INTERN:
-    {
-        DialogNewInternal dialog(current_room);
-        if (dialog.exec() == QDialog::Accepted)
-        {
-            IOBase *output = dialog.getOutput();
-            if (output)
-                addItemOutput(output, current_room, true);
-            else
-                QMessageBox::critical(this, tr("Calaos Installer"), tr("Error when creating the object!"));
-        }
-    }
+        res = addCalaosItemInternal(item, hw_type);
         break;
     case ITEM_SCENARIO:
-    {
-        DialogNewScenario dialog(current_room);
-        if (dialog.exec() == QDialog::Accepted)
-        {
-            IOBase *output = dialog.getOutput();
-            if (output)
-                addItemOutput(output, current_room, true);
-            else
-                QMessageBox::critical(this, tr("Calaos Installer"), tr("Error when creating the object!"));
-        }
-    }
+        res = addCalaosItemInternal(item, hw_type);
         break;
     case ITEM_TIME:
-    {
-        DialogNewTime dialog(current_room);
-        if (dialog.exec() == QDialog::Accepted)
-        {
-            IOBase *input = dialog.getInput();
-            if (input)
-            {
-                if (input->get_param("type") == "InputTimer")
-                    addItemOutput(input, current_room, true);
-                else
-                    addItemInput(input, current_room, true);
-            }
-            else
-                QMessageBox::critical(this, tr("Calaos Installer"), tr("Error when creating the object!"));
-        }
-    }
+        res = addCalaosItemInternal(item, hw_type);
         break;
     case ITEM_ANALOG:
-    {
-        DialogNewAnalog dialog(current_room);
-        if (dialog.exec() == QDialog::Accepted)
-        {
-            if (dialog.isInputType())
-            {
-                IOBase *input = dialog.getInput();
-                if (input)
-                    addItemInput(input, current_room, true);
-                else
-                    QMessageBox::critical(this, tr("Calaos Installer"), tr("Error when creating the object!"));
-            }
-            else
-            {
-                IOBase *output = dialog.getOutput();
-                if (output)
-                    addItemOutput(output, current_room, true);
-                else
-                    QMessageBox::critical(this, tr("Calaos Installer"), tr("Error when creating the object!"));
-            }
-        }
-    }
+        res = addCalaosItemInternal(item, hw_type);
         break;
     case ITEM_STRING:
-    {
         addCalaosItemOutputString(item, hw_type);
-    }
         break;
     default:
         QMessageBox::warning(this, tr("Calaos Installer"), QString(tr("Unknown type (%1)")).arg(item));
     }
+
+    if (!res)
+    {
+        QMessageBox::warning(this, tr("Calaos Installer"), tr("Error creating object!"));
+        return;
+    }
+
+    if (res->is_inout() || res->is_output())
+        addItemOutput(res, current_room, true);
+    else if (res->is_input())
+        addItemInput(res, current_room, true);
 }
 
 QTreeWidgetItemRoom *FormRules::addItemRoom(Room *room, bool selected)
@@ -727,6 +717,7 @@ void FormRules::updateItemInfos(QTreeWidgetItemInput *item)
     item->setData(0, Qt::DisplayRole, QString::fromUtf8(in->get_param("name").c_str()));
 
     string type = in->get_gui_type();
+    qDebug() << "Type: " << type.c_str();
     if (type == "switch" ||
         type == "switch3" ||
         type == "switch_long")
@@ -800,7 +791,7 @@ void FormRules::updateItemInfos(QTreeWidgetItemOutput *item)
         item->setData(0, Qt::DecorationRole, QIcon(":/img/icon_int.png"));
     else if (type == "var_string" || type == "string_out")
         item->setData(0, Qt::DecorationRole, QIcon(":/img/text.png"));
-    else if (type == "audio")
+    else if (type == "audio" || type == "avreceiver")
         item->setData(0, Qt::DecorationRole, QIcon(":/img/icon_sound.png"));
     else if (type == "camera")
         item->setData(0, Qt::DecorationRole, QIcon(":/img/icon_camera_on.png"));

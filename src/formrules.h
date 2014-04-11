@@ -85,9 +85,19 @@ public:
 
     static QString getIconFromRoom(Room *room);
 
-    void addCalaosItemInputSwitch(int item, int hw_type);
-    void addCalaosItemLight(int item, int hw_type);
-    void addCalaosItemOutputString(int item, int hw_type);
+    IOBase *addCalaosItemInputSwitch(int item, int hw_type);
+    IOBase *addCalaosItemLight(int item, int hw_type);
+    IOBase *addCalaosItemOutputString(int item, int hw_type);
+    IOBase *addCalaosItemShutter(int item, int hw_type);
+    IOBase *addCalaosItemDimmer(int item, int hw_type);
+    IOBase *addCalaosItemRGB(int item, int hw_type);
+    IOBase *addCalaosItemTemp(int item, int hw_type);
+    IOBase *addCalaosItemCamera(int item, int hw_type);
+    IOBase *addCalaosItemAudio(int item, int hw_type);
+    IOBase *addCalaosItemAVR(int item, int hw_type);
+    IOBase *addCalaosItemInternal(int item, int hw_type);
+    IOBase *addCalaosItemAnalog(int item, int hw_type);
+
 protected:
     void changeEvent(QEvent *e);
 
