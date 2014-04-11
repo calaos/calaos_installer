@@ -175,6 +175,12 @@ void DialogEditTimeRange::addTreeItem(TimeRange &range)
         item->setData(0, TwoLineItemDelegate::subHeaderTextRole, QString::fromUtf8(subtxt.c_str()));
     }
 
+    if (range.isNewRange)
+    {
+        item->setData(0, TwoLineItemDelegate::headerTextRole, tr("New empty range..."));
+        item->setData(0, TwoLineItemDelegate::subHeaderTextRole, tr("Click to edit"));
+    }
+
     QVariant uservalue = QVariant::fromValue<TimeRange>(range);
     item->setData(0, TimeRangeRole, uservalue);
 
@@ -201,9 +207,6 @@ void DialogEditTimeRange::clearRangeEdit()
     ui->checkBoxFriday->setChecked(false);
     ui->checkBoxSaturday->setChecked(false);
     ui->checkBoxSunday->setChecked(false);
-
-    for (QCheckBox *chk: items_months)
-        chk->setChecked(false);
 }
 
 void DialogEditTimeRange::on_checkBoxEndTime_stateChanged(int)
