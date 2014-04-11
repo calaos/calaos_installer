@@ -153,19 +153,21 @@ void DialogEditTimeRange::reloadTimeRanges()
             subtxt = tr("Stop at ").toUtf8().constData();
 
             if (range.end_type == TimeRange::HTYPE_NORMAL)
-                subtxt += subtxt + Utils::time2string_digit(range.getEndTimeSec());
+                subtxt += Utils::time2string_digit(range.getEndTimeSec());
             else if (range.end_type == TimeRange::HTYPE_SUNRISE)
-                subtxt += subtxt + tr("Sunrise").toUtf8().constData() + offsetString(false) + " (" + Utils::time2string_digit(range.getEndTimeSec()) + ")";
+                subtxt += tr("Sunrise").toUtf8().constData() + offsetString(false) + " (" + Utils::time2string_digit(range.getEndTimeSec()) + ")";
             else if (range.end_type == TimeRange::HTYPE_SUNSET)
-                subtxt += subtxt + tr("Sunset").toUtf8().constData() + offsetString(false) + " (" + Utils::time2string_digit(range.getEndTimeSec()) + ")";
+                subtxt += tr("Sunset").toUtf8().constData() + offsetString(false) + " (" + Utils::time2string_digit(range.getEndTimeSec()) + ")";
             else if (range.end_type == TimeRange::HTYPE_NOON)
-                subtxt += subtxt + tr("Noon").toUtf8().constData() + offsetString(false) + " (" + Utils::time2string_digit(range.getEndTimeSec()) + ")";
+                subtxt += tr("Noon").toUtf8().constData() + offsetString(false) + " (" + Utils::time2string_digit(range.getEndTimeSec()) + ")";
 
             item->setData(0, TwoLineItemDelegate::subHeaderTextRole, QString::fromUtf8(subtxt.c_str()));
         }
 
         QVariant uservalue = QVariant::fromValue<TimeRange>(range);
         item->setData(0, TimeRangeRole, uservalue);
+
+        item->setIcon(0, QIcon(":/img/icon_clock.png"));
     }
 
     //reload months

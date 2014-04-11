@@ -16,7 +16,7 @@ QSize TwoLineItemDelegate::sizeHint(const QStyleOptionViewItem &option, const QM
     QFont font = QApplication::font();
     QFont subFont = QApplication::font();
 
-    subFont.setPointSize(subFont.pointSize() - 3);
+    subFont.setPointSize(subFont.pointSize() - 1);
     subFont.setItalic(true);
 
     QFontMetrics fm(font), subfm(subFont);
@@ -69,7 +69,7 @@ void TwoLineItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &o
     QFont subFont = painter->font();
     //font.setBold(true);
     //subFont.setWeight(subFont.weight() - 4);
-    subFont.setPointSize(subFont.pointSize() - 3);
+    subFont.setPointSize(subFont.pointSize() - 1);
     subFont.setItalic(true);
     QFontMetrics fm(font);
 

@@ -20,6 +20,12 @@
       <layout class="QVBoxLayout" name="verticalLayout_9">
        <item>
         <widget class="QTreeWidget" name="treeRanges">
+         <property name="rootIsDecorated">
+          <bool>false</bool>
+         </property>
+         <property name="uniformRowHeights">
+          <bool>true</bool>
+         </property>
          <column>
           <property name="text">
            <string notr="true">1</string>
