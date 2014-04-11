@@ -44,7 +44,7 @@ DialogEditTimeRange::DialogEditTimeRange(IOBase *in) :
 DialogEditTimeRange::~DialogEditTimeRange()
 {
     delete ui;
-    delete inTimeRange;
+    delete input;
 }
 
 void DialogEditTimeRange::save()
