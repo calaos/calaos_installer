@@ -337,6 +337,13 @@ void DialogEditTimeRange::editTimeRange()
                 ui->timeEditOffsetEnd->setTime(QTime(h, m, s));
         }
     }
+
+    //force UI update
+    on_checkBoxEndTime_stateChanged(0);
+    on_comboTypeStart_currentIndexChanged(ui->comboTypeStart->currentIndex());
+    on_comboTypeEnd_currentIndexChanged(ui->comboTypeEnd->currentIndex());
+    on_comboSunStart_currentIndexChanged(ui->comboSunStart->currentIndex());
+    on_comboSunEnd_currentIndexChanged(ui->comboSunEnd->currentIndex());
 }
 
 void DialogEditTimeRange::deleteTimeRange(TimeRange &range)
