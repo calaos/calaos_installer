@@ -20,6 +20,7 @@
  ******************************************************************************/
 
 #include <Utils.h>
+#include <QtCore>
 
 using namespace Utils;
 
@@ -77,3 +78,5 @@ public:
     //flag to ease the loading in UI
     bitset<7> dayOfWeek;
 };
+
+Q_DECLARE_METATYPE(TimeRange)
