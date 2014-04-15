@@ -789,7 +789,7 @@ void FormRules::updateItemInfos(QTreeWidgetItemOutput *item)
         item->setData(0, Qt::DecorationRole, QIcon(":/img/icon_bool_on.png"));
     else if (type == "var_int")
         item->setData(0, Qt::DecorationRole, QIcon(":/img/icon_int.png"));
-    else if (type == "var_string" || type == "string_out")
+    else if (type == "var_string" || type == "string_out" || type == "string_in")
         item->setData(0, Qt::DecorationRole, QIcon(":/img/text.png"));
     else if (type == "audio" || type == "avreceiver")
         item->setData(0, Qt::DecorationRole, QIcon(":/img/icon_sound.png"));

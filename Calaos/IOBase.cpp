@@ -44,6 +44,7 @@ REGISTER_INPUT(WITemp, "temp", TINT)
 REGISTER_INPUT(WagoInputTemp, "temp", TINT)
 REGISTER_INPUT(WebInputAnalog, "analog_in", TINT)
 REGISTER_INPUT(WebInputTemp, "temp", TINT)
+REGISTER_INPUT(WebInputString, "string_in", TSTRING)
 REGISTER_INPUT(ZibaseAnalogIn, "analog_in", TINT)
 REGISTER_INPUT(ZibaseDigitalIn, "switch", TBOOL)
 
@@ -64,6 +65,7 @@ REGISTER_OUTPUT(WOVoletSmart, "shutter_smart", TSTRING)
 REGISTER_OUTPUT(WagoOutputShutterSmart, "shutter_smart", TSTRING)
 REGISTER_OUTPUT(X10Output, "light", TBOOL)
 REGISTER_OUTPUT(WebOutputString, "string_out", TSTRING)
+REGISTER_OUTPUT(WebOutputLightRGB, "light_rgb", TSTRING)
 
 /* Declare InOut class/type */
 REGISTER_INOUT(InputTimer, "timer", TBOOL)
