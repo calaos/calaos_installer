@@ -90,6 +90,10 @@ FormRules::FormRules(QWidget *parent) :
 
     QMenu *web_menu = add_menu->addMenu(QIcon("://img/web.png"), "Web");
 
+    action = web_menu->addAction(tr("Switch Input"));
+    action->setIcon(QIcon(":/img/icon_inter.png"));
+    connect(action, &QAction::triggered, [=]() { addCalaosItem(HW_WEB, ITEM_INPUT_SWITCH); });
+
     action = web_menu->addAction(tr("Light"));
     action->setIcon(QIcon(":/img/icon_light_on.png"));
     connect(action, &QAction::triggered, [=]() { addCalaosItem(HW_WEB, ITEM_LIGHT); });
@@ -109,6 +113,14 @@ FormRules::FormRules(QWidget *parent) :
     action = web_menu->addAction(tr("Analog Input"));
     action->setIcon(QIcon(":/img/icon_analog.png"));
     connect(action, &QAction::triggered, [=]() { addCalaosItem(HW_WEB, ITEM_ANALOG); });
+
+    action = web_menu->addAction(tr("Analog Output"));
+    action->setIcon(QIcon(":/img/icon_analog.png"));
+    connect(action, &QAction::triggered, [=]() { addCalaosItem(HW_WEB, ITEM_ANALOG); });
+
+    action = web_menu->addAction(tr("String Input"));
+    action->setIcon(QIcon(":/img/icon_text.png"));
+    connect(action, &QAction::triggered, [=]() { addCalaosItem(HW_WEB, ITEM_STRING); });
 
     action = web_menu->addAction(tr("String Output"));
     action->setIcon(QIcon(":/img/icon_text.png"));
@@ -344,6 +356,12 @@ IOBase *FormRules::addCalaosItemInputSwitch(int item, int hw_type)
         if (dialog.exec() == QDialog::Accepted)
             input = dialog.getInput();
     }
+    else if (hw_type == HW_WEB)
+    {
+            DialogNewWebIO dialog(current_room, item);
+            if (dialog.exec() == QDialog::Accepted)
+                    input = dialog.getInput();
+    }
 
     return input;
 }
@@ -376,18 +394,23 @@ IOBase *FormRules::addCalaosItemLight(int item, int hw_type)
     return output;
 }
 
-IOBase *FormRules::addCalaosItemOutputString(int item, int hw_type)
+IOBase *FormRules::addCalaosItemString(int item, int hw_type)
 {
-    IOBase *output = nullptr;
+    IOBase *io = nullptr;
 
     if (hw_type == HW_WEB)
     {
         DialogNewWebIO dialog(current_room, item);
         if (dialog.exec() == QDialog::Accepted)
-            output = dialog.getOutput();
+        {
+                if (dialog.isInputType())
+                        io = dialog.getInput();
+                else
+                        io = dialog.getOutput();
+        }
     }
 
-    return output;
+    return io;
 }
 
 IOBase *FormRules::addCalaosItemShutter(int item, int hw_type)
@@ -637,7 +660,7 @@ void FormRules::addCalaosItem(int hw_type, int item)
         res = addCalaosItemAnalog(item, hw_type);
         break;
     case ITEM_STRING:
-        addCalaosItemOutputString(item, hw_type);
+        addCalaosItemString(item, hw_type);
         break;
     default:
         QMessageBox::warning(this, tr("Calaos Installer"), QString(tr("Unknown type (%1)")).arg(item));
