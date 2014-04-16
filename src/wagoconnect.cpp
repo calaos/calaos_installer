@@ -130,6 +130,8 @@ void WagoConnect::heartbeat_cb(QString command, QString response)
                         emit updateNeeded(wago_fwversion, QString::fromLatin1(WAGO_FW_VESION_841));
                     if (wago_type == "750-849" && wago_fwversion < WAGO_FW_VESION_849)
                         emit updateNeeded(wago_fwversion, QString::fromLatin1(WAGO_FW_VESION_849));
+                    if (wago_type == "750-881" && wago_fwversion < WAGO_FW_VESION_881)
+                        emit updateNeeded(wago_fwversion, QString::fromLatin1(WAGO_FW_VESION_881));
                 }
             }
         }
@@ -250,6 +252,12 @@ void WagoConnect::modbusTypeDone(bool success, Modbus &result)
         wago_type = "750-842";
         if (wago_fwversion < WAGO_FW_VESION_842)
             emit updateNeeded(wago_fwversion, QString::fromLatin1(WAGO_FW_VESION_842));
+    }
+    else if (data == 881)
+    {
+        wago_type = "750-881";
+        if (wago_fwversion < WAGO_FW_VESION_881)
+            emit updateNeeded(wago_fwversion, QString::fromLatin1(WAGO_FW_VESION_881));
     }
 }
 

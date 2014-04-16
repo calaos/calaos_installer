@@ -4,5 +4,7 @@
         <file>wago_firmwares/750-841/DEFAULT.CHK</file>
         <file>wago_firmwares/750-849/DEFAULT.CHK</file>
         <file>wago_firmwares/750-849/DEFAULT.PRG</file>
+        <file>wago_firmwares/750-881/DEFAULT.CHK</file>
+        <file>wago_firmwares/750-881/DEFAULT.PRG</file>
     </qresource>
 </RCC>

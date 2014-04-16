@@ -92,6 +92,11 @@ void DialogWagoFirmwareUpdate::on_buttonStart_clicked()
         file_chk = new QFile(":/wago_firmwares/750-849/DEFAULT.CHK");
         file_prg = new QFile(":/wago_firmwares/750-849/DEFAULT.PRG");
     }
+    else if (wago_type == "750-881")
+    {
+        file_chk = new QFile(":/wago_firmwares/750-881/DEFAULT.CHK");
+        file_prg = new QFile(":/wago_firmwares/750-881/DEFAULT.PRG");
+    }
 
     QString fname_chk = "DEFAULT.CHK";
     QString fname_prg = "DEFAULT.PRG";

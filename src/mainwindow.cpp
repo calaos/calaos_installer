@@ -415,7 +415,8 @@ void MainWindow::wagoDisconnected()
 void MainWindow::wagoUpdateNeeded(QString version, QString new_version)
 {
     if (WagoConnect::Instance().getWagoType() == "750-841" ||
-        WagoConnect::Instance().getWagoType() == "750-849")
+        WagoConnect::Instance().getWagoType() == "750-849" ||
+        WagoConnect::Instance().getWagoType() == "750-881")
     {
         if (QMessageBox::question(NULL, tr("Calaos Installer"),
                                   QString(tr("The WAGO PLC have to be upgraded.\n\nIt is actually running the version %1, the last version is %2.\nYou can do it now, but the PLC memory would be cleared.\n\nDo you want to do it now?")).arg(version).arg(new_version),
@@ -546,7 +547,8 @@ void MainWindow::on_actionMise_jour_Automate_triggered()
     if (WagoConnect::Instance().getConnectionStatus() == WAGO_CONNECTED)
     {
         if (WagoConnect::Instance().getWagoType() == "750-841" ||
-            WagoConnect::Instance().getWagoType() == "750-849")
+            WagoConnect::Instance().getWagoType() == "750-849" ||
+            WagoConnect::Instance().getWagoType() == "750-881")
         {
             if (QMessageBox::question(NULL, tr("Calaos Installer"),
                                       tr("Your PLC can be upgraded to the latest version right now, do it?"),
