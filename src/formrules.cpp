@@ -1582,6 +1582,11 @@ void FormRules::deleteItem()
         ListeRoom::Instance().Remove(itroom->getRoom());
         delete itroom;
 
+        if (ListeRoom::Instance().size() > 0)
+            current_room = ListeRoom::Instance().get_room(ListeRoom::Instance().size() - 1);
+        else
+            current_room = nullptr;
+
         ui->tree_action->clear_all();
         ui->tree_condition->clear_all();
         ui->tree_rules->clear();
