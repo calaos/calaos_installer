@@ -28,7 +28,11 @@ QSize TwoLineItemDelegate::sizeHint(const QStyleOptionViewItem &option, const QM
     int subWidth = subfm.width(subText);
     if (textWidth < subWidth) textWidth = subWidth;
 
-    return QSize(iconsize.width() + textWidth + 10, fm.height() + subfm.height() + 8);
+    QSize sz(iconsize.width() + textWidth + 10, fm.height() + subfm.height() + 8);
+    if (sz.width() < 180)
+        sz.setWidth(180);
+
+    return sz;
 }
 
 void TwoLineItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
