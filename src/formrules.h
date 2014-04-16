@@ -20,7 +20,7 @@
 #include <dialogioproperties.h>
 #include <dialognewrule.h>
 #include <dialognewanalog.h>
-#include <dialognewweboutputstring.h>
+#include <dialognewwebio.h>
 
 #include <TempWizard.h>
 

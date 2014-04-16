@@ -40,6 +40,7 @@ SOURCES += src/main.cpp \
     src/dialognewinternal.cpp \
     src/dialognewscenario.cpp \
     src/dialognewtime.cpp \
+    src/dialognewwebio.cpp \
     src/dialogcameraview.cpp \
     src/wagoconnect.cpp \
     src/dialogconnect.cpp \
@@ -80,7 +81,6 @@ SOURCES += src/main.cpp \
     src/dialognewonewiretemp.cpp \
     src/dialognewgpioinput.cpp \
     Calaos/IOBase.cpp \
-    src/dialognewweboutputstring.cpp \
     src/DialogEditTimeRange.cpp \
     Calaos/TimeRange.cpp \
     src/DialogNewAVReceiver.cpp
@@ -161,10 +161,11 @@ HEADERS += src/mainwindow.h \
     src/ftp/qftp.h \
     src/dialognewonewiretemp.h \
     src/dialognewgpioinput.h \
-    src/dialognewweboutputstring.h \
     src/DialogEditTimeRange.h \
     Calaos/TimeRange.h \
-    src/DialogNewAVReceiver.h
+    src/DialogNewAVReceiver.h \
+    src/dialognewwebio.h
+
 FORMS += \
     data/FormConditionStd.ui \
     data/FormActionStd.ui \
@@ -205,9 +206,9 @@ FORMS += \
     data/DialogIoProperties.ui \
     data/FormRules.ui \
     data/FormDali.ui \
-    data/DialogNewWebOutputString.ui \
     data/DialogEditTimeRange.ui \
-    data/DialogNewAVReceiver.ui
+    data/DialogNewAVReceiver.ui \
+    data/DialogNewWebIO.ui
 RESOURCES += data/resources.qrc \
     data/textedit.qrc \
     data/wago_firmwares.qrc
