@@ -83,7 +83,9 @@ SOURCES += src/main.cpp \
     Calaos/IOBase.cpp \
     src/DialogEditTimeRange.cpp \
     Calaos/TimeRange.cpp \
-    src/DialogNewAVReceiver.cpp
+    src/DialogNewAVReceiver.cpp \
+    src/DialogNewGpioLight.cpp \
+    src/DialogNewGpioShutter.cpp
 
 HEADERS += src/mainwindow.h \
     src/common/Utils.h \
@@ -164,7 +166,9 @@ HEADERS += src/mainwindow.h \
     src/DialogEditTimeRange.h \
     Calaos/TimeRange.h \
     src/DialogNewAVReceiver.h \
-    src/dialognewwebio.h
+    src/dialognewwebio.h \
+    src/DialogNewGpioLight.h \
+    src/DialogNewGpioShutter.h
 
 FORMS += \
     data/FormConditionStd.ui \
@@ -208,7 +212,9 @@ FORMS += \
     data/FormDali.ui \
     data/DialogEditTimeRange.ui \
     data/DialogNewAVReceiver.ui \
-    data/DialogNewWebIO.ui
+    data/DialogNewWebIO.ui \
+    data/DialogNewGpioLight.ui \
+    data/DialogNewGpioShutter.ui
 RESOURCES += data/resources.qrc \
     data/textedit.qrc \
     data/wago_firmwares.qrc

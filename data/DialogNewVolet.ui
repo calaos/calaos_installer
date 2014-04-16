@@ -336,6 +336,9 @@ p, li { white-space: pre-wrap; }
     <property name="maximum">
      <number>9999</number>
     </property>
+    <property name="value">
+     <number>60</number>
+    </property>
    </widget>
    <widget class="QLabel" name="label_time_down">
     <property name="geometry">
@@ -364,6 +367,9 @@ p, li { white-space: pre-wrap; }
     </property>
     <property name="maximum">
      <number>9999</number>
+    </property>
+    <property name="value">
+     <number>60</number>
     </property>
    </widget>
    <widget class="QLabel" name="label_time_up">

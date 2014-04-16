@@ -31,7 +31,8 @@ void DialogNewGpioInput::changeEvent(QEvent *e)
 
 void DialogNewGpioInput::on_buttonBox_accepted()
 {
-    if (ui->edit_name->text().isEmpty())
+    if (ui->edit_name->text().isEmpty() ||
+        ui->edit_gpio_nb->text().isEmpty())
     {
         ui->label_error_empty->show();
         return;

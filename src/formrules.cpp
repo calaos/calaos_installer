@@ -5,6 +5,8 @@
 #include "mainwindow.h"
 #include "DialogEditTimeRange.h"
 #include "DialogNewAVReceiver.h"
+#include "DialogNewGpioShutter.h"
+#include "DialogNewGpioLight.h"
 
 FormRules::FormRules(QWidget *parent) :
     QWidget(parent),
@@ -358,9 +360,9 @@ IOBase *FormRules::addCalaosItemInputSwitch(int item, int hw_type)
     }
     else if (hw_type == HW_WEB)
     {
-            DialogNewWebIO dialog(current_room, item);
-            if (dialog.exec() == QDialog::Accepted)
-                    input = dialog.getInput();
+        DialogNewWebIO dialog(current_room, item);
+        if (dialog.exec() == QDialog::Accepted)
+            input = dialog.getInput();
     }
 
     return input;
@@ -387,10 +389,17 @@ IOBase *FormRules::addCalaosItemLight(int item, int hw_type)
     }
     else if (hw_type == HW_WEB)
     {
-            DialogNewWebIO dialog(current_room, item);
-            if (dialog.exec() == QDialog::Accepted)
-                    output = dialog.getInput();
+        DialogNewWebIO dialog(current_room, item);
+        if (dialog.exec() == QDialog::Accepted)
+            output = dialog.getInput();
     }
+    else if (hw_type == HW_GPIO)
+    {
+        DialogNewGpioLight dialog(current_room);
+        if (dialog.exec() == QDialog::Accepted)
+            output = dialog.getOutput();
+    }
+
     return output;
 }
 
@@ -403,10 +412,10 @@ IOBase *FormRules::addCalaosItemString(int item, int hw_type)
         DialogNewWebIO dialog(current_room, item);
         if (dialog.exec() == QDialog::Accepted)
         {
-                if (dialog.isInputType())
-                        io = dialog.getInput();
-                else
-                        io = dialog.getOutput();
+            if (dialog.isInputType())
+                io = dialog.getInput();
+            else
+                io = dialog.getOutput();
         }
     }
 
@@ -425,9 +434,15 @@ IOBase *FormRules::addCalaosItemShutter(int item, int hw_type)
     }
     else if (hw_type == HW_WEB)
     {
-            DialogNewWebIO dialog(current_room, item);
-            if (dialog.exec() == QDialog::Accepted)
-                    output = dialog.getInput();
+        DialogNewWebIO dialog(current_room, item);
+        if (dialog.exec() == QDialog::Accepted)
+            output = dialog.getInput();
+    }
+    else if (hw_type == HW_GPIO)
+    {
+        DialogNewGpioShutter dialog(current_room);
+        if (dialog.exec() == QDialog::Accepted)
+            output = dialog.getOutput();
     }
 
     return output;
@@ -459,9 +474,9 @@ IOBase *FormRules::addCalaosItemRGB(int item, int hw_type)
     }
     else if (hw_type == HW_WEB)
     {
-            DialogNewWebIO dialog(current_room, item);
-            if (dialog.exec() == QDialog::Accepted)
-                    output = dialog.getInput();
+        DialogNewWebIO dialog(current_room, item);
+        if (dialog.exec() == QDialog::Accepted)
+            output = dialog.getInput();
     }
 
     return output;
@@ -569,14 +584,14 @@ IOBase *FormRules::addCalaosItemAnalog(int item, int hw_type)
     }
     else if (hw_type == HW_WEB)
     {
-            DialogNewWebIO dialog(current_room, item);
-            if (dialog.exec() == QDialog::Accepted)
-            {
-                    if (dialog.isInputType())
-                            io = dialog.getInput();
-                    else
-                            io = dialog.getOutput();
-            }
+        DialogNewWebIO dialog(current_room, item);
+        if (dialog.exec() == QDialog::Accepted)
+        {
+            if (dialog.isInputType())
+                io = dialog.getInput();
+            else
+                io = dialog.getOutput();
+        }
     }
 
     return io;
@@ -861,7 +876,7 @@ void FormRules::updateItemInfos(QTreeWidgetItemOutput *item)
         s += " #" + QString::fromUtf8(out->get_param("var").c_str());
     if (type == "WOVolet" || type == "WOVoletSmart")
         s += " #" + QString::fromUtf8(out->get_param("var_up").c_str()) +
-                " #" + QString::fromUtf8(out->get_param("var_down").c_str());
+             " #" + QString::fromUtf8(out->get_param("var_down").c_str());
 
     item->setData(0, Qt::ToolTipRole, s);
     item->setData(0, Qt::StatusTipRole, s);

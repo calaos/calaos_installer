@@ -51,6 +51,8 @@ REGISTER_INPUT(ZibaseDigitalIn, "switch", TBOOL)
 /* Declare output class/type */
 REGISTER_OUTPUT(OutputFake, "light", TBOOL)
 REGISTER_OUTPUT(GpioOutputSwitch, "light", TBOOL)
+REGISTER_OUTPUT(GpioOutputShutter, "shutter", TBOOL)
+REGISTER_OUTPUT(GpioOutputShutterSmart, "shutter_smart", TSTRING)
 REGISTER_OUTPUT(WOAnalog, "analog_out", TINT)
 REGISTER_OUTPUT(WagoOutputAnalog, "analog_out", TINT)
 REGISTER_OUTPUT(WODali, "light_dimmer", TSTRING)
