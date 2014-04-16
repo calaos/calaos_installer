@@ -369,7 +369,7 @@ IOBase *FormRules::addCalaosItemLight(int item, int hw_type)
     }
     else if (hw_type == HW_WEB)
     {
-            DialogNewWebIO dialog(current_room);
+            DialogNewWebIO dialog(current_room, item);
             if (dialog.exec() == QDialog::Accepted)
                     output = dialog.getInput();
     }
@@ -382,7 +382,7 @@ IOBase *FormRules::addCalaosItemOutputString(int item, int hw_type)
 
     if (hw_type == HW_WEB)
     {
-        DialogNewWebIO dialog(current_room);
+        DialogNewWebIO dialog(current_room, item);
         if (dialog.exec() == QDialog::Accepted)
             output = dialog.getOutput();
     }
@@ -402,7 +402,7 @@ IOBase *FormRules::addCalaosItemShutter(int item, int hw_type)
     }
     else if (hw_type == HW_WEB)
     {
-            DialogNewWebIO dialog(current_room);
+            DialogNewWebIO dialog(current_room, item);
             if (dialog.exec() == QDialog::Accepted)
                     output = dialog.getInput();
     }
@@ -436,7 +436,7 @@ IOBase *FormRules::addCalaosItemRGB(int item, int hw_type)
     }
     else if (hw_type == HW_WEB)
     {
-            DialogNewWebIO dialog(current_room);
+            DialogNewWebIO dialog(current_room, item);
             if (dialog.exec() == QDialog::Accepted)
                     output = dialog.getInput();
     }
@@ -462,7 +462,7 @@ IOBase *FormRules::addCalaosItemTemp(int item, int hw_type)
     }
     else if (hw_type == HW_WEB)
     {
-        DialogNewWebIO dialog(current_room);
+        DialogNewWebIO dialog(current_room, item);
         if (dialog.exec() == QDialog::Accepted)
             io = dialog.getInput();
     }
@@ -546,7 +546,7 @@ IOBase *FormRules::addCalaosItemAnalog(int item, int hw_type)
     }
     else if (hw_type == HW_WEB)
     {
-            DialogNewWebIO dialog(current_room);
+            DialogNewWebIO dialog(current_room, item);
             if (dialog.exec() == QDialog::Accepted)
             {
                     if (dialog.isInputType())

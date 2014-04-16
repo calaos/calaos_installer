@@ -1,9 +1,10 @@
 #include "dialognewwebio.h"
 #include "ui_DialogNewWebIO.h"
+#include "formrules.h"
 
-DialogNewWebIO::DialogNewWebIO(Room *r, QWidget *parent) :
+DialogNewWebIO::DialogNewWebIO(Room *r, int item, QWidget *parent) :
         QDialog(parent),
-        ui(new Ui::DialogNewWebIO), io(NULL), room(r)
+        ui(new Ui::DialogNewWebIO), io(NULL), room(r), item(item)
 {
         ui->setupUi(this);
 
@@ -11,6 +12,25 @@ DialogNewWebIO::DialogNewWebIO(Room *r, QWidget *parent) :
         ui->label_error_empty->hide();
         ui->label_error_path_empty->hide();
         ui->label_error_url_empty->hide();
+
+        // Set default combo type value
+        switch (item)
+        {
+        case ITEM_TEMP:
+                ui->io_type->setCurrentIndex(0);
+                break;
+        case ITEM_ANALOG:
+                ui->io_type->setCurrentIndex(1);
+                break;
+        case ITEM_STRING:
+                if (type.find("Input") != string::npos)
+                        ui->io_type->setCurrentIndex(2);
+                else
+                        ui->io_type->setCurrentIndex(3);
+                break;
+        default:
+                break;
+        }
 }
 
 DialogNewWebIO::~DialogNewWebIO()

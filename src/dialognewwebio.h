@@ -21,7 +21,7 @@ class DialogNewWebIO : public QDialog
         Q_OBJECT
         Q_DISABLE_COPY(DialogNewWebIO)
 public:
-        explicit DialogNewWebIO(Room *r, QWidget *parent = 0);
+        explicit DialogNewWebIO(Room *r, int item,  QWidget *parent = 0);
         virtual ~DialogNewWebIO();
 
         bool isInputType()
@@ -40,6 +40,7 @@ private:
         IOBase *io;
         Room *room;
         string type;
+        int item;
 
 private slots:
         void on_buttonBox_accepted();
