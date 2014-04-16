@@ -668,10 +668,7 @@ void FormRules::addCalaosItem(int hw_type, int item)
     }
 
     if (!res)
-    {
-        QMessageBox::warning(this, tr("Calaos Installer"), tr("Error creating object!"));
         return;
-    }
 
     if (res->is_inout() || res->is_output())
         addItemOutput(res, current_room, true);
