@@ -617,6 +617,7 @@ void FormRules::addCalaosItem(int hw_type, int item)
 
             ui->tree_home->expandAll();
         }
+        return;
     }
         break;
 
