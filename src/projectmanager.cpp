@@ -344,7 +344,7 @@ void RuleXmlWriter::writeCondition(Rule *rule)
             attr.append("type", "lua");
             writeAttributes(attr);
 
-            writeCDATA(QString::fromUtf8(cond->getScript().c_str()));
+            writeCDATA(QString::fromUtf8(cond->getScript().c_str()).replace('\r', ""));
 
             writeEndElement();
             writeEndElement();
@@ -408,7 +408,7 @@ void RuleXmlWriter::writeAction(Rule *rule)
             attr.append("attachment", QString::fromUtf8(action->getMailAttachment().c_str()));
             writeAttributes(attr);
 
-            writeCDATA(QString::fromUtf8(action->getMailMessage().c_str()));
+            writeCDATA(QString::fromUtf8(action->getMailMessage().c_str()).replace('\r', ""));
 
             writeEndElement();
             writeEndElement();
