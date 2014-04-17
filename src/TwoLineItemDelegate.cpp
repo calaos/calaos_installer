@@ -7,7 +7,7 @@ TwoLineItemDelegate::TwoLineItemDelegate():
 
 QSize TwoLineItemDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
-    if (index.column() != 0)
+    if (!index.data(headerTextRole).isValid())
         return QStyledItemDelegate::sizeHint(option, index);
 
     QIcon icon = qvariant_cast<QIcon>(index.data(Qt::DecorationRole));
