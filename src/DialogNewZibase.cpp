@@ -46,7 +46,7 @@ void DialogNewZibase::on_buttonBox_accepted()
     p.Add("host", ui->edit_host->text().toUtf8().constData());
     p.Add("zibase_id", ui->edit_id->text().toUtf8().constData());
     p.Add("port", "17100");
-    p.Add("zibase_sensor", ui->comboBox->currentData().toString().toUtf8().constData());
+    p.Add("zibase_sensor", ui->comboBox->itemData(ui->comboBox->currentIndex()).toString().toUtf8().constData());
 
     if (item == ITEM_ANALOG)
         p.Add("type", "ZibaseAnalogIn");

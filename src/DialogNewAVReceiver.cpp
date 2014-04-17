@@ -35,7 +35,7 @@ void DialogNewAVReceiver::on_buttonBox_accepted()
 
     Params p;
     p.Add("name", ui->lineEditName->text().toUtf8().constData());
-    p.Add("model", ui->comboBoxType->currentData().toString().toUtf8().constData());
+    p.Add("model", ui->comboBoxType->itemData(ui->comboBoxType->currentIndex()).toString().toUtf8().constData());
     p.Add("host", ui->lineEditHost->text().toUtf8().constData());
     p.Add("visible", "true");
     p.Add("type", "AVReceiver");
