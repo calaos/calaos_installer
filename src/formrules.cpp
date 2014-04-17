@@ -8,6 +8,7 @@
 #include "DialogNewGpioShutter.h"
 #include "DialogNewGpioLight.h"
 #include "DialogNewX10.h"
+#include "DialogNewZibase.h"
 
 FormRules::FormRules(QWidget *parent) :
     QWidget(parent),
@@ -361,6 +362,12 @@ IOBase *FormRules::addCalaosItemInputSwitch(int item, int hw_type)
         if (dialog.exec() == QDialog::Accepted)
             input = dialog.getInput();
     }
+    else if (hw_type == HW_ZIBASE)
+    {
+        DialogNewZibase dialog(current_room, item);
+        if (dialog.exec() == QDialog::Accepted)
+            input = dialog.getInput();
+    }
 
     return input;
 }
@@ -595,6 +602,12 @@ IOBase *FormRules::addCalaosItemAnalog(int item, int hw_type)
             else
                 io = dialog.getOutput();
         }
+    }
+    else if (hw_type == HW_ZIBASE)
+    {
+        DialogNewZibase dialog(current_room, item);
+        if (dialog.exec() == QDialog::Accepted)
+            io = dialog.getInput();
     }
 
     return io;

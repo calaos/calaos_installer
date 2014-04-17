@@ -86,7 +86,8 @@ SOURCES += src/main.cpp \
     src/DialogNewAVReceiver.cpp \
     src/DialogNewGpioLight.cpp \
     src/DialogNewGpioShutter.cpp \
-    src/DialogNewX10.cpp
+    src/DialogNewX10.cpp \
+    src/DialogNewZibase.cpp
 
 HEADERS += src/mainwindow.h \
     src/common/Utils.h \
@@ -170,7 +171,8 @@ HEADERS += src/mainwindow.h \
     src/dialognewwebio.h \
     src/DialogNewGpioLight.h \
     src/DialogNewGpioShutter.h \
-    src/DialogNewX10.h
+    src/DialogNewX10.h \
+    src/DialogNewZibase.h
 
 FORMS += \
     data/FormConditionStd.ui \
@@ -217,7 +219,8 @@ FORMS += \
     data/DialogNewWebIO.ui \
     data/DialogNewGpioLight.ui \
     data/DialogNewGpioShutter.ui \
-    data/DialogNewX10.ui
+    data/DialogNewX10.ui \
+    data/DialogNewZibase.ui
 RESOURCES += data/resources.qrc \
     data/textedit.qrc \
     data/wago_firmwares.qrc
