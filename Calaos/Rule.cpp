@@ -55,6 +55,25 @@ void Rule::RemoveAction(int pos)
     actions.erase(iter);
 }
 
+Rule *Rule::duplicate()
+{
+    Rule *rule = new Rule(get_type(), get_name() + " (copy)", get_specialType());
+
+    for (Condition *cond: conds)
+    {
+        Condition *newcond = cond->duplicate();
+        rule->AddCondition(newcond);
+    }
+
+    for (Action *act: actions)
+    {
+        Action *newact = act->duplicate();
+        rule->AddAction(newact);
+    }
+
+    return rule;
+}
+
 void Rule::Print()
 {
     cout << "Content of rule \"" << name << " - " << type << "\"" << endl;

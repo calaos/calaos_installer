@@ -95,6 +95,8 @@ public:
     void setTouchscreenAction(string s) { action_touchscreen = s; }
     /*-- Touchscreen Action --*/
 
+    Action *duplicate();
+
 };
 
 }

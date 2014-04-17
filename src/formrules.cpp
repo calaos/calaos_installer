@@ -1624,6 +1624,24 @@ void FormRules::deleteItem()
     }
 }
 
+void FormRules::cloneRule()
+{
+    QMessageBox::StandardButton reply;
+    reply = QMessageBox::question(this, tr("Calaos Installer"),
+                                  tr("Are you sure to clone the selected rule?"),
+                                  QMessageBox::Yes | QMessageBox::No);
+
+    if (reply != QMessageBox::Yes)
+        return;
+
+    Rule *rule = getCurrentRule();
+    if (!rule) return;
+
+    Rule *newrule = rule->duplicate();
+    ListeRule::Instance().Add(rule);
+    addItemRule(newrule, true);
+}
+
 void FormRules::showPropertiesItem()
 {
     Params *p = NULL;
@@ -2811,6 +2829,9 @@ void FormRules::showPopup_rule(const QPoint point)
 
     QAction *action = NULL;
 
+    action = item_menu.addAction(tr("Clone rule"));
+    action->setIcon(QIcon(":/img/clone.png"));
+    connect(action, SIGNAL(triggered()), this, SLOT(cloneRule()));
     action = item_menu.addAction(tr("Properties"));
     action->setIcon(QIcon(":/img/document-properties.png"));
     connect(action, SIGNAL(triggered()), this, SLOT(showPropertiesItem()));

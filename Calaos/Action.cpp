@@ -37,3 +37,21 @@ void Action::Remove(int pos)
     for (int i = 0;i < pos;iter++, i++) ;
     outputs.erase(iter);
 }
+
+Action *Action::duplicate()
+{
+    Action *action = new Action(getType());
+
+    action->outputs = outputs;
+    action->params_var = params_var;
+    action->params = params;
+    action->mail_sender = mail_sender;
+    action->mail_recipients = mail_recipients;
+    action->mail_subject = mail_subject;
+    action->mail_attachment = mail_attachment;
+    action->mail_message = mail_message;
+    action->script = script;
+    action->action_touchscreen = action_touchscreen;
+
+    return action;
+}

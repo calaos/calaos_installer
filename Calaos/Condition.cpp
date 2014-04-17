@@ -51,3 +51,22 @@ void Condition::removeScriptInput(IOBase *in)
     for (int i = 0;i < (int)in_event.size() && in != in_event[i];iter++, i++) ;
     in_event.erase(iter);
 }
+
+Condition *Condition::duplicate()
+{
+    Condition *cond = new Condition(getType());
+
+    cond->condition_trigger = condition_trigger;
+    cond->inputs = inputs;
+    cond->params = params;
+    cond->ops = ops;
+    cond->params_var = params_var;
+    cond->script = script;
+    cond->in_event = in_event;
+    cond->output = output;
+    cond->output_param = output_param;
+    cond->output_param_var = output_param_var;
+    cond->output_oper = output_oper;
+
+    return cond;
+}

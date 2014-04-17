@@ -137,6 +137,7 @@ public slots:
     void deleteItemAction();
     void goSelectRule();
     void showPropertiesItem();
+    void cloneRule();
     void addCondition(int type);
     void addAction(int type);
 

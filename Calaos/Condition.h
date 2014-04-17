@@ -99,6 +99,8 @@ public:
     void setOutputParamVar(string param) { output_param_var = param; }
     /*-- Output Condition --*/
 
+    Condition *duplicate();
+
 };
 
 }

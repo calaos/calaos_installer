@@ -67,6 +67,8 @@ public:
     void set_name(string s) { name = s; }
     void set_SpecialType(string s) { specialType = s; }
 
+    Rule *duplicate();
+
     void Print();
 };
 
