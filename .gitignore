@@ -2,3 +2,4 @@
 ui_*
 moc_*
 *.o
+lang/calaos_installer_*.qm
