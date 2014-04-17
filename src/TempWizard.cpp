@@ -25,7 +25,7 @@ IntroPage::IntroPage(QWidget *parent)
                                            "sensor with the setpoint variable and "
                                            "create all assiociated rules. Those rules "
                                            "will let user change the setpoint directly "
-                                           "on the Calaos user interface.");
+                                           "on the Calaos user interface."));
     label->setWordWrap(true);
 
     glayout->addWidget(label, 0, 0, 1, 2);

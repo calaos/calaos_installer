@@ -21,6 +21,7 @@
 //-----------------------------------------------------------------------------
 #include <ListeRoom.h>
 #include <QString>
+#include "ConfigOptions.h"
 //-----------------------------------------------------------------------------
 using namespace std;
 using namespace Calaos;
@@ -374,7 +375,14 @@ IOBase* ListeRoom::createInput(Params param, Room *room)
     if (param["type"].substr(0, 2) == "WI")
     {
         if (!param.Exists("var")) param.Add("var", "0");
-        if (!param.Exists("host")) param.Add("host", WAGO_HOST);
+
+        if (!param.Exists("host"))
+        {
+            if (ConfigOptions::Instance().optionExists("calaos/wago_host"))
+                param.Add("host", ConfigOptions::Instance().getWagoHost().toUtf8().constData());
+            else
+                param.Add("host", WAGO_HOST);
+        }
         if (!param.Exists("port")) param.Add("port", "502");
     }
 
@@ -453,7 +461,13 @@ IOBase* ListeRoom::createOutput(Params param, Room *room)
     if (param["type"].substr(0, 2) == "WO")
     {
 
-        if (!param.Exists("host")) param.Add("host", WAGO_HOST);
+        if (!param.Exists("host"))
+        {
+            if (ConfigOptions::Instance().optionExists("calaos/wago_host"))
+                param.Add("host", ConfigOptions::Instance().getWagoHost().toUtf8().constData());
+            else
+                param.Add("host", WAGO_HOST);
+        }
         if (!param.Exists("port")) param.Add("port", "502");
         if (param["type"] == "WOVolet")
         {

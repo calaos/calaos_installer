@@ -58,6 +58,11 @@ DialogOptions::DialogOptions(QWidget *parent) :
             ui->comboLang->setCurrentIndex(ui->comboLang->count() - 1);
         }
     }
+
+    if (ConfigOptions::Instance().optionExists("calaos/wago_host"))
+        ui->lineEditWagoIp->setText(ConfigOptions::Instance().getWagoHost());
+    else
+        ui->lineEditWagoIp->setText("10.0.0.123");
 }
 
 DialogOptions::~DialogOptions()
@@ -78,6 +83,13 @@ void DialogOptions::applyConfig()
         ConfigOptions::Instance().setOption("ui/lang", lang);
         config_changed = true;
         needRestart = true;
+    }
+
+    if (!ConfigOptions::Instance().optionExists("calaos/wago_host") ||
+        ConfigOptions::Instance().getWagoHost() != ui->lineEditWagoIp->text())
+    {
+        ConfigOptions::Instance().setWagoHost(ui->lineEditWagoIp->text());
+        config_changed = true;
     }
 
     /* Save other config options here */
