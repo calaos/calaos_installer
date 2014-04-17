@@ -176,6 +176,10 @@ void IOXmlWriter::writeOutput(IOBase *io)
     {
         writeStartElement("http://www.calaos.fr", "audio");
     }
+    else if (io->get_gui_type() == "avreceiver")
+    {
+        writeStartElement("http://www.calaos.fr", "avr");
+    }
     else
     {
         writeStartElement("http://www.calaos.fr", "output");
@@ -529,6 +533,17 @@ void IOXmlReader::readRoom()
                 readInput(room);
             else if (name() == "audio")
                 readAudio(room);
+            else if (name() == "avr")
+                readAVR(room);
+            else
+            {
+                //read dummy
+                while (!atEnd())
+                {
+                    readNext();
+                    if (isEndElement()) break;
+                }
+            }
         }
     }
 }
@@ -738,6 +753,28 @@ void IOXmlReader::readAudio(Room *room)
     }
 
     ListeRoom::Instance().createAudio(p, room);
+
+    while (!atEnd())
+    {
+        readNext();
+
+        if (isEndElement())
+            break;
+    }
+}
+
+void IOXmlReader::readAVR(Room *room)
+{
+    Params p;
+
+    for (int i = 0;i < attributes().size();i++)
+    {
+        QXmlStreamAttribute attr = attributes().at(i);
+        p.Add(attr.name().toString().toUtf8().data(),
+              attr.value().toString().toUtf8().data());
+    }
+
+    ListeRoom::Instance().createAVR(p, room);
 
     while (!atEnd())
     {

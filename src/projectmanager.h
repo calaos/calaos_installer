@@ -31,6 +31,7 @@ private:
     void readInternal(Room *room);
     void readCamera(Room *room);
     void readAudio(Room *room);
+    void readAVR(Room *room);
     void readPlageDay(vector<TimeRange> &day);
     void readPlage(TimeRange &horaire);
 };
