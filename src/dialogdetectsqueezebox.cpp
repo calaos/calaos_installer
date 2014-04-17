@@ -63,6 +63,7 @@ DialogDetectSqueezebox::DialogDetectSqueezebox(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::DialogDetectSqueezebox)
 {
+    setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
     ui->setupUi(this);
 }
 

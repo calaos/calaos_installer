@@ -6,6 +6,7 @@ DialogNewCamera::DialogNewCamera(Room *r, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::DialogNewCamera), output(NULL), room(r)
 {
+    setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
     ui->setupUi(this);
 
     //hide error labels by default.

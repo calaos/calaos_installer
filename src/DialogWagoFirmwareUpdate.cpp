@@ -35,6 +35,7 @@ DialogWagoFirmwareUpdate::DialogWagoFirmwareUpdate(QString whost, QString wtype,
     wago_type(wtype),
     wago_version(wversion)
 {
+    setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
     ui->setupUi(this);
 
     ui->progressBar->setValue(0);

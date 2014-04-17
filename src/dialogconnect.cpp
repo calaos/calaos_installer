@@ -6,6 +6,7 @@
 DialogConnect::DialogConnect(QWidget *parent): QDialog(parent),
     ui(new Ui::DialogConnect)
 {
+    setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
     ui->setupUi(this);
 
     ui->ip_address->setText(ConfigOptions::Instance().getWagoHost());

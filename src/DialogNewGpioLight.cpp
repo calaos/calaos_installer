@@ -6,6 +6,7 @@ DialogNewGpioLight::DialogNewGpioLight(Room *r, QWidget *parent) :
     ui(new Ui::DialogNewGpioLight),
     room(r)
 {
+    setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
     ui->setupUi(this);
 
     ui->label_error_empty->hide();

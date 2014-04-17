@@ -9,6 +9,7 @@ DialogNewWago::DialogNewWago(int t, Room *r, QWidget *parent) :
     ui(new Ui::DialogNewWago), io(NULL), room(r), detect_in_progress(false),
     another(false)
 {
+    setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
     ui->setupUi(this);
 
     moreButton = new QPushButton(tr("Ok, next"), this);

@@ -5,6 +5,7 @@ DialogMailMessage::DialogMailMessage(QString msg, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::DialogMailMessage)
 {
+    setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
     ui->setupUi(this);
 
     ui->textEdit->setPlainText(msg);

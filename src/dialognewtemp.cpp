@@ -6,6 +6,7 @@ DialogNewTemp::DialogNewTemp(Room *r, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::DialogNewTemp), temperature(NULL), room(r)
 {
+    setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
     ui->setupUi(this);
 
     //hide error labels by default.

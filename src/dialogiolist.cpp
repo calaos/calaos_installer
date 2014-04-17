@@ -8,6 +8,7 @@ DialogIOList::DialogIOList(IOBase *_in, IOBase *_out, QWidget *parent) :
     output(_out),
     item_current(NULL)
 {
+    setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
     ui->setupUi(this);
 
     ui->treeWidget->setUpdatesEnabled(false);

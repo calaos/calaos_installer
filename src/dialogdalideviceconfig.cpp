@@ -5,6 +5,7 @@ DialogDaliDeviceConfig::DialogDaliDeviceConfig(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::DialogDaliDeviceConfig)
 {
+    setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
     ui->setupUi(this);
 }
 

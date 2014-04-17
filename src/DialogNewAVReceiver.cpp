@@ -9,6 +9,7 @@ DialogNewAVReceiver::DialogNewAVReceiver(Room *r, QWidget *parent) :
     ui(new Ui::DialogNewAVReceiver),
     room(r)
 {
+    setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
     ui->setupUi(this);
     ui->labelError->hide();
 

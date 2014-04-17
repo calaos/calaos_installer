@@ -6,6 +6,7 @@ DialogNewRule::DialogNewRule(string name, string type, QWidget *parent) :
     ui(new Ui::DialogNewRule),
     rule(NULL)
 {
+    setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
     ui->setupUi(this);
 
     ui->edit_name->setText(QString::fromUtf8(name.c_str()));

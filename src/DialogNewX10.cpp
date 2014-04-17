@@ -6,6 +6,7 @@ DialogNewX10::DialogNewX10(Room *r, QWidget *parent) :
     ui(new Ui::DialogNewX10),
     room(r)
 {
+    setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
     ui->setupUi(this);
 
     ui->label_error_empty->hide();

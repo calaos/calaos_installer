@@ -6,6 +6,7 @@ DialogCameraView::DialogCameraView(IOBase *cam, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::DialogCameraView), camera(cam)
 {
+    setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
     ui->setupUi(this);
 }
 

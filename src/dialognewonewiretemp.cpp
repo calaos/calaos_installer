@@ -5,6 +5,7 @@ DialogNewOneWireTemp::DialogNewOneWireTemp(Room *r, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::DialogNewOneWireTemp), temperature(NULL), room(r)
 {
+    setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
     ui->setupUi(this);
 
     //hide error labels by default.

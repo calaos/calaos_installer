@@ -9,6 +9,7 @@ DialogInputEventScript::DialogInputEventScript(Condition *cond, QWidget *parent)
     ui(new Ui::DialogInputEventScript),
     condition(cond)
 {
+    setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
     ui->setupUi(this);
 
     ui->tree_all->setUpdatesEnabled(false);

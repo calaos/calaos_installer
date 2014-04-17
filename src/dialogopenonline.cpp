@@ -9,6 +9,7 @@ DialogOpenOnline::DialogOpenOnline(QString temp, QWidget *parent):
     QDialog(parent), ui(new Ui::DialogOpenOnline),
     tempDir(temp)
 {
+    setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
     ui->setupUi(this);
 
     connect(&networkAccess, SIGNAL(sslErrors(QNetworkReply*, const QList<QSslError> &)),

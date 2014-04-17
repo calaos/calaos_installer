@@ -8,6 +8,7 @@ DialogNewZibase::DialogNewZibase(Room *r, int it, QWidget *parent) :
     room(r),
     item(it)
 {
+    setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
     ui->setupUi(this);
 
     ui->label_error_empty->hide();

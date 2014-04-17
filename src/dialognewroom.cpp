@@ -5,6 +5,7 @@ DialogNewRoom::DialogNewRoom(QWidget *parent) :
     QDialog(parent),
     m_ui(new Ui::DialogNewRoom)
 {
+    setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
     m_ui->setupUi(this);
 
     //hide error labels by default.

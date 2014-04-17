@@ -9,6 +9,7 @@ DialogSaveOnline::DialogSaveOnline(QString temp, QWidget *parent):
     QDialog(parent), ui(new Ui::DialogSaveOnline),
     currentDir(temp)
 {
+    setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
     ui->setupUi(this);
 
     connect(&networkAccess, SIGNAL(sslErrors(QNetworkReply*, const QList<QSslError> &)),

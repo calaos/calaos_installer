@@ -7,6 +7,7 @@ DialogNewAudio::DialogNewAudio(Room *r, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::DialogNewAudio), output(NULL), room(r)
 {
+    setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
     ui->setupUi(this);
 
     //hide error labels by default.

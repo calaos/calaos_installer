@@ -7,6 +7,7 @@ DialogScriptEditor::DialogScriptEditor(QString script, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::DialogScriptEditor)
 {
+    setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
     ui->setupUi(this);
 
     codeEditor = new CodeEditor(this);

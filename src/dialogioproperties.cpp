@@ -9,6 +9,7 @@ DialogIOProperties::DialogIOProperties(const Params &p, int t, QWidget *parent) 
     current_item(NULL),
     modified(false)
 {
+    setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
     ui->setupUi(this);
 
     QStringList headers;

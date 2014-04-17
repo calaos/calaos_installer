@@ -7,6 +7,7 @@ DialogEditTimeRange::DialogEditTimeRange(IOBase *in) :
     ui(new Ui::DialogEditTimeRange),
     inTimeRange(in)
 {
+    setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
     ui->setupUi(this);
     ui->treeRanges->setItemDelegate(new TwoLineItemDelegate());
 
