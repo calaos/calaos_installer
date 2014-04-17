@@ -56,7 +56,7 @@ FormRules::FormRules(QWidget *parent) :
 
     action = wago_menu->addAction(tr("DALI/DMX RGB"));
     action->setIcon(QIcon(":/img/icon_light_on.png"));
-    connect(action, &QAction::triggered, [=]() { addCalaosItem(HW_WAGO, ITEM_DALIRGB); });
+    connect(action, &QAction::triggered, [=]() { addCalaosItem(HW_WAGO, ITEM_LIGHT_RGB); });
 
     action = wago_menu->addAction(tr("Temperature sensor"));
     action->setIcon(QIcon(":/img/temp.png"));
@@ -100,7 +100,7 @@ FormRules::FormRules(QWidget *parent) :
 
     action = web_menu->addAction(tr("LightRGB"));
     action->setIcon(QIcon(":/img/icon_light_on.png"));
-    connect(action, &QAction::triggered, [=]() { addCalaosItem(HW_WEB, ITEM_DALIRGB); });
+    connect(action, &QAction::triggered, [=]() { addCalaosItem(HW_WEB, ITEM_LIGHT_RGB); });
 
     action = web_menu->addAction(tr("Shutter"));
     action->setIcon(QIcon(":/img/icon_shutter.png"));
@@ -664,7 +664,7 @@ void FormRules::addCalaosItem(int hw_type, int item)
     case ITEM_DALI:
         res = addCalaosItemDimmer(item, hw_type);
         break;
-    case ITEM_DALIRGB:
+    case ITEM_LIGHT_RGB:
         res = addCalaosItemRGB(item, hw_type);
         break;
     case ITEM_TEMP:

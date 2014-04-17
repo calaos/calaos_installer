@@ -14,24 +14,39 @@ DialogNewWebIO::DialogNewWebIO(Room *r, int item, QWidget *parent) :
     ui->label_error_path_empty->hide();
     ui->label_error_url_empty->hide();
 
+    ui->additionnal_params->hide();
     // Set default combo type value
     switch (item)
-    {
-    case ITEM_TEMP:
+      {
+      case ITEM_INPUT_SWITCH:
         ui->io_type->setCurrentIndex(0);
         break;
-    case ITEM_ANALOG:
+      case ITEM_LIGHT:
         ui->io_type->setCurrentIndex(1);
         break;
-    case ITEM_STRING:
+      case ITEM_LIGHT_RGB:
+        ui->io_type->setCurrentIndex(2);
+        break;
+      case ITEM_SHUTTER:
+        ui->io_type->setCurrentIndex(3);
+        ui->additionnal_params->show();
+        ui->additionnal_params->setCurrentIndex(1);
+        break;
+      case ITEM_TEMP:
+        ui->io_type->setCurrentIndex(4);
+        break;
+      case ITEM_ANALOG:
+        ui->io_type->setCurrentIndex(5);
+        break;
+      case ITEM_STRING:
         if (type.find("Input") != string::npos)
-            ui->io_type->setCurrentIndex(2);
+          ui->io_type->setCurrentIndex(7);
         else
-            ui->io_type->setCurrentIndex(3);
+          ui->io_type->setCurrentIndex(8);
         break;
-    default:
+      default:
         break;
-    }
+      }
 }
 
 DialogNewWebIO::~DialogNewWebIO()
@@ -73,22 +88,26 @@ void DialogNewWebIO::on_buttonBox_accepted()
     Params p;
     p.Add("name", ui->edit_name->text().toUtf8().constData());
     switch (ui->io_type->currentIndex())
-    {
-    case 1:
+      {
+      case 0:
+        type = "WebInputSwitch";
+        break;
+      case 4:
         type = "WebInputTemp";
         break;
-    case 2:
+      case 5:
         type = "WebInputAnalog";
         break;
-    case 3:
+      case 7:
         type = "WebInputString";
         break;
-    case 4:
+      case 8:
         type = "WebOutputString";
         break;
-    default:
+      default:
+
         break;
-    }
+      }
     p.Add("type", type);
     p.Add("url", to_string(ui->edit_url->text().toUtf8().constData()));
     p.Add("path", to_string(ui->edit_path->text().toUtf8().constData()));
