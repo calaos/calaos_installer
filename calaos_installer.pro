@@ -85,7 +85,8 @@ SOURCES += src/main.cpp \
     Calaos/TimeRange.cpp \
     src/DialogNewAVReceiver.cpp \
     src/DialogNewGpioLight.cpp \
-    src/DialogNewGpioShutter.cpp
+    src/DialogNewGpioShutter.cpp \
+    src/DialogNewX10.cpp
 
 HEADERS += src/mainwindow.h \
     src/common/Utils.h \
@@ -168,7 +169,8 @@ HEADERS += src/mainwindow.h \
     src/DialogNewAVReceiver.h \
     src/dialognewwebio.h \
     src/DialogNewGpioLight.h \
-    src/DialogNewGpioShutter.h
+    src/DialogNewGpioShutter.h \
+    src/DialogNewX10.h
 
 FORMS += \
     data/FormConditionStd.ui \
@@ -214,7 +216,8 @@ FORMS += \
     data/DialogNewAVReceiver.ui \
     data/DialogNewWebIO.ui \
     data/DialogNewGpioLight.ui \
-    data/DialogNewGpioShutter.ui
+    data/DialogNewGpioShutter.ui \
+    data/DialogNewX10.ui
 RESOURCES += data/resources.qrc \
     data/textedit.qrc \
     data/wago_firmwares.qrc

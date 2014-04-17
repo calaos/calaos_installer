@@ -7,6 +7,7 @@
 #include "DialogNewAVReceiver.h"
 #include "DialogNewGpioShutter.h"
 #include "DialogNewGpioLight.h"
+#include "DialogNewX10.h"
 
 FormRules::FormRules(QWidget *parent) :
     QWidget(parent),
@@ -71,10 +72,6 @@ FormRules::FormRules(QWidget *parent) :
     connect(action, &QAction::triggered, [=]() { addCalaosItem(HW_ONEWIRE, ITEM_TEMP); });
 
     QMenu *x10_menu = add_menu->addMenu(QIcon("://img/x10.png"), "X10");
-
-    action = x10_menu->addAction(tr("Light"));
-    action->setIcon(QIcon(":/img/icon_light_on.png"));
-    connect(action, &QAction::triggered, [=]() { addCalaosItem(HW_X10, ITEM_LIGHT); });
 
     action = x10_menu->addAction(tr("Light Dimmer"));
     action->setIcon(QIcon(":/img/icon_light_on.png"));
@@ -455,6 +452,12 @@ IOBase *FormRules::addCalaosItemDimmer(int item, int hw_type)
     if (hw_type == HW_WAGO)
     {
         DialogNewDali dialog(current_room);
+        if (dialog.exec() == QDialog::Accepted)
+            output = dialog.getOutput();
+    }
+    else if (hw_type == HW_X10)
+    {
+        DialogNewX10 dialog(current_room);
         if (dialog.exec() == QDialog::Accepted)
             output = dialog.getOutput();
     }
