@@ -512,7 +512,7 @@ IOBase* ListeRoom::createCamera(Params param, Room *room)
     if (!param.Exists("id")) param.Add("id", param["iid"] + "_" + param["oid"]);
     if (!param.Exists("model")) param.Add("model", "");
 
-    IOBase *output = IOFactory::Instance().CreateIO("Camera", param, IOBase::IO_BOTH);
+    IOBase *output = IOFactory::Instance().CreateIO(param["type"], param, IOBase::IO_BOTH);
     if (output) room->AddOutput(output);
     if (output) room->AddInput(output);
 
@@ -528,7 +528,7 @@ IOBase *ListeRoom::createAudio(Params param, Room *room)
     if (!param.Exists("oid")) param.Add("oid", ListeRoom::get_new_id("output_"));
     if (!param.Exists("iid")) param.Add("iid", ListeRoom::get_new_id("input_"));
 
-    IOBase *output = IOFactory::Instance().CreateIO("Audio", param, IOBase::IO_BOTH);
+    IOBase *output = IOFactory::Instance().CreateIO(param["type"], param, IOBase::IO_BOTH);
     if (output) room->AddOutput(output);
     if (output) room->AddInput(output);
 
