@@ -6,7 +6,7 @@ TempWizard::TempWizard(QWidget *parent) :
     addPage(new IntroPage);
     addPage(new RulesPage);
 
-    setWindowTitle(QString::fromUtf8("Assistant de chauffage"));
+    setWindowTitle(tr("Heating setpoint wizard"));
 
     resize(680, 455);
 }
@@ -14,17 +14,18 @@ TempWizard::TempWizard(QWidget *parent) :
 IntroPage::IntroPage(QWidget *parent)
     : QWizardPage(parent)
 {
-    setTitle(tr("Assistant de chauffage"));
+    setTitle(tr("Heating setpoint wizard"));
     setPixmap(QWizard::WatermarkPixmap, QPixmap(":/img/watermark.png"));
 
     QGridLayout *glayout = new QGridLayout;
 
-    QLabel *label = new QLabel(QString::fromUtf8("Cet assistant va vous aider à créer les règles pour "
-                                                 "une gestion de chauffage par consigne. Il va "
-                                                 "lier la sonde de température avec une consigne "
-                                                 "et ainsi créer les règles qui sont associés. "
-                                                 "Ces règles permettront de régler la consigne de chauffage "
-                                                 "directement sur une interface Calaos."));
+    QLabel *label = new QLabel(QObject::tr("This wizard will help you create rules "
+                                           "for managing you heating system with a "
+                                           "setpoint. It will link the temperature "
+                                           "sensor with the setpoint variable and "
+                                           "create all assiociated rules. Those rules "
+                                           "will let user change the setpoint directly "
+                                           "on the Calaos user interface.");
     label->setWordWrap(true);
 
     glayout->addWidget(label, 0, 0, 1, 2);
@@ -34,7 +35,7 @@ IntroPage::IntroPage(QWidget *parent)
     line->setFrameShadow(QFrame::Sunken);
     glayout->addWidget(line, 1, 0, 1, 2);
 
-    label = new QLabel(QString::fromUtf8("Nom de la consigne:"));
+    label = new QLabel(tr("Setpoint name:"));
     consName = new QLineEdit;
     label->setBuddy(consName);
 
@@ -49,26 +50,25 @@ IntroPage::IntroPage(QWidget *parent)
 
 void IntroPage::initializePage()
 {
-    consName->setText(QString::fromUtf8("Consigne"));
+    consName->setText(QObject::tr("Setpoint"));
 }
 
 RulesPage::RulesPage(QWidget *parent)
     : QWizardPage(parent)
 {
-    setTitle(QString::fromUtf8("Règles"));
-    setSubTitle(QString::fromUtf8("Est-ce que les règles doivent être crées automatiquement ?"));
+    setTitle(QObject::tr("Rules"));
+    setSubTitle(QObject::tr("Do you want the rules to be automatically created?"));
     setPixmap(QWizard::WatermarkPixmap, QPixmap(":/img/watermark.png"));
 
-    QCheckBox *checkRules = new QCheckBox(QString::fromUtf8("Créer les règles"));
+    QCheckBox *checkRules = new QCheckBox(QObject::tr("Create the rules"));
     checkRules->setChecked(true);
 
     QVBoxLayout *layout = new QVBoxLayout;
     layout->addWidget(checkRules);
 
-    QLabel *label = new QLabel(QString::fromUtf8("Attention!\nL'assistant va créer les 2 règles qui vont "
-                                                 "démarrer ou arrêter le chauffage en fonction de la "
-                                                 "consigne. Ces règles ne comportent aucune action, "
-                                                 "vous devrez les ajouter par vous même."));
+    QLabel *label = new QLabel(QObject::tr("Warning!\nThe wizard is going to create 2 rules that would "
+                                           "start or stop the heating system from the setpoint value. Those "
+                                           "rules will not have any actions, you need to add them yourself."));
 
     label->setWordWrap(true);
 

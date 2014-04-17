@@ -35,7 +35,7 @@
    </font>
   </property>
   <property name="windowTitle">
-   <string>Nouveau volet...</string>
+   <string>New shutter...</string>
   </property>
   <property name="windowIcon">
    <iconset resource="resources.qrc">
@@ -291,9 +291,6 @@ p, li { white-space: pre-wrap; }
       <height>23</height>
      </rect>
     </property>
-    <property name="toolTip">
-     <string>Un volet intelligent permet de savoir a quelle position il se trouve en estimant le temps qu'il met pour monter ou descendre. Ce type de volet nessécite la durée de montée et de descente qui soit exacte.</string>
-    </property>
     <property name="text">
      <string>&quot;Smart&quot; shutter</string>
     </property>
@@ -396,9 +393,6 @@ p, li { white-space: pre-wrap; }
       <width>181</width>
       <height>23</height>
      </rect>
-    </property>
-    <property name="toolTip">
-     <string>Un volet intelligent permet de savoir a quelle position il se trouve en estimant le temps qu'il met pour monter ou descendre. Ce type de volet nessécite la durée de montée et de descente qui soit exacte.</string>
     </property>
     <property name="text">
      <string>Impulse shutter</string>

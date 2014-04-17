@@ -87,7 +87,8 @@ SOURCES += src/main.cpp \
     src/DialogNewGpioLight.cpp \
     src/DialogNewGpioShutter.cpp \
     src/DialogNewX10.cpp \
-    src/DialogNewZibase.cpp
+    src/DialogNewZibase.cpp \
+    src/DialogOptions.cpp
 
 HEADERS += src/mainwindow.h \
     src/common/Utils.h \
@@ -172,7 +173,8 @@ HEADERS += src/mainwindow.h \
     src/DialogNewGpioLight.h \
     src/DialogNewGpioShutter.h \
     src/DialogNewX10.h \
-    src/DialogNewZibase.h
+    src/DialogNewZibase.h \
+    src/DialogOptions.h
 
 FORMS += \
     data/FormConditionStd.ui \
@@ -220,17 +222,24 @@ FORMS += \
     data/DialogNewGpioLight.ui \
     data/DialogNewGpioShutter.ui \
     data/DialogNewX10.ui \
-    data/DialogNewZibase.ui
+    data/DialogNewZibase.ui \
+    data/DialogOptions.ui
 RESOURCES += data/resources.qrc \
     data/textedit.qrc \
-    data/wago_firmwares.qrc
+    data/wago_firmwares.qrc \
+    lang/lang_ressources.qrc
+
+win32 {
+#on windows to deploy we need to add Qt own language files
+#to have all Qt dialogs/strings translated as well
+RESOURCES += lang/lang_ressources_qt.qrc
+}
+
 INCLUDEPATH += src/common/ \
     src/common/LuaScript \
     Calaos/ \
     src/
 DEFINES += CALAOS_INSTALLER
-OTHER_FILES += \
-    calaos_installer_en.ts
 
 win32|mac {
 SOURCES += src/common/LuaScript/lua-5.1.4/src/linit.c \
@@ -300,4 +309,26 @@ unix {
     PKGCONFIG += lua5.1
 }
 
- TRANSLATIONS = calaos_installer_en.ts
+TRANSLATIONS = \
+    lang/calaos_installer_fr.ts \
+    lang/calaos_installer_de.ts
+
+#Build *.qm translation files automatically
+
+win32 {
+isEmpty(QMAKE_LRELEASE) {
+    QMAKE_LRELEASE = $$[QT_INSTALL_BINS]/lrelease.exe
+}
+}
+!win32 {
+isEmpty(QMAKE_LRELEASE) {
+    QMAKE_LRELEASE = $$[QT_INSTALL_BINS]/lrelease
+}
+}
+
+updateqm.input = TRANSLATIONS
+updateqm.output = ${QMAKE_FILE_PATH}/${QMAKE_FILE_BASE}.qm
+updateqm.commands = $$QMAKE_LRELEASE ${QMAKE_FILE_IN} -qm ${QMAKE_FILE_PATH}/${QMAKE_FILE_BASE}.qm
+updateqm.CONFIG += no_link
+QMAKE_EXTRA_COMPILERS += updateqm
+PRE_TARGETDEPS += compiler_updateqm_make_all

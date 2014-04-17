@@ -259,9 +259,6 @@ p, li { white-space: pre-wrap; }
         <height>23</height>
        </rect>
       </property>
-      <property name="toolTip">
-       <string>Un volet intelligent permet de savoir a quelle position il se trouve en estimant le temps qu'il met pour monter ou descendre. Ce type de volet nessécite la durée de montée et de descente qui soit exacte.</string>
-      </property>
       <property name="text">
        <string>Group Address (Red)</string>
       </property>
@@ -343,9 +340,6 @@ p, li { white-space: pre-wrap; }
         <height>23</height>
        </rect>
       </property>
-      <property name="toolTip">
-       <string>Un volet intelligent permet de savoir a quelle position il se trouve en estimant le temps qu'il met pour monter ou descendre. Ce type de volet nessécite la durée de montée et de descente qui soit exacte.</string>
-      </property>
       <property name="text">
        <string>Group Address (Green)</string>
       </property>
@@ -413,9 +407,6 @@ p, li { white-space: pre-wrap; }
         <width>251</width>
         <height>23</height>
        </rect>
-      </property>
-      <property name="toolTip">
-       <string>Un volet intelligent permet de savoir a quelle position il se trouve en estimant le temps qu'il met pour monter ou descendre. Ce type de volet nessécite la durée de montée et de descente qui soit exacte.</string>
       </property>
       <property name="text">
        <string>Group Address (Blue)</string>

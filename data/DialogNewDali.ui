@@ -35,7 +35,7 @@
    </font>
   </property>
   <property name="windowTitle">
-   <string>Nouvelle élément DALI/DMX...</string>
+   <string>New DALI/DMX item...</string>
   </property>
   <property name="windowIcon">
    <iconset resource="resources.qrc">

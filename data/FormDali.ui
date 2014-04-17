@@ -135,7 +135,7 @@
           </size>
          </property>
          <property name="title">
-          <string>Propriétés #1</string>
+          <string>Properties #1</string>
          </property>
          <layout class="QHBoxLayout" name="horizontalLayout_2">
           <item>
@@ -168,9 +168,6 @@
            <layout class="QVBoxLayout" name="verticalLayout_3">
             <item>
              <widget class="QPushButton" name="buttonBlink">
-              <property name="toolTip">
-               <string>Faire clignoter pendant 20 secondes</string>
-              </property>
               <property name="text">
                <string>Blink</string>
               </property>

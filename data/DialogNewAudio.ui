@@ -23,7 +23,7 @@
    </font>
   </property>
   <property name="windowTitle">
-   <string>Nouveau lecteur audio...</string>
+   <string>New Audio player</string>
   </property>
   <property name="windowIcon">
    <iconset resource="resources.qrc">

@@ -35,7 +35,7 @@
    </font>
   </property>
   <property name="windowTitle">
-   <string>Nouvelle variable de temps...</string>
+   <string>New time variable</string>
   </property>
   <property name="windowIcon">
    <iconset resource="resources.qrc">

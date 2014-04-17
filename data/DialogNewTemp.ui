@@ -35,7 +35,7 @@
    </font>
   </property>
   <property name="windowTitle">
-   <string>Nouvelle sonde de température...</string>
+   <string>New temperature sensor</string>
   </property>
   <property name="windowIcon">
    <iconset resource="resources.qrc">

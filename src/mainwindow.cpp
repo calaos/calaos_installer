@@ -2,6 +2,7 @@
 #include "ui_MainWindow.h"
 #include "version.h"
 #include "ConfigOptions.h"
+#include "DialogOptions.h"
 
 MainWindow::MainWindow(QWidget *parent):
     QMainWindow(parent),
@@ -229,7 +230,7 @@ void MainWindow::Save(QString path)
 
     ui->widgetRules->setProjectModified(false);
 
-    statusBar()->showMessage(QString(tr("Projcet saved: %1")).arg(project_path), 3000);
+    statusBar()->showMessage(QString(tr("Project saved: %1")).arg(project_path), 3000);
 }
 
 void MainWindow::Load(QString path)
@@ -567,4 +568,12 @@ void MainWindow::on_actionMise_jour_Automate_triggered()
     {
         WagoConnect::Instance().SendCommand("WAGO_DALI_ADDRESSING_STATUS");
     }
+}
+
+void MainWindow::on_btConfigure_clicked()
+{
+    DialogOptions d;
+
+    if (d.exec() == QDialog::Accepted)
+        d.applyConfig();
 }

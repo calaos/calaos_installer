@@ -35,7 +35,7 @@
    </font>
   </property>
   <property name="windowTitle">
-   <string>Nouveau scénario...</string>
+   <string>New scenario...</string>
   </property>
   <property name="windowIcon">
    <iconset resource="resources.qrc">

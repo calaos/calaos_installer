@@ -128,15 +128,15 @@ TextEdit::TextEdit(QWidget *parent)
 void TextEdit::setupFileActions()
 {
     QToolBar *tb = new QToolBar(this);
-    tb->setWindowTitle(QString::fromUtf8("Fichier"));
+    tb->setWindowTitle(tr("File"));
     addToolBar(tb);
 
-    QMenu *menu = new QMenu(QString::fromUtf8("&Fichier"), this);
+    QMenu *menu = new QMenu(tr("&File"), this);
     menuBar()->addMenu(menu);
 
     QAction *a;
 
-    a = new QAction(QString::fromUtf8("Sauvegarder &Sous..."), this);
+    a = new QAction(tr("Save as..."), this);
     a->setPriority(QAction::LowPriority);
     connect(a, SIGNAL(triggered()), this, SLOT(fileSaveAs()));
     menu->addAction(a);
@@ -144,7 +144,7 @@ void TextEdit::setupFileActions()
 
 #ifndef QT_NO_PRINTER
     a = new QAction(QIcon::fromTheme("document-print", QIcon(rsrcPath + "/fileprint.png")),
-                    QString::fromUtf8("&Imprimer..."), this);
+                    tr("&Print..."), this);
     a->setPriority(QAction::LowPriority);
     a->setShortcut(QKeySequence::Print);
     connect(a, SIGNAL(triggered()), this, SLOT(filePrint()));
@@ -152,12 +152,12 @@ void TextEdit::setupFileActions()
     menu->addAction(a);
 
     a = new QAction(QIcon::fromTheme("fileprint", QIcon(rsrcPath + "/fileprint.png")),
-                    QString::fromUtf8("Aperçu de l'impression..."), this);
+                    tr("Print preview..."), this);
     connect(a, SIGNAL(triggered()), this, SLOT(filePrintPreview()));
     menu->addAction(a);
 
     a = new QAction(QIcon::fromTheme("exportpdf", QIcon(rsrcPath + "/exportpdf.png")),
-                    QString::fromUtf8("&Exporter en PDF..."), this);
+                    tr("&Export in PDF..."), this);
     a->setPriority(QAction::LowPriority);
     a->setShortcut(Qt::CTRL + Qt::Key_D);
     connect(a, SIGNAL(triggered()), this, SLOT(filePrintPdf()));
@@ -167,7 +167,7 @@ void TextEdit::setupFileActions()
     menu->addSeparator();
 #endif
 
-    a = new QAction(tr("&Fermer"), this);
+    a = new QAction(tr("&Close"), this);
     a->setShortcut(Qt::CTRL + Qt::Key_Q);
     connect(a, SIGNAL(triggered()), this, SLOT(close()));
     menu->addAction(a);
@@ -176,38 +176,38 @@ void TextEdit::setupFileActions()
 void TextEdit::setupEditActions()
 {
     QToolBar *tb = new QToolBar(this);
-    tb->setWindowTitle(QString::fromUtf8("Editer"));
+    tb->setWindowTitle(tr("Edit"));
     addToolBar(tb);
-    QMenu *menu = new QMenu(QString::fromUtf8("&Editer"), this);
+    QMenu *menu = new QMenu(tr("&Edit"), this);
     menuBar()->addMenu(menu);
 
     QAction *a;
     a = actionUndo = new QAction(QIcon::fromTheme("edit-undo", QIcon(rsrcPath + "/editundo.png")),
-                                 QString::fromUtf8("&Annuler"), this);
+                                 tr("&Undo"), this);
     a->setShortcut(QKeySequence::Undo);
     tb->addAction(a);
     menu->addAction(a);
     a = actionRedo = new QAction(QIcon::fromTheme("edit-redo", QIcon(rsrcPath + "/editredo.png")),
-                                 QString::fromUtf8("&Refaire"), this);
+                                 tr("&Redo"), this);
     a->setPriority(QAction::LowPriority);
     a->setShortcut(QKeySequence::Redo);
     tb->addAction(a);
     menu->addAction(a);
     menu->addSeparator();
     a = actionCut = new QAction(QIcon::fromTheme("edit-cut", QIcon(rsrcPath + "/editcut.png")),
-                                QString::fromUtf8("Couper"), this);
+                                tr("Cut"), this);
     a->setPriority(QAction::LowPriority);
     a->setShortcut(QKeySequence::Cut);
     tb->addAction(a);
     menu->addAction(a);
     a = actionCopy = new QAction(QIcon::fromTheme("edit-copy", QIcon(rsrcPath + "/editcopy.png")),
-                                 QString::fromUtf8("Copier"), this);
+                                 tr("Copy"), this);
     a->setPriority(QAction::LowPriority);
     a->setShortcut(QKeySequence::Copy);
     tb->addAction(a);
     menu->addAction(a);
     a = actionPaste = new QAction(QIcon::fromTheme("edit-paste", QIcon(rsrcPath + "/editpaste.png")),
-                                  QString::fromUtf8("Coller"), this);
+                                  tr("Paste"), this);
     a->setPriority(QAction::LowPriority);
     a->setShortcut(QKeySequence::Paste);
     tb->addAction(a);
@@ -223,11 +223,11 @@ void TextEdit::setupTextActions()
     tb->setWindowTitle(tr("Format"));
     addToolBar(tb);
 
-    QMenu *menu = new QMenu(QString::fromUtf8("F&ormat"), this);
+    QMenu *menu = new QMenu(tr("F&ormat"), this);
     menuBar()->addMenu(menu);
 
     actionTextBold = new QAction(QIcon::fromTheme("format-text-bold", QIcon(rsrcPath + "/textbold.png")),
-                                 QString::fromUtf8("&Gras"), this);
+                                 tr("&Bold"), this);
     actionTextBold->setShortcut(Qt::CTRL + Qt::Key_B);
     actionTextBold->setPriority(QAction::LowPriority);
     QFont bold;
@@ -239,7 +239,7 @@ void TextEdit::setupTextActions()
     actionTextBold->setCheckable(true);
 
     actionTextItalic = new QAction(QIcon::fromTheme("format-text-italic", QIcon(rsrcPath + "/textitalic.png")),
-                                   QString::fromUtf8("&Italique"), this);
+                                   tr("&Italic"), this);
     actionTextItalic->setPriority(QAction::LowPriority);
     actionTextItalic->setShortcut(Qt::CTRL + Qt::Key_I);
     QFont italic;
@@ -251,7 +251,7 @@ void TextEdit::setupTextActions()
     actionTextItalic->setCheckable(true);
 
     actionTextUnderline = new QAction(QIcon::fromTheme("format-text-underline", QIcon(rsrcPath + "/textunder.png")),
-                                      QString::fromUtf8("&Souligné"), this);
+                                      tr("&Underline"), this);
     actionTextUnderline->setShortcut(Qt::CTRL + Qt::Key_U);
     actionTextUnderline->setPriority(QAction::LowPriority);
     QFont underline;
@@ -270,15 +270,15 @@ void TextEdit::setupTextActions()
     // Make sure the alignLeft  is always left of the alignRight
     if (QApplication::isLeftToRight()) {
         actionAlignLeft = new QAction(QIcon::fromTheme("format-justify-left", QIcon(rsrcPath + "/textleft.png")),
-                                      QString::fromUtf8("Gauche"), grp);
-        actionAlignCenter = new QAction(QIcon::fromTheme("format-justify-center", QIcon(rsrcPath + "/textcenter.png")), QString::fromUtf8("Centré"), grp);
-        actionAlignRight = new QAction(QIcon::fromTheme("format-justify-right", QIcon(rsrcPath + "/textright.png")), QString::fromUtf8("Droite"), grp);
+                                      tr("left"), grp);
+        actionAlignCenter = new QAction(QIcon::fromTheme("format-justify-center", QIcon(rsrcPath + "/textcenter.png")), tr("Centered"), grp);
+        actionAlignRight = new QAction(QIcon::fromTheme("format-justify-right", QIcon(rsrcPath + "/textright.png")), tr("Right"), grp);
     } else {
-        actionAlignRight = new QAction(QIcon::fromTheme("format-justify-right", QIcon(rsrcPath + "/textright.png")), QString::fromUtf8("Droite"), grp);
-        actionAlignCenter = new QAction(QIcon::fromTheme("format-justify-center", QIcon(rsrcPath + "/textcenter.png")), QString::fromUtf8("Centré"), grp);
-        actionAlignLeft = new QAction(QIcon::fromTheme("format-justify-left", QIcon(rsrcPath + "/textleft.png")), QString::fromUtf8("Gauche"), grp);
+        actionAlignRight = new QAction(QIcon::fromTheme("format-justify-right", QIcon(rsrcPath + "/textright.png")), tr("Right"), grp);
+        actionAlignCenter = new QAction(QIcon::fromTheme("format-justify-center", QIcon(rsrcPath + "/textcenter.png")), tr("Centered"), grp);
+        actionAlignLeft = new QAction(QIcon::fromTheme("format-justify-left", QIcon(rsrcPath + "/textleft.png")), tr("Left"), grp);
     }
-    actionAlignJustify = new QAction(QIcon::fromTheme("format-justify-fill", QIcon(rsrcPath + "/textjustify.png")), QString::fromUtf8("Justifié"), grp);
+    actionAlignJustify = new QAction(QIcon::fromTheme("format-justify-fill", QIcon(rsrcPath + "/textjustify.png")), tr("Justify"), grp);
 
     actionAlignLeft->setShortcut(Qt::CTRL + Qt::Key_L);
     actionAlignLeft->setCheckable(true);
@@ -300,7 +300,7 @@ void TextEdit::setupTextActions()
 
     QPixmap pix(16, 16);
     pix.fill(Qt::black);
-    actionTextColor = new QAction(pix, QString::fromUtf8("Couleur..."), this);
+    actionTextColor = new QAction(pix, tr("Color..."), this);
     connect(actionTextColor, SIGNAL(triggered()), this, SLOT(textColor()));
     tb->addAction(actionTextColor);
     menu->addAction(actionTextColor);
@@ -389,7 +389,7 @@ void TextEdit::setCurrentFileName(const QString &fileName)
     else
         shownName = QFileInfo(fileName).fileName();
 
-    setWindowTitle(QString::fromUtf8("Calaos Installer - Listing"));
+    setWindowTitle(tr("Calaos Installer - Listing"));
     setWindowModified(false);
 }
 
@@ -407,8 +407,8 @@ bool TextEdit::fileSave()
 
 bool TextEdit::fileSaveAs()
 {
-    QString fn = QFileDialog::getSaveFileName(this, QString::fromUtf8("Sauvegarder sous..."),
-                                              QString(), QString::fromUtf8("Fichiers ODF (*.odt);;Fichiers HTML (*.htm *.html);;Tous les fichiers (*)"));
+    QString fn = QFileDialog::getSaveFileName(this, tr("Save as..."),
+                                              QString(), tr("ODF Files (*.odt);;HTML Files (*.htm *.html);;All files (*)"));
     if (fn.isEmpty())
         return false;
     if (! (fn.endsWith(".odt", Qt::CaseInsensitive) || fn.endsWith(".htm", Qt::CaseInsensitive) || fn.endsWith(".html", Qt::CaseInsensitive)) )
@@ -424,7 +424,7 @@ void TextEdit::filePrint()
     QPrintDialog *dlg = new QPrintDialog(&printer, this);
     if (textEdit->textCursor().hasSelection())
         dlg->addEnabledOption(QAbstractPrintDialog::PrintSelection);
-    dlg->setWindowTitle(QString::fromUtf8("Imprimer le document"));
+    dlg->setWindowTitle(tr("Print the document"));
     if (dlg->exec() == QDialog::Accepted) {
         textEdit->print(&printer);
     }
@@ -456,7 +456,7 @@ void TextEdit::filePrintPdf()
 {
 #ifndef QT_NO_PRINTER
     //! [0]
-    QString fileName = QFileDialog::getSaveFileName(this, QString::fromUtf8("Exporter en PDF"),
+    QString fileName = QFileDialog::getSaveFileName(this, tr("Export in PDF"),
                                                     QString(), "*.pdf");
     if (!fileName.isEmpty()) {
         if (QFileInfo(fileName).suffix().isEmpty())
@@ -890,8 +890,8 @@ void TextEdit::loadIOList()
     if (!wago_inputs_digital.empty())
     {
         html += item_header.arg("")
-                .arg(QString::fromUtf8("Entrée Wago"))
-                .arg(QString::fromUtf8("Nom"))
+                .arg(tr("Wago Input"))
+                .arg(tr("Name"))
                 .arg("")
                 .arg("");
         for (int i = 0;i < wago_inputs_digital.size();i++)
@@ -914,8 +914,8 @@ void TextEdit::loadIOList()
     if (!wago_inputs_digital_knx.empty())
     {
         html += item_header.arg("")
-                .arg(QString::fromUtf8("Entrée KNX"))
-                .arg(QString::fromUtf8("Nom"))
+                .arg(tr("KNX Input"))
+                .arg(tr("Name"))
                 .arg("")
                 .arg("");
         for (int i = 0;i < wago_inputs_digital_knx.size();i++)
@@ -938,8 +938,8 @@ void TextEdit::loadIOList()
     if (!wago_inputs_analog.empty())
     {
         html += item_header.arg("")
-                .arg(QString::fromUtf8("Entrée Wago Analogique"))
-                .arg(QString::fromUtf8("Nom"))
+                .arg(tr("Analog Wago input"))
+                .arg(tr("Name"))
                 .arg("")
                 .arg("");
         for (int i = 0;i < wago_inputs_analog.size();i++)
@@ -962,8 +962,8 @@ void TextEdit::loadIOList()
     if (!wago_inputs_temp.empty())
     {
         html += item_header.arg("")
-                .arg(QString::fromUtf8("Entrée Température"))
-                .arg(QString::fromUtf8("Nom"))
+                .arg(tr("Temperature input"))
+                .arg(tr("Name"))
                 .arg("")
                 .arg("");
         for (int i = 0;i < wago_inputs_temp.size();i++)
@@ -986,8 +986,8 @@ void TextEdit::loadIOList()
     if (!wago_outputs_digital.empty())
     {
         html += item_header.arg("")
-                .arg(QString::fromUtf8("Sortie Wago"))
-                .arg(QString::fromUtf8("Nom"))
+                .arg(tr("Wago output"))
+                .arg(tr("Name"))
                 .arg("")
                 .arg("");
         for (int i = 0;i < wago_outputs_digital.size();i++)
@@ -1014,8 +1014,8 @@ void TextEdit::loadIOList()
     if (!wago_outputs_digital_knx.empty())
     {
         html += item_header.arg("")
-                .arg(QString::fromUtf8("Sortie KNX"))
-                .arg(QString::fromUtf8("Nom"))
+                .arg(tr("KNX Output"))
+                .arg(tr("Name"))
                 .arg("")
                 .arg("");
         for (int i = 0;i < wago_outputs_digital_knx.size();i++)
@@ -1042,8 +1042,8 @@ void TextEdit::loadIOList()
     if (!wago_outputs_dali.empty())
     {
         html += item_header.arg("")
-                .arg(QString::fromUtf8("Sortie DALI"))
-                .arg(QString::fromUtf8("Nom"))
+                .arg(tr("DALI Output"))
+                .arg(tr("Name"))
                 .arg("")
                 .arg("");
         for (int i = 0;i < wago_outputs_dali.size();i++)
@@ -1067,8 +1067,8 @@ void TextEdit::loadIOList()
     if (!wago_outputs_dali_group.empty())
     {
         html += item_header.arg("")
-                .arg(QString::fromUtf8("Sortie DALI (Groupe)"))
-                .arg(QString::fromUtf8("Nom"))
+                .arg(tr("DALI Output (Group)"))
+                .arg(tr("Name"))
                 .arg("")
                 .arg("");
         for (int i = 0;i < wago_outputs_dali_group.size();i++)
@@ -1092,8 +1092,8 @@ void TextEdit::loadIOList()
     if (!wago_outputs_analog.empty())
     {
         html += item_header.arg("")
-                .arg(QString::fromUtf8("Sortie Analogique"))
-                .arg(QString::fromUtf8("Nom"))
+                .arg(tr("Analog Output"))
+                .arg(tr("Name"))
                 .arg("")
                 .arg("");
         for (int i = 0;i < wago_outputs_analog.size();i++)
@@ -1210,7 +1210,7 @@ void TextEdit::loadRooms()
                 icon = "<img src=\":/img/icon_light_on.png\" />";
                 var = out->get_param("address").c_str();
                 if (out->get_param("group") == "1")
-                    var += QString::fromUtf8(" (Groupe)");
+                    var += tr(" (Group)");
                 dali = "<img src=\":/img/checkbox.png\" />";
             }
             else if (out->get_param("type") == "WODaliRVB")
@@ -1220,9 +1220,9 @@ void TextEdit::loadRooms()
 
                 var = out->get_param("raddress").c_str();
                 if (out->get_param("rgroup") == "1")
-                    var += QString::fromUtf8(" (Groupe rouge)");
+                    var += tr(" (Red Group)");
                 else
-                    var += QString::fromUtf8(" (Rouge)");
+                    var += tr(" (Red)");
 
                 html += item.arg(icon)
                         .arg(var)
@@ -1232,9 +1232,9 @@ void TextEdit::loadRooms()
 
                 var = out->get_param("gaddress").c_str();
                 if (out->get_param("ggroup") == "1")
-                    var += QString::fromUtf8(" (Groupe vert)");
+                    var += tr(" (Green Group)");
                 else
-                    var += QString::fromUtf8(" (Vert)");
+                    var += tr(" (Green)");
 
                 html += item.arg(icon)
                         .arg(var)
@@ -1244,15 +1244,15 @@ void TextEdit::loadRooms()
 
                 var = out->get_param("baddress").c_str();
                 if (out->get_param("bgroup") == "1")
-                    var += QString::fromUtf8(" (Groupe bleu)");
+                    var += tr(" (Blue Group)");
                 else
-                    var += QString::fromUtf8(" (Bleu)");
+                    var += tr(" (Blue)");
             }
             else if (out->get_param("type") == "WONeon")
             {
                 icon = "<img src=\":/img/icon_light_on.png\" />";
                 var = out->get_param("var_relay").c_str();
-                var += QString::fromUtf8(" (Sortie relais)");
+                var += tr(" (Relay output)");
 
                 html += item.arg(icon)
                         .arg(var)
@@ -1261,13 +1261,13 @@ void TextEdit::loadRooms()
                         .arg(knx);
 
                 var = out->get_param("var_relay").c_str();
-                var += QString::fromUtf8(" (Sortie analogique)");
+                var += tr(" (Analog output)");
             }
             else if (out->get_param("type") == "WOVolet" || out->get_param("type") == "WOVoletSmart")
             {
                 icon = "<img src=\":/img/icon_shutter.png\" />";
                 var = out->get_param("var_up").c_str();
-                var += QString::fromUtf8(" (Montée)");
+                var += tr(" (Up)");
 
                 html += item.arg(icon)
                         .arg(var)
@@ -1276,7 +1276,7 @@ void TextEdit::loadRooms()
                         .arg(knx);
 
                 var = out->get_param("var_down").c_str();
-                var += QString::fromUtf8(" (Descente)");
+                var += tr(" (Down)");
             }
             else
                 continue;

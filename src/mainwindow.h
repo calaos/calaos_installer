@@ -96,6 +96,7 @@ private slots:
     void on_actionPar_pi_ce_triggered();
     void on_actionPar_Entr_es_Sorties_triggered();
     void on_actionMise_jour_Automate_triggered();
+    void on_btConfigure_clicked();
 };
 
 #endif // MAINWINDOW_H

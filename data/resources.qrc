@@ -104,5 +104,6 @@
         <file>img/web.png</file>
         <file>img/chip.png</file>
         <file>img/icon_unkown.png</file>
+        <file>img/configure.png</file>
     </qresource>
 </RCC>
