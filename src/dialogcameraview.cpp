@@ -6,7 +6,6 @@ DialogCameraView::DialogCameraView(IOBase *cam, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::DialogCameraView), camera(cam)
 {
-    setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
     ui->setupUi(this);
 }
 
@@ -72,8 +71,11 @@ void DialogCameraView::DownloadPicture()
             return;
         }
 
+        qDebug() << QImageReader::supportedImageFormats();
+
         QByteArray res = reply->readAll();
         QImage img = QImage::fromData(res);
+        reply->deleteLater();
         netmanager->deleteLater();
 
         if (img.isNull())
