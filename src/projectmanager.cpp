@@ -939,7 +939,7 @@ bool ProjectManager::loadRulesFromFile(QString &file)
                     }
                     else if (node_in.tagName() == "calaos:script")
                     {
-                        QDomCDATASection data = node_in.toCDATASection();
+                        QDomCDATASection data = node_in.firstChild().toCDATASection();
                         cond->setScript(data.data().toUtf8().data());
                     }
 
