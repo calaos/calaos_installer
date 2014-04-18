@@ -9,6 +9,7 @@
 #include "DialogNewGpioLight.h"
 #include "DialogNewX10.h"
 #include "DialogNewZibase.h"
+#include "dialognewwebioshutter.h"
 
 FormRules::FormRules(QWidget *parent) :
     QWidget(parent),
@@ -438,9 +439,9 @@ IOBase *FormRules::addCalaosItemShutter(int item, int hw_type)
     }
     else if (hw_type == HW_WEB)
     {
-        DialogNewWebIO dialog(current_room, item);
+        DialogNewWebIOShutter dialog(current_room);
         if (dialog.exec() == QDialog::Accepted)
-            output = dialog.getInput();
+            output = dialog.getOutput();
     }
     else if (hw_type == HW_GPIO)
     {

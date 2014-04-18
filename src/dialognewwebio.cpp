@@ -14,7 +14,6 @@ DialogNewWebIO::DialogNewWebIO(Room *r, int item, QWidget *parent) :
     ui->label_error_path_empty->hide();
     ui->label_error_url_empty->hide();
 
-    ui->additionnal_params->hide();
     // Set default combo type value
     switch (item)
       {
@@ -29,8 +28,6 @@ DialogNewWebIO::DialogNewWebIO(Room *r, int item, QWidget *parent) :
         break;
       case ITEM_SHUTTER:
         ui->io_type->setCurrentIndex(3);
-        ui->additionnal_params->show();
-        ui->additionnal_params->setCurrentIndex(1);
         break;
       case ITEM_TEMP:
         ui->io_type->setCurrentIndex(4);

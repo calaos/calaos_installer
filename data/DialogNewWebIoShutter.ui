@@ -1,27 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>DialogNewWebIO</class>
- <widget class="QDialog" name="DialogNewWebIO">
+ <class>DialogNewWebIOShutter</class>
+ <widget class="QDialog" name="DialogNewWebIOShutter">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>484</width>
-    <height>399</height>
+    <width>491</width>
+    <height>510</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>New Web IO</string>
+   <string>Dialog</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
     <widget class="QGroupBox" name="groupBox">
      <property name="title">
-      <string>Create an new Web Temperature Input</string>
+      <string>Create an new Web Shutter Output</string>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_3">
       <item>
        <layout class="QFormLayout" name="formLayout_4">
+        <property name="fieldGrowthPolicy">
+         <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
+        </property>
         <property name="leftMargin">
          <number>6</number>
         </property>
@@ -45,70 +48,24 @@
          <widget class="QLineEdit" name="edit_name"/>
         </item>
         <item row="1" column="0">
-         <widget class="QLabel" name="label_6">
+         <widget class="QLabel" name="label">
           <property name="text">
-           <string>IO Type</string>
+           <string>Url Up :</string>
           </property>
          </widget>
         </item>
         <item row="1" column="1">
-         <widget class="QComboBox" name="io_type">
-          <item>
-           <property name="text">
-            <string>Switch Input</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>Light</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>Light RGB</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>Shutter</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>Temperature Sensor</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>Analog Value Input</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>Analog Value Output</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>String Input</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>String Output</string>
-           </property>
-          </item>
-         </widget>
+         <widget class="QLineEdit" name="edit_url_up"/>
         </item>
         <item row="2" column="0">
-         <widget class="QLabel" name="label">
+         <widget class="QLabel" name="label_7">
           <property name="text">
-           <string>Url :</string>
+           <string>Url Down:</string>
           </property>
          </widget>
         </item>
         <item row="2" column="1">
-         <widget class="QLineEdit" name="edit_url"/>
+         <widget class="QLineEdit" name="edit_url_down"/>
         </item>
         <item row="3" column="0">
          <widget class="QLabel" name="label_2">
@@ -144,7 +101,59 @@
          </widget>
         </item>
         <item row="4" column="1">
-         <widget class="QLineEdit" name="edit_path"/>
+         <widget class="QLineEdit" name="edit_path_up"/>
+        </item>
+        <item row="6" column="1">
+         <widget class="QCheckBox" name="check_smart">
+          <property name="text">
+           <string>Smart shutter</string>
+          </property>
+         </widget>
+        </item>
+        <item row="7" column="1">
+         <widget class="QCheckBox" name="check_impulse">
+          <property name="text">
+           <string>Impulse shutter</string>
+          </property>
+         </widget>
+        </item>
+        <item row="8" column="0">
+         <widget class="QLabel" name="label_time_up">
+          <property name="text">
+           <string>Up Duration (sec.)</string>
+          </property>
+         </widget>
+        </item>
+        <item row="8" column="1">
+         <widget class="QSpinBox" name="spin_time_up">
+          <property name="value">
+           <number>60</number>
+          </property>
+         </widget>
+        </item>
+        <item row="9" column="0">
+         <widget class="QLabel" name="label_time_down">
+          <property name="text">
+           <string>Down Duration (sec.)</string>
+          </property>
+         </widget>
+        </item>
+        <item row="9" column="1">
+         <widget class="QSpinBox" name="spin_time_down">
+          <property name="value">
+           <number>60</number>
+          </property>
+         </widget>
+        </item>
+        <item row="5" column="1">
+         <widget class="QLineEdit" name="edit_path_down"/>
+        </item>
+        <item row="5" column="0">
+         <widget class="QLabel" name="label_6">
+          <property name="text">
+           <string>Path :</string>
+          </property>
+         </widget>
         </item>
        </layout>
       </item>
@@ -212,12 +221,12 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>accepted()</signal>
-   <receiver>DialogNewWebIO</receiver>
+   <receiver>DialogNewWebIOShutter</receiver>
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>257</x>
-     <y>389</y>
+     <x>248</x>
+     <y>254</y>
     </hint>
     <hint type="destinationlabel">
      <x>157</x>
@@ -228,12 +237,12 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>rejected()</signal>
-   <receiver>DialogNewWebIO</receiver>
+   <receiver>DialogNewWebIOShutter</receiver>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>325</x>
-     <y>389</y>
+     <x>316</x>
+     <y>260</y>
     </hint>
     <hint type="destinationlabel">
      <x>286</x>

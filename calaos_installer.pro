@@ -88,7 +88,8 @@ SOURCES += src/main.cpp \
     src/DialogNewGpioShutter.cpp \
     src/DialogNewX10.cpp \
     src/DialogNewZibase.cpp \
-    src/DialogOptions.cpp
+    src/DialogOptions.cpp \
+    src/dialognewwebioshutter.cpp
 
 HEADERS += src/mainwindow.h \
     src/common/Utils.h \
@@ -174,7 +175,8 @@ HEADERS += src/mainwindow.h \
     src/DialogNewGpioShutter.h \
     src/DialogNewX10.h \
     src/DialogNewZibase.h \
-    src/DialogOptions.h
+    src/DialogOptions.h \
+    src/dialognewwebioshutter.h
 
 FORMS += \
     data/FormConditionStd.ui \
@@ -223,7 +225,8 @@ FORMS += \
     data/DialogNewGpioShutter.ui \
     data/DialogNewX10.ui \
     data/DialogNewZibase.ui \
-    data/DialogOptions.ui
+    data/DialogOptions.ui \
+    data/DialogNewWebIoShutter.ui
 RESOURCES += data/resources.qrc \
     data/textedit.qrc \
     data/wago_firmwares.qrc \
