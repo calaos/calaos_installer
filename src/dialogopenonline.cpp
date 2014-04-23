@@ -175,12 +175,12 @@ void DialogOpenOnline::downloadFinishedFiles(QNetworkReply *reply)
             QVariantMap files = jroot["config_files"].toMap();
 
             if (files.contains("io.xml") &&
-                files.contains("rules.xml") &&
-                files.contains("local_config.xml"))
+                files.contains("rules.xml")/* &&
+                files.contains("local_config.xml")*/)
             {
                 saveXMLFile("io.xml", files["io.xml"].toString());
                 saveXMLFile("rules.xml", files["rules.xml"].toString());
-                saveXMLFile("local_config.xml", files["local_config.xml"].toString());
+                //saveXMLFile("local_config.xml", files["local_config.xml"].toString());
 
                 accept();
             }

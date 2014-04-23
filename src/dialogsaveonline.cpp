@@ -160,7 +160,7 @@ void DialogSaveOnline::uploadXmlFiles(QString ip)
 
         jfiles["io.xml"] = readFileContent("io.xml");
         jfiles["rules.xml"] = readFileContent("rules.xml");
-        jfiles["local_config.xml"] = readFileContent("local_config.xml");
+        //jfiles["local_config.xml"] = readFileContent("local_config.xml");
 
         jroot["config_files"] = jfiles;
 
