@@ -3,7 +3,7 @@
 
 #include "ConfigOptions.h"
 #include <Utils.h>
-#include "json.h"
+#include <QJsonDocument>
 
 DialogOpenOnline::DialogOpenOnline(QString temp, QWidget *parent):
     QDialog(parent), ui(new Ui::DialogOpenOnline),
@@ -68,16 +68,16 @@ void DialogOpenOnline::loadFromNetwork()
         QString cn = CALAOS_NETWORK_URL "/api.php";
         QUrl url(cn);
 
-        QString json_data = "{";
-        json_data += "\"cn_user\":\"" + ui->editUsername->text() + "\",";
-        json_data += "\"cn_pass\":\"" + ui->editPass->text() + "\",";
-        json_data += "\"action\":\"get_ip\"";
-        json_data += "}";
+        QJsonObject jroot;
+        jroot["cn_user"] = ui->editUsername->text();
+        jroot["cn_pass"] = ui->editPass->text();
+        jroot["action"] = QStringLiteral("get_ip");
+        QJsonDocument jdoc(jroot);
 
         connect(&networkAccess, SIGNAL(finished(QNetworkReply*)),
                 this, SLOT(downloadFinishedCalaosFr(QNetworkReply*)));
 
-        networkAccess.post(QNetworkRequest(url), json_data.toUtf8());
+        networkAccess.post(QNetworkRequest(url), jdoc.toJson());
     }
     else
     {
@@ -90,13 +90,13 @@ void DialogOpenOnline::downloadFinishedCalaosFr(QNetworkReply *reply)
     if (reply->error() == QNetworkReply::NoError)
     {
         QByteArray bytes = reply->readAll();
-        QString s(bytes);
+        QJsonParseError err;
+        QJsonDocument jdoc = QJsonDocument::fromJson(bytes, &err);
+        QVariantMap result = jdoc.object().toVariantMap();
 
-        bool parse_ok;
-
-        QVariantMap result = Json::parse(s, parse_ok).toMap();
-
-        if (result.contains("public_ip") && result.contains("private_ip"))
+        if (err.error == QJsonParseError::NoError &&
+            result.contains("public_ip") &&
+            result.contains("private_ip"))
         {
             if (result.contains("at_home") && result["at_home"].toBool())
                 loadXmlFiles(result["private_ip"].toString());
@@ -106,7 +106,7 @@ void DialogOpenOnline::downloadFinishedCalaosFr(QNetworkReply *reply)
         else
         {
             QMessageBox::critical(this, tr("Calaos Installer"),
-                                  QString::fromUtf8("La connexion a échoué !\nVérifiez les identifiants/mot de passe."));
+                                  tr("Failed to connect!\nPlease check your credentials.\nHTTP error: ") + reply->errorString());
 
             this->setEnabled(true);
             delete spinner;
@@ -114,7 +114,7 @@ void DialogOpenOnline::downloadFinishedCalaosFr(QNetworkReply *reply)
     }
     else
     {
-        QMessageBox::critical(this, tr("Calaos Installer"), QString::fromUtf8("Erreur!\nLa connexion a échoué.\n") + "Erreur http: " + reply->errorString());
+        QMessageBox::critical(this, tr("Calaos Installer"), tr("Error!\nFailed to connect.\nHTTP error: ") + reply->errorString());
 
         this->setEnabled(true);
         delete spinner;
@@ -131,30 +131,31 @@ void DialogOpenOnline::loadXmlFiles(QString ip)
     currentIP = ip;
     QUrl url(QString("https://" + currentIP + "/api.php"));
 
-    QString json_data = "{";
-    json_data += "\"cn_user\":\"" + ui->editUsername->text() + "\",";
-    json_data += "\"cn_pass\":\"" + ui->editPass->text() + "\",";
-    json_data += "\"action\":\"get_files\"";
-    json_data += "}";
+    if (ip.startsWith("http"))
+        url = QUrl(ip);
+
+    QJsonObject jroot;
+    jroot["cn_user"] = ui->editUsername->text();
+    jroot["cn_pass"] = ui->editPass->text();
+    jroot["action"] = QStringLiteral("config");
+    jroot["type"] = QStringLiteral("get");
+    QJsonDocument jdoc(jroot);
 
     connect(&networkAccess, SIGNAL(finished(QNetworkReply*)),
             this, SLOT(downloadFinishedFiles(QNetworkReply*)));
 
-    networkAccess.post(QNetworkRequest(url), json_data.toUtf8());
+    networkAccess.post(QNetworkRequest(url), jdoc.toJson());
 }
 
-void DialogOpenOnline::saveXMLFile(QString filename, QString base64_data)
+void DialogOpenOnline::saveXMLFile(QString filename, QString data)
 {
-    QByteArray data = QByteArray::fromBase64(base64_data.toLocal8Bit());
-
     QFile xml;
     xml.setFileName(tempDir + "/" + filename);
     if (xml.open(QIODevice::WriteOnly | QIODevice::Text))
     {
-        QTextStream flux(&xml);
-        flux.setCodec("UTF-8");
-
-        flux << QString::fromUtf8(data.data());
+        QTextStream stream(&xml);
+        stream.setCodec("UTF-8");
+        stream << data;
     }
     xml.close();
 }
@@ -164,27 +165,30 @@ void DialogOpenOnline::downloadFinishedFiles(QNetworkReply *reply)
     if (reply->error() == QNetworkReply::NoError)
     {
         QByteArray bytes = reply->readAll();
-        QString s(bytes);
+        QJsonParseError err;
+        QJsonDocument jdoc = QJsonDocument::fromJson(bytes, &err);
+        QVariantMap jroot = jdoc.object().toVariantMap();
 
-        bool parse_ok;
-
-        QVariantMap result = Json::parse(s, parse_ok).toMap();
-
-        if (result.contains("io.xml") &&
-            result.contains("rules.xml") &&
-            result.contains("local_config.xml"))
+        if (err.error == QJsonParseError::NoError &&
+            jroot["success"].toString() == "true")
         {
-            saveXMLFile("io.xml", result["io.xml"].toString());
-            saveXMLFile("rules.xml", result["rules.xml"].toString());
-            //TODO: Protect data here.
-            //saveXMLFile("local_config.xml", result["local_config.xml"].toString());
+            QVariantMap files = jroot["config_files"].toMap();
 
-            accept();
+            if (files.contains("io.xml") &&
+                files.contains("rules.xml") &&
+                files.contains("local_config.xml"))
+            {
+                saveXMLFile("io.xml", files["io.xml"].toString());
+                saveXMLFile("rules.xml", files["rules.xml"].toString());
+                saveXMLFile("local_config.xml", files["local_config.xml"].toString());
+
+                accept();
+            }
         }
         else
         {
             QMessageBox::critical(this, tr("Calaos Installer"),
-                                  QString::fromUtf8("Erreur de chargement des fichiers !"));
+                                  tr("Failed to load config files!"));
 
             this->setEnabled(true);
             delete spinner;
@@ -192,7 +196,7 @@ void DialogOpenOnline::downloadFinishedFiles(QNetworkReply *reply)
     }
     else
     {
-        QMessageBox::critical(this, tr("Calaos Installer"), QString::fromUtf8("Erreur de connexion !\nVérifiez vos identifiants/mot de passe\n") + "Erreur http: " + reply->errorString());
+        QMessageBox::critical(this, tr("Calaos Installer"), tr("Failed to connect!\nPlease check your credentials.\nHTTP error: ") + reply->errorString());
 
         this->setEnabled(true);
         delete spinner;

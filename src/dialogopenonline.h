@@ -35,7 +35,7 @@ private:
 
     void loadFromNetwork();
     void loadXmlFiles(QString ip);
-    void saveXMLFile(QString filename, QString base64_data);
+    void saveXMLFile(QString filename, QString data);
 
 private slots:
     void on_checkShowPass_toggled(bool checked);

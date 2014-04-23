@@ -58,12 +58,20 @@
          <string>10.0.0.101</string>
         </property>
        </item>
+       <item>
+        <property name="text">
+         <string>http://192.168.0.100:5454/api.php</string>
+        </property>
+       </item>
       </widget>
      </item>
     </layout>
    </item>
    <item>
     <widget class="QCheckBox" name="calaosfrCheck">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
      <property name="text">
       <string>Connect with home.calaos.fr</string>
      </property>

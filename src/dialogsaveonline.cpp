@@ -3,7 +3,7 @@
 
 #include "ConfigOptions.h"
 #include <Utils.h>
-#include "json.h"
+#include <QJsonDocument>
 
 DialogSaveOnline::DialogSaveOnline(QString temp, QWidget *parent):
     QDialog(parent), ui(new Ui::DialogSaveOnline),
@@ -68,16 +68,16 @@ void DialogSaveOnline::loadFromNetwork()
         QString cn = CALAOS_NETWORK_URL "/api.php";
         QUrl url(cn);
 
-        QString json_data = "{";
-        json_data += "\"cn_user\":\"" + ui->editUsername->text() + "\",";
-        json_data += "\"cn_pass\":\"" + ui->editPass->text() + "\",";
-        json_data += "\"action\":\"get_ip\"";
-        json_data += "}";
+        QJsonObject jroot;
+        jroot["cn_user"] = ui->editUsername->text();
+        jroot["cn_pass"] = ui->editPass->text();
+        jroot["action"] = QStringLiteral("get_ip");
+        QJsonDocument jdoc(jroot);
 
         connect(&networkAccess, SIGNAL(finished(QNetworkReply*)),
                 this, SLOT(downloadFinishedCalaosFr(QNetworkReply*)));
 
-        networkAccess.post(QNetworkRequest(url), json_data.toUtf8());
+        networkAccess.post(QNetworkRequest(url), jdoc.toJson());
     }
     else
     {
@@ -90,13 +90,13 @@ void DialogSaveOnline::downloadFinishedCalaosFr(QNetworkReply *reply)
     if (reply->error() == QNetworkReply::NoError)
     {
         QByteArray bytes = reply->readAll();
-        QString s(bytes);
+        QJsonParseError err;
+        QJsonDocument jdoc = QJsonDocument::fromJson(bytes, &err);
+        QVariantMap result = jdoc.object().toVariantMap();
 
-        bool parse_ok;
-
-        QVariantMap result = Json::parse(s, parse_ok).toMap();
-
-        if (result.contains("public_ip") && result.contains("private_ip"))
+        if (err.error == QJsonParseError::NoError &&
+            result.contains("public_ip") &&
+            result.contains("private_ip"))
         {
             if (result.contains("at_home") && result["at_home"].toBool())
                 uploadXmlFiles(result["private_ip"].toString());
@@ -106,7 +106,7 @@ void DialogSaveOnline::downloadFinishedCalaosFr(QNetworkReply *reply)
         else
         {
             QMessageBox::critical(this, tr("Calaos Installer"),
-                                  QString::fromUtf8("La connexion a échoué !\nVérifiez les identifiants/mot de passe."));
+                                  tr("Failed to connect!\nPlease check your credentials."));
 
             this->setEnabled(true);
             delete spinner;
@@ -114,7 +114,7 @@ void DialogSaveOnline::downloadFinishedCalaosFr(QNetworkReply *reply)
     }
     else
     {
-        QMessageBox::critical(this, tr("Calaos Installer"), "Erreur!\nLa connexion a échoué.\nErreur http: " + reply->errorString());
+        QMessageBox::critical(this, tr("Calaos Installer"), tr("Failed to connect!\nPlease check your credentials.\nHTTP error: ") + reply->errorString());
 
         this->setEnabled(true);
         delete spinner;
@@ -126,7 +126,7 @@ void DialogSaveOnline::downloadFinishedCalaosFr(QNetworkReply *reply)
     reply->deleteLater();
 }
 
-QString DialogSaveOnline::readFileBase64(QString fileName)
+QString DialogSaveOnline::readFileContent(QString fileName)
 {
     QFile f(currentDir + "/" + fileName);
     f.open(QIODevice::ReadOnly);
@@ -134,14 +134,14 @@ QString DialogSaveOnline::readFileBase64(QString fileName)
     QByteArray file = f.readAll();
     f.close();
 
-    return QString::fromLatin1(file.toBase64().data());
+    return QString(file);
 }
 
 void DialogSaveOnline::uploadXmlFiles(QString ip)
 {
     QMessageBox::StandardButton reply;
     reply = QMessageBox::question(this, tr("Calaos Installer"),
-                                  QString::fromUtf8("Etes vous sûr de vouloir envoyer cette configuration sur la centrale domotique à l'adresse IP: %1?").arg(ip),
+                                  tr("Do you want to upload this configuration to Calaos Server at address %1?").arg(ip),
                                   QMessageBox::Yes | QMessageBox::No);
 
     if (reply == QMessageBox::Yes)
@@ -149,20 +149,27 @@ void DialogSaveOnline::uploadXmlFiles(QString ip)
         currentIP = ip;
         QUrl url(QString("https://" + currentIP + "/api.php"));
 
-        QString json_data = "{";
-        json_data += "\"cn_user\":\"" + ui->editUsername->text() + "\",";
-        json_data += "\"cn_pass\":\"" + ui->editPass->text() + "\",";
-        json_data += "\"action\":\"set_files\",";
-        json_data += "\"io.xml\":\"" + readFileBase64("io.xml") + "\",";
-        json_data += "\"rules.xml\":\"" + readFileBase64("rules.xml") + "\",";
-        json_data += "\"local_config.xml\":\"" + readFileBase64("local_config.xml") + "\",";
-        json_data += "\"reload\":true";
-        json_data += "}";
+        if (ip.startsWith("http"))
+            url = QUrl(ip);
+
+        QJsonObject jroot, jfiles;
+        jroot["cn_user"] = ui->editUsername->text();
+        jroot["cn_pass"] = ui->editPass->text();
+        jroot["action"] = QStringLiteral("config");
+        jroot["type"] = QStringLiteral("put");
+
+        jfiles["io.xml"] = readFileContent("io.xml");
+        jfiles["rules.xml"] = readFileContent("rules.xml");
+        jfiles["local_config.xml"] = readFileContent("local_config.xml");
+
+        jroot["config_files"] = jfiles;
+
+        QJsonDocument jdoc(jroot);
 
         connect(&networkAccess, SIGNAL(finished(QNetworkReply*)),
                 this, SLOT(uploadFinished(QNetworkReply*)));
 
-        networkAccess.post(QNetworkRequest(url), json_data.toUtf8());
+        networkAccess.post(QNetworkRequest(url), jdoc.toJson());
     }
     else
         reject();
@@ -173,22 +180,23 @@ void DialogSaveOnline::uploadFinished(QNetworkReply *reply)
     if (reply->error() == QNetworkReply::NoError)
     {
         QByteArray bytes = reply->readAll();
-        QString s(bytes);
+        QJsonParseError err;
+        QJsonDocument jdoc = QJsonDocument::fromJson(bytes, &err);
+        QVariantMap result = jdoc.object().toVariantMap();
 
-        bool parse_ok;
-        QVariantMap result = Json::parse(s, parse_ok).toMap();
-
-        if (result.contains("success"))
+        if (err.error == QJsonParseError::NoError &&
+            result.contains("success") &&
+            result["success"].toString() == "true")
         {
             QMessageBox::information(this, tr("Calaos Installer"),
-                                     QString::fromUtf8("La configuration a été envoyé"));
+                                     tr("Configuration successfully uploaded."));
 
             accept();
         }
         else
         {
             QMessageBox::critical(this, tr("Calaos Installer"),
-                                  QString::fromUtf8("Erreur de chargement des fichiers !"));
+                                  tr("Error when loading config files!"));
 
             this->setEnabled(true);
             delete spinner;
@@ -196,7 +204,7 @@ void DialogSaveOnline::uploadFinished(QNetworkReply *reply)
     }
     else
     {
-        QMessageBox::critical(this, tr("Calaos Installer"), QString::fromUtf8("Erreur de connexion !\nVérifiez vos identifiants/mot de passe\n") + "Erreur http: " + reply->errorString());
+        QMessageBox::critical(this, tr("Calaos Installer"), tr("Failed to connect!\nPlease check your credentials.\nHTTP error: ") + reply->errorString());
 
         this->setEnabled(true);
         delete spinner;

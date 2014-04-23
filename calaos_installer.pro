@@ -69,7 +69,6 @@ SOURCES += src/main.cpp \
     src/FormConditionScript.cpp \
     src/DialogInputEventScript.cpp \
     src/ConfigOptions.cpp \
-    src/json.cpp \
     src/TempWizard.cpp \
     src/dialognewanalog.cpp \
     src/TwoLineItemDelegate.cpp \
@@ -154,7 +153,6 @@ HEADERS += src/mainwindow.h \
     src/FormConditionScript.h \
     src/DialogInputEventScript.h \
     src/ConfigOptions.h \
-    src/json.h \
     src/TempWizard.h \
     src/dialognewanalog.h \
     src/TwoLineItemDelegate.h \

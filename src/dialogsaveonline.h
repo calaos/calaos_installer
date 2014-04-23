@@ -35,7 +35,7 @@ private:
 
     void loadFromNetwork();
     void uploadXmlFiles(QString ip);
-    QString readFileBase64(QString fileName);
+    QString readFileContent(QString fileName);
 
 private slots:
     void on_checkShowPass_toggled(bool checked);
