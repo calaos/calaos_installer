@@ -27,23 +27,7 @@ bool ActionTreeWidget::dropMimeData(QTreeWidgetItem *, int, const QMimeData *dat
 
         MainWindow *win = dynamic_cast<MainWindow *>(QApplication::activeWindow());
 
-        Rule *rule = win->getFormRules()->getCurrentRule();
-        if (!rule) return false;
-
-        Action *action = new Action(ACTION_STD);
-
-        action->Add(output);
-
-        if (output->get_gui_type() == "light" || output->get_gui_type() == "light_dimmer" ||
-            output->get_gui_type() == "light_rgb" || output->get_gui_type() == "shutter" ||
-            output->get_gui_type() == "shutter_smart" || output->get_gui_type() == "var_bool")
-            action->get_params().Add(id, "toggle");
-        else if (output->get_gui_type() == "scenario" || output->get_gui_type() == "timer")
-            action->get_params().Add(id, "true");
-
-        rule->AddAction(action);
-
-        win->getFormRules()->addItemAction(action);
+        win->getFormRules()->addAction(ACTION_STD);
     }
 
     return true;

@@ -42,38 +42,10 @@ bool ConditionTreeWidget::dropMimeData(QTreeWidgetItem *, int, const QMimeData *
 
         MainWindow *win = dynamic_cast<MainWindow *>(QApplication::activeWindow());
 
-        Rule *rule = win->getFormRules()->getCurrentRule();
-        if (!rule) return false;
-
-        Condition *cond;
-
         if (input)
-        {
-            cond = new Condition(COND_STD);
-            cond->Add(input);
-
-            cond->get_operator().Add(id, "==");
-
-            if (input->get_gui_type() == "switch" || input->get_gui_type() == "time" ||
-                input->get_gui_type() == "timer" || input->get_gui_type() == "scenario" ||
-                input->get_gui_type() == "time_range" || input->get_gui_type() == "var_bool")
-                cond->get_params().Add(id, "true");
-            else if (input->get_gui_type() == "switch3" ||
-                     input->get_gui_type() == "switch_long")
-                cond->get_params().Add(id, "1");
-
-        }
+            win->getFormRules()->addCondition(COND_STD);
         else
-        {
-            cond = new Condition(COND_OUTPUT);
-            cond->setOutput(output);
-            cond->setOutputOper("==");
-            cond->setOutputParam("changed");
-        }
-
-        rule->AddCondition(cond);
-
-        win->getFormRules()->addItemCondition(cond);
+            win->getFormRules()->addCondition(COND_OUTPUT);
     }
 
     return true;

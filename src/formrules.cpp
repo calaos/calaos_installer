@@ -2913,7 +2913,7 @@ void FormRules::addCondition(int type)
 
         setProjectModified(true);
     }
-    if (type == COND_OUTPUT)
+    else if (type == COND_OUTPUT)
     {
         QTreeWidgetItemOutput *initem = dynamic_cast<QTreeWidgetItemOutput *>(ui->tree_home->currentItem());
         if (!initem)
