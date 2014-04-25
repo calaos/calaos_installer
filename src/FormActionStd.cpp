@@ -214,6 +214,13 @@ void FormActionStd::setAction(QTreeWidgetItem *item, Rule *_rule, Action *_actio
         addActionMenu(QString::fromUtf8("move right"), QString::fromUtf8("Déplacer vers la droite"), QString::fromUtf8("move right"));
         addActionMenu(QString::fromUtf8("move home"), QString::fromUtf8("Déplacer vers la position par défaut"), QString::fromUtf8("move home"));
     }
+    else if (gtype == "avreceiver")
+    {
+        addActionMenu("volume X", tr("Set volume to X percent"), "volume 10");
+        addActionMenu("power on", tr("Switch on the receiver"), "power on");
+        addActionMenu("power off", tr("Switch off the receiver"), "power off");
+        addActionMenu("custom CMD", tr("Send directly a custom command to the receiver"), "custom ");
+    }
     else
     {
         ui->buttonMore->setEnabled(false);
