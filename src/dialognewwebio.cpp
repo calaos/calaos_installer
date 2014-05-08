@@ -8,6 +8,7 @@ DialogNewWebIO::DialogNewWebIO(Room *r, int item, QWidget *parent) :
 {
     setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
     ui->setupUi(this);
+    QString label;
 
     //hide error labels by default.
     ui->label_error_empty->hide();
@@ -19,31 +20,46 @@ DialogNewWebIO::DialogNewWebIO(Room *r, int item, QWidget *parent) :
       {
       case ITEM_INPUT_SWITCH:
         ui->io_type->setCurrentIndex(0);
+        label = tr("Create an new Web Input Switch");
         break;
       case ITEM_LIGHT:
         ui->io_type->setCurrentIndex(1);
+        label = tr("Create an new Web Light");
         break;
       case ITEM_LIGHT_RGB:
         ui->io_type->setCurrentIndex(2);
+        label = tr("Create an new Web RGB Light");
         break;
       case ITEM_SHUTTER:
         ui->io_type->setCurrentIndex(3);
+        label = tr("Create an new Web Shutter");
         break;
       case ITEM_TEMP:
         ui->io_type->setCurrentIndex(4);
+        label = tr("Create an new Web Temperature Input");
         break;
       case ITEM_ANALOG:
         ui->io_type->setCurrentIndex(5);
+        label = tr("Create an new Web Analog Input");
         break;
       case ITEM_STRING:
         if (type.find("Input") != string::npos)
+        {
           ui->io_type->setCurrentIndex(7);
+          label = tr("Create an new Web String Input");
+        }
         else
+        {
           ui->io_type->setCurrentIndex(8);
+          label = tr("Create an new Web String Output");
+        }
         break;
       default:
         break;
       }
+    ui->io_type->hide();
+    ui->io_type_label->hide();
+    ui->groupBox->setTitle(label);
 }
 
 DialogNewWebIO::~DialogNewWebIO()
@@ -87,7 +103,11 @@ void DialogNewWebIO::on_buttonBox_accepted()
     switch (ui->io_type->currentIndex())
       {
       case 0:
+      case 1:
         type = "WebInputSwitch";
+        break;
+      case 2:
+        type = "WebInputLightRGB";
         break;
       case 4:
         type = "WebInputTemp";

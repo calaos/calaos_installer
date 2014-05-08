@@ -6,6 +6,9 @@ DialogNewWebIOShutter::DialogNewWebIOShutter(Room *r, QWidget *parent) :
         ui(new Ui::DialogNewWebIOShutter), io(NULL), room(r)
 {
         ui->setupUi(this);
+        ui->label_error_empty->hide();
+        ui->label_error_path_empty->hide();
+        ui->label_error_url_empty->hide();
 }
 
 DialogNewWebIOShutter::~DialogNewWebIOShutter()
