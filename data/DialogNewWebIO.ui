@@ -16,6 +16,12 @@
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
     <widget class="QGroupBox" name="groupBox">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
      <property name="title">
       <string>Create an new Web Temperature Input</string>
      </property>
@@ -149,7 +155,7 @@
        </layout>
       </item>
       <item>
-       <widget class="QLabel" name="label_5">
+       <widget class="QLabel" name="label_info">
         <property name="text">
          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-style:italic; color:#828282;&quot;&gt;Path is the place where the value is read in the downloaded data, for example in a json file it can be : weather/temperature. Value will be temperature field of the weather object. In case of array in a json file, you can use [nth] in the path. For example weather/[5]/temperature will be the temperature field of the 5th item of the weather array.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>

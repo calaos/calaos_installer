@@ -1,6 +1,7 @@
 #include "dialognewwebio.h"
 #include "ui_DialogNewWebIO.h"
 #include "formrules.h"
+#include "formanalogproperties.h"
 
 DialogNewWebIO::DialogNewWebIO(Room *r, int item, QWidget *parent) :
     QDialog(parent),
@@ -41,6 +42,7 @@ DialogNewWebIO::DialogNewWebIO(Room *r, int item, QWidget *parent) :
       case ITEM_ANALOG:
         ui->io_type->setCurrentIndex(5);
         label = tr("Create an new Web Analog Input");
+        ui->verticalLayout_3->insertWidget(1, new FormAnalogProperties);
         break;
       case ITEM_STRING:
         if (type.find("Input") != string::npos)
@@ -57,8 +59,10 @@ DialogNewWebIO::DialogNewWebIO(Room *r, int item, QWidget *parent) :
       default:
         break;
       }
-    ui->io_type->hide();
+
     ui->io_type_label->hide();
+    ui->io_type->hide();
+
     ui->groupBox->setTitle(label);
 }
 
