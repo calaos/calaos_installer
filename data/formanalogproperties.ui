@@ -28,7 +28,7 @@
        </widget>
       </item>
       <item row="0" column="1">
-       <widget class="QLineEdit" name="lineEdit"/>
+       <widget class="QLineEdit" name="edit_unit"/>
       </item>
       <item row="1" column="0">
        <widget class="QLabel" name="label_2">
@@ -38,7 +38,7 @@
        </widget>
       </item>
       <item row="1" column="1">
-       <widget class="QDoubleSpinBox" name="doubleSpinBox">
+       <widget class="QDoubleSpinBox" name="spin_coeff">
         <property name="minimum">
          <double>-10000.000000000000000</double>
         </property>
@@ -61,7 +61,7 @@
        </widget>
       </item>
       <item row="2" column="1">
-       <widget class="QDoubleSpinBox" name="doubleSpinBox_2">
+       <widget class="QDoubleSpinBox" name="spin_offset">
         <property name="minimum">
          <double>-10000.000000000000000</double>
         </property>
@@ -84,7 +84,7 @@
        </widget>
       </item>
       <item row="3" column="1">
-       <widget class="QDoubleSpinBox" name="doubleSpinBox_3">
+       <widget class="QDoubleSpinBox" name="spin_step">
         <property name="minimum">
          <double>-10000.000000000000000</double>
         </property>
@@ -107,7 +107,7 @@
        </widget>
       </item>
       <item row="4" column="1">
-       <widget class="QDoubleSpinBox" name="doubleSpinBox_4">
+       <widget class="QDoubleSpinBox" name="spin_min">
         <property name="minimum">
          <double>-10000.000000000000000</double>
         </property>
@@ -130,7 +130,7 @@
        </widget>
       </item>
       <item row="5" column="1">
-       <widget class="QDoubleSpinBox" name="doubleSpinBox_5">
+       <widget class="QDoubleSpinBox" name="spin_max">
         <property name="maximum">
          <double>10000.000000000000000</double>
         </property>

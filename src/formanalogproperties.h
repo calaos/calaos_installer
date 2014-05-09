@@ -14,6 +14,12 @@ class FormAnalogProperties : public QWidget
 public:
     explicit FormAnalogProperties(QWidget *parent = 0);
     ~FormAnalogProperties();
+    QString getUnit();
+    double getStep();
+    double getCoeff();
+    double getOffset();
+    double getMin();
+    double getMax();
 
 private:
     Ui::FormAnalogProperties *ui;
