@@ -2,6 +2,21 @@
 #include "mainwindow.h"
 #include "ConfigOptions.h"
 
+static void echoVersion()
+{
+    cout << "Calaos Version: \n\t" CALAOS_VERSION << endl;
+}
+
+static void echoUsage(char **argv)
+{
+    echoVersion();
+    cout << "Usage:\n\t" << argv[0] << " [options]" << endl;
+    cout << endl << "\tOptions:\n";
+    cout << "\t-h, --help\tDisplay this help.\n";
+    cout << "\t-v, --version\tDisplay current version and exit.\n";
+    cout << endl;
+}
+
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
@@ -22,6 +37,19 @@ int main(int argc, char *argv[])
         for (int i = 0;i < QStyleFactory::keys().size();i++)
             qDebug() << QStyleFactory::keys().at(i);
     }
+
+    QStringList cmdline_args = QCoreApplication::arguments();
+    if (cmdline_args.contains("--version") || cmdline_args.contains("-v"))
+    {
+        echoVersion();
+        exit(0);
+    }
+    else if (cmdline_args.contains("--help") || cmdline_args.contains("-h"))
+    {
+        echoUsage(argv);
+        exit(0);
+    }
+
 
     QString locale;
     {

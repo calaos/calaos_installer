@@ -577,3 +577,8 @@ void MainWindow::on_btConfigure_clicked()
     if (d.exec() == QDialog::Accepted)
         d.applyConfig();
 }
+
+void MainWindow::on_btHelp_clicked()
+{
+
+}
