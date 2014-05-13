@@ -3,6 +3,9 @@
 # -------------------------------------------------
 QT += core gui network widgets xml printsupport
 
+REVISION = $$system(git --git-dir $$PWD/.git --work-tree $$PWD describe --long --tags --always master)
+DEFINES += CALAOS_VERSION=\\\"$$REVISION\\\"
+
 #enable C++11 new syntax
 CONFIG += c++11
 
@@ -336,3 +339,4 @@ updateqm.commands = $$QMAKE_LRELEASE ${QMAKE_FILE_IN} -qm ${QMAKE_FILE_PATH}/${Q
 updateqm.CONFIG += no_link
 QMAKE_EXTRA_COMPILERS += updateqm
 PRE_TARGETDEPS += compiler_updateqm_make_all
+
