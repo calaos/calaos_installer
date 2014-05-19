@@ -1,11 +1,20 @@
 #include "formanalogproperties.h"
 #include "ui_formanalogproperties.h"
 
-FormAnalogProperties::FormAnalogProperties(QWidget *parent) :
+FormAnalogProperties::FormAnalogProperties(QWidget *parent, bool isOutput) :
     QWidget(parent),
     ui(new Ui::FormAnalogProperties)
 {
     ui->setupUi(this);
+    if (isOutput)
+    {
+        ui->spin_max->hide();
+        ui->spin_min->hide();
+        ui->spin_step->hide();
+        ui->label_max->hide();
+        ui->label_min->hide();
+        ui->label_step->hide();
+    }
 }
 
 FormAnalogProperties::~FormAnalogProperties()

@@ -48,13 +48,13 @@ DialogNewWebIO::DialogNewWebIO(Room *r, int item, QWidget *parent) :
       case ITEM_TEMP:
         ui->io_type->setCurrentIndex(4);
         label = tr("Create an new Web Temperature Input");
-        analogWidget = new FormAnalogProperties;
+        analogWidget = new FormAnalogProperties(this, false);
         ui->verticalLayout_3->insertWidget(1, analogWidget);
         break;
       case ITEM_ANALOG:
         ui->io_type->setCurrentIndex(5);
         label = tr("Create an new Web Analog Input");
-        analogWidget = new FormAnalogProperties;
+        analogWidget = new FormAnalogProperties(this, false);
         ui->verticalLayout_3->insertWidget(1, analogWidget);
         break;
       case ITEM_STRING:
@@ -123,11 +123,12 @@ void DialogNewWebIO::on_buttonBox_accepted()
     p.Add("url", to_string(ui->edit_url->text().toUtf8().constData()));
     p.Add("path", to_string(ui->edit_path->text().toUtf8().constData()));
     p.Add("file_type", to_string(ui->data_type->currentText().toLower().toUtf8().constData()));
+    p.Add("frequency", QString::number(ui->spin_frequency->value()).toUtf8().constData());
     if (analogWidget)
     {
         p.Add("unit", analogWidget->getUnit().toUtf8().constData());
-        p.Add("coeff",  QString::number(analogWidget->getCoeff()).toUtf8().constData());
-        p.Add("offset",  QString::number(analogWidget->getOffset()).toUtf8().constData());
+        p.Add("coeff_a",  QString::number(analogWidget->getCoeff()).toUtf8().constData());
+        p.Add("coeff_b",  QString::number(analogWidget->getOffset()).toUtf8().constData());
         p.Add("step",  QString::number(analogWidget->getStep()).toUtf8().constData());
         p.Add("min",  QString::number(analogWidget->getMin()).toUtf8().constData());
         p.Add("max",  QString::number(analogWidget->getMax()).toUtf8().constData());

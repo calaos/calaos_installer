@@ -12,7 +12,7 @@ class FormAnalogProperties : public QWidget
     Q_OBJECT
 
 public:
-    explicit FormAnalogProperties(QWidget *parent = 0);
+    explicit FormAnalogProperties(QWidget *parent = 0, bool isOutput = true);
     ~FormAnalogProperties();
     QString getUnit();
     double getStep();

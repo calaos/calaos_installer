@@ -77,7 +77,7 @@
        </widget>
       </item>
       <item row="3" column="0">
-       <widget class="QLabel" name="label_4">
+       <widget class="QLabel" name="label_step">
         <property name="text">
          <string>Step :</string>
         </property>
@@ -100,7 +100,7 @@
        </widget>
       </item>
       <item row="4" column="0">
-       <widget class="QLabel" name="label_5">
+       <widget class="QLabel" name="label_min">
         <property name="text">
          <string>Minimal :</string>
         </property>
@@ -123,7 +123,7 @@
        </widget>
       </item>
       <item row="5" column="0">
-       <widget class="QLabel" name="label_6">
+       <widget class="QLabel" name="label_max">
         <property name="text">
          <string>Maximal :</string>
         </property>
