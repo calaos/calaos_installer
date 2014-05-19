@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>491</width>
-    <height>372</height>
+    <height>439</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -151,6 +151,26 @@
         </item>
         <item row="4" column="1">
          <widget class="QLineEdit" name="edit_path"/>
+        </item>
+        <item row="5" column="0">
+         <widget class="QLabel" name="label_value_on">
+          <property name="text">
+           <string>Value on :</string>
+          </property>
+         </widget>
+        </item>
+        <item row="6" column="0">
+         <widget class="QLabel" name="label_value_off">
+          <property name="text">
+           <string>Value off :</string>
+          </property>
+         </widget>
+        </item>
+        <item row="5" column="1">
+         <widget class="QLineEdit" name="edit_value_on"/>
+        </item>
+        <item row="6" column="1">
+         <widget class="QLineEdit" name="edit_value_off"/>
         </item>
        </layout>
       </item>

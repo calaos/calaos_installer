@@ -487,7 +487,7 @@ IOBase *FormRules::addCalaosItemRGB(int item, int hw_type)
     {
         DialogNewWebIO dialog(current_room, item);
         if (dialog.exec() == QDialog::Accepted)
-            output = dialog.getInput();
+            output = dialog.getOutput();
     }
 
     return output;
