@@ -9,6 +9,7 @@
 #include "DialogNewGpioLight.h"
 #include "DialogNewX10.h"
 #include "DialogNewZibase.h"
+#include "DialogNewZibaseOutput.h"
 #include "dialognewwebioshutter.h"
 
 FormRules::FormRules(QWidget *parent) :
@@ -88,6 +89,10 @@ FormRules::FormRules(QWidget *parent) :
     action = zibase_menu->addAction(tr("Analog input"));
     action->setIcon(QIcon(":/img/icon_analog.png"));
     connect(action, &QAction::triggered, [=]() { addCalaosItem(HW_ZIBASE, ITEM_ANALOG); });
+
+    action = zibase_menu->addAction(tr("Digital output"));
+    action->setIcon(QIcon(":/img/icon_light_on.png"));
+    connect(action, &QAction::triggered, [=]() { addCalaosItem(HW_ZIBASE, ITEM_LIGHT); });
 
     QMenu *web_menu = add_menu->addMenu(QIcon("://img/web.png"), "Web");
 
@@ -404,6 +409,12 @@ IOBase *FormRules::addCalaosItemLight(int item, int hw_type)
         if (dialog.exec() == QDialog::Accepted)
             output = dialog.getOutput();
     }
+    else if (hw_type == HW_ZIBASE)
+    {
+        DialogNewZibaseOutput dialog(current_room, item);
+        if (dialog.exec() == QDialog::Accepted)
+            output = dialog.getOutput();
+    }
 
     return output;
 }
@@ -449,7 +460,6 @@ IOBase *FormRules::addCalaosItemShutter(int item, int hw_type)
         if (dialog.exec() == QDialog::Accepted)
             output = dialog.getOutput();
     }
-
     return output;
 }
 

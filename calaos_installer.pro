@@ -92,7 +92,8 @@ SOURCES += src/main.cpp \
     src/DialogNewZibase.cpp \
     src/DialogOptions.cpp \
     src/dialognewwebioshutter.cpp \
-    src/formanalogproperties.cpp
+    src/formanalogproperties.cpp \
+    src/DialogNewZibaseOutput.cpp
 
 HEADERS += src/mainwindow.h \
     src/common/Utils.h \
@@ -179,7 +180,8 @@ HEADERS += src/mainwindow.h \
     src/DialogNewZibase.h \
     src/DialogOptions.h \
     src/dialognewwebioshutter.h \
-    src/formanalogproperties.h
+    src/formanalogproperties.h \
+    src/DialogNewZibaseOutput.h
 
 FORMS += \
     data/FormConditionStd.ui \
@@ -230,7 +232,8 @@ FORMS += \
     data/DialogNewZibase.ui \
     data/DialogOptions.ui \
     data/DialogNewWebIoShutter.ui \
-    data/formanalogproperties.ui
+    data/formanalogproperties.ui \
+    data/DialogNewZibaseOutput.ui
 RESOURCES += data/resources.qrc \
     data/textedit.qrc \
     data/wago_firmwares.qrc \
