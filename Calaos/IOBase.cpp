@@ -70,6 +70,7 @@ REGISTER_OUTPUT(X10Output, "light", TBOOL)
 REGISTER_OUTPUT(WebOutputString, "string_out", TSTRING)
 REGISTER_OUTPUT(WebOutputLight, "light", TBOOL)
 REGISTER_OUTPUT(WebOutputLightRGB, "light_rgb", TSTRING)
+REGISTER_OUTPUT(ZibaseDigitalOut, "light", TBOOL)
 
 /* Declare InOut class/type */
 REGISTER_INOUT(InputTimer, "timer", TBOOL)
