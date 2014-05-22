@@ -2,7 +2,7 @@
 #define MyAppID "{534F1446-12F3-4030-A524-990A43FA003E}"
 #define MyAppPublisher "Calaos"
 #define MyAppURL "http://www.calaos.fr/"
-#define MyAppVersion "2.0"
+;#define MyAppVersion "2.0-beta1"
 
 [Setup]
 ; NOTE: The value of AppId uniquely identifies this application.
@@ -29,6 +29,7 @@ WizardSmallImageFile=WizModernSmallImage-IS.bmp
 SetupIconFile=Setup.ico
 UninstallDisplayIcon={app}\calaos_installer.exe
 MinVersion=0,5.01sp3
+PrivilegesRequired=admin
 
 [Languages]
 Name: "english"; MessagesFile: "compiler:Default.isl"
@@ -60,6 +61,7 @@ Filename: "{app}\redist\Win32OpenSSL_Light-1_0_1g.exe"; Parameters: "/silent /ve
 ;For bonjour when we need it one day
 ;Filename: "msiexec.exe"; Parameters: "/i ""{app}\redist\Bonjour.msi"" /qn"; WorkingDir: "{app}\redist"; StatusMsg: "Installing Bonjour32..."; Components: calaosinstaller; Check: not IsWin64
 ;Filename: "msiexec.exe"; Parameters: "/i ""{app}\redist\Bonjour64.msi"" /qn"; WorkingDir: "{app}\redist"; StatusMsg: "Installing Bonjour64..."; Components: calaosinstaller; Check: IsWin64
+Filename: "{app}\calaos_installer.exe"; WorkingDir: "{app}"; Description: "Start Calaos Installer"; Flags: postinstall nowait skipifsilent runascurrentuser  
 
 [Code]
 // function IsModuleLoaded to call at install time
