@@ -29,7 +29,7 @@ int main(int argc, char *argv[])
     p << QCoreApplication::applicationDirPath();
     QCoreApplication::setLibraryPaths(p);
 
-    if (!QApplication::setStyle("qtcurve"))
+    if (!QApplication::setStyle("fusion"))
     {
         qDebug("Error setting style...");
 
