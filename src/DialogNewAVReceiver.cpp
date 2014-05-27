@@ -40,7 +40,7 @@ void DialogNewAVReceiver::on_buttonBox_accepted()
     p.Add("visible", "true");
     p.Add("type", "AVReceiver");
 
-    output = ListeRoom::Instance().createOutput(p, room);
+    output = ListeRoom::Instance().createAVR(p, room);
 
     accept();
 }

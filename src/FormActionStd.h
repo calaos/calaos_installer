@@ -38,7 +38,7 @@ protected:
     bool onStart;
     QMenu *actionMenu;
 
-    void addActionMenu(QString action, QString help, QString cmd);
+    RuleActionMenu *addActionMenu(QString action, QString help, QString cmd);
 
 
 private slots:

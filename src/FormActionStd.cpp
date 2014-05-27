@@ -214,6 +214,24 @@ void FormActionStd::setAction(QTreeWidgetItem *item, Rule *_rule, Action *_actio
         addActionMenu("volume X", tr("Set volume to X percent"), "volume 10");
         addActionMenu("power on", tr("Switch on the receiver"), "power on");
         addActionMenu("power off", tr("Switch off the receiver"), "power off");
+
+        if (!output->source_names.empty())
+        {
+            RuleActionMenu *acsub = addActionMenu("source X", tr("Change input source"), "source 0");
+            QMenu *submenu = new QMenu(actionMenu);
+            submenu->setProperty("class", QVariant("ActionMenu"));
+            acsub->setMenu(submenu);
+
+            for (auto &src: output->source_names)
+            {
+                QString h = RuleActionTpl.arg(QString("Set source to %1").arg(src.second.c_str()));
+                QString action = QString("source %1").arg(src.first);
+                RuleActionMenu *ac = new RuleActionMenu(NULL, action, h, action);
+                submenu->addAction(ac);
+                connect(ac, SIGNAL(triggered(RuleActionMenu*)), this, SLOT(menuAction(RuleActionMenu*)));
+            }
+        }
+
         addActionMenu("custom CMD", tr("Send directly a custom command to the receiver"), "custom ");
     }
     else
@@ -253,12 +271,13 @@ void FormActionStd::on_btMore_clicked()
     }
 }
 
-void FormActionStd::addActionMenu(QString action, QString help, QString cmd)
+RuleActionMenu *FormActionStd::addActionMenu(QString action, QString help, QString cmd)
 {
     QString h = RuleActionTpl.arg(help);
     RuleActionMenu *ac = new RuleActionMenu(NULL, action, h, cmd);
     actionMenu->addAction(ac);
     connect(ac, SIGNAL(triggered(RuleActionMenu*)), this, SLOT(menuAction(RuleActionMenu*)));
+    return ac;
 }
 
 void FormActionStd::on_buttonMore_clicked()

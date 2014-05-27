@@ -546,6 +546,8 @@ IOBase *ListeRoom::createAVR(Params param, Room *room)
     if (output) room->AddOutput(output);
     if (output) room->AddInput(output);
 
+    output->buildInputSourcesList();
+
     return output;
 }
 

@@ -90,3 +90,139 @@ REGISTER_INOUT(Gadspot, "camera", TSTRING)
 REGISTER_INOUT(Planet, "camera", TSTRING)
 REGISTER_INOUT(StandardMjpeg, "camera", TSTRING)
 REGISTER_INOUT(standard_mjpeg, "camera", TSTRING)
+
+
+void IOBase::buildInputSourcesList()
+{
+    if (gui_type != "avreceiver") return;
+
+    if (get_param("model") == "pioneer")
+    {
+        source_names[IOBase::AVR_INPUT_BD] = "Blu-ray Disc";
+        source_names[IOBase::AVR_INPUT_DVD] = "DVD";
+        source_names[IOBase::AVR_INPUT_TVSAT] = "TV/Sat";
+        source_names[IOBase::AVR_INPUT_DVRBDR] = "DVR/BDR";
+        source_names[IOBase::AVR_INPUT_VIDEO_1] = "Video 1";
+        source_names[IOBase::AVR_INPUT_VIDEO_2] = "Video 2";
+        source_names[IOBase::AVR_INPUT_HDMI_1] = "HDMI 1";
+        source_names[IOBase::AVR_INPUT_HDMI_2] = "HDMI 2";
+        source_names[IOBase::AVR_INPUT_HDMI_3] = "HDMI 3";
+        source_names[IOBase::AVR_INPUT_HDMI_4] = "HDMI 4";
+        source_names[IOBase::AVR_INPUT_HDMI_5] = "HDMI 5";
+        source_names[IOBase::AVR_INPUT_HDMI_6] = "HDMI 6";
+        source_names[IOBase::AVR_INPUT_NETRADIO] = "Home Media Gallery";
+        source_names[IOBase::AVR_INPUT_IPOD] = "iPod/USB";
+        source_names[IOBase::AVR_INPUT_CD] = "CD";
+        source_names[IOBase::AVR_INPUT_CDRTAPE] = "CD-R/Tape";
+        source_names[IOBase::AVR_INPUT_TUNER] = "Tuner";
+        source_names[IOBase::AVR_INPUT_PHONO] = "Phono";
+        source_names[IOBase::AVR_INPUT_MULTIIN] = "Multi Channel In";
+        source_names[IOBase::AVR_INPUT_APORT] = "Adapter Port";
+        source_names[IOBase::AVR_INPUT_SIRIUS] = "Sirius";
+    }
+    else if (get_param("model") == "denon")
+    {
+        source_names[IOBase::AVR_INPUT_DVD] = "DVD";
+        source_names[IOBase::AVR_INPUT_BD] = "Blu-ray Disc";
+        source_names[IOBase::AVR_INPUT_CD] = "CD";
+        source_names[IOBase::AVR_INPUT_PHONO] = "Phono";
+        source_names[IOBase::AVR_INPUT_TUNER] = "Tuner";
+        source_names[IOBase::AVR_INPUT_TV] = "TV";
+        source_names[IOBase::AVR_INPUT_SAT] = "Sat/CBL";
+        source_names[IOBase::AVR_INPUT_DVRBDR] = "DVR";
+        source_names[IOBase::AVR_INPUT_GAME_1] = "Game";
+        source_names[IOBase::AVR_INPUT_GAME_2] = "Game 2";
+        source_names[IOBase::AVR_INPUT_AUX] = "V. Aux";
+        source_names[IOBase::AVR_INPUT_DOCK] = "Dock";
+        source_names[IOBase::AVR_INPUT_HDRADIO] = "HD Radio";
+        source_names[IOBase::AVR_INPUT_IPOD] = "iPod";
+        source_names[IOBase::AVR_INPUT_USB] = "Net/USB";
+        source_names[IOBase::AVR_INPUT_RHAPSODY] = "Rhapsody";
+        source_names[IOBase::AVR_INPUT_NAPSTER] = "Napster";
+        source_names[IOBase::AVR_INPUT_PANDORA] = "Pandora";
+        source_names[IOBase::AVR_INPUT_LASTFM] = "LastFM";
+        source_names[IOBase::AVR_INPUT_FLICKR] = "Flickr";
+        source_names[IOBase::AVR_INPUT_FAV] = "Favorites";
+        source_names[IOBase::AVR_INPUT_NETRADIO] = "IRadio";
+        source_names[IOBase::AVR_INPUT_SERVER] = "Server";
+    }
+    else if (get_param("model") == "onkyo")
+    {
+        source_names[IOBase::AVR_INPUT_DVD] = "DVD / Bluray";
+        source_names[IOBase::AVR_INPUT_CD] = "CD";
+        source_names[IOBase::AVR_INPUT_PHONO] = "Phono";
+        source_names[IOBase::AVR_INPUT_TUNER] = "Tuner";
+        source_names[IOBase::AVR_INPUT_VIDEO_1] = "VCR/DVR";
+        source_names[IOBase::AVR_INPUT_VIDEO_2] = "Sat/CBL";
+        source_names[IOBase::AVR_INPUT_VIDEO_3] = "Game/TV";
+        source_names[IOBase::AVR_INPUT_VIDEO_4] = "Aux. 1";
+        source_names[IOBase::AVR_INPUT_VIDEO_5] = "Aux. 2";
+        source_names[IOBase::AVR_INPUT_VIDEO_6] = "PC";
+        source_names[IOBase::AVR_INPUT_VIDEO_7] = "Video 7";
+        source_names[IOBase::AVR_INPUT_TV] = "TV/Tape";
+        source_names[IOBase::AVR_INPUT_SERVER] = "Music Server DLNA";
+        source_names[IOBase::AVR_INPUT_NETRADIO] = "Internet Radio";
+        source_names[IOBase::AVR_INPUT_USB] = "USB Front";
+        source_names[IOBase::AVR_INPUT_USB2] = "USB Rear";
+        source_names[IOBase::AVR_INPUT_NETWORK] = "Network";
+        source_names[IOBase::AVR_INPUT_APORT] = "Universal Port";
+        source_names[IOBase::AVR_INPUT_MULTIIN] = "Multi Ch. In";
+    }
+    else if (get_param("model") == "marantz")
+    {
+        source_names[IOBase::AVR_INPUT_PHONO] = "Phono";
+        source_names[IOBase::AVR_INPUT_CD] = "CD";
+        source_names[IOBase::AVR_INPUT_DVD] = "DVD";
+        source_names[IOBase::AVR_INPUT_BD] = "Bluray";
+        source_names[IOBase::AVR_INPUT_TV] = "TV";
+        source_names[IOBase::AVR_INPUT_SAT] = "Sat/CBL";
+        source_names[IOBase::AVR_INPUT_TVSAT] = "Sat";
+        source_names[IOBase::AVR_INPUT_VCR] = "VCR";
+        source_names[IOBase::AVR_INPUT_GAME_1] = "Game";
+        source_names[IOBase::AVR_INPUT_AUX] = "V. Aux";
+        source_names[IOBase::AVR_INPUT_TUNER] = "Tuner";
+        source_names[IOBase::AVR_INPUT_HDRADIO] = "HD Radio";
+        source_names[IOBase::AVR_INPUT_RHAPSODY] = "Rhapsody";
+        source_names[IOBase::AVR_INPUT_NAPSTER] = "Napster";
+        source_names[IOBase::AVR_INPUT_PANDORA] = "Pandora";
+        source_names[IOBase::AVR_INPUT_LASTFM] = "LastFM";
+        source_names[IOBase::AVR_INPUT_FLICKR] = "Flickr";
+        source_names[IOBase::AVR_INPUT_FAV] = "Favorites";
+        source_names[IOBase::AVR_INPUT_NETRADIO] = "IRadio";
+        source_names[IOBase::AVR_INPUT_SERVER] = "Server";
+        source_names[IOBase::AVR_INPUT_CDRTAPE] = "CDR";
+        source_names[IOBase::AVR_INPUT_AUX1] = "Aux 1";
+        source_names[IOBase::AVR_INPUT_AUX2] = "Aux 2";
+        source_names[IOBase::AVR_INPUT_USB] = "Net/USB";
+        source_names[IOBase::AVR_INPUT_IPOD] = "USB/iPod";
+    }
+    else if (get_param("model") == "yamaha")
+    {
+        source_names[IOBase::AVR_INPUT_HDMI_1] = "HDMI 1";
+        source_names[IOBase::AVR_INPUT_HDMI_2] = "HDMI 2";
+        source_names[IOBase::AVR_INPUT_HDMI_3] = "HDMI 3";
+        source_names[IOBase::AVR_INPUT_HDMI_4] = "HDMI 4";
+        source_names[IOBase::AVR_INPUT_HDMI_5] = "HDMI 5";
+        source_names[IOBase::AVR_INPUT_TUNER] = "Tuner";
+        source_names[IOBase::AVR_INPUT_PHONO] = "Phono";
+        source_names[IOBase::AVR_INPUT_VIDEO_1] = "Video 1";
+        source_names[IOBase::AVR_INPUT_VIDEO_2] = "Video 2";
+        source_names[IOBase::AVR_INPUT_VIDEO_3] = "Video 3";
+        source_names[IOBase::AVR_INPUT_VIDEO_4] = "Video 4";
+        source_names[IOBase::AVR_INPUT_VIDEO_5] = "Video 5";
+        source_names[IOBase::AVR_INPUT_VIDEO_6] = "Video 6";
+        source_names[IOBase::AVR_INPUT_AUX] = "V-Aux";
+        source_names[IOBase::AVR_INPUT_AUX1] = "Audio 1";
+        source_names[IOBase::AVR_INPUT_AUX2] = "Audio 2";
+        source_names[IOBase::AVR_INPUT_DOCK] = "Dock";
+        source_names[IOBase::AVR_INPUT_IPOD] = "iPod";
+        source_names[IOBase::AVR_INPUT_BLUETOOTH] = "Bluetooth";
+        source_names[IOBase::AVR_INPUT_NETWORK] = "Network";
+        source_names[IOBase::AVR_INPUT_NAPSTER] = "Napster";
+        source_names[IOBase::AVR_INPUT_NETRADIO] = "Net Radio";
+        source_names[IOBase::AVR_INPUT_USB] = "USB";
+        source_names[IOBase::AVR_INPUT_IPODUSB] = "iPod (USB)";
+        source_names[IOBase::AVR_INPUT_PC] = "PC";
+        source_names[IOBase::AVR_INPUT_UAW] = "UAW";
+    }
+}
