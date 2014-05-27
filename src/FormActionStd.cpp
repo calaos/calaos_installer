@@ -153,7 +153,7 @@ void FormActionStd::setAction(QTreeWidgetItem *item, Rule *_rule, Action *_actio
         addActionMenu("false", tr("Switch light off"), "false");
         addActionMenu("toggle", tr("Toggle light status"), "toggle");
 
-        if (gtype == "light")
+        if (gtype == "light" || gtype == "light_dimmer")
         {
             addActionMenu("impulse X", tr("Switch light on for X ms"), "impulse 500");
             addActionMenu("impulse W X Y Z", tr("Blink the light following a pattern"), "impulse 500 200 500 200");
