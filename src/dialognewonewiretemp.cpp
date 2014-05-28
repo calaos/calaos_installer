@@ -9,7 +9,8 @@ DialogNewOneWireTemp::DialogNewOneWireTemp(Room *r, QWidget *parent) :
     ui->setupUi(this);
 
     //hide error labels by default.
-    ui->label_error_empty->hide();
+    ui->label_error_name_empty->hide();
+    ui->label_error_owid_empty->hide();
 }
 
 DialogNewOneWireTemp::~DialogNewOneWireTemp()
@@ -32,13 +33,18 @@ void DialogNewOneWireTemp::changeEvent(QEvent *e)
 
 void DialogNewOneWireTemp::on_buttonBox_accepted()
 {
-    if (ui->edit_name->text().isEmpty() ||
-        ui->edit_sensor_id->text().isEmpty())
+    ui->label_error_name_empty->hide();
+    ui->label_error_owid_empty->hide();
+    if (ui->edit_name->text().isEmpty())
     {
-        ui->label_error_empty->show();
+        ui->label_error_name_empty->show();
         return;
     }
-
+    else if (ui->edit_sensor_id->text().isEmpty())
+    {
+        ui->label_error_owid_empty->show();
+        return;
+    }
     Params p;
     p.Add("name", ui->edit_name->text().toUtf8().constData());
     p.Add("type", "OWTemp");
