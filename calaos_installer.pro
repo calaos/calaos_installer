@@ -251,7 +251,7 @@ INCLUDEPATH += src/common/ \
     src/
 DEFINES += CALAOS_INSTALLER
 
-win32|mac {
+win32|macx {
 SOURCES += src/common/LuaScript/lua-5.1.4/src/linit.c \
     src/common/LuaScript/lua-5.1.4/src/ltablib.c \
     src/common/LuaScript/lua-5.1.4/src/lstrlib.c \
