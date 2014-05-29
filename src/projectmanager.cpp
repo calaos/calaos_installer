@@ -289,6 +289,7 @@ void RuleXmlWriter::writeCondition(Rule *rule)
             writeStartElement("http://www.calaos.fr", "condition");
             QXmlStreamAttributes attr;
             attr.append("type", "output");
+            attr.append("trigger", cond->isTrigger()?"true":"false");
             writeAttributes(attr);
 
             writeStartElement("http://www.calaos.fr", "output");
