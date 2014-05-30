@@ -314,7 +314,7 @@ win32 {
     RC_FILE = win32/windows_res.rc
 }
 
-unix {
+unix&&!macx {
     CONFIG += link_pkgconfig
     PKGCONFIG += lua5.1
 }
