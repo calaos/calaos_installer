@@ -321,7 +321,8 @@ unix&&!macx {
 
 TRANSLATIONS = \
     lang/calaos_installer_fr.ts \
-    lang/calaos_installer_de.ts
+    lang/calaos_installer_de.ts \
+    lang/calaos_installer_es.ts 
 
 #Build *.qm translation files automatically
 

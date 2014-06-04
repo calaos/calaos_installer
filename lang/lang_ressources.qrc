@@ -2,5 +2,6 @@
     <qresource prefix="/lang">
         <file>calaos_installer_de.qm</file>
         <file>calaos_installer_fr.qm</file>
+        <file>calaos_installer_es.qm</file>
     </qresource>
 </RCC>
