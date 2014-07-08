@@ -66,7 +66,10 @@ void IOXmlWriter::writeInput(IOBase *io)
     }
     else
     {
-        if (io->is_inout() && io->get_gui_type() != "scenario") return; //We don't want to write the input when IO is IO_BOTH, except for scenario
+        if (io->is_inout() &&
+            io->get_gui_type() != "scenario" &&
+            io->get_gui_type() != "timer")
+            return; //We don't want to write the input when IO is IO_BOTH, except for scenario and timer
 
         writeStartElement("http://www.calaos.fr", "input");
     }
