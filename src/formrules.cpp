@@ -1649,7 +1649,7 @@ void FormRules::cloneRule()
     if (!rule) return;
 
     Rule *newrule = rule->duplicate();
-    ListeRule::Instance().Add(rule);
+    ListeRule::Instance().Add(newrule);
     addItemRule(newrule, true);
 }
 
