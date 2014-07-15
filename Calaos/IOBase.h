@@ -37,9 +37,9 @@ private:
     //we store all params here
     Params param;
 
-    double dvalue;
-    bool bvalue;
-    string svalue;
+    double dvalue = 1.234;
+    bool bvalue = true;
+    string svalue = "Sample string";
 
     string gui_type;
     DATA_TYPE basic_type;
