@@ -125,12 +125,12 @@ FormRules::FormRules(QWidget *parent) :
     connect(action, &QAction::triggered, [=]() { addCalaosItem(HW_WEB, ITEM_ANALOG); });
 
     action = web_menu->addAction(tr("String Input"));
-    action->setIcon(QIcon(":/img/icon_text.png"));
-    connect(action, &QAction::triggered, [=]() { addCalaosItem(HW_WEB, ITEM_STRING); });
+    action->setIcon(QIcon(":/img/text.png"));
+    connect(action, &QAction::triggered, [=]() { addCalaosItem(HW_WEB, ITEM_STRINGIN); });
 
     action = web_menu->addAction(tr("String Output"));
-    action->setIcon(QIcon(":/img/icon_text.png"));
-    connect(action, &QAction::triggered, [=]() { addCalaosItem(HW_WEB, ITEM_STRING); });
+    action->setIcon(QIcon(":/img/text.png"));
+    connect(action, &QAction::triggered, [=]() { addCalaosItem(HW_WEB, ITEM_STRINGOUT); });
 
     QMenu *gpio_menu = add_menu->addMenu(QIcon("://img/chip.png"), "GPIO");
 
@@ -702,8 +702,9 @@ void FormRules::addCalaosItem(int hw_type, int item)
     case ITEM_ANALOG:
         res = addCalaosItemAnalog(item, hw_type);
         break;
-    case ITEM_STRING:
-        addCalaosItemString(item, hw_type);
+    case ITEM_STRINGIN:
+    case ITEM_STRINGOUT:
+        res = addCalaosItemString(item, hw_type);
         break;
     default:
         QMessageBox::warning(this, tr("Calaos Installer"), QString(tr("Unknown type (%1)")).arg(item));
@@ -825,6 +826,8 @@ void FormRules::updateItemInfos(QTreeWidgetItemInput *item)
         item->setData(0, Qt::DecorationRole, QIcon(":/img/icon_clock.png"));
     else if (type == "analog_in")
         item->setData(0, Qt::DecorationRole, QIcon(":/img/icon_analog.png"));
+    else if (type == "string_in")
+        item->setData(0, Qt::DecorationRole, QIcon(":/img/text.png"));
     else
         item->setData(0, Qt::DecorationRole, QIcon(":/img/icon_unknown.png"));
 

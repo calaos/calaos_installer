@@ -5,7 +5,10 @@
 
 DialogNewWebIO::DialogNewWebIO(Room *r, int item, QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::DialogNewWebIO), io(NULL), room(r), item(item)
+    ui(new Ui::DialogNewWebIO),
+    io(NULL),
+    room(r),
+    item(item)
 {
     setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
     ui->setupUi(this);
@@ -27,7 +30,7 @@ DialogNewWebIO::DialogNewWebIO(Room *r, int item, QWidget *parent) :
       {
       case ITEM_INPUT_SWITCH:
         ui->io_type->setCurrentIndex(0);
-        label = tr("Create an new Web Input Switch");
+        label = tr("Create a new Web Input Switch");
         break;
       case ITEM_LIGHT:
         ui->io_type->setCurrentIndex(1);
@@ -35,39 +38,35 @@ DialogNewWebIO::DialogNewWebIO(Room *r, int item, QWidget *parent) :
         ui->label_value_on->show();
         ui->edit_value_off->show();
         ui->edit_value_on->show();
-        label = tr("Create an new Web Light");
+        label = tr("Create a new Web Light");
         break;
       case ITEM_LIGHT_RGB:
         ui->io_type->setCurrentIndex(2);
-        label = tr("Create an new Web RGB Light");
+        label = tr("Create a new Web RGB Light");
         break;
       case ITEM_SHUTTER:
         ui->io_type->setCurrentIndex(3);
-        label = tr("Create an new Web Shutter");
+        label = tr("Create a new Web Shutter");
         break;
       case ITEM_TEMP:
         ui->io_type->setCurrentIndex(4);
-        label = tr("Create an new Web Temperature Input");
+        label = tr("Create a new Web Temperature Input");
         analogWidget = new FormAnalogProperties(this, false);
         ui->verticalLayout_3->insertWidget(1, analogWidget);
         break;
       case ITEM_ANALOG:
         ui->io_type->setCurrentIndex(5);
-        label = tr("Create an new Web Analog Input");
+        label = tr("Create a new Web Analog Input");
         analogWidget = new FormAnalogProperties(this, false);
         ui->verticalLayout_3->insertWidget(1, analogWidget);
         break;
-      case ITEM_STRING:
-        if (type.find("Input") != string::npos)
-        {
-          ui->io_type->setCurrentIndex(7);
-          label = tr("Create an new Web String Input");
-        }
-        else
-        {
+      case ITEM_STRINGIN:
+        ui->io_type->setCurrentIndex(7);
+        label = tr("Create a new Web String Input");
+        break;
+      case ITEM_STRINGOUT:
           ui->io_type->setCurrentIndex(8);
-          label = tr("Create an new Web String Output");
-        }
+          label = tr("Create a new Web String Output");
         break;
       default:
         break;
@@ -169,6 +168,7 @@ void DialogNewWebIO::on_buttonBox_accepted()
         io = ListeRoom::Instance().createOutput(p, room);
         break;
       default:
+        reject();
         break;
       }
     accept();
