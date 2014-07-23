@@ -6,6 +6,8 @@
 #include <iostream>
 #include <ListeRoom.h>
 
+#include "formanalogproperties.h"
+
 using namespace std;
 using namespace Calaos;
 
@@ -35,6 +37,7 @@ private:
     string type;
     IOBase *io;
     Room *room;
+    FormAnalogProperties *analogWidget;
 
 private slots:
     void on_buttonBox_accepted();

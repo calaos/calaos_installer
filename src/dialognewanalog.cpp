@@ -9,8 +9,12 @@ DialogNewAnalog::DialogNewAnalog(Room *r, QWidget *parent) :
     setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
     ui->setupUi(this);
 
+    // Insert the generic Analog form
+    analogWidget = new FormAnalogProperties(this, false);
+    ui->verticalLayout_2->insertWidget(1, analogWidget);
+
     //hide error labels by default.
-    ui->label_error_empty->hide();
+    ui->label_error_empty->hide();  
 }
 
 DialogNewAnalog::~DialogNewAnalog()
@@ -55,10 +59,14 @@ void DialogNewAnalog::on_buttonBox_accepted()
     p.Add("wago_max", QString::number(value).toStdString());
     value = locale.toDouble(ui->spin_UsrMax->text(), NULL);
     p.Add("real_max",QString::number(value).toStdString());
-    p.Add("unit", ui->line_unit->text().toUtf8().data());
-    value = locale.toDouble(ui->spin_Step->text(), NULL);
-    p.Add("step", QString::number(value).toStdString());
     p.Add("frequency", "15.0");
+
+    p.Add("unit", analogWidget->getUnit().toUtf8().constData());
+    p.Add("coeff_a",  QString::number(analogWidget->getCoeff()).toUtf8().constData());
+    p.Add("coeff_b",  QString::number(analogWidget->getOffset()).toUtf8().constData());
+    p.Add("step",  QString::number(analogWidget->getStep()).toUtf8().constData());
+    p.Add("min",  QString::number(analogWidget->getMin()).toUtf8().constData());
+    p.Add("max",  QString::number(analogWidget->getMax()).toUtf8().constData());
 
     if (isInputType())
     {
