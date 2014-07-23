@@ -251,7 +251,6 @@ INCLUDEPATH += src/common/ \
     src/
 DEFINES += CALAOS_INSTALLER
 
-win32|macx {
 SOURCES += src/common/LuaScript/lua-5.1.4/src/linit.c \
     src/common/LuaScript/lua-5.1.4/src/ltablib.c \
     src/common/LuaScript/lua-5.1.4/src/lstrlib.c \
@@ -308,15 +307,9 @@ HEADERS += src/common/LuaScript/lua-5.1.4/src/luaconf.h \
 
 INCLUDEPATH += src/common/LuaScript/lua-5.1.4/src/ \
     src/common/LuaScript/lua-5.1.4/etc/
-}
 
 win32 {
     RC_FILE = win32/windows_res.rc
-}
-
-unix&&!macx {
-    CONFIG += link_pkgconfig
-    PKGCONFIG += lua5.1
 }
 
 TRANSLATIONS = \
