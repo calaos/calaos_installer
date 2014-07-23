@@ -1156,24 +1156,19 @@ void TextEdit::loadRooms()
 
             QString icon, var, knx;
 
-            if (in->get_param("type") == "WIDigitalBP" ||
-                in->get_param("type") == "WIDigitalTriple" ||
-                in->get_param("type") == "WIDigitalLong")
+            if (in->get_gui_type() == "switch" ||
+                in->get_gui_type() == "switch3" ||
+                in->get_gui_type() == "switch_long")
             {
                 icon = "<img src=\":/img/icon_inter.png\" />";
                 var = in->get_param("var").c_str();
                 if (in->get_param("knx") == "true")
                     knx = "<img src=\":/img/checkbox.png\" />";
             }
-            else if (in->get_param("type") == "WITemp")
+            else if (in->get_gui_type() == "temp")
             {
                 icon = "<img src=\":/img/temp.png\" />";
                 var = in->get_param("var").c_str();
-            }
-            else if (in->get_param("type") == "OWTemp")
-            {
-                icon = "<img src=\":/img/temp.png\" />";
-                var = in->get_param("ow_id").c_str();
             }
             else
                 continue;
