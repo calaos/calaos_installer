@@ -53,7 +53,7 @@ void DialogNewGpioInput::on_buttonBox_accepted()
 
     p.Add("name", ui->edit_name->text().toUtf8().constData());
     p.Add("type", type);
-    p.Add("gpio_nb", ui->edit_gpio_nb->text().toUtf8().constData());
+    p.Add("gpio", ui->edit_gpio_nb->text().toUtf8().constData());
 
     input = ListeRoom::Instance().createInput(p, room);
     accept();
