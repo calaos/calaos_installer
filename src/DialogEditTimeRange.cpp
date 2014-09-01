@@ -334,6 +334,10 @@ void DialogEditTimeRange::editTimeRange()
     ui->checkBoxEndTime->setChecked(!same);
     if (!same)
     {
+        Utils::from_string(currentEdit.ehour, h);
+        Utils::from_string(currentEdit.emin, m);
+        Utils::from_string(currentEdit.esec, s);
+
         ui->comboTypeEnd->setCurrentIndex(currentEdit.end_type);
         if (currentEdit.end_type == 0)
             ui->timeEditFixEnd->setTime(QTime(h, m, s));
