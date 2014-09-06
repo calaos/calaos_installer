@@ -88,7 +88,7 @@
           </item>
           <item>
            <property name="text">
-            <string>Plain Text</string>
+            <string>TEXT</string>
            </property>
           </item>
          </widget>
