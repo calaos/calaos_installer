@@ -258,28 +258,30 @@ void FormDali::advancedInfo_cb(QString cmd, QString res)
         return;
     }
 
-    DialogDaliDeviceConfig d;
+    DialogDaliDeviceConfig *d = new DialogDaliDeviceConfig(this);
 
-    d.setFadeRate(list[1].toInt());
-    d.setFadeTime(list[2].toInt());
-    d.setMaxValue(list[3].toInt());
-    d.setMinValue(list[4].toInt());
-    d.setSystemFailureLevel(list[5].toInt());
-    d.setPowerOnLevel(list[6].toInt());
+    d->setFadeRate(list[1].toInt());
+    d->setFadeTime(list[2].toInt());
+    d->setMaxValue(list[3].toInt());
+    d->setMinValue(list[4].toInt());
+    d->setSystemFailureLevel(list[5].toInt());
+    d->setPowerOnLevel(list[6].toInt());
 
-    if (d.exec() == QDialog::Accepted)
+    connect(d, &DialogDaliDeviceConfig::accepted, [=]()
     {
         WagoConnect::Instance().SendCommand(
                     QString("WAGO_DALI_SET_DEVICE_INFO 1 %1 %2 %3 %4 %5 %6 %7")
                     .arg(mapCache[ui->listLights->currentItem()])
-                .arg(d.getFadeRate())
-                .arg(d.getFadeTime())
-                .arg(d.getMaxValue())
-                .arg(d.getMinValue())
-                .arg(d.getSystemFailureLevel())
-                .arg(d.getPowerOnLevel())
+                .arg(d->getFadeRate())
+                .arg(d->getFadeTime())
+                .arg(d->getMaxValue())
+                .arg(d->getMinValue())
+                .arg(d->getSystemFailureLevel())
+                .arg(d->getPowerOnLevel())
                 );
-    }
+    });
+
+    d->open();
 }
 
 void FormDali::on_sliderLight_sliderReleased()
