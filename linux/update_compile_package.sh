@@ -1,40 +1,28 @@
 #!/bin/bash
 
-if [ $# -ne 1 ]
-then
-	echo "Usage: $0 <version>"
-	exit 1
-fi
-
-VERSION=$1
-
-#update
-echo "Updating from svn..."
-(cd calaos_installer; svn update;)
-
-echo "Compile..."
-(cd calaos_installer; make -j4;)
+QTPATH="/home/$USER/Qt/5.3/gcc_64"
+QTVERSION="5.3.1"
+VERSION=`../calaos_installer --version | tail -1 | tr -d '\t' `
 
 echo "Creating package..."
 mkdir -p calaos_installer_$VERSION/.lib
 
-cp calaos_installer/calaos_installer calaos_installer_$VERSION/.calaos_installer.bin
+cp ../calaos_installer calaos_installer_$VERSION/.calaos_installer.bin
 
-for l in libQtDBus.so.4 libQtGui.so.4 libQtNetwork.so.4 libQtCore.so.4 libQtSvg.so.4 libQtXml.so.4
+for l in libQt5DBus.so libQt5Gui.so libQt5Network.so libQt5Core.so libQt5Svg.so libQt5Xml.so
 do
- 	cp /usr/local/Trolltech/Qt-4.7.1/lib/$l calaos_installer_$VERSION/.lib/
+ 	cp $QTPATH/lib/$l.$QTVERSION calaos_installer_$VERSION/.lib/
 done
 
-for l in /usr/lib/libssl.so.0.9.8 /usr/lib/libexpat.so.1 /usr/lib/libpng12.so.0 /usr/lib/libjpeg.so.62
-do
-	cp $l calaos_installer_$VERSION/.lib/
-done
+#for l in /usr/lib/libssl.so.0.9.8 /usr/lib/libexpat.so.1 /usr/lib/libpng12.so.0 /usr/lib/libjpeg.so.62
+#do
+#	cp $l calaos_installer_$VERSION/.lib/
+#done
 
-cp -R /usr/local/Trolltech/Qt-4.7.1/plugins/styles calaos_installer_$VERSION
-cp -R /usr/local/Trolltech/Qt-4.7.1/plugins/iconengines calaos_installer_$VERSION
-cp -R /usr/local/Trolltech/Qt-4.7.1/plugins/imageformats calaos_installer_$VERSION
+cp -R $QTPATH/plugins/iconengines calaos_installer_$VERSION
+cp -R $QTPATH/plugins/imageformats calaos_installer_$VERSION
 
-strip calaos_installer_$VERSION/.calaos_installer.bin calaos_installer_$VERSION/.lib/* calaos_installer_$VERSION/styles/* calaos_installer_$VERSION/iconengines/* calaos_installer_$VERSION/imageformats/*
+strip calaos_installer_$VERSION/.calaos_installer.bin calaos_installer_$VERSION/.lib/* calaos_installer_$VERSION/iconengines/* calaos_installer_$VERSION/imageformats/*
 
 cat > calaos_installer_$VERSION/calaos_installer << "EOF"
 #!/bin/sh
@@ -61,9 +49,9 @@ EOF
 
 chmod +x calaos_installer_$VERSION/calaos_installer
 
-rm -f CalaosInstaller_linux_$VERSION.tar.bz2
-tar cjf CalaosInstaller_linux_$VERSION.tar.bz2 calaos_installer_$VERSION
+rm -f calaos-installer_linux_$VERSION.tar.bz2
+tar cjf calaos-installer_linux_$VERSION.tar.bz2 calaos_installer_$VERSION
 
 echo "Done."
-echo "Package: CalaosInstaller_linux_$VERSION.tar.bz2"
+echo "Package: calaos-installer_linux_$VERSION.tar.bz2"
 
