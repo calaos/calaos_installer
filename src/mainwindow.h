@@ -98,6 +98,7 @@ private slots:
     void on_actionMise_jour_Automate_triggered();
     void on_btConfigure_clicked();
     void on_btHelp_clicked();
+    void on_btAutodetect_clicked();
 };
 
 #endif // MAINWINDOW_H

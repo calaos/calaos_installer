@@ -3,6 +3,7 @@
 #include "version.h"
 #include "ConfigOptions.h"
 #include "DialogOptions.h"
+#include "dialogautodetect.h"
 
 MainWindow::MainWindow(QWidget *parent):
     QMainWindow(parent),
@@ -576,9 +577,22 @@ void MainWindow::on_btConfigure_clicked()
 
     if (d.exec() == QDialog::Accepted)
         d.applyConfig();
+
 }
 
 void MainWindow::on_btHelp_clicked()
 {
 
+}
+
+void MainWindow::on_btAutodetect_clicked()
+{
+    DialogAutoDetect d;
+
+    if (d.exec() == QDialog::Accepted)
+    {
+        QString host = d.getHost();
+        ConfigOptions::Instance().setHost(host);
+        on_actionOuvrir_un_projet_en_ligne_triggered();
+    }
 }
