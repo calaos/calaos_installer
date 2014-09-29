@@ -249,7 +249,16 @@ void FormConditionStd::setCondition(QTreeWidgetItem *item, Rule *_rule, Conditio
     }
     else if (gtype == "temp")
     {
-        addActionMenu("20", tr("Event when temperature changes"), "20");
+        addActionMenu("20", tr("Event when temperature changes to a value"), "20");
+        addActionMenu("changed", tr("Event when temperature changes"), "changed");
+    }
+    else if (gtype == "var_int")
+    {
+        addActionMenu("changed", tr("Event when value changes"), "changed");
+    }
+    else if (gtype == "var_string")
+    {
+        addActionMenu("changed", tr("Event when value changes"), "changed");
     }
     else if (gtype == "audio")
     {
