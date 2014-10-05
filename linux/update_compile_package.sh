@@ -10,7 +10,7 @@ mkdir -p calaos_installer_$VERSION/.lib
 
 cp ../calaos_installer calaos_installer_$VERSION/.calaos_installer.bin
 
-for l in libQt5DBus.so.5 libQt5Gui.so.5 libQt5Network.so.5 libQt5Core.so.5 libQt5Svg.so.5 libQt5Xml.so.5 libQt5PrintSupport.so.5 libQt5Widgets.so.5 
+for l in libQt5DBus.so.5 libQt5Gui.so.5 libQt5Network.so.5 libQt5Core.so.5 libQt5Svg.so.5 libQt5Xml.so.5 libQt5PrintSupport.so.5 libQt5Widgets.so.5 libicudata.so.52  libicui18n.so.52 libicuuc.so.52
 do
  	cp $QTPATH/lib/$l calaos_installer_$VERSION/.lib/
 done
