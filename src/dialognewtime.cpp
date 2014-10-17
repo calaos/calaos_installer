@@ -69,6 +69,8 @@ void DialogNewTime::on_buttonBox_accepted()
         p.Add("min", to_string(ui->timer->time().minute()));
         p.Add("sec", to_string(ui->timer->time().second()));
         p.Add("msec", to_string(ui->timer->time().msec()));
+        p.Add("autostart", ui->checkBoxAutoBoot->isChecked()?"true":"false");
+        p.Add("autorestart", ui->checkBoxAutoRestart->isChecked()?"true":"false");
     }
     else if (ui->tab_model->currentIndex() == 2) //Plage
     {

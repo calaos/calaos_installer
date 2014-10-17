@@ -64,7 +64,7 @@
       <item>
        <widget class="QTabWidget" name="tab_model">
         <property name="currentIndex">
-         <number>0</number>
+         <number>1</number>
         </property>
         <widget class="QWidget" name="tab">
          <attribute name="title">
@@ -152,6 +152,32 @@
           </property>
           <property name="displayFormat">
            <string>HH:mm:ss.zzz</string>
+          </property>
+         </widget>
+         <widget class="QCheckBox" name="checkBoxAutoBoot">
+          <property name="geometry">
+           <rect>
+            <x>50</x>
+            <y>120</y>
+            <width>261</width>
+            <height>17</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>Auto start timer at boot</string>
+          </property>
+         </widget>
+         <widget class="QCheckBox" name="checkBoxAutoRestart">
+          <property name="geometry">
+           <rect>
+            <x>50</x>
+            <y>150</y>
+            <width>261</width>
+            <height>17</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>Auto restart the timer after it expires</string>
           </property>
          </widget>
         </widget>
