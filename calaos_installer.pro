@@ -93,7 +93,9 @@ SOURCES += src/main.cpp \
     src/DialogCreateNewImage.cpp \
     src/DialogListProperties.cpp \
     src/BalloonTip.cpp \
-    src/WidgetIOProperties.cpp
+    src/WidgetIOProperties.cpp \
+    src/dialognewweboutputstring.cpp \
+    src/wizards/hue/wizardhue.cpp
 
 HEADERS += src/mainwindow.h \
     src/common/Utils.h \
@@ -179,7 +181,11 @@ HEADERS += src/mainwindow.h \
     src/DialogCreateNewImage.h \
     src/DialogListProperties.h \
     src/BalloonTip.h \
-    src/WidgetIOProperties.h
+    src/WidgetIOProperties.h \
+    src/common/LuaScript/lua-5.1.4/src/lua.h \
+    src/dialognewweboutputstring.h \
+    src/wizards/hue/wizardhue.h
+
 
 FORMS += \
     data/FormConditionStd.ui \
@@ -228,7 +234,14 @@ FORMS += \
     data/dialogautodetect.ui \
     data/DialogCreateNewImage.ui \
     data/DialogListProperties.ui \
-    data/WidgetIOProperties.ui
+    data/WidgetIOProperties.ui \
+    data/DialogNewMySensors.ui \
+    data/DialogOla.ui \
+    data/DialogNewPing.ui \
+    data/DialogNewWOL.ui \
+    src/DialogCreateNewImage.ui \
+    src/DialogListProperties.ui \
+    src/wizards/hue/wizardhue.ui
 
 RESOURCES += data/resources.qrc \
     data/textedit.qrc \

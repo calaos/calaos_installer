@@ -6,6 +6,11 @@
 #include "DialogEditTimeRange.h"
 #include "DialogNewAVReceiver.h"
 #include "dialognewwebioshutter.h"
+#include "DialogNewMySensors.h"
+#include "DialogOla.h"
+#include "DialogNewPing.h"
+#include "DialogNewWOL.h"
+#include "wizards/hue/wizardhue.h"
 
 FormRules::FormRules(QWidget *parent) :
     QWidget(parent),
@@ -279,6 +284,20 @@ FormRules::FormRules(QWidget *parent) :
     action = web_menu->addAction(tr("String Output"));
     action->setIcon(QIcon(":/img/text.png"));
     connect(action, &QAction::triggered, [=]() { addCalaosItem(HW_WEB, ITEM_STRINGOUT); });
+
+    QMenu *hue_menu = add_menu->addMenu(QIcon("://img/hue.png"), "Hue");
+
+    action = hue_menu->addAction(tr("Hue Wizard"));
+    action->setIcon(QIcon(":/img/hue_light.png"));
+    connect(action, &QAction::triggered, [=]() {
+        WizardHue dialog(NULL, NULL);
+        if (dialog.exec() == QDialog::Accepted)
+        {
+            qDebug() << "Wizard Accepted";
+        }
+    });
+
+
 
     QMenu *gpio_menu = add_menu->addMenu(QIcon("://img/chip.png"), "GPIO");
 

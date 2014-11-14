@@ -113,5 +113,7 @@
         <file>img/milight.png</file>
         <file>img/hue.png</file>
         <file>img/blinkstick.png</file>
+        <file>img/hue_find_bridge.png</file>
+        <file>img/hue.jpg</file>
     </qresource>
 </RCC>

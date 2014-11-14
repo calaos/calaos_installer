@@ -181,6 +181,7 @@ private slots:
     void on_bt_rules_add_clicked();
     void on_tree_home_itemDoubleClicked(QTreeWidgetItem* item, int column);
     void on_tree_home_currentItemChanged(QTreeWidgetItem* current, QTreeWidgetItem* previous);
+    void on_ioexplorer_add_clicked();
 };
 
 #endif // FORMRULES_H
