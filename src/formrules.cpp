@@ -83,6 +83,10 @@ FormRules::FormRules(QWidget *parent) :
 
     QMenu *zibase_menu = add_menu->addMenu(QIcon("://img/zibase.png"), "Zibase");
 
+    action = zibase_menu->addAction(tr("Temperature sensor"));
+    action->setIcon(QIcon(":/img/temp.png"));
+    connect(action, &QAction::triggered, [=]() { addCalaosItem(HW_ZIBASE, ITEM_TEMP); });
+
     action = zibase_menu->addAction(tr("Switch input"));
     action->setIcon(QIcon(":/img/icon_inter.png"));
     connect(action, &QAction::triggered, [=]() { addCalaosItem(HW_ZIBASE, ITEM_INPUT_SWITCH); });
@@ -609,6 +613,12 @@ IOBase *FormRules::addCalaosItemTemp(int item, int hw_type)
         DialogNewMySensors dialog(current_room, item);
         if (dialog.exec() == QDialog::Accepted)
             io = dialog.getInput();
+    }
+    else if (hw_type == HW_ZIBASE)
+    {
+        DialogNewZibase dialog(current_room, item);
+        if (dialog.exec() == QDialog::Accepted)
+             io = dialog.getInput();
     }
 
     return io;

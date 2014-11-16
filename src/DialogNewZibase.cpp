@@ -13,10 +13,18 @@ DialogNewZibase::DialogNewZibase(Room *r, int it, QWidget *parent) :
 
     ui->label_error_empty->hide();
 
-    if (item == ITEM_ANALOG)
+    if(item == ITEM_TEMP)
+    {
+        ui->comboBox->hide();
+         ui->label_5->hide();
+    }
+    else if (item == ITEM_ANALOG)
     {
         ui->comboBox->addItem(tr("Energy monitor sensor"), QString("energy"));
-        ui->comboBox->addItem(tr("Temperature sensor"), QString("temp"));
+        //ui->comboBox->addItem(tr("Temperature sensor"), QString("temp"));
+        ui->comboBox->addItem(tr("lux sensor"), QString("lux"));
+        ui->comboBox->addItem(tr("total rain sensor"), QString("t_rain"));
+        ui->comboBox->addItem(tr("wind sensor"), QString("wind"));
     }
     else if (item == ITEM_INPUT_SWITCH)
     {
@@ -48,7 +56,10 @@ void DialogNewZibase::on_buttonBox_accepted()
     p.Add("port", "17100");
     p.Add("zibase_sensor", ui->comboBox->itemData(ui->comboBox->currentIndex()).toString().toUtf8().constData());
 
-    if (item == ITEM_ANALOG)
+    if (item == ITEM_TEMP)
+    {   p.Add("type", "ZibaseTemp");
+        p.Add("zibase_sensor", "temp");
+    }else if (item == ITEM_ANALOG)
         p.Add("type", "ZibaseAnalogIn");
     else if (item == ITEM_INPUT_SWITCH)
         p.Add("type", "ZibaseDigitalIn");
