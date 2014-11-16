@@ -621,7 +621,6 @@ IOBase *FormRules::addCalaosItemTemp(int item, int hw_type)
              io = dialog.getInput();
     }
 
-
     return io;
 }
 
