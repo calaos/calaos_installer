@@ -106,5 +106,6 @@
         <file>img/icon_unkown.png</file>
         <file>img/configure.png</file>
         <file>img/clone.png</file>
+        <file>img/mysensors.png</file>
     </qresource>
 </RCC>

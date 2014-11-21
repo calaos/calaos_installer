@@ -96,7 +96,8 @@ SOURCES += src/main.cpp \
     src/dialognewwebioshutter.cpp \
     src/formanalogproperties.cpp \
     src/DialogNewZibaseOutput.cpp \
-    src/dialogautodetect.cpp
+    src/dialogautodetect.cpp \
+    src/DialogNewMySensors.cpp
 
 HEADERS += src/mainwindow.h \
     src/common/Utils.h \
@@ -185,7 +186,8 @@ HEADERS += src/mainwindow.h \
     src/dialognewwebioshutter.h \
     src/formanalogproperties.h \
     src/DialogNewZibaseOutput.h \
-    src/dialogautodetect.h
+    src/dialogautodetect.h \
+    src/DialogNewMySensors.h
 
 FORMS += \
     data/FormConditionStd.ui \
@@ -238,7 +240,8 @@ FORMS += \
     data/DialogNewWebIoShutter.ui \
     data/formanalogproperties.ui \
     data/DialogNewZibaseOutput.ui \
-    data/dialogautodetect.ui
+    data/dialogautodetect.ui \
+    data/DialogNewMySensors.ui
 
 RESOURCES += data/resources.qrc \
     data/textedit.qrc \

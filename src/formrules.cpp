@@ -11,6 +11,7 @@
 #include "DialogNewZibase.h"
 #include "DialogNewZibaseOutput.h"
 #include "dialognewwebioshutter.h"
+#include "DialogNewMySensors.h"
 
 FormRules::FormRules(QWidget *parent) :
     QWidget(parent),
@@ -94,6 +95,48 @@ FormRules::FormRules(QWidget *parent) :
     action->setIcon(QIcon(":/img/icon_light_on.png"));
     connect(action, &QAction::triggered, [=]() { addCalaosItem(HW_ZIBASE, ITEM_LIGHT); });
 
+    QMenu *mysensors_menu = add_menu->addMenu(QIcon("://img/mysensors.png"), "MySensors");
+
+    action = mysensors_menu->addAction(tr("Switch"));
+    action->setIcon(QIcon(":/img/icon_inter.png"));
+    connect(action, &QAction::triggered, [=]() { addCalaosItem(HW_MYSENSORS, ITEM_INPUT_SWITCH); });
+
+    action = mysensors_menu->addAction(tr("Light"));
+    action->setIcon(QIcon(":/img/icon_light_on.png"));
+    connect(action, &QAction::triggered, [=]() { addCalaosItem(HW_MYSENSORS, ITEM_LIGHT); });
+
+    action = mysensors_menu->addAction(tr("Shutter"));
+    action->setIcon(QIcon(":/img/icon_shutter.png"));
+    connect(action, &QAction::triggered, [=]() { addCalaosItem(HW_MYSENSORS, ITEM_SHUTTER); });
+
+    action = mysensors_menu->addAction(tr("Dimmer"));
+    action->setIcon(QIcon(":/img/icon_light_on.png"));
+    connect(action, &QAction::triggered, [=]() { addCalaosItem(HW_MYSENSORS, ITEM_DALI); });
+
+    action = mysensors_menu->addAction(tr("RGB Light"));
+    action->setIcon(QIcon(":/img/icon_light_on.png"));
+    connect(action, &QAction::triggered, [=]() { addCalaosItem(HW_MYSENSORS, ITEM_LIGHT_RGB); });
+
+    action = mysensors_menu->addAction(tr("Temperature sensor"));
+    action->setIcon(QIcon(":/img/temp.png"));
+    connect(action, &QAction::triggered, [=]() { addCalaosItem(HW_MYSENSORS, ITEM_TEMP); });
+
+    action = mysensors_menu->addAction(tr("Analog Input"));
+    action->setIcon(QIcon(":/img/icon_analog.png"));
+    connect(action, &QAction::triggered, [=]() { addCalaosItem(HW_MYSENSORS, ITEM_ANALOG_IN); });
+
+    action = mysensors_menu->addAction(tr("Analog Output"));
+    action->setIcon(QIcon(":/img/icon_analog.png"));
+    connect(action, &QAction::triggered, [=]() { addCalaosItem(HW_MYSENSORS, ITEM_ANALOG_OUT); });
+
+    action = mysensors_menu->addAction(tr("String Input"));
+    action->setIcon(QIcon(":/img/text.png"));
+    connect(action, &QAction::triggered, [=]() { addCalaosItem(HW_MYSENSORS, ITEM_STRINGIN); });
+
+    action = mysensors_menu->addAction(tr("String Output"));
+    action->setIcon(QIcon(":/img/text.png"));
+    connect(action, &QAction::triggered, [=]() { addCalaosItem(HW_MYSENSORS, ITEM_STRINGOUT); });
+
     QMenu *web_menu = add_menu->addMenu(QIcon("://img/web.png"), "Web");
 
     action = web_menu->addAction(tr("Switch Input"));
@@ -104,7 +147,7 @@ FormRules::FormRules(QWidget *parent) :
     action->setIcon(QIcon(":/img/icon_light_on.png"));
     connect(action, &QAction::triggered, [=]() { addCalaosItem(HW_WEB, ITEM_LIGHT); });
 
-    action = web_menu->addAction(tr("LightRGB"));
+    action = web_menu->addAction(tr("RGB Light"));
     action->setIcon(QIcon(":/img/icon_light_on.png"));
     connect(action, &QAction::triggered, [=]() { addCalaosItem(HW_WEB, ITEM_LIGHT_RGB); });
 
@@ -374,6 +417,12 @@ IOBase *FormRules::addCalaosItemInputSwitch(int item, int hw_type)
         if (dialog.exec() == QDialog::Accepted)
             input = dialog.getInput();
     }
+    else if (hw_type == HW_MYSENSORS)
+    {
+        DialogNewMySensors dialog(current_room, item);
+        if (dialog.exec() == QDialog::Accepted)
+            input = dialog.getInput();
+    }
 
     return input;
 }
@@ -415,6 +464,12 @@ IOBase *FormRules::addCalaosItemLight(int item, int hw_type)
         if (dialog.exec() == QDialog::Accepted)
             output = dialog.getOutput();
     }
+    else if (hw_type == HW_MYSENSORS)
+    {
+        DialogNewMySensors dialog(current_room, item);
+        if (dialog.exec() == QDialog::Accepted)
+            output = dialog.getOutput();
+    }
 
     return output;
 }
@@ -433,6 +488,12 @@ IOBase *FormRules::addCalaosItemString(int item, int hw_type)
             else
                 io = dialog.getOutput();
         }
+    }
+    else if (hw_type == HW_MYSENSORS)
+    {
+        DialogNewMySensors dialog(current_room, item);
+        if (dialog.exec() == QDialog::Accepted)
+            io = dialog.getInput();
     }
 
     return io;
@@ -460,6 +521,12 @@ IOBase *FormRules::addCalaosItemShutter(int item, int hw_type)
         if (dialog.exec() == QDialog::Accepted)
             output = dialog.getOutput();
     }
+    else if (hw_type == HW_MYSENSORS)
+    {
+        DialogNewMySensors dialog(current_room, item);
+        if (dialog.exec() == QDialog::Accepted)
+            output = dialog.getOutput();
+    }
     return output;
 }
 
@@ -478,6 +545,12 @@ IOBase *FormRules::addCalaosItemDimmer(int item, int hw_type)
         DialogNewX10 dialog(current_room);
         if (dialog.exec() == QDialog::Accepted)
             output = dialog.getOutput();
+    }
+    else if (hw_type == HW_MYSENSORS)
+    {
+        DialogNewMySensors dialog(current_room, item);
+        if (dialog.exec() == QDialog::Accepted)
+            output = dialog.getInput();
     }
 
     return output;
@@ -498,6 +571,12 @@ IOBase *FormRules::addCalaosItemRGB(int item, int hw_type)
         DialogNewWebIO dialog(current_room, item);
         if (dialog.exec() == QDialog::Accepted)
             output = dialog.getOutput();
+    }
+    else if (hw_type == HW_MYSENSORS)
+    {
+        DialogNewMySensors dialog(current_room, item);
+        if (dialog.exec() == QDialog::Accepted)
+            output = dialog.getInput();
     }
 
     return output;
@@ -522,6 +601,12 @@ IOBase *FormRules::addCalaosItemTemp(int item, int hw_type)
     else if (hw_type == HW_WEB)
     {
         DialogNewWebIO dialog(current_room, item);
+        if (dialog.exec() == QDialog::Accepted)
+            io = dialog.getInput();
+    }
+    else if (hw_type == HW_MYSENSORS)
+    {
+        DialogNewMySensors dialog(current_room, item);
         if (dialog.exec() == QDialog::Accepted)
             io = dialog.getInput();
     }
@@ -620,6 +705,12 @@ IOBase *FormRules::addCalaosItemAnalog(int item, int hw_type)
         if (dialog.exec() == QDialog::Accepted)
             io = dialog.getInput();
     }
+    else if (hw_type == HW_MYSENSORS)
+    {
+        DialogNewMySensors dialog(current_room, item);
+        if (dialog.exec() == QDialog::Accepted)
+            io = dialog.getInput();
+    }
 
     return io;
 }
@@ -700,6 +791,8 @@ void FormRules::addCalaosItem(int hw_type, int item)
         res = addCalaosItemInternal(item, hw_type);
         break;
     case ITEM_ANALOG:
+    case ITEM_ANALOG_IN:
+    case ITEM_ANALOG_OUT:
         res = addCalaosItemAnalog(item, hw_type);
         break;
     case ITEM_STRINGIN:

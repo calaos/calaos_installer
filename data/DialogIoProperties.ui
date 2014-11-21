@@ -17,7 +17,7 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>Propertiess</string>
+   <string>Properties</string>
   </property>
   <property name="windowIcon">
    <iconset resource="resources.qrc">
