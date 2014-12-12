@@ -323,15 +323,8 @@ TRANSLATIONS = \
 
 #Build *.qm translation files automatically
 
-win32 {
-isEmpty(QMAKE_LRELEASE) {
-    QMAKE_LRELEASE = $$[QT_INSTALL_BINS]/lrelease.exe
-}
-}
-!win32 {
 isEmpty(QMAKE_LRELEASE) {
     QMAKE_LRELEASE = $$[QT_INSTALL_BINS]/lrelease
-}
 }
 
 updateqm.input = TRANSLATIONS
