@@ -6,12 +6,25 @@
     <message>
         <location filename="../src/ClearLineEdit.cpp" line="14"/>
         <source>Clear text</source>
-        <translation type="unfinished"></translation>
+        <translation>Effacer le text</translation>
     </message>
     <message>
         <location filename="../src/ClearLineEdit.cpp" line="17"/>
         <source>Filter...</source>
-        <translation type="unfinished"></translation>
+        <translation>Filtrer...</translation>
+    </message>
+</context>
+<context>
+    <name>DialogAutoDetect</name>
+    <message>
+        <location filename="../data/dialogautodetect.ui" line="14"/>
+        <source>Dialog</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../data/dialogautodetect.ui" line="20"/>
+        <source>Calaos Server Autodetection</source>
+        <translation>Autodetection de Calaos Server</translation>
     </message>
 </context>
 <context>
@@ -19,7 +32,7 @@
     <message>
         <location filename="../data/DialogCameraView.ui" line="32"/>
         <source>Camera</source>
-        <translation type="unfinished"></translation>
+        <translation>Camera</translation>
     </message>
     <message>
         <location filename="../data/DialogCameraView.ui" line="42"/>
@@ -28,17 +41,17 @@
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; font-size:12pt; font-weight:600;&quot;&gt;Camera View&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/dialogcameraview.cpp" line="69"/>
         <source>Calaos Installer: Erreur !</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/dialogcameraview.cpp" line="82"/>
         <source>Calaos Installer: Error, image is NULL !</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -46,7 +59,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../data/DialogConnect.ui" line="20"/>
         <source>Controller connexion...</source>
-        <translation type="unfinished"></translation>
+        <translation>Connection à l&apos;automate</translation>
     </message>
     <message>
         <location filename="../data/DialogConnect.ui" line="32"/>
@@ -55,7 +68,11 @@ p, li { white-space: pre-wrap; }
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; font-size:10pt; font-weight:600;&quot;&gt;Wago PLC connexion&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; font-size:10pt; font-weight:600;&quot;&gt;Connection à l&apos;automate Wago&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../data/DialogConnect.ui" line="70"/>
@@ -69,17 +86,26 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;Sans Serif&apos;; font-size:9pt; color:#797979;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; font-size:9pt; color:#797979;&quot;&gt;You can find more informations on the support web site : &lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://support.calaos.fr&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; font-size:9pt; text-decoration: underline; color:#0000ff;&quot;&gt;http://calaos.fr/wiki&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; font-size:9pt; color:#797979;&quot;&gt;La connection à l&apos;automate sert à programer le mode dégradé de l&apos;automate. Afin de se connecter à l&apos;automate, il faudra au préalable configurer le réseau pour pouvoir accéder à l&apos;adresse IP de l&apos;automate. &lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;Sans Serif&apos;; font-size:9pt; color:#797979;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; font-size:9pt; color:#797979;&quot;&gt;Par défaut l&apos;automate à toujours comme adresse IP: &lt;/span&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; font-size:9pt; font-style:italic; color:#797979;&quot;&gt;10.0.0.123&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;Sans Serif&apos;; font-size:9pt; color:#797979;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; font-size:9pt; color:#797979;&quot;&gt;Vous trouverez plus d&apos;informations sur le site de support. &lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://support.calaos.fr&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; font-size:9pt; text-decoration: underline; color:#0000ff;&quot;&gt;http://calaos.fr/wiki&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../data/DialogConnect.ui" line="99"/>
         <source>PLC IP Address :</source>
-        <translation type="unfinished"></translation>
+        <translation>Adresse IP de l&apos;automate:</translation>
     </message>
     <message>
         <location filename="../data/DialogConnect.ui" line="106"/>
         <source>10.0.0.123</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -87,42 +113,42 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../data/DialogDaliDeviceConfig.ui" line="14"/>
         <source>Dali device configuration</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/DialogDaliDeviceConfig.ui" line="20"/>
         <source>Configuration</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/DialogDaliDeviceConfig.ui" line="31"/>
         <source>Fade rate</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/DialogDaliDeviceConfig.ui" line="52"/>
         <source>Fade time</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/DialogDaliDeviceConfig.ui" line="70"/>
         <source>Max value</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/DialogDaliDeviceConfig.ui" line="91"/>
         <source>Min value</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/DialogDaliDeviceConfig.ui" line="112"/>
         <source>System failure level</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/DialogDaliDeviceConfig.ui" line="133"/>
         <source>Power on level</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -130,27 +156,27 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../data/DialogDetectSqueezebox.ui" line="26"/>
         <source>Squeezebox detection</source>
-        <translation type="unfinished"></translation>
+        <translation>Détection des Squeezebox</translation>
     </message>
     <message>
         <location filename="../data/DialogDetectSqueezebox.ui" line="42"/>
         <source>Squeezebox</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/DialogDetectSqueezebox.ui" line="47"/>
         <source>ID</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/DialogDetectSqueezebox.ui" line="52"/>
         <source>Server</source>
-        <translation type="unfinished"></translation>
+        <translation>Serveur</translation>
     </message>
     <message>
         <location filename="../data/DialogDetectSqueezebox.ui" line="65"/>
         <source>Refresh</source>
-        <translation type="unfinished"></translation>
+        <translation>Rafraichir</translation>
     </message>
 </context>
 <context>
@@ -158,33 +184,33 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../data/DialogEditTimeRange.ui" line="14"/>
         <source>Time Range Editor</source>
-        <translation type="unfinished"></translation>
+        <translation>Editeur de plage horaire</translation>
     </message>
     <message>
         <location filename="../data/DialogEditTimeRange.ui" line="54"/>
         <source>Add</source>
-        <translation type="unfinished"></translation>
+        <translation>Ajouter</translation>
     </message>
     <message>
         <location filename="../data/DialogEditTimeRange.ui" line="65"/>
         <source>Delete</source>
-        <translation type="unfinished"></translation>
+        <translation>Supprimer</translation>
     </message>
     <message>
         <location filename="../data/DialogEditTimeRange.ui" line="82"/>
         <source>Time Range Options</source>
-        <translation type="unfinished"></translation>
+        <translation>Options de la plage horaire</translation>
     </message>
     <message>
         <location filename="../data/DialogEditTimeRange.ui" line="94"/>
         <source>Start time:</source>
-        <translation type="unfinished"></translation>
+        <translation>Heure de dbut:</translation>
     </message>
     <message>
         <location filename="../data/DialogEditTimeRange.ui" line="105"/>
         <location filename="../data/DialogEditTimeRange.ui" line="325"/>
         <source>Fixed time</source>
-        <translation type="unfinished"></translation>
+        <translation>Heure fixe</translation>
     </message>
     <message>
         <location filename="../data/DialogEditTimeRange.ui" line="110"/>
@@ -192,7 +218,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../src/DialogEditTimeRange.cpp" line="159"/>
         <location filename="../src/DialogEditTimeRange.cpp" line="174"/>
         <source>Sunrise</source>
-        <translation type="unfinished"></translation>
+        <translation>Lever du soleil</translation>
     </message>
     <message>
         <location filename="../data/DialogEditTimeRange.ui" line="115"/>
@@ -200,7 +226,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../src/DialogEditTimeRange.cpp" line="161"/>
         <location filename="../src/DialogEditTimeRange.cpp" line="176"/>
         <source>Sunset</source>
-        <translation type="unfinished"></translation>
+        <translation>Coucher du soleil</translation>
     </message>
     <message>
         <location filename="../data/DialogEditTimeRange.ui" line="120"/>
@@ -208,13 +234,13 @@ p, li { white-space: pre-wrap; }
         <location filename="../src/DialogEditTimeRange.cpp" line="163"/>
         <location filename="../src/DialogEditTimeRange.cpp" line="178"/>
         <source>Noon</source>
-        <translation type="unfinished"></translation>
+        <translation>Midi solaire</translation>
     </message>
     <message>
         <location filename="../data/DialogEditTimeRange.ui" line="150"/>
         <location filename="../data/DialogEditTimeRange.ui" line="370"/>
         <source>Fixed Time:</source>
-        <translation type="unfinished"></translation>
+        <translation>Heure fixe:</translation>
     </message>
     <message>
         <location filename="../data/DialogEditTimeRange.ui" line="163"/>
@@ -222,160 +248,160 @@ p, li { white-space: pre-wrap; }
         <location filename="../data/DialogEditTimeRange.ui" line="383"/>
         <location filename="../data/DialogEditTimeRange.ui" line="486"/>
         <source>HH:mm:ss</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/DialogEditTimeRange.ui" line="205"/>
         <location filename="../data/DialogEditTimeRange.ui" line="425"/>
         <source>Use the exact sun time</source>
-        <translation type="unfinished"></translation>
+        <translation>Utiliser l&apos;heure exacte du soleil</translation>
     </message>
     <message>
         <location filename="../data/DialogEditTimeRange.ui" line="210"/>
         <location filename="../data/DialogEditTimeRange.ui" line="430"/>
         <source>Add this time</source>
-        <translation type="unfinished"></translation>
+        <translation>Ajouter ce temps</translation>
     </message>
     <message>
         <location filename="../data/DialogEditTimeRange.ui" line="215"/>
         <location filename="../data/DialogEditTimeRange.ui" line="435"/>
         <source>Substract this time</source>
-        <translation type="unfinished"></translation>
+        <translation>Soustraire ce temps</translation>
     </message>
     <message>
         <location filename="../data/DialogEditTimeRange.ui" line="253"/>
         <location filename="../data/DialogEditTimeRange.ui" line="473"/>
         <source>Time offset:</source>
-        <translation type="unfinished"></translation>
+        <translation>Décalage horaire:</translation>
     </message>
     <message>
         <location filename="../data/DialogEditTimeRange.ui" line="308"/>
         <source>End time:</source>
-        <translation type="unfinished"></translation>
+        <translation>Heure de fin:</translation>
     </message>
     <message>
         <location filename="../data/DialogEditTimeRange.ui" line="534"/>
         <source>Day of week</source>
-        <translation type="unfinished"></translation>
+        <translation>Jour de la semaine</translation>
     </message>
     <message>
         <location filename="../data/DialogEditTimeRange.ui" line="540"/>
         <source>Mon</source>
-        <translation type="unfinished"></translation>
+        <translation>Lun</translation>
     </message>
     <message>
         <location filename="../data/DialogEditTimeRange.ui" line="547"/>
         <source>Tue</source>
-        <translation type="unfinished"></translation>
+        <translation>Mar</translation>
     </message>
     <message>
         <location filename="../data/DialogEditTimeRange.ui" line="554"/>
         <source>Wed</source>
-        <translation type="unfinished"></translation>
+        <translation>Mer</translation>
     </message>
     <message>
         <location filename="../data/DialogEditTimeRange.ui" line="561"/>
         <source>Thu</source>
-        <translation type="unfinished"></translation>
+        <translation>Jeu</translation>
     </message>
     <message>
         <location filename="../data/DialogEditTimeRange.ui" line="568"/>
         <source>Fri</source>
-        <translation type="unfinished"></translation>
+        <translation>Ven</translation>
     </message>
     <message>
         <location filename="../data/DialogEditTimeRange.ui" line="575"/>
         <source>Sat</source>
-        <translation type="unfinished"></translation>
+        <translation>Sam</translation>
     </message>
     <message>
         <location filename="../data/DialogEditTimeRange.ui" line="582"/>
         <source>Sun</source>
-        <translation type="unfinished"></translation>
+        <translation>Dim</translation>
     </message>
     <message>
         <location filename="../data/DialogEditTimeRange.ui" line="592"/>
         <source>Apply</source>
-        <translation type="unfinished"></translation>
+        <translation>Appliquer</translation>
     </message>
     <message>
         <location filename="../data/DialogEditTimeRange.ui" line="608"/>
         <source>Months</source>
-        <translation type="unfinished"></translation>
+        <translation>Mois</translation>
     </message>
     <message>
         <location filename="../data/DialogEditTimeRange.ui" line="616"/>
         <location filename="../data/DialogEditTimeRange.ui" line="651"/>
         <location filename="../data/DialogEditTimeRange.ui" line="658"/>
         <source>J</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/DialogEditTimeRange.ui" line="623"/>
         <source>F</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/DialogEditTimeRange.ui" line="630"/>
         <location filename="../data/DialogEditTimeRange.ui" line="644"/>
         <source>M</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/DialogEditTimeRange.ui" line="637"/>
         <location filename="../data/DialogEditTimeRange.ui" line="665"/>
         <source>A</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/DialogEditTimeRange.ui" line="672"/>
         <source>S</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/DialogEditTimeRange.ui" line="679"/>
         <source>O</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/DialogEditTimeRange.ui" line="686"/>
         <source>N</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/DialogEditTimeRange.ui" line="693"/>
         <source>D</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/DialogEditTimeRange.cpp" line="15"/>
         <source>Time range</source>
-        <translation type="unfinished"></translation>
+        <translation>Plage horaire</translation>
     </message>
     <message>
         <location filename="../src/DialogEditTimeRange.cpp" line="118"/>
         <source>Execute at </source>
-        <translation type="unfinished"></translation>
+        <translation>Exectuter à </translation>
     </message>
     <message>
         <location filename="../src/DialogEditTimeRange.cpp" line="120"/>
         <source>Start at </source>
-        <translation type="unfinished"></translation>
+        <translation>Démarrer à </translation>
     </message>
     <message>
         <location filename="../src/DialogEditTimeRange.cpp" line="169"/>
         <source>Stop at </source>
-        <translation type="unfinished"></translation>
+        <translation>Arrêter à </translation>
     </message>
     <message>
         <location filename="../src/DialogEditTimeRange.cpp" line="185"/>
         <source>New empty range...</source>
-        <translation type="unfinished"></translation>
+        <translation>Nouvelle plage vide...</translation>
     </message>
     <message>
         <location filename="../src/DialogEditTimeRange.cpp" line="186"/>
         <source>Click to edit</source>
-        <translation type="unfinished"></translation>
+        <translation>Clicker pour editer</translation>
     </message>
 </context>
 <context>
@@ -383,22 +409,22 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../data/DialogIoList.ui" line="14"/>
         <source>Choose an item...</source>
-        <translation type="unfinished"></translation>
+        <translation>Choisir un élément...</translation>
     </message>
     <message>
         <location filename="../data/DialogIoList.ui" line="40"/>
         <source>Type</source>
-        <translation type="unfinished"></translation>
+        <translation>Type</translation>
     </message>
     <message>
         <location filename="../data/DialogIoList.ui" line="45"/>
         <source>Room</source>
-        <translation type="unfinished"></translation>
+        <translation>Pièce</translation>
     </message>
     <message>
         <location filename="../data/DialogIoList.ui" line="50"/>
         <source>Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Nom</translation>
     </message>
 </context>
 <context>
@@ -406,53 +432,53 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../data/DialogIoProperties.ui" line="20"/>
         <source>Propertiess</source>
-        <translation type="unfinished"></translation>
+        <translation>Propriétés</translation>
     </message>
     <message>
         <location filename="../data/DialogIoProperties.ui" line="30"/>
         <source>Object properties</source>
-        <translation type="unfinished"></translation>
+        <translation>Propriétés de l&apos;objet</translation>
     </message>
     <message>
         <location filename="../data/DialogIoProperties.ui" line="52"/>
         <source>Property</source>
-        <translation type="unfinished"></translation>
+        <translation>Propriété</translation>
     </message>
     <message>
         <location filename="../data/DialogIoProperties.ui" line="57"/>
         <location filename="../src/dialogioproperties.cpp" line="16"/>
         <source>Value</source>
-        <translation type="unfinished"></translation>
+        <translation>Valeur</translation>
     </message>
     <message>
         <location filename="../data/DialogIoProperties.ui" line="80"/>
         <source>Modify</source>
-        <translation type="unfinished"></translation>
+        <translation>Modifier</translation>
     </message>
     <message>
         <location filename="../data/DialogIoProperties.ui" line="91"/>
         <source>Add</source>
-        <translation type="unfinished"></translation>
+        <translation>Ajouter</translation>
     </message>
     <message>
         <location filename="../data/DialogIoProperties.ui" line="102"/>
         <source>Delete</source>
-        <translation type="unfinished"></translation>
+        <translation>Supprimer</translation>
     </message>
     <message>
         <location filename="../src/dialogioproperties.cpp" line="16"/>
         <source>Properties</source>
-        <translation type="unfinished"></translation>
+        <translation>Propriétés</translation>
     </message>
     <message>
         <location filename="../src/dialogioproperties.cpp" line="65"/>
         <source>New property</source>
-        <translation type="unfinished"></translation>
+        <translation>Nouvelle propriété</translation>
     </message>
     <message>
         <location filename="../src/dialogioproperties.cpp" line="66"/>
         <source>Enter a property name</source>
-        <translation type="unfinished"></translation>
+        <translation>Entrer le nom de la propriété</translation>
     </message>
     <message>
         <location filename="../src/dialogioproperties.cpp" line="75"/>
@@ -460,37 +486,37 @@ p, li { white-space: pre-wrap; }
         <location filename="../src/dialogioproperties.cpp" line="126"/>
         <location filename="../src/dialogioproperties.cpp" line="155"/>
         <source>Calaos Installer</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/dialogioproperties.cpp" line="75"/>
         <source>This property already exists!</source>
-        <translation type="unfinished"></translation>
+        <translation>Cette propriété existe déjà!</translation>
     </message>
     <message>
         <location filename="../src/dialogioproperties.cpp" line="102"/>
         <source>This property cannot be deleted!</source>
-        <translation type="unfinished"></translation>
+        <translation>Cette propriété ne peut pas être supprimée!</translation>
     </message>
     <message>
         <location filename="../src/dialogioproperties.cpp" line="126"/>
         <source>This property can&apos;t be changed!</source>
-        <translation type="unfinished"></translation>
+        <translation>Cette propriété ne peut pas être changée!</translation>
     </message>
     <message>
         <location filename="../src/dialogioproperties.cpp" line="131"/>
         <source>Change the value</source>
-        <translation type="unfinished"></translation>
+        <translation>Changer la valeur</translation>
     </message>
     <message>
         <location filename="../src/dialogioproperties.cpp" line="132"/>
         <source>Change the property: &quot;%1&quot;</source>
-        <translation type="unfinished"></translation>
+        <translation>Changer la propriété: &quot;%1&quot;</translation>
     </message>
     <message>
         <location filename="../src/dialogioproperties.cpp" line="155"/>
         <source>This room already exists!</source>
-        <translation type="unfinished"></translation>
+        <translation>Cette pièce existe déjà!</translation>
     </message>
 </context>
 <context>
@@ -498,28 +524,28 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../data/DialogInputEventScript.ui" line="14"/>
         <source>Input event script</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/DialogInputEventScript.ui" line="22"/>
         <source>Enabled inputs :</source>
-        <translation type="unfinished"></translation>
+        <translation>Entrées actives:</translation>
     </message>
     <message>
         <location filename="../data/DialogInputEventScript.ui" line="29"/>
         <source>Avalaible inputs :</source>
-        <translation type="unfinished"></translation>
+        <translation>Entrées disponible:</translation>
     </message>
     <message>
         <location filename="../data/DialogInputEventScript.ui" line="46"/>
         <location filename="../data/DialogInputEventScript.ui" line="99"/>
         <source>Room</source>
-        <translation type="unfinished"></translation>
+        <translation>Pièce</translation>
     </message>
     <message>
         <location filename="../data/DialogInputEventScript.ui" line="94"/>
         <source>Input</source>
-        <translation type="unfinished"></translation>
+        <translation>Entrée</translation>
     </message>
 </context>
 <context>
@@ -527,7 +553,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../data/DialogMailMessage.ui" line="14"/>
         <source>E-Mail</source>
-        <translation type="unfinished"></translation>
+        <translation>E-Mail</translation>
     </message>
 </context>
 <context>
@@ -535,32 +561,32 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../data/DialogNewAVReceiver.ui" line="14"/>
         <source>Add an A/V Receiver</source>
-        <translation type="unfinished"></translation>
+        <translation>Ajouter un Ampli A/V</translation>
     </message>
     <message>
         <location filename="../data/DialogNewAVReceiver.ui" line="25"/>
         <source>Name:</source>
-        <translation type="unfinished"></translation>
+        <translation>Nom:</translation>
     </message>
     <message>
         <location filename="../data/DialogNewAVReceiver.ui" line="35"/>
         <source>Type of A/V Receiver:</source>
-        <translation type="unfinished"></translation>
+        <translation>Type de l&apos;ampli A/V:</translation>
     </message>
     <message>
         <location filename="../data/DialogNewAVReceiver.ui" line="45"/>
         <source>Host:</source>
-        <translation type="unfinished"></translation>
+        <translation>Hôte:</translation>
     </message>
     <message>
         <location filename="../data/DialogNewAVReceiver.ui" line="52"/>
         <source>192.168.0.0</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/DialogNewAVReceiver.ui" line="104"/>
         <source>Please enter a name for this item..</source>
-        <translation type="unfinished"></translation>
+        <translation>Veuillez entrer un nom pour cette élément...</translation>
     </message>
 </context>
 <context>
@@ -568,65 +594,50 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../data/DialogNewAnalog.ui" line="38"/>
         <source>New IO...</source>
-        <translation type="unfinished"></translation>
+        <translation>Nouvel IO...</translation>
     </message>
     <message>
         <location filename="../data/DialogNewAnalog.ui" line="51"/>
         <source>Create a new analog Wago Item</source>
-        <translation type="unfinished"></translation>
+        <translation>Créer un nouvel élément Wago analogique</translation>
     </message>
     <message>
         <location filename="../data/DialogNewAnalog.ui" line="81"/>
         <source>Item Name :</source>
-        <translation type="unfinished"></translation>
+        <translation>Nom de l&apos;élément:</translation>
     </message>
     <message>
         <location filename="../data/DialogNewAnalog.ui" line="88"/>
         <source>Variable :</source>
-        <translation type="unfinished"></translation>
+        <translation>Variable:</translation>
     </message>
     <message>
         <location filename="../data/DialogNewAnalog.ui" line="99"/>
         <source>Type</source>
-        <translation type="unfinished"></translation>
+        <translation>Type</translation>
     </message>
     <message>
         <location filename="../data/DialogNewAnalog.ui" line="106"/>
         <source>Input</source>
-        <translation type="unfinished"></translation>
+        <translation>Entrée</translation>
     </message>
     <message>
         <location filename="../data/DialogNewAnalog.ui" line="116"/>
         <source>Output</source>
-        <translation type="unfinished"></translation>
+        <translation>Sortie</translation>
     </message>
     <message>
-        <location filename="../data/DialogNewAnalog.ui" line="141"/>
-        <source>V</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../data/DialogNewAnalog.ui" line="148"/>
-        <source>Unit :</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../data/DialogNewAnalog.ui" line="155"/>
+        <location filename="../data/DialogNewAnalog.ui" line="145"/>
         <source>Max displayed value</source>
-        <translation type="unfinished"></translation>
+        <translation>Valeur max affichée</translation>
     </message>
     <message>
-        <location filename="../data/DialogNewAnalog.ui" line="172"/>
+        <location filename="../data/DialogNewAnalog.ui" line="128"/>
         <source>Max Wago value :</source>
-        <translation type="unfinished"></translation>
+        <translation>Valeur max Wago:</translation>
     </message>
     <message>
-        <location filename="../data/DialogNewAnalog.ui" line="179"/>
-        <source>Step :</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../data/DialogNewAnalog.ui" line="264"/>
+        <location filename="../data/DialogNewAnalog.ui" line="239"/>
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
@@ -635,12 +646,12 @@ p, li { white-space: pre-wrap; }
 &lt;tr&gt;
 &lt;td style=&quot;border: none;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; font-size:10pt;&quot;&gt;Please enter the name of the item, and the number of the variable (Wago input or Output). You can then specify the conversion values as defined in the Wago&apos;s documentation of the module. The Wago module 750-467 processes signals of a standard 0–10V range. The documentation give a min/max value of 0-32761. The unit will be used for the display.&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
-        <location filename="../data/DialogNewAnalog.ui" line="327"/>
+        <location filename="../data/DialogNewAnalog.ui" line="302"/>
         <source>Please enter a name for this item..</source>
-        <translation type="unfinished"></translation>
+        <translation>Veuillez entrer un nom pour cette élément..</translation>
     </message>
 </context>
 <context>
@@ -648,37 +659,37 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../data/DialogNewAudio.ui" line="26"/>
         <source>New Audio player</source>
-        <translation type="unfinished"></translation>
+        <translation>Nouveau lecteur audio</translation>
     </message>
     <message>
         <location filename="../data/DialogNewAudio.ui" line="39"/>
         <source>Create a new music item</source>
-        <translation type="unfinished"></translation>
+        <translation>Créer un nouvel élément de musique</translation>
     </message>
     <message>
         <location filename="../data/DialogNewAudio.ui" line="60"/>
         <source>Item name :</source>
-        <translation type="unfinished"></translation>
+        <translation>Nom de l&apos;élément:</translation>
     </message>
     <message>
         <location filename="../data/DialogNewAudio.ui" line="70"/>
         <source>Logitech Media Server IP address:</source>
-        <translation type="unfinished"></translation>
+        <translation>Adresse IP du Logitech Media Server:</translation>
     </message>
     <message>
         <location filename="../data/DialogNewAudio.ui" line="77"/>
         <source>192.168.0.10</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/DialogNewAudio.ui" line="84"/>
         <source>MAC address of the Squeezebox :</source>
-        <translation type="unfinished"></translation>
+        <translation>Adresse MAC de la Squeezebox:</translation>
     </message>
     <message>
         <location filename="../data/DialogNewAudio.ui" line="109"/>
         <source>Detect...</source>
-        <translation type="unfinished"></translation>
+        <translation>Détecter...</translation>
     </message>
     <message>
         <location filename="../data/DialogNewAudio.ui" line="187"/>
@@ -687,12 +698,16 @@ p, li { white-space: pre-wrap; }
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; font-weight:400; font-style:italic;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; font-size:10pt;&quot;&gt;Please enter the IP address of Logitech Media Server and the ID of the Squeezebox. The MAC address can be found in the &amp;quot;Settings&amp;quot; menu of Squeezebox Server int the tab Informations.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; font-weight:400; font-style:italic;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; font-size:10pt;&quot;&gt;Veuillez entrer l&apos;adresse IP du Squeezebox Server et l&apos;adresse MAC de la Squeezebox. L&apos;adresse MAC se trouve sur la page &amp;quot;Réglages&amp;quot; du Squeezebox Server dans l&apos;onglet réglages de la platine.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../data/DialogNewAudio.ui" line="247"/>
         <source>Please enter a name for this item..</source>
-        <translation type="unfinished"></translation>
+        <translation>Veuillez entrer un nom pour cette élément...</translation>
     </message>
 </context>
 <context>
@@ -700,46 +715,46 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../data/DialogNewCamera.ui" line="38"/>
         <source>New Camera ...</source>
-        <translation type="unfinished"></translation>
+        <translation>Nouvelle caméra...</translation>
     </message>
     <message>
         <location filename="../data/DialogNewCamera.ui" line="51"/>
         <source>Create a new Camera Item</source>
-        <translation type="unfinished"></translation>
+        <translation>Créer un nouvel élément de caméra</translation>
     </message>
     <message>
         <location filename="../data/DialogNewCamera.ui" line="57"/>
         <source>Camera name :</source>
-        <translation type="unfinished"></translation>
+        <translation>Nom de la caméra:</translation>
     </message>
     <message>
         <location filename="../data/DialogNewCamera.ui" line="71"/>
         <source>Axis</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/DialogNewCamera.ui" line="77"/>
         <location filename="../data/DialogNewCamera.ui" line="198"/>
         <location filename="../data/DialogNewCamera.ui" line="264"/>
         <source>IP Address :</source>
-        <translation type="unfinished"></translation>
+        <translation>Adresse IP:</translation>
     </message>
     <message>
         <location filename="../data/DialogNewCamera.ui" line="84"/>
         <location filename="../data/DialogNewCamera.ui" line="205"/>
         <location filename="../data/DialogNewCamera.ui" line="271"/>
         <source>192.168.0.10</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/DialogNewCamera.ui" line="91"/>
         <source>Camera Number :</source>
-        <translation type="unfinished"></translation>
+        <translation>Numéro de la caméra:</translation>
     </message>
     <message>
         <location filename="../data/DialogNewCamera.ui" line="98"/>
         <source>1</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/DialogNewCamera.ui" line="174"/>
@@ -748,82 +763,86 @@ p, li { white-space: pre-wrap; }
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; font-weight:400; font-style:italic;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; font-size:10pt;&quot;&gt;The Camera number is used for Axis Video encoder, to select the channel. Value can be 1,2,3,4 or quad, in that case the 4 cameras are displayed at the same time. &lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; font-weight:400; font-style:italic;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; font-size:10pt;&quot;&gt;Le numéro de caméra sert pour les encodeurs vidéo Axis et permet de sélectionner le canal. La valeur peut être 1, 2, 3, 4 ou quad pour afficher les 4 caméras en même temps. &lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../data/DialogNewCamera.ui" line="192"/>
         <source>Planet</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/DialogNewCamera.ui" line="212"/>
         <source>Model :</source>
-        <translation type="unfinished"></translation>
+        <translation>Modèle:</translation>
     </message>
     <message>
         <location filename="../data/DialogNewCamera.ui" line="229"/>
         <source>ICA-210W</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/DialogNewCamera.ui" line="234"/>
         <source>ICA-210</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/DialogNewCamera.ui" line="239"/>
         <source>ICA-500</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/DialogNewCamera.ui" line="244"/>
         <source>ICA-302</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/DialogNewCamera.ui" line="249"/>
         <source>ICA-300</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/DialogNewCamera.ui" line="258"/>
         <source>Gadspot</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/DialogNewCamera.ui" line="279"/>
         <source>Standard MJPEG</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/DialogNewCamera.ui" line="285"/>
         <source>URL (jpeg) :</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/DialogNewCamera.ui" line="299"/>
         <source>URL (mjpeg) :</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/DialogNewCamera.ui" line="313"/>
         <source>URL (mpeg4) :</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/DialogNewCamera.ui" line="334"/>
         <source>UP Address :</source>
-        <translation type="unfinished"></translation>
+        <translation>Adresse IP:</translation>
     </message>
     <message>
         <location filename="../data/DialogNewCamera.ui" line="388"/>
         <source>Please enter a name for this item..</source>
-        <translation type="unfinished"></translation>
+        <translation>Veuillez entrer un nom pour cette élément...</translation>
     </message>
     <message>
         <location filename="../src/dialognewcamera.cpp" line="76"/>
         <source>Calaos Installer</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -831,22 +850,22 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../data/DialogNewDali.ui" line="38"/>
         <source>New DALI/DMX item...</source>
-        <translation type="unfinished"></translation>
+        <translation>Nouvel élement DALI/DMX...</translation>
     </message>
     <message>
         <location filename="../data/DialogNewDali.ui" line="73"/>
         <source>Create a new DALI/DMX item</source>
-        <translation type="unfinished"></translation>
+        <translation>Créer un nouvel élément DALI/DMX</translation>
     </message>
     <message>
         <location filename="../data/DialogNewDali.ui" line="85"/>
         <source>DALI Address</source>
-        <translation type="unfinished"></translation>
+        <translation>Adresse DALI</translation>
     </message>
     <message>
         <location filename="../data/DialogNewDali.ui" line="98"/>
         <source>Item name :</source>
-        <translation type="unfinished"></translation>
+        <translation>Nom de l&apos;élément:</translation>
     </message>
     <message>
         <location filename="../data/DialogNewDali.ui" line="190"/>
@@ -855,42 +874,47 @@ p, li { white-space: pre-wrap; }
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; font-weight:400; font-style:italic;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; font-size:10pt;&quot;&gt;Please enter the name of the item and the address of the DALI device. For a DALI group, check the case &amp;quot;Group Address&amp;quot; and enter the group address in the &lt;/span&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; font-size:10pt; font-weight:600;&quot;&gt;DALI address&lt;/span&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; font-size:10pt;&quot;&gt; inputbox.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translatorcomment>Veuillez entrer un nom d&apos;élément, ainsi que donner le numéro d&apos;adresse DALI. Pour un groupe DALI, cochez la case &amp;quot;Adresse de groupe&amp;quot; et donnez l&apos;adresse de groupe.</translatorcomment>
+        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; font-weight:400; font-style:italic;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; font-size:10pt;&quot;&gt;Veuillez entrer un nom d&apos;élément, ainsi que donner le numéro d&apos;adresse DALI. Pour un groupe DALI, cochez la case &amp;quot;Adresse de groupe&amp;quot; et donnez l&apos;adresse de groupe.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../data/DialogNewDali.ui" line="256"/>
         <source>Please enter a name for this item..</source>
-        <translation type="unfinished"></translation>
+        <translation>Veuillez entrer un nom pour cette élément...</translation>
     </message>
     <message>
         <location filename="../data/DialogNewDali.ui" line="285"/>
         <source>Group Address</source>
-        <translation type="unfinished"></translation>
+        <translation>Adresse de groupe</translation>
     </message>
     <message>
         <location filename="../data/DialogNewDali.ui" line="314"/>
         <source>Fade duration :</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/DialogNewDali.ui" line="327"/>
         <source>On</source>
-        <translation type="unfinished"></translation>
+        <translation>Activer</translation>
     </message>
     <message>
         <location filename="../data/DialogNewDali.ui" line="340"/>
         <source>Off</source>
-        <translation type="unfinished"></translation>
+        <translation>Désactiver</translation>
     </message>
     <message>
         <location filename="../data/DialogNewDali.ui" line="353"/>
         <source>DALI Light</source>
-        <translation type="unfinished"></translation>
+        <translation>Lumière DALI</translation>
     </message>
     <message>
         <location filename="../data/DialogNewDali.ui" line="369"/>
         <source>DMX Light</source>
-        <translation type="unfinished"></translation>
+        <translation>Lumière DMX</translation>
     </message>
 </context>
 <context>
@@ -898,22 +922,22 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../data/DialogNewDaliRGB.ui" line="38"/>
         <source>New DALI RGB Item ...</source>
-        <translation type="unfinished"></translation>
+        <translation>Nouvel élement DALI RGB...</translation>
     </message>
     <message>
         <location filename="../data/DialogNewDaliRGB.ui" line="51"/>
         <source>Create a new DALI/DMX RGB Item.</source>
-        <translation type="unfinished"></translation>
+        <translation>Créer un nouvel élément DALI RGB.</translation>
     </message>
     <message>
         <location filename="../data/DialogNewDaliRGB.ui" line="63"/>
         <source>DALI Address (Red)</source>
-        <translation type="unfinished"></translation>
+        <translation>Adresse DALI (Rouge)</translation>
     </message>
     <message>
         <location filename="../data/DialogNewDaliRGB.ui" line="76"/>
         <source>Item name :</source>
-        <translation type="unfinished"></translation>
+        <translation>Nom de l&apos;élément:</translation>
     </message>
     <message>
         <location filename="../data/DialogNewDaliRGB.ui" line="168"/>
@@ -922,66 +946,70 @@ p, li { white-space: pre-wrap; }
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; font-weight:400; font-style:italic;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; font-size:10pt;&quot;&gt;Please enter the name of the item and the addresses of the DALI devices. For DALI group, check the case &amp;quot;Group Address&amp;quot; and enter the group address in the respective inputboxes.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; font-weight:400; font-style:italic;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; font-size:10pt;&quot;&gt;Veuillez entrer un nom d&apos;élément, ainsi que donner le numéro d&apos;adresse DALI. Pour un groupe DALI, cochez la case &amp;quot;Adresse de groupe&amp;quot; et donnez l&apos;adresse de groupe.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../data/DialogNewDaliRGB.ui" line="234"/>
         <source>Please enter a name for this item..</source>
-        <translation type="unfinished"></translation>
+        <translation>Veuillez entrer un nom pour cette élément...</translation>
     </message>
     <message>
         <location filename="../data/DialogNewDaliRGB.ui" line="263"/>
         <source>Group Address (Red)</source>
-        <translation type="unfinished"></translation>
+        <translation>Adresse de groupe (Rouge)</translation>
     </message>
     <message>
         <location filename="../data/DialogNewDaliRGB.ui" line="292"/>
         <source>Fade duration :</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/DialogNewDaliRGB.ui" line="305"/>
         <location filename="../data/DialogNewDaliRGB.ui" line="331"/>
         <location filename="../data/DialogNewDaliRGB.ui" line="399"/>
         <source>On</source>
-        <translation type="unfinished"></translation>
+        <translation>Activer</translation>
     </message>
     <message>
         <location filename="../data/DialogNewDaliRGB.ui" line="318"/>
         <location filename="../data/DialogNewDaliRGB.ui" line="386"/>
         <location filename="../data/DialogNewDaliRGB.ui" line="454"/>
         <source>Off</source>
-        <translation type="unfinished"></translation>
+        <translation>Désactiver</translation>
     </message>
     <message>
         <location filename="../data/DialogNewDaliRGB.ui" line="344"/>
         <source>Group Address (Green)</source>
-        <translation type="unfinished"></translation>
+        <translation>Adresse de groupe (Vert)</translation>
     </message>
     <message>
         <location filename="../data/DialogNewDaliRGB.ui" line="373"/>
         <source>DALI Address (Green)</source>
-        <translation type="unfinished"></translation>
+        <translation>Adresse DALI (Vert)</translation>
     </message>
     <message>
         <location filename="../data/DialogNewDaliRGB.ui" line="412"/>
         <source>Group Address (Blue)</source>
-        <translation type="unfinished"></translation>
+        <translation>Adresse de groupe (Bleu)</translation>
     </message>
     <message>
         <location filename="../data/DialogNewDaliRGB.ui" line="441"/>
         <source>DALI Address (Blue)</source>
-        <translation type="unfinished"></translation>
+        <translation>Adresse DALI (Bleur)</translation>
     </message>
     <message>
         <location filename="../data/DialogNewDaliRGB.ui" line="467"/>
         <source>DALI Light</source>
-        <translation type="unfinished"></translation>
+        <translation>Lumière DALI</translation>
     </message>
     <message>
         <location filename="../data/DialogNewDaliRGB.ui" line="483"/>
         <source>DMX Light</source>
-        <translation type="unfinished"></translation>
+        <translation>Lumière DMX</translation>
     </message>
 </context>
 <context>
@@ -989,47 +1017,47 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../data/DialogNewGpioInput.ui" line="14"/>
         <source>Create a new GPIO Input</source>
-        <translation type="unfinished"></translation>
+        <translation>Créer une nouvelle entrée GPIO</translation>
     </message>
     <message>
         <location filename="../data/DialogNewGpioInput.ui" line="20"/>
         <source>Create an new GPIO Input</source>
-        <translation type="unfinished"></translation>
+        <translation>Créer une nouvelle entrée GPIO</translation>
     </message>
     <message>
         <location filename="../data/DialogNewGpioInput.ui" line="29"/>
         <source>Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Nom</translation>
     </message>
     <message>
         <location filename="../data/DialogNewGpioInput.ui" line="39"/>
         <source>GPIO number</source>
-        <translation type="unfinished"></translation>
+        <translation>Numéro du GPIO</translation>
     </message>
     <message>
         <location filename="../data/DialogNewGpioInput.ui" line="49"/>
         <source>Input Type</source>
-        <translation type="unfinished"></translation>
+        <translation>Type d&apos;entrée</translation>
     </message>
     <message>
         <location filename="../data/DialogNewGpioInput.ui" line="57"/>
         <source>Normal switch</source>
-        <translation type="unfinished"></translation>
+        <translation>Interrupteur normal</translation>
     </message>
     <message>
         <location filename="../data/DialogNewGpioInput.ui" line="62"/>
         <source>Triple click switch</source>
-        <translation type="unfinished"></translation>
+        <translation>Interrupteur triple click</translation>
     </message>
     <message>
         <location filename="../data/DialogNewGpioInput.ui" line="67"/>
         <source>Long press switch</source>
-        <translation type="unfinished"></translation>
+        <translation>Interrupteur appui long</translation>
     </message>
     <message>
         <location filename="../data/DialogNewGpioInput.ui" line="78"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ff0000;&quot;&gt;Please enter a valid name and a valid GPIO number!&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ff0000;&quot;&gt;Veuillez entrer un nom et un numéro de GPIO valide!&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
 </context>
 <context>
@@ -1037,27 +1065,27 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../data/DialogNewGpioLight.ui" line="14"/>
         <source>New GPIO</source>
-        <translation type="unfinished"></translation>
+        <translation>Nouveau GPIO</translation>
     </message>
     <message>
         <location filename="../data/DialogNewGpioLight.ui" line="20"/>
         <source>Create an new GPIO Light</source>
-        <translation type="unfinished"></translation>
+        <translation>Créer une nouvelle lumière GPIO</translation>
     </message>
     <message>
         <location filename="../data/DialogNewGpioLight.ui" line="29"/>
         <source>Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Nom</translation>
     </message>
     <message>
         <location filename="../data/DialogNewGpioLight.ui" line="39"/>
         <source>GPIO number</source>
-        <translation type="unfinished"></translation>
+        <translation>Numéro du GPIO</translation>
     </message>
     <message>
         <location filename="../data/DialogNewGpioLight.ui" line="65"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ff0000;&quot;&gt;Please enter a valid name and a valid GPIO number!&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ff0000;&quot;&gt;Veuillez entrer un nom et un numéro de GPIO valide!&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
 </context>
 <context>
@@ -1065,62 +1093,62 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../data/DialogNewGpioShutter.ui" line="14"/>
         <source>New GPIO</source>
-        <translation type="unfinished"></translation>
+        <translation>Nouveau GPIO</translation>
     </message>
     <message>
         <location filename="../data/DialogNewGpioShutter.ui" line="20"/>
         <source>Create an new GPIO Shutter</source>
-        <translation type="unfinished"></translation>
+        <translation>Créer une nouveau volet GPIO</translation>
     </message>
     <message>
         <location filename="../data/DialogNewGpioShutter.ui" line="29"/>
         <source>Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Nom</translation>
     </message>
     <message>
         <location filename="../data/DialogNewGpioShutter.ui" line="39"/>
         <source>GPIO up output</source>
-        <translation type="unfinished"></translation>
+        <translation>Numéro du GPIO montée</translation>
     </message>
     <message>
         <location filename="../data/DialogNewGpioShutter.ui" line="49"/>
         <source>Smart shutter</source>
-        <translation type="unfinished"></translation>
+        <translation>Volet intelligent</translation>
     </message>
     <message>
         <location filename="../data/DialogNewGpioShutter.ui" line="63"/>
         <source>Up Duration (sec.)</source>
-        <translation type="unfinished"></translation>
+        <translation>Durée de la montée (sec.)</translation>
     </message>
     <message>
         <location filename="../data/DialogNewGpioShutter.ui" line="77"/>
         <source>Down Duration (sec.)</source>
-        <translation type="unfinished"></translation>
+        <translation>Durée de la descente (sec.)</translation>
     </message>
     <message>
         <location filename="../data/DialogNewGpioShutter.ui" line="84"/>
         <source>Impulse shutter</source>
-        <translation type="unfinished"></translation>
+        <translation>Volet à impulsion</translation>
     </message>
     <message>
         <location filename="../data/DialogNewGpioShutter.ui" line="94"/>
         <source>GPIO down output</source>
-        <translation type="unfinished"></translation>
+        <translation>Numéro du GPIO descente</translation>
     </message>
     <message>
         <location filename="../data/DialogNewGpioShutter.ui" line="104"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ff0000;&quot;&gt;Please enter a valid name and a valid GPIO number!&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ff0000;&quot;&gt;Veuillez entrer un nom et un numéro de GPIO valide!&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../src/DialogNewGpioShutter.cpp" line="65"/>
         <source>Duration (sec.) :</source>
-        <translation type="unfinished"></translation>
+        <translation>Durée (sec.):</translation>
     </message>
     <message>
         <location filename="../src/DialogNewGpioShutter.cpp" line="71"/>
         <source>Up duration (sec.) :</source>
-        <translation type="unfinished"></translation>
+        <translation>Durée de la montée (sec.):</translation>
     </message>
 </context>
 <context>
@@ -1128,62 +1156,62 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../data/DialogNewInternal.ui" line="38"/>
         <source>New Internal variable</source>
-        <translation type="unfinished"></translation>
+        <translation>Nouvelle variable interne</translation>
     </message>
     <message>
         <location filename="../data/DialogNewInternal.ui" line="73"/>
         <source>Create a new Internal variable</source>
-        <translation type="unfinished"></translation>
+        <translation>Créer une nouvelle variable interne</translation>
     </message>
     <message>
         <location filename="../data/DialogNewInternal.ui" line="85"/>
         <source>Item Name :</source>
-        <translation type="unfinished"></translation>
+        <translation>Nom de l&apos;élément:</translation>
     </message>
     <message>
         <location filename="../data/DialogNewInternal.ui" line="151"/>
         <source>Please enter a name for this item..</source>
-        <translation type="unfinished"></translation>
+        <translation>Veuillez entrer un nom pour cette élément...</translation>
     </message>
     <message>
         <location filename="../data/DialogNewInternal.ui" line="164"/>
         <source>Value :</source>
-        <translation type="unfinished"></translation>
+        <translation>Valeur:</translation>
     </message>
     <message>
         <location filename="../data/DialogNewInternal.ui" line="190"/>
         <source>Boolean</source>
-        <translation type="unfinished"></translation>
+        <translation>Booléen</translation>
     </message>
     <message>
         <location filename="../data/DialogNewInternal.ui" line="206"/>
         <source>Integer</source>
-        <translation type="unfinished"></translation>
+        <translation>Entier</translation>
     </message>
     <message>
         <location filename="../data/DialogNewInternal.ui" line="219"/>
         <source>Text</source>
-        <translation type="unfinished"></translation>
+        <translation>Texte</translation>
     </message>
     <message>
         <location filename="../data/DialogNewInternal.ui" line="232"/>
         <source>Activated</source>
-        <translation type="unfinished"></translation>
+        <translation>Activé</translation>
     </message>
     <message>
         <location filename="../data/DialogNewInternal.ui" line="261"/>
         <source>Visible</source>
-        <translation type="unfinished"></translation>
+        <translation>Visible</translation>
     </message>
     <message>
         <location filename="../data/DialogNewInternal.ui" line="274"/>
         <source>Automatically save the value</source>
-        <translation type="unfinished"></translation>
+        <translation>Sauvegarder la valeur automatiquement</translation>
     </message>
     <message>
         <location filename="../data/DialogNewInternal.ui" line="287"/>
         <source>Edit Mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Mode édition</translation>
     </message>
 </context>
 <context>
@@ -1191,37 +1219,37 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../data/DialogNewOneWireTemp.ui" line="14"/>
         <source>New 1Wire input</source>
-        <translation type="unfinished"></translation>
+        <translation>Nouvelle entrée 1Wire</translation>
     </message>
     <message>
         <location filename="../data/DialogNewOneWireTemp.ui" line="20"/>
         <source>Create an new OneWire Temperature Input</source>
-        <translation type="unfinished"></translation>
+        <translation>Créer une nouvelle entrée de température 1Wire</translation>
     </message>
     <message>
         <location filename="../data/DialogNewOneWireTemp.ui" line="29"/>
         <source>Sensor ID</source>
-        <translation type="unfinished"></translation>
+        <translation>ID du capteur</translation>
     </message>
     <message>
         <location filename="../data/DialogNewOneWireTemp.ui" line="39"/>
         <source>OWFS arguments</source>
-        <translation type="unfinished"></translation>
+        <translation>Arguments pour OWFS</translation>
     </message>
     <message>
         <location filename="../data/DialogNewOneWireTemp.ui" line="49"/>
         <source>Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Nom</translation>
     </message>
     <message>
         <location filename="../data/DialogNewOneWireTemp.ui" line="62"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ff0000;&quot;&gt;Please enter a valid name !&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ff0000;&quot;&gt;Veuillez entrer un nom et un numéro de GPIO valide!&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../data/DialogNewOneWireTemp.ui" line="69"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ff0000;&quot;&gt;Please enter a valid ID !&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ff0000;&quot;&gt;Veuillez entrer un ID valide!&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
 </context>
 <context>
@@ -1229,77 +1257,77 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../data/DialogNewRoom.ui" line="38"/>
         <source>New Room...</source>
-        <translation type="unfinished"></translation>
+        <translation>Nouvelle pièce...</translation>
     </message>
     <message>
         <location filename="../data/DialogNewRoom.ui" line="51"/>
         <source>Add a new room</source>
-        <translation type="unfinished"></translation>
+        <translation>Ajouter une nouvelle pièce</translation>
     </message>
     <message>
         <location filename="../data/DialogNewRoom.ui" line="63"/>
         <source>Room type:</source>
-        <translation type="unfinished"></translation>
+        <translation>Type de pièce:</translation>
     </message>
     <message>
         <location filename="../data/DialogNewRoom.ui" line="76"/>
         <source>Room name:</source>
-        <translation type="unfinished"></translation>
+        <translation>Nom de la pièce:</translation>
     </message>
     <message>
         <location filename="../data/DialogNewRoom.ui" line="106"/>
         <source>Living room</source>
-        <translation type="unfinished"></translation>
+        <translation>Séjour</translation>
     </message>
     <message>
         <location filename="../data/DialogNewRoom.ui" line="114"/>
         <source>Kitchen</source>
-        <translation type="unfinished"></translation>
+        <translation>Cuisine</translation>
     </message>
     <message>
         <location filename="../data/DialogNewRoom.ui" line="119"/>
         <source>Bedroom</source>
-        <translation type="unfinished"></translation>
+        <translation>Chambre</translation>
     </message>
     <message>
         <location filename="../data/DialogNewRoom.ui" line="124"/>
         <source>Office</source>
-        <translation type="unfinished"></translation>
+        <translation>Bureau</translation>
     </message>
     <message>
         <location filename="../data/DialogNewRoom.ui" line="129"/>
         <source>Dining room</source>
-        <translation type="unfinished"></translation>
+        <translation>Salle à manger</translation>
     </message>
     <message>
         <location filename="../data/DialogNewRoom.ui" line="134"/>
         <source>Cellar</source>
-        <translation type="unfinished"></translation>
+        <translation>Cellier</translation>
     </message>
     <message>
         <location filename="../data/DialogNewRoom.ui" line="139"/>
         <source>Miscellaneous</source>
-        <translation type="unfinished"></translation>
+        <translation>Divers</translation>
     </message>
     <message>
         <location filename="../data/DialogNewRoom.ui" line="144"/>
         <source>Garage</source>
-        <translation type="unfinished"></translation>
+        <translation>Garage</translation>
     </message>
     <message>
         <location filename="../data/DialogNewRoom.ui" line="149"/>
         <source>Outside / Garden</source>
-        <translation type="unfinished"></translation>
+        <translation>Extérieur / Jardin</translation>
     </message>
     <message>
         <location filename="../data/DialogNewRoom.ui" line="154"/>
         <source>Bathroom / WC</source>
-        <translation type="unfinished"></translation>
+        <translation>Salle de bain / WC</translation>
     </message>
     <message>
         <location filename="../data/DialogNewRoom.ui" line="159"/>
         <source>Corridor / Hall</source>
-        <translation type="unfinished"></translation>
+        <translation>Couloir / Hall</translation>
     </message>
     <message>
         <location filename="../data/DialogNewRoom.ui" line="242"/>
@@ -1310,17 +1338,23 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; font-size:10pt;&quot;&gt;Please give a room name and select the wanted room type from the right list.&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;DejaVu Sans&apos;; font-size:10pt;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; font-size:10pt;&quot;&gt;The room type correspond to the category in which the room will be found.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; font-weight:400; font-style:italic;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; font-size:10pt;&quot;&gt;Veuillez entrer un nom de pièce, ainsi que sélectionner le type de pièce adéquat.&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;DejaVu Sans&apos;; font-size:10pt;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; font-size:10pt;&quot;&gt;Le type de pièce correspond à la catégorie dans laquelle la pièce va se retrouver.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../data/DialogNewRoom.ui" line="310"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;A room with this name already exists! Please use an other one...&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Une pièce avec ce nom existe déjà! Veuillez en utiliser un autre...&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../data/DialogNewRoom.ui" line="366"/>
         <source>Please give a valid room name...</source>
-        <translation type="unfinished"></translation>
+        <translation>Veuillez entrer un nom pour cette pièce...</translation>
     </message>
 </context>
 <context>
@@ -1328,32 +1362,32 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../data/DialogNewRule.ui" line="38"/>
         <source>New Rule</source>
-        <translation type="unfinished"></translation>
+        <translation>Nouvelle règle</translation>
     </message>
     <message>
         <location filename="../data/DialogNewRule.ui" line="51"/>
         <source>Add a new rule</source>
-        <translation type="unfinished"></translation>
+        <translation>Ajouter une nouvelle règle</translation>
     </message>
     <message>
         <location filename="../data/DialogNewRule.ui" line="57"/>
         <source>Rule name:</source>
-        <translation type="unfinished"></translation>
+        <translation>Nom de la règle:</translation>
     </message>
     <message>
         <location filename="../data/DialogNewRule.ui" line="67"/>
         <source>Rule type:</source>
-        <translation type="unfinished"></translation>
+        <translation>Type de règle:</translation>
     </message>
     <message>
         <location filename="../data/DialogNewRule.ui" line="120"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;A rule already exists with that name! Please change it...&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Une règle avec ce nom existe déjà! Veuillez en utiliser un autre...&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../data/DialogNewRule.ui" line="170"/>
         <source>Please give a valid rule name...</source>
-        <translation type="unfinished"></translation>
+        <translation>Veuillez entrer un nom pour cette règle...</translation>
     </message>
 </context>
 <context>
@@ -1361,17 +1395,17 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../data/DialogNewScenario.ui" line="38"/>
         <source>New scenario...</source>
-        <translation type="unfinished"></translation>
+        <translation>Nouveau scénario...</translation>
     </message>
     <message>
         <location filename="../data/DialogNewScenario.ui" line="51"/>
         <source>Add a new Scenario item</source>
-        <translation type="unfinished"></translation>
+        <translation>Créer un nouvel élément scénario</translation>
     </message>
     <message>
         <location filename="../data/DialogNewScenario.ui" line="63"/>
         <source>Item name:</source>
-        <translation type="unfinished"></translation>
+        <translation>Nom de l&apos;élément:</translation>
     </message>
     <message>
         <location filename="../data/DialogNewScenario.ui" line="155"/>
@@ -1381,17 +1415,22 @@ p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; font-weight:400; font-style:italic;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; font-size:10pt;&quot;&gt;A scenario item is like a virtual button displayed on all user interfaces. That particular button is able to start some rules when it is activated.&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; font-size:10pt;&quot;&gt;One can also use those to do &amp;quot;programs&amp;quot; by calling the &amp;quot;true&amp;quot; action of the scenario in a rule.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; font-weight:400; font-style:italic;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; font-size:10pt;&quot;&gt;Un élément scénario permet d&apos;avoir un interrupteur virtuel représenté par un bouton sur les interfaces. Ce bouton peut alors lancer une série de règle lorsque qu&apos;il est activé.&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; font-size:10pt;&quot;&gt;On peut aussi s&apos;en servir pour faire des &amp;quot;programmes&amp;quot; en appelant l&apos;action &amp;quot;true&amp;quot; du scénario le &amp;quot;programme&amp;quot; sera executé.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../data/DialogNewScenario.ui" line="222"/>
         <source>Please give a valid item name...</source>
-        <translation type="unfinished"></translation>
+        <translation>Veuillez entrer un nom pour cette élément...</translation>
     </message>
     <message>
         <location filename="../data/DialogNewScenario.ui" line="235"/>
         <source>Visible</source>
-        <translation type="unfinished"></translation>
+        <translation>Visible</translation>
     </message>
 </context>
 <context>
@@ -1399,17 +1438,17 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../data/DialogNewTemp.ui" line="38"/>
         <source>New temperature sensor</source>
-        <translation type="unfinished"></translation>
+        <translation>Nouveau capteur de température</translation>
     </message>
     <message>
         <location filename="../data/DialogNewTemp.ui" line="73"/>
         <source>Add a new Wago temperature item</source>
-        <translation type="unfinished"></translation>
+        <translation>Créer un nouvel élément Wago température</translation>
     </message>
     <message>
         <location filename="../data/DialogNewTemp.ui" line="85"/>
         <source>Item name:</source>
-        <translation type="unfinished"></translation>
+        <translation>Nom de l&apos;élément:</translation>
     </message>
     <message>
         <location filename="../data/DialogNewTemp.ui" line="177"/>
@@ -1418,17 +1457,21 @@ p, li { white-space: pre-wrap; }
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; font-weight:400; font-style:italic;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; font-size:10pt;&quot;&gt;Please enter a valid name and the temperature sensor address.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; font-weight:400; font-style:italic;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; font-size:10pt;&quot;&gt;Veuillez entrer un nom d&apos;élément, ainsi que donner l&apos;adresse de la sonde de température.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../data/DialogNewTemp.ui" line="243"/>
         <source>Please give a valid item name...</source>
-        <translation type="unfinished"></translation>
+        <translation>Veuillez entrer un nom pour cette élément...</translation>
     </message>
     <message>
         <location filename="../data/DialogNewTemp.ui" line="256"/>
         <source>Address:</source>
-        <translation type="unfinished"></translation>
+        <translation>Adresse:</translation>
     </message>
 </context>
 <context>
@@ -1436,81 +1479,95 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../data/DialogNewTime.ui" line="38"/>
         <source>New time variable</source>
-        <translation type="unfinished"></translation>
+        <translation>Nouvel élément de temps</translation>
     </message>
     <message>
         <location filename="../data/DialogNewTime.ui" line="51"/>
         <source>Add a new time item</source>
-        <translation type="unfinished"></translation>
+        <translation>Créer un nouvel élément de temps</translation>
     </message>
     <message>
         <location filename="../data/DialogNewTime.ui" line="57"/>
         <source>Item name:</source>
-        <translation type="unfinished"></translation>
+        <translation>Nom de l&apos;élément:</translation>
     </message>
     <message>
         <location filename="../data/DialogNewTime.ui" line="71"/>
         <source>Date/Time</source>
-        <translation type="unfinished"></translation>
+        <translation>Date/Heure</translation>
     </message>
     <message>
         <location filename="../data/DialogNewTime.ui" line="87"/>
         <source>Only time :</source>
-        <translation type="unfinished"></translation>
+        <translation>Heure uniquement:</translation>
     </message>
     <message>
         <location filename="../data/DialogNewTime.ui" line="111"/>
         <source>Date and time :</source>
-        <translation type="unfinished"></translation>
+        <translation>Date et heure:</translation>
     </message>
     <message>
         <location filename="../data/DialogNewTime.ui" line="121"/>
         <source>d MMMM yyyy HH:mm:ss</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/DialogNewTime.ui" line="129"/>
         <source>Timer</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/DialogNewTime.ui" line="141"/>
         <source>Timer duration :</source>
-        <translation type="unfinished"></translation>
+        <translation>Durée du timer:</translation>
     </message>
     <message>
         <location filename="../data/DialogNewTime.ui" line="154"/>
         <source>HH:mm:ss.zzz</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
-        <location filename="../data/DialogNewTime.ui" line="160"/>
+        <location filename="../data/DialogNewTime.ui" line="167"/>
+        <source>Auto start timer at boot</source>
+        <translation>Démarrer automatique</translation>
+    </message>
+    <message>
+        <location filename="../data/DialogNewTime.ui" line="180"/>
+        <source>Auto restart the timer after it expires</source>
+        <translation>Relancer après expiration</translation>
+    </message>
+    <message>
+        <location filename="../data/DialogNewTime.ui" line="186"/>
         <source>Time Range</source>
-        <translation type="unfinished"></translation>
+        <translation>Plage horaire</translation>
     </message>
     <message>
-        <location filename="../data/DialogNewTime.ui" line="241"/>
+        <location filename="../data/DialogNewTime.ui" line="267"/>
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; font-weight:400; font-style:italic;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; font-size:10pt;&quot;&gt;You can configure the time ranges by selecting the newly created TimeRange item, and go to &amp;quot;Configure time ranges&amp;quot; in the right click menu.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; font-weight:400; font-style:italic;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; font-size:10pt;&quot;&gt;Vous pouvez configurer les plages horaires en sélectionnant le nouvel elément Plage Horaire et cliquer sur &amp;quot;Configurer la plage horaire&amp;quot; dans le menu click droit.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../data/DialogNewTime.ui" line="303"/>
+        <location filename="../data/DialogNewTime.ui" line="329"/>
         <source>Please give a valid item name...</source>
-        <translation type="unfinished"></translation>
+        <translation>Veuillez entrer un nom pour cette élément...</translation>
     </message>
     <message>
-        <location filename="../src/dialognewtime.cpp" line="79"/>
+        <location filename="../src/dialognewtime.cpp" line="81"/>
         <source>Calaos Installer</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
-        <location filename="../src/dialognewtime.cpp" line="79"/>
+        <location filename="../src/dialognewtime.cpp" line="81"/>
         <source>Unknown type!</source>
-        <translation type="unfinished"></translation>
+        <translation>Type inconnu!</translation>
     </message>
 </context>
 <context>
@@ -1518,17 +1575,17 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../data/DialogNewVolet.ui" line="86"/>
         <source>Add a Wago Shutter item</source>
-        <translation type="unfinished"></translation>
+        <translation>Créer un nouvel élément Wago volet</translation>
     </message>
     <message>
         <location filename="../data/DialogNewVolet.ui" line="98"/>
         <source>Up address:</source>
-        <translation type="unfinished"></translation>
+        <translation>Adresse de montée:</translation>
     </message>
     <message>
         <location filename="../data/DialogNewVolet.ui" line="114"/>
         <source>Item name :</source>
-        <translation type="unfinished"></translation>
+        <translation>Nom de l&apos;élément:</translation>
     </message>
     <message>
         <location filename="../data/DialogNewVolet.ui" line="206"/>
@@ -1537,57 +1594,61 @@ p, li { white-space: pre-wrap; }
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; font-weight:400; font-style:italic;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; font-size:10pt;&quot;&gt;Give a name and the up/down address of the shutter.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; font-weight:400; font-style:italic;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; font-size:10pt;&quot;&gt;Veuillez donner le nom ainsi que les adresses de montée et de descente du volet.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../data/DialogNewVolet.ui" line="272"/>
         <source>Please give a valid item name...</source>
-        <translation type="unfinished"></translation>
+        <translation>Veuillez entrer un nom pour cette élément...</translation>
     </message>
     <message>
         <location filename="../data/DialogNewVolet.ui" line="38"/>
         <source>New shutter...</source>
-        <translation type="unfinished"></translation>
+        <translation>Nouveau volet...</translation>
     </message>
     <message>
         <location filename="../data/DialogNewVolet.ui" line="295"/>
         <source>&quot;Smart&quot; shutter</source>
-        <translation type="unfinished"></translation>
+        <translation>Volet intelligent</translation>
     </message>
     <message>
         <location filename="../data/DialogNewVolet.ui" line="318"/>
         <source>Down address:</source>
-        <translation type="unfinished"></translation>
+        <translation>Adresse de descente:</translation>
     </message>
     <message>
         <location filename="../data/DialogNewVolet.ui" line="350"/>
         <source>Down duration (sec.):</source>
-        <translation type="unfinished"></translation>
+        <translation>Durée de la descente (sec.):</translation>
     </message>
     <message>
         <location filename="../data/DialogNewVolet.ui" line="382"/>
         <source>Up Duration (sec.):</source>
-        <translation type="unfinished"></translation>
+        <translation>Durée de la montée (sec.):</translation>
     </message>
     <message>
         <location filename="../data/DialogNewVolet.ui" line="398"/>
         <source>Impulse shutter</source>
-        <translation type="unfinished"></translation>
+        <translation>Volet à impulsion</translation>
     </message>
     <message>
         <location filename="../data/DialogNewVolet.ui" line="414"/>
         <source>841/849/881</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/dialognewvolet.cpp" line="91"/>
         <source>Duration (sec.) :</source>
-        <translation type="unfinished"></translation>
+        <translation>Durée (sec.):</translation>
     </message>
     <message>
         <location filename="../src/dialognewvolet.cpp" line="97"/>
         <source>Up duration (sec.) :</source>
-        <translation type="unfinished"></translation>
+        <translation>Durée de la montée (sec.):</translation>
     </message>
 </context>
 <context>
@@ -1595,22 +1656,22 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../data/DialogNewWago.ui" line="38"/>
         <source>Add Wago item</source>
-        <translation type="unfinished"></translation>
+        <translation>Créer un nouvel element Wago</translation>
     </message>
     <message>
         <location filename="../data/DialogNewWago.ui" line="86"/>
         <source>Add a new Wago IO</source>
-        <translation type="unfinished"></translation>
+        <translation>Créer un nouvel IO Wago</translation>
     </message>
     <message>
         <location filename="../data/DialogNewWago.ui" line="98"/>
         <source>Address:</source>
-        <translation type="unfinished"></translation>
+        <translation>Adresse:</translation>
     </message>
     <message>
         <location filename="../data/DialogNewWago.ui" line="111"/>
         <source>Item name :</source>
-        <translation type="unfinished"></translation>
+        <translation>Nom de l&apos;élément:</translation>
     </message>
     <message>
         <location filename="../data/DialogNewWago.ui" line="203"/>
@@ -1619,27 +1680,27 @@ p, li { white-space: pre-wrap; }
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;DejaVu Sans&apos;; font-size:10pt; font-weight:400; font-style:italic;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Veuillez entrer un nom d&apos;élément, ainsi que donner le numéro de la variable (entrée ou sortie Wago).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/DialogNewWago.ui" line="269"/>
         <source>Please give a valid item name...</source>
-        <translation type="unfinished"></translation>
+        <translation>Veuillez entrer un nom pour cette élément...</translation>
     </message>
     <message>
         <location filename="../data/DialogNewWago.ui" line="314"/>
         <source>Test</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/DialogNewWago.ui" line="326"/>
         <source>Switch ON</source>
-        <translation type="unfinished"></translation>
+        <translation>Allumer</translation>
     </message>
     <message>
         <location filename="../data/DialogNewWago.ui" line="339"/>
         <source>Switch OFF</source>
-        <translation type="unfinished"></translation>
+        <translation>Eteindre</translation>
     </message>
     <message>
         <location filename="../data/DialogNewWago.ui" line="421"/>
@@ -1648,18 +1709,22 @@ p, li { white-space: pre-wrap; }
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; font-weight:400; font-style:italic;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; font-size:10pt;&quot;&gt;You can try an output by enterring its address and click on the buttons.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; font-weight:400; font-style:italic;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; font-size:10pt;&quot;&gt;Vous pouvez tester en mettant l&apos;adresse et en cliquant sur les boutons&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../data/DialogNewWago.ui" line="453"/>
         <source>Detect</source>
-        <translation type="unfinished"></translation>
+        <translation>Détecter</translation>
     </message>
     <message>
         <location filename="../data/DialogNewWago.ui" line="465"/>
         <location filename="../src/dialognewwago.cpp" line="139"/>
         <source>Detection</source>
-        <translation type="unfinished"></translation>
+        <translation>Détection</translation>
     </message>
     <message>
         <location filename="../data/DialogNewWago.ui" line="547"/>
@@ -1668,12 +1733,16 @@ p, li { white-space: pre-wrap; }
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; font-weight:400; font-style:italic;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; font-size:10pt;&quot;&gt;Click the button to start automatic detection of the input switch.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; font-weight:400; font-style:italic;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; font-size:10pt;&quot;&gt;Cliquer sur le bouton pour démarrer la détection automatique d&apos;un interrupteur.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../data/DialogNewWago.ui" line="584"/>
         <source>KNX</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/DialogNewWago.ui" line="666"/>
@@ -1682,37 +1751,41 @@ p, li { white-space: pre-wrap; }
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; font-weight:400; font-style:italic;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; font-size:10pt;&quot;&gt;Choose if the I/O is connected to a KNX bus.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; font-weight:400; font-style:italic;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; font-size:10pt;&quot;&gt;Cocher si l&apos;I/O est connectée à un bus KNX.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../data/DialogNewWago.ui" line="692"/>
         <source>841/849/881</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/DialogNewWago.ui" line="709"/>
         <source>Normal switch</source>
-        <translation type="unfinished"></translation>
+        <translation>Interrupteur normal</translation>
     </message>
     <message>
         <location filename="../data/DialogNewWago.ui" line="714"/>
         <source>Triple click switch</source>
-        <translation type="unfinished"></translation>
+        <translation>Interrupteur triple click</translation>
     </message>
     <message>
         <location filename="../data/DialogNewWago.ui" line="719"/>
         <source>Long press switch</source>
-        <translation type="unfinished"></translation>
+        <translation>Interrupteur appui long</translation>
     </message>
     <message>
         <location filename="../src/dialognewwago.cpp" line="15"/>
         <source>Ok, next</source>
-        <translation type="unfinished"></translation>
+        <translation>Ok, suivant</translation>
     </message>
     <message>
         <location filename="../src/dialognewwago.cpp" line="120"/>
         <source>Stop...</source>
-        <translation type="unfinished"></translation>
+        <translation>Arrêter...</translation>
     </message>
 </context>
 <context>
@@ -1720,173 +1793,177 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../data/DialogNewWebIO.ui" line="14"/>
         <source>New Web IO</source>
-        <translation type="unfinished"></translation>
+        <translation>Nouveau WebIO</translation>
     </message>
     <message>
         <location filename="../data/DialogNewWebIO.ui" line="26"/>
-        <location filename="../src/dialognewwebio.cpp" line="50"/>
         <source>Create an new Web Temperature Input</source>
-        <translation type="unfinished"></translation>
+        <translation>Créer une nouvelle entrée de température WebIO</translation>
     </message>
     <message>
         <location filename="../data/DialogNewWebIO.ui" line="46"/>
         <source>Item Name :</source>
-        <translation type="unfinished"></translation>
+        <translation>Nom de l&apos;élément:</translation>
     </message>
     <message>
         <location filename="../data/DialogNewWebIO.ui" line="64"/>
         <source>Switch Input</source>
-        <translation type="unfinished"></translation>
+        <translation>Type d&apos;interrupteur</translation>
     </message>
     <message>
         <location filename="../data/DialogNewWebIO.ui" line="69"/>
         <source>Light</source>
-        <translation type="unfinished"></translation>
+        <translation>Lumière</translation>
     </message>
     <message>
         <location filename="../data/DialogNewWebIO.ui" line="74"/>
         <source>Light RGB</source>
-        <translation type="unfinished"></translation>
+        <translation>Lumière RGB</translation>
     </message>
     <message>
         <location filename="../data/DialogNewWebIO.ui" line="79"/>
         <source>Shutter</source>
-        <translation type="unfinished"></translation>
+        <translation>Volet</translation>
     </message>
     <message>
         <location filename="../data/DialogNewWebIO.ui" line="84"/>
         <source>Temperature Sensor</source>
-        <translation type="unfinished"></translation>
+        <translation>Sonde de température</translation>
     </message>
     <message>
         <location filename="../data/DialogNewWebIO.ui" line="94"/>
         <source>Analog Value Output</source>
-        <translation type="unfinished"></translation>
+        <translation>Sortie analogique</translation>
     </message>
     <message>
         <location filename="../data/DialogNewWebIO.ui" line="112"/>
         <source>Url :</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/DialogNewWebIO.ui" line="130"/>
         <source>JSON</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/DialogNewWebIO.ui" line="135"/>
         <source>XML</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../data/DialogNewWebIO.ui" line="140"/>
-        <source>Plain Text</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/DialogNewWebIO.ui" line="122"/>
         <source>Type :</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../data/DialogNewWebIO.ui" line="140"/>
+        <source>TEXT</source>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/DialogNewWebIO.ui" line="148"/>
         <source>Path :</source>
-        <translation type="unfinished"></translation>
+        <translation>Chemin:</translation>
     </message>
     <message>
         <location filename="../data/DialogNewWebIO.ui" line="158"/>
         <source>Value on :</source>
-        <translation type="unfinished"></translation>
+        <translation>Valeur actif:</translation>
     </message>
     <message>
         <location filename="../data/DialogNewWebIO.ui" line="165"/>
         <source>Value off :</source>
-        <translation type="unfinished"></translation>
+        <translation>Valeur inactif:</translation>
     </message>
     <message>
         <location filename="../data/DialogNewWebIO.ui" line="178"/>
         <source>Frequency :</source>
-        <translation type="unfinished"></translation>
+        <translation>Fréquence:</translation>
     </message>
     <message>
         <location filename="../data/DialogNewWebIO.ui" line="185"/>
         <source>ms</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/DialogNewWebIO.ui" line="200"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-style:italic; color:#828282;&quot;&gt;Path is the place where the value is read in the downloaded data, for example in a json file it can be : weather/temperature. Value will be temperature field of the weather object. In case of array in a json file, you can use [nth] in the path. For example weather/[5]/temperature will be the temperature field of the 5th item of the weather array.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-style:italic; color:#828282;&quot;&gt;Chemin est l&apos;emplacement de la valeur dans les données téléchargés, par exemple dans un fichier JSON cela peut être weather/temperature. La valeur sera le champs temperature de l&apos;objet weather. Dans le cas du JSON, vous pouvez utiliser [nth] dans le chemin. Par exemple weather/[5]/temperature sera le champs température du 5eme élément du tableau weather.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../data/DialogNewWebIO.ui" line="210"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ff0000;&quot;&gt;Please enter a valid name&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ff0000;&quot;&gt;Veuillez entrer un nom valide&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../data/DialogNewWebIO.ui" line="217"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ff0000;&quot;&gt;Please enter a valid URL&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ff0000;&quot;&gt;Veuillez entrer une URL valide!&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../data/DialogNewWebIO.ui" line="224"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ff0000;&quot;&gt;Please enter a valid Path&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ff0000;&quot;&gt;Veuillez entrer un chemin valide!&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../data/DialogNewWebIO.ui" line="89"/>
         <source>Analog Value Input</source>
-        <translation type="unfinished"></translation>
+        <translation>Valeur analogique</translation>
     </message>
     <message>
         <location filename="../data/DialogNewWebIO.ui" line="99"/>
         <source>String Input</source>
-        <translation type="unfinished"></translation>
+        <translation>Entrée chaine de caractères</translation>
     </message>
     <message>
         <location filename="../data/DialogNewWebIO.ui" line="104"/>
         <source>String Output</source>
-        <translation type="unfinished"></translation>
+        <translation>Sortie chaine de caractères</translation>
     </message>
     <message>
         <location filename="../data/DialogNewWebIO.ui" line="56"/>
         <source>IO Type</source>
-        <translation type="unfinished"></translation>
+        <translation>Type d&apos;IO</translation>
     </message>
     <message>
-        <location filename="../src/dialognewwebio.cpp" line="30"/>
-        <source>Create an new Web Input Switch</source>
-        <translation type="unfinished"></translation>
+        <location filename="../src/dialognewwebio.cpp" line="33"/>
+        <source>Create a new Web Input Switch</source>
+        <translation>Créer un nouvel interrupteur WebIO</translation>
     </message>
     <message>
-        <location filename="../src/dialognewwebio.cpp" line="38"/>
-        <source>Create an new Web Light</source>
-        <translation type="unfinished"></translation>
+        <location filename="../src/dialognewwebio.cpp" line="41"/>
+        <source>Create a new Web Light</source>
+        <translation>Créer une nouvelle lumière WebIO</translation>
     </message>
     <message>
-        <location filename="../src/dialognewwebio.cpp" line="42"/>
-        <source>Create an new Web RGB Light</source>
-        <translation type="unfinished"></translation>
+        <location filename="../src/dialognewwebio.cpp" line="45"/>
+        <source>Create a new Web RGB Light</source>
+        <translation>Créer une nouvelle lumière RGB WebIO</translation>
     </message>
     <message>
-        <location filename="../src/dialognewwebio.cpp" line="46"/>
-        <source>Create an new Web Shutter</source>
-        <translation type="unfinished"></translation>
+        <location filename="../src/dialognewwebio.cpp" line="49"/>
+        <source>Create a new Web Shutter</source>
+        <translation>Créer un nouveau volet WebIO</translation>
     </message>
     <message>
-        <location filename="../src/dialognewwebio.cpp" line="56"/>
-        <source>Create an new Web Analog Input</source>
-        <translation type="unfinished"></translation>
+        <location filename="../src/dialognewwebio.cpp" line="53"/>
+        <source>Create a new Web Temperature Input</source>
+        <translation>Créer une nouvelle entrée de température WebIO</translation>
     </message>
     <message>
-        <location filename="../src/dialognewwebio.cpp" line="64"/>
-        <source>Create an new Web String Input</source>
-        <translation type="unfinished"></translation>
+        <location filename="../src/dialognewwebio.cpp" line="59"/>
+        <source>Create a new Web Analog Input</source>
+        <translation>Créer une nouvelle entrée analogique WebIO</translation>
+    </message>
+    <message>
+        <location filename="../src/dialognewwebio.cpp" line="65"/>
+        <source>Create a new Web String Input</source>
+        <translation>Créer une nouvelle entrée chaine WebIO</translation>
     </message>
     <message>
         <location filename="../src/dialognewwebio.cpp" line="69"/>
-        <source>Create an new Web String Output</source>
-        <translation type="unfinished"></translation>
+        <source>Create a new Web String Output</source>
+        <translation>Créer une nouvelle sortie chaine WebIO</translation>
     </message>
 </context>
 <context>
@@ -1894,93 +1971,93 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../data/DialogNewWebIoShutter.ui" line="14"/>
         <source>Dialog</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/DialogNewWebIoShutter.ui" line="20"/>
         <source>Create an new Web Shutter Output</source>
-        <translation type="unfinished"></translation>
+        <translation>Créer un nouveau volet WebIO</translation>
     </message>
     <message>
         <location filename="../data/DialogNewWebIoShutter.ui" line="43"/>
         <source>Item Name :</source>
-        <translation type="unfinished"></translation>
+        <translation>Nom de l&apos;élément:</translation>
     </message>
     <message>
         <location filename="../data/DialogNewWebIoShutter.ui" line="53"/>
         <source>Url Up :</source>
-        <translation type="unfinished"></translation>
+        <translation>Url montée:</translation>
     </message>
     <message>
         <location filename="../data/DialogNewWebIoShutter.ui" line="63"/>
         <source>Url Down:</source>
-        <translation type="unfinished"></translation>
+        <translation>Url descente:</translation>
     </message>
     <message>
         <location filename="../data/DialogNewWebIoShutter.ui" line="73"/>
         <source>Type :</source>
-        <translation type="unfinished"></translation>
+        <translation>Type:</translation>
     </message>
     <message>
         <location filename="../data/DialogNewWebIoShutter.ui" line="81"/>
         <source>JSON</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/DialogNewWebIoShutter.ui" line="86"/>
         <source>XML</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/DialogNewWebIoShutter.ui" line="91"/>
-        <source>Plain Text</source>
-        <translation type="unfinished"></translation>
+        <source>TEXT</source>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/DialogNewWebIoShutter.ui" line="99"/>
         <location filename="../data/DialogNewWebIoShutter.ui" line="154"/>
         <source>Path :</source>
-        <translation type="unfinished"></translation>
+        <translation>Chemin:</translation>
     </message>
     <message>
         <location filename="../data/DialogNewWebIoShutter.ui" line="109"/>
         <source>Smart shutter</source>
-        <translation type="unfinished"></translation>
+        <translation>Volet intelligent</translation>
     </message>
     <message>
         <location filename="../data/DialogNewWebIoShutter.ui" line="116"/>
         <source>Impulse shutter</source>
-        <translation type="unfinished"></translation>
+        <translation>Volet à impulsion</translation>
     </message>
     <message>
         <location filename="../data/DialogNewWebIoShutter.ui" line="123"/>
         <source>Up Duration (sec.)</source>
-        <translation type="unfinished"></translation>
+        <translation>Durée de la montée (sec.)</translation>
     </message>
     <message>
         <location filename="../data/DialogNewWebIoShutter.ui" line="137"/>
         <source>Down Duration (sec.)</source>
-        <translation type="unfinished"></translation>
+        <translation>Durée de la descente (sec.)</translation>
     </message>
     <message>
         <location filename="../data/DialogNewWebIoShutter.ui" line="163"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-style:italic; color:#828282;&quot;&gt;Path is the place where the value is read in the downloaded data, for example in a json file it can be : weather/temperature. Value will be temperature field of the weather object. In case of array in a json file, you can use [nth] in the path. For example weather/[5]/temperature will be the temperature field of the 5th item of the weather array.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-style:italic; color:#828282;&quot;&gt;Chemin est l&apos;emplacement de la valeur dans les données téléchargés, par exemple dans un fichier JSON cela peut être weather/temperature. La valeur sera le champs temperature de l&apos;objet weather. Dans le cas du JSON, vous pouvez utiliser [nth] dans le chemin. Par exemple weather/[5]/temperature sera le champs température du 5eme élément du tableau weather.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../data/DialogNewWebIoShutter.ui" line="173"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ff0000;&quot;&gt;Please enter a valid name&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ff0000;&quot;&gt;Veuillez entrer un nom valide&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../data/DialogNewWebIoShutter.ui" line="180"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ff0000;&quot;&gt;Please enter a valid URL&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ff0000;&quot;&gt;Veuillez entrer une URL valide!&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../data/DialogNewWebIoShutter.ui" line="187"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ff0000;&quot;&gt;Please enter a valid Path&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ff0000;&quot;&gt;Veuillez entrer un chemin valide!&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
 </context>
 <context>
@@ -1988,27 +2065,27 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../data/DialogNewX10.ui" line="14"/>
         <source>New X10</source>
-        <translation type="unfinished"></translation>
+        <translation>Nouvel element X10</translation>
     </message>
     <message>
         <location filename="../data/DialogNewX10.ui" line="20"/>
         <source>Create an new X10 Light</source>
-        <translation type="unfinished"></translation>
+        <translation>Créer une nouvelle lumière X10</translation>
     </message>
     <message>
         <location filename="../data/DialogNewX10.ui" line="29"/>
         <source>Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Nom</translation>
     </message>
     <message>
         <location filename="../data/DialogNewX10.ui" line="39"/>
         <source>X10 House code</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/DialogNewX10.ui" line="65"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ff0000;&quot;&gt;Please enter a valid name and a valid house code!&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -2016,62 +2093,62 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../data/DialogNewZibase.ui" line="14"/>
         <source>Add Zibase</source>
-        <translation type="unfinished"></translation>
+        <translation>Ajouter un element Zibase</translation>
     </message>
     <message>
         <location filename="../data/DialogNewZibase.ui" line="20"/>
         <source>Create an new Zibase item</source>
-        <translation type="unfinished"></translation>
+        <translation>Créer un nouvel élément Zibase</translation>
     </message>
     <message>
         <location filename="../data/DialogNewZibase.ui" line="29"/>
         <source>Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Nom</translation>
     </message>
     <message>
         <location filename="../data/DialogNewZibase.ui" line="39"/>
         <source>Zibase host</source>
-        <translation type="unfinished"></translation>
+        <translation>Hôte Ziase</translation>
     </message>
     <message>
         <location filename="../data/DialogNewZibase.ui" line="46"/>
         <source>x.x.x.x</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/DialogNewZibase.ui" line="66"/>
         <source>ABC</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/DialogNewZibase.ui" line="73"/>
         <source>Sensor ID</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/DialogNewZibase.ui" line="83"/>
         <source>Sensor type</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/DialogNewZibase.ui" line="93"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ff0000;&quot;&gt;Please enter a valid name and properties!&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/DialogNewZibase.cpp" line="18"/>
         <source>Energy monitor sensor</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/DialogNewZibase.cpp" line="19"/>
         <source>Temperature sensor</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/DialogNewZibase.cpp" line="23"/>
         <source>Door/window sensor</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -2079,117 +2156,117 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../data/DialogNewZibaseOutput.ui" line="14"/>
         <source>Add Zibase</source>
-        <translation type="unfinished"></translation>
+        <translation>Ajouter un element Zibase</translation>
     </message>
     <message>
         <location filename="../data/DialogNewZibaseOutput.ui" line="20"/>
         <source>Create an new Zibase Output item</source>
-        <translation type="unfinished"></translation>
+        <translation>Créer une nouvelle sortie Zibase</translation>
     </message>
     <message>
         <location filename="../data/DialogNewZibaseOutput.ui" line="29"/>
         <source>Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Nom</translation>
     </message>
     <message>
         <location filename="../data/DialogNewZibaseOutput.ui" line="39"/>
         <source>Zibase host</source>
-        <translation type="unfinished"></translation>
+        <translation>Hôte Ziase</translation>
     </message>
     <message>
         <location filename="../data/DialogNewZibaseOutput.ui" line="46"/>
         <source>x.x.x.x</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/DialogNewZibaseOutput.ui" line="66"/>
         <source>ABC</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/DialogNewZibaseOutput.ui" line="73"/>
         <source>sensor id</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/DialogNewZibaseOutput.ui" line="83"/>
         <source> protocol</source>
-        <translation type="unfinished"></translation>
+        <translation>Protocole</translation>
     </message>
     <message>
         <location filename="../data/DialogNewZibaseOutput.ui" line="90"/>
         <source>nbburst</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/DialogNewZibaseOutput.ui" line="103"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ff0000;&quot;&gt;Please enter a valid name and properties!&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/DialogNewZibaseOutput.cpp" line="19"/>
         <source>DEFAULT_PROTOCOL</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/DialogNewZibaseOutput.cpp" line="20"/>
         <source>VISONIC433</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/DialogNewZibaseOutput.cpp" line="21"/>
         <source>VISONIC868</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/DialogNewZibaseOutput.cpp" line="22"/>
         <source>CHACON</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/DialogNewZibaseOutput.cpp" line="23"/>
         <source>DOMIA</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/DialogNewZibaseOutput.cpp" line="24"/>
         <source>RFX10</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/DialogNewZibaseOutput.cpp" line="25"/>
         <source>ZWAVE</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/DialogNewZibaseOutput.cpp" line="26"/>
         <source>RFSTS10</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/DialogNewZibaseOutput.cpp" line="27"/>
         <source>XDD433alrm</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/DialogNewZibaseOutput.cpp" line="28"/>
         <source>XDD868alrmn</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/DialogNewZibaseOutput.cpp" line="29"/>
         <source>XDD868shutter</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/DialogNewZibaseOutput.cpp" line="30"/>
         <source>XDD868pilot</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/DialogNewZibaseOutput.cpp" line="31"/>
         <source>XDD868boiler</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -2197,62 +2274,62 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../data/DialogOpenOnline.ui" line="14"/>
         <source>Retrieve configuration...</source>
-        <translation type="unfinished"></translation>
+        <translation>Charger la configuration...</translation>
     </message>
     <message>
         <location filename="../data/DialogOpenOnline.ui" line="32"/>
         <source>Calaos Server IP Address :</source>
-        <translation type="unfinished"></translation>
+        <translation>Adresse IP du Calaos Server:</translation>
     </message>
     <message>
         <location filename="../data/DialogOpenOnline.ui" line="43"/>
         <source>192.168.1.100</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/DialogOpenOnline.ui" line="48"/>
         <source>192.168.0.100</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/DialogOpenOnline.ui" line="53"/>
         <source>10.0.0.100</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/DialogOpenOnline.ui" line="58"/>
         <source>10.0.0.101</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/DialogOpenOnline.ui" line="63"/>
         <source>http://192.168.0.100:5454/api.php</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/DialogOpenOnline.ui" line="76"/>
         <source>Connect with home.calaos.fr</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/DialogOpenOnline.ui" line="89"/>
         <source>Credentials</source>
-        <translation type="unfinished"></translation>
+        <translation>Identifiants</translation>
     </message>
     <message>
         <location filename="../data/DialogOpenOnline.ui" line="97"/>
         <source>Username:</source>
-        <translation type="unfinished"></translation>
+        <translation>Nom d&apos;utilisateur:</translation>
     </message>
     <message>
         <location filename="../data/DialogOpenOnline.ui" line="111"/>
         <source>Password:</source>
-        <translation type="unfinished"></translation>
+        <translation>Mot de passe:</translation>
     </message>
     <message>
         <location filename="../data/DialogOpenOnline.ui" line="125"/>
         <source>Show password</source>
-        <translation type="unfinished"></translation>
+        <translation>Afficher le mot de passe</translation>
     </message>
     <message>
         <location filename="../src/dialogopenonline.cpp" line="108"/>
@@ -2260,7 +2337,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../src/dialogopenonline.cpp" line="190"/>
         <location filename="../src/dialogopenonline.cpp" line="199"/>
         <source>Calaos Installer</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/dialogopenonline.cpp" line="109"/>
@@ -2268,19 +2345,22 @@ p, li { white-space: pre-wrap; }
         <source>Failed to connect!
 Please check your credentials.
 HTTP error: </source>
-        <translation type="unfinished"></translation>
+        <translation>Erreur de connection!
+Vérifiez vos identifiants.
+HTTP error: </translation>
     </message>
     <message>
         <location filename="../src/dialogopenonline.cpp" line="117"/>
         <source>Error!
 Failed to connect.
 HTTP error: </source>
-        <translation type="unfinished"></translation>
+        <translation>Erreur de connection!
+HTTP error: </translation>
     </message>
     <message>
         <location filename="../src/dialogopenonline.cpp" line="191"/>
         <source>Failed to load config files!</source>
-        <translation type="unfinished"></translation>
+        <translation>Impossible de charger les fichiers de configuration!</translation>
     </message>
 </context>
 <context>
@@ -2288,42 +2368,42 @@ HTTP error: </source>
     <message>
         <location filename="../data/DialogOptions.ui" line="14"/>
         <source>Calaos Installer - Options</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/DialogOptions.ui" line="24"/>
         <source>Configuration</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/DialogOptions.ui" line="32"/>
         <source>Application language:</source>
-        <translation type="unfinished"></translation>
+        <translation>Langue de l&apos;application:</translation>
     </message>
     <message>
         <location filename="../data/DialogOptions.ui" line="66"/>
         <source>Default Wago PLC IP Address:</source>
-        <translation type="unfinished"></translation>
+        <translation>Adresse IP par défaut de l&apos;automate Wago:</translation>
     </message>
     <message>
         <location filename="../data/DialogOptions.ui" line="86"/>
         <source>x.x.x.x</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/DialogOptions.cpp" line="14"/>
         <source>System default language</source>
-        <translation type="unfinished"></translation>
+        <translation>Langue par défaut du système</translation>
     </message>
     <message>
         <location filename="../src/DialogOptions.cpp" line="103"/>
         <source>Relaunch required</source>
-        <translation type="unfinished"></translation>
+        <translation>Redémarrage requis</translation>
     </message>
     <message>
         <location filename="../src/DialogOptions.cpp" line="104"/>
         <source>Calaos Installer need to be restarted for the new settings to take effect. Do it now or later after saving your work.</source>
-        <translation type="unfinished"></translation>
+        <translation>Calaos Installer doit être relancé pour que les paramètres soit pris en compte. Faites le après avoir sauvegarder votre travail.</translation>
     </message>
 </context>
 <context>
@@ -2332,67 +2412,67 @@ HTTP error: </source>
         <location filename="../data/DialogPlageHoraire.ui" line="20"/>
         <location filename="../data/DialogPlageHoraire.ui" line="30"/>
         <source>Time Ranges</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/DialogPlageHoraire.ui" line="51"/>
         <source>Monday</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/DialogPlageHoraire.ui" line="56"/>
         <source>Tuesday</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/DialogPlageHoraire.ui" line="61"/>
         <source>Wednesday</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/DialogPlageHoraire.ui" line="66"/>
         <source>Thursday</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/DialogPlageHoraire.ui" line="71"/>
         <source>Friday</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/DialogPlageHoraire.ui" line="76"/>
         <source>Saturday</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/DialogPlageHoraire.ui" line="81"/>
         <source>Sunday</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/DialogPlageHoraire.ui" line="105"/>
         <source>Begin time</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/DialogPlageHoraire.ui" line="110"/>
         <source>End time</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/DialogPlageHoraire.ui" line="135"/>
         <source>Modify</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/DialogPlageHoraire.ui" line="146"/>
         <source>Add</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/DialogPlageHoraire.ui" line="157"/>
         <source>Delete</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -2400,13 +2480,13 @@ HTTP error: </source>
     <message>
         <location filename="../data/DialogPlageInput.ui" line="20"/>
         <source>Time range</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/DialogPlageInput.ui" line="28"/>
         <location filename="../data/DialogPlageInput.ui" line="83"/>
         <source>HH:mm:ss</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -2414,62 +2494,62 @@ HTTP error: </source>
     <message>
         <location filename="../data/DialogSaveOnline.ui" line="14"/>
         <source>Send configuration...</source>
-        <translation type="unfinished"></translation>
+        <translation>Envoyer la configuration...</translation>
     </message>
     <message>
         <location filename="../data/DialogSaveOnline.ui" line="32"/>
         <source>Calaos Server IP address :</source>
-        <translation type="unfinished"></translation>
+        <translation>Adresse IP du Calaos Server:</translation>
     </message>
     <message>
         <location filename="../data/DialogSaveOnline.ui" line="43"/>
         <source>192.168.1.100</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/DialogSaveOnline.ui" line="48"/>
         <source>http://192.168.0.100:5454/api.php</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/DialogSaveOnline.ui" line="53"/>
         <source>192.168.0.100</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/DialogSaveOnline.ui" line="58"/>
         <source>10.0.0.100</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/DialogSaveOnline.ui" line="63"/>
         <source>10.0.0.101</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/DialogSaveOnline.ui" line="76"/>
         <source>Connect with home.calaos.fr</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/DialogSaveOnline.ui" line="89"/>
         <source>Credentials</source>
-        <translation type="unfinished"></translation>
+        <translation>Identifiants</translation>
     </message>
     <message>
         <location filename="../data/DialogSaveOnline.ui" line="97"/>
         <source>Username:</source>
-        <translation type="unfinished"></translation>
+        <translation>Nom d&apos;utilisateur:</translation>
     </message>
     <message>
         <location filename="../data/DialogSaveOnline.ui" line="111"/>
         <source>Password:</source>
-        <translation type="unfinished"></translation>
+        <translation>Mot de passe:</translation>
     </message>
     <message>
         <location filename="../data/DialogSaveOnline.ui" line="125"/>
         <source>Show password</source>
-        <translation type="unfinished"></translation>
+        <translation>Afficher le mot de passe</translation>
     </message>
     <message>
         <location filename="../src/dialogsaveonline.cpp" line="108"/>
@@ -2479,13 +2559,14 @@ HTTP error: </source>
         <location filename="../src/dialogsaveonline.cpp" line="198"/>
         <location filename="../src/dialogsaveonline.cpp" line="207"/>
         <source>Calaos Installer</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/dialogsaveonline.cpp" line="109"/>
         <source>Failed to connect!
 Please check your credentials.</source>
-        <translation type="unfinished"></translation>
+        <translation>Erreur de connection!
+Vérifiez vos identifiants.</translation>
     </message>
     <message>
         <location filename="../src/dialogsaveonline.cpp" line="117"/>
@@ -2493,22 +2574,24 @@ Please check your credentials.</source>
         <source>Failed to connect!
 Please check your credentials.
 HTTP error: </source>
-        <translation type="unfinished"></translation>
+        <translation>Erreur de connection!
+Vérifiez vos identifiants.
+HTTP error: </translation>
     </message>
     <message>
         <location filename="../src/dialogsaveonline.cpp" line="144"/>
         <source>Do you want to upload this configuration to Calaos Server at address %1?</source>
-        <translation type="unfinished"></translation>
+        <translation>Voulez vous envoyer la configuration au serveur Calaos à l&apos;adresse %1?</translation>
     </message>
     <message>
         <location filename="../src/dialogsaveonline.cpp" line="192"/>
         <source>Configuration successfully uploaded.</source>
-        <translation type="unfinished"></translation>
+        <translation>La configuration a été envoyé correctement.</translation>
     </message>
     <message>
         <location filename="../src/dialogsaveonline.cpp" line="199"/>
         <source>Error when loading config files!</source>
-        <translation type="unfinished"></translation>
+        <translation>Erreur lors de l&apos;envoi des fichiers!</translation>
     </message>
 </context>
 <context>
@@ -2516,37 +2599,37 @@ HTTP error: </source>
     <message>
         <location filename="../data/DialogScriptEditor.ui" line="14"/>
         <source>Script Editor</source>
-        <translation type="unfinished"></translation>
+        <translation>Editeur de script</translation>
     </message>
     <message>
         <location filename="../data/DialogScriptEditor.ui" line="151"/>
         <source>Check</source>
-        <translation type="unfinished"></translation>
+        <translation>Vérifier</translation>
     </message>
     <message>
         <location filename="../data/DialogScriptEditor.ui" line="162"/>
         <source>Ok</source>
-        <translation type="unfinished"></translation>
+        <translation>Ok</translation>
     </message>
     <message>
         <location filename="../data/DialogScriptEditor.ui" line="173"/>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>Annuler</translation>
     </message>
     <message>
         <location filename="../src/DialogScriptEditor.cpp" line="52"/>
         <source>The script was successfully executed.</source>
-        <translation type="unfinished"></translation>
+        <translation>Le script a été exécuter avec succès.</translation>
     </message>
     <message>
         <location filename="../src/DialogScriptEditor.cpp" line="88"/>
         <source>The script returns &quot;true&quot;</source>
-        <translation type="unfinished"></translation>
+        <translation>Le script a renvoyé &quot;true&quot;</translation>
     </message>
     <message>
         <location filename="../src/DialogScriptEditor.cpp" line="90"/>
         <source>The script returns &quot;false&quot;</source>
-        <translation type="unfinished"></translation>
+        <translation>Le script a renvoyé &quot;false&quot;</translation>
     </message>
 </context>
 <context>
@@ -2554,12 +2637,12 @@ HTTP error: </source>
     <message>
         <location filename="../data/DialogWagoFirmwareUpdate.ui" line="20"/>
         <source>Wago PLC firmware upgrade</source>
-        <translation type="unfinished"></translation>
+        <translation>Mise à jour du firmware de l&apos;automate Wago</translation>
     </message>
     <message>
         <location filename="../data/DialogWagoFirmwareUpdate.ui" line="55"/>
         <source>Wago PLC Update</source>
-        <translation type="unfinished"></translation>
+        <translation>Mise à jour du Wago</translation>
     </message>
     <message>
         <location filename="../data/DialogWagoFirmwareUpdate.ui" line="77"/>
@@ -2572,12 +2655,20 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; font-size:11pt; font-style:italic; color:#aa0000;&quot;&gt;Warning !&lt;/span&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; font-size:11pt;&quot;&gt; The PLC will be completely erased. You will need to reload the failsafe configuration after upgrading.&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;Sans Serif&apos;; font-size:11pt;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; font-size:11pt; font-style:italic; color:#aa0000;&quot;&gt;Warning !&lt;/span&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; font-size:11pt;&quot;&gt; When upgrading a 750-849 PLC running on a KNX installation, a full reinstallation of the KNX link is required from ETS (.SYM_XML file).&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8.25pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; font-size:11pt;&quot;&gt;Vous allez mettre à jour votre automate à la dernière version. Ce système de mise à jour est uniquement disponible pour les automates 750-841/750-849/750-881.&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;Sans Serif&apos;; font-size:11pt;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; font-size:11pt; font-style:italic; color:#aa0000;&quot;&gt;Attention !&lt;/span&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; font-size:11pt;&quot;&gt; L&apos;automate sera entièrement réinitialisé, il faudra donc recharger le mode dérgadé.&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;Sans Serif&apos;; font-size:11pt;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; font-size:11pt; font-style:italic; color:#aa0000;&quot;&gt;Attention !&lt;/span&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; font-size:11pt;&quot;&gt; Lors d&apos;une mise à jour d&apos;un automate 750-849 qui fonctionne avec une installation KNX, il faudra reprogrammer l&apos;automate à partir d&apos;ETS en mettant à jour le fichier de lien (fichier .SYM_XML).&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../data/DialogWagoFirmwareUpdate.ui" line="101"/>
         <source>Start update</source>
-        <translation type="unfinished"></translation>
+        <translation>Démarrer la mise à jour</translation>
     </message>
 </context>
 <context>
@@ -2585,62 +2676,62 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../data/FormActionMail.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/FormActionMail.ui" line="163"/>
         <source>Action</source>
-        <translation type="unfinished"></translation>
+        <translation>Action</translation>
     </message>
     <message>
         <location filename="../data/FormActionMail.ui" line="170"/>
         <source>action_type</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/FormActionMail.ui" line="193"/>
         <source>action_name</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/FormActionMail.ui" line="225"/>
         <source>Attach camera screenshot:</source>
-        <translation type="unfinished"></translation>
+        <translation>Attacher une capture de caméra:</translation>
     </message>
     <message>
         <location filename="../data/FormActionMail.ui" line="235"/>
         <source>Edit message...</source>
-        <translation type="unfinished"></translation>
+        <translation>Editer le message...</translation>
     </message>
     <message>
         <location filename="../data/FormActionMail.ui" line="238"/>
         <source>buttonStyled</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/FormActionMail.ui" line="245"/>
         <source>recipient:</source>
-        <translation type="unfinished"></translation>
+        <translation>Destinataire:</translation>
     </message>
     <message>
         <location filename="../data/FormActionMail.ui" line="252"/>
         <source>Sender:</source>
-        <translation type="unfinished"></translation>
+        <translation>Expéditeur:</translation>
     </message>
     <message>
         <location filename="../data/FormActionMail.ui" line="259"/>
         <source>Message:</source>
-        <translation type="unfinished"></translation>
+        <translation>Message:</translation>
     </message>
     <message>
         <location filename="../data/FormActionMail.ui" line="272"/>
         <source>Subject:</source>
-        <translation type="unfinished"></translation>
+        <translation>Sujet:</translation>
     </message>
     <message>
         <location filename="../src/FormActionMail.cpp" line="53"/>
         <source>&lt;None&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;Aucun&gt;</translation>
     </message>
 </context>
 <context>
@@ -2648,37 +2739,37 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../data/FormActionScript.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/FormActionScript.ui" line="163"/>
         <source>Action</source>
-        <translation type="unfinished"></translation>
+        <translation>Action</translation>
     </message>
     <message>
         <location filename="../data/FormActionScript.ui" line="170"/>
         <source>action_type</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/FormActionScript.ui" line="193"/>
         <source>action_name</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/FormActionScript.ui" line="225"/>
         <source>Edit script...</source>
-        <translation type="unfinished"></translation>
+        <translation>Editer le script...</translation>
     </message>
     <message>
         <location filename="../data/FormActionScript.ui" line="228"/>
         <source>buttonStyled</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/FormActionScript.ui" line="235"/>
         <source>Script :</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -2686,374 +2777,374 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../data/FormActionStd.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/FormActionStd.ui" line="186"/>
         <source>Action</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/FormActionStd.ui" line="193"/>
         <source>action_type</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/FormActionStd.ui" line="216"/>
         <source>action_name</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/FormActionStd.ui" line="263"/>
         <source>Room_name</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/FormActionStd.ui" line="286"/>
         <source>Item_name</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/FormActionStd.ui" line="316"/>
         <source>Value :</source>
-        <translation type="unfinished"></translation>
+        <translation>Valeur:</translation>
     </message>
     <message>
         <location filename="../data/FormActionStd.ui" line="323"/>
         <source>Dynamic value...</source>
-        <translation type="unfinished"></translation>
+        <translation>Valeur dynamique...</translation>
     </message>
     <message>
         <location filename="../data/FormActionStd.ui" line="326"/>
         <location filename="../data/FormActionStd.ui" line="361"/>
         <source>buttonStyled</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/FormActionStd.cpp" line="116"/>
         <source>Start timer</source>
-        <translation type="unfinished"></translation>
+        <translation>Démarrer le timer</translation>
     </message>
     <message>
         <location filename="../src/FormActionStd.cpp" line="117"/>
         <source>Stop timer</source>
-        <translation type="unfinished"></translation>
+        <translation>Arrêter le timer</translation>
     </message>
     <message>
         <location filename="../src/FormActionStd.cpp" line="118"/>
         <source>Change timer duration</source>
-        <translation type="unfinished"></translation>
+        <translation>Changer la durée du timer</translation>
     </message>
     <message>
         <location filename="../src/FormActionStd.cpp" line="122"/>
         <source>Start scenario</source>
-        <translation type="unfinished"></translation>
+        <translation>Démarrer le scénario</translation>
     </message>
     <message>
         <location filename="../src/FormActionStd.cpp" line="123"/>
         <source>Stop scenario (if possible)</source>
-        <translation type="unfinished"></translation>
+        <translation>Arrêter le scénario (si possible)</translation>
     </message>
     <message>
         <location filename="../src/FormActionStd.cpp" line="127"/>
         <source>Set state to false</source>
-        <translation type="unfinished"></translation>
+        <translation>Mettre l&apos;état à false</translation>
     </message>
     <message>
         <location filename="../src/FormActionStd.cpp" line="128"/>
         <source>Set state to true</source>
-        <translation type="unfinished"></translation>
+        <translation>Mettre l&apos;état à true</translation>
     </message>
     <message>
         <location filename="../src/FormActionStd.cpp" line="129"/>
         <source>Toggle state</source>
-        <translation type="unfinished"></translation>
+        <translation>Inverser l&apos;état</translation>
     </message>
     <message>
         <location filename="../src/FormActionStd.cpp" line="133"/>
         <source>Open shutter</source>
-        <translation type="unfinished"></translation>
+        <translation>Ouvrir le volet</translation>
     </message>
     <message>
         <location filename="../src/FormActionStd.cpp" line="134"/>
         <source>Close shutter</source>
-        <translation type="unfinished"></translation>
+        <translation>Fermer le volet</translation>
     </message>
     <message>
         <location filename="../src/FormActionStd.cpp" line="135"/>
         <source>Stop the shutter</source>
-        <translation type="unfinished"></translation>
+        <translation>Arrêter le volet</translation>
     </message>
     <message>
         <location filename="../src/FormActionStd.cpp" line="136"/>
         <source>Toggle shutter state</source>
-        <translation type="unfinished"></translation>
+        <translation>Inverser l&apos;état du volet</translation>
     </message>
     <message>
         <location filename="../src/FormActionStd.cpp" line="137"/>
         <source>Open shutter for X ms</source>
-        <translation type="unfinished"></translation>
+        <translation>Ouvrir le volet pendant X ms</translation>
     </message>
     <message>
         <location filename="../src/FormActionStd.cpp" line="138"/>
         <source>Close shutter for X ms</source>
-        <translation type="unfinished"></translation>
+        <translation>Fermer le volet pendant X ms</translation>
     </message>
     <message>
         <location filename="../src/FormActionStd.cpp" line="142"/>
         <source>Set shutter position to X percent</source>
-        <translation type="unfinished"></translation>
+        <translation>Mettre le volet à la position X pourcent</translation>
     </message>
     <message>
         <location filename="../src/FormActionStd.cpp" line="143"/>
         <source>Open shutter for X percent</source>
-        <translation type="unfinished"></translation>
+        <translation>Ouvrir le volet de X pourcent</translation>
     </message>
     <message>
         <location filename="../src/FormActionStd.cpp" line="144"/>
         <source>Close shutter for X percent</source>
-        <translation type="unfinished"></translation>
+        <translation>Fermer le volet de X pourcent</translation>
     </message>
     <message>
         <location filename="../src/FormActionStd.cpp" line="145"/>
         <source>Start shutter calibration</source>
-        <translation type="unfinished"></translation>
+        <translation>Lancer la calibration du volet</translation>
     </message>
     <message>
         <location filename="../src/FormActionStd.cpp" line="152"/>
         <source>Switch light on</source>
-        <translation type="unfinished"></translation>
+        <translation>Allumer la lumière</translation>
     </message>
     <message>
         <location filename="../src/FormActionStd.cpp" line="153"/>
         <source>Switch light off</source>
-        <translation type="unfinished"></translation>
+        <translation>Eteindre la lumière</translation>
     </message>
     <message>
         <location filename="../src/FormActionStd.cpp" line="154"/>
         <source>Toggle light status</source>
-        <translation type="unfinished"></translation>
+        <translation>Inverser l&apos;état de la lumière</translation>
     </message>
     <message>
         <location filename="../src/FormActionStd.cpp" line="158"/>
         <source>Switch light on for X ms</source>
-        <translation type="unfinished"></translation>
+        <translation>Allumer la lumière pendant X ms</translation>
     </message>
     <message>
         <location filename="../src/FormActionStd.cpp" line="159"/>
         <source>Blink the light following a pattern</source>
-        <translation type="unfinished"></translation>
+        <translation>Clignoter la lumière en suivant un schéma</translation>
     </message>
     <message>
         <location filename="../src/FormActionStd.cpp" line="163"/>
         <source>Set light dimming to X percent</source>
-        <translation type="unfinished"></translation>
+        <translation>Mettre la lumière à X pourcent</translation>
     </message>
     <message>
         <location filename="../src/FormActionStd.cpp" line="164"/>
         <source>Set light dimming without switching on</source>
-        <translation type="unfinished"></translation>
+        <translation>Mettre la lumière à X pourcent sans allumer</translation>
     </message>
     <message>
         <location filename="../src/FormActionStd.cpp" line="165"/>
         <source>Dim light of X percent</source>
-        <translation type="unfinished"></translation>
+        <translation>Augmenter l&apos;intensité de X pourcent</translation>
     </message>
     <message>
         <location filename="../src/FormActionStd.cpp" line="166"/>
         <source>Brighten light of X percent</source>
-        <translation type="unfinished"></translation>
+        <translation>Diminuer l&apos;intensité de X pourcent</translation>
     </message>
     <message>
         <location filename="../src/FormActionStd.cpp" line="167"/>
         <source>Change brightness on hold</source>
-        <translation type="unfinished"></translation>
+        <translation>Changer l&apos;intensité (hold)</translation>
     </message>
     <message>
         <location filename="../src/FormActionStd.cpp" line="168"/>
         <source>Stop changing brigthness on hold</source>
-        <translation type="unfinished"></translation>
+        <translation>Changer l&apos;intensité (release)</translation>
     </message>
     <message>
         <location filename="../src/FormActionStd.cpp" line="172"/>
         <source>Set color to X</source>
-        <translation type="unfinished"></translation>
+        <translation>Mettre la couleur à X</translation>
     </message>
     <message>
         <location filename="../src/FormActionStd.cpp" line="173"/>
         <source>Increase red by X percent</source>
-        <translation type="unfinished"></translation>
+        <translation>Augmenter le rouge de X pourcent</translation>
     </message>
     <message>
         <location filename="../src/FormActionStd.cpp" line="174"/>
         <source>Decrease red by X percent</source>
-        <translation type="unfinished"></translation>
+        <translation>Diminuer le rouge de X pourcent</translation>
     </message>
     <message>
         <location filename="../src/FormActionStd.cpp" line="175"/>
         <source>Set red to X percent</source>
-        <translation type="unfinished"></translation>
+        <translation>Mettre le rouge à X pourcent</translation>
     </message>
     <message>
         <location filename="../src/FormActionStd.cpp" line="176"/>
         <source>Increase green by X percent</source>
-        <translation type="unfinished"></translation>
+        <translation>Augmenter le vert de X pourcent</translation>
     </message>
     <message>
         <location filename="../src/FormActionStd.cpp" line="177"/>
         <source>Decrease green by X percent</source>
-        <translation type="unfinished"></translation>
+        <translation>Diminuer le vert de X pourcent</translation>
     </message>
     <message>
         <location filename="../src/FormActionStd.cpp" line="178"/>
         <source>Set green to X percent</source>
-        <translation type="unfinished"></translation>
+        <translation>Mettre le vert à X pourcent</translation>
     </message>
     <message>
         <location filename="../src/FormActionStd.cpp" line="179"/>
         <source>Increase blue by X percent</source>
-        <translation type="unfinished"></translation>
+        <translation>Augmenter le bleu de X pourcent</translation>
     </message>
     <message>
         <location filename="../src/FormActionStd.cpp" line="180"/>
         <source>Decrease blue by X percent</source>
-        <translation type="unfinished"></translation>
+        <translation>Diminuer le bleu de X pourcent</translation>
     </message>
     <message>
         <location filename="../src/FormActionStd.cpp" line="181"/>
         <source>Set blue to X percent</source>
-        <translation type="unfinished"></translation>
+        <translation>Mettre le bleu à X pourcent</translation>
     </message>
     <message>
         <location filename="../src/FormActionStd.cpp" line="186"/>
         <source>Play</source>
-        <translation type="unfinished"></translation>
+        <translation>Lecture</translation>
     </message>
     <message>
         <location filename="../src/FormActionStd.cpp" line="187"/>
         <source>Pause</source>
-        <translation type="unfinished"></translation>
+        <translation>Pause</translation>
     </message>
     <message>
         <location filename="../src/FormActionStd.cpp" line="188"/>
         <source>Stop</source>
-        <translation type="unfinished"></translation>
+        <translation>Stop</translation>
     </message>
     <message>
         <location filename="../src/FormActionStd.cpp" line="189"/>
         <source>Next song</source>
-        <translation type="unfinished"></translation>
+        <translation>Piste suivante</translation>
     </message>
     <message>
         <location filename="../src/FormActionStd.cpp" line="190"/>
         <source>Previous song</source>
-        <translation type="unfinished"></translation>
+        <translation>Piste précédente</translation>
     </message>
     <message>
         <location filename="../src/FormActionStd.cpp" line="191"/>
         <location filename="../src/FormActionStd.cpp" line="214"/>
         <source>Set volume to X percent</source>
-        <translation type="unfinished"></translation>
+        <translation>Mettre le volume à X pourcent</translation>
     </message>
     <message>
         <location filename="../src/FormActionStd.cpp" line="192"/>
         <source>Increase volume by X percent</source>
-        <translation type="unfinished"></translation>
+        <translation>Augmenter le volume de X pourcent</translation>
     </message>
     <message>
         <location filename="../src/FormActionStd.cpp" line="193"/>
         <source>Decrease volume by X percent</source>
-        <translation type="unfinished"></translation>
+        <translation>Diminuer le volume de X pourcent</translation>
     </message>
     <message>
         <location filename="../src/FormActionStd.cpp" line="194"/>
         <source>Power on</source>
-        <translation type="unfinished"></translation>
+        <translation>Mettre en marche</translation>
     </message>
     <message>
         <location filename="../src/FormActionStd.cpp" line="195"/>
         <source>Power off</source>
-        <translation type="unfinished"></translation>
+        <translation>Mettre à l&apos;arrêt</translation>
     </message>
     <message>
         <location filename="../src/FormActionStd.cpp" line="196"/>
         <source>Power of in X sec. (sleep mode)</source>
-        <translation type="unfinished"></translation>
+        <translation>Mettre à l&apos;arrêt dans X sec (sleep mode)</translation>
     </message>
     <message>
         <location filename="../src/FormActionStd.cpp" line="197"/>
         <source>Syncronize with another player</source>
-        <translation type="unfinished"></translation>
+        <translation>Synchroniser avec un autre lecteur</translation>
     </message>
     <message>
         <location filename="../src/FormActionStd.cpp" line="198"/>
         <source>Remove sync with another player</source>
-        <translation type="unfinished"></translation>
+        <translation>Enlever la synchro avec un autre lecteur</translation>
     </message>
     <message>
         <location filename="../src/FormActionStd.cpp" line="199"/>
         <source>Play something in the database</source>
-        <translation type="unfinished"></translation>
+        <translation>Lire quelque chose dans la base de donnée</translation>
     </message>
     <message>
         <location filename="../src/FormActionStd.cpp" line="200"/>
         <source>Add something from the database to the playlist</source>
-        <translation type="unfinished"></translation>
+        <translation>Ajouter quelque chose de la base de donnée à la playlist</translation>
     </message>
     <message>
         <location filename="../src/FormActionStd.cpp" line="204"/>
         <source>Recall position position X</source>
-        <translation type="unfinished"></translation>
+        <translation>Rappeler la position X</translation>
     </message>
     <message>
         <location filename="../src/FormActionStd.cpp" line="205"/>
         <source>Save position X</source>
-        <translation type="unfinished"></translation>
+        <translation>Sauvegarder la position X</translation>
     </message>
     <message>
         <location filename="../src/FormActionStd.cpp" line="206"/>
         <source>Move up</source>
-        <translation type="unfinished"></translation>
+        <translation>Bouger vers le haut</translation>
     </message>
     <message>
         <location filename="../src/FormActionStd.cpp" line="207"/>
         <source>Move down</source>
-        <translation type="unfinished"></translation>
+        <translation>Bouger vers le bas</translation>
     </message>
     <message>
         <location filename="../src/FormActionStd.cpp" line="208"/>
         <source>Move left</source>
-        <translation type="unfinished"></translation>
+        <translation>Bouger vers la gauche</translation>
     </message>
     <message>
         <location filename="../src/FormActionStd.cpp" line="209"/>
         <source>Move right</source>
-        <translation type="unfinished"></translation>
+        <translation>Bouger vers la droite</translation>
     </message>
     <message>
         <location filename="../src/FormActionStd.cpp" line="210"/>
         <source>Move to default position</source>
-        <translation type="unfinished"></translation>
+        <translation>Bouger vers la position par défaut</translation>
     </message>
     <message>
         <location filename="../src/FormActionStd.cpp" line="215"/>
         <source>Switch on the receiver</source>
-        <translation type="unfinished"></translation>
+        <translation>Allumer l&apos;ampli</translation>
     </message>
     <message>
         <location filename="../src/FormActionStd.cpp" line="216"/>
         <source>Switch off the receiver</source>
-        <translation type="unfinished"></translation>
+        <translation>Eteindre l&apos;ampli</translation>
     </message>
     <message>
         <location filename="../src/FormActionStd.cpp" line="220"/>
         <source>Change input source</source>
-        <translation type="unfinished"></translation>
+        <translation>Changer la source</translation>
     </message>
     <message>
         <location filename="../src/FormActionStd.cpp" line="235"/>
         <source>Send directly a custom command to the receiver</source>
-        <translation type="unfinished"></translation>
+        <translation>Envoyer une commande directe à l&apos;ampli</translation>
     </message>
 </context>
 <context>
@@ -3061,27 +3152,27 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../data/FormActionTouchscreen.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/FormActionTouchscreen.ui" line="145"/>
         <source>Action</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/FormActionTouchscreen.ui" line="152"/>
         <source>action_type</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/FormActionTouchscreen.ui" line="175"/>
         <source>action_name</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/FormActionTouchscreen.ui" line="207"/>
         <source>Action :</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -3089,42 +3180,42 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../data/formanalogproperties.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/formanalogproperties.ui" line="20"/>
         <source>Analog Properties</source>
-        <translation type="unfinished"></translation>
+        <translation>Propriétés analogique</translation>
     </message>
     <message>
         <location filename="../data/formanalogproperties.ui" line="26"/>
         <source>Unit :</source>
-        <translation type="unfinished"></translation>
+        <translation>Unité:</translation>
     </message>
     <message>
         <location filename="../data/formanalogproperties.ui" line="36"/>
         <source>Coeff :</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/formanalogproperties.ui" line="59"/>
         <source>Offset :</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/formanalogproperties.ui" line="82"/>
         <source>Step :</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/formanalogproperties.ui" line="105"/>
         <source>Minimal :</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/formanalogproperties.ui" line="128"/>
         <source>Maximal :</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -3132,48 +3223,48 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../data/FormConditionScript.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/FormConditionScript.ui" line="163"/>
         <source>Condition</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/FormConditionScript.ui" line="170"/>
         <source>action_type</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/FormConditionScript.ui" line="193"/>
         <source>action_name</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/FormConditionScript.ui" line="225"/>
         <source>Edit script...</source>
-        <translation type="unfinished"></translation>
+        <translation>Editer le script...</translation>
     </message>
     <message>
         <location filename="../data/FormConditionScript.ui" line="228"/>
         <location filename="../data/FormConditionScript.ui" line="252"/>
         <source>buttonStyled</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/FormConditionScript.ui" line="235"/>
         <source>Script:</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/FormConditionScript.ui" line="242"/>
         <source>Trigger inputs:</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/FormConditionScript.ui" line="249"/>
         <source>Select inputs...</source>
-        <translation type="unfinished"></translation>
+        <translation>Selectionner les entrées...</translation>
     </message>
 </context>
 <context>
@@ -3181,27 +3272,27 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../data/FormConditionStart.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/FormConditionStart.ui" line="163"/>
         <source>Condition</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/FormConditionStart.ui" line="170"/>
         <source>cond_type</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/FormConditionStart.ui" line="193"/>
         <source>cond_name</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/FormConditionStart.ui" line="226"/>
         <source>This condition is true only once at startup.</source>
-        <translation type="unfinished"></translation>
+        <translation>Cette condition est uniquement true au démarrage.</translation>
     </message>
 </context>
 <context>
@@ -3209,73 +3300,73 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../data/FormConditionStd.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/FormConditionStd.ui" line="186"/>
         <source>Condition</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/FormConditionStd.ui" line="193"/>
         <source>cond_type</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/FormConditionStd.ui" line="216"/>
         <source>cond_name</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/FormConditionStd.ui" line="263"/>
         <source>Room_name</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/FormConditionStd.ui" line="286"/>
         <source>Item_name</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/FormConditionStd.ui" line="344"/>
         <location filename="../data/FormConditionStd.ui" line="356"/>
         <source>buttonStyled</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/FormConditionStd.ui" line="353"/>
         <source>Dynamic value...</source>
-        <translation type="unfinished"></translation>
+        <translation>Valeur dynamique...</translation>
     </message>
     <message>
         <location filename="../data/FormConditionStd.ui" line="363"/>
         <source>Value:</source>
-        <translation type="unfinished"></translation>
+        <translation>Valeur:</translation>
     </message>
     <message>
         <location filename="../data/FormConditionStd.ui" line="373"/>
         <source>Operator:</source>
-        <translation type="unfinished"></translation>
+        <translation>Opérateur:</translation>
     </message>
     <message>
         <location filename="../data/FormConditionStd.ui" line="380"/>
         <source>Use for trigger</source>
-        <translation type="unfinished"></translation>
+        <translation>Utiliser pour le trigger</translation>
     </message>
     <message>
         <location filename="../data/FormConditionStd.ui" line="387"/>
         <source>Trigger</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/FormConditionStd.cpp" line="171"/>
         <source>Event when entering data/time</source>
-        <translation type="unfinished"></translation>
+        <translation>Evennement sur heure/date choisie</translation>
     </message>
     <message>
         <location filename="../src/FormConditionStd.cpp" line="172"/>
         <source>Event when exiting date/time</source>
-        <translation type="unfinished"></translation>
+        <translation>Evennement en dehors de l&apos;heure/date choisie</translation>
     </message>
     <message>
         <location filename="../src/FormConditionStd.cpp" line="173"/>
@@ -3289,164 +3380,175 @@ p, li { white-space: pre-wrap; }
         <location filename="../src/FormConditionStd.cpp" line="222"/>
         <location filename="../src/FormConditionStd.cpp" line="229"/>
         <location filename="../src/FormConditionStd.cpp" line="237"/>
-        <location filename="../src/FormConditionStd.cpp" line="265"/>
+        <location filename="../src/FormConditionStd.cpp" line="274"/>
         <source>On any event</source>
-        <translation type="unfinished"></translation>
+        <translation>Evennement sur n&apos;importe quel état</translation>
     </message>
     <message>
         <location filename="../src/FormConditionStd.cpp" line="177"/>
         <source>Event on timer finished</source>
-        <translation type="unfinished"></translation>
+        <translation>Evennement sur tempo terminé</translation>
     </message>
     <message>
         <location filename="../src/FormConditionStd.cpp" line="178"/>
         <source>Event on timer start</source>
-        <translation type="unfinished"></translation>
+        <translation>Evennement sur tempo non terminé</translation>
     </message>
     <message>
         <location filename="../src/FormConditionStd.cpp" line="183"/>
         <source>Input is active</source>
-        <translation type="unfinished"></translation>
+        <translation>L&apos;entrée est activé</translation>
     </message>
     <message>
         <location filename="../src/FormConditionStd.cpp" line="184"/>
         <source>Input is inactive</source>
-        <translation type="unfinished"></translation>
+        <translation>L&apos;entrée est désactivé</translation>
     </message>
     <message>
         <location filename="../src/FormConditionStd.cpp" line="189"/>
         <source>Scenario is executed</source>
-        <translation type="unfinished"></translation>
+        <translation>Le bouton scénario est executé</translation>
     </message>
     <message>
         <location filename="../src/FormConditionStd.cpp" line="194"/>
         <source>Event entering time range</source>
-        <translation type="unfinished"></translation>
+        <translation>Evennement sur entrée dans la plage horaire</translation>
     </message>
     <message>
         <location filename="../src/FormConditionStd.cpp" line="195"/>
         <source>Event exiting time range</source>
-        <translation type="unfinished"></translation>
+        <translation>Evennement sur sortie de la plage horaire</translation>
     </message>
     <message>
         <location filename="../src/FormConditionStd.cpp" line="200"/>
         <source>Variable is true</source>
-        <translation type="unfinished"></translation>
+        <translation>La variable est activée</translation>
     </message>
     <message>
         <location filename="../src/FormConditionStd.cpp" line="201"/>
         <source>Variable is false</source>
-        <translation type="unfinished"></translation>
+        <translation>La variable est désactivée</translation>
     </message>
     <message>
         <location filename="../src/FormConditionStd.cpp" line="206"/>
         <source>Output is active</source>
-        <translation type="unfinished"></translation>
+        <translation>La sortie est activée</translation>
     </message>
     <message>
         <location filename="../src/FormConditionStd.cpp" line="207"/>
         <source>Output is inactive</source>
-        <translation type="unfinished"></translation>
+        <translation>La sortie est désactivée</translation>
     </message>
     <message>
         <location filename="../src/FormConditionStd.cpp" line="212"/>
         <location filename="../src/FormConditionStd.cpp" line="219"/>
         <source>Light is on</source>
-        <translation type="unfinished"></translation>
+        <translation>La lumière est allumée</translation>
     </message>
     <message>
         <location filename="../src/FormConditionStd.cpp" line="213"/>
         <location filename="../src/FormConditionStd.cpp" line="220"/>
         <source>Light is off</source>
-        <translation type="unfinished"></translation>
+        <translation>La lumiere est eteinte</translation>
     </message>
     <message>
         <location filename="../src/FormConditionStd.cpp" line="214"/>
         <source>Light is at X%</source>
-        <translation type="unfinished"></translation>
+        <translation>La lumière est a X%</translation>
     </message>
     <message>
         <location filename="../src/FormConditionStd.cpp" line="221"/>
         <source>Light is at XXXX color</source>
-        <translation type="unfinished"></translation>
+        <translation>La lumière est à la couleur XXXX</translation>
     </message>
     <message>
         <location filename="../src/FormConditionStd.cpp" line="226"/>
         <location filename="../src/FormConditionStd.cpp" line="233"/>
         <source>Shutter is open</source>
-        <translation type="unfinished"></translation>
+        <translation>Le volet est ouvert</translation>
     </message>
     <message>
         <location filename="../src/FormConditionStd.cpp" line="227"/>
         <location filename="../src/FormConditionStd.cpp" line="234"/>
         <source>Shutter is closed</source>
-        <translation type="unfinished"></translation>
+        <translation>Le volet est fermé</translation>
     </message>
     <message>
         <location filename="../src/FormConditionStd.cpp" line="228"/>
         <location filename="../src/FormConditionStd.cpp" line="235"/>
         <source>Shutter is stopped</source>
-        <translation type="unfinished"></translation>
+        <translation>Le volet est arrêté</translation>
     </message>
     <message>
         <location filename="../src/FormConditionStd.cpp" line="236"/>
         <source>Shutter is at X%</source>
-        <translation type="unfinished"></translation>
+        <translation>Le volet est à X%</translation>
     </message>
     <message>
         <location filename="../src/FormConditionStd.cpp" line="241"/>
         <source>Event on 1 press</source>
-        <translation type="unfinished"></translation>
+        <translation>Evennement sur 1 appui</translation>
     </message>
     <message>
         <location filename="../src/FormConditionStd.cpp" line="242"/>
         <source>Event on 2 presses</source>
-        <translation type="unfinished"></translation>
+        <translation>Evennement sur 2 appuis</translation>
     </message>
     <message>
         <location filename="../src/FormConditionStd.cpp" line="243"/>
         <source>Event on 3 presses</source>
-        <translation type="unfinished"></translation>
+        <translation>Evennement sur 3 appuis</translation>
     </message>
     <message>
         <location filename="../src/FormConditionStd.cpp" line="247"/>
         <source>Event on normal press</source>
-        <translation type="unfinished"></translation>
+        <translation>Evennement sur appui normal</translation>
     </message>
     <message>
         <location filename="../src/FormConditionStd.cpp" line="248"/>
         <source>Event on long press</source>
-        <translation type="unfinished"></translation>
+        <translation>Evennement sur appui long</translation>
     </message>
     <message>
         <location filename="../src/FormConditionStd.cpp" line="252"/>
-        <source>Event when temperature changes</source>
-        <translation type="unfinished"></translation>
+        <source>Event when temperature changes to a value</source>
+        <translation>Evennement sur une témperature en °C</translation>
     </message>
     <message>
-        <location filename="../src/FormConditionStd.cpp" line="256"/>
-        <source>Event on play</source>
-        <translation type="unfinished"></translation>
+        <location filename="../src/FormConditionStd.cpp" line="253"/>
+        <source>Event when temperature changes</source>
+        <translation>Evennement sur n&apos;importe quel changement de température</translation>
     </message>
     <message>
         <location filename="../src/FormConditionStd.cpp" line="257"/>
+        <location filename="../src/FormConditionStd.cpp" line="261"/>
+        <source>Event when value changes</source>
+        <translation>Evennement lors du changement d&apos;état</translation>
+    </message>
+    <message>
+        <location filename="../src/FormConditionStd.cpp" line="265"/>
+        <source>Event on play</source>
+        <translation>Evennement lors de la lecture</translation>
+    </message>
+    <message>
+        <location filename="../src/FormConditionStd.cpp" line="266"/>
         <source>Event on pause</source>
-        <translation type="unfinished"></translation>
+        <translation>Evennement lors de la pause</translation>
     </message>
     <message>
-        <location filename="../src/FormConditionStd.cpp" line="258"/>
+        <location filename="../src/FormConditionStd.cpp" line="267"/>
         <source>Event on stop</source>
-        <translation type="unfinished"></translation>
+        <translation>Evennement lors de l&apos;arrêt</translation>
     </message>
     <message>
-        <location filename="../src/FormConditionStd.cpp" line="259"/>
+        <location filename="../src/FormConditionStd.cpp" line="268"/>
         <source>Event on song change</source>
-        <translation type="unfinished"></translation>
+        <translation>Evennement lors du changement de piste</translation>
     </message>
     <message>
-        <location filename="../src/FormConditionStd.cpp" line="260"/>
+        <location filename="../src/FormConditionStd.cpp" line="269"/>
         <source>Event on error</source>
-        <translation type="unfinished"></translation>
+        <translation>Evennement lors d&apos;erreur</translation>
     </message>
 </context>
 <context>
@@ -3454,92 +3556,92 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../data/FormDali.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/FormDali.ui" line="34"/>
         <source>Addressing</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/FormDali.ui" line="45"/>
         <source>All ON</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/FormDali.ui" line="56"/>
         <source>All OFF</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/FormDali.ui" line="87"/>
         <source>Quit</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/FormDali.ui" line="138"/>
         <source>Properties #1</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/FormDali.ui" line="146"/>
         <source>Light ON</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/FormDali.ui" line="157"/>
         <source>Light OFF</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/FormDali.ui" line="183"/>
         <source>Faire clignoter pendant 20 secondes</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/FormDali.ui" line="172"/>
         <source>Blink</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/FormDali.ui" line="186"/>
         <source>Stop blinking</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/FormDali.ui" line="201"/>
         <source>Property...</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/FormDali.ui" line="251"/>
         <source>DALI Groups</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/FormDali.ui" line="288"/>
         <source>Group ON</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/FormDali.ui" line="299"/>
         <source>Group OFF</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/FormDali.ui" line="310"/>
         <source>Blink group</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/FormDali.ui" line="321"/>
         <source>Stop group blinking</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/formdali.cpp" line="158"/>
         <source>Calaos Installer</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -3547,7 +3649,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../data/FormRules.ui" line="20"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/FormRules.ui" line="141"/>
@@ -3555,7 +3657,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../data/FormRules.ui" line="537"/>
         <location filename="../data/FormRules.ui" line="755"/>
         <source>FrameBox</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/FormRules.ui" line="168"/>
@@ -3563,13 +3665,13 @@ p, li { white-space: pre-wrap; }
         <location filename="../data/FormRules.ui" line="564"/>
         <location filename="../data/FormRules.ui" line="782"/>
         <source>FrameHeader</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/FormRules.ui" line="198"/>
         <location filename="../src/formrules.cpp" line="245"/>
         <source>Home</source>
-        <translation type="unfinished"></translation>
+        <translation>Maison</translation>
     </message>
     <message>
         <location filename="../data/FormRules.ui" line="201"/>
@@ -3577,12 +3679,12 @@ p, li { white-space: pre-wrap; }
         <location filename="../data/FormRules.ui" line="591"/>
         <location filename="../data/FormRules.ui" line="809"/>
         <source>FrameTitle</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/FormRules.ui" line="224"/>
         <source>Add Item   </source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ajouter   </translation>
     </message>
     <message>
         <location filename="../data/FormRules.ui" line="231"/>
@@ -3597,7 +3699,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../data/FormRules.ui" line="869"/>
         <location filename="../data/FormRules.ui" line="889"/>
         <source>HeaderButton</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/FormRules.ui" line="253"/>
@@ -3605,465 +3707,465 @@ p, li { white-space: pre-wrap; }
         <location filename="../data/FormRules.ui" line="693"/>
         <location filename="../data/FormRules.ui" line="911"/>
         <source>InnerFrame</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/FormRules.ui" line="405"/>
         <source>Rules</source>
-        <translation type="unfinished"></translation>
+        <translation>Règles</translation>
     </message>
     <message>
         <location filename="../data/FormRules.ui" line="519"/>
         <location filename="../src/formrules.cpp" line="305"/>
         <source>Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Nom</translation>
     </message>
     <message>
         <location filename="../data/FormRules.ui" line="588"/>
         <source>Conditions</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/FormRules.ui" line="732"/>
         <source>Operator</source>
-        <translation type="unfinished"></translation>
+        <translation>Opérateur</translation>
     </message>
     <message>
         <location filename="../data/FormRules.ui" line="737"/>
         <location filename="../data/FormRules.ui" line="950"/>
         <source>Value</source>
-        <translation type="unfinished"></translation>
+        <translation>Valeur</translation>
     </message>
     <message>
         <location filename="../data/FormRules.ui" line="806"/>
         <source>Actions</source>
-        <translation type="unfinished"></translation>
+        <translation>Actions</translation>
     </message>
     <message>
         <location filename="../src/formrules.cpp" line="35"/>
         <source>Room</source>
-        <translation type="unfinished"></translation>
+        <translation>Pièce</translation>
     </message>
     <message>
         <location filename="../src/formrules.cpp" line="43"/>
         <source>Switch</source>
-        <translation type="unfinished"></translation>
+        <translation>Interrupteur</translation>
     </message>
     <message>
         <location filename="../src/formrules.cpp" line="47"/>
         <location filename="../src/formrules.cpp" line="103"/>
         <location filename="../src/formrules.cpp" line="141"/>
         <source>Light</source>
-        <translation type="unfinished"></translation>
+        <translation>Lumière</translation>
     </message>
     <message>
         <location filename="../src/formrules.cpp" line="51"/>
         <location filename="../src/formrules.cpp" line="111"/>
         <location filename="../src/formrules.cpp" line="145"/>
         <source>Shutter</source>
-        <translation type="unfinished"></translation>
+        <translation>Volet</translation>
     </message>
     <message>
         <location filename="../src/formrules.cpp" line="55"/>
         <source>DALI/DMX</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/formrules.cpp" line="59"/>
         <source>DALI/DMX RGB</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/formrules.cpp" line="63"/>
         <location filename="../src/formrules.cpp" line="73"/>
         <location filename="../src/formrules.cpp" line="115"/>
         <source>Temperature sensor</source>
-        <translation type="unfinished"></translation>
+        <translation>Sonde de température</translation>
     </message>
     <message>
         <location filename="../src/formrules.cpp" line="67"/>
         <source>Analog Input/Output</source>
-        <translation type="unfinished"></translation>
+        <translation>E/S Analogique</translation>
     </message>
     <message>
         <location filename="../src/formrules.cpp" line="79"/>
         <source>Light Dimmer</source>
-        <translation type="unfinished"></translation>
+        <translation>Lumière sur variateur</translation>
     </message>
     <message>
         <location filename="../src/formrules.cpp" line="85"/>
         <location filename="../src/formrules.cpp" line="137"/>
         <source>Switch input</source>
-        <translation type="unfinished"></translation>
+        <translation>Entrée interrupteur</translation>
     </message>
     <message>
         <location filename="../src/formrules.cpp" line="89"/>
         <source>Analog input</source>
-        <translation type="unfinished"></translation>
+        <translation>Entrée analogique</translation>
     </message>
     <message>
         <location filename="../src/formrules.cpp" line="93"/>
         <source>Digital output</source>
-        <translation type="unfinished"></translation>
+        <translation>Sortie digitale</translation>
     </message>
     <message>
         <location filename="../src/formrules.cpp" line="99"/>
         <source>Switch Input</source>
-        <translation type="unfinished"></translation>
+        <translation>Entrée interrupteur</translation>
     </message>
     <message>
         <location filename="../src/formrules.cpp" line="107"/>
         <source>LightRGB</source>
-        <translation type="unfinished"></translation>
+        <translation>Lumière RGB</translation>
     </message>
     <message>
         <location filename="../src/formrules.cpp" line="119"/>
         <source>Analog Input</source>
-        <translation type="unfinished"></translation>
+        <translation>Entrée analogique</translation>
     </message>
     <message>
         <location filename="../src/formrules.cpp" line="123"/>
         <source>Analog Output</source>
-        <translation type="unfinished"></translation>
+        <translation>Sortie analogique</translation>
     </message>
     <message>
         <location filename="../src/formrules.cpp" line="127"/>
         <source>String Input</source>
-        <translation type="unfinished"></translation>
+        <translation>Entrée chaine de caractères</translation>
     </message>
     <message>
         <location filename="../src/formrules.cpp" line="131"/>
         <source>String Output</source>
-        <translation type="unfinished"></translation>
+        <translation>Sortie chaine de caractères</translation>
     </message>
     <message>
         <location filename="../src/formrules.cpp" line="151"/>
         <source>Camera</source>
-        <translation type="unfinished"></translation>
+        <translation>Camera</translation>
     </message>
     <message>
         <location filename="../src/formrules.cpp" line="155"/>
         <source>Music zone</source>
-        <translation type="unfinished"></translation>
+        <translation>Zone de musique</translation>
     </message>
     <message>
         <location filename="../src/formrules.cpp" line="159"/>
         <source>Audio amplifier</source>
-        <translation type="unfinished"></translation>
+        <translation>Ampli audio</translation>
     </message>
     <message>
         <location filename="../src/formrules.cpp" line="165"/>
         <source>Internal Variable</source>
-        <translation type="unfinished"></translation>
+        <translation>Variable interne</translation>
     </message>
     <message>
         <location filename="../src/formrules.cpp" line="169"/>
         <source>Scenario variable</source>
-        <translation type="unfinished"></translation>
+        <translation>Variable scénario</translation>
     </message>
     <message>
         <location filename="../src/formrules.cpp" line="173"/>
         <source>Time/Scheduling Variable</source>
-        <translation type="unfinished"></translation>
+        <translation>Variable de temps</translation>
     </message>
     <message>
         <location filename="../src/formrules.cpp" line="180"/>
         <source>Normal Condition</source>
-        <translation type="unfinished"></translation>
+        <translation>Condition normale</translation>
     </message>
     <message>
         <location filename="../src/formrules.cpp" line="184"/>
         <source>Condition on output event</source>
-        <translation type="unfinished"></translation>
+        <translation>Condition sur sortie</translation>
     </message>
     <message>
         <location filename="../src/formrules.cpp" line="188"/>
         <source>Condition at start</source>
-        <translation type="unfinished"></translation>
+        <translation>Condition au démarrage</translation>
     </message>
     <message>
         <location filename="../src/formrules.cpp" line="192"/>
         <source>Script Condition</source>
-        <translation type="unfinished"></translation>
+        <translation>Condition script</translation>
     </message>
     <message>
         <location filename="../src/formrules.cpp" line="199"/>
         <source>Normal Action</source>
-        <translation type="unfinished"></translation>
+        <translation>Action normale</translation>
     </message>
     <message>
         <location filename="../src/formrules.cpp" line="203"/>
         <source>E-Mail Action</source>
-        <translation type="unfinished"></translation>
+        <translation>Action Email</translation>
     </message>
     <message>
         <location filename="../src/formrules.cpp" line="207"/>
         <source>Script Action</source>
-        <translation type="unfinished"></translation>
+        <translation>Action script</translation>
     </message>
     <message>
         <location filename="../src/formrules.cpp" line="211"/>
         <source>Touchscreen Action</source>
-        <translation type="unfinished"></translation>
+        <translation>Action Touchscreen</translation>
     </message>
     <message>
         <location filename="../src/formrules.cpp" line="305"/>
         <source>Type</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/formrules.cpp" line="634"/>
         <location filename="../src/formrules.cpp" line="639"/>
-        <location filename="../src/formrules.cpp" line="709"/>
-        <location filename="../src/formrules.cpp" line="1581"/>
-        <location filename="../src/formrules.cpp" line="1641"/>
-        <location filename="../src/formrules.cpp" line="1792"/>
-        <location filename="../src/formrules.cpp" line="1838"/>
-        <location filename="../src/formrules.cpp" line="1985"/>
-        <location filename="../src/formrules.cpp" line="2007"/>
-        <location filename="../src/formrules.cpp" line="2023"/>
-        <location filename="../src/formrules.cpp" line="2077"/>
-        <location filename="../src/formrules.cpp" line="2097"/>
-        <location filename="../src/formrules.cpp" line="2108"/>
-        <location filename="../src/formrules.cpp" line="2148"/>
-        <location filename="../src/formrules.cpp" line="2173"/>
-        <location filename="../src/formrules.cpp" line="2195"/>
-        <location filename="../src/formrules.cpp" line="2211"/>
-        <location filename="../src/formrules.cpp" line="2277"/>
-        <location filename="../src/formrules.cpp" line="2308"/>
-        <location filename="../src/formrules.cpp" line="2456"/>
-        <location filename="../src/formrules.cpp" line="2475"/>
-        <location filename="../src/formrules.cpp" line="2497"/>
-        <location filename="../src/formrules.cpp" line="2515"/>
-        <location filename="../src/formrules.cpp" line="2895"/>
-        <location filename="../src/formrules.cpp" line="2931"/>
-        <location filename="../src/formrules.cpp" line="2992"/>
-        <location filename="../src/formrules.cpp" line="3070"/>
-        <location filename="../src/formrules.cpp" line="3099"/>
+        <location filename="../src/formrules.cpp" line="710"/>
+        <location filename="../src/formrules.cpp" line="1584"/>
+        <location filename="../src/formrules.cpp" line="1644"/>
+        <location filename="../src/formrules.cpp" line="1795"/>
+        <location filename="../src/formrules.cpp" line="1841"/>
+        <location filename="../src/formrules.cpp" line="1988"/>
+        <location filename="../src/formrules.cpp" line="2010"/>
+        <location filename="../src/formrules.cpp" line="2026"/>
+        <location filename="../src/formrules.cpp" line="2080"/>
+        <location filename="../src/formrules.cpp" line="2100"/>
+        <location filename="../src/formrules.cpp" line="2111"/>
+        <location filename="../src/formrules.cpp" line="2151"/>
+        <location filename="../src/formrules.cpp" line="2176"/>
+        <location filename="../src/formrules.cpp" line="2198"/>
+        <location filename="../src/formrules.cpp" line="2214"/>
+        <location filename="../src/formrules.cpp" line="2280"/>
+        <location filename="../src/formrules.cpp" line="2311"/>
+        <location filename="../src/formrules.cpp" line="2465"/>
+        <location filename="../src/formrules.cpp" line="2484"/>
+        <location filename="../src/formrules.cpp" line="2506"/>
+        <location filename="../src/formrules.cpp" line="2524"/>
+        <location filename="../src/formrules.cpp" line="2904"/>
+        <location filename="../src/formrules.cpp" line="2940"/>
+        <location filename="../src/formrules.cpp" line="3001"/>
+        <location filename="../src/formrules.cpp" line="3079"/>
+        <location filename="../src/formrules.cpp" line="3108"/>
         <source>Calaos Installer</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/formrules.cpp" line="634"/>
         <source>You need to add one room at least!</source>
-        <translation type="unfinished"></translation>
+        <translation>Vous devez au moins ajouter une pièce!</translation>
     </message>
     <message>
         <location filename="../src/formrules.cpp" line="639"/>
         <source>You must select a room prior adding elements!</source>
-        <translation type="unfinished"></translation>
+        <translation>Vous devez sélectionner une pièce avant d&apos;ajouter des éléments!</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="709"/>
+        <location filename="../src/formrules.cpp" line="710"/>
         <source>Unknown type (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="1111"/>
+        <location filename="../src/formrules.cpp" line="1114"/>
         <source>Start</source>
-        <translation type="unfinished"></translation>
+        <translation>Démarrage</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="1116"/>
-        <location filename="../src/formrules.cpp" line="1221"/>
+        <location filename="../src/formrules.cpp" line="1119"/>
+        <location filename="../src/formrules.cpp" line="1224"/>
         <source>Script</source>
-        <translation type="unfinished"></translation>
+        <translation>Script</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="1216"/>
+        <location filename="../src/formrules.cpp" line="1219"/>
         <source>EMail</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="1226"/>
+        <location filename="../src/formrules.cpp" line="1229"/>
         <source>Touchscreen</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="1306"/>
+        <location filename="../src/formrules.cpp" line="1309"/>
         <source>Display the associated rules</source>
-        <translation type="unfinished"></translation>
+        <translation>Afficher la règle associée</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="1316"/>
+        <location filename="../src/formrules.cpp" line="1319"/>
         <source>Move to...</source>
-        <translation type="unfinished"></translation>
+        <translation>Déplacer vers...</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="1335"/>
-        <location filename="../src/formrules.cpp" line="1548"/>
-        <location filename="../src/formrules.cpp" line="1569"/>
-        <location filename="../src/formrules.cpp" line="2850"/>
+        <location filename="../src/formrules.cpp" line="1338"/>
+        <location filename="../src/formrules.cpp" line="1551"/>
+        <location filename="../src/formrules.cpp" line="1572"/>
+        <location filename="../src/formrules.cpp" line="2859"/>
         <source>Delete</source>
-        <translation type="unfinished"></translation>
+        <translation>Supprimer</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="1348"/>
+        <location filename="../src/formrules.cpp" line="1351"/>
         <source>Switch on</source>
-        <translation type="unfinished"></translation>
+        <translation>Allumer</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="1352"/>
+        <location filename="../src/formrules.cpp" line="1355"/>
         <source>Switch off</source>
-        <translation type="unfinished"></translation>
+        <translation>Eteindre</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="1361"/>
+        <location filename="../src/formrules.cpp" line="1364"/>
         <source>Display the camera view</source>
-        <translation type="unfinished"></translation>
+        <translation>Afficher la vue de la caméra</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="1373"/>
+        <location filename="../src/formrules.cpp" line="1376"/>
         <source>Convert to normal shutter</source>
-        <translation type="unfinished"></translation>
+        <translation>Convertir en interrupteur normal</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="1379"/>
+        <location filename="../src/formrules.cpp" line="1382"/>
         <source>Convert to smart shutter</source>
-        <translation type="unfinished"></translation>
+        <translation>Convertir en volet intelligent</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="1388"/>
+        <location filename="../src/formrules.cpp" line="1391"/>
         <source>Up</source>
-        <translation type="unfinished"></translation>
+        <translation>Monter</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="1392"/>
+        <location filename="../src/formrules.cpp" line="1395"/>
         <source>Down</source>
-        <translation type="unfinished"></translation>
+        <translation>Descendre</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="1396"/>
+        <location filename="../src/formrules.cpp" line="1399"/>
         <source>Stop</source>
-        <translation type="unfinished"></translation>
+        <translation>Arrêter</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="1411"/>
+        <location filename="../src/formrules.cpp" line="1414"/>
         <source>Edit the time ranges...</source>
-        <translation type="unfinished"></translation>
+        <translation>Editer la plage horaire...</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="1420"/>
-        <location filename="../src/formrules.cpp" line="1450"/>
+        <location filename="../src/formrules.cpp" line="1423"/>
+        <location filename="../src/formrules.cpp" line="1453"/>
         <source>Convert in triple switch...</source>
-        <translation type="unfinished"></translation>
+        <translation>Convertir en interrupteur triple click...</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="1424"/>
-        <location filename="../src/formrules.cpp" line="1437"/>
+        <location filename="../src/formrules.cpp" line="1427"/>
+        <location filename="../src/formrules.cpp" line="1440"/>
         <source>Convert in long press switch...</source>
-        <translation type="unfinished"></translation>
+        <translation>Convertir en interrupteur appui long...</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="1433"/>
-        <location filename="../src/formrules.cpp" line="1446"/>
+        <location filename="../src/formrules.cpp" line="1436"/>
+        <location filename="../src/formrules.cpp" line="1449"/>
         <source>Convert in normal switch...</source>
-        <translation type="unfinished"></translation>
+        <translation>Convertir en interrupteur normal...</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="1459"/>
+        <location filename="../src/formrules.cpp" line="1462"/>
         <source>Link a setpoint...</source>
-        <translation type="unfinished"></translation>
+        <translation>Lier à une consigne...</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="1467"/>
-        <location filename="../src/formrules.cpp" line="2846"/>
+        <location filename="../src/formrules.cpp" line="1470"/>
+        <location filename="../src/formrules.cpp" line="2855"/>
         <source>Properties</source>
-        <translation type="unfinished"></translation>
+        <translation>Propriétés</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="1582"/>
+        <location filename="../src/formrules.cpp" line="1585"/>
         <source>Are you sure to delete item &quot;%1&quot;</source>
-        <translation type="unfinished"></translation>
+        <translation>Etes vous sûr de vouloir supprimer l&apos;élément &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="1642"/>
+        <location filename="../src/formrules.cpp" line="1645"/>
         <source>Are you sure to clone the selected rule?</source>
-        <translation type="unfinished"></translation>
+        <translation>Etes vous sûr de vouloir dupliquer la règle sélectionnée?</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="1792"/>
+        <location filename="../src/formrules.cpp" line="1795"/>
         <source>Error when creating the object!</source>
-        <translation type="unfinished"></translation>
+        <translation>Erreur lors de la création de l&apos;objet!</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="1839"/>
+        <location filename="../src/formrules.cpp" line="1842"/>
         <source>Are you sure to delete the rule?</source>
-        <translation type="unfinished"></translation>
+        <translation>Etes vous sûr de vouloir supprimer la règle?</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="1986"/>
+        <location filename="../src/formrules.cpp" line="1989"/>
         <source>Are you sure to convert this switch into a triple click switch?</source>
-        <translation type="unfinished"></translation>
+        <translation>Etes vous sûr de vouloir convertir cet interrupteur en triple click?</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="2007"/>
-        <location filename="../src/formrules.cpp" line="2097"/>
-        <location filename="../src/formrules.cpp" line="2195"/>
-        <location filename="../src/formrules.cpp" line="2475"/>
-        <location filename="../src/formrules.cpp" line="2515"/>
+        <location filename="../src/formrules.cpp" line="2010"/>
+        <location filename="../src/formrules.cpp" line="2100"/>
+        <location filename="../src/formrules.cpp" line="2198"/>
+        <location filename="../src/formrules.cpp" line="2484"/>
+        <location filename="../src/formrules.cpp" line="2524"/>
         <source>Sorry, this is not implemented !</source>
-        <translation type="unfinished"></translation>
+        <translation>Désolé, ceci n&apos;est pas implémenté!</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="2024"/>
-        <location filename="../src/formrules.cpp" line="2109"/>
-        <location filename="../src/formrules.cpp" line="2212"/>
+        <location filename="../src/formrules.cpp" line="2027"/>
+        <location filename="../src/formrules.cpp" line="2112"/>
+        <location filename="../src/formrules.cpp" line="2215"/>
         <source>Do you want to automatically convert the rules?</source>
-        <translation type="unfinished"></translation>
+        <translation>Souhaitez vous convertir automatiquement les règles?</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="2078"/>
+        <location filename="../src/formrules.cpp" line="2081"/>
         <source>Are you sure to convert this switch into a standard switch?</source>
-        <translation type="unfinished"></translation>
+        <translation>Etes vous sûr de vouloir convertir cet interrupteur standard?</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="2148"/>
+        <location filename="../src/formrules.cpp" line="2151"/>
         <source>Warning, the rules with double/triple were not converted, do it manually.</source>
-        <translation type="unfinished"></translation>
+        <translation>Attention, les règles avec double/triple n&apos;ont pas été convertie, faites le manuellement.</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="2174"/>
+        <location filename="../src/formrules.cpp" line="2177"/>
         <source>Are you sure to convert this switch into a long press switch?</source>
-        <translation type="unfinished"></translation>
+        <translation>Etes vous sûr de vouloir convertir cet interrupteur appui long?</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="2277"/>
-        <location filename="../src/formrules.cpp" line="2308"/>
+        <location filename="../src/formrules.cpp" line="2280"/>
+        <location filename="../src/formrules.cpp" line="2311"/>
         <source>Internal error!</source>
-        <translation type="unfinished"></translation>
+        <translation>Erreur interne!</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="2457"/>
+        <location filename="../src/formrules.cpp" line="2466"/>
         <source>Do you want to convert to a smart shutter?</source>
-        <translation type="unfinished"></translation>
+        <translation>Etes vous sûr de vouloir convertir en volet intelligent?</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="2498"/>
+        <location filename="../src/formrules.cpp" line="2507"/>
         <source>Do you want to convert to normal shutter?</source>
-        <translation type="unfinished"></translation>
+        <translation>Etes vous sûr de vouloir convertir en volet normal?</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="2843"/>
+        <location filename="../src/formrules.cpp" line="2852"/>
         <source>Clone rule</source>
-        <translation type="unfinished"></translation>
+        <translation>Dupliquer la règle</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="2895"/>
+        <location filename="../src/formrules.cpp" line="2904"/>
         <source>You must select an input.</source>
-        <translation type="unfinished"></translation>
+        <translation>Vous devez sélectionner une entrée.</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="2931"/>
-        <location filename="../src/formrules.cpp" line="2992"/>
+        <location filename="../src/formrules.cpp" line="2940"/>
+        <location filename="../src/formrules.cpp" line="3001"/>
         <source>You must select an output.</source>
-        <translation type="unfinished"></translation>
+        <translation>Vous devez sélectionner une sortie.</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="3071"/>
-        <location filename="../src/formrules.cpp" line="3100"/>
+        <location filename="../src/formrules.cpp" line="3080"/>
+        <location filename="../src/formrules.cpp" line="3109"/>
         <source>Are you sure to delete the item &quot;%1&quot;</source>
-        <translation type="unfinished"></translation>
+        <translation>Etes vous sûr de vouloir supprimer l&apos;élément &quot;%1&quot;</translation>
     </message>
 </context>
 <context>
@@ -4071,33 +4173,33 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/TempWizard.cpp" line="17"/>
         <source>Heating setpoint wizard</source>
-        <translation type="unfinished"></translation>
+        <translation>Assistant consigne de chauffage</translation>
     </message>
     <message>
         <location filename="../src/TempWizard.cpp" line="38"/>
         <source>Setpoint name:</source>
-        <translation type="unfinished"></translation>
+        <translation>Non de la consigne:</translation>
     </message>
 </context>
 <context>
     <name>MainWindow</name>
     <message>
         <location filename="../data/MainWindow.ui" line="14"/>
-        <location filename="../src/mainwindow.cpp" line="11"/>
-        <location filename="../src/mainwindow.cpp" line="159"/>
-        <location filename="../src/mainwindow.cpp" line="195"/>
-        <location filename="../src/mainwindow.cpp" line="266"/>
-        <location filename="../src/mainwindow.cpp" line="296"/>
-        <location filename="../src/mainwindow.cpp" line="422"/>
-        <location filename="../src/mainwindow.cpp" line="467"/>
+        <location filename="../src/mainwindow.cpp" line="12"/>
+        <location filename="../src/mainwindow.cpp" line="162"/>
+        <location filename="../src/mainwindow.cpp" line="198"/>
+        <location filename="../src/mainwindow.cpp" line="269"/>
+        <location filename="../src/mainwindow.cpp" line="299"/>
+        <location filename="../src/mainwindow.cpp" line="425"/>
         <location filename="../src/mainwindow.cpp" line="470"/>
         <location filename="../src/mainwindow.cpp" line="473"/>
         <location filename="../src/mainwindow.cpp" line="476"/>
-        <location filename="../src/mainwindow.cpp" line="500"/>
-        <location filename="../src/mainwindow.cpp" line="554"/>
-        <location filename="../src/mainwindow.cpp" line="564"/>
+        <location filename="../src/mainwindow.cpp" line="479"/>
+        <location filename="../src/mainwindow.cpp" line="503"/>
+        <location filename="../src/mainwindow.cpp" line="557"/>
+        <location filename="../src/mainwindow.cpp" line="567"/>
         <source>Calaos Installer</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/MainWindow.ui" line="162"/>
@@ -4108,11 +4210,12 @@ p, li { white-space: pre-wrap; }
         <location filename="../data/MainWindow.ui" line="175"/>
         <location filename="../data/MainWindow.ui" line="195"/>
         <location filename="../data/MainWindow.ui" line="215"/>
-        <location filename="../data/MainWindow.ui" line="254"/>
-        <location filename="../data/MainWindow.ui" line="277"/>
-        <location filename="../data/MainWindow.ui" line="294"/>
+        <location filename="../data/MainWindow.ui" line="251"/>
+        <location filename="../data/MainWindow.ui" line="274"/>
+        <location filename="../data/MainWindow.ui" line="297"/>
+        <location filename="../data/MainWindow.ui" line="314"/>
         <source>HeaderButton</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/MainWindow.ui" line="182"/>
@@ -4122,258 +4225,276 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../data/MainWindow.ui" line="202"/>
         <source>Calaos Server   </source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/MainWindow.ui" line="231"/>
         <source>FrameTitle</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
-        <location filename="../data/MainWindow.ui" line="351"/>
+        <location filename="../data/MainWindow.ui" line="238"/>
+        <source>Auto Detect</source>
+        <translation>Détection auto</translation>
+    </message>
+    <message>
+        <location filename="../data/MainWindow.ui" line="371"/>
         <source>Back</source>
-        <translation type="unfinished"></translation>
+        <translation>Retour</translation>
     </message>
     <message>
-        <location filename="../data/MainWindow.ui" line="368"/>
+        <location filename="../data/MainWindow.ui" line="388"/>
         <source>About Qt</source>
-        <translation type="unfinished"></translation>
+        <translation>A propos de Qt</translation>
     </message>
     <message>
-        <location filename="../data/MainWindow.ui" line="412"/>
+        <location filename="../data/MainWindow.ui" line="432"/>
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8.25pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Sans Serif&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
 &lt;table border=&quot;0&quot; style=&quot;-qt-table-type: root; margin-top:4px; margin-bottom:4px; margin-left:4px; margin-right:4px;&quot;&gt;
 &lt;tr&gt;
 &lt;td style=&quot;border: none;&quot;&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;Sans Serif&apos;; font-size:9pt;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;Sans Serif&apos;; font-size:9pt;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;Sans Serif&apos;; font-size:9pt;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
-&lt;p align=&quot;center&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;Sans Serif&apos;; font-size:9pt;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
-&lt;p align=&quot;center&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;Sans Serif&apos;; font-size:9pt;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
-&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; font-size:20pt; font-weight:600; color:#cccccc;&quot;&gt;Calaos Installer&lt;/span&gt;&lt;/p&gt;
-&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; font-size:10pt; color:#cccccc;&quot;&gt;Copyright (c) Calaos Team&lt;/span&gt;&lt;/p&gt;
-&lt;p align=&quot;center&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;Sans Serif&apos;; font-size:10pt; color:#cccccc;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
-&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; font-size:10pt; font-style:italic; color:#cccccc;&quot;&gt;version: %1&lt;/span&gt;&lt;/p&gt;
-&lt;p align=&quot;center&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;Sans Serif&apos;; font-size:10pt; font-style:italic; color:#cccccc;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
-&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; font-size:10pt; color:#cccccc;&quot;&gt;More informations are available on the website:&lt;/span&gt;&lt;/p&gt;
-&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://support.calaos.fr&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; font-size:9pt; text-decoration: underline; color:#0057ae;&quot;&gt;http://www.calaos.fr&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;p align=&quot;center&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;Sans Serif&apos;; font-size:10pt; color:#cccccc;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
-&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; font-size:10pt; color:#cccccc;&quot;&gt;The Calaos Team&lt;/span&gt;&lt;/p&gt;
-&lt;p align=&quot;center&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;Sans Serif&apos;; font-size:9pt; text-decoration: underline; color:#0000ee;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8.25pt;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p align=&quot;center&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p align=&quot;center&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:20pt; font-weight:600; color:#cccccc;&quot;&gt;Calaos Installer&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt; color:#cccccc;&quot;&gt;Copyright (c) Calaos Team&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;center&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:10pt; color:#cccccc;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt; font-style:italic; color:#cccccc;&quot;&gt;version: %1&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;center&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:10pt; font-style:italic; color:#cccccc;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt; color:#cccccc;&quot;&gt;More informations are available on the website:&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://support.calaos.fr&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0057ae;&quot;&gt;http://www.calaos.fr&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p align=&quot;center&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:10pt; color:#cccccc;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt; color:#cccccc;&quot;&gt;The Calaos Team&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;center&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; text-decoration: underline; color:#0000ee;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
 &lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;img src=&quot;:/img/calaos.png&quot; /&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
-        <location filename="../data/MainWindow.ui" line="465"/>
+        <location filename="../data/MainWindow.ui" line="486"/>
         <source>File</source>
         <translation>Fichier</translation>
     </message>
     <message>
-        <location filename="../data/MainWindow.ui" line="469"/>
+        <location filename="../data/MainWindow.ui" line="490"/>
         <source>Create print report</source>
-        <translation type="unfinished"></translation>
+        <translation>Créer un rapport</translation>
     </message>
     <message>
-        <location filename="../data/MainWindow.ui" line="489"/>
+        <location filename="../data/MainWindow.ui" line="510"/>
         <source>Wago PLC</source>
-        <translation type="unfinished"></translation>
+        <translation>Automate Wago</translation>
     </message>
     <message>
-        <location filename="../data/MainWindow.ui" line="501"/>
+        <location filename="../data/MainWindow.ui" line="522"/>
         <source>Calaos Server</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
-        <location filename="../data/MainWindow.ui" line="516"/>
+        <location filename="../data/MainWindow.ui" line="537"/>
         <source>Open a projet...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../data/MainWindow.ui" line="525"/>
-        <source>Save project as...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../data/MainWindow.ui" line="534"/>
-        <source>New projet...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../data/MainWindow.ui" line="543"/>
-        <source>Save</source>
-        <translation type="unfinished"></translation>
+        <translation>Ouvrir un projet...</translation>
     </message>
     <message>
         <location filename="../data/MainWindow.ui" line="546"/>
-        <source>Ctrl+S</source>
-        <translation type="unfinished"></translation>
+        <source>Save project as...</source>
+        <translation>Sauvegarder un projet sous...</translation>
     </message>
     <message>
         <location filename="../data/MainWindow.ui" line="555"/>
-        <source>Connect</source>
-        <translation type="unfinished"></translation>
+        <source>New projet...</source>
+        <translation>Nouveau projet...</translation>
+    </message>
+    <message>
+        <location filename="../data/MainWindow.ui" line="564"/>
+        <source>Save</source>
+        <translation>Sauvegarder</translation>
     </message>
     <message>
         <location filename="../data/MainWindow.ui" line="567"/>
-        <source>Disconnect</source>
-        <translation type="unfinished"></translation>
+        <source>Ctrl+S</source>
+        <translation></translation>
     </message>
     <message>
-        <location filename="../data/MainWindow.ui" line="579"/>
-        <source>Send failsafe program</source>
-        <translation type="unfinished"></translation>
+        <location filename="../data/MainWindow.ui" line="576"/>
+        <source>Connect</source>
+        <translation>Connecter</translation>
     </message>
     <message>
         <location filename="../data/MainWindow.ui" line="588"/>
+        <source>Disconnect</source>
+        <translation>Déconnecter</translation>
+    </message>
+    <message>
+        <location filename="../data/MainWindow.ui" line="600"/>
+        <source>Send failsafe program</source>
+        <translation>Envoyer programme dégradé</translation>
+    </message>
+    <message>
+        <location filename="../data/MainWindow.ui" line="609"/>
         <source>Programmer le serveur</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../data/MainWindow.ui" line="597"/>
-        <source>Download project from Calaos Server...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../data/MainWindow.ui" line="606"/>
-        <source>Send project to Calaos Server...</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../data/MainWindow.ui" line="618"/>
+        <source>Download project from Calaos Server...</source>
+        <translation>Charger le projet depuis Calaos Server...</translation>
+    </message>
+    <message>
+        <location filename="../data/MainWindow.ui" line="627"/>
+        <source>Send project to Calaos Server...</source>
+        <translation>Envoyer le projet à Calaos Server...</translation>
+    </message>
+    <message>
+        <location filename="../data/MainWindow.ui" line="639"/>
         <source>DALI configuration...</source>
-        <translation type="unfinished"></translation>
+        <translation>Configuration DALI...</translation>
     </message>
     <message>
-        <location filename="../data/MainWindow.ui" line="623"/>
+        <location filename="../data/MainWindow.ui" line="644"/>
         <source>By rooms...</source>
-        <translation type="unfinished"></translation>
+        <translation>Par pièce...</translation>
     </message>
     <message>
-        <location filename="../data/MainWindow.ui" line="628"/>
+        <location filename="../data/MainWindow.ui" line="649"/>
         <source>By inputs/outputs</source>
-        <translation type="unfinished"></translation>
+        <translation>Par entrées/sorties</translation>
     </message>
     <message>
-        <location filename="../data/MainWindow.ui" line="640"/>
+        <location filename="../data/MainWindow.ui" line="661"/>
         <source>Upgrade PLC firmware</source>
-        <translation type="unfinished"></translation>
+        <translation>Mise à jour firmware automate</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="48"/>
-        <location filename="../src/mainwindow.cpp" line="412"/>
+        <location filename="../src/mainwindow.cpp" line="49"/>
+        <location filename="../src/mainwindow.cpp" line="415"/>
         <source>Disconnected.</source>
-        <translation type="unfinished"></translation>
+        <translation>Déconnecté.</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="60"/>
+        <location filename="../src/mainwindow.cpp" line="61"/>
         <source>New</source>
-        <translation type="unfinished"></translation>
+        <translation>Nouveau</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="160"/>
-        <location filename="../src/mainwindow.cpp" line="196"/>
-        <location filename="../src/mainwindow.cpp" line="267"/>
-        <location filename="../src/mainwindow.cpp" line="297"/>
+        <location filename="../src/mainwindow.cpp" line="163"/>
+        <location filename="../src/mainwindow.cpp" line="199"/>
+        <location filename="../src/mainwindow.cpp" line="270"/>
+        <location filename="../src/mainwindow.cpp" line="300"/>
         <source>The project was modified, do you want to save it?</source>
-        <translation type="unfinished"></translation>
+        <translation>Le projet a été modifé, souhaitez vous l&apos;enregistrer?</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="180"/>
-        <location filename="../src/mainwindow.cpp" line="274"/>
+        <location filename="../src/mainwindow.cpp" line="183"/>
+        <location filename="../src/mainwindow.cpp" line="277"/>
         <source>Choose a project folder...</source>
-        <translation type="unfinished"></translation>
+        <translation>Choisir un dossier de projet...</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="233"/>
+        <location filename="../src/mainwindow.cpp" line="211"/>
+        <source>Nouveau</source>
+        <translation>Nouveau</translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.cpp" line="236"/>
         <source>Project saved: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Projet enregistré: %1</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="241"/>
+        <location filename="../src/mainwindow.cpp" line="244"/>
         <source>Loading in progress...</source>
-        <translation type="unfinished"></translation>
+        <translation>Chargement en cours...</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="258"/>
+        <location filename="../src/mainwindow.cpp" line="261"/>
         <source>Project loaded: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Projet chargé: %1</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="355"/>
+        <location filename="../src/mainwindow.cpp" line="358"/>
         <source>Please wait...</source>
-        <translation type="unfinished"></translation>
+        <translation>Veuillez patienter...</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="359"/>
+        <location filename="../src/mainwindow.cpp" line="362"/>
         <source>Creating %p%</source>
-        <translation type="unfinished"></translation>
+        <translation>Création %p%</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="363"/>
+        <location filename="../src/mainwindow.cpp" line="366"/>
         <source>Loading PLC %p%</source>
-        <translation type="unfinished"></translation>
+        <translation>Chargement automate %p%</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="367"/>
+        <location filename="../src/mainwindow.cpp" line="370"/>
         <source>Canceled</source>
-        <translation type="unfinished"></translation>
+        <translation>Annulé</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="400"/>
+        <location filename="../src/mainwindow.cpp" line="403"/>
         <source>Connected (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation>Connecté (%1)</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="423"/>
+        <location filename="../src/mainwindow.cpp" line="426"/>
         <source>The WAGO PLC have to be upgraded.
 
 It is actually running the version %1, the last version is %2.
 You can do it now, but the PLC memory would be cleared.
 
 Do you want to do it now?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/mainwindow.cpp" line="467"/>
-        <source>Connection failed!</source>
-        <translation type="unfinished"></translation>
+        <translation>L&apos;automate doit être mis à jour.
+
+Il est actuellement en version %1, la dernière version est la %2.
+Vous pouvez le faire maintenant, et l&apos;automate sera réinitialisé.
+
+Voulez-vous le faire maintenant?</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="470"/>
-        <source>Wago PLC is not connected!</source>
-        <translation type="unfinished"></translation>
+        <source>Connection failed!</source>
+        <translation>La connection a échoué!</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="473"/>
-        <source>Wait timeout reached, error in communication!</source>
-        <translation type="unfinished"></translation>
+        <source>Wago PLC is not connected!</source>
+        <translation>L&apos;automate Wago n&apos;est pas connecté!</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="476"/>
+        <source>Wait timeout reached, error in communication!</source>
+        <translation>Le délai d&apos;attente de la réponse est dépassé ! Erreur dans la réponse!</translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.cpp" line="479"/>
         <source>Unknown error!</source>
-        <translation type="unfinished"></translation>
+        <translation>Une erreur inconnue est survenue !</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="500"/>
+        <location filename="../src/mainwindow.cpp" line="503"/>
         <source>DALI configuration tool is not available on your PLC!</source>
-        <translation type="unfinished"></translation>
+        <translation>L&apos;adressage DALI n&apos;est pas supporté sur votre automate!</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="555"/>
+        <location filename="../src/mainwindow.cpp" line="558"/>
         <source>Your PLC can be upgraded to the latest version right now, do it?</source>
-        <translation type="unfinished"></translation>
+        <translation>L&apos;automate peut être mis à jour à la dernière version.
+
+Voulez-vous le faire maintenant?</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="564"/>
+        <location filename="../src/mainwindow.cpp" line="567"/>
         <source>Wago PLC upgrade not supported on your PLC!</source>
-        <translation type="unfinished"></translation>
+        <translation>La mise à jour n&apos;est pas supporté sur votre automate!</translation>
     </message>
 </context>
 <context>
@@ -4476,50 +4597,51 @@ Do you want to do it now?</source>
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/projectmanager.cpp" line="481"/>
+        <location filename="../src/projectmanager.cpp" line="489"/>
         <source>This file is not correctly formated!</source>
-        <translation type="unfinished"></translation>
+        <translation>Ce fichier n&apos;est pas formaté correctement!</translation>
     </message>
     <message>
-        <location filename="../src/projectmanager.cpp" line="565"/>
+        <location filename="../src/projectmanager.cpp" line="573"/>
         <source>Input with id &quot;%1&quot; already exists!</source>
-        <translation type="unfinished"></translation>
+        <translation>L&apos;entrée avec l&apos;id &quot;%1&quot; existe déjà!</translation>
     </message>
     <message>
-        <location filename="../src/projectmanager.cpp" line="695"/>
+        <location filename="../src/projectmanager.cpp" line="703"/>
         <source>Output with id &quot;%1&quot; already exists!</source>
-        <translation type="unfinished"></translation>
+        <translation>La sortie avec l&apos;id &quot;%1&quot; existe déjà!</translation>
     </message>
     <message>
         <location filename="../src/TempWizard.cpp" line="22"/>
         <source>This wizard will help you create rules for managing you heating system with a setpoint. It will link the temperature sensor with the setpoint variable and create all assiociated rules. Those rules will let user change the setpoint directly on the Calaos user interface.</source>
-        <translation type="unfinished"></translation>
+        <translation>Cet assistant va vous aider à créer les règles pour une gestion de chauffage par consigne. Il va lier la sonde de température avec une consigne et ainsi créer les règles qui sont associés. Ces règles permettront de régler la consigne de chauffage directement sur une interface Calaos.</translation>
     </message>
     <message>
         <location filename="../src/TempWizard.cpp" line="53"/>
         <source>Setpoint</source>
-        <translation type="unfinished"></translation>
+        <translation>Consigne</translation>
     </message>
     <message>
         <location filename="../src/TempWizard.cpp" line="59"/>
         <source>Rules</source>
-        <translation type="unfinished"></translation>
+        <translation>Règles</translation>
     </message>
     <message>
         <location filename="../src/TempWizard.cpp" line="60"/>
         <source>Do you want the rules to be automatically created?</source>
-        <translation type="unfinished"></translation>
+        <translation>Est-ce que les règles doivent être crées automatiquement ?</translation>
     </message>
     <message>
         <location filename="../src/TempWizard.cpp" line="63"/>
         <source>Create the rules</source>
-        <translation type="unfinished"></translation>
+        <translation>Créer les règles</translation>
     </message>
     <message>
         <location filename="../src/TempWizard.cpp" line="69"/>
         <source>Warning!
 The wizard is going to create 2 rules that would start or stop the heating system from the setpoint value. Those rules will not have any actions, you need to add them yourself.</source>
-        <translation type="unfinished"></translation>
+        <translation>Attention!
+L&apos;assistant va créer les 2 règles qui vont démarrer ou arrêter le chauffage en fonction de la consigne. Ces règles ne comportent aucune action, vous devrez les ajouter par vous même.</translation>
     </message>
 </context>
 <context>
@@ -4527,7 +4649,7 @@ The wizard is going to create 2 rules that would start or stop the heating syste
     <message>
         <location filename="../src/TempWizard.cpp" line="9"/>
         <source>Heating setpoint wizard</source>
-        <translation type="unfinished"></translation>
+        <translation>Assistant de consigne de chauffage</translation>
     </message>
 </context>
 <context>
@@ -4740,57 +4862,57 @@ The wizard is going to create 2 rules that would start or stop the heating syste
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/textedit.cpp" line="1213"/>
+        <location filename="../src/textedit.cpp" line="1208"/>
         <source> (Group)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/textedit.cpp" line="1223"/>
+        <location filename="../src/textedit.cpp" line="1218"/>
         <source> (Red Group)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/textedit.cpp" line="1225"/>
+        <location filename="../src/textedit.cpp" line="1220"/>
         <source> (Red)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/textedit.cpp" line="1235"/>
+        <location filename="../src/textedit.cpp" line="1230"/>
         <source> (Green Group)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/textedit.cpp" line="1237"/>
+        <location filename="../src/textedit.cpp" line="1232"/>
         <source> (Green)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/textedit.cpp" line="1247"/>
+        <location filename="../src/textedit.cpp" line="1242"/>
         <source> (Blue Group)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/textedit.cpp" line="1249"/>
+        <location filename="../src/textedit.cpp" line="1244"/>
         <source> (Blue)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/textedit.cpp" line="1255"/>
+        <location filename="../src/textedit.cpp" line="1250"/>
         <source> (Relay output)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/textedit.cpp" line="1264"/>
+        <location filename="../src/textedit.cpp" line="1259"/>
         <source> (Analog output)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/textedit.cpp" line="1270"/>
+        <location filename="../src/textedit.cpp" line="1265"/>
         <source> (Up)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/textedit.cpp" line="1279"/>
+        <location filename="../src/textedit.cpp" line="1274"/>
         <source> (Down)</source>
         <translation type="unfinished"></translation>
     </message>
