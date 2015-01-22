@@ -38,7 +38,7 @@ Name: "english"; MessagesFile: "compiler:Default.isl"
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"
 
 [Files]
-Source: "..\..\calaos_installer_release\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs; Components: calaosinstaller;
+Source: "C:\calaos_installer_release\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs; Components: calaosinstaller;
 ;Source: "Bonjour.msi"; DestDir: "{app}\redist"; Flags: ignoreversion; Components: calaosinstaller;
 ;Source: "Bonjour64.msi"; DestDir: "{app}\redist"; Flags: ignoreversion; Components: calaosinstaller;
 Source: "psvince.dll"; DestDir: "{app}"; Flags: ignoreversion; Components: calaosinstaller;

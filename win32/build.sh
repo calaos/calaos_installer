@@ -1,28 +1,27 @@
 #!/bin/bash
 
 #Build script for Calaos Installer
-#Start the script in an msysgit env with Qt5.3 installed in /c/Qt/Qt5.3.0/
+#Start the script on a linux machine with win-builds installed and Qt5.4
 
 set -e
 
-MODE="$1"
-
 BASEDIR=`pwd`
 SRCDIR="$BASEDIR/.."
-RELEASEDIR="$SRCDIR/../calaos_installer_release"
+RELEASEDIR="$HOME/.wine/drive_c/calaos_installer_release"
 
 function build_bin()
 {
-    OLDPATH=$PATH
-    export PATH="/c/Qt/Qt5.3.0/5.3/mingw482_32/bin:/c/Qt/Qt5.3.0/Tools/mingw482_32/bin:$PATH"
-    ( cd $SRCDIR;
-	  rm -fr build;
-      mkdir build;
-      cd build;
-      qmake.exe ../calaos_installer.pro -r -spec win32-g++
-      mingw32-make.exe -j8 -f Makefile.Release
+    (
+    set +e
+    source /opt/cross_toolchain_32/bin/win-builds-switch 32
+    set -e
+    cd $SRCDIR
+    rm -fr build
+    mkdir build
+    cd build
+    qmake ../calaos_installer.pro
+    make -j16
     )
-    export PATH=$OLDPATH
 
     #install binary
     cp $SRCDIR/build/release/calaos_installer.exe $RELEASEDIR
@@ -32,17 +31,46 @@ function build_setup()
 {
     VERS=$1
 
-    OLDPATH=$PATH
-    export PATH="/c/Program Files (x86)/Inno Setup 5:$PATH"
-    ( cd $BASEDIR;
-	  rm -fr build
-	  mkdir -p build
+    for f in /opt/cross_toolchain_32/i686-w64-mingw32/lib/libgcc_s_sjlj-1.dll \
+             /opt/cross_toolchain_32/i686-w64-mingw32/lib/libstdc++-6.dll \
+             /opt/cross_toolchain_32/bin/libwinpthread-1.dll \
+             /opt/windows_32/bin/libicudt51.dll \
+             /opt/windows_32/bin/libicuin51.dll \
+             /opt/windows_32/bin/libicuuc51.dll \
+             /opt/windows_32/bin/libjpeg-9.dll \
+             /opt/windows_32/bin/libz-1.dll \
+             /opt/windows_32/bin/libpcre16-0.dll \
+             /opt/windows_32/bin/Qt5Concurrent.dll \
+             /opt/windows_32/bin/Qt5Core.dll \
+             /opt/windows_32/bin/Qt5Gui.dll \
+             /opt/windows_32/bin/Qt5Network.dll \
+             /opt/windows_32/bin/Qt5PrintSupport.dll \
+             /opt/windows_32/bin/Qt5Svg.dll \
+             /opt/windows_32/bin/Qt5Widgets.dll \
+             /opt/windows_32/bin/Qt5Xml.dll \
+             /opt/windows_32/bin/Qt5XmlPatterns.dll \
+             /opt/windows_32/plugins/iconengines \
+             /opt/windows_32/plugins/imageformats \
+             /opt/windows_32/plugins/platforms \
+             /opt/windows_32/plugins/printsupport \
+             $SRCDIR/win32/psvince.dll
+    do
+        cp -R $f $RELEASEDIR
+    done
+
+    mkdir $RELEASEDIR/redist
+    for f in vcredist_sp1_x86.exe Win32OpenSSL_Light-1_0_1L.exe
+    do
+        wget https://calaos.fr/download/calaos-installer/redist/$f -O $RELEASEDIR/redist/$f
+    done
+
+    ( cd $SRCDIR/win32
       echo "#define MyAppVersion \"$VERS\"" > build.iss
       cat installer.iss >> build.iss
       iscc build.iss
-	  rm -f build.iss
     )
-    export PATH=$OLDPATH
+
+    echo "Done. Setup is : $SRCDIR/win32/build/calaos_installer_setup_${VERS}.exe"
 }
 
 function build_all()
@@ -51,6 +79,8 @@ function build_all()
     RELTAG="$(cd $SRCDIR; git describe --long --tags --always master)"
 
 	echo "Building Calaos Installer version: $RELTAG"
+	rm -fr $RELEASEDIR
+	mkdir -p $RELEASEDIR
     build_bin
     build_setup $RELTAG
 }
