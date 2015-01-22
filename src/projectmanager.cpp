@@ -234,9 +234,14 @@ void RuleXmlWriter::writeRule(Rule *rule)
     writeStartElement("http://www.calaos.fr", "rule");
 
     QXmlStreamAttributes attr;
-    attr.append("name", QString::fromUtf8(rule->get_name().c_str()));
-    attr.append("type", QString::fromUtf8(rule->get_type().c_str()));
-    attr.append("specialType", QString::fromUtf8(rule->get_specialType().c_str()));
+    for (int i = 0;i < rule->ruleParams.size();i++)
+    {
+        string key, value;
+        rule->ruleParams.get_item(i, key, value);
+
+        attr.append(QString::fromUtf8(key.c_str()),
+                    QString::fromUtf8(value.c_str()));
+    }
     writeAttributes(attr);
 
     writeCondition(rule);
@@ -853,11 +858,16 @@ bool ProjectManager::loadRulesFromFile(QString &file)
     QDomElement node_rule = elem.firstChildElement("calaos:rule");
     while (!node_rule.isNull())
     {
-        string name = node_rule.attribute("name").toUtf8().data();
-        string type = node_rule.attribute("type").toUtf8().data();
-        string stype = node_rule.attribute("specialType").toUtf8().data();
+        Params p;
+        for (int i = 0;i < node_rule.attributes().size();i++)
+        {
+            QDomNode attr = node_rule.attributes().item(i);
+            QDomAttr dattr = attr.toAttr();
+            p.Add(dattr.name().toUtf8().data(),
+                  dattr.value().toUtf8().data());
+        }
 
-        Rule *rule = new Rule(type, name, stype);
+        Rule *rule = new Rule(p);
         ListeRule::Instance().Add(rule);
 
         //Read conditions

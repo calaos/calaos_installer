@@ -54,8 +54,6 @@ public:
     void RemoveRuleInput(IOBase *obj); //remove all rules containing obj
     void RemoveRuleOutput(IOBase *obj); //remove all rules containing obj
 
-    void RemoveSpecialRules(string specialType);
-
     Rule *searchRuleInput(IOBase *input);
     Rule *searchRuleOutput(IOBase *output);
     Rule *searchRule(string type, string name);

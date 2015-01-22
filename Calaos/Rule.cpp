@@ -57,7 +57,9 @@ void Rule::RemoveAction(int pos)
 
 Rule *Rule::duplicate()
 {
-    Rule *rule = new Rule(get_type(), get_name() + " (copy)", get_specialType());
+    Params p = ruleParams;
+    p.Add("name", p["name"] + " (copy)");
+    Rule *rule = new Rule(p);
 
     for (Condition *cond: conds)
     {
@@ -76,7 +78,7 @@ Rule *Rule::duplicate()
 
 void Rule::Print()
 {
-    cout << "Content of rule \"" << name << " - " << type << "\"" << endl;
+    cout << "Content of rule \"" << ruleParams["name"] << " - " << ruleParams["type"] << "\"" << endl;
     cout << "Conditions (" << conds.size() << ") :" << endl;
     for (uint i = 0;i < conds.size();i++)
     {

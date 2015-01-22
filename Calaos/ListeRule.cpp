@@ -180,20 +180,6 @@ Rule *ListeRule::searchRuleOutput(IOBase *output)
     return NULL;
 }
 //-----------------------------------------------------------------------------
-void ListeRule::RemoveSpecialRules(string specialType)
-{
-    for (uint i = 0;i < rules.size();i++)
-    {
-        Rule *rule = get_rule(i);
-
-        if(rule->get_specialType() == specialType)
-        {
-            Remove(rule);
-            i=0;
-        }
-    }
-}
-//-----------------------------------------------------------------------------
 void ListeRule::clear()
 {
     for (uint i = 0;i < rules.size();i++)

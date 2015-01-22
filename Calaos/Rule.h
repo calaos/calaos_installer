@@ -34,14 +34,13 @@ protected:
     std::vector<Condition *> conds;
     std::vector<Action *> actions;
 
-    std::string type, name;
-    string specialType;
-
 public:
-    Rule(string _type, string _name, string _specialType = ""):
-        type(_type), name(_name), specialType(_specialType)
+    Rule(Params p):
+        ruleParams(p)
     { }
     ~Rule();
+
+    Params ruleParams;
 
     void AddCondition(Condition *p);
     void AddAction(Action *p);
@@ -59,13 +58,11 @@ public:
     int get_size_conds() { return conds.size(); }
     int get_size_actions() { return actions.size(); }
 
-    string get_type() { return type; }
-    string get_name() { return name; }
-    string get_specialType() { return specialType; }
+    string get_type() { return ruleParams["type"]; }
+    string get_name() { return ruleParams["name"]; }
 
-    void set_type(string s) { type = s; }
-    void set_name(string s) { name = s; }
-    void set_SpecialType(string s) { specialType = s; }
+    void set_type(string s) { ruleParams.Add("type", s); }
+    void set_name(string s) { ruleParams.Add("name", s); }
 
     Rule *duplicate();
 

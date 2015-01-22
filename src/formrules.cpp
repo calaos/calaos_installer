@@ -2332,7 +2332,10 @@ void FormRules::itemTempWizard()
                 {
                     //The rule (if input <= consigne)
                     {
-                        Rule *rule = new Rule(room->get_name(), "heat on");
+                        Params p;
+                        p.Add("name", room->get_name());
+                        p.Add("type", "heat on");
+                        Rule *rule = new Rule(p);
                         addItemRule(rule, true);
 
                         Condition *cond = new Condition(COND_STD);
@@ -2350,7 +2353,10 @@ void FormRules::itemTempWizard()
 
                     //The rule (if input > consigne)
                     {
-                        Rule *rule = new Rule(room->get_name(), "heat off");
+                        Params p;
+                        p.Add("name", room->get_name());
+                        p.Add("type", "heat off");
+                        Rule *rule = new Rule(p);
                         addItemRule(rule, true);
 
                         Condition *cond = new Condition(COND_STD);

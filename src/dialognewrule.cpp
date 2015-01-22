@@ -55,7 +55,10 @@ void DialogNewRule::on_buttonBox_accepted()
         return;
     }
 
-    rule = new Rule(type, name);
+    Params p;
+    p.Add("type", type);
+    p.Add("name", name);
+    rule = new Rule(p);
     ListeRule::Instance().Add(rule);
 
     accept();
