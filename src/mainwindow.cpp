@@ -81,14 +81,16 @@ MainWindow::MainWindow(QWidget *parent):
     }
     else
     {
-        if (ConfigOptions::Instance().optionExists("MainWindow/last_project"))
+        //Disable this for now. It makes confusion when your last opened project was online,
+        //because the project is loaded from the old temp folder, and thus not up to date from calaos_server.
+        /*if (ConfigOptions::Instance().optionExists("MainWindow/last_project"))
         {
             QString last_project = ConfigOptions::Instance().getOption("MainWindow/last_project").toString();
 
             if (!project_path.contains(tempDir.path()))
                 Load(last_project);
         }
-        else
+        else*/
         {
             on_actionNouveau_projet_triggered();
         }
@@ -206,7 +208,7 @@ void MainWindow::on_actionNouveau_projet_triggered()
 
     ui->widgetRules->ClearProject();
 
-    project_path = "Nouveau";
+    project_path = tr("Nouveau");
     projectChanged(false);
 }
 
