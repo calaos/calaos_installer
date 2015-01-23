@@ -1,21 +1,52 @@
 #!/bin/bash
 
-QTVERSION="5.3"
-QTPATH="/home/$USER/Qt/$QTVERSION/gcc_64"
+ARCH=32
+[ "$1" = "x64" ] && ARCH=64
 
-VERSION=`../calaos_installer --version | tail -1 | tr -d '\t' `
+type=experimental
+[ "$2" = "TESTING" ] && type=testing
+[ "$2" = "STABLE" ] && type=stable
+
+if [ $ARCH = 32 ]
+then
+    QTPATH="/opt/Qt5.4.0/5.4/gcc"
+else
+    QTPATH="/opt/Qt5.4.0/5.4/gcc_64"
+fi
+
+(
+cd ..
+mkdir build
+cd build
+$QTPATH/bin/qmake ../calaos_installer.pro
+make -j2
+);
+
+VERSION=`../build/calaos_installer --version | tail -1 | tr -d '\t' `
 
 echo "Creating package..."
 mkdir -p calaos_installer_$VERSION/.lib
 
-cp ../calaos_installer calaos_installer_$VERSION/.calaos_installer.bin
+cp ../build/calaos_installer calaos_installer_$VERSION/.calaos_installer.bin
 
-for l in libQt5DBus.so.5 libQt5Gui.so.5 libQt5Network.so.5 libQt5Core.so.5 libQt5Svg.so.5 libQt5Xml.so.5 libQt5PrintSupport.so.5 libQt5Widgets.so.5 libicudata.so.52  libicui18n.so.52 libicuuc.so.52
+for l in libQt5DBus.so.5 \
+         libQt5Gui.so.5 \
+         libQt5Network.so.5 \
+         libQt5Core.so.5 \
+         libQt5Svg.so.5 \
+         libQt5Xml.so.5 \
+         libQt5PrintSupport.so.5 \
+         libQt5Widgets.so.5 \
+         libicudata.so.53 \
+         libicui18n.so.53 \
+         libicuuc.so.53
 do
  	cp $QTPATH/lib/$l calaos_installer_$VERSION/.lib/
 done
 
-for l in /usr/lib/libstdc++.so.6 /usr/lib/libssl.so.1.0.0 /usr/lib/libcrypto.so.1.0.0
+for l in /usr/lib/i386-linux-gnu/libstdc++.so.6 \
+         /usr/lib/i386-linux-gnu/i586/libssl.so.1.0.0 \
+         /usr/lib/i386-linux-gnu/i586/libcrypto.so.1.0.0
 do
 	cp $l calaos_installer_$VERSION/.lib/
 done
@@ -51,9 +82,11 @@ EOF
 
 chmod +x calaos_installer_$VERSION/calaos_installer
 
-rm -f calaos-installer_linux_$VERSION.tar.bz2
-tar cjf calaos-installer_linux_$VERSION.tar.bz2 calaos_installer_$VERSION
+rm -f calaos_installer_linux_$VERSION.tar.xz
+tar cJfv calaos_installer_linux_$VERSION.tar.xz calaos_installer_$VERSION
 
 echo "Done."
-echo "Package: calaos-installer_linux_$VERSION.tar.bz2"
+echo "Package: calaos_installer_linux_$VERSION.tar.xz"
+
+scp calaos_installer_linux_$VERSION.tar.xz uploader@calaos.fr:/home/raoul/www/download.calaos.fr/$type/calaos_installer/
 
