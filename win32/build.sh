@@ -63,7 +63,7 @@ function build_setup()
     mkdir $RELEASEDIR/redist
     for f in vcredist_sp1_x86.exe Win32OpenSSL_Light-1_0_1L.exe
     do
-        wget https://calaos.fr/download/calaos-installer/redist/$f -O $RELEASEDIR/redist/$f
+        wget https://calaos.fr/download/misc/redist/$f -O $RELEASEDIR/redist/$f
     done
 
     ( cd $SRCDIR/win32
