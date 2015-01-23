@@ -9,6 +9,8 @@ BASEDIR=`pwd`
 SRCDIR="$BASEDIR/.."
 RELEASEDIR="$HOME/.wine/drive_c/calaos_installer_release"
 
+BUILD_TYPE=$1
+
 function build_bin()
 {
     (
@@ -83,6 +85,13 @@ function build_all()
 	mkdir -p $RELEASEDIR
     build_bin
     build_setup $RELTAG
+
+    #upload
+    type=experimental
+    [ "$BUILD_TYPE" = "TESTING" ] && type=testing
+    [ "$BUILD_TYPE" = "STABLE" ] && type=stable
+
+    scp $SRCDIR/win32/build/calaos_installer_setup_${VERS}.exe uploader@calaos.fr:/home/raoul/www/download.calaos.fr/$type/calaos_installer/
 }
 
 build_all
