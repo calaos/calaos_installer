@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -x
 
 ARCH=32
 [ "$1" = "x64" ] && ARCH=64
