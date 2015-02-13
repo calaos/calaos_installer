@@ -19,7 +19,7 @@ static void echoUsage(char **argv)
 
 int main(int argc, char *argv[])
 {
-    QCoreApplication app(argc, argv);
+    QApplication app(argc, argv);
 
     QCoreApplication::setOrganizationName("Calaos");
     QCoreApplication::setOrganizationDomain("calaos.fr");
