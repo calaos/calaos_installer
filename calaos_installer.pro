@@ -3,7 +3,9 @@
 # -------------------------------------------------
 QT += core gui network widgets xml printsupport
 
+isEmpty(REVISION) {
 REVISION = $$system(git --git-dir $$PWD/.git --work-tree $$PWD describe --long --tags --always master)
+}
 DEFINES += CALAOS_VERSION=\\\"$$REVISION\\\"
 
 #enable C++11 new syntax
