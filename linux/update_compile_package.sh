@@ -14,15 +14,19 @@ else
     QTPATH="/opt/Qt5.4.0/5.4/gcc_64"
 fi
 
+if [ "$type" = "stable" ]; then
+    VERSION="$(git describe --tags --always master)"
+else
+    VERSION="$(git describe --long --tags --always master)"
+fi
+
 (
 cd ..
 mkdir build
 cd build
-$QTPATH/bin/qmake ../calaos_installer.pro
+$QTPATH/bin/qmake ../calaos_installer.pro REVISION="$VERSION"
 make -j2
 );
-
-VERSION=`../build/calaos_installer --version | tail -1 | tr -d '\t' `
 
 echo "Creating package..."
 mkdir -p calaos_installer_$VERSION/.lib

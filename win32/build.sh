@@ -21,7 +21,7 @@ function build_bin()
     rm -fr build
     mkdir build
     cd build
-    qmake ../calaos_installer.pro
+    qmake ../calaos_installer.pro REVISION="$1"
     make -j16
     )
 
@@ -77,13 +77,16 @@ function build_setup()
 
 function build_all()
 {
-    #checkout the repo to the latest tag
-    RELTAG="$(cd $SRCDIR; git describe --long --tags --always master)"
+    if [ "$BUILD_TYPE" = "STABLE" ]; then
+        RELTAG="$(cd $SRCDIR; git describe --tags --always master)"
+    else
+        RELTAG="$(cd $SRCDIR; git describe --long --tags --always master)"
+    fi
 
 	echo "Building Calaos Installer version: $RELTAG"
 	rm -fr $RELEASEDIR
 	mkdir -p $RELEASEDIR
-    build_bin
+    build_bin $RELTAG
     build_setup $RELTAG
 
     #upload
