@@ -40,6 +40,7 @@ function build_setup()
              /opt/windows_32/bin/libicuin51.dll \
              /opt/windows_32/bin/libicuuc51.dll \
              /opt/windows_32/bin/libjpeg-9.dll \
+             /opt/windows_32/bin/libpng14-14.dll \
              /opt/windows_32/bin/libz-1.dll \
              /opt/windows_32/bin/libpcre16-0.dll \
              /opt/windows_32/bin/Qt5Concurrent.dll \
