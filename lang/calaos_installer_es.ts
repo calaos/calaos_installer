@@ -417,11 +417,6 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>DialogIOProperties</name>
     <message>
-        <location filename="../data/DialogIoProperties.ui" line="20"/>
-        <source>Propertiess</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../data/DialogIoProperties.ui" line="30"/>
         <source>Object properties</source>
         <translation type="unfinished"></translation>
@@ -453,6 +448,7 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../data/DialogIoProperties.ui" line="20"/>
         <location filename="../src/dialogioproperties.cpp" line="16"/>
         <source>Properties</source>
         <translation type="unfinished"></translation>
@@ -1185,6 +1181,256 @@ p, li { white-space: pre-wrap; }
     </message>
 </context>
 <context>
+    <name>DialogNewMySensors</name>
+    <message>
+        <location filename="../data/DialogNewMySensors.ui" line="14"/>
+        <source>Dialog</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../data/DialogNewMySensors.ui" line="34"/>
+        <source>Node ID</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../data/DialogNewMySensors.ui" line="41"/>
+        <source>Sensor ID</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../data/DialogNewMySensors.ui" line="51"/>
+        <location filename="../src/DialogNewMySensors.cpp" line="197"/>
+        <source>Sensor ID (Down)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../data/DialogNewMySensors.ui" line="58"/>
+        <source>Name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../data/DialogNewMySensors.ui" line="65"/>
+        <location filename="../src/DialogNewMySensors.cpp" line="196"/>
+        <source>Node ID (Down)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../data/DialogNewMySensors.ui" line="78"/>
+        <source>Gateway type</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../data/DialogNewMySensors.ui" line="86"/>
+        <source>Normal switch</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../data/DialogNewMySensors.ui" line="91"/>
+        <source>Triple click switch</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../data/DialogNewMySensors.ui" line="96"/>
+        <source>Long press switch</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../data/DialogNewMySensors.ui" line="105"/>
+        <source>Serial</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../data/DialogNewMySensors.ui" line="110"/>
+        <source>Ethernet</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../data/DialogNewMySensors.ui" line="118"/>
+        <source>Smart shutter</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../data/DialogNewMySensors.ui" line="132"/>
+        <source>Impulse shutter</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../data/DialogNewMySensors.ui" line="139"/>
+        <source>Up Duration (sec.)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../data/DialogNewMySensors.ui" line="153"/>
+        <source>Down Duration (sec.)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../data/DialogNewMySensors.ui" line="160"/>
+        <source>5003</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../data/DialogNewMySensors.ui" line="167"/>
+        <source>Node ID (Blue)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../data/DialogNewMySensors.ui" line="174"/>
+        <source>Sensor ID (Blue)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../data/DialogNewMySensors.ui" line="187"/>
+        <source>Gateway serial port</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../data/DialogNewMySensors.ui" line="194"/>
+        <source>Gateway TCP port</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../data/DialogNewMySensors.ui" line="205"/>
+        <source>/dev/ttyUSB0</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../data/DialogNewMySensors.ui" line="210"/>
+        <source>/dev/ttyUSB1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../data/DialogNewMySensors.ui" line="215"/>
+        <source>/dev/ttyUSB2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../data/DialogNewMySensors.ui" line="220"/>
+        <source>/dev/ttyUSB3</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../data/DialogNewMySensors.ui" line="225"/>
+        <source>/dev/ttyS0</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../data/DialogNewMySensors.ui" line="230"/>
+        <source>/dev/ttyS1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../data/DialogNewMySensors.ui" line="235"/>
+        <source>/dev/ttyS2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../data/DialogNewMySensors.ui" line="240"/>
+        <source>/dev/ttyS3</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../data/DialogNewMySensors.ui" line="248"/>
+        <source>Gateway IP address</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../data/DialogNewMySensors.ui" line="320"/>
+        <source>Please enter all required infos for this item..</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/DialogNewMySensors.cpp" line="20"/>
+        <source>Add a MySensors Analog in</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/DialogNewMySensors.cpp" line="21"/>
+        <source>Add a MySensors Analog out</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/DialogNewMySensors.cpp" line="22"/>
+        <source>Add a MySensors String input</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/DialogNewMySensors.cpp" line="23"/>
+        <source>Add a MySensors String output</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/DialogNewMySensors.cpp" line="24"/>
+        <source>Add a MySensors Switch</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/DialogNewMySensors.cpp" line="25"/>
+        <source>Add a MySensors temperature</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/DialogNewMySensors.cpp" line="26"/>
+        <source>Add a MySensors Light dimmer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/DialogNewMySensors.cpp" line="27"/>
+        <source>Add a MySensors Light</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/DialogNewMySensors.cpp" line="28"/>
+        <source>Add a MySensors RGB Light</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/DialogNewMySensors.cpp" line="29"/>
+        <source>Add a MySensors Shutter</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/DialogNewMySensors.cpp" line="194"/>
+        <source>Node ID (Up)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/DialogNewMySensors.cpp" line="195"/>
+        <source>Sensor ID (Up)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/DialogNewMySensors.cpp" line="198"/>
+        <source>Up duration (sec.) :</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/DialogNewMySensors.cpp" line="199"/>
+        <source>Duration (sec.) :</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/DialogNewMySensors.cpp" line="221"/>
+        <source>Node ID (Red)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/DialogNewMySensors.cpp" line="222"/>
+        <source>Sensor ID (Red)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/DialogNewMySensors.cpp" line="223"/>
+        <source>Node ID (Green)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/DialogNewMySensors.cpp" line="224"/>
+        <source>Sensor ID (Green)</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>DialogNewOneWireTemp</name>
     <message>
         <location filename="../data/DialogNewOneWireTemp.ui" line="14"/>
@@ -1524,27 +1770,27 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>DialogNewVolet</name>
     <message>
-        <location filename="../data/DialogNewVolet.ui" line="38"/>
+        <location filename="../data/DialogNewVolet.ui" line="26"/>
         <source>New shutter...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../data/DialogNewVolet.ui" line="86"/>
+        <location filename="../data/DialogNewVolet.ui" line="39"/>
         <source>Add a Wago Shutter item</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../data/DialogNewVolet.ui" line="98"/>
+        <location filename="../data/DialogNewVolet.ui" line="109"/>
         <source>Up address:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../data/DialogNewVolet.ui" line="114"/>
+        <location filename="../data/DialogNewVolet.ui" line="45"/>
         <source>Item name :</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../data/DialogNewVolet.ui" line="206"/>
+        <location filename="../data/DialogNewVolet.ui" line="245"/>
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
@@ -1553,37 +1799,37 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../data/DialogNewVolet.ui" line="272"/>
+        <location filename="../data/DialogNewVolet.ui" line="305"/>
         <source>Please give a valid item name...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../data/DialogNewVolet.ui" line="295"/>
+        <location filename="../data/DialogNewVolet.ui" line="59"/>
         <source>&quot;Smart&quot; shutter</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../data/DialogNewVolet.ui" line="318"/>
+        <location filename="../data/DialogNewVolet.ui" line="142"/>
         <source>Down address:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../data/DialogNewVolet.ui" line="350"/>
+        <location filename="../data/DialogNewVolet.ui" line="162"/>
         <source>Down duration (sec.):</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../data/DialogNewVolet.ui" line="382"/>
+        <location filename="../data/DialogNewVolet.ui" line="152"/>
         <source>Up Duration (sec.):</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../data/DialogNewVolet.ui" line="398"/>
+        <location filename="../data/DialogNewVolet.ui" line="66"/>
         <source>Impulse shutter</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../data/DialogNewVolet.ui" line="414"/>
+        <location filename="../data/DialogNewVolet.ui" line="89"/>
         <source>841/849/881</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2071,17 +2317,27 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/DialogNewZibase.cpp" line="18"/>
+        <location filename="../src/DialogNewZibase.cpp" line="23"/>
         <source>Energy monitor sensor</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/DialogNewZibase.cpp" line="19"/>
-        <source>Temperature sensor</source>
+        <location filename="../src/DialogNewZibase.cpp" line="25"/>
+        <source>lux sensor</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/DialogNewZibase.cpp" line="23"/>
+        <location filename="../src/DialogNewZibase.cpp" line="26"/>
+        <source>total rain sensor</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/DialogNewZibase.cpp" line="27"/>
+        <source>wind sensor</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/DialogNewZibase.cpp" line="31"/>
         <source>Door/window sensor</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3590,7 +3846,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../data/FormRules.ui" line="198"/>
-        <location filename="../src/formrules.cpp" line="245"/>
+        <location filename="../src/formrules.cpp" line="292"/>
         <source>Home</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3637,7 +3893,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../data/FormRules.ui" line="519"/>
-        <location filename="../src/formrules.cpp" line="305"/>
+        <location filename="../src/formrules.cpp" line="352"/>
         <source>Name</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3663,428 +3919,443 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="35"/>
+        <location filename="../src/formrules.cpp" line="36"/>
         <source>Room</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="43"/>
+        <location filename="../src/formrules.cpp" line="44"/>
+        <location filename="../src/formrules.cpp" line="104"/>
         <source>Switch</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="47"/>
-        <location filename="../src/formrules.cpp" line="103"/>
-        <location filename="../src/formrules.cpp" line="141"/>
+        <location filename="../src/formrules.cpp" line="48"/>
+        <location filename="../src/formrules.cpp" line="108"/>
+        <location filename="../src/formrules.cpp" line="150"/>
+        <location filename="../src/formrules.cpp" line="188"/>
         <source>Light</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="51"/>
-        <location filename="../src/formrules.cpp" line="111"/>
-        <location filename="../src/formrules.cpp" line="145"/>
+        <location filename="../src/formrules.cpp" line="52"/>
+        <location filename="../src/formrules.cpp" line="112"/>
+        <location filename="../src/formrules.cpp" line="158"/>
+        <location filename="../src/formrules.cpp" line="192"/>
         <source>Shutter</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="55"/>
+        <location filename="../src/formrules.cpp" line="56"/>
         <source>DALI/DMX</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="59"/>
+        <location filename="../src/formrules.cpp" line="60"/>
         <source>DALI/DMX RGB</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="63"/>
-        <location filename="../src/formrules.cpp" line="73"/>
-        <location filename="../src/formrules.cpp" line="115"/>
+        <location filename="../src/formrules.cpp" line="64"/>
+        <location filename="../src/formrules.cpp" line="74"/>
+        <location filename="../src/formrules.cpp" line="86"/>
+        <location filename="../src/formrules.cpp" line="124"/>
+        <location filename="../src/formrules.cpp" line="162"/>
         <source>Temperature sensor</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="67"/>
+        <location filename="../src/formrules.cpp" line="68"/>
         <source>Analog Input/Output</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="79"/>
+        <location filename="../src/formrules.cpp" line="80"/>
         <source>Light Dimmer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="85"/>
-        <location filename="../src/formrules.cpp" line="137"/>
+        <location filename="../src/formrules.cpp" line="90"/>
+        <location filename="../src/formrules.cpp" line="184"/>
         <source>Switch input</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="89"/>
+        <location filename="../src/formrules.cpp" line="94"/>
         <source>Analog input</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="93"/>
+        <location filename="../src/formrules.cpp" line="98"/>
         <source>Digital output</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="99"/>
+        <location filename="../src/formrules.cpp" line="116"/>
+        <source>Dimmer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/formrules.cpp" line="120"/>
+        <location filename="../src/formrules.cpp" line="154"/>
+        <source>RGB Light</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/formrules.cpp" line="146"/>
         <source>Switch Input</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="107"/>
-        <source>LightRGB</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/formrules.cpp" line="119"/>
+        <location filename="../src/formrules.cpp" line="128"/>
+        <location filename="../src/formrules.cpp" line="166"/>
         <source>Analog Input</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="123"/>
+        <location filename="../src/formrules.cpp" line="132"/>
+        <location filename="../src/formrules.cpp" line="170"/>
         <source>Analog Output</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="127"/>
+        <location filename="../src/formrules.cpp" line="136"/>
+        <location filename="../src/formrules.cpp" line="174"/>
         <source>String Input</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="131"/>
+        <location filename="../src/formrules.cpp" line="140"/>
+        <location filename="../src/formrules.cpp" line="178"/>
         <source>String Output</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="151"/>
+        <location filename="../src/formrules.cpp" line="198"/>
         <source>Camera</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="155"/>
+        <location filename="../src/formrules.cpp" line="202"/>
         <source>Music zone</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="159"/>
+        <location filename="../src/formrules.cpp" line="206"/>
         <source>Audio amplifier</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="165"/>
+        <location filename="../src/formrules.cpp" line="212"/>
         <source>Internal Variable</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="169"/>
+        <location filename="../src/formrules.cpp" line="216"/>
         <source>Scenario variable</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="173"/>
+        <location filename="../src/formrules.cpp" line="220"/>
         <source>Time/Scheduling Variable</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="180"/>
+        <location filename="../src/formrules.cpp" line="227"/>
         <source>Normal Condition</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="184"/>
+        <location filename="../src/formrules.cpp" line="231"/>
         <source>Condition on output event</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="188"/>
+        <location filename="../src/formrules.cpp" line="235"/>
         <source>Condition at start</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="192"/>
+        <location filename="../src/formrules.cpp" line="239"/>
         <source>Script Condition</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="199"/>
+        <location filename="../src/formrules.cpp" line="246"/>
         <source>Normal Action</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="203"/>
+        <location filename="../src/formrules.cpp" line="250"/>
         <source>E-Mail Action</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="207"/>
+        <location filename="../src/formrules.cpp" line="254"/>
         <source>Script Action</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="211"/>
+        <location filename="../src/formrules.cpp" line="258"/>
         <source>Touchscreen Action</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="305"/>
+        <location filename="../src/formrules.cpp" line="352"/>
         <source>Type</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="634"/>
-        <location filename="../src/formrules.cpp" line="639"/>
-        <location filename="../src/formrules.cpp" line="710"/>
-        <location filename="../src/formrules.cpp" line="1584"/>
-        <location filename="../src/formrules.cpp" line="1644"/>
-        <location filename="../src/formrules.cpp" line="1795"/>
-        <location filename="../src/formrules.cpp" line="1841"/>
-        <location filename="../src/formrules.cpp" line="1988"/>
-        <location filename="../src/formrules.cpp" line="2010"/>
-        <location filename="../src/formrules.cpp" line="2026"/>
-        <location filename="../src/formrules.cpp" line="2080"/>
-        <location filename="../src/formrules.cpp" line="2100"/>
-        <location filename="../src/formrules.cpp" line="2111"/>
-        <location filename="../src/formrules.cpp" line="2151"/>
-        <location filename="../src/formrules.cpp" line="2176"/>
-        <location filename="../src/formrules.cpp" line="2198"/>
+        <location filename="../src/formrules.cpp" line="735"/>
+        <location filename="../src/formrules.cpp" line="740"/>
+        <location filename="../src/formrules.cpp" line="813"/>
+        <location filename="../src/formrules.cpp" line="1687"/>
+        <location filename="../src/formrules.cpp" line="1747"/>
+        <location filename="../src/formrules.cpp" line="1898"/>
+        <location filename="../src/formrules.cpp" line="1944"/>
+        <location filename="../src/formrules.cpp" line="2091"/>
+        <location filename="../src/formrules.cpp" line="2113"/>
+        <location filename="../src/formrules.cpp" line="2129"/>
+        <location filename="../src/formrules.cpp" line="2183"/>
+        <location filename="../src/formrules.cpp" line="2203"/>
         <location filename="../src/formrules.cpp" line="2214"/>
-        <location filename="../src/formrules.cpp" line="2280"/>
-        <location filename="../src/formrules.cpp" line="2311"/>
-        <location filename="../src/formrules.cpp" line="2465"/>
-        <location filename="../src/formrules.cpp" line="2484"/>
-        <location filename="../src/formrules.cpp" line="2506"/>
-        <location filename="../src/formrules.cpp" line="2524"/>
-        <location filename="../src/formrules.cpp" line="2904"/>
-        <location filename="../src/formrules.cpp" line="2940"/>
-        <location filename="../src/formrules.cpp" line="3001"/>
-        <location filename="../src/formrules.cpp" line="3079"/>
-        <location filename="../src/formrules.cpp" line="3108"/>
+        <location filename="../src/formrules.cpp" line="2254"/>
+        <location filename="../src/formrules.cpp" line="2279"/>
+        <location filename="../src/formrules.cpp" line="2301"/>
+        <location filename="../src/formrules.cpp" line="2317"/>
+        <location filename="../src/formrules.cpp" line="2383"/>
+        <location filename="../src/formrules.cpp" line="2414"/>
+        <location filename="../src/formrules.cpp" line="2568"/>
+        <location filename="../src/formrules.cpp" line="2587"/>
+        <location filename="../src/formrules.cpp" line="2609"/>
+        <location filename="../src/formrules.cpp" line="2627"/>
+        <location filename="../src/formrules.cpp" line="3007"/>
+        <location filename="../src/formrules.cpp" line="3043"/>
+        <location filename="../src/formrules.cpp" line="3104"/>
+        <location filename="../src/formrules.cpp" line="3182"/>
+        <location filename="../src/formrules.cpp" line="3211"/>
         <source>Calaos Installer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="634"/>
+        <location filename="../src/formrules.cpp" line="735"/>
         <source>You need to add one room at least!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="639"/>
+        <location filename="../src/formrules.cpp" line="740"/>
         <source>You must select a room prior adding elements!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="710"/>
+        <location filename="../src/formrules.cpp" line="813"/>
         <source>Unknown type (%1)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="1114"/>
+        <location filename="../src/formrules.cpp" line="1217"/>
         <source>Start</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="1119"/>
-        <location filename="../src/formrules.cpp" line="1224"/>
+        <location filename="../src/formrules.cpp" line="1222"/>
+        <location filename="../src/formrules.cpp" line="1327"/>
         <source>Script</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="1219"/>
+        <location filename="../src/formrules.cpp" line="1322"/>
         <source>EMail</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="1229"/>
+        <location filename="../src/formrules.cpp" line="1332"/>
         <source>Touchscreen</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="1309"/>
+        <location filename="../src/formrules.cpp" line="1412"/>
         <source>Display the associated rules</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="1319"/>
+        <location filename="../src/formrules.cpp" line="1422"/>
         <source>Move to...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="1338"/>
-        <location filename="../src/formrules.cpp" line="1551"/>
-        <location filename="../src/formrules.cpp" line="1572"/>
-        <location filename="../src/formrules.cpp" line="2859"/>
+        <location filename="../src/formrules.cpp" line="1441"/>
+        <location filename="../src/formrules.cpp" line="1654"/>
+        <location filename="../src/formrules.cpp" line="1675"/>
+        <location filename="../src/formrules.cpp" line="2962"/>
         <source>Delete</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="1351"/>
+        <location filename="../src/formrules.cpp" line="1454"/>
         <source>Switch on</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="1355"/>
+        <location filename="../src/formrules.cpp" line="1458"/>
         <source>Switch off</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="1364"/>
+        <location filename="../src/formrules.cpp" line="1467"/>
         <source>Display the camera view</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="1376"/>
+        <location filename="../src/formrules.cpp" line="1479"/>
         <source>Convert to normal shutter</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="1382"/>
+        <location filename="../src/formrules.cpp" line="1485"/>
         <source>Convert to smart shutter</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="1391"/>
+        <location filename="../src/formrules.cpp" line="1494"/>
         <source>Up</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="1395"/>
+        <location filename="../src/formrules.cpp" line="1498"/>
         <source>Down</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="1399"/>
+        <location filename="../src/formrules.cpp" line="1502"/>
         <source>Stop</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="1414"/>
+        <location filename="../src/formrules.cpp" line="1517"/>
         <source>Edit the time ranges...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="1423"/>
-        <location filename="../src/formrules.cpp" line="1453"/>
+        <location filename="../src/formrules.cpp" line="1526"/>
+        <location filename="../src/formrules.cpp" line="1556"/>
         <source>Convert in triple switch...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="1427"/>
-        <location filename="../src/formrules.cpp" line="1440"/>
+        <location filename="../src/formrules.cpp" line="1530"/>
+        <location filename="../src/formrules.cpp" line="1543"/>
         <source>Convert in long press switch...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="1436"/>
-        <location filename="../src/formrules.cpp" line="1449"/>
+        <location filename="../src/formrules.cpp" line="1539"/>
+        <location filename="../src/formrules.cpp" line="1552"/>
         <source>Convert in normal switch...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="1462"/>
+        <location filename="../src/formrules.cpp" line="1565"/>
         <source>Link a setpoint...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="1470"/>
-        <location filename="../src/formrules.cpp" line="2855"/>
+        <location filename="../src/formrules.cpp" line="1573"/>
+        <location filename="../src/formrules.cpp" line="2958"/>
         <source>Properties</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="1585"/>
+        <location filename="../src/formrules.cpp" line="1688"/>
         <source>Are you sure to delete item &quot;%1&quot;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="1645"/>
+        <location filename="../src/formrules.cpp" line="1748"/>
         <source>Are you sure to clone the selected rule?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="1795"/>
+        <location filename="../src/formrules.cpp" line="1898"/>
         <source>Error when creating the object!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="1842"/>
+        <location filename="../src/formrules.cpp" line="1945"/>
         <source>Are you sure to delete the rule?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="1989"/>
+        <location filename="../src/formrules.cpp" line="2092"/>
         <source>Are you sure to convert this switch into a triple click switch?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="2010"/>
-        <location filename="../src/formrules.cpp" line="2100"/>
-        <location filename="../src/formrules.cpp" line="2198"/>
-        <location filename="../src/formrules.cpp" line="2484"/>
-        <location filename="../src/formrules.cpp" line="2524"/>
+        <location filename="../src/formrules.cpp" line="2113"/>
+        <location filename="../src/formrules.cpp" line="2203"/>
+        <location filename="../src/formrules.cpp" line="2301"/>
+        <location filename="../src/formrules.cpp" line="2587"/>
+        <location filename="../src/formrules.cpp" line="2627"/>
         <source>Sorry, this is not implemented !</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="2027"/>
-        <location filename="../src/formrules.cpp" line="2112"/>
+        <location filename="../src/formrules.cpp" line="2130"/>
         <location filename="../src/formrules.cpp" line="2215"/>
+        <location filename="../src/formrules.cpp" line="2318"/>
         <source>Do you want to automatically convert the rules?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="2081"/>
+        <location filename="../src/formrules.cpp" line="2184"/>
         <source>Are you sure to convert this switch into a standard switch?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="2151"/>
+        <location filename="../src/formrules.cpp" line="2254"/>
         <source>Warning, the rules with double/triple were not converted, do it manually.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="2177"/>
+        <location filename="../src/formrules.cpp" line="2280"/>
         <source>Are you sure to convert this switch into a long press switch?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="2280"/>
-        <location filename="../src/formrules.cpp" line="2311"/>
+        <location filename="../src/formrules.cpp" line="2383"/>
+        <location filename="../src/formrules.cpp" line="2414"/>
         <source>Internal error!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="2466"/>
+        <location filename="../src/formrules.cpp" line="2569"/>
         <source>Do you want to convert to a smart shutter?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="2507"/>
+        <location filename="../src/formrules.cpp" line="2610"/>
         <source>Do you want to convert to normal shutter?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="2852"/>
+        <location filename="../src/formrules.cpp" line="2955"/>
         <source>Clone rule</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="2904"/>
+        <location filename="../src/formrules.cpp" line="3007"/>
         <source>You must select an input.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="2940"/>
-        <location filename="../src/formrules.cpp" line="3001"/>
+        <location filename="../src/formrules.cpp" line="3043"/>
+        <location filename="../src/formrules.cpp" line="3104"/>
         <source>You must select an output.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="3080"/>
-        <location filename="../src/formrules.cpp" line="3109"/>
+        <location filename="../src/formrules.cpp" line="3183"/>
+        <location filename="../src/formrules.cpp" line="3212"/>
         <source>Are you sure to delete the item &quot;%1&quot;</source>
         <translation type="unfinished"></translation>
     </message>

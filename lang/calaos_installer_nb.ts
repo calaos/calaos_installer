@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="de_DE">
+<TS version="2.1" language="nb_NO">
 <context>
     <name>ClearLineEdit</name>
     <message>
@@ -417,6 +417,12 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>DialogIOProperties</name>
     <message>
+        <location filename="../data/DialogIoProperties.ui" line="20"/>
+        <location filename="../src/dialogioproperties.cpp" line="16"/>
+        <source>Properties</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../data/DialogIoProperties.ui" line="30"/>
         <source>Object properties</source>
         <translation type="unfinished"></translation>
@@ -445,12 +451,6 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../data/DialogIoProperties.ui" line="102"/>
         <source>Delete</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../data/DialogIoProperties.ui" line="20"/>
-        <location filename="../src/dialogioproperties.cpp" line="16"/>
-        <source>Properties</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -610,13 +610,13 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../data/DialogNewAnalog.ui" line="145"/>
-        <source>Max displayed value</source>
+        <location filename="../data/DialogNewAnalog.ui" line="128"/>
+        <source>Max Wago value :</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../data/DialogNewAnalog.ui" line="128"/>
-        <source>Max Wago value :</source>
+        <location filename="../data/DialogNewAnalog.ui" line="145"/>
+        <source>Max displayed value</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1770,8 +1770,33 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>DialogNewVolet</name>
     <message>
+        <location filename="../data/DialogNewVolet.ui" line="26"/>
+        <source>New shutter...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../data/DialogNewVolet.ui" line="39"/>
         <source>Add a Wago Shutter item</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../data/DialogNewVolet.ui" line="45"/>
+        <source>Item name :</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../data/DialogNewVolet.ui" line="59"/>
+        <source>&quot;Smart&quot; shutter</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../data/DialogNewVolet.ui" line="66"/>
+        <source>Impulse shutter</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../data/DialogNewVolet.ui" line="89"/>
+        <source>841/849/881</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1780,8 +1805,18 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../data/DialogNewVolet.ui" line="45"/>
-        <source>Item name :</source>
+        <location filename="../data/DialogNewVolet.ui" line="142"/>
+        <source>Down address:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../data/DialogNewVolet.ui" line="152"/>
+        <source>Up Duration (sec.):</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../data/DialogNewVolet.ui" line="162"/>
+        <source>Down duration (sec.):</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1796,41 +1831,6 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../data/DialogNewVolet.ui" line="305"/>
         <source>Please give a valid item name...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../data/DialogNewVolet.ui" line="26"/>
-        <source>New shutter...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../data/DialogNewVolet.ui" line="59"/>
-        <source>&quot;Smart&quot; shutter</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../data/DialogNewVolet.ui" line="142"/>
-        <source>Down address:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../data/DialogNewVolet.ui" line="162"/>
-        <source>Down duration (sec.):</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../data/DialogNewVolet.ui" line="152"/>
-        <source>Up Duration (sec.):</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../data/DialogNewVolet.ui" line="66"/>
-        <source>Impulse shutter</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../data/DialogNewVolet.ui" line="89"/>
-        <source>841/849/881</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1987,6 +1987,11 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../data/DialogNewWebIO.ui" line="56"/>
+        <source>IO Type</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../data/DialogNewWebIO.ui" line="64"/>
         <source>Switch Input</source>
         <translation type="unfinished"></translation>
@@ -2012,13 +2017,33 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../data/DialogNewWebIO.ui" line="89"/>
+        <source>Analog Value Input</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../data/DialogNewWebIO.ui" line="94"/>
         <source>Analog Value Output</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../data/DialogNewWebIO.ui" line="99"/>
+        <source>String Input</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../data/DialogNewWebIO.ui" line="104"/>
+        <source>String Output</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../data/DialogNewWebIO.ui" line="112"/>
         <source>Url :</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../data/DialogNewWebIO.ui" line="122"/>
+        <source>Type :</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2029,11 +2054,6 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../data/DialogNewWebIO.ui" line="135"/>
         <source>XML</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../data/DialogNewWebIO.ui" line="122"/>
-        <source>Type :</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2084,26 +2104,6 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../data/DialogNewWebIO.ui" line="224"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ff0000;&quot;&gt;Please enter a valid Path&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../data/DialogNewWebIO.ui" line="89"/>
-        <source>Analog Value Input</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../data/DialogNewWebIO.ui" line="99"/>
-        <source>String Input</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../data/DialogNewWebIO.ui" line="104"/>
-        <source>String Output</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../data/DialogNewWebIO.ui" line="56"/>
-        <source>IO Type</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3771,13 +3771,13 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../data/FormDali.ui" line="183"/>
-        <source>Faire clignoter pendant 20 secondes</source>
+        <location filename="../data/FormDali.ui" line="172"/>
+        <source>Blink</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../data/FormDali.ui" line="172"/>
-        <source>Blink</source>
+        <location filename="../data/FormDali.ui" line="183"/>
+        <source>Faire clignoter pendant 20 secondes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -4002,11 +4002,6 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="146"/>
-        <source>Switch Input</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../src/formrules.cpp" line="128"/>
         <location filename="../src/formrules.cpp" line="166"/>
         <source>Analog Input</source>
@@ -4028,6 +4023,11 @@ p, li { white-space: pre-wrap; }
         <location filename="../src/formrules.cpp" line="140"/>
         <location filename="../src/formrules.cpp" line="178"/>
         <source>String Output</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/formrules.cpp" line="146"/>
+        <source>Switch Input</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -4782,21 +4782,6 @@ Do you want to do it now?</source>
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/projectmanager.cpp" line="489"/>
-        <source>This file is not correctly formated!</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/projectmanager.cpp" line="573"/>
-        <source>Input with id &quot;%1&quot; already exists!</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/projectmanager.cpp" line="703"/>
-        <source>Output with id &quot;%1&quot; already exists!</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../src/TempWizard.cpp" line="22"/>
         <source>This wizard will help you create rules for managing you heating system with a setpoint. It will link the temperature sensor with the setpoint variable and create all assiociated rules. Those rules will let user change the setpoint directly on the Calaos user interface.</source>
         <translation type="unfinished"></translation>
@@ -4825,6 +4810,21 @@ Do you want to do it now?</source>
         <location filename="../src/TempWizard.cpp" line="69"/>
         <source>Warning!
 The wizard is going to create 2 rules that would start or stop the heating system from the setpoint value. Those rules will not have any actions, you need to add them yourself.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/projectmanager.cpp" line="489"/>
+        <source>This file is not correctly formated!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/projectmanager.cpp" line="573"/>
+        <source>Input with id &quot;%1&quot; already exists!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/projectmanager.cpp" line="703"/>
+        <source>Output with id &quot;%1&quot; already exists!</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

@@ -324,7 +324,9 @@ win32 {
 TRANSLATIONS = \
     lang/calaos_installer_fr.ts \
     lang/calaos_installer_de.ts \
-    lang/calaos_installer_es.ts 
+    lang/calaos_installer_es.ts \ 
+    lang/calaos_installer_nb.ts \
+    lang/calaos_installer_hi.ts
 
 #Build *.qm translation files automatically
 
