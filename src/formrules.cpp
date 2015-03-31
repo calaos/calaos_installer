@@ -12,6 +12,7 @@
 #include "DialogNewZibaseOutput.h"
 #include "dialognewwebioshutter.h"
 #include "DialogNewMySensors.h"
+#include "DialogOla.h"
 
 FormRules::FormRules(QWidget *parent) :
     QWidget(parent),
@@ -192,6 +193,16 @@ FormRules::FormRules(QWidget *parent) :
     action = gpio_menu->addAction(tr("Shutter"));
     action->setIcon(QIcon(":/img/icon_shutter.png"));
     connect(action, &QAction::triggered, [=]() { addCalaosItem(HW_GPIO, ITEM_SHUTTER); });
+
+    QMenu *ola_menu = add_menu->addMenu(QIcon("://img/ola.png"), "Open Lightning Architecture (DMX)");
+
+    action = ola_menu->addAction(tr("Light Dimmer"));
+    action->setIcon(QIcon(":/img/icon_light_on.png"));
+    connect(action, &QAction::triggered, [=]() { addCalaosItem(HW_OLA, ITEM_DALI); });
+
+    action = ola_menu->addAction(tr("RGB Light"));
+    action->setIcon(QIcon(":/img/icon_light_on.png"));
+    connect(action, &QAction::triggered, [=]() { addCalaosItem(HW_OLA, ITEM_LIGHT_RGB); });
 
     add_menu->addSeparator();
 
@@ -556,6 +567,12 @@ IOBase *FormRules::addCalaosItemDimmer(int item, int hw_type)
         if (dialog.exec() == QDialog::Accepted)
             output = dialog.getInput();
     }
+    else if (hw_type == HW_OLA)
+    {
+        DialogOla dialog(current_room, item);
+        if (dialog.exec() == QDialog::Accepted)
+            output = dialog.getOutput();
+    }
 
     return output;
 }
@@ -581,6 +598,12 @@ IOBase *FormRules::addCalaosItemRGB(int item, int hw_type)
         DialogNewMySensors dialog(current_room, item);
         if (dialog.exec() == QDialog::Accepted)
             output = dialog.getInput();
+    }
+    else if (hw_type == HW_OLA)
+    {
+        DialogOla dialog(current_room, item);
+        if (dialog.exec() == QDialog::Accepted)
+            output = dialog.getOutput();
     }
 
     return output;

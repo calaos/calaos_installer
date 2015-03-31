@@ -107,5 +107,6 @@
         <file>img/configure.png</file>
         <file>img/clone.png</file>
         <file>img/mysensors.png</file>
+        <file>img/ola.png</file>
     </qresource>
 </RCC>
