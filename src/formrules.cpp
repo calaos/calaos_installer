@@ -13,6 +13,7 @@
 #include "dialognewwebioshutter.h"
 #include "DialogNewMySensors.h"
 #include "DialogOla.h"
+#include "DialogNewPing.h"
 
 FormRules::FormRules(QWidget *parent) :
     QWidget(parent),
@@ -203,6 +204,12 @@ FormRules::FormRules(QWidget *parent) :
     action = ola_menu->addAction(tr("RGB Light"));
     action->setIcon(QIcon(":/img/icon_light_on.png"));
     connect(action, &QAction::triggered, [=]() { addCalaosItem(HW_OLA, ITEM_LIGHT_RGB); });
+
+    QMenu *lan_menu = add_menu->addMenu(QIcon("://img/web.png"), "Lan Devices");
+
+    action = lan_menu->addAction(tr("Ping Switch"));
+    action->setIcon(QIcon(":/img/icon_inter.png"));
+    connect(action, &QAction::triggered, [=]() { addCalaosItem(HW_LAN, ITEM_INPUT_SWITCH); });
 
     add_menu->addSeparator();
 
@@ -435,6 +442,12 @@ IOBase *FormRules::addCalaosItemInputSwitch(int item, int hw_type)
     else if (hw_type == HW_MYSENSORS)
     {
         DialogNewMySensors dialog(current_room, item);
+        if (dialog.exec() == QDialog::Accepted)
+            input = dialog.getInput();
+    }
+    else if (hw_type == HW_LAN)
+    {
+        DialogNewPing dialog(current_room, item);
         if (dialog.exec() == QDialog::Accepted)
             input = dialog.getInput();
     }

@@ -55,6 +55,7 @@ REGISTER_INPUT(MySensorsInputSwitch, "switch", TBOOL)
 REGISTER_INPUT(MySensorsInputSwitchLongPress, "switch_long", TINT)
 REGISTER_INPUT(MySensorsInputSwitchTriple, "switch3", TINT)
 REGISTER_INPUT(MySensorsInputTemp, "temp", TINT)
+REGISTER_INPUT(PingInputSwitch, "switch", TBOOL)
 
 /* Declare output class/type */
 REGISTER_OUTPUT(OutputFake, "light", TBOOL)
