@@ -29,6 +29,8 @@ DialogNewZibase::DialogNewZibase(Room *r, int it, QWidget *parent) :
     else if (item == ITEM_INPUT_SWITCH)
     {
         ui->comboBox->addItem(tr("Door/window sensor"), QString("detect"));
+        ui->comboBox->addItem(tr("interuptor/remote"), QString("inter"));
+
     }
 
 }
@@ -62,7 +64,10 @@ void DialogNewZibase::on_buttonBox_accepted()
     }else if (item == ITEM_ANALOG)
         p.Add("type", "ZibaseAnalogIn");
     else if (item == ITEM_INPUT_SWITCH)
+    {
         p.Add("type", "ZibaseDigitalIn");
+        p.Add("zibase_id2", ui->edit_id2->text().toUtf8().constData());
+    }
     else
         reject();
 
