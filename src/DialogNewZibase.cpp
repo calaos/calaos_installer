@@ -12,6 +12,8 @@ DialogNewZibase::DialogNewZibase(Room *r, int it, QWidget *parent) :
     ui->setupUi(this);
 
     ui->label_error_empty->hide();
+    ui->edit_id2->hide();
+    ui->label_6->hide();
 
     if(item == ITEM_TEMP)
     {
@@ -30,7 +32,8 @@ DialogNewZibase::DialogNewZibase(Room *r, int it, QWidget *parent) :
     {
         ui->comboBox->addItem(tr("Door/window sensor"), QString("detect"));
         ui->comboBox->addItem(tr("interuptor/remote"), QString("inter"));
-
+        ui->edit_id2->show();
+        ui->label_6->show();
     }
 
 }
@@ -66,7 +69,7 @@ void DialogNewZibase::on_buttonBox_accepted()
     else if (item == ITEM_INPUT_SWITCH)
     {
         p.Add("type", "ZibaseDigitalIn");
-        p.Add("zibase_id2", ui->edit_id2->text().toUtf8().constData());
+        p.Add("zibase_id2", ui->edit_id2->text().toUtf8().constData());        
     }
     else
         reject();
