@@ -88,6 +88,7 @@ REGISTER_OUTPUT(MySensorsOutputShutterSmart, "shutter_smart", TSTRING)
 REGISTER_OUTPUT(MySensorsOutputString, "string_out", TSTRING)
 REGISTER_OUTPUT(OLAOutputLightDimmer, "light_dimmer", TSTRING)
 REGISTER_OUTPUT(OLAOutputLightRGB, "light_rgb", TSTRING)
+REGISTER_OUTPUT(WOLOutputBool, "var_bool", TBOOL)
 
 /* Declare InOut class/type */
 REGISTER_INOUT(InputTimer, "timer", TBOOL)

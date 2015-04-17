@@ -99,7 +99,8 @@ SOURCES += src/main.cpp \
     src/dialogautodetect.cpp \
     src/DialogNewMySensors.cpp \
     src/DialogOla.cpp \
-    src/DialogNewPing.cpp
+    src/DialogNewPing.cpp \
+    src/DialogNewWOL.cpp
 
 HEADERS += src/mainwindow.h \
     src/common/Utils.h \
@@ -191,7 +192,8 @@ HEADERS += src/mainwindow.h \
     src/dialogautodetect.h \
     src/DialogNewMySensors.h \
     src/DialogOla.h \
-    src/DialogNewPing.h
+    src/DialogNewPing.h \
+    src/DialogNewWOL.h
 
 FORMS += \
     data/FormConditionStd.ui \
@@ -247,7 +249,8 @@ FORMS += \
     data/dialogautodetect.ui \
     data/DialogNewMySensors.ui \
     data/DialogOla.ui \
-    data/DialogNewPing.ui
+    data/DialogNewPing.ui \
+    data/DialogNewWOL.ui
 
 RESOURCES += data/resources.qrc \
     data/textedit.qrc \
