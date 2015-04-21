@@ -27,8 +27,8 @@ public:
 
         bool isInputType()
         {
-                if (type.find("Input") != string::npos)
-                        return true; return false;
+            if (type.find("Input") != string::npos)
+                return true; return false;
         }
         IOBase *getInput() { return io; }
         IOBase *getOutput() { return io; }

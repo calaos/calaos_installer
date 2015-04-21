@@ -168,11 +168,11 @@ FormRules::FormRules(QWidget *parent) :
 
     action = web_menu->addAction(tr("Analog Input"));
     action->setIcon(QIcon(":/img/icon_analog.png"));
-    connect(action, &QAction::triggered, [=]() { addCalaosItem(HW_WEB, ITEM_ANALOG); });
+    connect(action, &QAction::triggered, [=]() { addCalaosItem(HW_WEB, ITEM_ANALOG_IN); });
 
     action = web_menu->addAction(tr("Analog Output"));
     action->setIcon(QIcon(":/img/icon_analog.png"));
-    connect(action, &QAction::triggered, [=]() { addCalaosItem(HW_WEB, ITEM_ANALOG); });
+    connect(action, &QAction::triggered, [=]() { addCalaosItem(HW_WEB, ITEM_ANALOG_OUT); });
 
     action = web_menu->addAction(tr("String Input"));
     action->setIcon(QIcon(":/img/text.png"));

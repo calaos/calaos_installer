@@ -54,10 +54,16 @@ DialogNewWebIO::DialogNewWebIO(Room *r, int item, QWidget *parent) :
         analogWidget = new FormAnalogProperties(this, false);
         ui->verticalLayout_3->insertWidget(1, analogWidget);
         break;
-      case ITEM_ANALOG:
+      case ITEM_ANALOG_IN:
         ui->io_type->setCurrentIndex(5);
         label = tr("Create a new Web Analog Input");
         analogWidget = new FormAnalogProperties(this, false);
+        ui->verticalLayout_3->insertWidget(1, analogWidget);
+        break;
+      case ITEM_ANALOG_OUT:
+        ui->io_type->setCurrentIndex(6);
+        label = tr("Create a new Web Analog Output");
+        analogWidget = new FormAnalogProperties(this, true);
         ui->verticalLayout_3->insertWidget(1, analogWidget);
         break;
       case ITEM_STRINGIN:
@@ -128,7 +134,8 @@ void DialogNewWebIO::on_buttonBox_accepted()
         p.Add("unit", analogWidget->getUnit().toUtf8().constData());
         p.Add("coeff_a",  QString::number(analogWidget->getCoeff()).toUtf8().constData());
         p.Add("coeff_b",  QString::number(analogWidget->getOffset()).toUtf8().constData());
-        p.Add("step",  QString::number(analogWidget->getStep()).toUtf8().constData());
+        if (item == ITEM_ANALOG_OUT)
+            p.Add("step",  QString::number(analogWidget->getStep()).toUtf8().constData());
         p.Add("min",  QString::number(analogWidget->getMin()).toUtf8().constData());
         p.Add("max",  QString::number(analogWidget->getMax()).toUtf8().constData());
     }
@@ -156,6 +163,11 @@ void DialogNewWebIO::on_buttonBox_accepted()
         type = "WebInputAnalog";
         p.Add("type", type);
         io = ListeRoom::Instance().createInput(p, room);
+        break;
+      case 6:
+        type = "WebOutputAnalog";
+        p.Add("type", type);
+        io = ListeRoom::Instance().createOutput(p, room);
         break;
       case 7:
         type = "WebInputString";
