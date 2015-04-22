@@ -41,6 +41,7 @@ private:
 
 private slots:
     void on_buttonBox_accepted();
+    void on_radio_input_toggled(bool checked);
 };
 
 #endif

@@ -11,7 +11,7 @@ DialogNewAnalog::DialogNewAnalog(Room *r, QWidget *parent) :
 
     // Insert the generic Analog form
     analogWidget = new FormAnalogProperties(this, false);
-    ui->verticalLayout_2->insertWidget(1, analogWidget);
+    ui->verticalLayout_3->insertWidget(2, analogWidget);
 
     //hide error labels by default.
     ui->label_error_empty->hide();  
@@ -78,4 +78,9 @@ void DialogNewAnalog::on_buttonBox_accepted()
     }
 
     accept();
+}
+
+void DialogNewAnalog::on_radio_input_toggled(bool)
+{
+    analogWidget->updateUI(ui->radio_output->isChecked());
 }

@@ -21,6 +21,8 @@ public:
     double getMin();
     double getMax();
 
+    void updateUI(bool isOutput);
+
 private:
     Ui::FormAnalogProperties *ui;
 };

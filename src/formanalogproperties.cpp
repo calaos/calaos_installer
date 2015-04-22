@@ -6,10 +6,25 @@ FormAnalogProperties::FormAnalogProperties(QWidget *parent, bool isOutput) :
     ui(new Ui::FormAnalogProperties)
 {
     ui->setupUi(this);
+    updateUI(isOutput);
+}
+
+FormAnalogProperties::~FormAnalogProperties()
+{
+    delete ui;
+}
+
+void FormAnalogProperties::updateUI(bool isOutput)
+{
     if (!isOutput)
     {
         ui->spin_step->hide();
         ui->label_step->hide();
+    }
+    else
+    {
+        ui->spin_step->show();
+        ui->label_step->show();
     }
 
     //always hide min/max, it's not used in calaos for now
@@ -17,11 +32,6 @@ FormAnalogProperties::FormAnalogProperties(QWidget *parent, bool isOutput) :
     ui->spin_min->hide();
     ui->label_max->hide();
     ui->label_min->hide();
-}
-
-FormAnalogProperties::~FormAnalogProperties()
-{
-    delete ui;
 }
 
 QString FormAnalogProperties::getUnit()
