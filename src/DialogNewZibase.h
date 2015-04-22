@@ -4,6 +4,8 @@
 #include <QtWidgets>
 #include <ListeRoom.h>
 
+#include "formanalogproperties.h"
+
 using namespace Calaos;
 
 namespace Ui {
@@ -28,6 +30,7 @@ private:
     IOBase *io = nullptr;
     Room *room;
     int item;
+    FormAnalogProperties *analogWidget;
 };
 
 #endif // DIALOGNEWZIBASE_H

@@ -27,6 +27,10 @@ DialogNewZibase::DialogNewZibase(Room *r, int it, QWidget *parent) :
         ui->comboBox->addItem(tr("lux sensor"), QString("lux"));
         ui->comboBox->addItem(tr("total rain sensor"), QString("t_rain"));
         ui->comboBox->addItem(tr("wind sensor"), QString("wind"));
+
+        // Insert the generic Analog form
+        analogWidget = new FormAnalogProperties(this, false);
+        ui->verticalLayout->insertWidget(2, analogWidget);
     }
     else if (item == ITEM_INPUT_SWITCH)
     {
@@ -64,8 +68,14 @@ void DialogNewZibase::on_buttonBox_accepted()
     if (item == ITEM_TEMP)
     {   p.Add("type", "ZibaseTemp");
         p.Add("zibase_sensor", "temp");
-    }else if (item == ITEM_ANALOG)
+    }
+    else if (item == ITEM_ANALOG)
+    {
         p.Add("type", "ZibaseAnalogIn");
+        p.Add("unit", analogWidget->getUnit().toUtf8().constData());
+        p.Add("coeff_a",  QString::number(analogWidget->getCoeff()).toUtf8().constData());
+        p.Add("coeff_b",  QString::number(analogWidget->getOffset()).toUtf8().constData());
+    }
     else if (item == ITEM_INPUT_SWITCH)
     {
         p.Add("type", "ZibaseDigitalIn");
