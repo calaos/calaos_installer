@@ -4,6 +4,8 @@
 #include <QtWidgets>
 #include <QDialog>
 
+#include "formanalogproperties.h"
+
 #include <ListeRoom.h>
 using namespace std;
 using namespace Calaos;
@@ -36,6 +38,7 @@ private:
     IOBase *io;
     Room *room;
     int itemType;
+    FormAnalogProperties *analogWidget;
 };
 
 #endif // DIALOGNEWMYSENSORS_H

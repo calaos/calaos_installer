@@ -6,7 +6,8 @@ DialogNewMySensors::DialogNewMySensors(Room *r, int it, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::DialogNewMySensors),
     room(r),
-    itemType(it)
+    itemType(it),
+    analogWidget(NULL)
 {
     ui->setupUi(this);
 
@@ -28,6 +29,17 @@ DialogNewMySensors::DialogNewMySensors(Room *r, int it, QWidget *parent) :
     case ITEM_LIGHT_RGB: setWindowTitle(tr("Add a MySensors RGB Light")); break;
     case ITEM_SHUTTER: setWindowTitle(tr("Add a MySensors Shutter")); break;
     default: break;
+    }
+
+    if (itemType == ITEM_ANALOG_IN)
+    {
+        analogWidget = new FormAnalogProperties(this, false);
+        ui->verticalLayout->insertWidget(1, analogWidget);
+    }
+    else if (itemType == ITEM_ANALOG_OUT)
+    {
+        analogWidget = new FormAnalogProperties(this, true);
+        ui->verticalLayout->insertWidget(1, analogWidget);
     }
 
     resize(minimumSize());
@@ -71,12 +83,19 @@ void DialogNewMySensors::on_buttonBox_accepted()
     case ITEM_ANALOG_IN:
     {
         p.Add("type", "MySensorsInputAnalog");
+        p.Add("unit", analogWidget->getUnit().toUtf8().constData());
+        p.Add("coeff_a",  QString::number(analogWidget->getCoeff()).toUtf8().constData());
+        p.Add("coeff_b",  QString::number(analogWidget->getOffset()).toUtf8().constData());
         io = ListeRoom::Instance().createInput(p, room);
         break;
     }
     case ITEM_ANALOG_OUT:
     {
         p.Add("type", "MySensorsOutputAnalog");
+        p.Add("unit", analogWidget->getUnit().toUtf8().constData());
+        p.Add("coeff_a",  QString::number(analogWidget->getCoeff()).toUtf8().constData());
+        p.Add("coeff_b",  QString::number(analogWidget->getOffset()).toUtf8().constData());
+        p.Add("step",  QString::number(analogWidget->getStep()).toUtf8().constData());
         io = ListeRoom::Instance().createOutput(p, room);
         break;
     }
