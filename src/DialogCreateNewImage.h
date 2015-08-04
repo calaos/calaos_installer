@@ -40,8 +40,11 @@ private slots:
 
     void on_selectImageButton_clicked();
 
+    void on_writeButton_clicked();
+
 private:
     Ui::DialogCreateNewImage *ui;
+    QStringList getUserFriendlyNames(const QStringList &devices) const;
 };
 
 #endif // DIALOGCREATENEWIMAGE_H

@@ -32,6 +32,7 @@ DialogCreateNewImage::DialogCreateNewImage(QWidget *parent) :
     ui->setupUi(this);
 
     QStringList names;
+    QStringList friendlyNames;
 #if defined Q_OS_MAC
     QProcess lsblk;
     lsblk.start("diskutil list", QIODevice::ReadOnly);
@@ -82,10 +83,11 @@ DialogCreateNewImage::DialogCreateNewImage(QWidget *parent) :
     }
 #endif
 
+    friendlyNames = getUserFriendlyNames(names);
     ui->targetCombo->clear();
     for (int i = 0; i < names.size(); ++i)
     {
-        ui->targetCombo->addItem(names[i], names[i]);
+        ui->targetCombo->addItem(friendlyNames[i] + " " + names[i], names[i]);
     }
     ui->targetCombo->setCurrentIndex(ui->targetCombo->count() - 1);
 
@@ -221,4 +223,68 @@ void DialogCreateNewImage::on_selectImageButton_clicked()
     QString fileName = QFileDialog::getOpenFileName(this, tr("Open Calaos Image"), downloadsFolder);
     ui->imageFilenameLabel->setText(fileName);
     ui->writeButton->setEnabled(true);
+}
+
+void DialogCreateNewImage::on_writeButton_clicked()
+{
+
+}
+
+QStringList DialogCreateNewImage::getUserFriendlyNames(const QStringList &devices) const
+{
+    QStringList returnList;
+
+    foreach (QString s, devices) {
+#ifdef Q_OS_LINUX
+        quint64 size = driveSize(s);
+        QStringList partInfo = getPartitionsInfo(s);
+
+        QTextStream friendlyName(&s);
+        friendlyName.setRealNumberNotation(QTextStream::FixedNotation);
+        friendlyName.setRealNumberPrecision(2);
+        friendlyName << " (";
+        friendlyName << size/(1024*1024*1024.0) << " GB, partitions: ";
+        foreach (QString partition, partInfo) {
+            friendlyName << partition << ", ";
+        }
+        s.chop(2);
+        friendlyName << ")";
+
+        returnList.append(s);
+#else
+        QProcess lsblk;
+        lsblk.start(QString("diskutil info %1").arg(s), QIODevice::ReadOnly);
+        lsblk.waitForStarted();
+        lsblk.waitForFinished();
+
+        QString output = lsblk.readLine();
+        QStringList iddata;
+        QString item = "";
+        while (!lsblk.atEnd()) {
+            output = output.trimmed(); // Odd trailing whitespace
+            if (output.contains("Device / Media Name:")) { // We want the volume name of this device
+                output.replace("Device / Media Name:      ","");
+                iddata.append(output);
+            }else if (output.contains("Device Identifier:")) { // We want the volume name of this device
+                output.replace("Device Identifier:        ","");
+                iddata.append(output);
+            }else if (output.contains("Total Size:")) { // We want the volume name of this device
+                 output.replace("Total Size:               ","");
+                 QStringList tokens = output.split(" ");
+                 iddata.append( "("+tokens[0]+tokens[1]+")");
+            }
+
+            output = lsblk.readLine();
+        }
+
+        foreach(QString each,iddata)
+        {
+            item += each+": ";
+        }
+
+        returnList.append(item);
+#endif
+    }
+
+    return returnList;
 }
