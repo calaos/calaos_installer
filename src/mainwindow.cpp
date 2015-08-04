@@ -4,6 +4,7 @@
 #include "ConfigOptions.h"
 #include "DialogOptions.h"
 #include "dialogautodetect.h"
+#include "DialogCreateNewImage.h"
 
 MainWindow::MainWindow(QWidget *parent):
     QMainWindow(parent),
@@ -597,4 +598,10 @@ void MainWindow::on_btAutodetect_clicked()
         ConfigOptions::Instance().setHost(host);
         on_actionOuvrir_un_projet_en_ligne_triggered();
     }
+}
+
+void MainWindow::on_actionCreateNewImage_triggered()
+{
+    DialogCreateNewImage d;
+    d.exec();
 }
