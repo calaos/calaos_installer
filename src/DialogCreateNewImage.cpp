@@ -49,7 +49,7 @@ DialogCreateNewImage::DialogCreateNewImage(QWidget *parent) :
         device = lsblk.readLine();
 
     }
-#elif defines Q_OS_UNIX
+#elif defined Q_OS_UNIX
     QStringList names;
 
        QDir currentDir("/sys/block");
