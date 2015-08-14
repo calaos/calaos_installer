@@ -101,7 +101,9 @@ SOURCES += src/main.cpp \
     src/DialogOla.cpp \
     src/DialogNewPing.cpp \
     src/DialogNewWOL.cpp \
-    src/DialogCreateNewImage.cpp
+    src/DialogCreateNewImage.cpp \
+    src/DialogListProperties.cpp \
+    src/BalloonTip.cpp
 
 HEADERS += src/mainwindow.h \
     src/common/Utils.h \
@@ -195,7 +197,9 @@ HEADERS += src/mainwindow.h \
     src/DialogOla.h \
     src/DialogNewPing.h \
     src/DialogNewWOL.h \
-    src/DialogCreateNewImage.h
+    src/DialogCreateNewImage.h \
+    src/DialogListProperties.h \
+    src/BalloonTip.h
 
 FORMS += \
     data/FormConditionStd.ui \
@@ -253,12 +257,14 @@ FORMS += \
     data/DialogOla.ui \
     data/DialogNewPing.ui \
     data/DialogNewWOL.ui \
-    src/DialogCreateNewImage.ui
+    src/DialogCreateNewImage.ui \
+    src/DialogListProperties.ui
 
 RESOURCES += data/resources.qrc \
     data/textedit.qrc \
     data/wago_firmwares.qrc \
-    lang/lang_ressources.qrc
+    lang/lang_ressources.qrc \
+    data/iodoc.qrc
 
 win32 {
 #on windows to deploy we need to add Qt own language files

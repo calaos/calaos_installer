@@ -18,6 +18,7 @@
 #include <dialognewtime.h>
 #include <dialogcameraview.h>
 #include <dialogioproperties.h>
+#include <DialogListProperties.h>
 #include <dialognewrule.h>
 #include <dialognewanalog.h>
 #include <dialognewwebio.h>

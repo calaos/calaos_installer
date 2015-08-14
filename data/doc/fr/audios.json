@@ -1,0 +1,318 @@
+{
+    "slim": {
+        "description": "Audio input associated to an AudioPlayer",
+        "alias": [],
+        "parameters": [
+            {
+                "default": "9000",
+                "description": "Web interface port of LMS, default to 9000.",
+                "mandatory": "false",
+                "max": "65535",
+                "min": "0",
+                "name": "port_web",
+                "readonly": "false",
+                "type": "int"
+            },
+            {
+                "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
+                "mandatory": "false",
+                "name": "gui_type",
+                "readonly": "true",
+                "type": "string"
+            },
+            {
+                "description": "Unique ID of squeezebox in LMS",
+                "mandatory": "true",
+                "name": "id",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "Name of Input/Output.",
+                "mandatory": "true",
+                "name": "name",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "default": "9090",
+                "description": "CLI port of LMS, default to 9090",
+                "mandatory": "false",
+                "max": "65535",
+                "min": "0",
+                "name": "port_cli",
+                "readonly": "false",
+                "type": "int"
+            },
+            {
+                "default": "true",
+                "description": "Display the Input/Output on all user interfaces if set. Default to true",
+                "mandatory": "false",
+                "name": "visible",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "description": "Logitech media server IP address",
+                "mandatory": "true",
+                "name": "host",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "default": "true",
+                "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
+                "mandatory": "false",
+                "name": "enabled",
+                "readonly": "false",
+                "type": "bool"
+            }
+        ],
+        "conditions": [
+            {
+                "description": "Event when a change of volume happens",
+                "name": "onvolumechange"
+            },
+            {
+                "description": "Event when a change in the current playlist happens",
+                "name": "onplaylistchange"
+            },
+            {
+                "description": "Event when play is started",
+                "name": "onplay"
+            },
+            {
+                "description": "Event when pausing player",
+                "name": "onpause"
+            },
+            {
+                "description": "Event when stopping player",
+                "name": "onstop"
+            },
+            {
+                "description": "Event when a new song is being played",
+                "name": "onsongchange"
+            }
+        ],
+        "actions": [
+            {
+                "description": "Set current volume",
+                "name": "volume set 50"
+            },
+            {
+                "description": "Stop player",
+                "name": "stop"
+            },
+            {
+                "description": "Pause player",
+                "name": "pause"
+            },
+            {
+                "description": "Clear playlist and play argument. <argument> can be any of album_id:XX artist_id:XX playlist_id:XX, ...",
+                "name": "play <argument>"
+            },
+            {
+                "description": "Play next song in playlist",
+                "name": "next"
+            },
+            {
+                "description": "Start playing",
+                "name": "play"
+            },
+            {
+                "description": "Decrease volume by a value",
+                "name": "volume down 1"
+            },
+            {
+                "description": "Increase volume by a value",
+                "name": "volume up 1"
+            },
+            {
+                "description": "Play previous song in playlist",
+                "name": "previous"
+            },
+            {
+                "description": "Start sleep mode with X seconds",
+                "name": "sleep 10"
+            },
+            {
+                "description": "Add tracks to playlist. <argument> can be any of album_id:XX artist_id:XX playlist_id:XX, ...",
+                "name": "add <argument>"
+            },
+            {
+                "description": "Switch player on",
+                "name": "power on"
+            },
+            {
+                "description": "Switch player off",
+                "name": "power off"
+            },
+            {
+                "description": "Sync this player with an other",
+                "name": "sync <playerid>"
+            },
+            {
+                "description": "Stop sync of this player with an other",
+                "name": "unsync <playerid>"
+            }
+        ]
+    },
+    "Squeezebox": {
+        "description": "Audio input associated to an AudioPlayer",
+        "alias": [],
+        "parameters": [
+            {
+                "default": "9000",
+                "description": "Web interface port of LMS, default to 9000.",
+                "mandatory": "false",
+                "max": "65535",
+                "min": "0",
+                "name": "port_web",
+                "readonly": "false",
+                "type": "int"
+            },
+            {
+                "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
+                "mandatory": "false",
+                "name": "gui_type",
+                "readonly": "true",
+                "type": "string"
+            },
+            {
+                "description": "Unique ID of squeezebox in LMS",
+                "mandatory": "true",
+                "name": "id",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "Name of Input/Output.",
+                "mandatory": "true",
+                "name": "name",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "default": "9090",
+                "description": "CLI port of LMS, default to 9090",
+                "mandatory": "false",
+                "max": "65535",
+                "min": "0",
+                "name": "port_cli",
+                "readonly": "false",
+                "type": "int"
+            },
+            {
+                "default": "true",
+                "description": "Display the Input/Output on all user interfaces if set. Default to true",
+                "mandatory": "false",
+                "name": "visible",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "description": "Logitech media server IP address",
+                "mandatory": "true",
+                "name": "host",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "default": "true",
+                "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
+                "mandatory": "false",
+                "name": "enabled",
+                "readonly": "false",
+                "type": "bool"
+            }
+        ],
+        "conditions": [
+            {
+                "description": "Event when a change of volume happens",
+                "name": "onvolumechange"
+            },
+            {
+                "description": "Event when a change in the current playlist happens",
+                "name": "onplaylistchange"
+            },
+            {
+                "description": "Event when play is started",
+                "name": "onplay"
+            },
+            {
+                "description": "Event when pausing player",
+                "name": "onpause"
+            },
+            {
+                "description": "Event when stopping player",
+                "name": "onstop"
+            },
+            {
+                "description": "Event when a new song is being played",
+                "name": "onsongchange"
+            }
+        ],
+        "actions": [
+            {
+                "description": "Set current volume",
+                "name": "volume set 50"
+            },
+            {
+                "description": "Stop player",
+                "name": "stop"
+            },
+            {
+                "description": "Pause player",
+                "name": "pause"
+            },
+            {
+                "description": "Clear playlist and play argument. <argument> can be any of album_id:XX artist_id:XX playlist_id:XX, ...",
+                "name": "play <argument>"
+            },
+            {
+                "description": "Play next song in playlist",
+                "name": "next"
+            },
+            {
+                "description": "Start playing",
+                "name": "play"
+            },
+            {
+                "description": "Decrease volume by a value",
+                "name": "volume down 1"
+            },
+            {
+                "description": "Increase volume by a value",
+                "name": "volume up 1"
+            },
+            {
+                "description": "Play previous song in playlist",
+                "name": "previous"
+            },
+            {
+                "description": "Start sleep mode with X seconds",
+                "name": "sleep 10"
+            },
+            {
+                "description": "Add tracks to playlist. <argument> can be any of album_id:XX artist_id:XX playlist_id:XX, ...",
+                "name": "add <argument>"
+            },
+            {
+                "description": "Switch player on",
+                "name": "power on"
+            },
+            {
+                "description": "Switch player off",
+                "name": "power off"
+            },
+            {
+                "description": "Sync this player with an other",
+                "name": "sync <playerid>"
+            },
+            {
+                "description": "Stop sync of this player with an other",
+                "name": "unsync <playerid>"
+            }
+        ]
+    }
+}

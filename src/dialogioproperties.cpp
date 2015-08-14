@@ -1,44 +1,19 @@
 #include "dialogioproperties.h"
 #include "ui_DialogIoProperties.h"
 
-DialogIOProperties::DialogIOProperties(const Params &p, int t, QWidget *parent) :
+DialogIOProperties::DialogIOProperties(IOBase *_io, const Params &p, int t, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::DialogIOProperties),
+    io(_io),
     params(p),
-    type(t),
-    current_item(NULL),
-    modified(false)
+    changedParams(p),
+    type(t)
 {
     setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
     ui->setupUi(this);
 
-    QStringList headers;
-    headers << tr("Properties") << tr("Value");
-    ui->treeProperties->setHeaderLabels(headers);
-
-    for (int i = 0;i < params.size();i++)
-    {
-        string key, value;
-        params.get_item(i, key, value);
-
-        QTreeWidgetItem *item = new QTreeWidgetItem(ui->treeProperties);
-        item->setData(0, Qt::DisplayRole, QString::fromUtf8(key.c_str()));
-        item->setData(1, Qt::DisplayRole, QString::fromUtf8(value.c_str()));
-
-        item->setData(0, Qt::DecorationRole, QIcon(":/img/document-properties.png"));
-
-        if (i == 0)
-            item->setSelected(true);
-    }
-
-    if (type == OBJ_ROOM || type == OBJ_RULE)
-    {
-        ui->addButton->setDisabled(true);
-        ui->delButton->setDisabled(true);
-    }
-
-    ui->treeProperties->resizeColumnToContents(0);
-    ui->treeProperties->resizeColumnToContents(1);
+    ui->toolBox->setCurrentIndex(0);
+    createIOProperties();
 }
 
 DialogIOProperties::~DialogIOProperties()
@@ -46,121 +21,236 @@ DialogIOProperties::~DialogIOProperties()
     delete ui;
 }
 
-void DialogIOProperties::changeEvent(QEvent *e)
+void DialogIOProperties::updateChangedParam(const string &prop, const QString value, const QString pvalue, QLabel *title, QPushButton *revert)
 {
-    QDialog::changeEvent(e);
-    switch (e->type())
+    bool isChanged = value != pvalue;
+
+    if (isChanged)
+        hider.unhide(revert);
+    else
+        hider.hide(revert);
+
+    QFont f = title->font();
+    f.setBold(isChanged);
+    title->setFont(f);
+
+    if (isChanged)
+        changedParams.Add(prop, value.toUtf8().constData());
+    else
     {
-    case QEvent::LanguageChange:
-        ui->retranslateUi(this);
-        break;
-    default:
-        break;
+        if (params.Exists(prop))
+            changedParams.Add(prop, params[prop]);
+        else
+            changedParams.Delete(prop);
     }
 }
 
-void DialogIOProperties::on_addButton_clicked()
+void DialogIOProperties::createIOProperties()
 {
-    bool ok;
-    QString text = QInputDialog::getText(this, tr("New property"),
-                                         tr("Enter a property name"), QLineEdit::Normal,
-                                         QString(), &ok);
+    ui->mainLayout->setColumnMinimumWidth(0, 150);
+    ui->optionLayout->setColumnMinimumWidth(0, 150);
 
-    if (ok && !text.isEmpty())
+    QString lang = "en"; //TODO change language here
+    QString rsc;
+    if (io->get_gui_type() == "camera")
+        rsc = QString(":/doc/%1/cams.json").arg(lang);
+    else if (io->get_gui_type() == "audio")
+        rsc = QString(":/doc/%1/audios.json").arg(lang);
+    else if (io->is_output())
+        rsc = QString(":/doc/%1/outputs.json").arg(lang);
+    else
+        rsc = QString(":/doc/%1/inputs.json").arg(lang);
+
+    QFile f(rsc);
+    if (!f.open(QIODevice::ReadOnly | QIODevice::Text))
     {
-        string key = text.toUtf8().data();
-
-        if (params.Exists(key))
-        {
-            QMessageBox::warning(this, tr("Calaos Installer"), tr("This property already exists!"));
-
-            return;
-        }
-
-        params.Add(key, "");
-
-        QTreeWidgetItem *item = new QTreeWidgetItem(ui->treeProperties);
-        item->setData(0, Qt::DisplayRole, QString::fromUtf8(key.c_str()));
-        item->setData(1, Qt::DisplayRole, QString());
-        item->setData(0, Qt::DecorationRole, QIcon(":/img/document-properties.png"));
-        ui->treeProperties->setCurrentItem(item);
-
-        on_modifyButton_clicked();
-
-        modified = true;
+        QMessageBox::warning(this, tr("Error"), tr("Failed to load IO documentation from %1").arg(rsc));
+        return;
     }
-}
-
-void DialogIOProperties::on_delButton_clicked()
-{
-    if (current_item)
+    QJsonParseError jerr;
+    QJsonDocument jdoc = QJsonDocument::fromJson(f.readAll(), &jerr);
+    if (jerr.error != QJsonParseError::NoError ||
+        !jdoc.isObject())
     {
-        string key = current_item->text(0).toUtf8().data();
-
-        if (key == "type" || key == "name")
-        {
-            QMessageBox::warning(this, tr("Calaos Installer"), tr("This property cannot be deleted!"));
-            return;
-        }
-
-        params.Delete(key);
-        delete current_item;
-
-        modified = true;
-    }
-}
-
-void DialogIOProperties::on_modifyButton_clicked()
-{
-    if (!current_item) return;
-
-    string key, value;
-
-    key = current_item->text(0).toUtf8().data();
-    value = params[key];
-
-    //TODO: for now user can't change an object type. In the future being able to
-    //      change type on the fly could be great.
-    if (key == "type" && type != OBJ_RULE)
-    {
-        QMessageBox::warning(this, tr("Calaos Installer"), tr("This property can't be changed!"));
+        QMessageBox::warning(this, tr("Error"), tr("Failed to parse JSON IO documentation from %1").arg(rsc));
         return;
     }
 
-    bool ok;
-    QString text = QInputDialog::getText(this, tr("Change the value"),
-                                         tr("Change the property: \"%1\"").arg(QString::fromUtf8(key.c_str())), QLineEdit::Normal,
-                                         QString::fromUtf8(value.c_str()), &ok);
-    if (ok && !text.isEmpty())
+    QString iotype = QString::fromUtf8(io->get_param("type").c_str());
+    QJsonObject jobj = jdoc.object();
+    QJsonObject jobjAlias;
+    if (!jobj.contains(iotype))
     {
-        params.Add(key, text.toUtf8().data());
-        current_item->setData(1, Qt::DisplayRole, text);
+        //Search in aliases
+        bool aliasfound = false;
+        for (auto it = jobj.constBegin();it != jobj.constEnd();it++)
+        {
+            QJsonObject o = it.value().toObject();
+            QJsonArray jalias = o["alias"].toArray();
+            for (int i = 0;i < jalias.size();i++)
+            {
+                if (jalias.at(i).toString() == iotype)
+                {
+                    aliasfound = true;
+                    jobjAlias = o;
+                }
+            }
+        }
 
-        modified = true;
+        if (!aliasfound)
+        {
+            QMessageBox::warning(this, tr("Error"), tr("IO type %1 is not found in %2").arg(iotype).arg(rsc));
+            return;
+        }
     }
-}
 
-void DialogIOProperties::on_treeProperties_currentItemChanged(QTreeWidgetItem* current, QTreeWidgetItem*)
-{
-    current_item = current;
+    QJsonObject jioobj;
+    if (jobjAlias.isEmpty())
+        jioobj = jobj[iotype].toObject();
+    else
+        jioobj = jobjAlias;
+    ui->labelTitle->setText(iotype);
+    ui->labelDesc->setText(jioobj["description"].toString());
+
+    int rowMain = 0, rowOption = 0;
+
+    QJsonArray jparams = jioobj["parameters"].toArray();
+    for (int i = 0;i < jparams.size();i++)
+    {
+        QJsonObject jparam = jparams[i].toObject();
+
+        QGridLayout *layout = jparam["mandatory"].toString() == "true"?ui->mainLayout:ui->optionLayout;
+        int row = jparam["mandatory"].toBool()?rowMain:rowOption;
+
+        QLabel *title = new QLabel(jparam["name"].toString());
+        layout->addWidget(title, row, 0);
+
+        QPushButton *revert = new QPushButton();
+        revert->setIcon(QIcon(":/img/document-revert.png"));
+        revert->setToolTip(tr("Revert modification"));
+        layout->addWidget(revert, row, 1);
+        hider.hide(revert);
+
+        QString pvalue;
+        string prop = jparam["name"].toString().toUtf8().constData();
+        if (io->get_params().Exists(prop))
+            pvalue = QString::fromUtf8(io->get_param(prop).c_str());
+        else
+            pvalue = jparam["default"].toString();
+
+        if (jparam["type"].toString() == "string")
+        {
+            QLineEdit *w = new QLineEdit();
+            w->setEnabled(jparam["readonly"].toString() != "true");
+            w->setText(pvalue);
+            layout->addWidget(w, row, 2);
+
+            connect(w, &QLineEdit::textChanged, [=]()
+            {
+                updateChangedParam(prop, w->text(), pvalue, title, revert);
+            });
+
+            connect(revert, &QPushButton::clicked, [=]()
+            {
+                w->setText(pvalue);
+            });
+        }
+        else if (jparam["type"].toString() == "bool")
+        {
+            QCheckBox *w = new QCheckBox();
+            w->setEnabled(jparam["readonly"].toString() != "true");
+            w->setChecked(pvalue == "true");
+            layout->addWidget(w, row, 2);
+
+            connect(w, &QCheckBox::stateChanged, [=]()
+            {
+                updateChangedParam(prop, w->isChecked()?"true":"false", pvalue, title, revert);
+            });
+
+            connect(revert, &QPushButton::clicked, [=]()
+            {
+                w->setChecked(pvalue == "true");
+            });
+        }
+        else if (jparam["type"].toString() == "int")
+        {
+            QSpinBox *w = new QSpinBox();
+            w->setEnabled(jparam["readonly"].toString() != "true");
+            if (!jparam["min"].toString().isEmpty())
+                w->setMinimum(jparam["min"].toString().toInt());
+            else
+                w->setMinimum(-999999999);
+            if (!jparam["max"].toString().isEmpty())
+                w->setMaximum(jparam["max"].toString().toInt());
+            else
+                w->setMaximum(999999999);
+            w->setValue(pvalue.toInt());
+            layout->addWidget(w, row, 2);
+
+            connect(w, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), [=]()
+            {
+                updateChangedParam(prop, QString("%1").arg(w->value()), pvalue.isEmpty()?"0":pvalue, title, revert);
+            });
+
+            connect(revert, &QPushButton::clicked, [=]()
+            {
+                w->setValue(pvalue.toInt());
+            });
+        }
+        else if (jparam["type"].toString() == "float")
+        {
+            QDoubleSpinBox *w = new QDoubleSpinBox();
+            w->setEnabled(jparam["readonly"].toString() != "true");
+            if (!jparam["min"].toString().isEmpty())
+                w->setMinimum(jparam["min"].toString().toDouble());
+            else
+                w->setMinimum(-999999999.0);
+            if (!jparam["max"].toString().isEmpty())
+                w->setMaximum(jparam["max"].toString().toDouble());
+            else
+                w->setMaximum(999999999.0);
+            w->setValue(pvalue.toDouble());
+            layout->addWidget(w, row, 2);
+            w->setDecimals(3);
+
+            connect(w, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), [=]()
+            {
+                updateChangedParam(prop, QString("%1").arg(w->value()), pvalue.isEmpty()?"0":pvalue, title, revert);
+            });
+
+            connect(revert, &QPushButton::clicked, [=]()
+            {
+                w->setValue(pvalue.toDouble());
+            });
+        }
+
+        QPushButton *help = new QPushButton();
+        help->setIcon(QIcon(":/img/icon_unkown.png"));
+        help->setFlat(true);
+        layout->addWidget(help, row, 3);
+
+        //avoid copy the QJsonObject in the lambda
+        QString helpInfo = jparam["description"].toString();
+
+        connect(help, &QPushButton::clicked, [=]()
+        {
+            if (balloonTip)
+                delete balloonTip;
+
+            balloonTip = new BalloonTip(QPixmap(":/img/icon_unkown.png"), title->text(), helpInfo, 800, help);
+            balloonTip->setArrowPosition(BalloonTip::TopLeft);
+            balloonTip->move(QCursor::pos());
+            balloonTip->show();
+        });
+
+        if (jparam["mandatory"].toBool())
+            rowMain++;
+        else
+            rowOption++;
+    }
 }
 
 void DialogIOProperties::on_buttonBox_accepted()
 {
-    if (modified && type == OBJ_ROOM)
-    {
-        Room *room = ListeRoom::Instance().searchRoomByName(params["name"], params["type"]);
-        if (room && to_string(room->get_hits()) == params["hits"])
-        {
-            QMessageBox::warning(this, tr("Calaos Installer"), tr("This room already exists!"));
-            return;
-        }
-    }
-
     accept();
-}
-
-void DialogIOProperties::on_treeProperties_itemDoubleClicked(QTreeWidgetItem *, int)
-{
-    on_modifyButton_clicked();
 }

@@ -108,5 +108,6 @@
         <file>img/clone.png</file>
         <file>img/mysensors.png</file>
         <file>img/ola.png</file>
+        <file>img/document-revert.png</file>
     </qresource>
 </RCC>

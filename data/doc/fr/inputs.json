@@ -1,0 +1,2458 @@
+{
+    "GpioInputSwitch": {
+        "description": " Basic switch with press/release states.",
+        "alias": [],
+        "parameters": [
+            {
+                "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
+                "mandatory": "false",
+                "name": "gui_type",
+                "readonly": "true",
+                "type": "string"
+            },
+            {
+                "description": "Unique ID identifying the Input/Output in calaos-server",
+                "mandatory": "true",
+                "name": "id",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "Name of Input/Output.",
+                "mandatory": "true",
+                "name": "name",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "default": "false",
+                "description": "A switch can't be visible. Always false.",
+                "mandatory": "false",
+                "name": "visible",
+                "readonly": "true",
+                "type": "bool"
+            },
+            {
+                "default": "true",
+                "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
+                "mandatory": "false",
+                "name": "enabled",
+                "readonly": "false",
+                "type": "bool"
+            }
+        ],
+        "conditions": [
+            {
+                "description": "Event triggered when switch is released",
+                "name": "false"
+            },
+            {
+                "description": "Event on any change of state",
+                "name": "changed"
+            },
+            {
+                "description": "Event triggered when switch is pressed",
+                "name": "true"
+            }
+        ],
+        "actions": []
+    },
+    "GpioInputSwitchLongPress": {
+        "description": " Long press switch. This switch supports single press and long press. User has 500ms to perform the long press.",
+        "alias": [],
+        "parameters": [
+            {
+                "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
+                "mandatory": "false",
+                "name": "gui_type",
+                "readonly": "true",
+                "type": "string"
+            },
+            {
+                "description": "Unique ID identifying the Input/Output in calaos-server",
+                "mandatory": "true",
+                "name": "id",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "Name of Input/Output.",
+                "mandatory": "true",
+                "name": "name",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "default": "false",
+                "description": "A switch can't be visible. Always false.",
+                "mandatory": "false",
+                "name": "visible",
+                "readonly": "true",
+                "type": "bool"
+            },
+            {
+                "default": "true",
+                "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
+                "mandatory": "false",
+                "name": "enabled",
+                "readonly": "false",
+                "type": "bool"
+            }
+        ],
+        "conditions": [
+            {
+                "description": "Event on any change of state",
+                "name": "changed"
+            },
+            {
+                "description": "Event triggered when switch is pressed at least for 500ms (long press)",
+                "name": "2"
+            },
+            {
+                "description": "Event triggered when switch is pressed quickly",
+                "name": "1"
+            }
+        ],
+        "actions": []
+    },
+    "GpioInputSwitchTriple": {
+        "description": " Triple click switch. This switch can start 3 kind of actions. User has 500ms to do a multiple click.",
+        "alias": [],
+        "parameters": [
+            {
+                "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
+                "mandatory": "false",
+                "name": "gui_type",
+                "readonly": "true",
+                "type": "string"
+            },
+            {
+                "description": "Unique ID identifying the Input/Output in calaos-server",
+                "mandatory": "true",
+                "name": "id",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "Name of Input/Output.",
+                "mandatory": "true",
+                "name": "name",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "default": "false",
+                "description": "A switch can't be visible. Always false.",
+                "mandatory": "false",
+                "name": "visible",
+                "readonly": "true",
+                "type": "bool"
+            },
+            {
+                "default": "true",
+                "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
+                "mandatory": "false",
+                "name": "enabled",
+                "readonly": "false",
+                "type": "bool"
+            }
+        ],
+        "conditions": [
+            {
+                "description": "Event on any change of state",
+                "name": "changed"
+            },
+            {
+                "description": "Event triggered when switch is triple clicked",
+                "name": "3"
+            },
+            {
+                "description": "Event triggered when switch is double clicked",
+                "name": "2"
+            },
+            {
+                "description": "Event triggered when switch is single clicked",
+                "name": "1"
+            }
+        ],
+        "actions": []
+    },
+    "InputTime": {
+        "description": "Basic time input. An event is triggered when the current time equals the configured time. A specific date can also be set.",
+        "alias": [],
+        "parameters": [
+            {
+                "default": "0",
+                "description": "Day for this time input",
+                "mandatory": "false",
+                "max": "31",
+                "min": "1",
+                "name": "day",
+                "readonly": "false",
+                "type": "int"
+            },
+            {
+                "default": "true",
+                "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
+                "mandatory": "false",
+                "name": "enabled",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "default": "false",
+                "description": "A time object can't be visible. Always false.",
+                "mandatory": "false",
+                "name": "visible",
+                "readonly": "true",
+                "type": "bool"
+            },
+            {
+                "description": "Name of Input/Output.",
+                "mandatory": "true",
+                "name": "name",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "Unique ID identifying the Input/Output in calaos-server",
+                "mandatory": "true",
+                "name": "id",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
+                "mandatory": "false",
+                "name": "gui_type",
+                "readonly": "true",
+                "type": "string"
+            },
+            {
+                "default": "0",
+                "description": "Hour for this time input",
+                "mandatory": "true",
+                "max": "23",
+                "min": "0",
+                "name": "hour",
+                "readonly": "false",
+                "type": "int"
+            },
+            {
+                "default": "0",
+                "description": "Minutes for this time input",
+                "mandatory": "true",
+                "max": "59",
+                "min": "0",
+                "name": "min",
+                "readonly": "false",
+                "type": "int"
+            },
+            {
+                "default": "0",
+                "description": "Seconds for this time input",
+                "mandatory": "true",
+                "max": "59",
+                "min": "0",
+                "name": "sec",
+                "readonly": "false",
+                "type": "int"
+            },
+            {
+                "default": "0",
+                "description": "Month for this time input",
+                "mandatory": "false",
+                "max": "12",
+                "min": "1",
+                "name": "month",
+                "readonly": "false",
+                "type": "int"
+            },
+            {
+                "default": "0",
+                "description": "Year for this time input",
+                "mandatory": "false",
+                "max": "9999",
+                "min": "0",
+                "name": "year",
+                "readonly": "false",
+                "type": "int"
+            }
+        ],
+        "conditions": [
+            {
+                "description": "Event triggered when current time is not equal",
+                "name": "false"
+            },
+            {
+                "description": "Event on any change of time",
+                "name": "changed"
+            },
+            {
+                "description": "Event triggered when current time equals",
+                "name": "true"
+            }
+        ],
+        "actions": []
+    },
+    "InputTimer": {
+        "description": "Timer object. trigger an event after the configured time has expired.",
+        "alias": [],
+        "parameters": [
+            {
+                "description": "Auto restart the timer when time expires",
+                "mandatory": "true",
+                "name": "autorestart",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "default": "0",
+                "description": "Seconds for the timer interval",
+                "mandatory": "true",
+                "max": "59",
+                "min": "0",
+                "name": "sec",
+                "readonly": "false",
+                "type": "int"
+            },
+            {
+                "default": "true",
+                "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
+                "mandatory": "false",
+                "name": "enabled",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "default": "false",
+                "description": "A timer object can't be visible. Always false.",
+                "mandatory": "false",
+                "name": "visible",
+                "readonly": "true",
+                "type": "bool"
+            },
+            {
+                "description": "Name of Input/Output.",
+                "mandatory": "true",
+                "name": "name",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "Unique ID identifying the Input/Output in calaos-server",
+                "mandatory": "true",
+                "name": "id",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
+                "mandatory": "false",
+                "name": "gui_type",
+                "readonly": "true",
+                "type": "string"
+            },
+            {
+                "default": "0",
+                "description": "Hour for the timer interval",
+                "mandatory": "true",
+                "max": "23",
+                "min": "0",
+                "name": "hour",
+                "readonly": "false",
+                "type": "int"
+            },
+            {
+                "default": "0",
+                "description": "Minutes for the timer interval",
+                "mandatory": "true",
+                "max": "59",
+                "min": "0",
+                "name": "min",
+                "readonly": "false",
+                "type": "int"
+            },
+            {
+                "default": "0",
+                "description": "Miliseconds for the timer interval",
+                "mandatory": "true",
+                "max": "999",
+                "min": "0",
+                "name": "msec",
+                "readonly": "false",
+                "type": "int"
+            },
+            {
+                "description": "Auto start the timer when calaos starts",
+                "mandatory": "true",
+                "name": "autostart",
+                "readonly": "false",
+                "type": "bool"
+            }
+        ],
+        "conditions": [
+            {
+                "description": "Event triggered on any change",
+                "name": "change"
+            },
+            {
+                "description": "Event triggered when timer starts",
+                "name": "false"
+            },
+            {
+                "description": "Event triggered when timer expires",
+                "name": "true"
+            }
+        ],
+        "actions": [
+            {
+                "description": "Reset the configured time to a value. Format is h:m:s:ms",
+                "name": "00:00:00:200"
+            },
+            {
+                "description": "Stop the timer",
+                "name": "stop"
+            },
+            {
+                "description": "Start the timer",
+                "name": "start"
+            }
+        ]
+    },
+    "InternalBool": {
+        "description": "Internal boolean object. This object is useful for doing internal programing in rules, like keeping boolean states, or displaying boolean values",
+        "alias": [],
+        "parameters": [
+            {
+                "default": "false",
+                "description": "Automatically save the value in cache. The value will be reloaded when restarting calaos is true. Default to false",
+                "mandatory": "false",
+                "name": "save",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "default": "false",
+                "description": "Enable edit mode for this object. It allows user to modify the value on interfaces. Default to false",
+                "mandatory": "false",
+                "name": "rw",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
+                "mandatory": "false",
+                "name": "gui_type",
+                "readonly": "true",
+                "type": "string"
+            },
+            {
+                "description": "Unique ID identifying the Input/Output in calaos-server",
+                "mandatory": "true",
+                "name": "id",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "Name of Input/Output.",
+                "mandatory": "true",
+                "name": "name",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "default": "true",
+                "description": "Display the Input/Output on all user interfaces if set. Default to true",
+                "mandatory": "false",
+                "name": "visible",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "default": "true",
+                "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
+                "mandatory": "false",
+                "name": "enabled",
+                "readonly": "false",
+                "type": "bool"
+            }
+        ],
+        "conditions": [
+            {
+                "description": "Event when value is false",
+                "name": "false"
+            },
+            {
+                "description": "Event on any change of value",
+                "name": "changed"
+            },
+            {
+                "description": "Event when value is true",
+                "name": "true"
+            }
+        ],
+        "actions": [
+            {
+                "description": "Do an impulse on boolean value with a pattern.<br>Ex: 500 200 500 200 means: TRUE for 500ms, FALSE for 200ms, TRUE for 500ms, FALSE for 200ms<br>Ex: 500 loop 200 300 means: TRUE for 500ms, then loop the next steps for infinite, FALSE for 200ms, TRUE for 300ms<br>Ex: 100 100 200 old means: blinks and then set to the old start state (before impulse starts)",
+                "name": "impulse 500 200 500 200"
+            },
+            {
+                "description": "Set a value to true",
+                "name": "true"
+            },
+            {
+                "description": "Set a value to false",
+                "name": "false"
+            },
+            {
+                "description": "Do an impulse on boolean value. Set to true for X ms then reset to false",
+                "name": "impulse 200"
+            },
+            {
+                "description": "Invert boolean value",
+                "name": "toggle"
+            }
+        ]
+    },
+    "InternalInt": {
+        "description": "Internal number object. This object is useful for doing internal programing in rules, like counters, of displaying values.",
+        "alias": [],
+        "parameters": [
+            {
+                "default": "false",
+                "description": "Automatically save the value in cache. The value will be reloaded when restarting calaos is true. Default to false",
+                "mandatory": "false",
+                "name": "save",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "default": "false",
+                "description": "Enable edit mode for this object. It allows user to modify the value on interfaces. Default to false",
+                "mandatory": "false",
+                "name": "rw",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "default": "1",
+                "description": "Set a step for increment/decrement value. Default is 1.0",
+                "mandatory": "false",
+                "name": "step",
+                "readonly": "false",
+                "type": "float"
+            },
+            {
+                "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
+                "mandatory": "false",
+                "name": "gui_type",
+                "readonly": "true",
+                "type": "string"
+            },
+            {
+                "description": "Unique ID identifying the Input/Output in calaos-server",
+                "mandatory": "true",
+                "name": "id",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "Name of Input/Output.",
+                "mandatory": "true",
+                "name": "name",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "default": "true",
+                "description": "Display the Input/Output on all user interfaces if set. Default to true",
+                "mandatory": "false",
+                "name": "visible",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "default": "true",
+                "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
+                "mandatory": "false",
+                "name": "enabled",
+                "readonly": "false",
+                "type": "bool"
+            }
+        ],
+        "conditions": [
+            {
+                "description": "Event on any change of value",
+                "name": "changed"
+            },
+            {
+                "description": "Event on a specific number value",
+                "name": "0"
+            }
+        ],
+        "actions": [
+            {
+                "description": "Decrement value by value",
+                "name": "dec 1"
+            },
+            {
+                "description": "Set a specific number value",
+                "name": "0"
+            },
+            {
+                "description": "Increment value with configured step",
+                "name": "inc"
+            },
+            {
+                "description": "Decrement value with configured step",
+                "name": "dec"
+            },
+            {
+                "description": "Increment value by value",
+                "name": "inc 1"
+            }
+        ]
+    },
+    "InternalString": {
+        "description": "Internal string object. This object is useful for doing internal programing in rules or displaying text values on user interfaces.",
+        "alias": [],
+        "parameters": [
+            {
+                "default": "false",
+                "description": "Automatically save the value in cache. The value will be reloaded when restarting calaos is true. Default to false",
+                "mandatory": "false",
+                "name": "save",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "default": "false",
+                "description": "Enable edit mode for this object. It allows user to modify the value on interfaces. Default to false",
+                "mandatory": "false",
+                "name": "rw",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
+                "mandatory": "false",
+                "name": "gui_type",
+                "readonly": "true",
+                "type": "string"
+            },
+            {
+                "description": "Unique ID identifying the Input/Output in calaos-server",
+                "mandatory": "true",
+                "name": "id",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "Name of Input/Output.",
+                "mandatory": "true",
+                "name": "name",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "default": "true",
+                "description": "Display the Input/Output on all user interfaces if set. Default to true",
+                "mandatory": "false",
+                "name": "visible",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "default": "true",
+                "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
+                "mandatory": "false",
+                "name": "enabled",
+                "readonly": "false",
+                "type": "bool"
+            }
+        ],
+        "conditions": [
+            {
+                "description": "Event on any change of value",
+                "name": "changed"
+            },
+            {
+                "description": "Event on a specific string value",
+                "name": "value"
+            }
+        ],
+        "actions": [
+            {
+                "description": "Set a specific string value",
+                "name": "value"
+            }
+        ]
+    },
+    "MySensorsInputAnalog": {
+        "description": "Analog measurement with MySensors node An analog input can be used to read analog values to display them and use them in rules.",
+        "alias": [],
+        "parameters": [
+            {
+                "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
+                "mandatory": "false",
+                "name": "gui_type",
+                "readonly": "true",
+                "type": "string"
+            },
+            {
+                "description": "Unique ID identifying the Input/Output in calaos-server",
+                "mandatory": "true",
+                "name": "id",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "Sampling time in microsecond. The value is read at this frequency. If this value is not set, calaos tries to read the interval parameter",
+                "mandatory": "false",
+                "name": "frequency",
+                "readonly": "false",
+                "type": "float"
+            },
+            {
+                "description": "use in conjunction of coeff_b to apply equation of the form `value_displayed = coeff_a * raw_value + coeff_b`. Default value is 1.0.",
+                "mandatory": "false",
+                "name": "coeff_a",
+                "readonly": "false",
+                "type": "float"
+            },
+            {
+                "description": "Sensor ID, as set in your node",
+                "mandatory": "true",
+                "name": "sensor_id",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "Node ID as set in your network",
+                "mandatory": "true",
+                "name": "node_id",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "Name of Input/Output.",
+                "mandatory": "true",
+                "name": "name",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "Sampling time in seconds. The value is read at this frequency. If this value is not set, the default value is 15s",
+                "mandatory": "false",
+                "name": "interval",
+                "readonly": "false",
+                "type": "float"
+            },
+            {
+                "description": "use in conjunction of coeff_a to apply equation of the form `value_displayed = coeff_a * raw_value + coeff_b`. Default value is 0.0",
+                "mandatory": "false",
+                "name": "coeff_b",
+                "readonly": "false",
+                "type": "float"
+            },
+            {
+                "default": "true",
+                "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
+                "mandatory": "false",
+                "name": "enabled",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "default": "true",
+                "description": "Display the Input/Output on all user interfaces if set. Default to true",
+                "mandatory": "false",
+                "name": "visible",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "description": "same as coeff_b, can be used alone. Default value is 0.0",
+                "mandatory": "false",
+                "name": "offset",
+                "readonly": "false",
+                "type": "float"
+            }
+        ],
+        "conditions": [
+            {
+                "description": "Event on any change of value",
+                "name": "changed"
+            },
+            {
+                "description": "Event on a specific value",
+                "name": "value"
+            }
+        ],
+        "actions": []
+    },
+    "MySensorsInputString": {
+        "description": "Display string from MySensors node",
+        "alias": [],
+        "parameters": [
+            {
+                "description": "Node ID as set in your network",
+                "mandatory": "true",
+                "name": "node_id",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
+                "mandatory": "false",
+                "name": "gui_type",
+                "readonly": "true",
+                "type": "string"
+            },
+            {
+                "description": "Unique ID identifying the Input/Output in calaos-server",
+                "mandatory": "true",
+                "name": "id",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "Sensor ID, as set in your node",
+                "mandatory": "true",
+                "name": "sensor_id",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "Name of Input/Output.",
+                "mandatory": "true",
+                "name": "name",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "default": "true",
+                "description": "Display the Input/Output on all user interfaces if set. Default to true",
+                "mandatory": "false",
+                "name": "visible",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "default": "true",
+                "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
+                "mandatory": "false",
+                "name": "enabled",
+                "readonly": "false",
+                "type": "bool"
+            }
+        ],
+        "conditions": [],
+        "actions": []
+    },
+    "MySensorsInputSwitch": {
+        "description": "Input switch with MySensors node Basic switch with press/release states.",
+        "alias": [],
+        "parameters": [
+            {
+                "description": "Node ID as set in your network",
+                "mandatory": "true",
+                "name": "node_id",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
+                "mandatory": "false",
+                "name": "gui_type",
+                "readonly": "true",
+                "type": "string"
+            },
+            {
+                "description": "Unique ID identifying the Input/Output in calaos-server",
+                "mandatory": "true",
+                "name": "id",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "Sensor ID, as set in your node",
+                "mandatory": "true",
+                "name": "sensor_id",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "Name of Input/Output.",
+                "mandatory": "true",
+                "name": "name",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "default": "false",
+                "description": "A switch can't be visible. Always false.",
+                "mandatory": "false",
+                "name": "visible",
+                "readonly": "true",
+                "type": "bool"
+            },
+            {
+                "default": "true",
+                "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
+                "mandatory": "false",
+                "name": "enabled",
+                "readonly": "false",
+                "type": "bool"
+            }
+        ],
+        "conditions": [
+            {
+                "description": "Event triggered when switch is released",
+                "name": "false"
+            },
+            {
+                "description": "Event on any change of state",
+                "name": "changed"
+            },
+            {
+                "description": "Event triggered when switch is pressed",
+                "name": "true"
+            }
+        ],
+        "actions": []
+    },
+    "MySensorsInputSwitchLongPress": {
+        "description": "Input long press switch with MySensors node Long press switch. This switch supports single press and long press. User has 500ms to perform the long press.",
+        "alias": [],
+        "parameters": [
+            {
+                "description": "Node ID as set in your network",
+                "mandatory": "true",
+                "name": "node_id",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
+                "mandatory": "false",
+                "name": "gui_type",
+                "readonly": "true",
+                "type": "string"
+            },
+            {
+                "description": "Unique ID identifying the Input/Output in calaos-server",
+                "mandatory": "true",
+                "name": "id",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "Sensor ID, as set in your node",
+                "mandatory": "true",
+                "name": "sensor_id",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "Name of Input/Output.",
+                "mandatory": "true",
+                "name": "name",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "default": "false",
+                "description": "A switch can't be visible. Always false.",
+                "mandatory": "false",
+                "name": "visible",
+                "readonly": "true",
+                "type": "bool"
+            },
+            {
+                "default": "true",
+                "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
+                "mandatory": "false",
+                "name": "enabled",
+                "readonly": "false",
+                "type": "bool"
+            }
+        ],
+        "conditions": [
+            {
+                "description": "Event on any change of state",
+                "name": "changed"
+            },
+            {
+                "description": "Event triggered when switch is pressed at least for 500ms (long press)",
+                "name": "2"
+            },
+            {
+                "description": "Event triggered when switch is pressed quickly",
+                "name": "1"
+            }
+        ],
+        "actions": []
+    },
+    "MySensorsInputSwitchTriple": {
+        "description": "Input triple click switch with MySensors node Triple click switch. This switch can start 3 kind of actions. User has 500ms to do a multiple click.",
+        "alias": [],
+        "parameters": [
+            {
+                "description": "Node ID as set in your network",
+                "mandatory": "true",
+                "name": "node_id",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
+                "mandatory": "false",
+                "name": "gui_type",
+                "readonly": "true",
+                "type": "string"
+            },
+            {
+                "description": "Unique ID identifying the Input/Output in calaos-server",
+                "mandatory": "true",
+                "name": "id",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "Sensor ID, as set in your node",
+                "mandatory": "true",
+                "name": "sensor_id",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "Name of Input/Output.",
+                "mandatory": "true",
+                "name": "name",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "default": "false",
+                "description": "A switch can't be visible. Always false.",
+                "mandatory": "false",
+                "name": "visible",
+                "readonly": "true",
+                "type": "bool"
+            },
+            {
+                "default": "true",
+                "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
+                "mandatory": "false",
+                "name": "enabled",
+                "readonly": "false",
+                "type": "bool"
+            }
+        ],
+        "conditions": [
+            {
+                "description": "Event on any change of state",
+                "name": "changed"
+            },
+            {
+                "description": "Event triggered when switch is triple clicked",
+                "name": "3"
+            },
+            {
+                "description": "Event triggered when switch is double clicked",
+                "name": "2"
+            },
+            {
+                "description": "Event triggered when switch is single clicked",
+                "name": "1"
+            }
+        ],
+        "actions": []
+    },
+    "MySensorsInputTemp": {
+        "description": "Temperature sensor with MySensors node Temperature sensor input. Use for displaying temperature and to control heating devices with rules based on temperature value",
+        "alias": [],
+        "parameters": [
+            {
+                "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
+                "mandatory": "false",
+                "name": "gui_type",
+                "readonly": "true",
+                "type": "string"
+            },
+            {
+                "description": "Unique ID identifying the Input/Output in calaos-server",
+                "mandatory": "true",
+                "name": "id",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "Sampling time in microsecond. The value is read at this frequency. If this value is not set, calaos tries to read the interval parameter",
+                "mandatory": "false",
+                "name": "frequency",
+                "readonly": "false",
+                "type": "float"
+            },
+            {
+                "description": "use in conjunction of coeff_b to apply equation of the form `value_displayed = coeff_a * raw_value + coeff_b`. Default value is 1.0.",
+                "mandatory": "false",
+                "name": "coeff_a",
+                "readonly": "false",
+                "type": "float"
+            },
+            {
+                "description": "Sensor ID, as set in your node",
+                "mandatory": "true",
+                "name": "sensor_id",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "Node ID as set in your network",
+                "mandatory": "true",
+                "name": "node_id",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "Name of Input/Output.",
+                "mandatory": "true",
+                "name": "name",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "Sampling time in seconds. The value is read at this frequency. If this value is not set, the default value is 15s",
+                "mandatory": "false",
+                "name": "interval",
+                "readonly": "false",
+                "type": "float"
+            },
+            {
+                "description": "use in conjunction of coeff_a to apply equation of the form `value_displayed = coeff_a * raw_value + coeff_b`. Default value is 0.0",
+                "mandatory": "false",
+                "name": "coeff_b",
+                "readonly": "false",
+                "type": "float"
+            },
+            {
+                "default": "true",
+                "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
+                "mandatory": "false",
+                "name": "enabled",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "default": "true",
+                "description": "Display the Input/Output on all user interfaces if set. Default to true",
+                "mandatory": "false",
+                "name": "visible",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "description": "same as coeff_b, can be used alone. Default value is 0.0",
+                "mandatory": "false",
+                "name": "offset",
+                "readonly": "false",
+                "type": "float"
+            }
+        ],
+        "conditions": [
+            {
+                "description": "Event on any change of temperature value",
+                "name": "changed"
+            },
+            {
+                "description": "Event on a temperature value in °C",
+                "name": "value"
+            }
+        ],
+        "actions": []
+    },
+    "OWTemp": {
+        "description": "Temperature measurement with DS18B20 Onewire Sensor Temperature sensor input. Use for displaying temperature and to control heating devices with rules based on temperature value",
+        "alias": [],
+        "parameters": [
+            {
+                "description": "Force the use of w1 kernel driver instead of OneWire driver",
+                "mandatory": "false",
+                "name": "use_w1",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "description": "Additional parameter used for owfs initialization.For example you can use -u to use the USB owfs drivers",
+                "mandatory": "true",
+                "name": "ow_args",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "Unique ID of sensor on OneWire bus.",
+                "mandatory": "true",
+                "name": "ow_id",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
+                "mandatory": "false",
+                "name": "gui_type",
+                "readonly": "true",
+                "type": "string"
+            },
+            {
+                "description": "Unique ID identifying the Input/Output in calaos-server",
+                "mandatory": "true",
+                "name": "id",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "Sampling time in microsecond. The value is read at this frequency. If this value is not set, calaos tries to read the interval parameter",
+                "mandatory": "false",
+                "name": "frequency",
+                "readonly": "false",
+                "type": "float"
+            },
+            {
+                "description": "use in conjunction of coeff_b to apply equation of the form `value_displayed = coeff_a * raw_value + coeff_b`. Default value is 1.0.",
+                "mandatory": "false",
+                "name": "coeff_a",
+                "readonly": "false",
+                "type": "float"
+            },
+            {
+                "description": "Name of Input/Output.",
+                "mandatory": "true",
+                "name": "name",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "Sampling time in seconds. The value is read at this frequency. If this value is not set, the default value is 15s",
+                "mandatory": "false",
+                "name": "interval",
+                "readonly": "false",
+                "type": "float"
+            },
+            {
+                "description": "use in conjunction of coeff_a to apply equation of the form `value_displayed = coeff_a * raw_value + coeff_b`. Default value is 0.0",
+                "mandatory": "false",
+                "name": "coeff_b",
+                "readonly": "false",
+                "type": "float"
+            },
+            {
+                "default": "true",
+                "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
+                "mandatory": "false",
+                "name": "enabled",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "default": "true",
+                "description": "Display the Input/Output on all user interfaces if set. Default to true",
+                "mandatory": "false",
+                "name": "visible",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "description": "same as coeff_b, can be used alone. Default value is 0.0",
+                "mandatory": "false",
+                "name": "offset",
+                "readonly": "false",
+                "type": "float"
+            }
+        ],
+        "conditions": [
+            {
+                "description": "Event on any change of temperature value",
+                "name": "changed"
+            },
+            {
+                "description": "Event on a temperature value in °C",
+                "name": "value"
+            }
+        ],
+        "actions": []
+    },
+    "PingInputSwitch": {
+        "description": "A switch input based on the result of a ping command. Useful to detect presence of a host on the network. Basic switch with press/release states.",
+        "alias": [],
+        "parameters": [
+            {
+                "default": "15000",
+                "description": "Interval between pings in ms. Default to 15 sec",
+                "mandatory": "false",
+                "name": "interval",
+                "readonly": "false",
+                "type": "int"
+            },
+            {
+                "description": "Timeout of the ping request in ms",
+                "mandatory": "false",
+                "name": "timeout",
+                "readonly": "false",
+                "type": "int"
+            },
+            {
+                "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
+                "mandatory": "false",
+                "name": "gui_type",
+                "readonly": "true",
+                "type": "string"
+            },
+            {
+                "description": "Unique ID identifying the Input/Output in calaos-server",
+                "mandatory": "true",
+                "name": "id",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "Name of Input/Output.",
+                "mandatory": "true",
+                "name": "name",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "default": "false",
+                "description": "A switch can't be visible. Always false.",
+                "mandatory": "false",
+                "name": "visible",
+                "readonly": "true",
+                "type": "bool"
+            },
+            {
+                "description": "IP address or host where to send the ping",
+                "mandatory": "true",
+                "name": "host",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "default": "true",
+                "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
+                "mandatory": "false",
+                "name": "enabled",
+                "readonly": "false",
+                "type": "bool"
+            }
+        ],
+        "conditions": [
+            {
+                "description": "The host is offline and/or does not respond to the ping",
+                "name": "false"
+            },
+            {
+                "description": "Event on any change of state",
+                "name": "changed"
+            },
+            {
+                "description": "The host is online and respond to the ping",
+                "name": "true"
+            }
+        ],
+        "actions": []
+    },
+    "Scenario": {
+        "description": "A scenario variable. Use this like a virtual button to start a scenario (list of actions)",
+        "alias": [],
+        "parameters": [
+            {
+                "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
+                "mandatory": "false",
+                "name": "gui_type",
+                "readonly": "true",
+                "type": "string"
+            },
+            {
+                "description": "Unique ID identifying the Input/Output in calaos-server",
+                "mandatory": "true",
+                "name": "id",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "Name of Input/Output.",
+                "mandatory": "true",
+                "name": "name",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "default": "true",
+                "description": "Display the Input/Output on all user interfaces if set. Default to true",
+                "mandatory": "false",
+                "name": "visible",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "description": "Internal use only for Auto Scenario. read only.",
+                "mandatory": "false",
+                "name": "auto_scenario",
+                "readonly": "true",
+                "type": "string"
+            },
+            {
+                "default": "true",
+                "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
+                "mandatory": "false",
+                "name": "enabled",
+                "readonly": "false",
+                "type": "bool"
+            }
+        ],
+        "conditions": [
+            {
+                "description": "Event triggered when scenario is started",
+                "name": "true"
+            }
+        ],
+        "actions": [
+            {
+                "description": "Stop the scenario (only for special looping scenarios)",
+                "name": "false"
+            },
+            {
+                "description": "Event triggered on any change",
+                "name": "changed"
+            },
+            {
+                "description": "Start the scenario",
+                "name": "true"
+            }
+        ]
+    },
+    "TimeRange": {
+        "description": "Represent a time range object. A time range is true if current time is in one of the included range, false otherwise. The time range also support weekdays and months.",
+        "alias": [
+            "InPlageHoraire"
+        ],
+        "parameters": [
+            {
+                "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
+                "mandatory": "false",
+                "name": "gui_type",
+                "readonly": "true",
+                "type": "string"
+            },
+            {
+                "description": "Unique ID identifying the Input/Output in calaos-server",
+                "mandatory": "true",
+                "name": "id",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "Name of Input/Output.",
+                "mandatory": "true",
+                "name": "name",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "default": "false",
+                "description": "A time range can't be visible. Always false.",
+                "mandatory": "false",
+                "name": "visible",
+                "readonly": "true",
+                "type": "bool"
+            },
+            {
+                "default": "true",
+                "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
+                "mandatory": "false",
+                "name": "enabled",
+                "readonly": "false",
+                "type": "bool"
+            }
+        ],
+        "conditions": [
+            {
+                "description": "Event triggered when exiting the range",
+                "name": "false"
+            },
+            {
+                "description": "Event on any change of range",
+                "name": "changed"
+            },
+            {
+                "description": "Event triggered when entering the range",
+                "name": "true"
+            }
+        ],
+        "actions": []
+    },
+    "WebInputAnalog": {
+        "description": " An analog input can be used to read analog values to display them and use them in rules.",
+        "alias": [],
+        "parameters": [
+            {
+                "description": "same as coeff_b, can be used alone. Default value is 0.0",
+                "mandatory": "false",
+                "name": "offset",
+                "readonly": "false",
+                "type": "float"
+            },
+            {
+                "description": "use in conjunction of coeff_a to apply equation of the form `value_displayed = coeff_a * raw_value + coeff_b`. Default value is 0.0",
+                "mandatory": "false",
+                "name": "coeff_b",
+                "readonly": "false",
+                "type": "float"
+            },
+            {
+                "description": "Sampling time in seconds. The value is read at this frequency. If this value is not set, the default value is 15s",
+                "mandatory": "false",
+                "name": "interval",
+                "readonly": "false",
+                "type": "float"
+            },
+            {
+                "description": "use in conjunction of coeff_b to apply equation of the form `value_displayed = coeff_a * raw_value + coeff_b`. Default value is 1.0.",
+                "mandatory": "false",
+                "name": "coeff_a",
+                "readonly": "false",
+                "type": "float"
+            },
+            {
+                "description": "Sampling time in microsecond. The value is read at this frequency. If this value is not set, calaos tries to read the interval parameter",
+                "mandatory": "false",
+                "name": "frequency",
+                "readonly": "false",
+                "type": "float"
+            },
+            {
+                "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
+                "mandatory": "false",
+                "name": "gui_type",
+                "readonly": "true",
+                "type": "string"
+            },
+            {
+                "description": "Unique ID identifying the Input/Output in calaos-server",
+                "mandatory": "true",
+                "name": "id",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "Name of Input/Output.",
+                "mandatory": "true",
+                "name": "name",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "default": "true",
+                "description": "Display the Input/Output on all user interfaces if set. Default to true",
+                "mandatory": "false",
+                "name": "visible",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "default": "true",
+                "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
+                "mandatory": "false",
+                "name": "enabled",
+                "readonly": "false",
+                "type": "bool"
+            }
+        ],
+        "conditions": [
+            {
+                "description": "Event on any change of value",
+                "name": "changed"
+            },
+            {
+                "description": "Event on a specific value",
+                "name": "value"
+            }
+        ],
+        "actions": []
+    },
+    "WebInputString": {
+        "description": "",
+        "alias": [],
+        "parameters": [
+            {
+                "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
+                "mandatory": "false",
+                "name": "gui_type",
+                "readonly": "true",
+                "type": "string"
+            },
+            {
+                "description": "Unique ID identifying the Input/Output in calaos-server",
+                "mandatory": "true",
+                "name": "id",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "Name of Input/Output.",
+                "mandatory": "true",
+                "name": "name",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "default": "true",
+                "description": "Display the Input/Output on all user interfaces if set. Default to true",
+                "mandatory": "false",
+                "name": "visible",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "default": "true",
+                "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
+                "mandatory": "false",
+                "name": "enabled",
+                "readonly": "false",
+                "type": "bool"
+            }
+        ],
+        "conditions": [],
+        "actions": []
+    },
+    "WebInputTemp": {
+        "description": " Temperature sensor input. Use for displaying temperature and to control heating devices with rules based on temperature value",
+        "alias": [],
+        "parameters": [
+            {
+                "description": "same as coeff_b, can be used alone. Default value is 0.0",
+                "mandatory": "false",
+                "name": "offset",
+                "readonly": "false",
+                "type": "float"
+            },
+            {
+                "description": "use in conjunction of coeff_a to apply equation of the form `value_displayed = coeff_a * raw_value + coeff_b`. Default value is 0.0",
+                "mandatory": "false",
+                "name": "coeff_b",
+                "readonly": "false",
+                "type": "float"
+            },
+            {
+                "description": "Sampling time in seconds. The value is read at this frequency. If this value is not set, the default value is 15s",
+                "mandatory": "false",
+                "name": "interval",
+                "readonly": "false",
+                "type": "float"
+            },
+            {
+                "description": "use in conjunction of coeff_b to apply equation of the form `value_displayed = coeff_a * raw_value + coeff_b`. Default value is 1.0.",
+                "mandatory": "false",
+                "name": "coeff_a",
+                "readonly": "false",
+                "type": "float"
+            },
+            {
+                "description": "Sampling time in microsecond. The value is read at this frequency. If this value is not set, calaos tries to read the interval parameter",
+                "mandatory": "false",
+                "name": "frequency",
+                "readonly": "false",
+                "type": "float"
+            },
+            {
+                "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
+                "mandatory": "false",
+                "name": "gui_type",
+                "readonly": "true",
+                "type": "string"
+            },
+            {
+                "description": "Unique ID identifying the Input/Output in calaos-server",
+                "mandatory": "true",
+                "name": "id",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "Name of Input/Output.",
+                "mandatory": "true",
+                "name": "name",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "default": "true",
+                "description": "Display the Input/Output on all user interfaces if set. Default to true",
+                "mandatory": "false",
+                "name": "visible",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "default": "true",
+                "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
+                "mandatory": "false",
+                "name": "enabled",
+                "readonly": "false",
+                "type": "bool"
+            }
+        ],
+        "conditions": [
+            {
+                "description": "Event on any change of temperature value",
+                "name": "changed"
+            },
+            {
+                "description": "Event on a temperature value in °C",
+                "name": "value"
+            }
+        ],
+        "actions": []
+    },
+    "WIAnalog": {
+        "description": "Analog measurement with Wago module (like 0-10V, 4-20mA, ...) An analog input can be used to read analog values to display them and use them in rules.",
+        "alias": [
+            "WagoInputAnalog"
+        ],
+        "parameters": [
+            {
+                "default": "0",
+                "description": "PLC address of the input sensor",
+                "mandatory": "true",
+                "max": "65535",
+                "min": "0",
+                "name": "var",
+                "readonly": "false",
+                "type": "int"
+            },
+            {
+                "description": "Wago PLC IP address on the network",
+                "mandatory": "true",
+                "name": "host",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
+                "mandatory": "false",
+                "name": "gui_type",
+                "readonly": "true",
+                "type": "string"
+            },
+            {
+                "description": "Unique ID identifying the Input/Output in calaos-server",
+                "mandatory": "true",
+                "name": "id",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "Sampling time in microsecond. The value is read at this frequency. If this value is not set, calaos tries to read the interval parameter",
+                "mandatory": "false",
+                "name": "frequency",
+                "readonly": "false",
+                "type": "float"
+            },
+            {
+                "description": "use in conjunction of coeff_b to apply equation of the form `value_displayed = coeff_a * raw_value + coeff_b`. Default value is 1.0.",
+                "mandatory": "false",
+                "name": "coeff_a",
+                "readonly": "false",
+                "type": "float"
+            },
+            {
+                "description": "Name of Input/Output.",
+                "mandatory": "true",
+                "name": "name",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "Sampling time in seconds. The value is read at this frequency. If this value is not set, the default value is 15s",
+                "mandatory": "false",
+                "name": "interval",
+                "readonly": "false",
+                "type": "float"
+            },
+            {
+                "description": "use in conjunction of coeff_a to apply equation of the form `value_displayed = coeff_a * raw_value + coeff_b`. Default value is 0.0",
+                "mandatory": "false",
+                "name": "coeff_b",
+                "readonly": "false",
+                "type": "float"
+            },
+            {
+                "default": "502",
+                "description": "Wago ethernet port, default to 502",
+                "mandatory": "false",
+                "max": "65535",
+                "min": "0",
+                "name": "port",
+                "readonly": "false",
+                "type": "int"
+            },
+            {
+                "default": "true",
+                "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
+                "mandatory": "false",
+                "name": "enabled",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "default": "true",
+                "description": "Display the Input/Output on all user interfaces if set. Default to true",
+                "mandatory": "false",
+                "name": "visible",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "description": "same as coeff_b, can be used alone. Default value is 0.0",
+                "mandatory": "false",
+                "name": "offset",
+                "readonly": "false",
+                "type": "float"
+            }
+        ],
+        "conditions": [
+            {
+                "description": "Event on any change of value",
+                "name": "changed"
+            },
+            {
+                "description": "Event on a specific value",
+                "name": "value"
+            }
+        ],
+        "actions": []
+    },
+    "WIDigitalBP": {
+        "description": "Switch with digital input Wago modules (like 750-1405, ...) Basic switch with press/release states.",
+        "alias": [
+            "WIDigital",
+            "WagoInputSwitch"
+        ],
+        "parameters": [
+            {
+                "default": "502",
+                "description": "Wago ethernet port, default to 502",
+                "mandatory": "false",
+                "max": "65535",
+                "min": "0",
+                "name": "port",
+                "readonly": "false",
+                "type": "int"
+            },
+            {
+                "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
+                "mandatory": "false",
+                "name": "gui_type",
+                "readonly": "true",
+                "type": "string"
+            },
+            {
+                "description": "Unique ID identifying the Input/Output in calaos-server",
+                "mandatory": "true",
+                "name": "id",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "Name of Input/Output.",
+                "mandatory": "true",
+                "name": "name",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "default": "false",
+                "description": "A switch can't be visible. Always false.",
+                "mandatory": "false",
+                "name": "visible",
+                "readonly": "true",
+                "type": "bool"
+            },
+            {
+                "default": "0",
+                "description": "PLC address of the digital input",
+                "mandatory": "true",
+                "max": "65535",
+                "min": "0",
+                "name": "var",
+                "readonly": "false",
+                "type": "int"
+            },
+            {
+                "description": "Wago PLC IP address on the network",
+                "mandatory": "true",
+                "name": "host",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "default": "true",
+                "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
+                "mandatory": "false",
+                "name": "enabled",
+                "readonly": "false",
+                "type": "bool"
+            }
+        ],
+        "conditions": [
+            {
+                "description": "Event triggered when switch is released",
+                "name": "false"
+            },
+            {
+                "description": "Event on any change of state",
+                "name": "changed"
+            },
+            {
+                "description": "Event triggered when switch is pressed",
+                "name": "true"
+            }
+        ],
+        "actions": []
+    },
+    "WIDigitalLong": {
+        "description": "Switch long press with digital input Wago modules (like 750-1405, ...) Long press switch. This switch supports single press and long press. User has 500ms to perform the long press.",
+        "alias": [
+            "WagoInputSwitchLongPress"
+        ],
+        "parameters": [
+            {
+                "default": "502",
+                "description": "Wago ethernet port, default to 502",
+                "mandatory": "false",
+                "max": "65535",
+                "min": "0",
+                "name": "port",
+                "readonly": "false",
+                "type": "int"
+            },
+            {
+                "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
+                "mandatory": "false",
+                "name": "gui_type",
+                "readonly": "true",
+                "type": "string"
+            },
+            {
+                "description": "Unique ID identifying the Input/Output in calaos-server",
+                "mandatory": "true",
+                "name": "id",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "Name of Input/Output.",
+                "mandatory": "true",
+                "name": "name",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "default": "false",
+                "description": "A switch can't be visible. Always false.",
+                "mandatory": "false",
+                "name": "visible",
+                "readonly": "true",
+                "type": "bool"
+            },
+            {
+                "default": "0",
+                "description": "PLC address of the digital input",
+                "mandatory": "true",
+                "max": "65535",
+                "min": "0",
+                "name": "var",
+                "readonly": "false",
+                "type": "int"
+            },
+            {
+                "description": "Wago PLC IP address on the network",
+                "mandatory": "true",
+                "name": "host",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "default": "true",
+                "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
+                "mandatory": "false",
+                "name": "enabled",
+                "readonly": "false",
+                "type": "bool"
+            }
+        ],
+        "conditions": [
+            {
+                "description": "Event on any change of state",
+                "name": "changed"
+            },
+            {
+                "description": "Event triggered when switch is pressed at least for 500ms (long press)",
+                "name": "2"
+            },
+            {
+                "description": "Event triggered when switch is pressed quickly",
+                "name": "1"
+            }
+        ],
+        "actions": []
+    },
+    "WIDigitalTriple": {
+        "description": "Switch triple click with digital input Wago modules (like 750-1405, ...) Triple click switch. This switch can start 3 kind of actions. User has 500ms to do a multiple click.",
+        "alias": [
+            "WagoInputSwitchTriple"
+        ],
+        "parameters": [
+            {
+                "default": "502",
+                "description": "Wago ethernet port, default to 502",
+                "mandatory": "false",
+                "max": "65535",
+                "min": "0",
+                "name": "port",
+                "readonly": "false",
+                "type": "int"
+            },
+            {
+                "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
+                "mandatory": "false",
+                "name": "gui_type",
+                "readonly": "true",
+                "type": "string"
+            },
+            {
+                "description": "Unique ID identifying the Input/Output in calaos-server",
+                "mandatory": "true",
+                "name": "id",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "Name of Input/Output.",
+                "mandatory": "true",
+                "name": "name",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "default": "false",
+                "description": "A switch can't be visible. Always false.",
+                "mandatory": "false",
+                "name": "visible",
+                "readonly": "true",
+                "type": "bool"
+            },
+            {
+                "default": "0",
+                "description": "PLC address of the digital input",
+                "mandatory": "true",
+                "max": "65535",
+                "min": "0",
+                "name": "var",
+                "readonly": "false",
+                "type": "int"
+            },
+            {
+                "description": "Wago PLC IP address on the network",
+                "mandatory": "true",
+                "name": "host",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "default": "true",
+                "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
+                "mandatory": "false",
+                "name": "enabled",
+                "readonly": "false",
+                "type": "bool"
+            }
+        ],
+        "conditions": [
+            {
+                "description": "Event on any change of state",
+                "name": "changed"
+            },
+            {
+                "description": "Event triggered when switch is triple clicked",
+                "name": "3"
+            },
+            {
+                "description": "Event triggered when switch is double clicked",
+                "name": "2"
+            },
+            {
+                "description": "Event triggered when switch is single clicked",
+                "name": "1"
+            }
+        ],
+        "actions": []
+    },
+    "WITemp": {
+        "description": "Temperature measurement with Wago temperature module (like 750-460) Temperature sensor input. Use for displaying temperature and to control heating devices with rules based on temperature value",
+        "alias": [
+            "WagoInputTemp"
+        ],
+        "parameters": [
+            {
+                "default": "0",
+                "description": "PLC address of the input sensor",
+                "mandatory": "true",
+                "max": "65535",
+                "min": "0",
+                "name": "var",
+                "readonly": "false",
+                "type": "int"
+            },
+            {
+                "description": "Wago PLC IP address on the network",
+                "mandatory": "true",
+                "name": "host",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
+                "mandatory": "false",
+                "name": "gui_type",
+                "readonly": "true",
+                "type": "string"
+            },
+            {
+                "description": "Unique ID identifying the Input/Output in calaos-server",
+                "mandatory": "true",
+                "name": "id",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "Sampling time in microsecond. The value is read at this frequency. If this value is not set, calaos tries to read the interval parameter",
+                "mandatory": "false",
+                "name": "frequency",
+                "readonly": "false",
+                "type": "float"
+            },
+            {
+                "description": "use in conjunction of coeff_b to apply equation of the form `value_displayed = coeff_a * raw_value + coeff_b`. Default value is 1.0.",
+                "mandatory": "false",
+                "name": "coeff_a",
+                "readonly": "false",
+                "type": "float"
+            },
+            {
+                "description": "Name of Input/Output.",
+                "mandatory": "true",
+                "name": "name",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "Sampling time in seconds. The value is read at this frequency. If this value is not set, the default value is 15s",
+                "mandatory": "false",
+                "name": "interval",
+                "readonly": "false",
+                "type": "float"
+            },
+            {
+                "description": "use in conjunction of coeff_a to apply equation of the form `value_displayed = coeff_a * raw_value + coeff_b`. Default value is 0.0",
+                "mandatory": "false",
+                "name": "coeff_b",
+                "readonly": "false",
+                "type": "float"
+            },
+            {
+                "default": "502",
+                "description": "Wago ethernet port, default to 502",
+                "mandatory": "false",
+                "max": "65535",
+                "min": "0",
+                "name": "port",
+                "readonly": "false",
+                "type": "int"
+            },
+            {
+                "default": "true",
+                "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
+                "mandatory": "false",
+                "name": "enabled",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "default": "true",
+                "description": "Display the Input/Output on all user interfaces if set. Default to true",
+                "mandatory": "false",
+                "name": "visible",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "description": "same as coeff_b, can be used alone. Default value is 0.0",
+                "mandatory": "false",
+                "name": "offset",
+                "readonly": "false",
+                "type": "float"
+            }
+        ],
+        "conditions": [
+            {
+                "description": "Event on any change of temperature value",
+                "name": "changed"
+            },
+            {
+                "description": "Event on a temperature value in °C",
+                "name": "value"
+            }
+        ],
+        "actions": []
+    },
+    "ZibaseAnalogIn": {
+        "description": " An analog input can be used to read analog values to display them and use them in rules.",
+        "alias": [],
+        "parameters": [
+            {
+                "description": "same as coeff_b, can be used alone. Default value is 0.0",
+                "mandatory": "false",
+                "name": "offset",
+                "readonly": "false",
+                "type": "float"
+            },
+            {
+                "description": "use in conjunction of coeff_a to apply equation of the form `value_displayed = coeff_a * raw_value + coeff_b`. Default value is 0.0",
+                "mandatory": "false",
+                "name": "coeff_b",
+                "readonly": "false",
+                "type": "float"
+            },
+            {
+                "description": "Sampling time in seconds. The value is read at this frequency. If this value is not set, the default value is 15s",
+                "mandatory": "false",
+                "name": "interval",
+                "readonly": "false",
+                "type": "float"
+            },
+            {
+                "description": "use in conjunction of coeff_b to apply equation of the form `value_displayed = coeff_a * raw_value + coeff_b`. Default value is 1.0.",
+                "mandatory": "false",
+                "name": "coeff_a",
+                "readonly": "false",
+                "type": "float"
+            },
+            {
+                "description": "Sampling time in microsecond. The value is read at this frequency. If this value is not set, calaos tries to read the interval parameter",
+                "mandatory": "false",
+                "name": "frequency",
+                "readonly": "false",
+                "type": "float"
+            },
+            {
+                "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
+                "mandatory": "false",
+                "name": "gui_type",
+                "readonly": "true",
+                "type": "string"
+            },
+            {
+                "description": "Unique ID identifying the Input/Output in calaos-server",
+                "mandatory": "true",
+                "name": "id",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "Name of Input/Output.",
+                "mandatory": "true",
+                "name": "name",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "default": "true",
+                "description": "Display the Input/Output on all user interfaces if set. Default to true",
+                "mandatory": "false",
+                "name": "visible",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "default": "true",
+                "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
+                "mandatory": "false",
+                "name": "enabled",
+                "readonly": "false",
+                "type": "bool"
+            }
+        ],
+        "conditions": [
+            {
+                "description": "Event on any change of value",
+                "name": "changed"
+            },
+            {
+                "description": "Event on a specific value",
+                "name": "value"
+            }
+        ],
+        "actions": []
+    },
+    "ZibaseDigitalIn": {
+        "description": " Basic switch with press/release states.",
+        "alias": [],
+        "parameters": [
+            {
+                "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
+                "mandatory": "false",
+                "name": "gui_type",
+                "readonly": "true",
+                "type": "string"
+            },
+            {
+                "description": "Unique ID identifying the Input/Output in calaos-server",
+                "mandatory": "true",
+                "name": "id",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "Name of Input/Output.",
+                "mandatory": "true",
+                "name": "name",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "default": "false",
+                "description": "A switch can't be visible. Always false.",
+                "mandatory": "false",
+                "name": "visible",
+                "readonly": "true",
+                "type": "bool"
+            },
+            {
+                "default": "true",
+                "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
+                "mandatory": "false",
+                "name": "enabled",
+                "readonly": "false",
+                "type": "bool"
+            }
+        ],
+        "conditions": [
+            {
+                "description": "Event triggered when switch is released",
+                "name": "false"
+            },
+            {
+                "description": "Event on any change of state",
+                "name": "changed"
+            },
+            {
+                "description": "Event triggered when switch is pressed",
+                "name": "true"
+            }
+        ],
+        "actions": []
+    },
+    "ZibaseTemp": {
+        "description": " Temperature sensor input. Use for displaying temperature and to control heating devices with rules based on temperature value",
+        "alias": [],
+        "parameters": [
+            {
+                "description": "same as coeff_b, can be used alone. Default value is 0.0",
+                "mandatory": "false",
+                "name": "offset",
+                "readonly": "false",
+                "type": "float"
+            },
+            {
+                "description": "use in conjunction of coeff_a to apply equation of the form `value_displayed = coeff_a * raw_value + coeff_b`. Default value is 0.0",
+                "mandatory": "false",
+                "name": "coeff_b",
+                "readonly": "false",
+                "type": "float"
+            },
+            {
+                "description": "Sampling time in seconds. The value is read at this frequency. If this value is not set, the default value is 15s",
+                "mandatory": "false",
+                "name": "interval",
+                "readonly": "false",
+                "type": "float"
+            },
+            {
+                "description": "use in conjunction of coeff_b to apply equation of the form `value_displayed = coeff_a * raw_value + coeff_b`. Default value is 1.0.",
+                "mandatory": "false",
+                "name": "coeff_a",
+                "readonly": "false",
+                "type": "float"
+            },
+            {
+                "description": "Sampling time in microsecond. The value is read at this frequency. If this value is not set, calaos tries to read the interval parameter",
+                "mandatory": "false",
+                "name": "frequency",
+                "readonly": "false",
+                "type": "float"
+            },
+            {
+                "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
+                "mandatory": "false",
+                "name": "gui_type",
+                "readonly": "true",
+                "type": "string"
+            },
+            {
+                "description": "Unique ID identifying the Input/Output in calaos-server",
+                "mandatory": "true",
+                "name": "id",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "Name of Input/Output.",
+                "mandatory": "true",
+                "name": "name",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "default": "true",
+                "description": "Display the Input/Output on all user interfaces if set. Default to true",
+                "mandatory": "false",
+                "name": "visible",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "default": "true",
+                "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
+                "mandatory": "false",
+                "name": "enabled",
+                "readonly": "false",
+                "type": "bool"
+            }
+        ],
+        "conditions": [
+            {
+                "description": "Event on any change of temperature value",
+                "name": "changed"
+            },
+            {
+                "description": "Event on a temperature value in °C",
+                "name": "value"
+            }
+        ],
+        "actions": []
+    }
+}

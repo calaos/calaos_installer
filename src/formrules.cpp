@@ -1823,18 +1823,21 @@ void FormRules::showPropertiesItem()
     Params *p = NULL;
     Params proom, prule;
     int type = OBJ_NONE;
+    IOBase *io = nullptr;
 
     QTreeWidgetItemInput *itinput = dynamic_cast<QTreeWidgetItemInput *>(treeItem);
     if (itinput)
     {
-        p = &itinput->getInput()->get_params();
+        io = itinput->getInput();
+        p = &io->get_params();
         type = OBJ_INPUT;
     }
 
     QTreeWidgetItemOutput *itoutput = dynamic_cast<QTreeWidgetItemOutput *>(treeItem);
     if (itoutput)
     {
-        p = &itoutput->getOutput()->get_params();
+        io = itoutput->getOutput();
+        p = &io->get_params();
         type = OBJ_OUTPUT;
     }
 
@@ -1860,69 +1863,84 @@ void FormRules::showPropertiesItem()
     if (!p)
         return;
 
-    DialogIOProperties dialog(*p, type, this);
-    if (dialog.exec() == QDialog::Accepted)
+    if (type == OBJ_ROOM ||
+        type == OBJ_RULE)
     {
-        *p = dialog.getParams();
-        if (type == OBJ_ROOM)
+        DialogListProperties dialog(*p, type, this);
+        if (dialog.exec() == QDialog::Accepted)
         {
-            Room *room = itroom->getRoom();
-            string n;
-            n = (*p)["name"];
-            room->set_name(n);
-            n = (*p)["type"];
-            room->set_type(n);
-
-            int hits;
-            from_string((*p)["hits"], hits);
-            room->set_hits(hits);
-
-            updateItemInfos(itroom);
-        }
-        else if (type == OBJ_INPUT)
-        {
-            updateItemInfos(itinput);
-
-            //Handle change of wago_841 parameter and change corresponding cache
-            if (itinput->getInput()->get_param("type") == "WIDigitalBP" ||
-                itinput->getInput()->get_param("type") == "WIDigitalTriple" ||
-                itinput->getInput()->get_param("type") == "WIDigitalLong")
+            *p = dialog.getParams();
+            if (type == OBJ_ROOM)
             {
-                if (itinput->getInput()->get_param("wago_841") != "true")
-                    ProjectManager::wagoTypeCache[itinput->getInput()->get_param("host")] = false;
-                else
-                    ProjectManager::wagoTypeCache[itinput->getInput()->get_param("host")] = true;
-            }
-        }
-        else if (type == OBJ_OUTPUT)
-        {
-            updateItemInfos(itoutput);
+                Room *room = itroom->getRoom();
+                string n;
+                n = (*p)["name"];
+                room->set_name(n);
+                n = (*p)["type"];
+                room->set_type(n);
 
-            //Handle change of wago_841 parameter and change corresponding cache
-            if (itoutput->getOutput()->get_param("type") == "WODigital" ||
-                itoutput->getOutput()->get_param("type") == "WOVolet" ||
-                itoutput->getOutput()->get_param("type") == "WOVoletSmart")
+                int hits;
+                from_string((*p)["hits"], hits);
+                room->set_hits(hits);
+
+                updateItemInfos(itroom);
+            }
+            else if (type == OBJ_RULE)
             {
-                if (itoutput->getOutput()->get_param("wago_841") != "true")
-                    ProjectManager::wagoTypeCache[itoutput->getOutput()->get_param("host")] = false;
-                else
-                    ProjectManager::wagoTypeCache[itoutput->getOutput()->get_param("host")] = true;
+                Rule *rule = itrule->getRule();
+                string n;
+                n = (*p)["name"];
+                rule->set_name(n);
+                n = (*p)["type"];
+                rule->set_type(n);
+
+                updateItemInfos(itrule);
             }
-        }
-        else if (type == OBJ_RULE)
-        {
-            Rule *rule = itrule->getRule();
-            string n;
-            n = (*p)["name"];
-            rule->set_name(n);
-            n = (*p)["type"];
-            rule->set_type(n);
 
-            updateItemInfos(itrule);
+            setProjectModified(true);
         }
-
-        setProjectModified(true);
     }
+    else
+    {
+        DialogIOProperties dialog(io, *p, type, this);
+        if (dialog.exec() == QDialog::Accepted)
+        {
+            *p = dialog.getParams();
+            if (type == OBJ_INPUT)
+            {
+                updateItemInfos(itinput);
+
+                //Handle change of wago_841 parameter and change corresponding cache
+                if (itinput->getInput()->get_param("type") == "WIDigitalBP" ||
+                    itinput->getInput()->get_param("type") == "WIDigitalTriple" ||
+                    itinput->getInput()->get_param("type") == "WIDigitalLong")
+                {
+                    if (itinput->getInput()->get_param("wago_841") != "true")
+                        ProjectManager::wagoTypeCache[itinput->getInput()->get_param("host")] = false;
+                    else
+                        ProjectManager::wagoTypeCache[itinput->getInput()->get_param("host")] = true;
+                }
+            }
+            else if (type == OBJ_OUTPUT)
+            {
+                updateItemInfos(itoutput);
+
+                //Handle change of wago_841 parameter and change corresponding cache
+                if (itoutput->getOutput()->get_param("type") == "WODigital" ||
+                    itoutput->getOutput()->get_param("type") == "WOVolet" ||
+                    itoutput->getOutput()->get_param("type") == "WOVoletSmart")
+                {
+                    if (itoutput->getOutput()->get_param("wago_841") != "true")
+                        ProjectManager::wagoTypeCache[itoutput->getOutput()->get_param("host")] = false;
+                    else
+                        ProjectManager::wagoTypeCache[itoutput->getOutput()->get_param("host")] = true;
+                }
+            }
+
+            setProjectModified(true);
+        }
+    }
+
 }
 
 void FormRules::on_tree_home_itemDoubleClicked(QTreeWidgetItem* item, int)
