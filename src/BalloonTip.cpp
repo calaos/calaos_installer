@@ -19,7 +19,7 @@
 **     along with Devil's Tattoo.  If not, see <http://www.gnu.org/licenses/>.
 **
 **********************************************************************/
-#include "balloontip.h"
+#include "BalloonTip.h"
 
 #include <QFontMetrics>
 #include <QApplication>
