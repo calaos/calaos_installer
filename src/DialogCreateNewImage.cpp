@@ -51,7 +51,6 @@ DialogCreateNewImage::DialogCreateNewImage(QWidget *parent) :
 
     }
 #elif defined Q_OS_UNIX
-    QStringList names;
 
        QDir currentDir("/sys/block");
        currentDir.setFilter(QDir::Dirs);
@@ -236,18 +235,32 @@ QStringList DialogCreateNewImage::getUserFriendlyNames(const QStringList &device
 
     foreach (QString s, devices) {
 #ifdef Q_OS_LINUX
-        quint64 size = driveSize(s);
-        QStringList partInfo = getPartitionsInfo(s);
+        bool ok;
+        QFile file("/sys/block/" + s +"/size");
+        file.open(QIODevice::ReadOnly);
+        QString str = file.readAll();
+        quint64 size = str.toULongLong(&ok, 10);
+        
+        QDir sysDir("/sys/block/" + s);
+        sysDir.setFilter(QDir::Dirs);
+        QString partitions;
+        QStringList entries = sysDir.entryList();
+        foreach (QString device, entries) {
+           if (device.startsWith(s)) {
+               partitions += device + ", ";
+           }
+        }
+        partitions.chop(2);
 
         QTextStream friendlyName(&s);
         friendlyName.setRealNumberNotation(QTextStream::FixedNotation);
         friendlyName.setRealNumberPrecision(2);
         friendlyName << " (";
-        friendlyName << size/(1024*1024*1024.0) << " GB, partitions: ";
-        foreach (QString partition, partInfo) {
-            friendlyName << partition << ", ";
-        }
-        s.chop(2);
+        friendlyName << size/(1024*1024*1024.0) << " GB";
+        
+        if (partitions.length() > 0)
+            friendlyName << ",  partitions: " << partitions;
+            
         friendlyName << ")";
 
         returnList.append(s);
