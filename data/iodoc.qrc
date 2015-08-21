@@ -1,14 +1,8 @@
 <RCC>
-    <qresource lang="en" prefix="/">
-        <file>doc/en/audios.json</file>
-        <file>doc/en/cams.json</file>
-        <file>doc/en/inputs.json</file>
-        <file>doc/en/outputs.json</file>
+    <qresource prefix="/" lang="en">
+        <file>doc/en/io_doc.json</file>
     </qresource>
-    <qresource lang="fr" prefix="/">
-        <file>doc/fr/audios.json</file>
-        <file>doc/fr/cams.json</file>
-        <file>doc/fr/inputs.json</file>
-        <file>doc/fr/outputs.json</file>
+    <qresource prefix="/" lang="fr">
+        <file>doc/fr/io_doc.json</file>
     </qresource>
 </RCC>

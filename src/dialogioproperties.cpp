@@ -51,15 +51,7 @@ void DialogIOProperties::createIOProperties()
     ui->optionLayout->setColumnMinimumWidth(0, 150);
 
     QString lang = "en"; //TODO change language here
-    QString rsc;
-    if (io->get_gui_type() == "camera")
-        rsc = QString(":/doc/%1/cams.json").arg(lang);
-    else if (io->get_gui_type() == "audio")
-        rsc = QString(":/doc/%1/audios.json").arg(lang);
-    else if (io->is_output())
-        rsc = QString(":/doc/%1/outputs.json").arg(lang);
-    else
-        rsc = QString(":/doc/%1/inputs.json").arg(lang);
+    QString rsc = QString(":/doc/%1/io_doc.json").arg(lang);
 
     QFile f(rsc);
     if (!f.open(QIODevice::ReadOnly | QIODevice::Text))
@@ -78,6 +70,9 @@ void DialogIOProperties::createIOProperties()
 
     QString iotype = QString::fromUtf8(io->get_param("type").c_str());
     QJsonObject jobj = jdoc.object();
+    for (auto it = jobj.begin();it != jobj.end();it++)
+        jobj.insert(it.key().toLower(), it.value());
+
     QJsonObject jobjAlias;
     if (!jobj.contains(iotype))
     {
