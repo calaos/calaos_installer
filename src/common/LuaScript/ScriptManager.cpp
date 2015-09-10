@@ -28,6 +28,7 @@
 using namespace Calaos;
 
 double ScriptManager::start_time = 0.0;
+bool ScriptManager::abortTimeout = false;
 static jmp_buf panic_jmp;
 
 ScriptManager::ScriptManager()
@@ -46,61 +47,29 @@ bool ScriptManager::ExecuteScript(string script)
     const luaL_Reg *l;
     lua_State *L = lua_open();
 
-    /* Load libraries */
-    for (l = lua_libs; l->func; l++)
-    {
-        lua_pushcfunction(L, l->func);
-        lua_pushstring(L, l->name);
-        lua_call(L, 1, 0);
-    }
+    luaL_openlibs(L);
 
     /* disable some calls from base lib */
-    lua_pushnil(L);
-    lua_setglobal(L, "loadfile");
-    lua_pushnil(L);
-    lua_setglobal(L, "loadstring");
-    lua_pushnil(L);
-    lua_setglobal(L, "dofile");
-    lua_pushnil(L);
-    lua_setglobal(L, "dostring");
-    lua_pushnil(L);
-    lua_setglobal(L, "load");
     lua_pushnil(L);
     lua_setglobal(L, "print"); /* we provide another version */
 
     /* register new functions */
     lua_register(L, "print", Lua_print);
 
-    //Disable some function from os lib
-    lua_getglobal(L, "os");
-    lua_pushnil(L);
-    lua_setfield(L, -2, "execute");
-    lua_pushnil(L);
-    lua_setfield(L, -2, "rename");
-    lua_pushnil(L);
-    lua_setfield(L, -2, "remove");
-    lua_pushnil(L);
-    lua_setfield(L, -2, "exit");
-    lua_pushnil(L);
-    lua_setfield(L, -2, "getenv");
-    lua_pushnil(L);
-    lua_setfield(L, -2, "setlocale");
-    lua_pushnil(L);
-    lua_setfield(L, -2, "tmpname");
-    lua_pop(L, 1);
-
     Lunar<Lua_Calaos>::Register(L);
-
     Lua_Calaos lc;
-
     Lunar<Lua_Calaos>::push(L, &lc);
     lua_setglobal(L, "calaos");
+
+    //Call setlocale to change for C locale (and avoid problems with double value<>string conversion)
+    setlocale(LC_ALL, "C");
 
     //Set a hook to kill script in case of a wrong use (infinite loop, ...)
     lua_sethook(L, Lua_DebugHook, LUA_MASKLINE | LUA_MASKCOUNT, 1);
 
     QTime t = QTime::currentTime();
     start_time = (double)t.second() + (((double) t.msec()) / 1000);
+    abortTimeout = false;
 
     int err = luaL_loadbuffer(L, script.c_str(), script.length(), "CalaosScript");
     if (err)
@@ -138,6 +107,13 @@ bool ScriptManager::ExecuteScript(string script)
 
             string msg = lua_tostring(L, -1);
             errorMsg = "Error " + errcode + " :\n\t" + msg;
+
+            if (abortTimeout)
+            {
+                //script aborted due to a long run. We don't check more here and say it's ok
+                errorScript = false;
+                ret = true;
+            }
         }
         else
         {

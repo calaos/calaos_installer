@@ -99,6 +99,8 @@ void Calaos::Lua_DebugHook(lua_State *L, lua_Debug *ar)
         string err = "Aborting script, takes too much time to execute (";
         err += to_string(time - ScriptManager::start_time) + " sec.)";
 
+        ScriptManager::abortTimeout = true;
+
         lua_pushstring(L, err.c_str());
         lua_error(L);
     }
@@ -106,9 +108,14 @@ void Calaos::Lua_DebugHook(lua_State *L, lua_Debug *ar)
 
 Lunar<Lua_Calaos>::RegType Lua_Calaos::methods[] =
 {
-    { "getOutputValue", &Lua_Calaos::getOutputValue },
-    { "setOutputValue", &Lua_Calaos::setOutputValue },
-    { "getInputValue", &Lua_Calaos::getInputValue },
+    { "getOutputValue", &Lua_Calaos::getIOValue },
+    { "setOutputValue", &Lua_Calaos::setIOValue },
+    { "getInputValue", &Lua_Calaos::getIOValue },
+    { "getIOValue", &Lua_Calaos::getIOValue },
+    { "setIOValue", &Lua_Calaos::setIOValue },
+    { "getIOParam", &Lua_Calaos::getIOParam },
+    { "setIOParam", &Lua_Calaos::setIOParam },
+    { "waitForIO", &Lua_Calaos::waitForIO },
     { "requestUrl", &Lua_Calaos::requestUrl },
     { 0, 0 }
 };
@@ -130,40 +137,17 @@ Lua_Calaos::~Lua_Calaos()
 {
 }
 
-int Lua_Calaos::getInputValue(lua_State *L)
+int Lua_Calaos::getIOValue(lua_State *L)
 {
     int nb = lua_gettop(L);
 
     if (nb == 1 && lua_isstring(L, 1))
     {
-        string o = lua_tostring(L, 1);
-        IOBase *input = ListeRoom::Instance().get_input(o);
-
-        if (!input)
-        {
-            string err = "getInputValue(): invalid input";
-            lua_pushstring(L, err.c_str());
-            lua_error(L);
-        }
-        else
-        {
-            switch (input->get_type())
-            {
-            case TINT: lua_pushnumber(L, input->get_value_double()); break;
-            case TBOOL: lua_pushboolean(L, input->get_value_bool()); break;
-            case TSTRING: lua_pushstring(L, input->get_value_string().c_str()); break;
-            default:
-            {
-                string err = "getInputValue(): invalid input";
-                lua_pushstring(L, err.c_str());
-                lua_error(L);
-            }
-            }
-        }
+        lua_pushstring(L, "test");
     }
     else
     {
-        string err = "getInputValue(): invalid argument. Requires an Input ID.";
+        string err = "getIOValue(): invalid argument. Requires an Input ID.";
         lua_pushstring(L, err.c_str());
         lua_error(L);
     }
@@ -171,77 +155,13 @@ int Lua_Calaos::getInputValue(lua_State *L)
     return 1;
 }
 
-int Lua_Calaos::getOutputValue(lua_State *L)
-{
-    int nb = lua_gettop(L);
-
-    if (nb == 1 && lua_isstring(L, 1))
-    {
-        string o = lua_tostring(L, 1);
-        IOBase *output = ListeRoom::Instance().get_output(o);
-
-        if (!output)
-        {
-            string err = "getOutputValue(): invalid output";
-            lua_pushstring(L, err.c_str());
-            lua_error(L);
-        }
-        else
-        {
-            switch (output->get_type())
-            {
-            case TINT: lua_pushnumber(L, output->get_value_double()); break;
-            case TBOOL: lua_pushboolean(L, output->get_value_bool()); break;
-            case TSTRING: lua_pushstring(L, output->get_value_string().c_str()); break;
-            default:
-            {
-                string err = "getOutputValue(): invalid input";
-                lua_pushstring(L, err.c_str());
-                lua_error(L);
-            }
-            }
-        }
-    }
-    else
-    {
-        string err = "getOutputValue(): invalid argument. Requires an Output ID.";
-        lua_pushstring(L, err.c_str());
-        lua_error(L);
-    }
-
-    return 1;
-}
-
-int Lua_Calaos::setOutputValue(lua_State *L)
+int Lua_Calaos::setIOValue(lua_State *L)
 {
     int nb = lua_gettop(L);
 
     if (nb == 2 && lua_isstring(L, 1))
     {
-        string o = lua_tostring(L, 1);
-        IOBase *output = ListeRoom::Instance().get_output(o);
-
-        if (!output)
-        {
-            string err = "getOutputValue(): invalid output";
-            lua_pushstring(L, err.c_str());
-            lua_error(L);
-        }
-        else
-        {
-            if (lua_isnumber(L, 2))
-                output->set_value(lua_tonumber(L, 2));
-            else if (lua_isboolean(L, 2))
-                output->set_value((bool)lua_toboolean(L, 2));
-            else if (lua_isstring(L, 2))
-                output->set_value(to_string(lua_tostring(L, 2)));
-            else
-            {
-                string err = "setOutputValue(): wrong value";
-                lua_pushstring(L, err.c_str());
-                lua_error(L);
-            }
-        }
+        //Should be correct if here
     }
     else
     {
@@ -251,6 +171,60 @@ int Lua_Calaos::setOutputValue(lua_State *L)
     }
 
     return 0;
+}
+
+int Lua_Calaos::getIOParam(lua_State *L)
+{
+    int nb = lua_gettop(L);
+
+    if (nb == 2 && lua_isstring(L, 1) && lua_isstring(L, 2))
+    {
+        lua_pushstring(L, "test");
+    }
+    else
+    {
+        string err = "getIOParam(): invalid argument. Requires an IO id.";
+        lua_pushstring(L, err.c_str());
+        lua_error(L);
+    }
+
+    return 1;
+}
+
+int Lua_Calaos::setIOParam(lua_State *L)
+{
+    int nb = lua_gettop(L);
+
+    if (nb == 3 && lua_isstring(L, 1) && lua_isstring(L, 2))
+    {
+        //Should be correct if here
+    }
+    else
+    {
+        string err = "setIOParam(): invalid argument. Requires an IO id.";
+        lua_pushstring(L, err.c_str());
+        lua_error(L);
+    }
+
+    return 1;
+}
+
+int Lua_Calaos::waitForIO(lua_State *L)
+{
+    int nb = lua_gettop(L);
+
+    if (nb == 1 && lua_isstring(L, 1))
+    {
+        //Should be correct if here
+    }
+    else
+    {
+        string err = "waitForIO(): invalid argument. Requires an IO id.";
+        lua_pushstring(L, err.c_str());
+        lua_error(L);
+    }
+
+    return 1;
 }
 
 int Lua_Calaos::requestUrl(lua_State *L)

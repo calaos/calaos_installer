@@ -54,12 +54,14 @@ public:
     Lua_Calaos(lua_State *L);
     ~Lua_Calaos();
 
-    /* Output set/get */
-    int getOutputValue(lua_State *L);
-    int setOutputValue(lua_State *L);
+    /* IO set/get */
+    int getIOValue(lua_State *L);
+    int setIOValue(lua_State *L);
 
-    /* Input get */
-    int getInputValue(lua_State *L);
+    int getIOParam(lua_State *L);
+    int setIOParam(lua_State *L);
+
+    int waitForIO(lua_State *L);
 
     /* Urel request */
     int requestUrl(lua_State *L);

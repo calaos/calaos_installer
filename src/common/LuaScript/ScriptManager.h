@@ -34,22 +34,7 @@ namespace Calaos
 
 //The maximum number of second a script can take to do his duty
 //After that, it will be stopped.
-#define SCRIPT_MAX_EXEC_TIME    2.0
-
-
-static const luaL_Reg lua_libs[] =
-{
-    { "", luaopen_base },
-    // { LUA_LOADLIBNAME, luaopen_package },
-    { LUA_TABLIBNAME, luaopen_table },
-    // { LUA_IOLIBNAME, luaopen_io },
-    { LUA_OSLIBNAME, luaopen_os },
-    { LUA_STRLIBNAME, luaopen_string },
-    { LUA_MATHLIBNAME, luaopen_math },
-    // { LUA_DBLIBNAME, luaopen_debug },
-
-    { NULL, NULL }
-};
+#define SCRIPT_MAX_EXEC_TIME    1.0
 
 class ScriptManager
 {
@@ -80,6 +65,7 @@ public:
     bool hasError() { return errorScript; }
 
     static double start_time;
+    static bool abortTimeout;
 };
 
 }

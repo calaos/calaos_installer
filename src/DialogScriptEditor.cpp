@@ -99,5 +99,5 @@ void DialogScriptEditor::on_print_message(QString msg)
     format.setForeground(QBrush(Qt::darkCyan));
     ui->logEdit->setCurrentCharFormat(format);
 
-    ui->logEdit->appendPlainText(QString("Lua print: ") + msg);
+    ui->logEdit->appendPlainText(msg);
 }
