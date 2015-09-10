@@ -1902,7 +1902,7 @@ void FormRules::showPropertiesItem()
     }
     else
     {
-        DialogIOProperties dialog(io, *p, type, this);
+        DialogIOProperties dialog(io, *p, this);
         if (dialog.exec() == QDialog::Accepted)
         {
             *p = dialog.getParams();

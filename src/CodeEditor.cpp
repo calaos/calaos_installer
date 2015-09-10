@@ -6,13 +6,7 @@ using namespace Calaos;
 
 CodeEditor::CodeEditor(QWidget *parent) : QPlainTextEdit(parent)
 {
-    QTextCharFormat format;
-
-    QFont font("Courier New", 12);
-    format.setFont(font);
-    font.setFixedPitch(true);
-
-    setCurrentCharFormat(format);
+    setStyleSheet("font: 10pt \"Courier New\";");
 
     highlighter = new LuaHighlighter(document());
 

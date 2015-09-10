@@ -1,19 +1,22 @@
 #include "dialogioproperties.h"
 #include "ui_DialogIoProperties.h"
 
-DialogIOProperties::DialogIOProperties(IOBase *_io, const Params &p, int t, QWidget *parent) :
+DialogIOProperties::DialogIOProperties(IOBase *_io, const Params &p, bool _editable, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::DialogIOProperties),
     io(_io),
     params(p),
     changedParams(p),
-    type(t)
+    editable(_editable)
 {
     setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
     ui->setupUi(this);
 
     ui->toolBox->setCurrentIndex(0);
     createIOProperties();
+
+    if (!editable)
+        ui->buttonBox->setStandardButtons(QDialogButtonBox::Close);
 }
 
 DialogIOProperties::~DialogIOProperties()

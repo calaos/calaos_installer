@@ -5,6 +5,7 @@
 #include <QDialog>
 #include "CodeEditor.h"
 #include <ScriptManager.h>
+#include "qtreewidget_addition.h"
 
 namespace Ui {
 class DialogScriptEditor;
@@ -31,10 +32,17 @@ private:
 
     bool Execute();
 
+    QString getIconFromRoom(Room *room);
+    QTreeWidgetItemRoom *addItemRoom(Room *room, bool selected);
+    QTreeWidgetItemInput *addItemInput(IOBase *in, QTreeWidgetItemRoom *parent, bool selected);
+    QTreeWidgetItemOutput *addItemOutput(IOBase *out, QTreeWidgetItemRoom *parent, bool selected);
+
 private slots:
     void on_pushButton_Ok_clicked();
     void on_pushButton_Valid_clicked();
-    void on_print_message(QString msg);
+    void print_message(QString msg);
+    void on_homeTree_itemDoubleClicked(QTreeWidgetItem *item, int column);
+    void on_homeTree_customContextMenuRequested(const QPoint &pos);
 };
 
 class LuaPrinter: public QObject
