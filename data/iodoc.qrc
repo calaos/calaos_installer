@@ -1,8 +1,6 @@
 <RCC>
-    <qresource prefix="/" lang="en">
+    <qresource prefix="/">
         <file>doc/en/io_doc.json</file>
-    </qresource>
-    <qresource prefix="/" lang="fr">
         <file>doc/fr/io_doc.json</file>
     </qresource>
 </RCC>
