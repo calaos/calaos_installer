@@ -27,9 +27,9 @@ MainWindow::MainWindow(QWidget *parent):
     ui->btWago->setMenu(ui->menuWago);
     ui->btServer->setMenu(ui->menuCentrale);
 
-    connect(ui->btHelp, SIGNAL(pressed()), this, SLOT(actionAbout_triggered()));
-    connect(ui->btQuit, SIGNAL(pressed()), this, SLOT(actionQuit_triggered()));
-    connect(ui->btAboutQt, SIGNAL(pressed()), this, SLOT(actionAboutQt_triggered()));
+    connect(ui->btHelp, SIGNAL(pressed()), this, SLOT(onActionAboutTriggered()));
+    connect(ui->btQuit, SIGNAL(pressed()), this, SLOT(onActionQuitTriggered()));
+    connect(ui->btAboutQt, SIGNAL(pressed()), this, SLOT(onActionAboutQtTriggered()));
 
     connect(ui->widgetRules, SIGNAL(projectModified(bool)), this, SLOT(projectChanged(bool)));
 
@@ -57,7 +57,7 @@ MainWindow::MainWindow(QWidget *parent):
     connect(&wuploader, SIGNAL(progressUpdate(int)), progressBar, SLOT(setValue(int)));
     connect(&wuploader, SIGNAL(statusUpdate(int)), this, SLOT(wagoStatusProgress(int)));
 
-    connect(ui->widgetDali, SIGNAL(closeDaliForm()), this, SLOT(closeDaliForm_clicked()));
+    connect(ui->widgetDali, SIGNAL(closeDaliForm()), this, SLOT(onCloseDaliFormClicked()));
 
     project_path = tr("New");
 
@@ -93,7 +93,7 @@ MainWindow::MainWindow(QWidget *parent):
         }
         else*/
         {
-            on_actionNouveau_projet_triggered();
+            onActionNewProjectTriggered();
         }
     }
 
@@ -118,12 +118,12 @@ void MainWindow::ShowPage(int page)
     ui->Pages->setCurrentIndex(page);
 }
 
-void MainWindow::actionAboutQt_triggered()
+void MainWindow::onActionAboutQtTriggered()
 {
     qApp->aboutQt();
 }
 
-void MainWindow::on_Pages_currentChanged(int page)
+void MainWindow::onPagesCurrentChanged(int page)
 {
     if (page == PAGE_PROG)
         onShowProg();
@@ -165,7 +165,7 @@ void MainWindow::closeEvent(QCloseEvent *event)
                                       QMessageBox::Yes | QMessageBox::No);
 
         if (reply == QMessageBox::Yes)
-            on_actionSauvegarder_triggered();
+            onActionSaveTriggered();
 
         event->accept();
     }
@@ -179,7 +179,7 @@ void MainWindow::closeEvent(QCloseEvent *event)
     ConfigOptions::Instance().saveConfig();
 }
 
-void MainWindow::on_actionSauvegarder_un_projet_triggered()
+void MainWindow::onActionSaveProjectTriggered()
 {
     QString dir = QFileDialog::getExistingDirectory(this, tr("Choose a project folder..."),
                                                     QDir::homePath(),
@@ -191,7 +191,7 @@ void MainWindow::on_actionSauvegarder_un_projet_triggered()
     Save();
 }
 
-void MainWindow::on_actionNouveau_projet_triggered()
+void MainWindow::onActionNewProjectTriggered()
 {
     if (ui->widgetRules->projectChanged())
     {
@@ -201,7 +201,7 @@ void MainWindow::on_actionNouveau_projet_triggered()
                                       QMessageBox::Yes | QMessageBox::No);
 
         if (reply == QMessageBox::Yes)
-            on_actionSauvegarder_triggered();
+            onActionSaveTriggered();
     }
 
     ListeRule::Instance().clear();
@@ -213,10 +213,10 @@ void MainWindow::on_actionNouveau_projet_triggered()
     projectChanged(false);
 }
 
-void MainWindow::on_actionSauvegarder_triggered()
+void MainWindow::onActionSaveTriggered()
 {
     if (project_path.isEmpty() || project_path == "new")
-        on_actionSauvegarder_un_projet_triggered();
+        onActionSaveProjectTriggered();
 
     Save();
 }
@@ -262,7 +262,7 @@ void MainWindow::Load(QString path)
     statusBar()->showMessage(QString(tr("Project loaded: %1")).arg(project_path), 3000);
 }
 
-void MainWindow::on_actionCharger_un_projet_triggered()
+void MainWindow::onLoadProjectTriggered()
 {
     if (ui->widgetRules->projectChanged())
     {
@@ -272,7 +272,7 @@ void MainWindow::on_actionCharger_un_projet_triggered()
                                       QMessageBox::Yes | QMessageBox::No);
 
         if (reply == QMessageBox::Yes)
-            on_actionSauvegarder_triggered();
+            onActionSaveTriggered();
     }
 
     QString dir = QFileDialog::getExistingDirectory(this, tr("Choose a project folder..."),
@@ -292,7 +292,7 @@ void MainWindow::on_actionCharger_un_projet_triggered()
     Load();
 }
 
-void MainWindow::on_actionOuvrir_un_projet_en_ligne_triggered()
+void MainWindow::onActionOpenOnlineProject()
 {
     if (ui->widgetRules->projectChanged())
     {
@@ -302,7 +302,7 @@ void MainWindow::on_actionOuvrir_un_projet_en_ligne_triggered()
                                       QMessageBox::Yes | QMessageBox::No);
 
         if (reply == QMessageBox::Yes)
-            on_actionSauvegarder_triggered();
+            onActionSaveTriggered();
     }
 
     DialogOpenOnline dopen(tempDir.path());
@@ -320,7 +320,7 @@ void MainWindow::on_actionOuvrir_un_projet_en_ligne_triggered()
     }
 }
 
-void MainWindow::on_actionSauvegarder_un_projet_en_ligne_triggered()
+void MainWindow::onActionSaveOnlineProject()
 {
     DialogSaveOnline dsave(project_path);
 
@@ -332,24 +332,24 @@ void MainWindow::on_actionSauvegarder_un_projet_en_ligne_triggered()
     }
 }
 
-void MainWindow::on_actionProgrammer_l_automate_triggered()
+void MainWindow::onActionPLCProgrammingTriggered()
 {
     ui->actionProgrammer_l_automate->setEnabled(false);
     buttonStopProcess->show();
     progressBar->show();
-    connect(buttonStopProcess, SIGNAL(clicked()), this, SLOT(button_wagostop_clicked()));
+    connect(buttonStopProcess, SIGNAL(clicked()), this, SLOT(onBtWagoStopClicked()));
 
     wuploader.startUpload(WagoConnect::Instance().getWagoIP());
 }
 
-void MainWindow::button_wagostop_clicked()
+void MainWindow::onBtWagoStopClicked()
 {
     wuploader.stopUpload();
     ui->actionProgrammer_l_automate->setEnabled(true);
     buttonStopProcess->hide();
     progressBar->hide();
 
-    disconnect(buttonStopProcess, SIGNAL(clicked()), this, SLOT(button_wagostop_clicked()));
+    disconnect(buttonStopProcess, SIGNAL(clicked()), this, SLOT(onBtWagoStopClicked()));
 }
 
 void MainWindow::wagoStatusProgress(int status)
@@ -382,13 +382,13 @@ void MainWindow::wagoStatusProgress(int status)
     }
 }
 
-void MainWindow::on_actionSe_connecter_triggered()
+void MainWindow::onActionConnectingTrigerred()
 {
     DialogConnect dconnect;
     dconnect.exec();
 }
 
-void MainWindow::on_actionSe_d_connecter_triggered()
+void MainWindow::onActionDisconnectTriggered()
 {
     WagoConnect::Instance().Disconnect();
 }
@@ -449,7 +449,7 @@ void MainWindow::wagoError(int error)
     //                                          QMessageBox::Ok,
     //                                          QMessageBox::Cancel
     //                        ) == QMessageBox::Ok)
-    //                        on_actionSe_connecter_triggered();
+    //                        onActionConnectingTrigerred();
     //                break;
     //          case WERROR_NOTCONNECTED:
     //                if (QMessageBox::question(this, tr("Calaos Installer"),
@@ -457,7 +457,7 @@ void MainWindow::wagoError(int error)
     //                                          QMessageBox::Ok,
     //                                          QMessageBox::Cancel
     //                        ) == QMessageBox::Ok)
-    //                        on_actionSe_connecter_triggered();
+    //                        onActionConnectingTrigerred();
     //                break;
     //          case WERROR_TIMEOUT:
     //                if (QMessageBox::question(this, tr("Calaos Installer"),
@@ -465,7 +465,7 @@ void MainWindow::wagoError(int error)
     //                                          QMessageBox::Ok,
     //                                          QMessageBox::Cancel
     //                        ) == QMessageBox::Ok)
-    //                        on_actionSe_connecter_triggered();
+    //                        onActionConnectingTrigerred();
     //                break;
     case WERROR_CONNECT_FAILED:
         QMessageBox::critical(this, tr("Calaos Installer"), tr("Connection failed!"));
@@ -482,12 +482,12 @@ void MainWindow::wagoError(int error)
     }
 }
 
-void MainWindow::on_pushButtonBack_clicked()
+void MainWindow::onPushButtonBackClicked()
 {
     ShowPage(PAGE_PROG);
 }
 
-void MainWindow::on_actionDALI_triggered()
+void MainWindow::onActionDALITriggered()
 {
     if (WagoConnect::Instance().getConnectionStatus() == WAGO_CONNECTED)
     {
@@ -518,36 +518,36 @@ FormRules *MainWindow::getFormRules()
     return NULL;
 }
 
-void MainWindow::closeDaliForm_clicked()
+void MainWindow::onCloseDaliFormClicked()
 {
     ShowPage(PAGE_PROG);
 }
 
-void MainWindow::actionQuit_triggered()
+void MainWindow::onActionQuitTriggered()
 {
     close();
 }
 
-void MainWindow::actionAbout_triggered()
+void MainWindow::onActionAboutTriggered()
 {
     ShowPage(PAGE_ABOUT);
 }
 
-void MainWindow::on_actionPar_pi_ce_triggered()
+void MainWindow::onActionByRoomTriggered()
 {
     teditor.resize(700, 700);
     teditor.show();
     teditor.loadRooms();
 }
 
-void MainWindow::on_actionPar_Entr_es_Sorties_triggered()
+void MainWindow::onActionByInputOutputTriggered()
 {
     teditor.resize(700, 700);
     teditor.show();
     teditor.loadIOList();
 }
 
-void MainWindow::on_actionMise_jour_Automate_triggered()
+void MainWindow::onActionUpdatePLC()
 {
     if (WagoConnect::Instance().getConnectionStatus() == WAGO_CONNECTED)
     {
@@ -574,7 +574,7 @@ void MainWindow::on_actionMise_jour_Automate_triggered()
     }
 }
 
-void MainWindow::on_btConfigure_clicked()
+void MainWindow::onBtConfigureClicked()
 {
     DialogOptions d;
 
@@ -583,12 +583,12 @@ void MainWindow::on_btConfigure_clicked()
 
 }
 
-void MainWindow::on_btHelp_clicked()
+void MainWindow::onBtHelpClicked()
 {
 
 }
 
-void MainWindow::on_btAutodetect_clicked()
+void MainWindow::onBtAutodetectClicked()
 {
     DialogAutoDetect d;
 
@@ -596,11 +596,11 @@ void MainWindow::on_btAutodetect_clicked()
     {
         QString host = d.getHost();
         ConfigOptions::Instance().setHost(host);
-        on_actionOuvrir_un_projet_en_ligne_triggered();
+        onActionOpenOnlineProject();
     }
 }
 
-void MainWindow::on_actionCreateNewImage_triggered()
+void MainWindow::onActionCreateNewImageTriggered()
 {
     DialogCreateNewImage d;
     d.exec();
