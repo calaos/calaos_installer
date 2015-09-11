@@ -139,7 +139,7 @@ void DialogIOProperties::createIOProperties()
         if (jparam["type"].toString() == "string")
         {
             QLineEdit *w = new QLineEdit();
-            w->setEnabled(jparam["readonly"].toString() != "true");
+            w->setEnabled(jparam["readonly"].toString() != "true" && editable);
             w->setText(pvalue);
             layout->addWidget(w, row, 2);
 
@@ -156,7 +156,7 @@ void DialogIOProperties::createIOProperties()
         else if (jparam["type"].toString() == "bool")
         {
             QCheckBox *w = new QCheckBox();
-            w->setEnabled(jparam["readonly"].toString() != "true");
+            w->setEnabled(jparam["readonly"].toString() != "true" && editable);
             w->setChecked(pvalue == "true");
             layout->addWidget(w, row, 2);
 
@@ -173,7 +173,7 @@ void DialogIOProperties::createIOProperties()
         else if (jparam["type"].toString() == "int")
         {
             QSpinBox *w = new QSpinBox();
-            w->setEnabled(jparam["readonly"].toString() != "true");
+            w->setEnabled(jparam["readonly"].toString() != "true" && editable);
             if (!jparam["min"].toString().isEmpty())
                 w->setMinimum(jparam["min"].toString().toInt());
             else
@@ -198,7 +198,7 @@ void DialogIOProperties::createIOProperties()
         else if (jparam["type"].toString() == "float")
         {
             QDoubleSpinBox *w = new QDoubleSpinBox();
-            w->setEnabled(jparam["readonly"].toString() != "true");
+            w->setEnabled(jparam["readonly"].toString() != "true" && editable);
             if (!jparam["min"].toString().isEmpty())
                 w->setMinimum(jparam["min"].toString().toDouble());
             else
