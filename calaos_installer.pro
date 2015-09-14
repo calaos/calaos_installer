@@ -89,7 +89,6 @@ SOURCES += src/main.cpp \
     src/DialogNewAVReceiver.cpp \
     src/DialogNewGpioLight.cpp \
     src/DialogNewGpioShutter.cpp \
-    src/DialogNewX10.cpp \
     src/DialogNewZibase.cpp \
     src/DialogOptions.cpp \
     src/dialognewwebioshutter.cpp \
@@ -185,7 +184,6 @@ HEADERS += src/mainwindow.h \
     src/dialognewwebio.h \
     src/DialogNewGpioLight.h \
     src/DialogNewGpioShutter.h \
-    src/DialogNewX10.h \
     src/DialogNewZibase.h \
     src/DialogOptions.h \
     src/dialognewwebioshutter.h \
