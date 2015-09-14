@@ -75,31 +75,31 @@ public slots:
     void projectChanged(bool changed);
 
 private slots:
-    void onActionAboutTriggered();
-    void onActionQuitTriggered();
-    void onActionAboutQtTriggered();
+    void actionAbout_triggered();
+    void actionQuit_triggered();
+    void actionAboutQt_triggered();
 
-    void onActionDALITriggered();
-    void onPushButtonBackClicked();
-    void onActionSaveOnlineProject();
-    void onActionOpenOnlineProject();
-    void onActionDisconnectTriggered();
-    void onActionPLCProgrammingTriggered();
-    void onActionConnectingTrigerred();
-    void onBtWagoStopClicked();
-    void onLoadProjectTriggered();
-    void onActionSaveTriggered();
-    void onActionNewProjectTriggered();
-    void onActionSaveProjectTriggered();
-    void onPagesCurrentChanged(int );
-    void onCloseDaliFormClicked();
-    void onActionByRoomTriggered();
-    void onActionByInputOutputTriggered();
-    void onActionUpdatePLC();
-    void onBtConfigureClicked();
-    void onBtHelpClicked();
-    void onBtAutodetectClicked();
-    void onActionCreateNewImageTriggered();
+    void on_actionDALI_triggered();
+    void on_pushButtonBack_clicked();
+    void on_actionSauvegarder_un_projet_en_ligne_triggered();
+    void on_actionOuvrir_un_projet_en_ligne_triggered();
+    void on_actionSe_d_connecter_triggered();
+    void on_actionProgrammer_l_automate_triggered();
+    void on_actionSe_connecter_triggered();
+    void button_wagostop_clicked();
+    void on_actionCharger_un_projet_triggered();
+    void on_actionSauvegarder_triggered();
+    void on_actionNouveau_projet_triggered();
+    void on_actionSauvegarder_un_projet_triggered();
+    void on_Pages_currentChanged(int );
+    void closeDaliForm_clicked();
+    void on_actionPar_pi_ce_triggered();
+    void on_actionPar_Entr_es_Sorties_triggered();
+    void on_actionMise_jour_Automate_triggered();
+    void on_btConfigure_clicked();
+    void on_btHelp_clicked();
+    void on_btAutodetect_clicked();
+    void on_actionCreateNewImage_triggered();
 };
 
 #endif // MAINWINDOW_H
