@@ -11,7 +11,6 @@
 #include "DialogNewZibaseOutput.h"
 #include "dialognewwebioshutter.h"
 #include "DialogNewMySensors.h"
-#include "DialogOla.h"
 #include "DialogNewPing.h"
 #include "DialogNewWOL.h"
 
@@ -207,13 +206,23 @@ FormRules::FormRules(QWidget *parent) :
 
     QMenu *ola_menu = add_menu->addMenu(QIcon("://img/ola.png"), "Open Lightning Architecture (DMX)");
 
-    action = ola_menu->addAction(tr("Light Dimmer"));
+    action = ola_menu->addAction(tr("Light dimmer"));
     action->setIcon(QIcon(":/img/icon_light_on.png"));
-    connect(action, &QAction::triggered, [=]() { addCalaosItem(HW_OLA, ITEM_DALI); });
+    connect(action, &QAction::triggered, [=]()
+    {
+        Params p = {{ "type", "OLAOutputLightDimmer" },
+                    { "io_type", "output" }};
+        addCalaosIO(p);
+    });
 
-    action = ola_menu->addAction(tr("RGB Light"));
+    action = ola_menu->addAction(tr("Light RGB"));
     action->setIcon(QIcon(":/img/icon_light_on.png"));
-    connect(action, &QAction::triggered, [=]() { addCalaosItem(HW_OLA, ITEM_LIGHT_RGB); });
+    connect(action, &QAction::triggered, [=]()
+    {
+        Params p = {{ "type", "OLAOutputLightRGB" },
+                    { "io_type", "output" }};
+        addCalaosIO(p);
+    });
 
     QMenu *lan_menu = add_menu->addMenu(QIcon("://img/web.png"), "Lan Devices");
 
@@ -689,12 +698,6 @@ IOBase *FormRules::addCalaosItemDimmer(int item, int hw_type)
         if (dialog.exec() == QDialog::Accepted)
             output = dialog.getInput();
     }
-    else if (hw_type == HW_OLA)
-    {
-        DialogOla dialog(current_room, item);
-        if (dialog.exec() == QDialog::Accepted)
-            output = dialog.getOutput();
-    }
 
     return output;
 }
@@ -720,12 +723,6 @@ IOBase *FormRules::addCalaosItemRGB(int item, int hw_type)
         DialogNewMySensors dialog(current_room, item);
         if (dialog.exec() == QDialog::Accepted)
             output = dialog.getInput();
-    }
-    else if (hw_type == HW_OLA)
-    {
-        DialogOla dialog(current_room, item);
-        if (dialog.exec() == QDialog::Accepted)
-            output = dialog.getOutput();
     }
 
     return output;

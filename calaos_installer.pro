@@ -96,7 +96,6 @@ SOURCES += src/main.cpp \
     src/DialogNewZibaseOutput.cpp \
     src/dialogautodetect.cpp \
     src/DialogNewMySensors.cpp \
-    src/DialogOla.cpp \
     src/DialogNewPing.cpp \
     src/DialogNewWOL.cpp \
     src/DialogCreateNewImage.cpp \
@@ -191,7 +190,6 @@ HEADERS += src/mainwindow.h \
     src/DialogNewZibaseOutput.h \
     src/dialogautodetect.h \
     src/DialogNewMySensors.h \
-    src/DialogOla.h \
     src/DialogNewPing.h \
     src/DialogNewWOL.h \
     src/DialogCreateNewImage.h \
@@ -212,7 +210,6 @@ FORMS += \
     data/DialogInputEventScript.ui \
     data/DialogWagoFirmwareUpdate.ui \
     data/DialogNewGpioInput.ui \
-    data/DialogNewOneWireTemp.ui \
     data/DialogCameraView.ui \
     data/DialogConnect.ui \
     data/DialogDaliDeviceConfig.ui \
@@ -244,7 +241,6 @@ FORMS += \
     data/DialogNewWebIO.ui \
     data/DialogNewGpioLight.ui \
     data/DialogNewGpioShutter.ui \
-    data/DialogNewX10.ui \
     data/DialogNewZibase.ui \
     data/DialogOptions.ui \
     data/DialogNewWebIoShutter.ui \
@@ -252,7 +248,6 @@ FORMS += \
     data/DialogNewZibaseOutput.ui \
     data/dialogautodetect.ui \
     data/DialogNewMySensors.ui \
-    data/DialogOla.ui \
     data/DialogNewPing.ui \
     data/DialogNewWOL.ui \
     src/DialogCreateNewImage.ui \
