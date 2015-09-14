@@ -109,5 +109,6 @@
         <file>img/mysensors.png</file>
         <file>img/ola.png</file>
         <file>img/document-revert.png</file>
+        <file>img/knx.png</file>
     </qresource>
 </RCC>

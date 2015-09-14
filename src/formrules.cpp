@@ -225,6 +225,107 @@ FormRules::FormRules(QWidget *parent) :
     action->setIcon(QIcon(":/img/icon_tor_on.png"));
     connect(action, &QAction::triggered, [=]() { addCalaosItem(HW_LAN, ITEM_BOOL_OUT); });
 
+    QMenu *knx_menu = add_menu->addMenu(QIcon("://img/knx.png"), "KNX");
+
+    action = knx_menu->addAction(tr("Normal Switch"));
+    action->setIcon(QIcon(":/img/icon_inter.png"));
+    connect(action, &QAction::triggered, [=]()
+    {
+        Params p = {{ "type", "KNXInputSwitch" },
+                    { "io_type", "input" }};
+        addCalaosIO(p);
+    });
+
+    action = knx_menu->addAction(tr("Switch triple"));
+    action->setIcon(QIcon(":/img/icon_inter.png"));
+    connect(action, &QAction::triggered, [=]()
+    {
+        Params p = {{ "type", "KNXInputSwitchTriple" },
+                    { "io_type", "input" }};
+        addCalaosIO(p);
+    });
+
+    action = knx_menu->addAction(tr("Switch Long press"));
+    action->setIcon(QIcon(":/img/icon_inter.png"));
+    connect(action, &QAction::triggered, [=]()
+    {
+        Params p = {{ "type", "KNXInputSwitchLongPress" },
+                    { "io_type", "input" }};
+        addCalaosIO(p);
+    });
+
+    action = knx_menu->addAction(tr("Analog input"));
+    action->setIcon(QIcon(":/img/icon_analog.png"));
+    connect(action, &QAction::triggered, [=]()
+    {
+        Params p = {{ "type", "KNXInputAnalog" },
+                    { "io_type", "input" }};
+        addCalaosIO(p);
+    });
+
+    action = knx_menu->addAction(tr("Temperature sensor"));
+    action->setIcon(QIcon(":/img/temp.png"));
+    connect(action, &QAction::triggered, [=]()
+    {
+        Params p = {{ "type", "KNXInputTemp" },
+                    { "io_type", "input" }};
+        addCalaosIO(p);
+    });
+
+    action = knx_menu->addAction(tr("Analog output"));
+    action->setIcon(QIcon(":/img/icon_analog.png"));
+    connect(action, &QAction::triggered, [=]()
+    {
+        Params p = {{ "type", "KNXOutputAnalog" },
+                    { "io_type", "output" }};
+        addCalaosIO(p);
+    });
+
+    action = knx_menu->addAction(tr("Light"));
+    action->setIcon(QIcon(":/img/icon_light_on.png"));
+    connect(action, &QAction::triggered, [=]()
+    {
+        Params p = {{ "type", "KNXOutputLight" },
+                    { "io_type", "output" }};
+        addCalaosIO(p);
+    });
+
+    action = knx_menu->addAction(tr("Light dimmer"));
+    action->setIcon(QIcon(":/img/icon_light_on.png"));
+    connect(action, &QAction::triggered, [=]()
+    {
+        Params p = {{ "type", "KNXOutputLightDimmer" },
+                    { "io_type", "output" }};
+        addCalaosIO(p);
+    });
+
+    action = knx_menu->addAction(tr("Light RGB"));
+    action->setIcon(QIcon(":/img/icon_light_on.png"));
+    connect(action, &QAction::triggered, [=]()
+    {
+        Params p = {{ "type", "KNXOutputLightRGB" },
+                    { "io_type", "output" }};
+        addCalaosIO(p);
+    });
+
+    action = knx_menu->addAction(tr("Shutter"));
+    action->setIcon(QIcon(":/img/icon_shutter.png"));
+    connect(action, &QAction::triggered, [=]()
+    {
+        Params p = {{ "type", "KNXOutputShutter" },
+                    { "io_type", "output" }};
+        addCalaosIO(p);
+    });
+
+    action = knx_menu->addAction(tr("Smart Shutter"));
+    action->setIcon(QIcon(":/img/icon_shutter.png"));
+    connect(action, &QAction::triggered, [=]()
+    {
+        Params p = {{ "type", "KNXOutputShutterSmart" },
+                    { "io_type", "output" }};
+        addCalaosIO(p);
+    });
+
     add_menu->addSeparator();
 
     action = add_menu->addAction(tr("Camera"));
