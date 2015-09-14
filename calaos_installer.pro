@@ -103,7 +103,8 @@ SOURCES += src/main.cpp \
     src/DialogNewWOL.cpp \
     src/DialogCreateNewImage.cpp \
     src/DialogListProperties.cpp \
-    src/BalloonTip.cpp
+    src/BalloonTip.cpp \
+    WidgetIOProperties.cpp
 
 HEADERS += src/mainwindow.h \
     src/common/Utils.h \
@@ -199,7 +200,8 @@ HEADERS += src/mainwindow.h \
     src/DialogNewWOL.h \
     src/DialogCreateNewImage.h \
     src/DialogListProperties.h \
-    src/BalloonTip.h
+    src/BalloonTip.h \
+    WidgetIOProperties.h
 
 FORMS += \
     data/FormConditionStd.ui \
@@ -258,7 +260,8 @@ FORMS += \
     data/DialogNewPing.ui \
     data/DialogNewWOL.ui \
     src/DialogCreateNewImage.ui \
-    src/DialogListProperties.ui
+    src/DialogListProperties.ui \
+    WidgetIOProperties.ui
 
 RESOURCES += data/resources.qrc \
     data/textedit.qrc \
