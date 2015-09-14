@@ -11,8 +11,6 @@
 #include "DialogNewZibaseOutput.h"
 #include "dialognewwebioshutter.h"
 #include "DialogNewMySensors.h"
-#include "DialogNewPing.h"
-#include "DialogNewWOL.h"
 
 FormRules::FormRules(QWidget *parent) :
     QWidget(parent),
@@ -228,11 +226,21 @@ FormRules::FormRules(QWidget *parent) :
 
     action = lan_menu->addAction(tr("Ping Switch"));
     action->setIcon(QIcon(":/img/icon_inter.png"));
-    connect(action, &QAction::triggered, [=]() { addCalaosItem(HW_LAN, ITEM_INPUT_SWITCH); });
+    connect(action, &QAction::triggered, [=]()
+    {
+        Params p = {{ "type", "PingInputSwitch" },
+                    { "io_type", "input" }};
+        addCalaosIO(p);
+    });
 
     action = lan_menu->addAction(tr("Wake On Lan Output"));
     action->setIcon(QIcon(":/img/icon_tor_on.png"));
-    connect(action, &QAction::triggered, [=]() { addCalaosItem(HW_LAN, ITEM_BOOL_OUT); });
+    connect(action, &QAction::triggered, [=]()
+    {
+        Params p = {{ "type", "WOLOutputBool" },
+                    { "io_type", "output" }};
+        addCalaosIO(p);
+    });
 
     QMenu *knx_menu = add_menu->addMenu(QIcon("://img/knx.png"), "KNX");
 
@@ -569,12 +577,6 @@ IOBase *FormRules::addCalaosItemInputSwitch(int item, int hw_type)
         if (dialog.exec() == QDialog::Accepted)
             input = dialog.getInput();
     }
-    else if (hw_type == HW_LAN)
-    {
-        DialogNewPing dialog(current_room, item);
-        if (dialog.exec() == QDialog::Accepted)
-            input = dialog.getInput();
-    }
 
     return input;
 }
@@ -861,21 +863,6 @@ IOBase *FormRules::addCalaosItemAnalog(int item, int hw_type)
     return io;
 }
 
-IOBase *FormRules::addCalaosItemBool(int item, int hw_type)
-{
-    IOBase *io = nullptr;
-
-    if (hw_type == HW_LAN &&
-        item == ITEM_BOOL_OUT)
-    {
-        DialogNewWOL dialog(current_room, item);
-        if (dialog.exec() == QDialog::Accepted)
-            io = dialog.getOutput();
-    }
-
-    return io;
-}
-
 void FormRules::addCalaosItem(int hw_type, int item)
 {
     //some tests.
@@ -959,9 +946,6 @@ void FormRules::addCalaosItem(int hw_type, int item)
     case ITEM_STRINGIN:
     case ITEM_STRINGOUT:
         res = addCalaosItemString(item, hw_type);
-        break;
-    case ITEM_BOOL_OUT:
-        res = addCalaosItemBool(item, hw_type);
         break;
     default:
         QMessageBox::warning(this, tr("Calaos Installer"), QString(tr("Unknown type (%1)")).arg(item));

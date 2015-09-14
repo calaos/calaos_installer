@@ -96,8 +96,6 @@ SOURCES += src/main.cpp \
     src/DialogNewZibaseOutput.cpp \
     src/dialogautodetect.cpp \
     src/DialogNewMySensors.cpp \
-    src/DialogNewPing.cpp \
-    src/DialogNewWOL.cpp \
     src/DialogCreateNewImage.cpp \
     src/DialogListProperties.cpp \
     src/BalloonTip.cpp \
@@ -190,8 +188,6 @@ HEADERS += src/mainwindow.h \
     src/DialogNewZibaseOutput.h \
     src/dialogautodetect.h \
     src/DialogNewMySensors.h \
-    src/DialogNewPing.h \
-    src/DialogNewWOL.h \
     src/DialogCreateNewImage.h \
     src/DialogListProperties.h \
     src/BalloonTip.h \
@@ -248,8 +244,6 @@ FORMS += \
     data/DialogNewZibaseOutput.ui \
     data/dialogautodetect.ui \
     data/DialogNewMySensors.ui \
-    data/DialogNewPing.ui \
-    data/DialogNewWOL.ui \
     src/DialogCreateNewImage.ui \
     src/DialogListProperties.ui \
     WidgetIOProperties.ui

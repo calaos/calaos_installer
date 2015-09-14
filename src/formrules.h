@@ -99,7 +99,6 @@ public:
     IOBase *addCalaosItemAVR(int item, int hw_type);
     IOBase *addCalaosItemInternal(int item, int hw_type);
     IOBase *addCalaosItemAnalog(int item, int hw_type);
-    IOBase *addCalaosItemBool(int item, int hw_type);
 
     //new version
     void addCalaosIO(Params &params);
