@@ -49,7 +49,7 @@ class WidgetIOProperties : public QWidget
     Q_OBJECT
     Q_DISABLE_COPY(WidgetIOProperties)
 public:
-    explicit WidgetIOProperties(IOBase *io, const Params &p, bool editable = true, QWidget *parent = 0);
+    explicit WidgetIOProperties(const Params &p, bool editable = true, QWidget *parent = 0);
     ~WidgetIOProperties();
 
     Params &getParams() { return changedParams; }
@@ -57,7 +57,6 @@ public:
 private:
     Ui::WidgetIOProperties *ui;
 
-    IOBase *io;
     Params params;
     Params changedParams;
     bool editable;

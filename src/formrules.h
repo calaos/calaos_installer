@@ -10,7 +10,6 @@
 #include <dialognewdali.h>
 #include <dialognewdalirgb.h>
 #include <dialognewtemp.h>
-#include <dialognewonewiretemp.h>
 #include <dialognewcamera.h>
 #include <dialognewaudio.h>
 #include <dialognewinternal.h>
@@ -101,6 +100,9 @@ public:
     IOBase *addCalaosItemInternal(int item, int hw_type);
     IOBase *addCalaosItemAnalog(int item, int hw_type);
     IOBase *addCalaosItemBool(int item, int hw_type);
+
+    //new version
+    void addCalaosIO(Params &params);
 
 protected:
     void changeEvent(QEvent *e);

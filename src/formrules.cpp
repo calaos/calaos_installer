@@ -76,7 +76,12 @@ FormRules::FormRules(QWidget *parent) :
 
     action = owire_menu->addAction(tr("Temperature sensor"));
     action->setIcon(QIcon(":/img/temp.png"));
-    connect(action, &QAction::triggered, [=]() { addCalaosItem(HW_ONEWIRE, ITEM_TEMP); });
+    connect(action, &QAction::triggered, [=]()
+    {
+        Params p = {{ "type", "OWTemp" },
+                    { "io_type", "input" }};
+        addCalaosIO(p);
+    });
 
     QMenu *x10_menu = add_menu->addMenu(QIcon("://img/x10.png"), "X10");
 
@@ -637,12 +642,6 @@ IOBase *FormRules::addCalaosItemTemp(int item, int hw_type)
         if (dialog.exec() == QDialog::Accepted)
             io = dialog.getInput();
     }
-    else if (hw_type == HW_ONEWIRE)
-    {
-        DialogNewOneWireTemp dialog(current_room);
-        if (dialog.exec() == QDialog::Accepted)
-            io = dialog.getInput();
-    }
     else if (hw_type == HW_WEB)
     {
         DialogNewWebIO dialog(current_room, item);
@@ -879,6 +878,38 @@ void FormRules::addCalaosItem(int hw_type, int item)
         addItemOutput(res, current_room, true);
     else if (res->is_input())
         addItemInput(res, current_room, true);
+}
+
+void FormRules::addCalaosIO(Params &params)
+{
+    //some tests.
+    if (!current_room)
+    {
+        if (ListeRoom::Instance().size() <= 0)
+            QMessageBox::warning(this, tr("Calaos Installer"), tr("You need to add one room at least!"));
+        else
+            QMessageBox::warning(this, tr("Calaos Installer"), tr("You must select a room prior adding elements!"));
+        return;
+    }
+
+    params.Add("name", "New IO");
+    params.Add("id", ListeRoom::get_new_id("io_"));
+
+    DialogIOProperties d(params);
+    if (d.exec() == QDialog::Accepted)
+    {
+        IOBase *io;
+        if (params["io_type"] == "input")
+        {
+            io = ListeRoom::Instance().createInput(d.getParams(), current_room);
+            addItemInput(io, current_room, true);
+        }
+        else
+        {
+            io = ListeRoom::Instance().createOutput(d.getParams(), current_room);
+            addItemOutput(io, current_room, true);
+        }
+    }
 }
 
 QTreeWidgetItemRoom *FormRules::addItemRoom(Room *room, bool selected)
@@ -1902,7 +1933,7 @@ void FormRules::showPropertiesItem()
     }
     else
     {
-        DialogIOProperties dialog(io, *p, this);
+        DialogIOProperties dialog(*p);
         if (dialog.exec() == QDialog::Accepted)
         {
             *p = dialog.getParams();

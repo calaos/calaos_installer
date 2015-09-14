@@ -1,10 +1,9 @@
 #include "WidgetIOProperties.h"
 #include "ui_WidgetIOProperties.h"
 
-WidgetIOProperties::WidgetIOProperties(IOBase *_io, const Params &p, bool _editable, QWidget *parent) :
+WidgetIOProperties::WidgetIOProperties(const Params &p, bool _editable, QWidget *parent) :
     QWidget(parent),
     ui(new Ui::WidgetIOProperties),
-    io(_io),
     params(p),
     changedParams(p),
     editable(_editable)
@@ -67,7 +66,7 @@ void WidgetIOProperties::createIOProperties()
         return;
     }
 
-    QString iotype = QString::fromUtf8(io->get_param("type").c_str());
+    QString iotype = QString::fromUtf8(params["type"].c_str());
     QJsonObject jobj = jdoc.object();
     for (auto it = jobj.begin();it != jobj.end();it++)
         jobj.insert(it.key().toLower(), it.value());
@@ -127,8 +126,8 @@ void WidgetIOProperties::createIOProperties()
 
         QString pvalue;
         string prop = jparam["name"].toString().toUtf8().constData();
-        if (io->get_params().Exists(prop))
-            pvalue = QString::fromUtf8(io->get_param(prop).c_str());
+        if (params.Exists(prop))
+            pvalue = QString::fromUtf8(params[prop].c_str());
         else
             pvalue = jparam["default"].toString();
 

@@ -82,7 +82,6 @@ SOURCES += src/main.cpp \
     src/RuleActionMenu.cpp \
     src/ftp/qurlinfo.cpp \
     src/ftp/qftp.cpp \
-    src/dialognewonewiretemp.cpp \
     src/dialognewgpioinput.cpp \
     Calaos/IOBase.cpp \
     src/DialogEditTimeRange.cpp \
@@ -179,7 +178,6 @@ HEADERS += src/mainwindow.h \
     src/common/FakeLogging.h \
     src/ftp/qurlinfo.h \
     src/ftp/qftp.h \
-    src/dialognewonewiretemp.h \
     src/dialognewgpioinput.h \
     src/DialogEditTimeRange.h \
     Calaos/TimeRange.h \

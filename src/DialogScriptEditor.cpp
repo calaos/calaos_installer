@@ -308,7 +308,7 @@ void DialogScriptEditor::on_homeTree_itemDoubleClicked(QTreeWidgetItem *item, in
     if (!p)
         return;
 
-    DialogIOProperties dialog(io, *p, false, this);
+    DialogIOProperties dialog(*p, false);
     dialog.exec();
 }
 

@@ -14,7 +14,8 @@ class DialogIOProperties : public QDialog
     Q_OBJECT
     Q_DISABLE_COPY(DialogIOProperties)
 public:
-    explicit DialogIOProperties(IOBase *io, const Params &p, bool editable = true, QWidget *parent = 0);
+    DialogIOProperties(const Params &p, bool editable = true, QWidget *parent = 0);
+    DialogIOProperties(IOBase *io, bool editable = true, QWidget *parent = 0);
     virtual ~DialogIOProperties();
 
     Params &getParams() { return ioWidget->getParams(); }
