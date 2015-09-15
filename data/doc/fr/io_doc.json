@@ -159,9 +159,16 @@
         "actions": []
     },
     "BlinkstickOutputLightRGB": {
-        "description": " RGB light. Choose a color to be set for this light.",
+        "description": "RGB Light dimmer using a Blinkstick RGB light. Choose a color to be set for this light.",
         "alias": [],
         "parameters": [
+            {
+                "description": "Blinkstick serial to control",
+                "mandatory": "true",
+                "name": "serial",
+                "readonly": "false",
+                "type": "string"
+            },
             {
                 "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
                 "mandatory": "false",
@@ -183,6 +190,16 @@
                 "name": "visible",
                 "readonly": "false",
                 "type": "bool"
+            },
+            {
+                "default": "1",
+                "description": "Number of LEDs to control with the blinkstick",
+                "mandatory": "true",
+                "max": "9999",
+                "min": "0",
+                "name": "nb_leds",
+                "readonly": "false",
+                "type": "int"
             },
             {
                 "description": "IO type, can be \"input\", \"output\", \"inout\"",
@@ -1050,9 +1067,30 @@
         ]
     },
     "HueOutputLightRGB": {
-        "description": " RGB light. Choose a color to be set for this light.",
+        "description": "RGB Light dimmer using a Philips Hue RGB light. Choose a color to be set for this light.",
         "alias": [],
         "parameters": [
+            {
+                "description": "TODO",
+                "mandatory": "true",
+                "name": "id_hue",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "TODO",
+                "mandatory": "true",
+                "name": "api",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "Hue bridge IP address",
+                "mandatory": "true",
+                "name": "host",
+                "readonly": "false",
+                "type": "string"
+            },
             {
                 "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
                 "mandatory": "false",

@@ -111,5 +111,7 @@
         <file>img/document-revert.png</file>
         <file>img/knx.png</file>
         <file>img/milight.png</file>
+        <file>img/hue.png</file>
+        <file>img/blinkstick.png</file>
     </qresource>
 </RCC>

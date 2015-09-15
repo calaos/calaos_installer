@@ -488,6 +488,28 @@ FormRules::FormRules(QWidget *parent) :
         addCalaosIO(p);
     });
 
+    QMenu *blink_menu = add_menu->addMenu(QIcon("://img/blinkstick.png"), "Blinkstick");
+
+    action = blink_menu->addAction(tr("Blinkstick RGB USB stick"));
+    action->setIcon(QIcon(":/img/icon_light_on.png"));
+    connect(action, &QAction::triggered, [=]()
+    {
+        Params p = {{ "type", "BlinkstickOutputLightRGB" },
+                    { "io_type", "output" }};
+        addCalaosIO(p);
+    });
+
+    QMenu *hue_menu = add_menu->addMenu(QIcon("://img/hue.png"), "Philips Hue");
+
+    action = hue_menu->addAction(tr("Philips Hue RGB bulb"));
+    action->setIcon(QIcon(":/img/icon_light_on.png"));
+    connect(action, &QAction::triggered, [=]()
+    {
+        Params p = {{ "type", "HueOutputLightRGB" },
+                    { "io_type", "output" }};
+        addCalaosIO(p);
+    });
+
     add_menu->addSeparator();
 
     action = add_menu->addAction(tr("Camera"));
