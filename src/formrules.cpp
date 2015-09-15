@@ -94,19 +94,39 @@ FormRules::FormRules(QWidget *parent) :
 
     action = zibase_menu->addAction(tr("Temperature sensor"));
     action->setIcon(QIcon(":/img/temp.png"));
-    connect(action, &QAction::triggered, [=]() { addCalaosItem(HW_ZIBASE, ITEM_TEMP); });
+    connect(action, &QAction::triggered, [=]()
+    {
+        Params p = {{ "type", "ZibaseTemp" },
+                    { "io_type", "input" }};
+        addCalaosIO(p);
+    });
 
     action = zibase_menu->addAction(tr("Switch input"));
     action->setIcon(QIcon(":/img/icon_inter.png"));
-    connect(action, &QAction::triggered, [=]() { addCalaosItem(HW_ZIBASE, ITEM_INPUT_SWITCH); });
+    connect(action, &QAction::triggered, [=]()
+    {
+        Params p = {{ "type", "ZibaseDigitalIn" },
+                    { "io_type", "input" }};
+        addCalaosIO(p);
+    });
 
     action = zibase_menu->addAction(tr("Analog input"));
     action->setIcon(QIcon(":/img/icon_analog.png"));
-    connect(action, &QAction::triggered, [=]() { addCalaosItem(HW_ZIBASE, ITEM_ANALOG); });
+    connect(action, &QAction::triggered, [=]()
+    {
+        Params p = {{ "type", "ZibaseAnalogIn" },
+                    { "io_type", "input" }};
+        addCalaosIO(p);
+    });
 
     action = zibase_menu->addAction(tr("Digital output"));
     action->setIcon(QIcon(":/img/icon_light_on.png"));
-    connect(action, &QAction::triggered, [=]() { addCalaosItem(HW_ZIBASE, ITEM_LIGHT); });
+    connect(action, &QAction::triggered, [=]()
+    {
+        Params p = {{ "type", "ZibaseDigitalOut" },
+                    { "io_type", "output" }};
+        addCalaosIO(p);
+    });
 
     QMenu *mysensors_menu = add_menu->addMenu(QIcon("://img/mysensors.png"), "MySensors");
 
