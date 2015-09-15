@@ -99,7 +99,7 @@ SOURCES += src/main.cpp \
     src/DialogCreateNewImage.cpp \
     src/DialogListProperties.cpp \
     src/BalloonTip.cpp \
-    WidgetIOProperties.cpp
+    src/WidgetIOProperties.cpp
 
 HEADERS += src/mainwindow.h \
     src/common/Utils.h \
@@ -191,7 +191,7 @@ HEADERS += src/mainwindow.h \
     src/DialogCreateNewImage.h \
     src/DialogListProperties.h \
     src/BalloonTip.h \
-    WidgetIOProperties.h
+    src/WidgetIOProperties.h
 
 FORMS += \
     data/FormConditionStd.ui \
@@ -244,9 +244,9 @@ FORMS += \
     data/DialogNewZibaseOutput.ui \
     data/dialogautodetect.ui \
     data/DialogNewMySensors.ui \
-    src/DialogCreateNewImage.ui \
-    src/DialogListProperties.ui \
-    WidgetIOProperties.ui
+    data/DialogCreateNewImage.ui \
+    data/DialogListProperties.ui \
+    data/WidgetIOProperties.ui
 
 RESOURCES += data/resources.qrc \
     data/textedit.qrc \
