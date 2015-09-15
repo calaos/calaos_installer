@@ -5,10 +5,7 @@
 #include "mainwindow.h"
 #include "DialogEditTimeRange.h"
 #include "DialogNewAVReceiver.h"
-#include "DialogNewGpioShutter.h"
-#include "DialogNewGpioLight.h"
 #include "dialognewwebioshutter.h"
-#include "DialogNewMySensors.h"
 
 FormRules::FormRules(QWidget *parent) :
     QWidget(parent),
@@ -130,43 +127,120 @@ FormRules::FormRules(QWidget *parent) :
 
     action = mysensors_menu->addAction(tr("Switch"));
     action->setIcon(QIcon(":/img/icon_inter.png"));
-    connect(action, &QAction::triggered, [=]() { addCalaosItem(HW_MYSENSORS, ITEM_INPUT_SWITCH); });
+    connect(action, &QAction::triggered, [=]()
+    {
+        Params p = {{ "type", "MySensorsInputSwitch" },
+                    { "io_type", "input" }};
+        addCalaosIO(p);
+    });
+
+    action = mysensors_menu->addAction(tr("Switch triple"));
+    action->setIcon(QIcon(":/img/icon_inter.png"));
+    connect(action, &QAction::triggered, [=]()
+    {
+        Params p = {{ "type", "MySensorsInputSwitchTriple" },
+                    { "io_type", "input" }};
+        addCalaosIO(p);
+    });
+
+    action = mysensors_menu->addAction(tr("Switch Long press"));
+    action->setIcon(QIcon(":/img/icon_inter.png"));
+    connect(action, &QAction::triggered, [=]()
+    {
+        Params p = {{ "type", "MySensorsInputSwitchLongPress" },
+                    { "io_type", "input" }};
+        addCalaosIO(p);
+    });
 
     action = mysensors_menu->addAction(tr("Light"));
     action->setIcon(QIcon(":/img/icon_light_on.png"));
-    connect(action, &QAction::triggered, [=]() { addCalaosItem(HW_MYSENSORS, ITEM_LIGHT); });
+    connect(action, &QAction::triggered, [=]()
+    {
+        Params p = {{ "type", "MySensorsOutputLight" },
+                    { "io_type", "output" }};
+        addCalaosIO(p);
+    });
 
     action = mysensors_menu->addAction(tr("Shutter"));
     action->setIcon(QIcon(":/img/icon_shutter.png"));
-    connect(action, &QAction::triggered, [=]() { addCalaosItem(HW_MYSENSORS, ITEM_SHUTTER); });
+    connect(action, &QAction::triggered, [=]()
+    {
+        Params p = {{ "type", "MySensorsOutputShutter" },
+                    { "io_type", "output" }};
+        addCalaosIO(p);
+    });
+
+    action = mysensors_menu->addAction(tr("Smart Shutter"));
+    action->setIcon(QIcon(":/img/icon_shutter.png"));
+    connect(action, &QAction::triggered, [=]()
+    {
+        Params p = {{ "type", "MySensorsOutputShutterSmart" },
+                    { "io_type", "output" }};
+        addCalaosIO(p);
+    });
 
     action = mysensors_menu->addAction(tr("Dimmer"));
     action->setIcon(QIcon(":/img/icon_light_on.png"));
-    connect(action, &QAction::triggered, [=]() { addCalaosItem(HW_MYSENSORS, ITEM_DALI); });
+    connect(action, &QAction::triggered, [=]()
+    {
+        Params p = {{ "type", "MySensorsOutputDimmer" },
+                    { "io_type", "output" }};
+        addCalaosIO(p);
+    });
 
     action = mysensors_menu->addAction(tr("RGB Light"));
     action->setIcon(QIcon(":/img/icon_light_on.png"));
-    connect(action, &QAction::triggered, [=]() { addCalaosItem(HW_MYSENSORS, ITEM_LIGHT_RGB); });
+    connect(action, &QAction::triggered, [=]()
+    {
+        Params p = {{ "type", "MySensorsOutputLightRGB" },
+                    { "io_type", "output" }};
+        addCalaosIO(p);
+    });
 
     action = mysensors_menu->addAction(tr("Temperature sensor"));
     action->setIcon(QIcon(":/img/temp.png"));
-    connect(action, &QAction::triggered, [=]() { addCalaosItem(HW_MYSENSORS, ITEM_TEMP); });
+    connect(action, &QAction::triggered, [=]()
+    {
+        Params p = {{ "type", "MySensorsInputTemp" },
+                    { "io_type", "input" }};
+        addCalaosIO(p);
+    });
 
     action = mysensors_menu->addAction(tr("Analog Input"));
     action->setIcon(QIcon(":/img/icon_analog.png"));
-    connect(action, &QAction::triggered, [=]() { addCalaosItem(HW_MYSENSORS, ITEM_ANALOG_IN); });
+    connect(action, &QAction::triggered, [=]()
+    {
+        Params p = {{ "type", "MySensorsInputAnalog" },
+                    { "io_type", "input" }};
+        addCalaosIO(p);
+    });
 
     action = mysensors_menu->addAction(tr("Analog Output"));
     action->setIcon(QIcon(":/img/icon_analog.png"));
-    connect(action, &QAction::triggered, [=]() { addCalaosItem(HW_MYSENSORS, ITEM_ANALOG_OUT); });
+    connect(action, &QAction::triggered, [=]()
+    {
+        Params p = {{ "type", "MySensorsOutputAnalog" },
+                    { "io_type", "output" }};
+        addCalaosIO(p);
+    });
 
     action = mysensors_menu->addAction(tr("String Input"));
     action->setIcon(QIcon(":/img/text.png"));
-    connect(action, &QAction::triggered, [=]() { addCalaosItem(HW_MYSENSORS, ITEM_STRINGIN); });
+    connect(action, &QAction::triggered, [=]()
+    {
+        Params p = {{ "type", "MySensorsInputString" },
+                    { "io_type", "input" }};
+        addCalaosIO(p);
+    });
 
     action = mysensors_menu->addAction(tr("String Output"));
     action->setIcon(QIcon(":/img/text.png"));
-    connect(action, &QAction::triggered, [=]() { addCalaosItem(HW_MYSENSORS, ITEM_STRINGOUT); });
+    connect(action, &QAction::triggered, [=]()
+    {
+        Params p = {{ "type", "MySensorsOutputString" },
+                    { "io_type", "output" }};
+        addCalaosIO(p);
+    });
 
     QMenu *web_menu = add_menu->addMenu(QIcon("://img/web.png"), "Web");
 
@@ -210,15 +284,57 @@ FormRules::FormRules(QWidget *parent) :
 
     action = gpio_menu->addAction(tr("Switch input"));
     action->setIcon(QIcon(":/img/icon_inter.png"));
-    connect(action, &QAction::triggered, [=]() { addCalaosItem(HW_GPIO, ITEM_INPUT_SWITCH); });
+    connect(action, &QAction::triggered, [=]()
+    {
+        Params p = {{ "type", "GpioInputSwitch" },
+                    { "io_type", "input" }};
+        addCalaosIO(p);
+    });
+
+    action = gpio_menu->addAction(tr("Switch triple click"));
+    action->setIcon(QIcon(":/img/icon_inter.png"));
+    connect(action, &QAction::triggered, [=]()
+    {
+        Params p = {{ "type", "GpioInputSwitchTriple" },
+                    { "io_type", "input" }};
+        addCalaosIO(p);
+    });
+
+    action = gpio_menu->addAction(tr("Switch long press"));
+    action->setIcon(QIcon(":/img/icon_inter.png"));
+    connect(action, &QAction::triggered, [=]()
+    {
+        Params p = {{ "type", "GpioInputSwitchLongPress" },
+                    { "io_type", "input" }};
+        addCalaosIO(p);
+    });
 
     action = gpio_menu->addAction(tr("Light"));
     action->setIcon(QIcon(":/img/icon_light_on.png"));
-    connect(action, &QAction::triggered, [=]() { addCalaosItem(HW_GPIO, ITEM_LIGHT); });
+    connect(action, &QAction::triggered, [=]()
+    {
+        Params p = {{ "type", "GpioOutputSwitch" },
+                    { "io_type", "output" }};
+        addCalaosIO(p);
+    });
 
     action = gpio_menu->addAction(tr("Shutter"));
     action->setIcon(QIcon(":/img/icon_shutter.png"));
-    connect(action, &QAction::triggered, [=]() { addCalaosItem(HW_GPIO, ITEM_SHUTTER); });
+    connect(action, &QAction::triggered, [=]()
+    {
+        Params p = {{ "type", "GpioOutputShutter" },
+                    { "io_type", "output" }};
+        addCalaosIO(p);
+    });
+
+    action = gpio_menu->addAction(tr("Smart Shutter"));
+    action->setIcon(QIcon(":/img/icon_shutter.png"));
+    connect(action, &QAction::triggered, [=]()
+    {
+        Params p = {{ "type", "GpioOutputShutterSmart" },
+                    { "io_type", "output" }};
+        addCalaosIO(p);
+    });
 
     QMenu *ola_menu = add_menu->addMenu(QIcon("://img/ola.png"), "Open Lightning Architecture (DMX)");
 
@@ -357,6 +473,17 @@ FormRules::FormRules(QWidget *parent) :
     connect(action, &QAction::triggered, [=]()
     {
         Params p = {{ "type", "KNXOutputShutterSmart" },
+                    { "io_type", "output" }};
+        addCalaosIO(p);
+    });
+
+    QMenu *milight_menu = add_menu->addMenu(QIcon("://img/milight.png"), "MiLight / LimitlessLed");
+
+    action = milight_menu->addAction(tr("MI-Light RGB bulb"));
+    action->setIcon(QIcon(":/img/icon_light_on.png"));
+    connect(action, &QAction::triggered, [=]()
+    {
+        Params p = {{ "type", "MilightOutputLightRGB" },
                     { "io_type", "output" }};
         addCalaosIO(p);
     });
@@ -571,12 +698,6 @@ IOBase *FormRules::addCalaosItemInputSwitch(int item, int hw_type)
                 another = false;
         } while (another);
     }
-    else if (hw_type == HW_GPIO)
-    {
-        DialogNewGpioInput dialog(current_room);
-        if (dialog.exec() == QDialog::Accepted)
-            input = dialog.getInput();
-    }
     else if (hw_type == HW_WEB)
     {
         DialogNewWebIO dialog(current_room, item);
@@ -612,18 +733,6 @@ IOBase *FormRules::addCalaosItemLight(int item, int hw_type)
         if (dialog.exec() == QDialog::Accepted)
             output = dialog.getInput();
     }
-    else if (hw_type == HW_GPIO)
-    {
-        DialogNewGpioLight dialog(current_room);
-        if (dialog.exec() == QDialog::Accepted)
-            output = dialog.getOutput();
-    }
-    else if (hw_type == HW_MYSENSORS)
-    {
-        DialogNewMySensors dialog(current_room, item);
-        if (dialog.exec() == QDialog::Accepted)
-            output = dialog.getOutput();
-    }
 
     return output;
 }
@@ -642,12 +751,6 @@ IOBase *FormRules::addCalaosItemString(int item, int hw_type)
             else
                 io = dialog.getOutput();
         }
-    }
-    else if (hw_type == HW_MYSENSORS)
-    {
-        DialogNewMySensors dialog(current_room, item);
-        if (dialog.exec() == QDialog::Accepted)
-            io = dialog.getInput();
     }
 
     return io;
@@ -669,18 +772,7 @@ IOBase *FormRules::addCalaosItemShutter(int item, int hw_type)
         if (dialog.exec() == QDialog::Accepted)
             output = dialog.getOutput();
     }
-    else if (hw_type == HW_GPIO)
-    {
-        DialogNewGpioShutter dialog(current_room);
-        if (dialog.exec() == QDialog::Accepted)
-            output = dialog.getOutput();
-    }
-    else if (hw_type == HW_MYSENSORS)
-    {
-        DialogNewMySensors dialog(current_room, item);
-        if (dialog.exec() == QDialog::Accepted)
-            output = dialog.getOutput();
-    }
+
     return output;
 }
 
@@ -693,12 +785,6 @@ IOBase *FormRules::addCalaosItemDimmer(int item, int hw_type)
         DialogNewDali dialog(current_room);
         if (dialog.exec() == QDialog::Accepted)
             output = dialog.getOutput();
-    }
-    else if (hw_type == HW_MYSENSORS)
-    {
-        DialogNewMySensors dialog(current_room, item);
-        if (dialog.exec() == QDialog::Accepted)
-            output = dialog.getInput();
     }
 
     return output;
@@ -720,12 +806,6 @@ IOBase *FormRules::addCalaosItemRGB(int item, int hw_type)
         if (dialog.exec() == QDialog::Accepted)
             output = dialog.getOutput();
     }
-    else if (hw_type == HW_MYSENSORS)
-    {
-        DialogNewMySensors dialog(current_room, item);
-        if (dialog.exec() == QDialog::Accepted)
-            output = dialog.getInput();
-    }
 
     return output;
 }
@@ -743,12 +823,6 @@ IOBase *FormRules::addCalaosItemTemp(int item, int hw_type)
     else if (hw_type == HW_WEB)
     {
         DialogNewWebIO dialog(current_room, item);
-        if (dialog.exec() == QDialog::Accepted)
-            io = dialog.getInput();
-    }
-    else if (hw_type == HW_MYSENSORS)
-    {
-        DialogNewMySensors dialog(current_room, item);
         if (dialog.exec() == QDialog::Accepted)
             io = dialog.getInput();
     }
@@ -840,12 +914,6 @@ IOBase *FormRules::addCalaosItemAnalog(int item, int hw_type)
             else
                 io = dialog.getOutput();
         }
-    }
-    else if (hw_type == HW_MYSENSORS)
-    {
-        DialogNewMySensors dialog(current_room, item);
-        if (dialog.exec() == QDialog::Accepted)
-            io = dialog.getInput();
     }
 
     return io;

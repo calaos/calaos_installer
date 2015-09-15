@@ -5,7 +5,6 @@
 
 #include <dialognewroom.h>
 #include <dialognewwago.h>
-#include <dialognewgpioinput.h>
 #include <dialognewvolet.h>
 #include <dialognewdali.h>
 #include <dialognewdalirgb.h>

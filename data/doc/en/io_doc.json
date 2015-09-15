@@ -337,9 +337,27 @@
         "actions": []
     },
     "GpioInputSwitch": {
-        "description": " Basic switch with press/release states.",
+        "description": "Input switch with a GPIO Basic switch with press/release states.",
         "alias": [],
         "parameters": [
+            {
+                "default": "false",
+                "description": "Set this is your GPIO has an inverted level",
+                "mandatory": "false",
+                "name": "active_low",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "default": "0",
+                "description": "GPIO ID on your hardware",
+                "mandatory": "true",
+                "max": "65535",
+                "min": "0",
+                "name": "gpio",
+                "readonly": "false",
+                "type": "int"
+            },
             {
                 "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
                 "mandatory": "false",
@@ -402,9 +420,27 @@
         "actions": []
     },
     "GpioInputSwitchLongPress": {
-        "description": " Long press switch. This switch supports single press and long press. User has 500ms to perform the long press.",
+        "description": "Input switch with a GPIO Long press switch. This switch supports single press and long press. User has 500ms to perform the long press.",
         "alias": [],
         "parameters": [
+            {
+                "default": "false",
+                "description": "Set this is your GPIO has an inverted level",
+                "mandatory": "false",
+                "name": "active_low",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "default": "0",
+                "description": "GPIO ID on your hardware",
+                "mandatory": "true",
+                "max": "65535",
+                "min": "0",
+                "name": "gpio",
+                "readonly": "false",
+                "type": "int"
+            },
             {
                 "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
                 "mandatory": "false",
@@ -467,9 +503,27 @@
         "actions": []
     },
     "GpioInputSwitchTriple": {
-        "description": " Triple click switch. This switch can start 3 kind of actions. User has 500ms to do a multiple click.",
+        "description": "Input switch with a GPIO Triple click switch. This switch can start 3 kind of actions. User has 500ms to do a multiple click.",
         "alias": [],
         "parameters": [
+            {
+                "default": "false",
+                "description": "Set this is your GPIO has an inverted level",
+                "mandatory": "false",
+                "name": "active_low",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "default": "0",
+                "description": "GPIO ID on your hardware",
+                "mandatory": "true",
+                "max": "65535",
+                "min": "0",
+                "name": "gpio",
+                "readonly": "false",
+                "type": "int"
+            },
             {
                 "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
                 "mandatory": "false",
@@ -536,23 +590,79 @@
         "actions": []
     },
     "GpioOutputShutter": {
-        "description": " Simple shutter. This shutter supports open/close states, as well as impulse shutters.",
+        "description": "Shutter with 2 GPIOs Simple shutter. This shutter supports open/close states, as well as impulse shutters.",
         "alias": [],
         "parameters": [
             {
-                "description": "If in impulse mode, some shutters needs to activate both up dans down relays when stopping the shutter",
+                "default": "0",
+                "description": "GPIO ID for closing on your hardware",
+                "mandatory": "true",
+                "max": "65535",
+                "min": "0",
+                "name": "gpio_down",
+                "readonly": "false",
+                "type": "int"
+            },
+            {
+                "default": "false",
+                "description": "Set this is your GPIO has an inverted level",
                 "mandatory": "false",
-                "name": "stop_both",
+                "name": "active_low_up",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "default": "true",
+                "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
+                "mandatory": "false",
+                "name": "enabled",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "description": "Name of Input/Output.",
+                "mandatory": "true",
+                "name": "name",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "default": "false",
+                "description": "Set this is your GPIO has an inverted level",
+                "mandatory": "false",
+                "name": "active_low_down",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "description": "Unique ID identifying the Input/Output in calaos-server",
+                "mandatory": "true",
+                "name": "id",
+                "readonly": "true",
+                "type": "string"
+            },
+            {
+                "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
+                "mandatory": "false",
+                "name": "gui_type",
+                "readonly": "true",
+                "type": "string"
+            },
+            {
+                "default": "true",
+                "description": "Display the Input/Output on all user interfaces if set. Default to true",
+                "mandatory": "false",
+                "name": "visible",
                 "readonly": "false",
                 "type": "bool"
             },
             {
                 "default": "0",
-                "description": "Impulse time for shutter that needs impulse instead of holding up/down relays. If set to 0 impulse shutter is disabled. Time is in ms. Default to 0",
-                "mandatory": "false",
-                "max": "999999",
+                "description": "GPIO ID for opening on your hardware",
+                "mandatory": "true",
+                "max": "65535",
                 "min": "0",
-                "name": "impulse_time",
+                "name": "gpio_up",
                 "readonly": "false",
                 "type": "int"
             },
@@ -567,28 +677,6 @@
                 "type": "int"
             },
             {
-                "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
-                "mandatory": "false",
-                "name": "gui_type",
-                "readonly": "true",
-                "type": "string"
-            },
-            {
-                "description": "Unique ID identifying the Input/Output in calaos-server",
-                "mandatory": "true",
-                "name": "id",
-                "readonly": "true",
-                "type": "string"
-            },
-            {
-                "default": "true",
-                "description": "Display the Input/Output on all user interfaces if set. Default to true",
-                "mandatory": "false",
-                "name": "visible",
-                "readonly": "false",
-                "type": "bool"
-            },
-            {
                 "description": "IO type, can be \"input\", \"output\", \"inout\"",
                 "mandatory": "true",
                 "name": "io_type",
@@ -596,17 +684,19 @@
                 "type": "string"
             },
             {
-                "description": "Name of Input/Output.",
-                "mandatory": "true",
-                "name": "name",
+                "default": "0",
+                "description": "Impulse time for shutter that needs impulse instead of holding up/down relays. If set to 0 impulse shutter is disabled. Time is in ms. Default to 0",
+                "mandatory": "false",
+                "max": "999999",
+                "min": "0",
+                "name": "impulse_time",
                 "readonly": "false",
-                "type": "string"
+                "type": "int"
             },
             {
-                "default": "true",
-                "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
+                "description": "If in impulse mode, some shutters needs to activate both up dans down relays when stopping the shutter",
                 "mandatory": "false",
-                "name": "enabled",
+                "name": "stop_both",
                 "readonly": "false",
                 "type": "bool"
             }
@@ -661,40 +751,72 @@
         ]
     },
     "GpioOutputShutterSmart": {
-        "description": " Smart shutter. This shutter calculates the position of the shutter based on the time it takes to open and close. It then allows to set directly the shutter at a specified position.",
+        "description": "Shutter with 2 GPIOs Smart shutter. This shutter calculates the position of the shutter based on the time it takes to open and close. It then allows to set directly the shutter at a specified position.",
         "alias": [],
         "parameters": [
             {
-                "description": "If in impulse mode, some shutters needs to activate both up dans down relays when stopping the shutter",
+                "default": "0",
+                "description": "GPIO ID for closing on your hardware",
+                "mandatory": "true",
+                "max": "65535",
+                "min": "0",
+                "name": "gpio_down",
+                "readonly": "false",
+                "type": "int"
+            },
+            {
+                "default": "false",
+                "description": "Set this is your GPIO has an inverted level",
                 "mandatory": "false",
-                "name": "stop_both",
+                "name": "active_low_up",
                 "readonly": "false",
                 "type": "bool"
             },
             {
-                "default": "0",
-                "description": "Impulse time for shutter that needs impulse instead of holding up/down relays. If set to 0 impulse shutter is disabled. Time is in ms. Default to 0",
+                "default": "true",
+                "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
                 "mandatory": "false",
-                "max": "999999",
-                "min": "0",
-                "name": "impulse_time",
+                "name": "enabled",
                 "readonly": "false",
-                "type": "int"
+                "type": "bool"
             },
             {
-                "default": "60",
-                "description": "Time in sec for shutter to be fully open. The more accurate, the better it will work",
+                "description": "Name of Input/Output.",
                 "mandatory": "true",
-                "max": "9999",
+                "name": "name",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "default": "0",
+                "description": "GPIO ID for opening on your hardware",
+                "mandatory": "true",
+                "max": "65535",
                 "min": "0",
-                "name": "time_up",
+                "name": "gpio_up",
                 "readonly": "false",
                 "type": "int"
             },
             {
-                "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
+                "default": "true",
+                "description": "Display the Input/Output on all user interfaces if set. Default to true",
                 "mandatory": "false",
-                "name": "gui_type",
+                "name": "visible",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "default": "false",
+                "description": "Set this is your GPIO has an inverted level",
+                "mandatory": "false",
+                "name": "active_low_down",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "description": "Unique ID identifying the Input/Output in calaos-server",
+                "mandatory": "true",
+                "name": "id",
                 "readonly": "true",
                 "type": "string"
             },
@@ -709,19 +831,21 @@
                 "type": "int"
             },
             {
-                "description": "Unique ID identifying the Input/Output in calaos-server",
-                "mandatory": "true",
-                "name": "id",
+                "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
+                "mandatory": "false",
+                "name": "gui_type",
                 "readonly": "true",
                 "type": "string"
             },
             {
-                "default": "true",
-                "description": "Display the Input/Output on all user interfaces if set. Default to true",
-                "mandatory": "false",
-                "name": "visible",
+                "default": "60",
+                "description": "Time in sec for shutter to be fully open. The more accurate, the better it will work",
+                "mandatory": "true",
+                "max": "9999",
+                "min": "0",
+                "name": "time_up",
                 "readonly": "false",
-                "type": "bool"
+                "type": "int"
             },
             {
                 "description": "IO type, can be \"input\", \"output\", \"inout\"",
@@ -731,17 +855,19 @@
                 "type": "string"
             },
             {
-                "description": "Name of Input/Output.",
-                "mandatory": "true",
-                "name": "name",
+                "default": "0",
+                "description": "Impulse time for shutter that needs impulse instead of holding up/down relays. If set to 0 impulse shutter is disabled. Time is in ms. Default to 0",
+                "mandatory": "false",
+                "max": "999999",
+                "min": "0",
+                "name": "impulse_time",
                 "readonly": "false",
-                "type": "string"
+                "type": "int"
             },
             {
-                "default": "true",
-                "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
+                "description": "If in impulse mode, some shutters needs to activate both up dans down relays when stopping the shutter",
                 "mandatory": "false",
-                "name": "enabled",
+                "name": "stop_both",
                 "readonly": "false",
                 "type": "bool"
             }
@@ -812,9 +938,27 @@
         ]
     },
     "GpioOutputSwitch": {
-        "description": " Basic light. This light have only 2 states, ON or OFF. Can also be used to control simple relays output",
+        "description": "Light with a GPIO Basic light. This light have only 2 states, ON or OFF. Can also be used to control simple relays output",
         "alias": [],
         "parameters": [
+            {
+                "default": "false",
+                "description": "Set this is your GPIO has an inverted level",
+                "mandatory": "false",
+                "name": "active_low",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "default": "0",
+                "description": "GPIO ID on your hardware",
+                "mandatory": "true",
+                "max": "65535",
+                "min": "0",
+                "name": "gpio",
+                "readonly": "false",
+                "type": "int"
+            },
             {
                 "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
                 "mandatory": "false",
@@ -3011,6 +3155,13 @@
         "alias": [],
         "parameters": [
             {
+                "description": "IP address of the ethernet gateway if relevant",
+                "mandatory": "true",
+                "name": "host",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
                 "description": "Sensor ID, as set in your node",
                 "mandatory": "true",
                 "name": "sensor_id",
@@ -3018,9 +3169,29 @@
                 "type": "string"
             },
             {
+                "default": "serial",
+                "description": "Gateway type used, ethernet or serial are supported",
+                "mandatory": "true",
+                "name": "gateway",
+                "readonly": "false",
+                "type": "list",
+                "list_value": {
+                    "ethernet": "Ethernet",
+                    "serial": "Serial"
+                }
+            },
+            {
                 "description": "Name of Input/Output.",
                 "mandatory": "true",
                 "name": "name",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "default": "/dev/ttyUSB0",
+                "description": "If using serial gateway, port is the serial port (/dev/ttyUSB0 for ex.). If using ethernet gateway port is TCP port of the gateway.",
+                "mandatory": "true",
+                "name": "port",
                 "readonly": "false",
                 "type": "string"
             },
@@ -3121,32 +3292,38 @@
         "alias": [],
         "parameters": [
             {
-                "description": "Sensor ID, as set in your node",
+                "description": "IP address of the ethernet gateway if relevant",
                 "mandatory": "true",
-                "name": "sensor_id",
+                "name": "host",
                 "readonly": "false",
                 "type": "string"
             },
             {
-                "description": "Node ID as set in your network",
-                "mandatory": "true",
-                "name": "node_id",
-                "readonly": "false",
-                "type": "string"
-            },
-            {
-                "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
+                "default": "true",
+                "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
                 "mandatory": "false",
-                "name": "gui_type",
-                "readonly": "true",
+                "name": "enabled",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "description": "Name of Input/Output.",
+                "mandatory": "true",
+                "name": "name",
+                "readonly": "false",
                 "type": "string"
             },
             {
-                "description": "Unique ID identifying the Input/Output in calaos-server",
+                "default": "serial",
+                "description": "Gateway type used, ethernet or serial are supported",
                 "mandatory": "true",
-                "name": "id",
-                "readonly": "true",
-                "type": "string"
+                "name": "gateway",
+                "readonly": "false",
+                "type": "list",
+                "list_value": {
+                    "ethernet": "Ethernet",
+                    "serial": "Serial"
+                }
             },
             {
                 "default": "true",
@@ -3164,39 +3341,10 @@
                 "type": "string"
             },
             {
-                "description": "Name of Input/Output.",
+                "default": "/dev/ttyUSB0",
+                "description": "If using serial gateway, port is the serial port (/dev/ttyUSB0 for ex.). If using ethernet gateway port is TCP port of the gateway.",
                 "mandatory": "true",
-                "name": "name",
-                "readonly": "false",
-                "type": "string"
-            },
-            {
-                "default": "true",
-                "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
-                "mandatory": "false",
-                "name": "enabled",
-                "readonly": "false",
-                "type": "bool"
-            }
-        ],
-        "conditions": [],
-        "actions": []
-    },
-    "MySensorsInputSwitch": {
-        "description": "Input switch with MySensors node Basic switch with press/release states.",
-        "alias": [],
-        "parameters": [
-            {
-                "description": "Sensor ID, as set in your node",
-                "mandatory": "true",
-                "name": "sensor_id",
-                "readonly": "false",
-                "type": "string"
-            },
-            {
-                "description": "Node ID as set in your network",
-                "mandatory": "true",
-                "name": "node_id",
+                "name": "port",
                 "readonly": "false",
                 "type": "string"
             },
@@ -3215,6 +3363,62 @@
                 "type": "string"
             },
             {
+                "description": "Node ID as set in your network",
+                "mandatory": "true",
+                "name": "node_id",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "Sensor ID, as set in your node",
+                "mandatory": "true",
+                "name": "sensor_id",
+                "readonly": "false",
+                "type": "string"
+            }
+        ],
+        "conditions": [],
+        "actions": []
+    },
+    "MySensorsInputSwitch": {
+        "description": "Input switch with MySensors node Basic switch with press/release states.",
+        "alias": [],
+        "parameters": [
+            {
+                "description": "IP address of the ethernet gateway if relevant",
+                "mandatory": "true",
+                "name": "host",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "default": "true",
+                "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
+                "mandatory": "false",
+                "name": "enabled",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "description": "Name of Input/Output.",
+                "mandatory": "true",
+                "name": "name",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "default": "serial",
+                "description": "Gateway type used, ethernet or serial are supported",
+                "mandatory": "true",
+                "name": "gateway",
+                "readonly": "false",
+                "type": "list",
+                "list_value": {
+                    "ethernet": "Ethernet",
+                    "serial": "Serial"
+                }
+            },
+            {
                 "default": "false",
                 "description": "A switch can't be visible. Always false.",
                 "mandatory": "false",
@@ -3230,19 +3434,40 @@
                 "type": "string"
             },
             {
-                "description": "Name of Input/Output.",
+                "default": "/dev/ttyUSB0",
+                "description": "If using serial gateway, port is the serial port (/dev/ttyUSB0 for ex.). If using ethernet gateway port is TCP port of the gateway.",
                 "mandatory": "true",
-                "name": "name",
+                "name": "port",
                 "readonly": "false",
                 "type": "string"
             },
             {
-                "default": "true",
-                "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
+                "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
                 "mandatory": "false",
-                "name": "enabled",
+                "name": "gui_type",
+                "readonly": "true",
+                "type": "string"
+            },
+            {
+                "description": "Unique ID identifying the Input/Output in calaos-server",
+                "mandatory": "true",
+                "name": "id",
+                "readonly": "true",
+                "type": "string"
+            },
+            {
+                "description": "Node ID as set in your network",
+                "mandatory": "true",
+                "name": "node_id",
                 "readonly": "false",
-                "type": "bool"
+                "type": "string"
+            },
+            {
+                "description": "Sensor ID, as set in your node",
+                "mandatory": "true",
+                "name": "sensor_id",
+                "readonly": "false",
+                "type": "string"
             }
         ],
         "conditions": [
@@ -3266,16 +3491,59 @@
         "alias": [],
         "parameters": [
             {
-                "description": "Sensor ID, as set in your node",
+                "description": "IP address of the ethernet gateway if relevant",
                 "mandatory": "true",
-                "name": "sensor_id",
+                "name": "host",
                 "readonly": "false",
                 "type": "string"
             },
             {
-                "description": "Node ID as set in your network",
+                "default": "true",
+                "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
+                "mandatory": "false",
+                "name": "enabled",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "description": "Name of Input/Output.",
                 "mandatory": "true",
-                "name": "node_id",
+                "name": "name",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "default": "serial",
+                "description": "Gateway type used, ethernet or serial are supported",
+                "mandatory": "true",
+                "name": "gateway",
+                "readonly": "false",
+                "type": "list",
+                "list_value": {
+                    "ethernet": "Ethernet",
+                    "serial": "Serial"
+                }
+            },
+            {
+                "default": "false",
+                "description": "A switch can't be visible. Always false.",
+                "mandatory": "false",
+                "name": "visible",
+                "readonly": "true",
+                "type": "bool"
+            },
+            {
+                "description": "IO type, can be \"input\", \"output\", \"inout\"",
+                "mandatory": "true",
+                "name": "io_type",
+                "readonly": "true",
+                "type": "string"
+            },
+            {
+                "default": "/dev/ttyUSB0",
+                "description": "If using serial gateway, port is the serial port (/dev/ttyUSB0 for ex.). If using ethernet gateway port is TCP port of the gateway.",
+                "mandatory": "true",
+                "name": "port",
                 "readonly": "false",
                 "type": "string"
             },
@@ -3294,34 +3562,18 @@
                 "type": "string"
             },
             {
-                "default": "false",
-                "description": "A switch can't be visible. Always false.",
-                "mandatory": "false",
-                "name": "visible",
-                "readonly": "true",
-                "type": "bool"
-            },
-            {
-                "description": "IO type, can be \"input\", \"output\", \"inout\"",
+                "description": "Node ID as set in your network",
                 "mandatory": "true",
-                "name": "io_type",
-                "readonly": "true",
-                "type": "string"
-            },
-            {
-                "description": "Name of Input/Output.",
-                "mandatory": "true",
-                "name": "name",
+                "name": "node_id",
                 "readonly": "false",
                 "type": "string"
             },
             {
-                "default": "true",
-                "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
-                "mandatory": "false",
-                "name": "enabled",
+                "description": "Sensor ID, as set in your node",
+                "mandatory": "true",
+                "name": "sensor_id",
                 "readonly": "false",
-                "type": "bool"
+                "type": "string"
             }
         ],
         "conditions": [
@@ -3345,16 +3597,59 @@
         "alias": [],
         "parameters": [
             {
-                "description": "Sensor ID, as set in your node",
+                "description": "IP address of the ethernet gateway if relevant",
                 "mandatory": "true",
-                "name": "sensor_id",
+                "name": "host",
                 "readonly": "false",
                 "type": "string"
             },
             {
-                "description": "Node ID as set in your network",
+                "default": "true",
+                "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
+                "mandatory": "false",
+                "name": "enabled",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "description": "Name of Input/Output.",
                 "mandatory": "true",
-                "name": "node_id",
+                "name": "name",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "default": "serial",
+                "description": "Gateway type used, ethernet or serial are supported",
+                "mandatory": "true",
+                "name": "gateway",
+                "readonly": "false",
+                "type": "list",
+                "list_value": {
+                    "ethernet": "Ethernet",
+                    "serial": "Serial"
+                }
+            },
+            {
+                "default": "false",
+                "description": "A switch can't be visible. Always false.",
+                "mandatory": "false",
+                "name": "visible",
+                "readonly": "true",
+                "type": "bool"
+            },
+            {
+                "description": "IO type, can be \"input\", \"output\", \"inout\"",
+                "mandatory": "true",
+                "name": "io_type",
+                "readonly": "true",
+                "type": "string"
+            },
+            {
+                "default": "/dev/ttyUSB0",
+                "description": "If using serial gateway, port is the serial port (/dev/ttyUSB0 for ex.). If using ethernet gateway port is TCP port of the gateway.",
+                "mandatory": "true",
+                "name": "port",
                 "readonly": "false",
                 "type": "string"
             },
@@ -3373,34 +3668,18 @@
                 "type": "string"
             },
             {
-                "default": "false",
-                "description": "A switch can't be visible. Always false.",
-                "mandatory": "false",
-                "name": "visible",
-                "readonly": "true",
-                "type": "bool"
-            },
-            {
-                "description": "IO type, can be \"input\", \"output\", \"inout\"",
+                "description": "Node ID as set in your network",
                 "mandatory": "true",
-                "name": "io_type",
-                "readonly": "true",
-                "type": "string"
-            },
-            {
-                "description": "Name of Input/Output.",
-                "mandatory": "true",
-                "name": "name",
+                "name": "node_id",
                 "readonly": "false",
                 "type": "string"
             },
             {
-                "default": "true",
-                "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
-                "mandatory": "false",
-                "name": "enabled",
+                "description": "Sensor ID, as set in your node",
+                "mandatory": "true",
+                "name": "sensor_id",
                 "readonly": "false",
-                "type": "bool"
+                "type": "string"
             }
         ],
         "conditions": [
@@ -3428,6 +3707,13 @@
         "alias": [],
         "parameters": [
             {
+                "description": "IP address of the ethernet gateway if relevant",
+                "mandatory": "true",
+                "name": "host",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
                 "description": "Sensor ID, as set in your node",
                 "mandatory": "true",
                 "name": "sensor_id",
@@ -3435,9 +3721,29 @@
                 "type": "string"
             },
             {
+                "default": "serial",
+                "description": "Gateway type used, ethernet or serial are supported",
+                "mandatory": "true",
+                "name": "gateway",
+                "readonly": "false",
+                "type": "list",
+                "list_value": {
+                    "ethernet": "Ethernet",
+                    "serial": "Serial"
+                }
+            },
+            {
                 "description": "Name of Input/Output.",
                 "mandatory": "true",
                 "name": "name",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "default": "/dev/ttyUSB0",
+                "description": "If using serial gateway, port is the serial port (/dev/ttyUSB0 for ex.). If using ethernet gateway port is TCP port of the gateway.",
+                "mandatory": "true",
+                "name": "port",
                 "readonly": "false",
                 "type": "string"
             },
@@ -3538,6 +3844,13 @@
         "alias": [],
         "parameters": [
             {
+                "description": "IP address of the ethernet gateway if relevant",
+                "mandatory": "true",
+                "name": "host",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
                 "description": "Data type sent to the node. Default: V_DIMMER, see MySensors.cpp for more values.",
                 "mandatory": "false",
                 "name": "data_type",
@@ -3552,9 +3865,29 @@
                 "type": "string"
             },
             {
+                "default": "serial",
+                "description": "Gateway type used, ethernet or serial are supported",
+                "mandatory": "true",
+                "name": "gateway",
+                "readonly": "false",
+                "type": "list",
+                "list_value": {
+                    "ethernet": "Ethernet",
+                    "serial": "Serial"
+                }
+            },
+            {
                 "description": "Name of Input/Output.",
                 "mandatory": "true",
                 "name": "name",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "default": "/dev/ttyUSB0",
+                "description": "If using serial gateway, port is the serial port (/dev/ttyUSB0 for ex.). If using ethernet gateway port is TCP port of the gateway.",
+                "mandatory": "true",
+                "name": "port",
                 "readonly": "false",
                 "type": "string"
             },
@@ -3694,47 +4027,27 @@
         "alias": [],
         "parameters": [
             {
-                "description": "Data type sent to the node. Default: V_DIMMER, see MySensors.cpp for more values.",
-                "mandatory": "false",
-                "name": "data_type",
-                "readonly": "false",
-                "type": "string"
-            },
-            {
-                "description": "Sensor ID, as set in your node",
+                "description": "IP address of the ethernet gateway if relevant",
                 "mandatory": "true",
-                "name": "sensor_id",
+                "name": "host",
                 "readonly": "false",
-                "type": "string"
-            },
-            {
-                "description": "Node ID as set in your network",
-                "mandatory": "true",
-                "name": "node_id",
-                "readonly": "false",
-                "type": "string"
-            },
-            {
-                "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
-                "mandatory": "false",
-                "name": "gui_type",
-                "readonly": "true",
-                "type": "string"
-            },
-            {
-                "description": "Unique ID identifying the Input/Output in calaos-server",
-                "mandatory": "true",
-                "name": "id",
-                "readonly": "true",
                 "type": "string"
             },
             {
                 "default": "true",
-                "description": "Display the Input/Output on all user interfaces if set. Default to true",
+                "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
                 "mandatory": "false",
-                "name": "visible",
+                "name": "enabled",
                 "readonly": "false",
                 "type": "bool"
+            },
+            {
+                "default": "/dev/ttyUSB0",
+                "description": "If using serial gateway, port is the serial port (/dev/ttyUSB0 for ex.). If using ethernet gateway port is TCP port of the gateway.",
+                "mandatory": "true",
+                "name": "port",
+                "readonly": "false",
+                "type": "string"
             },
             {
                 "description": "IO type, can be \"input\", \"output\", \"inout\"",
@@ -3751,12 +4064,59 @@
                 "type": "string"
             },
             {
+                "default": "serial",
+                "description": "Gateway type used, ethernet or serial are supported",
+                "mandatory": "true",
+                "name": "gateway",
+                "readonly": "false",
+                "type": "list",
+                "list_value": {
+                    "ethernet": "Ethernet",
+                    "serial": "Serial"
+                }
+            },
+            {
                 "default": "true",
-                "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
+                "description": "Display the Input/Output on all user interfaces if set. Default to true",
                 "mandatory": "false",
-                "name": "enabled",
+                "name": "visible",
                 "readonly": "false",
                 "type": "bool"
+            },
+            {
+                "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
+                "mandatory": "false",
+                "name": "gui_type",
+                "readonly": "true",
+                "type": "string"
+            },
+            {
+                "description": "Unique ID identifying the Input/Output in calaos-server",
+                "mandatory": "true",
+                "name": "id",
+                "readonly": "true",
+                "type": "string"
+            },
+            {
+                "description": "Node ID as set in your network",
+                "mandatory": "true",
+                "name": "node_id",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "Sensor ID, as set in your node",
+                "mandatory": "true",
+                "name": "sensor_id",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "Data type sent to the node. Default: V_DIMMER, see MySensors.cpp for more values.",
+                "mandatory": "false",
+                "name": "data_type",
+                "readonly": "false",
+                "type": "string"
             }
         ],
         "conditions": [
@@ -3833,47 +4193,27 @@
         "alias": [],
         "parameters": [
             {
-                "description": "Data type sent to the node. Default: V_LIGHT, see MySensors.cpp for more values.",
-                "mandatory": "false",
-                "name": "data_type",
-                "readonly": "false",
-                "type": "string"
-            },
-            {
-                "description": "Sensor ID, as set in your node",
+                "description": "IP address of the ethernet gateway if relevant",
                 "mandatory": "true",
-                "name": "sensor_id",
+                "name": "host",
                 "readonly": "false",
-                "type": "string"
-            },
-            {
-                "description": "Node ID as set in your network",
-                "mandatory": "true",
-                "name": "node_id",
-                "readonly": "false",
-                "type": "string"
-            },
-            {
-                "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
-                "mandatory": "false",
-                "name": "gui_type",
-                "readonly": "true",
-                "type": "string"
-            },
-            {
-                "description": "Unique ID identifying the Input/Output in calaos-server",
-                "mandatory": "true",
-                "name": "id",
-                "readonly": "true",
                 "type": "string"
             },
             {
                 "default": "true",
-                "description": "Display the Input/Output on all user interfaces if set. Default to true",
+                "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
                 "mandatory": "false",
-                "name": "visible",
+                "name": "enabled",
                 "readonly": "false",
                 "type": "bool"
+            },
+            {
+                "default": "/dev/ttyUSB0",
+                "description": "If using serial gateway, port is the serial port (/dev/ttyUSB0 for ex.). If using ethernet gateway port is TCP port of the gateway.",
+                "mandatory": "true",
+                "name": "port",
+                "readonly": "false",
+                "type": "string"
             },
             {
                 "description": "IO type, can be \"input\", \"output\", \"inout\"",
@@ -3890,12 +4230,59 @@
                 "type": "string"
             },
             {
+                "default": "serial",
+                "description": "Gateway type used, ethernet or serial are supported",
+                "mandatory": "true",
+                "name": "gateway",
+                "readonly": "false",
+                "type": "list",
+                "list_value": {
+                    "ethernet": "Ethernet",
+                    "serial": "Serial"
+                }
+            },
+            {
                 "default": "true",
-                "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
+                "description": "Display the Input/Output on all user interfaces if set. Default to true",
                 "mandatory": "false",
-                "name": "enabled",
+                "name": "visible",
                 "readonly": "false",
                 "type": "bool"
+            },
+            {
+                "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
+                "mandatory": "false",
+                "name": "gui_type",
+                "readonly": "true",
+                "type": "string"
+            },
+            {
+                "description": "Unique ID identifying the Input/Output in calaos-server",
+                "mandatory": "true",
+                "name": "id",
+                "readonly": "true",
+                "type": "string"
+            },
+            {
+                "description": "Node ID as set in your network",
+                "mandatory": "true",
+                "name": "node_id",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "Sensor ID, as set in your node",
+                "mandatory": "true",
+                "name": "sensor_id",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "Data type sent to the node. Default: V_LIGHT, see MySensors.cpp for more values.",
+                "mandatory": "false",
+                "name": "data_type",
+                "readonly": "false",
+                "type": "string"
             }
         ],
         "conditions": [
@@ -3948,6 +4335,13 @@
         "alias": [],
         "parameters": [
             {
+                "description": "IP address of the ethernet gateway if relevant",
+                "mandatory": "true",
+                "name": "host",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
                 "description": "Data type sent to the node. Default: V_DIMMER, see MySensors.cpp for more values.",
                 "mandatory": "false",
                 "name": "data_type",
@@ -3970,9 +4364,29 @@
                 "type": "bool"
             },
             {
+                "default": "serial",
+                "description": "Gateway type used, ethernet or serial are supported",
+                "mandatory": "true",
+                "name": "gateway",
+                "readonly": "false",
+                "type": "list",
+                "list_value": {
+                    "ethernet": "Ethernet",
+                    "serial": "Serial"
+                }
+            },
+            {
                 "description": "Name of Input/Output.",
                 "mandatory": "true",
                 "name": "name",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "default": "/dev/ttyUSB0",
+                "description": "If using serial gateway, port is the serial port (/dev/ttyUSB0 for ex.). If using ethernet gateway port is TCP port of the gateway.",
+                "mandatory": "true",
+                "name": "port",
                 "readonly": "false",
                 "type": "string"
             },
@@ -4137,6 +4551,13 @@
                 "type": "string"
             },
             {
+                "description": "IP address of the ethernet gateway if relevant",
+                "mandatory": "true",
+                "name": "host",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
                 "description": "Sensor ID for opening shutter, as set in your node",
                 "mandatory": "true",
                 "name": "sensor_id_up",
@@ -4150,6 +4571,18 @@
                 "name": "enabled",
                 "readonly": "false",
                 "type": "bool"
+            },
+            {
+                "default": "serial",
+                "description": "Gateway type used, ethernet or serial are supported",
+                "mandatory": "true",
+                "name": "gateway",
+                "readonly": "false",
+                "type": "list",
+                "list_value": {
+                    "ethernet": "Ethernet",
+                    "serial": "Serial"
+                }
             },
             {
                 "description": "Name of Input/Output.",
@@ -4196,6 +4629,14 @@
                 "name": "time",
                 "readonly": "false",
                 "type": "int"
+            },
+            {
+                "default": "/dev/ttyUSB0",
+                "description": "If using serial gateway, port is the serial port (/dev/ttyUSB0 for ex.). If using ethernet gateway port is TCP port of the gateway.",
+                "mandatory": "true",
+                "name": "port",
+                "readonly": "false",
+                "type": "string"
             },
             {
                 "description": "IO type, can be \"input\", \"output\", \"inout\"",
@@ -4297,6 +4738,13 @@
                 "type": "string"
             },
             {
+                "description": "IP address of the ethernet gateway if relevant",
+                "mandatory": "true",
+                "name": "host",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
                 "description": "Sensor ID for opening shutter, as set in your node",
                 "mandatory": "true",
                 "name": "sensor_id_up",
@@ -4317,6 +4765,18 @@
                 "name": "enabled",
                 "readonly": "false",
                 "type": "bool"
+            },
+            {
+                "default": "serial",
+                "description": "Gateway type used, ethernet or serial are supported",
+                "mandatory": "true",
+                "name": "gateway",
+                "readonly": "false",
+                "type": "list",
+                "list_value": {
+                    "ethernet": "Ethernet",
+                    "serial": "Serial"
+                }
             },
             {
                 "description": "Name of Input/Output.",
@@ -4373,6 +4833,14 @@
                 "name": "time_up",
                 "readonly": "false",
                 "type": "int"
+            },
+            {
+                "default": "/dev/ttyUSB0",
+                "description": "If using serial gateway, port is the serial port (/dev/ttyUSB0 for ex.). If using ethernet gateway port is TCP port of the gateway.",
+                "mandatory": "true",
+                "name": "port",
+                "readonly": "false",
+                "type": "string"
             },
             {
                 "description": "IO type, can be \"input\", \"output\", \"inout\"",
@@ -4469,47 +4937,27 @@
         "alias": [],
         "parameters": [
             {
-                "description": "Data type sent to the node. Default: V_VAR1, see MySensors.cpp for more values.",
-                "mandatory": "false",
-                "name": "data_type",
-                "readonly": "false",
-                "type": "string"
-            },
-            {
-                "description": "Sensor ID, as set in your node",
+                "description": "IP address of the ethernet gateway if relevant",
                 "mandatory": "true",
-                "name": "sensor_id",
+                "name": "host",
                 "readonly": "false",
-                "type": "string"
-            },
-            {
-                "description": "Node ID as set in your network",
-                "mandatory": "true",
-                "name": "node_id",
-                "readonly": "false",
-                "type": "string"
-            },
-            {
-                "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
-                "mandatory": "false",
-                "name": "gui_type",
-                "readonly": "true",
-                "type": "string"
-            },
-            {
-                "description": "Unique ID identifying the Input/Output in calaos-server",
-                "mandatory": "true",
-                "name": "id",
-                "readonly": "true",
                 "type": "string"
             },
             {
                 "default": "true",
-                "description": "Display the Input/Output on all user interfaces if set. Default to true",
+                "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
                 "mandatory": "false",
-                "name": "visible",
+                "name": "enabled",
                 "readonly": "false",
                 "type": "bool"
+            },
+            {
+                "default": "/dev/ttyUSB0",
+                "description": "If using serial gateway, port is the serial port (/dev/ttyUSB0 for ex.). If using ethernet gateway port is TCP port of the gateway.",
+                "mandatory": "true",
+                "name": "port",
+                "readonly": "false",
+                "type": "string"
             },
             {
                 "description": "IO type, can be \"input\", \"output\", \"inout\"",
@@ -4526,12 +4974,59 @@
                 "type": "string"
             },
             {
+                "default": "serial",
+                "description": "Gateway type used, ethernet or serial are supported",
+                "mandatory": "true",
+                "name": "gateway",
+                "readonly": "false",
+                "type": "list",
+                "list_value": {
+                    "ethernet": "Ethernet",
+                    "serial": "Serial"
+                }
+            },
+            {
                 "default": "true",
-                "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
+                "description": "Display the Input/Output on all user interfaces if set. Default to true",
                 "mandatory": "false",
-                "name": "enabled",
+                "name": "visible",
                 "readonly": "false",
                 "type": "bool"
+            },
+            {
+                "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
+                "mandatory": "false",
+                "name": "gui_type",
+                "readonly": "true",
+                "type": "string"
+            },
+            {
+                "description": "Unique ID identifying the Input/Output in calaos-server",
+                "mandatory": "true",
+                "name": "id",
+                "readonly": "true",
+                "type": "string"
+            },
+            {
+                "description": "Node ID as set in your network",
+                "mandatory": "true",
+                "name": "node_id",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "Sensor ID, as set in your node",
+                "mandatory": "true",
+                "name": "sensor_id",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "Data type sent to the node. Default: V_VAR1, see MySensors.cpp for more values.",
+                "mandatory": "false",
+                "name": "data_type",
+                "readonly": "false",
+                "type": "string"
             }
         ],
         "conditions": [],

@@ -82,18 +82,14 @@ SOURCES += src/main.cpp \
     src/RuleActionMenu.cpp \
     src/ftp/qurlinfo.cpp \
     src/ftp/qftp.cpp \
-    src/dialognewgpioinput.cpp \
     Calaos/IOBase.cpp \
     src/DialogEditTimeRange.cpp \
     Calaos/TimeRange.cpp \
     src/DialogNewAVReceiver.cpp \
-    src/DialogNewGpioLight.cpp \
-    src/DialogNewGpioShutter.cpp \
     src/DialogOptions.cpp \
     src/dialognewwebioshutter.cpp \
     src/formanalogproperties.cpp \
     src/dialogautodetect.cpp \
-    src/DialogNewMySensors.cpp \
     src/DialogCreateNewImage.cpp \
     src/DialogListProperties.cpp \
     src/BalloonTip.cpp \
@@ -172,18 +168,14 @@ HEADERS += src/mainwindow.h \
     src/common/FakeLogging.h \
     src/ftp/qurlinfo.h \
     src/ftp/qftp.h \
-    src/dialognewgpioinput.h \
     src/DialogEditTimeRange.h \
     Calaos/TimeRange.h \
     src/DialogNewAVReceiver.h \
     src/dialognewwebio.h \
-    src/DialogNewGpioLight.h \
-    src/DialogNewGpioShutter.h \
     src/DialogOptions.h \
     src/dialognewwebioshutter.h \
     src/formanalogproperties.h \
     src/dialogautodetect.h \
-    src/DialogNewMySensors.h \
     src/DialogCreateNewImage.h \
     src/DialogListProperties.h \
     src/BalloonTip.h \
@@ -201,7 +193,6 @@ FORMS += \
     data/FormConditionScript.ui \
     data/DialogInputEventScript.ui \
     data/DialogWagoFirmwareUpdate.ui \
-    data/DialogNewGpioInput.ui \
     data/DialogCameraView.ui \
     data/DialogConnect.ui \
     data/DialogDaliDeviceConfig.ui \
@@ -231,13 +222,10 @@ FORMS += \
     data/DialogEditTimeRange.ui \
     data/DialogNewAVReceiver.ui \
     data/DialogNewWebIO.ui \
-    data/DialogNewGpioLight.ui \
-    data/DialogNewGpioShutter.ui \
     data/DialogOptions.ui \
     data/DialogNewWebIoShutter.ui \
     data/formanalogproperties.ui \
     data/dialogautodetect.ui \
-    data/DialogNewMySensors.ui \
     data/DialogCreateNewImage.ui \
     data/DialogListProperties.ui \
     data/WidgetIOProperties.ui

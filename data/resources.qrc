@@ -110,5 +110,6 @@
         <file>img/ola.png</file>
         <file>img/document-revert.png</file>
         <file>img/knx.png</file>
+        <file>img/milight.png</file>
     </qresource>
 </RCC>
