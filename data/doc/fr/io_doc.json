@@ -38,7 +38,7 @@
                 "description": "Unique ID identifying the Input/Output in calaos-server",
                 "mandatory": "true",
                 "name": "id",
-                "readonly": "false",
+                "readonly": "true",
                 "type": "string"
             },
             {
@@ -121,7 +121,7 @@
                 "description": "Unique ID identifying the Input/Output in calaos-server",
                 "mandatory": "true",
                 "name": "id",
-                "readonly": "false",
+                "readonly": "true",
                 "type": "string"
             },
             {
@@ -173,7 +173,7 @@
                 "description": "Unique ID identifying the Input/Output in calaos-server",
                 "mandatory": "true",
                 "name": "id",
-                "readonly": "false",
+                "readonly": "true",
                 "type": "string"
             },
             {
@@ -299,7 +299,7 @@
                 "description": "Unique ID identifying the Input/Output in calaos-server",
                 "mandatory": "true",
                 "name": "id",
-                "readonly": "false",
+                "readonly": "true",
                 "type": "string"
             },
             {
@@ -351,7 +351,7 @@
                 "description": "Unique ID identifying the Input/Output in calaos-server",
                 "mandatory": "true",
                 "name": "id",
-                "readonly": "false",
+                "readonly": "true",
                 "type": "string"
             },
             {
@@ -416,7 +416,7 @@
                 "description": "Unique ID identifying the Input/Output in calaos-server",
                 "mandatory": "true",
                 "name": "id",
-                "readonly": "false",
+                "readonly": "true",
                 "type": "string"
             },
             {
@@ -481,7 +481,7 @@
                 "description": "Unique ID identifying the Input/Output in calaos-server",
                 "mandatory": "true",
                 "name": "id",
-                "readonly": "false",
+                "readonly": "true",
                 "type": "string"
             },
             {
@@ -577,7 +577,7 @@
                 "description": "Unique ID identifying the Input/Output in calaos-server",
                 "mandatory": "true",
                 "name": "id",
-                "readonly": "false",
+                "readonly": "true",
                 "type": "string"
             },
             {
@@ -712,7 +712,7 @@
                 "description": "Unique ID identifying the Input/Output in calaos-server",
                 "mandatory": "true",
                 "name": "id",
-                "readonly": "false",
+                "readonly": "true",
                 "type": "string"
             },
             {
@@ -826,7 +826,7 @@
                 "description": "Unique ID identifying the Input/Output in calaos-server",
                 "mandatory": "true",
                 "name": "id",
-                "readonly": "false",
+                "readonly": "true",
                 "type": "string"
             },
             {
@@ -920,7 +920,7 @@
                 "description": "Unique ID identifying the Input/Output in calaos-server",
                 "mandatory": "true",
                 "name": "id",
-                "readonly": "false",
+                "readonly": "true",
                 "type": "string"
             },
             {
@@ -1099,7 +1099,7 @@
                 "description": "Unique ID identifying the Input/Output in calaos-server",
                 "mandatory": "true",
                 "name": "id",
-                "readonly": "false",
+                "readonly": "true",
                 "type": "string"
             },
             {
@@ -1228,7 +1228,7 @@
                 "description": "Unique ID identifying the Input/Output in calaos-server",
                 "mandatory": "true",
                 "name": "id",
-                "readonly": "false",
+                "readonly": "true",
                 "type": "string"
             },
             {
@@ -1319,7 +1319,7 @@
                 "description": "Unique ID identifying the Input/Output in calaos-server",
                 "mandatory": "true",
                 "name": "id",
-                "readonly": "false",
+                "readonly": "true",
                 "type": "string"
             },
             {
@@ -1429,7 +1429,7 @@
                 "description": "Unique ID identifying the Input/Output in calaos-server",
                 "mandatory": "true",
                 "name": "id",
-                "readonly": "false",
+                "readonly": "true",
                 "type": "string"
             },
             {
@@ -1527,7 +1527,7 @@
                 "description": "Unique ID identifying the Input/Output in calaos-server",
                 "mandatory": "true",
                 "name": "id",
-                "readonly": "false",
+                "readonly": "true",
                 "type": "string"
             },
             {
@@ -1632,7 +1632,7 @@
                 "description": "Unique ID identifying the Input/Output in calaos-server",
                 "mandatory": "true",
                 "name": "id",
-                "readonly": "false",
+                "readonly": "true",
                 "type": "string"
             },
             {
@@ -1713,7 +1713,7 @@
                 "description": "Unique ID identifying the Input/Output in calaos-server",
                 "mandatory": "true",
                 "name": "id",
-                "readonly": "false",
+                "readonly": "true",
                 "type": "string"
             },
             {
@@ -1785,7 +1785,7 @@
                 "description": "Unique ID identifying the Input/Output in calaos-server",
                 "mandatory": "true",
                 "name": "id",
-                "readonly": "false",
+                "readonly": "true",
                 "type": "string"
             },
             {
@@ -1857,7 +1857,7 @@
                 "description": "Unique ID identifying the Input/Output in calaos-server",
                 "mandatory": "true",
                 "name": "id",
-                "readonly": "false",
+                "readonly": "true",
                 "type": "string"
             },
             {
@@ -1965,7 +1965,7 @@
                 "description": "Unique ID identifying the Input/Output in calaos-server",
                 "mandatory": "true",
                 "name": "id",
-                "readonly": "false",
+                "readonly": "true",
                 "type": "string"
             },
             {
@@ -2078,7 +2078,7 @@
                 "description": "Unique ID identifying the Input/Output in calaos-server",
                 "mandatory": "true",
                 "name": "id",
-                "readonly": "false",
+                "readonly": "true",
                 "type": "string"
             },
             {
@@ -2198,7 +2198,7 @@
                 "description": "Unique ID identifying the Input/Output in calaos-server",
                 "mandatory": "true",
                 "name": "id",
-                "readonly": "false",
+                "readonly": "true",
                 "type": "string"
             },
             {
@@ -2299,7 +2299,7 @@
                 "description": "Unique ID identifying the Input/Output in calaos-server",
                 "mandatory": "true",
                 "name": "id",
-                "readonly": "false",
+                "readonly": "true",
                 "type": "string"
             },
             {
@@ -2431,7 +2431,7 @@
                 "description": "Unique ID identifying the Input/Output in calaos-server",
                 "mandatory": "true",
                 "name": "id",
-                "readonly": "false",
+                "readonly": "true",
                 "type": "string"
             },
             {
@@ -2587,7 +2587,7 @@
                 "description": "Unique ID identifying the Input/Output in calaos-server",
                 "mandatory": "true",
                 "name": "id",
-                "readonly": "false",
+                "readonly": "true",
                 "type": "string"
             },
             {
@@ -2733,7 +2733,7 @@
                 "description": "Unique ID identifying the Input/Output in calaos-server",
                 "mandatory": "true",
                 "name": "id",
-                "readonly": "false",
+                "readonly": "true",
                 "type": "string"
             },
             {
@@ -2885,7 +2885,7 @@
                 "description": "Unique ID identifying the Input/Output in calaos-server",
                 "mandatory": "true",
                 "name": "id",
-                "readonly": "false",
+                "readonly": "true",
                 "type": "string"
             },
             {
@@ -3057,7 +3057,7 @@
                 "description": "Unique ID identifying the Input/Output in calaos-server",
                 "mandatory": "true",
                 "name": "id",
-                "readonly": "false",
+                "readonly": "true",
                 "type": "string"
             },
             {
@@ -3145,7 +3145,7 @@
                 "description": "Unique ID identifying the Input/Output in calaos-server",
                 "mandatory": "true",
                 "name": "id",
-                "readonly": "false",
+                "readonly": "true",
                 "type": "string"
             },
             {
@@ -3211,7 +3211,7 @@
                 "description": "Unique ID identifying the Input/Output in calaos-server",
                 "mandatory": "true",
                 "name": "id",
-                "readonly": "false",
+                "readonly": "true",
                 "type": "string"
             },
             {
@@ -3290,7 +3290,7 @@
                 "description": "Unique ID identifying the Input/Output in calaos-server",
                 "mandatory": "true",
                 "name": "id",
-                "readonly": "false",
+                "readonly": "true",
                 "type": "string"
             },
             {
@@ -3369,7 +3369,7 @@
                 "description": "Unique ID identifying the Input/Output in calaos-server",
                 "mandatory": "true",
                 "name": "id",
-                "readonly": "false",
+                "readonly": "true",
                 "type": "string"
             },
             {
@@ -3474,7 +3474,7 @@
                 "description": "Unique ID identifying the Input/Output in calaos-server",
                 "mandatory": "true",
                 "name": "id",
-                "readonly": "false",
+                "readonly": "true",
                 "type": "string"
             },
             {
@@ -3591,7 +3591,7 @@
                 "description": "Unique ID identifying the Input/Output in calaos-server",
                 "mandatory": "true",
                 "name": "id",
-                "readonly": "false",
+                "readonly": "true",
                 "type": "string"
             },
             {
@@ -3725,7 +3725,7 @@
                 "description": "Unique ID identifying the Input/Output in calaos-server",
                 "mandatory": "true",
                 "name": "id",
-                "readonly": "false",
+                "readonly": "true",
                 "type": "string"
             },
             {
@@ -3864,7 +3864,7 @@
                 "description": "Unique ID identifying the Input/Output in calaos-server",
                 "mandatory": "true",
                 "name": "id",
-                "readonly": "false",
+                "readonly": "true",
                 "type": "string"
             },
             {
@@ -4016,7 +4016,7 @@
                 "description": "Unique ID identifying the Input/Output in calaos-server",
                 "mandatory": "true",
                 "name": "id",
-                "readonly": "false",
+                "readonly": "true",
                 "type": "string"
             },
             {
@@ -4170,7 +4170,7 @@
                 "description": "Unique ID identifying the Input/Output in calaos-server",
                 "mandatory": "true",
                 "name": "id",
-                "readonly": "false",
+                "readonly": "true",
                 "type": "string"
             },
             {
@@ -4337,7 +4337,7 @@
                 "description": "Unique ID identifying the Input/Output in calaos-server",
                 "mandatory": "true",
                 "name": "id",
-                "readonly": "false",
+                "readonly": "true",
                 "type": "string"
             },
             {
@@ -4500,7 +4500,7 @@
                 "description": "Unique ID identifying the Input/Output in calaos-server",
                 "mandatory": "true",
                 "name": "id",
-                "readonly": "false",
+                "readonly": "true",
                 "type": "string"
             },
             {
@@ -4562,7 +4562,7 @@
                 "description": "Unique ID identifying the Input/Output in calaos-server",
                 "mandatory": "true",
                 "name": "id",
-                "readonly": "false",
+                "readonly": "true",
                 "type": "string"
             },
             {
@@ -4730,7 +4730,7 @@
                 "description": "Unique ID identifying the Input/Output in calaos-server",
                 "mandatory": "true",
                 "name": "id",
-                "readonly": "false",
+                "readonly": "true",
                 "type": "string"
             },
             {
@@ -4856,7 +4856,7 @@
                 "description": "Unique ID identifying the Input/Output in calaos-server",
                 "mandatory": "true",
                 "name": "id",
-                "readonly": "false",
+                "readonly": "true",
                 "type": "string"
             },
             {
@@ -4951,7 +4951,7 @@
                 "description": "Unique ID identifying the Input/Output in calaos-server",
                 "mandatory": "true",
                 "name": "id",
-                "readonly": "false",
+                "readonly": "true",
                 "type": "string"
             },
             {
@@ -5047,7 +5047,7 @@
                 "description": "Unique ID identifying the Input/Output in calaos-server",
                 "mandatory": "true",
                 "name": "id",
-                "readonly": "false",
+                "readonly": "true",
                 "type": "string"
             },
             {
@@ -5112,7 +5112,7 @@
                 "description": "Unique ID identifying the Input/Output in calaos-server",
                 "mandatory": "true",
                 "name": "id",
-                "readonly": "false",
+                "readonly": "true",
                 "type": "string"
             },
             {
@@ -5171,7 +5171,7 @@
                 "description": "Unique ID identifying the Input/Output in calaos-server",
                 "mandatory": "true",
                 "name": "id",
-                "readonly": "false",
+                "readonly": "true",
                 "type": "string"
             },
             {
@@ -5408,7 +5408,7 @@
                 "description": "Unique ID identifying the Input/Output in calaos-server",
                 "mandatory": "true",
                 "name": "id",
-                "readonly": "false",
+                "readonly": "true",
                 "type": "string"
             },
             {
@@ -5460,7 +5460,7 @@
                 "description": "Unique ID identifying the Input/Output in calaos-server",
                 "mandatory": "true",
                 "name": "id",
-                "readonly": "false",
+                "readonly": "true",
                 "type": "string"
             },
             {
@@ -5514,7 +5514,7 @@
                 "description": "Unique ID identifying the Input/Output in calaos-server",
                 "mandatory": "true",
                 "name": "id",
-                "readonly": "false",
+                "readonly": "true",
                 "type": "string"
             },
             {
@@ -5601,7 +5601,7 @@
                 "description": "Unique ID identifying the Input/Output in calaos-server",
                 "mandatory": "true",
                 "name": "id",
-                "readonly": "false",
+                "readonly": "true",
                 "type": "string"
             },
             {
@@ -5675,7 +5675,7 @@
                 "description": "Unique ID identifying the Input/Output in calaos-server",
                 "mandatory": "true",
                 "name": "id",
-                "readonly": "false",
+                "readonly": "true",
                 "type": "string"
             },
             {
@@ -5749,7 +5749,7 @@
                 "description": "Unique ID identifying the Input/Output in calaos-server",
                 "mandatory": "true",
                 "name": "id",
-                "readonly": "false",
+                "readonly": "true",
                 "type": "string"
             },
             {
@@ -5823,7 +5823,7 @@
                 "description": "Unique ID identifying the Input/Output in calaos-server",
                 "mandatory": "true",
                 "name": "id",
-                "readonly": "false",
+                "readonly": "true",
                 "type": "string"
             },
             {
@@ -5917,7 +5917,7 @@
                 "description": "Unique ID identifying the Input/Output in calaos-server",
                 "mandatory": "true",
                 "name": "id",
-                "readonly": "false",
+                "readonly": "true",
                 "type": "string"
             },
             {
@@ -6043,7 +6043,7 @@
                 "description": "Unique ID identifying the Input/Output in calaos-server",
                 "mandatory": "true",
                 "name": "id",
-                "readonly": "false",
+                "readonly": "true",
                 "type": "string"
             },
             {
@@ -6146,7 +6146,7 @@
                 "description": "Unique ID identifying the Input/Output in calaos-server",
                 "mandatory": "true",
                 "name": "id",
-                "readonly": "false",
+                "readonly": "true",
                 "type": "string"
             },
             {
@@ -6240,7 +6240,7 @@
                 "description": "Unique ID identifying the Input/Output in calaos-server",
                 "mandatory": "true",
                 "name": "id",
-                "readonly": "false",
+                "readonly": "true",
                 "type": "string"
             },
             {
@@ -6334,7 +6334,7 @@
                 "description": "Unique ID identifying the Input/Output in calaos-server",
                 "mandatory": "true",
                 "name": "id",
-                "readonly": "false",
+                "readonly": "true",
                 "type": "string"
             },
             {
@@ -6428,7 +6428,7 @@
                 "description": "Unique ID identifying the Input/Output in calaos-server",
                 "mandatory": "true",
                 "name": "id",
-                "readonly": "false",
+                "readonly": "true",
                 "type": "string"
             },
             {
@@ -6558,7 +6558,7 @@
                 "description": "Unique ID identifying the Input/Output in calaos-server",
                 "mandatory": "true",
                 "name": "id",
-                "readonly": "false",
+                "readonly": "true",
                 "type": "string"
             },
             {
@@ -6683,7 +6683,7 @@
                 "description": "Unique ID identifying the Input/Output in calaos-server",
                 "mandatory": "true",
                 "name": "id",
-                "readonly": "false",
+                "readonly": "true",
                 "type": "string"
             },
             {
@@ -6834,7 +6834,7 @@
                 "description": "Unique ID identifying the Input/Output in calaos-server",
                 "mandatory": "true",
                 "name": "id",
-                "readonly": "false",
+                "readonly": "true",
                 "type": "string"
             },
             {
@@ -7092,7 +7092,7 @@
                 "description": "Unique ID identifying the Input/Output in calaos-server",
                 "mandatory": "true",
                 "name": "id",
-                "readonly": "false",
+                "readonly": "true",
                 "type": "string"
             },
             {
@@ -7265,7 +7265,7 @@
                 "description": "Unique ID identifying the Input/Output in calaos-server",
                 "mandatory": "true",
                 "name": "id",
-                "readonly": "false",
+                "readonly": "true",
                 "type": "string"
             },
             {
@@ -7383,7 +7383,7 @@
                 "description": "Unique ID identifying the Input/Output in calaos-server",
                 "mandatory": "true",
                 "name": "id",
-                "readonly": "false",
+                "readonly": "true",
                 "type": "string"
             },
             {
@@ -7478,7 +7478,7 @@
                 "description": "Unique ID identifying the Input/Output in calaos-server",
                 "mandatory": "true",
                 "name": "id",
-                "readonly": "false",
+                "readonly": "true",
                 "type": "string"
             },
             {
@@ -7679,7 +7679,7 @@
                 "description": "Unique ID identifying the Input/Output in calaos-server",
                 "mandatory": "true",
                 "name": "id",
-                "readonly": "false",
+                "readonly": "true",
                 "type": "string"
             },
             {
@@ -7831,7 +7831,7 @@
                 "description": "Unique ID identifying the Input/Output in calaos-server",
                 "mandatory": "true",
                 "name": "id",
-                "readonly": "false",
+                "readonly": "true",
                 "type": "string"
             },
             {
@@ -7935,15 +7935,46 @@
         ]
     },
     "ZibaseAnalogIn": {
-        "description": " An analog input can be used to read analog values to display them and use them in rules.",
+        "description": "Zibase analog input. This object can read value from devices like Energy monitor sensors, Lux sensors, ... An analog input can be used to read analog values to display them and use them in rules.",
         "alias": [],
         "parameters": [
+            {
+                "default": "energy",
+                "description": "Type of sensor",
+                "mandatory": "true",
+                "name": "zibase_sensor",
+                "readonly": "false",
+                "type": "list",
+                "list_value": {
+                    "energy": "Energy monitor sensor",
+                    "lux": "Lux sensor",
+                    "t_rain": "Total rain sensor",
+                    "wind": "Wind sensor"
+                }
+            },
+            {
+                "description": "Zibase IP address on the network",
+                "mandatory": "true",
+                "name": "host",
+                "readonly": "false",
+                "type": "string"
+            },
             {
                 "description": "Name of Input/Output.",
                 "mandatory": "true",
                 "name": "name",
                 "readonly": "false",
                 "type": "string"
+            },
+            {
+                "default": "17100",
+                "description": "Zibase ethernet port, default to 17100",
+                "mandatory": "false",
+                "max": "65535",
+                "min": "0",
+                "name": "port",
+                "readonly": "false",
+                "type": "int"
             },
             {
                 "description": "IO type, can be \"input\", \"output\", \"inout\"",
@@ -7961,6 +7992,13 @@
                 "type": "bool"
             },
             {
+                "description": "Zibase device ID (ABC)",
+                "mandatory": "true",
+                "name": "zibase_id",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
                 "description": "Sampling time in microsecond. The value is read at this frequency. If this value is not set, calaos tries to read the interval parameter",
                 "mandatory": "false",
                 "name": "frequency",
@@ -7971,7 +8009,7 @@
                 "description": "Unique ID identifying the Input/Output in calaos-server",
                 "mandatory": "true",
                 "name": "id",
-                "readonly": "false",
+                "readonly": "true",
                 "type": "string"
             },
             {
@@ -8031,20 +8069,33 @@
         "actions": []
     },
     "ZibaseDigitalIn": {
-        "description": " Basic switch with press/release states.",
+        "description": "Zibase digital input. This object acts as a switch Basic switch with press/release states.",
         "alias": [],
         "parameters": [
             {
-                "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
-                "mandatory": "false",
-                "name": "gui_type",
-                "readonly": "true",
-                "type": "string"
+                "default": "detect",
+                "description": "Type of sensor",
+                "mandatory": "true",
+                "name": "zibase_sensor",
+                "readonly": "false",
+                "type": "list",
+                "list_value": {
+                    "detect": "Door/Window sensor",
+                    "inter": "Switch/Remote control"
+                }
             },
             {
-                "description": "Unique ID identifying the Input/Output in calaos-server",
+                "default": "true",
+                "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
+                "mandatory": "false",
+                "name": "enabled",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "description": "Name of Input/Output.",
                 "mandatory": "true",
-                "name": "id",
+                "name": "name",
                 "readonly": "false",
                 "type": "string"
             },
@@ -8064,19 +8115,49 @@
                 "type": "string"
             },
             {
-                "description": "Name of Input/Output.",
+                "default": "17100",
+                "description": "Zibase ethernet port, default to 17100",
+                "mandatory": "false",
+                "max": "65535",
+                "min": "0",
+                "name": "port",
+                "readonly": "false",
+                "type": "int"
+            },
+            {
+                "description": "Unique ID identifying the Input/Output in calaos-server",
                 "mandatory": "true",
-                "name": "name",
+                "name": "id",
+                "readonly": "true",
+                "type": "string"
+            },
+            {
+                "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
+                "mandatory": "false",
+                "name": "gui_type",
+                "readonly": "true",
+                "type": "string"
+            },
+            {
+                "description": "First Zibase device ID (ABC)",
+                "mandatory": "true",
+                "name": "zibase_id",
                 "readonly": "false",
                 "type": "string"
             },
             {
-                "default": "true",
-                "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
-                "mandatory": "false",
-                "name": "enabled",
+                "description": "Second Zibase device ID (ABC)",
+                "mandatory": "true",
+                "name": "zibase_id2",
                 "readonly": "false",
-                "type": "bool"
+                "type": "string"
+            },
+            {
+                "description": "Zibase IP address on the network",
+                "mandatory": "true",
+                "name": "host",
+                "readonly": "false",
+                "type": "string"
             }
         ],
         "conditions": [
@@ -8096,20 +8177,31 @@
         "actions": []
     },
     "ZibaseDigitalOut": {
-        "description": " Basic light. This light have only 2 states, ON or OFF. Can also be used to control simple relays output",
+        "description": "Zibase digital output. This object controls Zibase devices Basic light. This light have only 2 states, ON or OFF. Can also be used to control simple relays output",
         "alias": [],
         "parameters": [
             {
-                "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
+                "default": "1",
+                "description": "Number of burst to send to the device",
                 "mandatory": "false",
-                "name": "gui_type",
-                "readonly": "true",
-                "type": "string"
+                "max": "65535",
+                "min": "0",
+                "name": "nbburst",
+                "readonly": "false",
+                "type": "int"
             },
             {
-                "description": "Unique ID identifying the Input/Output in calaos-server",
+                "default": "true",
+                "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
+                "mandatory": "false",
+                "name": "enabled",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "description": "Name of Input/Output.",
                 "mandatory": "true",
-                "name": "id",
+                "name": "name",
                 "readonly": "false",
                 "type": "string"
             },
@@ -8129,19 +8221,65 @@
                 "type": "string"
             },
             {
-                "description": "Name of Input/Output.",
+                "default": "17100",
+                "description": "Zibase ethernet port, default to 17100",
+                "mandatory": "false",
+                "max": "65535",
+                "min": "0",
+                "name": "port",
+                "readonly": "false",
+                "type": "int"
+            },
+            {
+                "description": "Unique ID identifying the Input/Output in calaos-server",
                 "mandatory": "true",
-                "name": "name",
+                "name": "id",
+                "readonly": "true",
+                "type": "string"
+            },
+            {
+                "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
+                "mandatory": "false",
+                "name": "gui_type",
+                "readonly": "true",
+                "type": "string"
+            },
+            {
+                "description": "Zibase device ID (ABC)",
+                "mandatory": "true",
+                "name": "zibase_id",
                 "readonly": "false",
                 "type": "string"
             },
             {
-                "default": "true",
-                "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
-                "mandatory": "false",
-                "name": "enabled",
+                "description": "Zibase IP address on the network",
+                "mandatory": "true",
+                "name": "host",
                 "readonly": "false",
-                "type": "bool"
+                "type": "string"
+            },
+            {
+                "default": "0",
+                "description": "Protocol to use",
+                "mandatory": "true",
+                "name": "protocol",
+                "readonly": "false",
+                "type": "list",
+                "list_value": {
+                    "0": "DEFAULT_PROTOCOL",
+                    "1": "VISONIC433",
+                    "10": "XDD868shutter",
+                    "11": "XDD868pilot",
+                    "12": "XDD868boiler",
+                    "2": "VISONIC868",
+                    "3": "CHACON",
+                    "4": "DOMIA",
+                    "5": "RFX10",
+                    "6": "ZWAVE",
+                    "7": "RFSTS10",
+                    "8": "XDD433alrm",
+                    "9": "XDD868alrmn"
+                }
             }
         ],
         "conditions": [
@@ -8190,15 +8328,43 @@
         ]
     },
     "ZibaseTemp": {
-        "description": " Temperature sensor input. Use for displaying temperature and to control heating devices with rules based on temperature value",
+        "description": "Zibase temperature sensor Temperature sensor input. Use for displaying temperature and to control heating devices with rules based on temperature value",
         "alias": [],
         "parameters": [
+            {
+                "default": "temp",
+                "description": "Type of sensor",
+                "mandatory": "true",
+                "name": "zibase_sensor",
+                "readonly": "false",
+                "type": "list",
+                "list_value": {
+                    "temp": "Temperature sensor"
+                }
+            },
+            {
+                "description": "Zibase IP address on the network",
+                "mandatory": "true",
+                "name": "host",
+                "readonly": "false",
+                "type": "string"
+            },
             {
                 "description": "Name of Input/Output.",
                 "mandatory": "true",
                 "name": "name",
                 "readonly": "false",
                 "type": "string"
+            },
+            {
+                "default": "17100",
+                "description": "Zibase ethernet port, default to 17100",
+                "mandatory": "false",
+                "max": "65535",
+                "min": "0",
+                "name": "port",
+                "readonly": "false",
+                "type": "int"
             },
             {
                 "description": "IO type, can be \"input\", \"output\", \"inout\"",
@@ -8216,6 +8382,13 @@
                 "type": "bool"
             },
             {
+                "description": "Zibase device ID (ABC)",
+                "mandatory": "true",
+                "name": "zibase_id",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
                 "description": "Sampling time in microsecond. The value is read at this frequency. If this value is not set, calaos tries to read the interval parameter",
                 "mandatory": "false",
                 "name": "frequency",
@@ -8226,7 +8399,7 @@
                 "description": "Unique ID identifying the Input/Output in calaos-server",
                 "mandatory": "true",
                 "name": "id",
-                "readonly": "false",
+                "readonly": "true",
                 "type": "string"
             },
             {

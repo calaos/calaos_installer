@@ -6,9 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>483</width>
-    <height>441</height>
+    <width>416</width>
+    <height>426</height>
    </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>410</width>
+    <height>420</height>
+   </size>
   </property>
   <property name="windowTitle">
    <string>Form</string>
@@ -49,7 +55,7 @@
         <x>0</x>
         <y>0</y>
         <width>98</width>
-        <height>71</height>
+        <height>70</height>
        </rect>
       </property>
       <attribute name="label">
@@ -122,8 +128,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>465</width>
-        <height>325</height>
+        <width>398</width>
+        <height>307</height>
        </rect>
       </property>
       <attribute name="label">
@@ -152,8 +158,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>463</width>
-            <height>323</height>
+            <width>396</width>
+            <height>305</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_5">

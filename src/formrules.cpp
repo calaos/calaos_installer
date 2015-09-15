@@ -7,8 +7,6 @@
 #include "DialogNewAVReceiver.h"
 #include "DialogNewGpioShutter.h"
 #include "DialogNewGpioLight.h"
-#include "DialogNewZibase.h"
-#include "DialogNewZibaseOutput.h"
 #include "dialognewwebioshutter.h"
 #include "DialogNewMySensors.h"
 
@@ -585,18 +583,6 @@ IOBase *FormRules::addCalaosItemInputSwitch(int item, int hw_type)
         if (dialog.exec() == QDialog::Accepted)
             input = dialog.getInput();
     }
-    else if (hw_type == HW_ZIBASE)
-    {
-        DialogNewZibase dialog(current_room, item);
-        if (dialog.exec() == QDialog::Accepted)
-            input = dialog.getInput();
-    }
-    else if (hw_type == HW_MYSENSORS)
-    {
-        DialogNewMySensors dialog(current_room, item);
-        if (dialog.exec() == QDialog::Accepted)
-            input = dialog.getInput();
-    }
 
     return input;
 }
@@ -629,12 +615,6 @@ IOBase *FormRules::addCalaosItemLight(int item, int hw_type)
     else if (hw_type == HW_GPIO)
     {
         DialogNewGpioLight dialog(current_room);
-        if (dialog.exec() == QDialog::Accepted)
-            output = dialog.getOutput();
-    }
-    else if (hw_type == HW_ZIBASE)
-    {
-        DialogNewZibaseOutput dialog(current_room, item);
         if (dialog.exec() == QDialog::Accepted)
             output = dialog.getOutput();
     }
@@ -772,12 +752,6 @@ IOBase *FormRules::addCalaosItemTemp(int item, int hw_type)
         if (dialog.exec() == QDialog::Accepted)
             io = dialog.getInput();
     }
-    else if (hw_type == HW_ZIBASE)
-    {
-        DialogNewZibase dialog(current_room, item);
-        if (dialog.exec() == QDialog::Accepted)
-             io = dialog.getInput();
-    }
 
     return io;
 }
@@ -866,12 +840,6 @@ IOBase *FormRules::addCalaosItemAnalog(int item, int hw_type)
             else
                 io = dialog.getOutput();
         }
-    }
-    else if (hw_type == HW_ZIBASE)
-    {
-        DialogNewZibase dialog(current_room, item);
-        if (dialog.exec() == QDialog::Accepted)
-            io = dialog.getInput();
     }
     else if (hw_type == HW_MYSENSORS)
     {

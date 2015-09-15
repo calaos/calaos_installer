@@ -216,6 +216,55 @@ void WidgetIOProperties::createIOProperties()
                 w->setValue(pvalue.toDouble());
             });
         }
+        else if (jparam["type"].toString() == "list")
+        {
+            QComboBox *w = new QComboBox();
+            int defIndex = 0;
+            w->setEnabled(jparam["readonly"].toString() != "true" && editable);
+
+            //fill combobox with values, if no value, set editable to true
+            QJsonObject jvalues = jparam["list_value"].toObject();
+            if (jvalues.empty())
+                w->setEditable(true);
+            else
+            {
+                w->setEditable(false);
+                for (auto it = jvalues.begin();it != jvalues.end();it++)
+                {
+                    w->addItem(it.value().toString(), it.key());
+                    if (it.key() == pvalue)
+                    {
+                        defIndex = w->count() - 1;
+                        w->setCurrentIndex(defIndex);
+                    }
+                }
+            }
+
+            layout->addWidget(w, row, 2);
+
+            if (w->isEditable())
+            {
+                connect(w, &QComboBox::currentTextChanged, [=]()
+                {
+                    updateChangedParam(prop, w->currentText(), pvalue, title, revert);
+                });
+            }
+            else
+            {
+                connect(w, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), [=]()
+                {
+                    updateChangedParam(prop, w->currentData().toString(), pvalue, title, revert);
+                });
+            }
+
+            connect(revert, &QPushButton::clicked, [=]()
+            {
+                if (w->isEditable())
+                    w->setEditText(pvalue);
+                else
+                    w->setCurrentIndex(defIndex);
+            });
+        }
 
         QPushButton *help = new QPushButton();
         help->setIcon(QIcon(":/img/icon_unkown.png"));

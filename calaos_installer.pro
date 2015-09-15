@@ -89,11 +89,9 @@ SOURCES += src/main.cpp \
     src/DialogNewAVReceiver.cpp \
     src/DialogNewGpioLight.cpp \
     src/DialogNewGpioShutter.cpp \
-    src/DialogNewZibase.cpp \
     src/DialogOptions.cpp \
     src/dialognewwebioshutter.cpp \
     src/formanalogproperties.cpp \
-    src/DialogNewZibaseOutput.cpp \
     src/dialogautodetect.cpp \
     src/DialogNewMySensors.cpp \
     src/DialogCreateNewImage.cpp \
@@ -181,11 +179,9 @@ HEADERS += src/mainwindow.h \
     src/dialognewwebio.h \
     src/DialogNewGpioLight.h \
     src/DialogNewGpioShutter.h \
-    src/DialogNewZibase.h \
     src/DialogOptions.h \
     src/dialognewwebioshutter.h \
     src/formanalogproperties.h \
-    src/DialogNewZibaseOutput.h \
     src/dialogautodetect.h \
     src/DialogNewMySensors.h \
     src/DialogCreateNewImage.h \
@@ -237,11 +233,9 @@ FORMS += \
     data/DialogNewWebIO.ui \
     data/DialogNewGpioLight.ui \
     data/DialogNewGpioShutter.ui \
-    data/DialogNewZibase.ui \
     data/DialogOptions.ui \
     data/DialogNewWebIoShutter.ui \
     data/formanalogproperties.ui \
-    data/DialogNewZibaseOutput.ui \
     data/dialogautodetect.ui \
     data/DialogNewMySensors.ui \
     data/DialogCreateNewImage.ui \
