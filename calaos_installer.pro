@@ -235,12 +235,6 @@ FORMS += \
     data/DialogCreateNewImage.ui \
     data/DialogListProperties.ui \
     data/WidgetIOProperties.ui \
-    data/DialogNewMySensors.ui \
-    data/DialogOla.ui \
-    data/DialogNewPing.ui \
-    data/DialogNewWOL.ui \
-    src/DialogCreateNewImage.ui \
-    src/DialogListProperties.ui \
     src/wizards/hue/wizardhue.ui
 
 RESOURCES += data/resources.qrc \

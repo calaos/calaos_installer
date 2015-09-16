@@ -6,10 +6,6 @@
 #include "DialogEditTimeRange.h"
 #include "DialogNewAVReceiver.h"
 #include "dialognewwebioshutter.h"
-#include "DialogNewMySensors.h"
-#include "DialogOla.h"
-#include "DialogNewPing.h"
-#include "DialogNewWOL.h"
 #include "wizards/hue/wizardhue.h"
 
 FormRules::FormRules(QWidget *parent) :
@@ -285,20 +281,6 @@ FormRules::FormRules(QWidget *parent) :
     action->setIcon(QIcon(":/img/text.png"));
     connect(action, &QAction::triggered, [=]() { addCalaosItem(HW_WEB, ITEM_STRINGOUT); });
 
-    QMenu *hue_menu = add_menu->addMenu(QIcon("://img/hue.png"), "Hue");
-
-    action = hue_menu->addAction(tr("Hue Wizard"));
-    action->setIcon(QIcon(":/img/hue_light.png"));
-    connect(action, &QAction::triggered, [=]() {
-        WizardHue dialog(NULL, NULL);
-        if (dialog.exec() == QDialog::Accepted)
-        {
-            qDebug() << "Wizard Accepted";
-        }
-    });
-
-
-
     QMenu *gpio_menu = add_menu->addMenu(QIcon("://img/chip.png"), "GPIO");
 
     action = gpio_menu->addAction(tr("Switch input"));
@@ -518,17 +500,30 @@ FormRules::FormRules(QWidget *parent) :
         addCalaosIO(p);
     });
 
-    QMenu *hue_menu = add_menu->addMenu(QIcon("://img/hue.png"), "Philips Hue");
+    // QMenu *hue_menu = add_menu->addMenu(QIcon("://img/hue.png"), "Philips Hue");
 
-    action = hue_menu->addAction(tr("Philips Hue RGB bulb"));
-    action->setIcon(QIcon(":/img/icon_light_on.png"));
-    connect(action, &QAction::triggered, [=]()
-    {
-        Params p = {{ "type", "HueOutputLightRGB" },
-                    { "io_type", "output" }};
-        addCalaosIO(p);
-    });
+    // action = hue_menu->addAction(tr("Philips Hue RGB bulb"));
+    // action->setIcon(QIcon(":/img/icon_light_on.png"));
+    // connect(action, &QAction::triggered, [=]()
+    // {
+    //     Params p = {{ "type", "HueOutputLightRGB" },
+    //                 { "io_type", "output" }};
+    //     addCalaosIO(p);
+    // });
 
+    QMenu *hue_menu = add_menu->addMenu(QIcon("://img/hue.png"), "Hue");
+
+    action = hue_menu->addAction(tr("Hue Wizard"));
+    action->setIcon(QIcon(":/img/hue_light.png"));
+    connect(action, &QAction::triggered, [=]() {
+            WizardHue dialog(NULL, NULL);
+            if (dialog.exec() == QDialog::Accepted)
+            {
+                qDebug() << "Wizard Accepted";
+            }
+        });
+
+    
     add_menu->addSeparator();
 
     action = add_menu->addAction(tr("Camera"));
