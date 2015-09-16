@@ -26,6 +26,12 @@ WizardHue::WizardHue(Room *room, QWidget *parent) :
     connect(udpSocket, SIGNAL(readyRead()),
                this, SLOT(readPendingDatagrams()));
     ui->stackedWidget->setCurrentWidget(ui->bridgeDetectionPage);
+
+    QHostAddress h1;
+    h1.setAddress("192.168.0.1");
+
+
+    qDebug() << h1.toString();
 }
 
 WizardHue::~WizardHue()
@@ -79,9 +85,10 @@ void WizardHue::readPendingDatagrams()
                                 &sender, &senderPort);
         if (!bridgeFound)
         {
-            qDebug() << "found bridge" << sender;
+            QHostAddress ipv4 = QHostAddress(sender.toIPv4Address());
+            qDebug() << "found bridge :" <<  ipv4.toString();
             bridgeFound = true;
-            bridgeAddress = sender;
+            bridgeAddress = ipv4;
             askForApiKey();
         }
 
