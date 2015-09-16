@@ -45,7 +45,6 @@ private slots:
     void timeout(void);
     void apiKeyReceived();
     void configReceived();
-    void on_pushButton_2_clicked();
     void on_buttonAdd_clicked();
     void on_buttonDel_clicked();
 };
