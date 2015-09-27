@@ -502,27 +502,34 @@ FormRules::FormRules(QWidget *parent) :
 
     // QMenu *hue_menu = add_menu->addMenu(QIcon("://img/hue.png"), "Philips Hue");
 
-    // action = hue_menu->addAction(tr("Philips Hue RGB bulb"));
-    // action->setIcon(QIcon(":/img/icon_light_on.png"));
-    // connect(action, &QAction::triggered, [=]()
-    // {
-    //     Params p = {{ "type", "HueOutputLightRGB" },
-    //                 { "io_type", "output" }};
-    //     addCalaosIO(p);
-    // });
+
 
     QMenu *hue_menu = add_menu->addMenu(QIcon("://img/hue.png"), "Hue");
 
     action = hue_menu->addAction(tr("Hue Wizard"));
-    action->setIcon(QIcon(":/img/hue_light.png"));
-    connect(action, &QAction::triggered, [=]() {
-            WizardHue dialog(NULL, NULL);
-            if (dialog.exec() == QDialog::Accepted)
+    action->setIcon(QIcon(":/img/icon_light_on.png"));
+    connect(action, &QAction::triggered, [=]()
+    {
+        WizardHue dialog(NULL, NULL);
+        if (dialog.exec() == QDialog::Accepted)
+        {
+            for (Params p: dialog.paramsGet())
             {
-                qDebug() << "Wizard Accepted";
+                p.Add("id", ListeRoom::get_new_id("output_"));
+                IOBase *io = ListeRoom::Instance().createOutput(p, current_room);
+                addItemOutput(io, current_room, true);
             }
-        });
+        }
+     });
 
+     action = hue_menu->addAction(tr("Philips Hue"));
+     action->setIcon(QIcon(":/img/icon_light_on.png"));
+     connect(action, &QAction::triggered, [=]()
+     {
+         Params p = {{ "type", "HueOutputLightRGB" },
+                     { "io_type", "output" }};
+         addCalaosIO(p);
+     });
     
     add_menu->addSeparator();
 

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>636</width>
-    <height>676</height>
+    <width>761</width>
+    <height>660</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -88,7 +88,7 @@ Did you really press the link button on the bridge ?</string>
            <property name="minimumSize">
             <size>
              <width>0</width>
-             <height>590</height>
+             <height>0</height>
             </size>
            </property>
            <property name="iconSize">
@@ -111,12 +111,12 @@ Did you really press the link button on the bridge ?</string>
            </attribute>
            <column>
             <property name="text">
-             <string>icon</string>
+             <string>ID</string>
             </property>
            </column>
            <column>
             <property name="text">
-             <string>name</string>
+             <string>Hue Name</string>
             </property>
            </column>
           </widget>
@@ -189,8 +189,11 @@ Did you really press the link button on the bridge ?</string>
            <property name="minimumSize">
             <size>
              <width>0</width>
-             <height>590</height>
+             <height>0</height>
             </size>
+           </property>
+           <property name="editTriggers">
+            <set>QAbstractItemView::NoEditTriggers</set>
            </property>
            <property name="iconSize">
             <size>
@@ -200,17 +203,22 @@ Did you really press the link button on the bridge ?</string>
            </property>
            <column>
             <property name="text">
-             <string>icon</string>
+             <string>ID</string>
             </property>
            </column>
            <column>
             <property name="text">
-             <string>name</string>
+             <string>Hue Name</string>
             </property>
            </column>
            <column>
             <property name="text">
-             <string>state</string>
+             <string>Calaos Name</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>Room</string>
             </property>
            </column>
           </widget>
@@ -244,8 +252,8 @@ Did you really press the link button on the bridge ?</string>
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>248</x>
-     <y>254</y>
+     <x>257</x>
+     <y>650</y>
     </hint>
     <hint type="destinationlabel">
      <x>157</x>
@@ -260,8 +268,8 @@ Did you really press the link button on the bridge ?</string>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>316</x>
-     <y>260</y>
+     <x>325</x>
+     <y>650</y>
     </hint>
     <hint type="destinationlabel">
      <x>286</x>

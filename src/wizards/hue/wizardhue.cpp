@@ -30,8 +30,11 @@ WizardHue::WizardHue(Room *room, QWidget *parent) :
     QHostAddress h1;
     h1.setAddress("192.168.0.1");
 
-
+    ui->buttonBox->setVisible(false);
     qDebug() << h1.toString();
+
+    connect(this, SIGNAL(accepted()), this, SLOT(on_accepted()));
+    connect(ui->treeSelectedHue, SIGNAL(itemDoubleClicked(QTreeWidgetItem *, int)), this, SLOT(on_treeWidgetItemDoubleClicked(QTreeWidgetItem *, int)));
 }
 
 WizardHue::~WizardHue()
@@ -162,27 +165,21 @@ void WizardHue::configReceived()
     QByteArray response = reply->readAll();
     QJsonParseError error;
     QJsonDocument jsonDoc = QJsonDocument::fromJson(response, &error);
-    QVariantMap var = jsonDoc.toVariant().toMap();
+    hueConfig = jsonDoc.object();
+    QJsonObject jLights = hueConfig["lights"].toObject();
 
-    QVariantMap config = var["lights"].toMap();
-
-    for(auto e : config.keys())
+    int i = 0;
+    for (auto j : jLights)
     {
-        QVariantMap light = config[e].toMap();
-        QString name = light["name"].toString();
+        QJsonObject jObj = j.toObject();
+        QTreeWidgetItem *item = new QTreeWidgetItem(ui->treeAllHue);
 
-        Params param;
-
-        param.Add("hue_id", e.toStdString());
-        param.Add("name", name.toStdString());
-        param.Add("type", "HueOutputLightYUV");
-        IOBase *output = IOFactory::Instance().CreateIO("HueOutputLightYUV", param);
-
-        QTreeWidgetItemOutput *item = new QTreeWidgetItemOutput(output, ui->treeAllHue);
-        item->setIcon(0, QIcon(":/img/light_on.png"));
-        item->setData(1, Qt::DisplayRole, name);
-
+        qDebug() << jObj.keys();
+        item->setData(0, Qt::DisplayRole, jLights.keys().at(i));
+        item->setData(1, Qt::DisplayRole, jObj["name"].toString());
+        i++;
     }
+
 
     for (int i = 0;i < ListeRoom::Instance().size();i++)
     {
@@ -192,36 +189,94 @@ void WizardHue::configReceived()
         {
             IOBase *out = room->get_output(j);
 
-            if (out->get_param("type") != "HueOutputLightYUV")
+            if (out->get_param("type") != "HueOutputLightRGB")
                 continue;
-            QTreeWidgetItemOutput *item = new QTreeWidgetItemOutput(out, ui->treeSelectedHue);
-            item->setIcon(0, QIcon(":/img/light_on.png"));
-            item->setData(1, Qt::DisplayRole, out->get_param("name").c_str());
+            QTreeWidgetItem *item = new QTreeWidgetItem(ui->treeSelectedHue);
+
+            item->setData(0, Qt::DisplayRole, out->get_param("name").c_str());
             QComboBox *comboBox = new QComboBox(ui->treeSelectedHue);
             for (int i = 0;i < ListeRoom::Instance().size();i++)
                 comboBox->addItem(ListeRoom::Instance().get_room(i)->get_name().c_str());
 
-            ui->treeSelectedHue->setItemWidget(item, 2, comboBox);
+            ui->treeSelectedHue->setItemWidget(item, 1, comboBox);
         }
     }
 
-
+    ui->buttonBox->setVisible(true);
 }
 
 void WizardHue::on_buttonAdd_clicked()
-{
-    QTreeWidgetItemOutput *oldItem = reinterpret_cast<QTreeWidgetItemOutput *>(ui->treeAllHue->currentItem());
-    if (oldItem)
+{       
+    QTreeWidgetItem *it = reinterpret_cast<QTreeWidgetItem *>(ui->treeAllHue->currentItem());
+    if (it)
     {
-        IOBase *out = oldItem->getOutput();
-        QTreeWidgetItemOutput *item = new QTreeWidgetItemOutput(oldItem->getOutput(), ui->treeSelectedHue);
+        QString id = it->data(0, Qt::DisplayRole).toString();
+        QString name = it->data(1, Qt::DisplayRole).toString();
+        QJsonObject jLights = hueConfig["lights"].toObject();
+        QJsonObject jObj;
 
-        item->setIcon(0, QIcon(":/img/light_on.png"));
-        item->setData(1, Qt::DisplayRole, out->get_param("name").c_str());
+        for (auto j : jLights)
+        {
+            if ( j.toObject()["name"] == name)
+            {
+                jObj = j.toObject();
+            }
+        }
+
+
+        //QJsonObject jLight = hueConfig["lights"] .at(idx).toObject();
+
+        QTreeWidgetItem *item = new QTreeWidgetItem(ui->treeSelectedHue);
+        item->setData(0, Qt::DisplayRole, id);
+        item->setData(1, Qt::DisplayRole, jObj["name"].toString());
+        item->setData(2, Qt::EditRole, jObj["name"].toString());
+        item->setFlags(item->flags() | Qt::ItemIsEditable);
+
+        QComboBox *comboBox = new QComboBox(ui->treeSelectedHue);
+
+        for (int i = 0;i < ListeRoom::Instance().size();i++)
+        {
+            QString str = ListeRoom::Instance().get_room(i)->get_name().c_str();
+            comboBox->addItem(str);
+            qDebug() << str;
+
+        }
+        ui->treeSelectedHue->setItemWidget(item, 3, comboBox);
+
     }
 }
 
 void WizardHue::on_buttonDel_clicked()
 {
+    QTreeWidgetItem *it = reinterpret_cast<QTreeWidgetItem *>(ui->treeSelectedHue->currentItem());
+    delete it;
 
+}
+
+void WizardHue::on_accepted()
+{
+
+    QTreeWidgetItemIterator it(ui->treeSelectedHue);
+
+    while (*it)
+    {
+        Params param;
+
+        param.Add("id_hue", (*it)->data(0, Qt::DisplayRole).toString().toStdString());
+        param.Add("name", (*it)->data(1, Qt::DisplayRole).toString().toStdString());
+        param.Add("api", apiKey.toStdString());
+        param.Add("host", bridgeAddress.toString().toStdString());
+        param.Add("type", "HueOutputLightRGB");
+        param.Add("io_type", "output");
+        params << param;
+        ++it;
+    }
+
+}
+
+void WizardHue::on_treeWidgetItemDoubleClicked(QTreeWidgetItem * item, int column)
+{
+    if (column == 1) {
+        ui->treeSelectedHue->editItem(item, column);
+    }
 }

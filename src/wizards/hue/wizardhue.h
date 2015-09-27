@@ -10,6 +10,8 @@
 #include <QNetworkReply>
 #include <QUrl>
 #include <QJsonDocument>
+#include <QJsonObject>
+#include <QTreeWidgetItem>
 
 using namespace Calaos;
 
@@ -23,6 +25,7 @@ class WizardHue : public QDialog
     Q_DISABLE_COPY(WizardHue)
 public:
     explicit WizardHue(Room *room, QWidget *parent = 0);
+    QList<Params> paramsGet() {return params; }
     ~WizardHue();
 
 private:
@@ -36,9 +39,13 @@ private:
     QString apiKey;
     int retry;
 
+    QJsonObject hueConfig;
+
     void askForApiKey();
     void askForConfig();
     void hueBridgeDiscover();
+
+    QList<Params>  params;
 
 private slots:
     void readPendingDatagrams(void);
@@ -47,6 +54,8 @@ private slots:
     void configReceived();
     void on_buttonAdd_clicked();
     void on_buttonDel_clicked();
+    void on_accepted();
+    void on_treeWidgetItemDoubleClicked(QTreeWidgetItem * item, int column);
 };
 
 #endif // WIZARDHUE_H

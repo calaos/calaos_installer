@@ -100,6 +100,7 @@ REGISTER_OUTPUT(KNXOutputLightDimmer, "light_dimmer", TSTRING)
 REGISTER_OUTPUT(KNXOutputLightRGB, "light_rgb", TSTRING)
 REGISTER_OUTPUT(KNXOutputShutter, "shutter", TSTRING)
 REGISTER_OUTPUT(KNXOutputShutterSmart, "shutter_smart", TSTRING)
+REGISTER_OUTPUT(HueOutputLightRGB, "light_rgb", TSTRING)
 
 /* Declare InOut class/type */
 REGISTER_INOUT(InputTimer, "timer", TBOOL)
