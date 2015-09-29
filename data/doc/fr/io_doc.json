@@ -1071,14 +1071,14 @@
         "alias": [],
         "parameters": [
             {
-                "description": "TODO",
+                "description": "Unique ID describing the Hue Light. This value is returned by the Hue Wizard.",
                 "mandatory": "true",
                 "name": "id_hue",
                 "readonly": "false",
                 "type": "string"
             },
             {
-                "description": "TODO",
+                "description": "API key return by Hue bridge when assciation has been made. Use Hue Wizard in calaos_installer to get this value automatically.",
                 "mandatory": "true",
                 "name": "api",
                 "readonly": "false",
@@ -6098,9 +6098,30 @@
         "actions": []
     },
     "WebInputAnalog": {
-        "description": " An analog input can be used to read analog values to display them and use them in rules.",
+        "description": "Analog input read from a web document An analog input can be used to read analog values to display them and use them in rules.",
         "alias": [],
         "parameters": [
+            {
+                "description": "The path where to found the value. This value can take multiple values depending on the file type. If file_type is JSON, the json file downloaded will be read, and the informations will be extracted from the path. for example weather[0]/description, try to read the description value of the 1 element of the array of the weather object.\nIf file_type is XML, the path is an xpath expression; Look here for syntax : http://www.w3schools.com/xsl/xpath_syntax.asp If file_type is TEXT, the downloaded file is returned as plain text file, and path must be in the form line/pos/separator Line is read, and is split using separator as delimiters The value returned is the value at pos in the split list. If the separator is not found, the whole line is returned. Example the file contains \n10.0,10.1,10.2,10.3\n20.0,20.1,20.2,20.3\nIf the path is 2/4/, the value returne wil be 20.3\n",
+                "mandatory": "true",
+                "name": "path",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "File type of the document. Values can be xml, json or text.",
+                "mandatory": "true",
+                "name": "file_type",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "URL where to download the document from\nIf URL begins with file:// the data is read from the local file",
+                "mandatory": "true",
+                "name": "url",
+                "readonly": "false",
+                "type": "string"
+            },
             {
                 "description": "Name of Input/Output.",
                 "mandatory": "true",
@@ -6194,9 +6215,23 @@
         "actions": []
     },
     "WebInputString": {
-        "description": "",
+        "description": "String input providing from a web document",
         "alias": [],
         "parameters": [
+            {
+                "description": "The path where to found the value. This value can take multiple values depending on the file type. If file_type is JSON, the json file downloaded will be read, and the informations will be extracted from the path. for example weather[0]/description, try to read the description value of the 1 element of the array of the weather object.\nIf file_type is XML, the path is an xpath expression; Look here for syntax : http://www.w3schools.com/xsl/xpath_syntax.asp If file_type is TEXT, the downloaded file is returned as plain text file, and path must be in the form line/pos/separator Line is read, and is split using separator as delimiters The value returned is the value at pos in the split list. If the separator is not found, the whole line is returned. Example the file contains \n10.0,10.1,10.2,10.3\n20.0,20.1,20.2,20.3\nIf the path is 2/4/, the value returne wil be 20.3\n",
+                "mandatory": "true",
+                "name": "path",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "URL where to download the document from.\nIf URL begins with file:// the data is read from the local file",
+                "mandatory": "true",
+                "name": "url",
+                "readonly": "false",
+                "type": "string"
+            },
             {
                 "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
                 "mandatory": "false",
@@ -6218,6 +6253,13 @@
                 "name": "visible",
                 "readonly": "false",
                 "type": "bool"
+            },
+            {
+                "description": "File type of the document. Values can be xml, json or text.",
+                "mandatory": "true",
+                "name": "file_type",
+                "readonly": "false",
+                "type": "string"
             },
             {
                 "description": "IO type, can be \"input\", \"output\", \"inout\"",
@@ -6246,9 +6288,30 @@
         "actions": []
     },
     "WebInputTemp": {
-        "description": " Temperature sensor input. Use for displaying temperature and to control heating devices with rules based on temperature value",
+        "description": "Temperature input read from a web document Temperature sensor input. Use for displaying temperature and to control heating devices with rules based on temperature value",
         "alias": [],
         "parameters": [
+            {
+                "description": "The path where to found the value. This value can take multiple values depending on the file type. If file_type is JSON, the json file downloaded will be read, and the informations will be extracted from the path. for example weather[0]/description, try to read the description value of the 1 element of the array of the weather object.\nIf file_type is XML, the path is an xpath expression; Look here for syntax : http://www.w3schools.com/xsl/xpath_syntax.asp If file_type is TEXT, the downloaded file is returned as plain text file, and path must be in the form line/pos/separator Line is read, and is split using separator as delimiters The value returned is the value at pos in the split list. If the separator is not found, the whole line is returned. Example the file contains \n10.0,10.1,10.2,10.3\n20.0,20.1,20.2,20.3\nIf the path is 2/4/, the value returne wil be 20.3\n",
+                "mandatory": "true",
+                "name": "path",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "File type of the document. Values can be xml, json or text.",
+                "mandatory": "true",
+                "name": "file_type",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "URL where to download the document from.\nIf URL begins with file:// the data is read from the local file",
+                "mandatory": "true",
+                "name": "url",
+                "readonly": "false",
+                "type": "string"
+            },
             {
                 "description": "Name of Input/Output.",
                 "mandatory": "true",
@@ -6342,21 +6405,43 @@
         "actions": []
     },
     "WebOutputLight": {
-        "description": " Basic light. This light have only 2 states, ON or OFF. Can also be used to control simple relays output",
+        "description": "Bool output written to a web document or URL Basic light. This light have only 2 states, ON or OFF. Can also be used to control simple relays output",
         "alias": [],
         "parameters": [
             {
-                "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
+                "description": "The path where to found the value. This value can take multiple values depending on the file type. If file_type is JSON, the json file downloaded will be read, and the informations will be extracted from the path. for example weather[0]/description, try to read the description value of the 1 element of the array of the weather object.\nIf file_type is XML, the path is an xpath expression; Look here for syntax : http://www.w3schools.com/xsl/xpath_syntax.asp If file_type is TEXT, the downloaded file is returned as plain text file, and path must be in the form line/pos/separator Line is read, and is split using separator as delimiters The value returned is the value at pos in the split list. If the separator is not found, the whole line is returned. Example the file contains \n10.0,10.1,10.2,10.3\n20.0,20.1,20.2,20.3\nIf the path is 2/4/, the value returne wil be 20.3\n",
+                "mandatory": "true",
+                "name": "path",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "default": "true",
+                "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
                 "mandatory": "false",
-                "name": "gui_type",
+                "name": "enabled",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "description": "Name of Input/Output.",
+                "mandatory": "true",
+                "name": "name",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "IO type, can be \"input\", \"output\", \"inout\"",
+                "mandatory": "true",
+                "name": "io_type",
                 "readonly": "true",
                 "type": "string"
             },
             {
-                "description": "Unique ID identifying the Input/Output in calaos-server",
+                "description": "File type of the document. Values can be xml, json or text.",
                 "mandatory": "true",
-                "name": "id",
-                "readonly": "true",
+                "name": "file_type",
+                "readonly": "false",
                 "type": "string"
             },
             {
@@ -6368,26 +6453,39 @@
                 "type": "bool"
             },
             {
-                "description": "IO type, can be \"input\", \"output\", \"inout\"",
+                "description": "Unique ID identifying the Input/Output in calaos-server",
                 "mandatory": "true",
-                "name": "io_type",
+                "name": "id",
                 "readonly": "true",
                 "type": "string"
             },
             {
-                "description": "Name of Input/Output.",
+                "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
+                "mandatory": "false",
+                "name": "gui_type",
+                "readonly": "true",
+                "type": "string"
+            },
+            {
+                "description": "URL where to POST the document to. The POST request is associated with the data field if not void. When no data is provided, Calaos substitutes __##VALUE##__ string with the value to send. For example if the url is http://example.com/api?value=__##VALUE##__ the url post will be :\nhttp://example.com/api?value=20.3\nThe url is encoded before being sent.\nIf the URL is of type file:// the data is written to a file.",
                 "mandatory": "true",
-                "name": "name",
+                "name": "url",
                 "readonly": "false",
                 "type": "string"
             },
             {
-                "default": "true",
-                "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
-                "mandatory": "false",
-                "name": "enabled",
+                "description": "The document send when posting data. This value can be void, in, that case the value is substituted in the url, otherwise the __##VALUE##__ contained in data is substituted with with the value to be sent.",
+                "mandatory": "true",
+                "name": "data",
                 "readonly": "false",
-                "type": "bool"
+                "type": "string"
+            },
+            {
+                "description": "The HTTP header Content-Type used when posting the document. It depends on the website, but you can use application/json application/xml as correct values.",
+                "mandatory": "true",
+                "name": "data_type",
+                "readonly": "false",
+                "type": "string"
             }
         ],
         "conditions": [
@@ -6436,21 +6534,43 @@
         ]
     },
     "WebOutputLightRGB": {
-        "description": " RGB light. Choose a color to be set for this light.",
+        "description": "Bool output written to a web document or URL RGB light. Choose a color to be set for this light.",
         "alias": [],
         "parameters": [
             {
-                "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
+                "description": "The path where to found the value. This value can take multiple values depending on the file type. If file_type is JSON, the json file downloaded will be read, and the informations will be extracted from the path. for example weather[0]/description, try to read the description value of the 1 element of the array of the weather object.\nIf file_type is XML, the path is an xpath expression; Look here for syntax : http://www.w3schools.com/xsl/xpath_syntax.asp If file_type is TEXT, the downloaded file is returned as plain text file, and path must be in the form line/pos/separator Line is read, and is split using separator as delimiters The value returned is the value at pos in the split list. If the separator is not found, the whole line is returned. Example the file contains \n10.0,10.1,10.2,10.3\n20.0,20.1,20.2,20.3\nIf the path is 2/4/, the value returne wil be 20.3\n",
+                "mandatory": "true",
+                "name": "path",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "default": "true",
+                "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
                 "mandatory": "false",
-                "name": "gui_type",
+                "name": "enabled",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "description": "Name of Input/Output.",
+                "mandatory": "true",
+                "name": "name",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "IO type, can be \"input\", \"output\", \"inout\"",
+                "mandatory": "true",
+                "name": "io_type",
                 "readonly": "true",
                 "type": "string"
             },
             {
-                "description": "Unique ID identifying the Input/Output in calaos-server",
+                "description": "File type of the document. Values can be xml, json or text.",
                 "mandatory": "true",
-                "name": "id",
-                "readonly": "true",
+                "name": "file_type",
+                "readonly": "false",
                 "type": "string"
             },
             {
@@ -6462,26 +6582,39 @@
                 "type": "bool"
             },
             {
-                "description": "IO type, can be \"input\", \"output\", \"inout\"",
+                "description": "Unique ID identifying the Input/Output in calaos-server",
                 "mandatory": "true",
-                "name": "io_type",
+                "name": "id",
                 "readonly": "true",
                 "type": "string"
             },
             {
-                "description": "Name of Input/Output.",
+                "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
+                "mandatory": "false",
+                "name": "gui_type",
+                "readonly": "true",
+                "type": "string"
+            },
+            {
+                "description": "URL where to POST the document to. The POST request is associated with the data field if not void. When no data is provided, Calaos substitutes __##VALUE##__ string with the value to send. For example if the url is http://example.com/api?value=__##VALUE##__ the url post will be :\nhttp://example.com/api?value=20.3\nThe url is encoded before being sent.\nIf the URL is of type file:// the data is written to a file.",
                 "mandatory": "true",
-                "name": "name",
+                "name": "url",
                 "readonly": "false",
                 "type": "string"
             },
             {
-                "default": "true",
-                "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
-                "mandatory": "false",
-                "name": "enabled",
+                "description": "The document send when posting data. This value can be void, in, that case the value is substituted in the url, otherwise the __##VALUE##__ contained in data is substituted with with the value to be sent.",
+                "mandatory": "true",
+                "name": "data",
                 "readonly": "false",
-                "type": "bool"
+                "type": "string"
+            },
+            {
+                "description": "The HTTP header Content-Type used when posting the document. It depends on the website, but you can use application/json application/xml as correct values.",
+                "mandatory": "true",
+                "name": "data_type",
+                "readonly": "false",
+                "type": "string"
             }
         ],
         "conditions": [
@@ -6562,21 +6695,43 @@
         ]
     },
     "WebOutputString": {
-        "description": "",
+        "description": "String output written to a web document or URL",
         "alias": [],
         "parameters": [
             {
-                "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
+                "description": "The path where to found the value. This value can take multiple values depending on the file type. If file_type is JSON, the json file downloaded will be read, and the informations will be extracted from the path. for example weather[0]/description, try to read the description value of the 1 element of the array of the weather object.\nIf file_type is XML, the path is an xpath expression; Look here for syntax : http://www.w3schools.com/xsl/xpath_syntax.asp If file_type is TEXT, the downloaded file is returned as plain text file, and path must be in the form line/pos/separator Line is read, and is split using separator as delimiters The value returned is the value at pos in the split list. If the separator is not found, the whole line is returned. Example the file contains \n10.0,10.1,10.2,10.3\n20.0,20.1,20.2,20.3\nIf the path is 2/4/, the value returne wil be 20.3\n",
+                "mandatory": "true",
+                "name": "path",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "default": "true",
+                "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
                 "mandatory": "false",
-                "name": "gui_type",
+                "name": "enabled",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "description": "Name of Input/Output.",
+                "mandatory": "true",
+                "name": "name",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "IO type, can be \"input\", \"output\", \"inout\"",
+                "mandatory": "true",
+                "name": "io_type",
                 "readonly": "true",
                 "type": "string"
             },
             {
-                "description": "Unique ID identifying the Input/Output in calaos-server",
+                "description": "File type of the document. Values can be xml, json or text.",
                 "mandatory": "true",
-                "name": "id",
-                "readonly": "true",
+                "name": "file_type",
+                "readonly": "false",
                 "type": "string"
             },
             {
@@ -6588,26 +6743,39 @@
                 "type": "bool"
             },
             {
-                "description": "IO type, can be \"input\", \"output\", \"inout\"",
+                "description": "Unique ID identifying the Input/Output in calaos-server",
                 "mandatory": "true",
-                "name": "io_type",
+                "name": "id",
                 "readonly": "true",
                 "type": "string"
             },
             {
-                "description": "Name of Input/Output.",
+                "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
+                "mandatory": "false",
+                "name": "gui_type",
+                "readonly": "true",
+                "type": "string"
+            },
+            {
+                "description": "URL where to POST the document to. The POST request is associated with the data field if not void. When no data is provided, Calaos substitutes __##VALUE##__ string with the value to send. For example if the url is http://example.com/api?value=__##VALUE##__ the url post will be :\nhttp://example.com/api?value=20.3\nThe url is encoded before being sent.",
                 "mandatory": "true",
-                "name": "name",
+                "name": "url",
                 "readonly": "false",
                 "type": "string"
             },
             {
-                "default": "true",
-                "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
-                "mandatory": "false",
-                "name": "enabled",
+                "description": "The document send when posting data. This value can be void, in, that case the value is substituted in the url, otherwise the __##VALUE##__ contained in data is substituted with with the value to be sent.",
+                "mandatory": "true",
+                "name": "data",
                 "readonly": "false",
-                "type": "bool"
+                "type": "string"
+            },
+            {
+                "description": "The HTTP header Content-Type used when posting the document. It depends on the website, but you can use application/json application/xml as correct values.",
+                "mandatory": "true",
+                "name": "data_type",
+                "readonly": "false",
+                "type": "string"
             }
         ],
         "conditions": [],
