@@ -6534,15 +6534,15 @@
         ]
     },
     "WebOutputLightRGB": {
-        "description": "Bool output written to a web document or URL RGB light. Choose a color to be set for this light.",
+        "description": "RGB value written to a web document or URL RGB light. Choose a color to be set for this light.",
         "alias": [],
         "parameters": [
             {
-                "description": "The path where to found the value. This value can take multiple values depending on the file type. If file_type is JSON, the json file downloaded will be read, and the informations will be extracted from the path. for example weather[0]/description, try to read the description value of the 1 element of the array of the weather object.\nIf file_type is XML, the path is an xpath expression; Look here for syntax : http://www.w3schools.com/xsl/xpath_syntax.asp If file_type is TEXT, the downloaded file is returned as plain text file, and path must be in the form line/pos/separator Line is read, and is split using separator as delimiters The value returned is the value at pos in the split list. If the separator is not found, the whole line is returned. Example the file contains \n10.0,10.1,10.2,10.3\n20.0,20.1,20.2,20.3\nIf the path is 2/4/, the value returne wil be 20.3\n",
-                "mandatory": "true",
-                "name": "path",
+                "description": "RGB value has #RRGGBB. Sometimes some web api take only RRGGBBformat. If raw_value is true, the # in front of the line isremoved. The default value for this parameter is false.",
+                "mandatory": "false",
+                "name": "raw_value",
                 "readonly": "false",
-                "type": "string"
+                "type": "bool"
             },
             {
                 "default": "true",
@@ -6603,7 +6603,7 @@
                 "type": "string"
             },
             {
-                "description": "The document send when posting data. This value can be void, in, that case the value is substituted in the url, otherwise the __##VALUE##__ contained in data is substituted with with the value to be sent.",
+                "description": "The document send when posting data. This value can be void, in, that case the value is substituted in the url, otherwise the __##VALUE##__ contained in data is substituted with with the value to be sent. Value sent has #RRGGBB format or RRGGBB depending on raw_value boolean",
                 "mandatory": "true",
                 "name": "data",
                 "readonly": "false",
