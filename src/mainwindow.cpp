@@ -5,6 +5,7 @@
 #include "DialogOptions.h"
 #include "dialogautodetect.h"
 #include "DialogCreateNewImage.h"
+#include "WidgetIPAddr.h"
 
 MainWindow::MainWindow(QWidget *parent):
     QMainWindow(parent),
@@ -400,6 +401,7 @@ void MainWindow::wagoConnected(QString &, bool)
     ui->actionProgrammer_l_automate->setEnabled(true);
     ui->actionDALI->setEnabled(true);
     ui->actionMise_jour_Automate->setEnabled(true);
+    ui->actionSet_DMX4ALL_IP_Address->setEnabled(true);
 
     statusConnectText->setText(QString(tr("Connected (%1)")).arg(WagoConnect::Instance().getWagoVersion()));
     statusConnectIcon->setPixmap(QPixmap(":/img/user-online_16x16.png"));
@@ -412,6 +414,7 @@ void MainWindow::wagoDisconnected()
     ui->actionProgrammer_l_automate->setEnabled(false);
     ui->actionDALI->setEnabled(false);
     ui->actionMise_jour_Automate->setEnabled(false);
+    ui->actionSet_DMX4ALL_IP_Address->setEnabled(false);
 
     statusConnectText->setText(tr("Disconnected."));
     statusConnectIcon->setPixmap(QPixmap(":/img/user-invisible_16x16.png"));
@@ -553,7 +556,8 @@ void MainWindow::on_actionMise_jour_Automate_triggered()
     {
         if (WagoConnect::Instance().getWagoType() == "750-841" ||
             WagoConnect::Instance().getWagoType() == "750-849" ||
-            WagoConnect::Instance().getWagoType() == "750-881")
+            WagoConnect::Instance().getWagoType() == "750-881" ||
+            WagoConnect::Instance().getWagoType() == "750-889")
         {
             if (QMessageBox::question(NULL, tr("Calaos Installer"),
                                       tr("Your PLC can be upgraded to the latest version right now, do it?"),
@@ -604,4 +608,52 @@ void MainWindow::on_actionCreateNewImage_triggered()
 {
     DialogCreateNewImage d;
     d.exec();
+}
+
+void MainWindow::on_actionSet_DMX4ALL_IP_Address_triggered()
+{
+    if (WagoConnect::Instance().getConnectionStatus() == WAGO_CONNECTED)
+    {
+        if (WagoConnect::Instance().getWagoType() == "750-841" ||
+            WagoConnect::Instance().getWagoType() == "750-849" ||
+            WagoConnect::Instance().getWagoType() == "750-880" ||
+            WagoConnect::Instance().getWagoType() == "750-881" ||
+            WagoConnect::Instance().getWagoType() == "750-889")
+        {
+            QDialog *d = new QDialog(this);
+            d->setWindowFlags(d->windowFlags() & ~Qt::WindowContextHelpButtonHint);
+
+            QVBoxLayout *vLayout = new QVBoxLayout(d);
+            QLabel *label = new QLabel();
+            label->setText(tr("Please enter the IP address of the DMX4ALL:"));
+            vLayout->addWidget(label);
+
+            WidgetIPAddr *wip = new WidgetIPAddr(0);
+            vLayout->addWidget(wip);
+
+            QDialogButtonBox *bbox = new QDialogButtonBox(0);
+            bbox->setStandardButtons(QDialogButtonBox::Cancel|QDialogButtonBox::Ok);
+            vLayout->addWidget(bbox);
+            connect(bbox, SIGNAL(rejected()), d, SLOT(reject()));
+            connect(bbox, SIGNAL(accepted()), d, SLOT(accept()));
+
+            d->layout()->setSizeConstraint(QLayout::SetFixedSize);
+
+            if (d->exec() == QDialog::Accepted)
+            {
+                QHostAddress address(wip->getIPAddress());
+                if (QAbstractSocket::IPv4Protocol == address.protocol())
+                {
+                    WagoConnect::Instance().SendCommand(QString("WAGO_SET_DMX_IP %1").arg(wip->getIPAddress()));
+                    QMessageBox::information(this, tr("Calaos Installer"), tr("IP Address changed successfully"));
+                }
+                else
+                    QMessageBox::critical(this, tr("Calaos Installer"), tr("Wrong IP Address!"));
+            }
+        }
+        else
+        {
+            QMessageBox::critical(this, tr("Calaos Installer"), tr("DMX4ALL configuration is not available on your PLC!"));
+        }
+    }
 }

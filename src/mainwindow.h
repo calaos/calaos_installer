@@ -100,6 +100,7 @@ private slots:
     void on_btHelp_clicked();
     void on_btAutodetect_clicked();
     void on_actionCreateNewImage_triggered();
+    void on_actionSet_DMX4ALL_IP_Address_triggered();
 };
 
 #endif // MAINWINDOW_H

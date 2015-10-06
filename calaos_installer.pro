@@ -94,8 +94,8 @@ SOURCES += src/main.cpp \
     src/DialogListProperties.cpp \
     src/BalloonTip.cpp \
     src/WidgetIOProperties.cpp \
-    src/dialognewweboutputstring.cpp \
-    src/wizards/hue/wizardhue.cpp
+    src/wizards/hue/wizardhue.cpp \
+    src/WidgetIPAddr.cpp
 
 HEADERS += src/mainwindow.h \
     src/common/Utils.h \
@@ -183,8 +183,8 @@ HEADERS += src/mainwindow.h \
     src/BalloonTip.h \
     src/WidgetIOProperties.h \
     src/common/LuaScript/lua-5.1.4/src/lua.h \
-    src/dialognewweboutputstring.h \
-    src/wizards/hue/wizardhue.h
+    src/wizards/hue/wizardhue.h \
+    src/WidgetIPAddr.h
 
 
 FORMS += \
