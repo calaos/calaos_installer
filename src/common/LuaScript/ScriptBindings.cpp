@@ -143,24 +143,35 @@ int Lua_Calaos::getIOValue(lua_State *L)
 
     if (nb == 1 && lua_isstring(L, 1))
     {
-        string io = lua_tostring(L, 1);
-        IOBase *input = ListeRoom::Instance().get_input(io);
-        switch (input->get_type())
+        string id = lua_tostring(L, 1);
+        IOBase *io = ListeRoom::Instance().get_input(id);
+        if (!io)
+            io = ListeRoom::Instance().get_output(id);
+        if (!io)
         {
-        case TBOOL:
-            lua_pushboolean(L, true);
-            break;
-        case TINT:
-            lua_pushnumber(L, 42);
-            break;
-        case TSTRING:
-            lua_pushstring(L, "18.42");
-            break;
-        case TUNKNOWN :
-            lua_pushstring(L, "unknown");
-            break;
-        default:
-            break;
+            string err = "getIOValue(): invalid io ID (" + id + "). Requires an existing Input or Output ID.";
+            lua_pushstring(L, err.c_str());
+            lua_error(L);
+        }
+        else
+        {
+            switch (io->get_type())
+            {
+            case TBOOL:
+                lua_pushboolean(L, true);
+                break;
+            case TINT:
+                lua_pushnumber(L, 42);
+                break;
+            case TSTRING:
+                lua_pushstring(L, "18.42");
+                break;
+            case TUNKNOWN :
+                lua_pushstring(L, "unknown");
+                break;
+            default:
+                break;
+            }
         }
     }
     else
