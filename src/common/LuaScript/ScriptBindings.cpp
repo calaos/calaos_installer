@@ -143,7 +143,25 @@ int Lua_Calaos::getIOValue(lua_State *L)
 
     if (nb == 1 && lua_isstring(L, 1))
     {
-        lua_pushstring(L, "test");
+        string io = lua_tostring(L, 1);
+        IOBase *input = ListeRoom::Instance().get_input(io);
+        switch (input->get_type())
+        {
+        case TBOOL:
+            lua_pushboolean(L, true);
+            break;
+        case TINT:
+            lua_pushnumber(L, 42);
+            break;
+        case TSTRING:
+            lua_pushstring(L, "18.42");
+            break;
+        case TUNKNOWN :
+            lua_pushstring(L, "unknown");
+            break;
+        default:
+            break;
+        }
     }
     else
     {
