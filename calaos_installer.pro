@@ -313,6 +313,10 @@ HEADERS += src/common/LuaScript/lua-5.1.4/src/luaconf.h \
 INCLUDEPATH += src/common/LuaScript/lua-5.1.4/src/ \
     src/common/LuaScript/lua-5.1.4/etc/
 
+unix {
+    LIBS += -ldl
+}
+
 win32 {
     RC_FILE = win32/windows_res.rc
 }
