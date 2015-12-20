@@ -326,7 +326,10 @@ TRANSLATIONS = \
     lang/calaos_installer_de.ts \
     lang/calaos_installer_es.ts \ 
     lang/calaos_installer_nb.ts \
-    lang/calaos_installer_hi.ts
+    lang/calaos_installer_hi.ts \
+    lang/calaos_installer_pl.ts \
+    lang/calaos_installer_ru.ts
+
 
 #Build *.qm translation files automatically
 
