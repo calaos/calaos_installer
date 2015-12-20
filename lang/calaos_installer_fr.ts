@@ -2649,7 +2649,7 @@ HTTP error: </translation>
     <message>
         <location filename="../src/DialogScriptEditor.cpp" line="235"/>
         <source>The script was successfully executed.</source>
-        <translation>Le script a été exécuté avec succès.</translation>
+        <translation>Le script a été exécuter avec succès.</translation>
     </message>
     <message>
         <location filename="../src/DialogScriptEditor.cpp" line="271"/>

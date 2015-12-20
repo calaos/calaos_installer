@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="nb_NO">
+<TS version="2.1" language="nb">
 <context>
     <name>ClearLineEdit</name>
     <message>
         <location filename="../src/ClearLineEdit.cpp" line="14"/>
         <source>Clear text</source>
-        <translation type="unfinished"></translation>
+        <translation>Tøm tekst</translation>
     </message>
     <message>
         <location filename="../src/ClearLineEdit.cpp" line="17"/>
         <source>Filter...</source>
-        <translation type="unfinished"></translation>
+        <translation>Filter …</translation>
     </message>
 </context>
 <context>
@@ -19,12 +19,12 @@
     <message>
         <location filename="../data/dialogautodetect.ui" line="14"/>
         <source>Dialog</source>
-        <translation type="unfinished"></translation>
+        <translation>Dialog</translation>
     </message>
     <message>
         <location filename="../data/dialogautodetect.ui" line="20"/>
         <source>Calaos Server Autodetection</source>
-        <translation type="unfinished"></translation>
+        <translation>Automatisk søk etter Calaos Server</translation>
     </message>
 </context>
 <context>
@@ -32,7 +32,7 @@
     <message>
         <location filename="../data/DialogCameraView.ui" line="32"/>
         <source>Camera</source>
-        <translation type="unfinished"></translation>
+        <translation>Kamera</translation>
     </message>
     <message>
         <location filename="../data/DialogCameraView.ui" line="42"/>
@@ -41,17 +41,17 @@
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; font-size:12pt; font-weight:600;&quot;&gt;Camera View&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Kameravisning</translation>
     </message>
     <message>
         <location filename="../src/dialogcameraview.cpp" line="69"/>
         <source>Calaos Installer: Erreur !</source>
-        <translation type="unfinished"></translation>
+        <translation>Calaos Installer: Feil !</translation>
     </message>
     <message>
         <location filename="../src/dialogcameraview.cpp" line="82"/>
         <source>Calaos Installer: Error, image is NULL !</source>
-        <translation type="unfinished"></translation>
+        <translation>Calaos Installer: Feil, bilde mangler !</translation>
     </message>
 </context>
 <context>
@@ -59,7 +59,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../data/DialogConnect.ui" line="20"/>
         <source>Controller connexion...</source>
-        <translation type="unfinished"></translation>
+        <translation>Kontroller tilkobling</translation>
     </message>
     <message>
         <location filename="../data/DialogConnect.ui" line="32"/>
@@ -68,7 +68,7 @@ p, li { white-space: pre-wrap; }
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; font-size:10pt; font-weight:600;&quot;&gt;Wago PLC connexion&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Wago PLS tilkobling</translation>
     </message>
     <message>
         <location filename="../data/DialogConnect.ui" line="70"/>
@@ -82,17 +82,17 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;Sans Serif&apos;; font-size:9pt; color:#797979;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; font-size:9pt; color:#797979;&quot;&gt;You can find more informations on the support web site : &lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://support.calaos.fr&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; font-size:9pt; text-decoration: underline; color:#0000ff;&quot;&gt;http://calaos.fr/wiki&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Tilkoblingen til kontrolleren er brukt til &quot;fale safe mode&quot;. For å koble til kontrolleren må du først sette en IP-adresse. Standard verdi for IP-adressen er Du kan finne mer informasjon på support hjemmesiden :</translation>
     </message>
     <message>
         <location filename="../data/DialogConnect.ui" line="99"/>
         <source>PLC IP Address :</source>
-        <translation type="unfinished"></translation>
+        <translation>PLS IP Adresse :</translation>
     </message>
     <message>
         <location filename="../data/DialogConnect.ui" line="106"/>
         <source>10.0.0.123</source>
-        <translation type="unfinished"></translation>
+        <translation>10.0.0.123</translation>
     </message>
 </context>
 <context>
@@ -100,7 +100,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../data/DialogCreateNewImage.ui" line="14"/>
         <source>Dialog</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Dialog</translation>
     </message>
     <message>
         <location filename="../data/DialogCreateNewImage.ui" line="22"/>
@@ -194,37 +194,37 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../data/DialogDaliDeviceConfig.ui" line="14"/>
         <source>Dali device configuration</source>
-        <translation type="unfinished"></translation>
+        <translation>Dali enhetskonfigurasjon</translation>
     </message>
     <message>
         <location filename="../data/DialogDaliDeviceConfig.ui" line="20"/>
         <source>Configuration</source>
-        <translation type="unfinished"></translation>
+        <translation>Konfigurasjon</translation>
     </message>
     <message>
         <location filename="../data/DialogDaliDeviceConfig.ui" line="31"/>
         <source>Fade rate</source>
-        <translation type="unfinished"></translation>
+        <translation>Fade hastighet</translation>
     </message>
     <message>
         <location filename="../data/DialogDaliDeviceConfig.ui" line="52"/>
         <source>Fade time</source>
-        <translation type="unfinished"></translation>
+        <translation>Fade tid</translation>
     </message>
     <message>
         <location filename="../data/DialogDaliDeviceConfig.ui" line="70"/>
         <source>Max value</source>
-        <translation type="unfinished"></translation>
+        <translation>Maks verdi</translation>
     </message>
     <message>
         <location filename="../data/DialogDaliDeviceConfig.ui" line="91"/>
         <source>Min value</source>
-        <translation type="unfinished"></translation>
+        <translation>Minimum verdi</translation>
     </message>
     <message>
         <location filename="../data/DialogDaliDeviceConfig.ui" line="112"/>
         <source>System failure level</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Systemfeil </translation>
     </message>
     <message>
         <location filename="../data/DialogDaliDeviceConfig.ui" line="133"/>
@@ -275,23 +275,23 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../data/DialogEditTimeRange.ui" line="65"/>
         <source>Delete</source>
-        <translation type="unfinished"></translation>
+        <translation>Slett</translation>
     </message>
     <message>
         <location filename="../data/DialogEditTimeRange.ui" line="82"/>
         <source>Time Range Options</source>
-        <translation type="unfinished"></translation>
+        <translation>Tidsområde </translation>
     </message>
     <message>
         <location filename="../data/DialogEditTimeRange.ui" line="94"/>
         <source>Start time:</source>
-        <translation type="unfinished"></translation>
+        <translation>Starttid:</translation>
     </message>
     <message>
         <location filename="../data/DialogEditTimeRange.ui" line="105"/>
         <location filename="../data/DialogEditTimeRange.ui" line="325"/>
         <source>Fixed time</source>
-        <translation type="unfinished"></translation>
+        <translation>Fastsatt tid</translation>
     </message>
     <message>
         <location filename="../data/DialogEditTimeRange.ui" line="110"/>
@@ -299,7 +299,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../src/DialogEditTimeRange.cpp" line="159"/>
         <location filename="../src/DialogEditTimeRange.cpp" line="174"/>
         <source>Sunrise</source>
-        <translation type="unfinished"></translation>
+        <translation>Soloppgang</translation>
     </message>
     <message>
         <location filename="../data/DialogEditTimeRange.ui" line="115"/>
@@ -307,7 +307,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../src/DialogEditTimeRange.cpp" line="161"/>
         <location filename="../src/DialogEditTimeRange.cpp" line="176"/>
         <source>Sunset</source>
-        <translation type="unfinished"></translation>
+        <translation>Solnedgang</translation>
     </message>
     <message>
         <location filename="../data/DialogEditTimeRange.ui" line="120"/>
@@ -315,13 +315,13 @@ p, li { white-space: pre-wrap; }
         <location filename="../src/DialogEditTimeRange.cpp" line="163"/>
         <location filename="../src/DialogEditTimeRange.cpp" line="178"/>
         <source>Noon</source>
-        <translation type="unfinished"></translation>
+        <translation>Klokka 12</translation>
     </message>
     <message>
         <location filename="../data/DialogEditTimeRange.ui" line="150"/>
         <location filename="../data/DialogEditTimeRange.ui" line="370"/>
         <source>Fixed Time:</source>
-        <translation type="unfinished"></translation>
+        <translation>Fastsatt tid:</translation>
     </message>
     <message>
         <location filename="../data/DialogEditTimeRange.ui" line="163"/>
@@ -329,7 +329,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../data/DialogEditTimeRange.ui" line="383"/>
         <location filename="../data/DialogEditTimeRange.ui" line="486"/>
         <source>HH:mm:ss</source>
-        <translation type="unfinished"></translation>
+        <translation>HH:mm:ss</translation>
     </message>
     <message>
         <location filename="../data/DialogEditTimeRange.ui" line="205"/>
@@ -383,50 +383,50 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../data/DialogEditTimeRange.ui" line="561"/>
         <source>Thu</source>
-        <translation type="unfinished"></translation>
+        <translation>Tor</translation>
     </message>
     <message>
         <location filename="../data/DialogEditTimeRange.ui" line="568"/>
         <source>Fri</source>
-        <translation type="unfinished"></translation>
+        <translation>Fre</translation>
     </message>
     <message>
         <location filename="../data/DialogEditTimeRange.ui" line="575"/>
         <source>Sat</source>
-        <translation type="unfinished"></translation>
+        <translation>Lør</translation>
     </message>
     <message>
         <location filename="../data/DialogEditTimeRange.ui" line="582"/>
         <source>Sun</source>
-        <translation type="unfinished"></translation>
+        <translation>Søn</translation>
     </message>
     <message>
         <location filename="../data/DialogEditTimeRange.ui" line="592"/>
         <source>Apply</source>
-        <translation type="unfinished"></translation>
+        <translation>Utfør</translation>
     </message>
     <message>
         <location filename="../data/DialogEditTimeRange.ui" line="608"/>
         <source>Months</source>
-        <translation type="unfinished"></translation>
+        <translation>Måneder</translation>
     </message>
     <message>
         <location filename="../data/DialogEditTimeRange.ui" line="616"/>
         <location filename="../data/DialogEditTimeRange.ui" line="651"/>
         <location filename="../data/DialogEditTimeRange.ui" line="658"/>
         <source>J</source>
-        <translation type="unfinished"></translation>
+        <translation>J</translation>
     </message>
     <message>
         <location filename="../data/DialogEditTimeRange.ui" line="623"/>
         <source>F</source>
-        <translation type="unfinished"></translation>
+        <translation>F</translation>
     </message>
     <message>
         <location filename="../data/DialogEditTimeRange.ui" line="630"/>
         <location filename="../data/DialogEditTimeRange.ui" line="644"/>
         <source>M</source>
-        <translation type="unfinished"></translation>
+        <translation>M</translation>
     </message>
     <message>
         <location filename="../data/DialogEditTimeRange.ui" line="637"/>
@@ -477,12 +477,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/DialogEditTimeRange.cpp" line="185"/>
         <source>New empty range...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Nytt tomt område</translation>
     </message>
     <message>
         <location filename="../src/DialogEditTimeRange.cpp" line="186"/>
         <source>Click to edit</source>
-        <translation type="unfinished"></translation>
+        <translation>Klikk for å redigere</translation>
     </message>
 </context>
 <context>
@@ -490,22 +490,22 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../data/DialogIoList.ui" line="14"/>
         <source>Choose an item...</source>
-        <translation type="unfinished"></translation>
+        <translation>Velg elementer...</translation>
     </message>
     <message>
         <location filename="../data/DialogIoList.ui" line="40"/>
         <source>Type</source>
-        <translation type="unfinished"></translation>
+        <translation>Skriv</translation>
     </message>
     <message>
         <location filename="../data/DialogIoList.ui" line="45"/>
         <source>Room</source>
-        <translation type="unfinished"></translation>
+        <translation>Rom</translation>
     </message>
     <message>
         <location filename="../data/DialogIoList.ui" line="50"/>
         <source>Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Navn</translation>
     </message>
 </context>
 <context>
@@ -513,7 +513,35 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../data/DialogIoProperties.ui" line="14"/>
         <source>Properties</source>
-        <translation type="unfinished"></translation>
+        <translation>Egenskaper</translation>
+    </message>
+    <message>
+        <source>Object properties</source>
+        <translation type="vanished">Objektegenskaper</translation>
+    </message>
+    <message>
+        <source>Property</source>
+        <translation type="vanished">Egenskap</translation>
+    </message>
+    <message>
+        <source>This property cannot be deleted!</source>
+        <translation type="obsolete">Denne egenskapen kan ikke bli slettet!</translation>
+    </message>
+    <message>
+        <source>This property can&apos;t be changed!</source>
+        <translation type="obsolete">Denne egenskapen kan ikke bli redigert!</translation>
+    </message>
+    <message>
+        <source>Change the value</source>
+        <translation type="vanished">Endre verdi</translation>
+    </message>
+    <message>
+        <source>Change the property: &quot;%1&quot;</source>
+        <translation type="obsolete">Endre egenskapen for: &quot;%1&quot;</translation>
+    </message>
+    <message>
+        <source>This room already exists!</source>
+        <translation type="vanished">Rommet eksisterer allerede!</translation>
     </message>
 </context>
 <context>
@@ -521,28 +549,28 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../data/DialogInputEventScript.ui" line="14"/>
         <source>Input event script</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Hendelses script</translation>
     </message>
     <message>
         <location filename="../data/DialogInputEventScript.ui" line="22"/>
         <source>Enabled inputs :</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktive innganger :</translation>
     </message>
     <message>
         <location filename="../data/DialogInputEventScript.ui" line="29"/>
         <source>Avalaible inputs :</source>
-        <translation type="unfinished"></translation>
+        <translation>Tilgjengelige innganger :</translation>
     </message>
     <message>
         <location filename="../data/DialogInputEventScript.ui" line="46"/>
         <location filename="../data/DialogInputEventScript.ui" line="99"/>
         <source>Room</source>
-        <translation type="unfinished"></translation>
+        <translation>Rom</translation>
     </message>
     <message>
         <location filename="../data/DialogInputEventScript.ui" line="94"/>
         <source>Input</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Inngang</translation>
     </message>
 </context>
 <context>
@@ -551,17 +579,17 @@ p, li { white-space: pre-wrap; }
         <location filename="../data/DialogListProperties.ui" line="14"/>
         <location filename="../src/DialogListProperties.cpp" line="16"/>
         <source>Properties</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Egenskaper</translation>
     </message>
     <message>
         <location filename="../data/DialogListProperties.ui" line="24"/>
         <source>Object properties</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Objektegenskaper</translation>
     </message>
     <message>
         <location filename="../data/DialogListProperties.ui" line="46"/>
         <source>Property</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Egenskap</translation>
     </message>
     <message>
         <location filename="../data/DialogListProperties.ui" line="51"/>
@@ -582,7 +610,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../data/DialogListProperties.ui" line="96"/>
         <source>Delete</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Slett</translation>
     </message>
     <message>
         <location filename="../src/DialogListProperties.cpp" line="52"/>
@@ -610,27 +638,27 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/DialogListProperties.cpp" line="89"/>
         <source>This property cannot be deleted!</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Denne egenskapen kan ikke bli slettet!</translation>
     </message>
     <message>
         <location filename="../src/DialogListProperties.cpp" line="111"/>
         <source>This property can&apos;t be changed!</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Denne egenskapen kan ikke bli redigert!</translation>
     </message>
     <message>
         <location filename="../src/DialogListProperties.cpp" line="116"/>
         <source>Change the value</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Endre verdi</translation>
     </message>
     <message>
         <location filename="../src/DialogListProperties.cpp" line="117"/>
         <source>Change the property: &quot;%1&quot;</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Endre egenskapen for: &quot;%1&quot;</translation>
     </message>
     <message>
         <location filename="../src/DialogListProperties.cpp" line="140"/>
         <source>This room already exists!</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Rommet eksisterer allerede!</translation>
     </message>
 </context>
 <context>
@@ -666,12 +694,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../data/DialogNewAVReceiver.ui" line="52"/>
         <source>192.168.0.0</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">192.168.0.0</translation>
     </message>
     <message>
         <location filename="../data/DialogNewAVReceiver.ui" line="104"/>
         <source>Please enter a name for this item..</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Oppgi navn for dette elementet..</translation>
     </message>
 </context>
 <context>
@@ -679,47 +707,47 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../data/DialogNewAnalog.ui" line="20"/>
         <source>New IO...</source>
-        <translation type="unfinished"></translation>
+        <translation>Ny IO...</translation>
     </message>
     <message>
         <location filename="../data/DialogNewAnalog.ui" line="33"/>
         <source>Create a new analog Wago Item</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Legg til nytt analog Wago punkt</translation>
     </message>
     <message>
         <location filename="../data/DialogNewAnalog.ui" line="66"/>
         <source>Item Name :</source>
-        <translation type="unfinished"></translation>
+        <translation>Elementnavn :</translation>
     </message>
     <message>
         <location filename="../data/DialogNewAnalog.ui" line="73"/>
         <source>Variable :</source>
-        <translation type="unfinished"></translation>
+        <translation>Variabel :</translation>
     </message>
     <message>
         <location filename="../data/DialogNewAnalog.ui" line="82"/>
         <source>Type</source>
-        <translation type="unfinished"></translation>
+        <translation>Skriv</translation>
     </message>
     <message>
         <location filename="../data/DialogNewAnalog.ui" line="91"/>
         <source>Input</source>
-        <translation type="unfinished"></translation>
+        <translation>Inngang</translation>
     </message>
     <message>
         <location filename="../data/DialogNewAnalog.ui" line="101"/>
         <source>Output</source>
-        <translation type="unfinished"></translation>
+        <translation>Utgang</translation>
     </message>
     <message>
         <location filename="../data/DialogNewAnalog.ui" line="116"/>
         <source>Max Wago value :</source>
-        <translation type="unfinished"></translation>
+        <translation>Maks Wago verdi :</translation>
     </message>
     <message>
         <location filename="../data/DialogNewAnalog.ui" line="133"/>
         <source>Max displayed value</source>
-        <translation type="unfinished"></translation>
+        <translation>Største viste verdi</translation>
     </message>
     <message>
         <location filename="../data/DialogNewAnalog.ui" line="240"/>
@@ -736,7 +764,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../data/DialogNewAnalog.ui" line="303"/>
         <source>Please enter a name for this item..</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Oppgi navn for dette elementet..</translation>
     </message>
 </context>
 <context>
@@ -754,7 +782,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../data/DialogNewAudio.ui" line="60"/>
         <source>Item name :</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Elementnavn:</translation>
     </message>
     <message>
         <location filename="../data/DialogNewAudio.ui" line="70"/>
@@ -764,17 +792,17 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../data/DialogNewAudio.ui" line="77"/>
         <source>192.168.0.10</source>
-        <translation type="unfinished"></translation>
+        <translation>192.168.0.10</translation>
     </message>
     <message>
         <location filename="../data/DialogNewAudio.ui" line="84"/>
         <source>MAC address of the Squeezebox :</source>
-        <translation type="unfinished"></translation>
+        <translation>MAC adresse til Squeezebox :</translation>
     </message>
     <message>
         <location filename="../data/DialogNewAudio.ui" line="109"/>
         <source>Detect...</source>
-        <translation type="unfinished"></translation>
+        <translation>Detekter</translation>
     </message>
     <message>
         <location filename="../data/DialogNewAudio.ui" line="187"/>
@@ -783,12 +811,12 @@ p, li { white-space: pre-wrap; }
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; font-weight:400; font-style:italic;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; font-size:10pt;&quot;&gt;Please enter the IP address of Logitech Media Server and the ID of the Squeezebox. The MAC address can be found in the &amp;quot;Settings&amp;quot; menu of Squeezebox Server int the tab Informations.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Vennligst skriv inn IP adressen til Logitech Media Server og ID&apos;en til Squeezebox. MAC adressen kan bli funnet i &quot;Innstillinger&quot; menyen til Squeezebox Server, under Informasjon menyen.</translation>
     </message>
     <message>
         <location filename="../data/DialogNewAudio.ui" line="247"/>
         <source>Please enter a name for this item..</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Oppgi navn for dette elementet..</translation>
     </message>
 </context>
 <context>
@@ -796,22 +824,22 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../data/DialogNewCamera.ui" line="38"/>
         <source>New Camera ...</source>
-        <translation type="unfinished"></translation>
+        <translation>Nytt kamera ...</translation>
     </message>
     <message>
         <location filename="../data/DialogNewCamera.ui" line="51"/>
         <source>Create a new Camera Item</source>
-        <translation type="unfinished"></translation>
+        <translation>Legg til nytt kamera</translation>
     </message>
     <message>
         <location filename="../data/DialogNewCamera.ui" line="57"/>
         <source>Camera name :</source>
-        <translation type="unfinished"></translation>
+        <translation>Kamera navn :</translation>
     </message>
     <message>
         <location filename="../data/DialogNewCamera.ui" line="71"/>
         <source>Axis</source>
-        <translation type="unfinished"></translation>
+        <translation>Akse</translation>
     </message>
     <message>
         <location filename="../data/DialogNewCamera.ui" line="77"/>
@@ -825,7 +853,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../data/DialogNewCamera.ui" line="205"/>
         <location filename="../data/DialogNewCamera.ui" line="271"/>
         <source>192.168.0.10</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">192.168.0.10</translation>
     </message>
     <message>
         <location filename="../data/DialogNewCamera.ui" line="91"/>
@@ -835,7 +863,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../data/DialogNewCamera.ui" line="98"/>
         <source>1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">1</translation>
     </message>
     <message>
         <location filename="../data/DialogNewCamera.ui" line="174"/>
@@ -859,47 +887,47 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../data/DialogNewCamera.ui" line="229"/>
         <source>ICA-210W</source>
-        <translation type="unfinished"></translation>
+        <translation>ICA-210W</translation>
     </message>
     <message>
         <location filename="../data/DialogNewCamera.ui" line="234"/>
         <source>ICA-210</source>
-        <translation type="unfinished"></translation>
+        <translation>ICA-210</translation>
     </message>
     <message>
         <location filename="../data/DialogNewCamera.ui" line="239"/>
         <source>ICA-500</source>
-        <translation type="unfinished"></translation>
+        <translation>ICA-500</translation>
     </message>
     <message>
         <location filename="../data/DialogNewCamera.ui" line="244"/>
         <source>ICA-302</source>
-        <translation type="unfinished"></translation>
+        <translation>ICA-302</translation>
     </message>
     <message>
         <location filename="../data/DialogNewCamera.ui" line="249"/>
         <source>ICA-300</source>
-        <translation type="unfinished"></translation>
+        <translation>ICA-300</translation>
     </message>
     <message>
         <location filename="../data/DialogNewCamera.ui" line="258"/>
         <source>Gadspot</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Gadspot</translation>
     </message>
     <message>
         <location filename="../data/DialogNewCamera.ui" line="279"/>
         <source>Standard MJPEG</source>
-        <translation type="unfinished"></translation>
+        <translation>Standard MJPEG</translation>
     </message>
     <message>
         <location filename="../data/DialogNewCamera.ui" line="285"/>
         <source>URL (jpeg) :</source>
-        <translation type="unfinished"></translation>
+        <translation>URL (jpeg) :</translation>
     </message>
     <message>
         <location filename="../data/DialogNewCamera.ui" line="299"/>
         <source>URL (mjpeg) :</source>
-        <translation type="unfinished"></translation>
+        <translation>URL (mjpeg) :</translation>
     </message>
     <message>
         <location filename="../data/DialogNewCamera.ui" line="313"/>
@@ -914,7 +942,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../data/DialogNewCamera.ui" line="388"/>
         <source>Please enter a name for this item..</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Oppgi navn for dette elementet..</translation>
     </message>
     <message>
         <location filename="../src/dialognewcamera.cpp" line="76"/>
@@ -942,7 +970,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../data/DialogNewDali.ui" line="98"/>
         <source>Item name :</source>
-        <translation type="unfinished"></translation>
+        <translation>Elementnavn:</translation>
     </message>
     <message>
         <location filename="../data/DialogNewDali.ui" line="190"/>
@@ -956,7 +984,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../data/DialogNewDali.ui" line="256"/>
         <source>Please enter a name for this item..</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Oppgi navn for dette elementet..</translation>
     </message>
     <message>
         <location filename="../data/DialogNewDali.ui" line="285"/>
@@ -1009,7 +1037,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../data/DialogNewDaliRGB.ui" line="76"/>
         <source>Item name :</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Elementnavn:</translation>
     </message>
     <message>
         <location filename="../data/DialogNewDaliRGB.ui" line="168"/>
@@ -1023,7 +1051,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../data/DialogNewDaliRGB.ui" line="234"/>
         <source>Please enter a name for this item..</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Oppgi navn for dette elementet..</translation>
     </message>
     <message>
         <location filename="../data/DialogNewDaliRGB.ui" line="263"/>
@@ -1095,12 +1123,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../data/DialogNewInternal.ui" line="85"/>
         <source>Item Name :</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Elementnavn :</translation>
     </message>
     <message>
         <location filename="../data/DialogNewInternal.ui" line="151"/>
         <source>Please enter a name for this item..</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Oppgi navn for dette elementet..</translation>
     </message>
     <message>
         <location filename="../data/DialogNewInternal.ui" line="164"/>
@@ -1457,7 +1485,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../data/DialogNewVolet.ui" line="45"/>
         <source>Item name :</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Elementnavn:</translation>
     </message>
     <message>
         <location filename="../data/DialogNewVolet.ui" line="59"/>
@@ -1472,7 +1500,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../data/DialogNewVolet.ui" line="89"/>
         <source>841/849/881</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">841/849/881</translation>
     </message>
     <message>
         <location filename="../data/DialogNewVolet.ui" line="109"/>
@@ -1539,7 +1567,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../data/DialogNewWago.ui" line="111"/>
         <source>Item name :</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Elementnavn:</translation>
     </message>
     <message>
         <location filename="../data/DialogNewWago.ui" line="203"/>
@@ -1616,7 +1644,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../data/DialogNewWago.ui" line="692"/>
         <source>841/849/881</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">841/849/881</translation>
     </message>
     <message>
         <location filename="../data/DialogNewWago.ui" line="709"/>
@@ -1659,7 +1687,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../data/DialogNewWebIO.ui" line="46"/>
         <source>Item Name :</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Elementnavn :</translation>
     </message>
     <message>
         <location filename="../data/DialogNewWebIO.ui" line="56"/>
@@ -1832,7 +1860,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../data/DialogNewWebIoShutter.ui" line="14"/>
         <source>Dialog</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Dialog</translation>
     </message>
     <message>
         <location filename="../data/DialogNewWebIoShutter.ui" line="20"/>
@@ -1842,7 +1870,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../data/DialogNewWebIoShutter.ui" line="43"/>
         <source>Item Name :</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Elementnavn :</translation>
     </message>
     <message>
         <location filename="../data/DialogNewWebIoShutter.ui" line="53"/>
@@ -1936,22 +1964,22 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../data/DialogOpenOnline.ui" line="43"/>
         <source>192.168.1.100</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">192.168.1.100</translation>
     </message>
     <message>
         <location filename="../data/DialogOpenOnline.ui" line="48"/>
         <source>192.168.0.100</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">192.168.0.100</translation>
     </message>
     <message>
         <location filename="../data/DialogOpenOnline.ui" line="53"/>
         <source>10.0.0.100</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">10.0.0.100</translation>
     </message>
     <message>
         <location filename="../data/DialogOpenOnline.ui" line="58"/>
         <source>10.0.0.101</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">10.0.0.101</translation>
     </message>
     <message>
         <location filename="../data/DialogOpenOnline.ui" line="63"/>
@@ -2022,7 +2050,7 @@ HTTP error: </source>
     <message>
         <location filename="../data/DialogOptions.ui" line="24"/>
         <source>Configuration</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Konfigurasjon</translation>
     </message>
     <message>
         <location filename="../data/DialogOptions.ui" line="32"/>
@@ -2121,7 +2149,7 @@ HTTP error: </source>
     <message>
         <location filename="../data/DialogPlageHoraire.ui" line="157"/>
         <source>Delete</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Slett</translation>
     </message>
 </context>
 <context>
@@ -2135,7 +2163,7 @@ HTTP error: </source>
         <location filename="../data/DialogPlageInput.ui" line="28"/>
         <location filename="../data/DialogPlageInput.ui" line="83"/>
         <source>HH:mm:ss</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">HH:mm:ss</translation>
     </message>
 </context>
 <context>
@@ -2153,7 +2181,7 @@ HTTP error: </source>
     <message>
         <location filename="../data/DialogSaveOnline.ui" line="43"/>
         <source>192.168.1.100</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">192.168.1.100</translation>
     </message>
     <message>
         <location filename="../data/DialogSaveOnline.ui" line="48"/>
@@ -2163,17 +2191,17 @@ HTTP error: </source>
     <message>
         <location filename="../data/DialogSaveOnline.ui" line="53"/>
         <source>192.168.0.100</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">192.168.0.100</translation>
     </message>
     <message>
         <location filename="../data/DialogSaveOnline.ui" line="58"/>
         <source>10.0.0.100</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">10.0.0.100</translation>
     </message>
     <message>
         <location filename="../data/DialogSaveOnline.ui" line="63"/>
         <source>10.0.0.101</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">10.0.0.101</translation>
     </message>
     <message>
         <location filename="../data/DialogSaveOnline.ui" line="76"/>
@@ -2285,7 +2313,7 @@ HTTP error: </source>
     <message>
         <location filename="../src/DialogScriptEditor.cpp" line="331"/>
         <source>Properties</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Egenskaper</translation>
     </message>
 </context>
 <context>
@@ -3371,7 +3399,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../data/FormRules.ui" line="519"/>
         <location filename="../src/formrules.cpp" line="690"/>
         <source>Name</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Navn</translation>
     </message>
     <message>
         <location filename="../data/FormRules.ui" line="588"/>
@@ -3397,7 +3425,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/formrules.cpp" line="31"/>
         <source>Room</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Rom</translation>
     </message>
     <message>
         <location filename="../src/formrules.cpp" line="39"/>
@@ -3594,7 +3622,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/formrules.cpp" line="536"/>
         <source>Camera</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kamera</translation>
     </message>
     <message>
         <location filename="../src/formrules.cpp" line="540"/>
@@ -3664,7 +3692,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/formrules.cpp" line="690"/>
         <source>Type</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Skriv</translation>
     </message>
     <message>
         <location filename="../src/formrules.cpp" line="972"/>
@@ -3754,7 +3782,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../src/formrules.cpp" line="1944"/>
         <location filename="../src/formrules.cpp" line="3249"/>
         <source>Delete</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Slett</translation>
     </message>
     <message>
         <location filename="../src/formrules.cpp" line="1723"/>
@@ -3828,7 +3856,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../src/formrules.cpp" line="1842"/>
         <location filename="../src/formrules.cpp" line="3245"/>
         <source>Properties</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Egenskaper</translation>
     </message>
     <message>
         <location filename="../src/formrules.cpp" line="1957"/>
@@ -4603,7 +4631,7 @@ The wizard is going to create 2 rules that would start or stop the heating syste
         <location filename="../src/textedit.cpp" line="1071"/>
         <location filename="../src/textedit.cpp" line="1096"/>
         <source>Name</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Navn</translation>
     </message>
     <message>
         <location filename="../src/textedit.cpp" line="917"/>
@@ -4761,7 +4789,7 @@ The wizard is going to create 2 rules that would start or stop the heating syste
     <message>
         <location filename="../src/wizards/hue/wizardhue.ui" line="14"/>
         <source>Dialog</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Dialog</translation>
     </message>
     <message>
         <location filename="../src/wizards/hue/wizardhue.ui" line="30"/>
@@ -4804,7 +4832,7 @@ Did you really press the link button on the bridge ?</source>
     <message>
         <location filename="../src/wizards/hue/wizardhue.ui" line="221"/>
         <source>Room</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Rom</translation>
     </message>
 </context>
 </TS>

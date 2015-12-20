@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="es_ES">
+<TS version="2.1" language="es">
 <context>
     <name>ClearLineEdit</name>
     <message>
         <location filename="../src/ClearLineEdit.cpp" line="14"/>
         <source>Clear text</source>
-        <translation type="unfinished"></translation>
+        <translation>Borrar texto</translation>
     </message>
     <message>
         <location filename="../src/ClearLineEdit.cpp" line="17"/>
         <source>Filter...</source>
-        <translation type="unfinished"></translation>
+        <translation>Filtrar...</translation>
     </message>
 </context>
 <context>
@@ -32,7 +32,7 @@
     <message>
         <location filename="../data/DialogCameraView.ui" line="32"/>
         <source>Camera</source>
-        <translation type="unfinished"></translation>
+        <translation>Cámara</translation>
     </message>
     <message>
         <location filename="../data/DialogCameraView.ui" line="42"/>
@@ -41,17 +41,21 @@
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; font-size:12pt; font-weight:600;&quot;&gt;Camera View&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; font-size:12pt; font-weight:600;&quot;&gt;Vista de cámara/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../src/dialogcameraview.cpp" line="69"/>
         <source>Calaos Installer: Erreur !</source>
-        <translation type="unfinished"></translation>
+        <translation>Instalador de Calaos: ¡Error!</translation>
     </message>
     <message>
         <location filename="../src/dialogcameraview.cpp" line="82"/>
         <source>Calaos Installer: Error, image is NULL !</source>
-        <translation type="unfinished"></translation>
+        <translation>Instalador de Calaos: Error, ¡la imagen está vacía!</translation>
     </message>
 </context>
 <context>
@@ -59,7 +63,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../data/DialogConnect.ui" line="20"/>
         <source>Controller connexion...</source>
-        <translation type="unfinished"></translation>
+        <translation>Conexión del controlador...</translation>
     </message>
     <message>
         <location filename="../data/DialogConnect.ui" line="32"/>
@@ -3471,6 +3475,25 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../src/formrules.cpp" line="138"/>
+        <location filename="../src/formrules.cpp" line="391"/>
+        <source>Switch triple</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/formrules.cpp" line="147"/>
+        <location filename="../src/formrules.cpp" line="400"/>
+        <source>Switch Long press</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/formrules.cpp" line="174"/>
+        <location filename="../src/formrules.cpp" line="331"/>
+        <location filename="../src/formrules.cpp" line="472"/>
+        <source>Smart Shutter</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../src/formrules.cpp" line="183"/>
         <source>Dimmer</source>
         <translation type="unfinished"></translation>
@@ -3490,25 +3513,6 @@ p, li { white-space: pre-wrap; }
         <location filename="../src/formrules.cpp" line="210"/>
         <location filename="../src/formrules.cpp" line="268"/>
         <source>Analog Input</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/formrules.cpp" line="138"/>
-        <location filename="../src/formrules.cpp" line="391"/>
-        <source>Switch triple</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/formrules.cpp" line="147"/>
-        <location filename="../src/formrules.cpp" line="400"/>
-        <source>Switch Long press</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/formrules.cpp" line="174"/>
-        <location filename="../src/formrules.cpp" line="331"/>
-        <location filename="../src/formrules.cpp" line="472"/>
-        <source>Smart Shutter</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3594,7 +3598,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/formrules.cpp" line="536"/>
         <source>Camera</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Cámara</translation>
     </message>
     <message>
         <location filename="../src/formrules.cpp" line="540"/>
