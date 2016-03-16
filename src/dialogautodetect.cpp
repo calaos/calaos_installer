@@ -51,7 +51,7 @@ void DialogAutoDetect::readPendingDatagrams()
         if (msg != QString("CALAOS_IP"))
             return;
 
-        items = ui->list->findItems(sender.toString(), Qt::MatchExactly);
+        items = ui->list->findItems(ip, Qt::MatchExactly);
         if (!items.count())
         {
             ui->list->addItem(ip);
