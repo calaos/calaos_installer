@@ -7,7 +7,10 @@ isEmpty(REVISION) {
 REVISION = $$system(git --git-dir $$PWD/.git --work-tree $$PWD describe --long --tags --always master)
 }
 DEFINES += CALAOS_VERSION=\\\"$$REVISION\\\"
-DEFINES += LUA_USE_DLOPEN
+
+!win32 {
+    DEFINES += LUA_USE_DLOPEN
+}
 
 #enable C++11 new syntax
 CONFIG += c++11
