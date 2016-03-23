@@ -136,6 +136,18 @@ void WagoConnect::heartbeat_cb(QString command, QString response)
             }
         }
     }
+    //Hack for emulating connection when running on localhost, for dev only
+    else if (wago_ip == "127.0.0.1" ||
+             wago_ip == "localhost")
+    {
+        if (connect_status != WAGO_CONNECTED)
+        {
+            connect_status = WAGO_CONNECTED;
+            wago_type = "750-999";
+            wago_fwversion = "9.9";
+            emit connected(wago_ip, use_proxy);
+        }
+    }
 }
 
 void WagoConnect::mainTick()
@@ -211,6 +223,9 @@ void WagoConnect::readPendingDatagrams()
 
 void WagoConnect::ResetWago()
 {
+    if (connect_status != WAGO_DISCONNECTED)
+        Disconnect();
+
     Modbus cmd;
     WagoModbus::createModbusRequest(cmd,
                                     0x06, /* write single register */

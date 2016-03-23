@@ -59,6 +59,7 @@ MainWindow::MainWindow(QWidget *parent):
     connect(&wuploader, SIGNAL(statusUpdate(int)), this, SLOT(wagoStatusProgress(int)));
 
     connect(ui->widgetDali, SIGNAL(closeDaliForm()), this, SLOT(closeDaliForm_clicked()));
+    connect(ui->widgetDaliMaster, SIGNAL(closeDaliForm()), this, SLOT(closeDaliForm_clicked()));
 
     project_path = tr("New");
 
@@ -402,6 +403,7 @@ void MainWindow::wagoConnected(QString &, bool)
     ui->actionDALI->setEnabled(true);
     ui->actionMise_jour_Automate->setEnabled(true);
     ui->actionSet_DMX4ALL_IP_Address->setEnabled(true);
+    ui->actionUploadDaliMasterCSV->setEnabled(true);
 
     statusConnectText->setText(QString(tr("Connected (%1)")).arg(WagoConnect::Instance().getWagoVersion()));
     statusConnectIcon->setPixmap(QPixmap(":/img/user-online_16x16.png"));
@@ -415,6 +417,7 @@ void MainWindow::wagoDisconnected()
     ui->actionDALI->setEnabled(false);
     ui->actionMise_jour_Automate->setEnabled(false);
     ui->actionSet_DMX4ALL_IP_Address->setEnabled(false);
+    ui->actionUploadDaliMasterCSV->setEnabled(false);
 
     statusConnectText->setText(tr("Disconnected."));
     statusConnectIcon->setPixmap(QPixmap(":/img/user-invisible_16x16.png"));
@@ -655,5 +658,18 @@ void MainWindow::on_actionSet_DMX4ALL_IP_Address_triggered()
         {
             QMessageBox::critical(this, tr("Calaos Installer"), tr("DMX4ALL configuration is not available on your PLC!"));
         }
+    }
+}
+
+void MainWindow::on_actionUploadDaliMasterCSV_triggered()
+{
+    if (WagoConnect::Instance().getConnectionStatus() == WAGO_CONNECTED)
+    {
+        if (WagoConnect::Instance().getWagoType() != "750-842")
+        {
+            ShowPage(PAGE_DALIMASTER);
+        }
+        else
+            QMessageBox::critical(this, tr("Calaos Installer"), tr("DALI configuration tool is not available on your PLC!"));
     }
 }

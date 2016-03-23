@@ -99,7 +99,9 @@ SOURCES += src/main.cpp \
     src/BalloonTip.cpp \
     src/WidgetIOProperties.cpp \
     src/wizards/hue/wizardhue.cpp \
-    src/WidgetIPAddr.cpp
+    src/WidgetIPAddr.cpp \
+    src/FormDaliMaster.cpp \
+    src/DialogDaliMasterItem.cpp
 
 HEADERS += src/mainwindow.h \
     src/common/Utils.h \
@@ -188,7 +190,9 @@ HEADERS += src/mainwindow.h \
     src/WidgetIOProperties.h \
     src/common/LuaScript/lua-5.1.4/src/lua.h \
     src/wizards/hue/wizardhue.h \
-    src/WidgetIPAddr.h
+    src/WidgetIPAddr.h \
+    src/FormDaliMaster.h \
+    src/DialogDaliMasterItem.h
 
 
 FORMS += \
@@ -239,7 +243,9 @@ FORMS += \
     data/DialogCreateNewImage.ui \
     data/DialogListProperties.ui \
     data/WidgetIOProperties.ui \
-    src/wizards/hue/wizardhue.ui
+    src/wizards/hue/wizardhue.ui \
+    data/FormDaliMaster.ui \
+    data/DialogDaliMasterItem.ui
 
 RESOURCES += data/resources.qrc \
     data/textedit.qrc \

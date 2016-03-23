@@ -77,7 +77,6 @@ private:
     DialogWagoFirmwareUpdate *dialogUpdate;
 
     void getWagoTypeModbus(); //Retrieve wago type from modbus cmd
-    void ResetWago();
 
 public:
     static WagoConnect &Instance()
@@ -134,6 +133,9 @@ public:
                  * Start the update process, upload via FTP the last calaos fw. (Not for 842)
                  */
     void updateWago();
+
+    //Do a reset of the PLC, must disconnect first
+    void ResetWago();
 
     void emitErrorNotConnectedSignal()
     {

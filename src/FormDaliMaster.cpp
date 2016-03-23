@@ -1,0 +1,338 @@
+#include "FormDaliMaster.h"
+#include "ui_FormDaliMaster.h"
+#include <QMessageBox>
+#include "DialogDaliMasterItem.h"
+#include "DialogWagoFirmwareUpdate.h"
+#include "wagoconnect.h"
+#include <QDebug>
+
+#define CALAOS_CSV_FILE     "calaos_dali_master.csv"
+
+FormDaliMaster::FormDaliMaster(QWidget *parent) :
+    QWidget(parent),
+    ui(new Ui::FormDaliMaster)
+{
+    setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
+    ui->setupUi(this);
+
+    connect(ui->pushButtonQuit, SIGNAL(clicked(bool)), this, SIGNAL(closeDaliForm()));
+
+    ui->treeWidget->setHeaderLabels(QStringList() <<
+                                    tr("Device Type") <<
+                                    tr("Addresses") <<
+                                    tr("Off Timeout"));
+}
+
+FormDaliMaster::~FormDaliMaster()
+{
+    if (ftp) delete ftp;
+    delete ui;
+}
+
+void FormDaliMaster::on_pushButtonAdd_clicked()
+{
+    DialogDaliMasterItem d(ui->treeWidget);
+    d.exec();
+    ui->treeWidget->resizeColumnToContents(0);
+    ui->treeWidget->resizeColumnToContents(1);
+    ui->treeWidget->resizeColumnToContents(2);
+}
+
+void FormDaliMaster::on_pushButtonEdit_clicked()
+{
+    if (ui->treeWidget->currentItem())
+    {
+        DialogDaliMasterItem d(ui->treeWidget, ui->treeWidget->currentItem());
+        d.exec();
+        ui->treeWidget->resizeColumnToContents(0);
+        ui->treeWidget->resizeColumnToContents(1);
+        ui->treeWidget->resizeColumnToContents(2);
+    }
+}
+
+void FormDaliMaster::on_pushButtonDel_clicked()
+{
+    if (ui->treeWidget->currentItem())
+    {
+        if (QMessageBox::question(this,
+                                  tr("Calaos Installer"),
+                                  tr("Do you want to remove selected item?"),
+                                  QMessageBox::Yes,
+                                  QMessageBox::No) == QMessageBox::Yes)
+        {
+            delete ui->treeWidget->currentItem();
+        }
+    }
+}
+
+void FormDaliMaster::loadCsv(QStringList csvFile)
+{
+    ui->treeWidget->clear();
+
+    foreach (const QString &line, csvFile)
+    {
+        QStringList cols = line.split(';');
+
+        if (cols.at(0) == "DaliEcg" && cols.count() >= 2)
+        {
+            QTreeWidgetItem *item = new QTreeWidgetItem(ui->treeWidget);
+            DialogDaliMasterItem::updateItem(item, cols.at(0), cols.at(1).toInt());
+        }
+        else if (cols.at(0) == "DaliGroup" && cols.count() >= 2)
+        {
+            QTreeWidgetItem *item = new QTreeWidgetItem(ui->treeWidget);
+            DialogDaliMasterItem::updateItem(item, cols.at(0), cols.at(1).toInt());
+        }
+        else if (cols.at(0) == "MultiSensorType1" && cols.count() >= 4)
+        {
+            QTreeWidgetItem *item = new QTreeWidgetItem(ui->treeWidget);
+            DialogDaliMasterItem::updateItem(item, cols.at(0), cols.at(1).toInt(), cols.at(2).toInt(), cols.at(3).toInt());
+        }
+        else if (cols.at(0) == "PushbuttonSensorType1" && cols.count() >= 5)
+        {
+            QTreeWidgetItem *item = new QTreeWidgetItem(ui->treeWidget);
+            DialogDaliMasterItem::updateItem(item, cols.at(0), cols.at(1).toInt(), cols.at(2).toInt(), cols.at(3).toInt(), cols.at(4).toInt());
+        }
+        else if (cols.at(0) == "MultiSensorType2" && cols.count() >= 5)
+        {
+            QTreeWidgetItem *item = new QTreeWidgetItem(ui->treeWidget);
+            DialogDaliMasterItem::updateItem(item, cols.at(0), cols.at(1).toInt(), cols.at(2).toInt(), cols.at(3).toInt(), cols.at(4).toInt());
+        }
+        else if (cols.at(0) == "PushbuttonSensorType2" && cols.count() >= 2)
+        {
+            QTreeWidgetItem *item = new QTreeWidgetItem(ui->treeWidget);
+            DialogDaliMasterItem::updateItem(item, cols.at(0), cols.at(1).toInt());
+        }
+    }
+
+    ui->treeWidget->resizeColumnToContents(0);
+    ui->treeWidget->resizeColumnToContents(1);
+    ui->treeWidget->resizeColumnToContents(2);
+}
+
+void FormDaliMaster::writeCsv()
+{
+    for (int i = 0;i < ui->treeWidget->topLevelItemCount();i++)
+    {
+        QTreeWidgetItem *item = ui->treeWidget->topLevelItem(i);
+
+        QString t = item->data(0, DialogDaliMasterItem::RoleType).toString();
+        QString line;
+
+        if (t == "DaliEcg" ||
+            t == "DaliGroup" ||
+            t == "PushbuttonSensorType2")
+        {
+            line = QString("%1;%2").arg(t)
+                        .arg(item->data(0, DialogDaliMasterItem::RoleAddr1).toString());
+        }
+        else if (t == "MultiSensorType1")
+        {
+            line = QString("%1;%2;%3;%4").arg(t)
+                        .arg(item->data(0, DialogDaliMasterItem::RoleAddr1).toString())
+                        .arg(item->data(0, DialogDaliMasterItem::RoleAddr2).toString())
+                        .arg(item->data(0, DialogDaliMasterItem::RoleAddr3).toString());
+        }
+        else if (t == "PushbuttonSensorType1" ||
+                 t == "MultiSensorType2")
+        {
+            line = QString("%1;%2;%3;%4;%5").arg(t)
+                        .arg(item->data(0, DialogDaliMasterItem::RoleAddr1).toString())
+                        .arg(item->data(0, DialogDaliMasterItem::RoleAddr2).toString())
+                        .arg(item->data(0, DialogDaliMasterItem::RoleAddr3).toString())
+                        .arg(item->data(0, DialogDaliMasterItem::RoleAddr4).toString());
+        }
+        csvTempFile->write(line.toLocal8Bit());
+        if (i < ui->treeWidget->topLevelItemCount() - 1)
+            csvTempFile->write("\r\n");
+    }
+}
+
+void FormDaliMaster::on_pushButtonLoad_clicked()
+{
+    if (ftp) return;
+
+    /* Start the FTP upload process */
+    ftp = new QFtp(this);
+
+    connect(ftp, SIGNAL(dataTransferProgress(qint64,qint64)),
+            this, SLOT(updateDataTransferProgress(qint64,qint64)));
+    connect(ftp, SIGNAL(commandFinished(int,bool)),
+            this, SLOT(onCommandFinished(int,bool)));
+    connect(ftp, SIGNAL(commandStarted(int)),
+            this, SLOT(onCommandStarted(int)));
+
+    cmd_connect = ftp->connectToHost(ConfigOptions::Instance().getWagoHost());
+    cmd_login = ftp->login(DialogWagoFirmwareUpdate::wago_ftp_login, DialogWagoFirmwareUpdate::wago_ftp_password);
+    QString dir = "PLC";
+    cmd_cd = ftp->cd(dir);
+
+    if (csvTempFile)
+        delete csvTempFile;
+    csvTempFile = new QTemporaryFile(this);
+    csvTempFile->open();
+    cmd_file_get = ftp->get(CALAOS_CSV_FILE, csvTempFile);
+
+    progress = new QProgressDialog(this);
+    progress->setCancelButton(nullptr);
+    progress->setWindowModality(Qt::WindowModal);
+    progress->setAutoClose(false);
+    progress->setAutoReset(false);
+    progress->show();
+}
+
+void FormDaliMaster::on_pushButtonSend_clicked()
+{
+    if (ftp) return;
+
+    /* Start the FTP upload process */
+    ftp = new QFtp(this);
+
+    connect(ftp, SIGNAL(dataTransferProgress(qint64,qint64)),
+            this, SLOT(updateDataTransferProgress(qint64,qint64)));
+    connect(ftp, SIGNAL(commandFinished(int,bool)),
+            this, SLOT(onCommandFinished(int,bool)));
+    connect(ftp, SIGNAL(commandStarted(int)),
+            this, SLOT(onCommandStarted(int)));
+
+    cmd_connect = ftp->connectToHost(ConfigOptions::Instance().getWagoHost());
+    cmd_login = ftp->login(DialogWagoFirmwareUpdate::wago_ftp_login, DialogWagoFirmwareUpdate::wago_ftp_password);
+    QString dir = "PLC";
+    cmd_cd = ftp->cd(dir);
+
+    if (csvTempFile)
+        delete csvTempFile;
+    csvTempFile = new QTemporaryFile(this);
+    csvTempFile->open();
+    writeCsv();
+    csvTempFile->reset();
+    cmd_file_set = ftp->put(csvTempFile, CALAOS_CSV_FILE);
+
+    progress = new QProgressDialog(this);
+    progress->setCancelButton(nullptr);
+    progress->setWindowModality(Qt::WindowModal);
+    progress->setAutoClose(false);
+    progress->setAutoReset(false);
+    progress->show();
+}
+
+void FormDaliMaster::updateDataTransferProgress(qint64 done, qint64 total)
+{
+    progress->setValue(done * 100 / total);
+}
+
+void FormDaliMaster::onCommandStarted(int id)
+{
+    if (id == cmd_connect)
+        progress->setLabelText(tr("Connecting to PLC..."));
+    else if (id == cmd_login)
+        progress->setLabelText(tr("Login into PLC..."));
+    else if (id == cmd_cd)
+        progress->setLabelText(tr("Selecting context..."));
+    else if (id == cmd_file_get)
+        progress->setLabelText(tr("Downloading configuration from PLC..."));
+    else if (id == cmd_file_set)
+        progress->setLabelText(tr("Uploading configuration to PLC..."));
+}
+
+void FormDaliMaster::onCommandFinished(int id, bool error)
+{
+    if (id == cmd_connect)
+    {
+        if (error)
+        {
+            QMessageBox::warning(this, tr("Calaos Installer"),
+                                 tr("Error connecting to PLC"));
+            ftp->clearPendingCommands();
+            ftp->deleteLater();
+            ftp = nullptr;
+            progress->hide();
+            progress->deleteLater();
+        }
+        qDebug() << "FTP connect ok";
+    }
+    else if (id == cmd_login)
+    {
+        if (error)
+        {
+            QMessageBox::warning(this, tr("Calaos Installer"),
+                                 tr("Failed to login into PLC"));
+            ftp->clearPendingCommands();
+            ftp->deleteLater();
+            ftp = nullptr;
+            progress->hide();
+            progress->deleteLater();
+        }
+        qDebug() << "FTP login ok";
+    }
+    else if (id == cmd_cd)
+    {
+        if (error)
+        {
+            QMessageBox::warning(this, tr("Calaos Installer"),
+                                 tr("Failed to switch context on PLC"));
+            ftp->clearPendingCommands();
+            ftp->deleteLater();
+            ftp = nullptr;
+            progress->hide();
+            progress->deleteLater();
+        }
+        qDebug() << "FTP cd ok";
+    }
+    else if (id == cmd_file_get)
+    {
+        if (!error)
+        {
+            csvTempFile->reset();
+            QStringList csv;
+            while (!csvTempFile->atEnd())
+            {
+                QByteArray line = csvTempFile->readLine();
+                QString fline(line);
+                csv << fline;
+            }
+            csvTempFile->close();
+            loadCsv(csv);
+        }
+
+        qDebug() << "FTP file get ok";
+
+        ftp->clearPendingCommands();
+        ftp->deleteLater();
+        ftp = nullptr;
+        progress->hide();
+        progress->deleteLater();
+    }
+    else if (id == cmd_file_set)
+    {
+        if (error)
+        {
+            QMessageBox::warning(this, tr("Calaos Installer"),
+                                 tr("Failed to send configuration to PLC"));
+            ftp->clearPendingCommands();
+            ftp->deleteLater();
+            ftp = nullptr;
+            progress->hide();
+            progress->deleteLater();
+        }
+        else
+        {
+            qDebug() << "FTP file put ok";
+            progress->setLabelText(tr("Rebooting PLC... Please wait."));
+            WagoConnect::Instance().ResetWago();
+            QTimer::singleShot(15000, this, SLOT(resetDone()));
+        }
+    }
+}
+
+void FormDaliMaster::resetDone()
+{
+    qDebug() << "Reset done, reconnecting...";
+    WagoConnect::Instance().Connect(ConfigOptions::Instance().getWagoHost());
+
+    ftp->clearPendingCommands();
+    ftp->deleteLater();
+    ftp = nullptr;
+    progress->hide();
+    progress->deleteLater();
+}

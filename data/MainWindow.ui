@@ -321,7 +321,7 @@ QFrame .HeaderButton:pressed
        <item>
         <widget class="QStackedWidget" name="Pages">
          <property name="currentIndex">
-          <number>0</number>
+          <number>3</number>
          </property>
          <widget class="QWidget" name="pageProg">
           <layout class="QHBoxLayout" name="horizontalLayout_3">
@@ -436,6 +436,7 @@ p, li { white-space: pre-wrap; }
 &lt;table border=&quot;0&quot; style=&quot;-qt-table-type: root; margin-top:4px; margin-bottom:4px; margin-left:4px; margin-right:4px;&quot;&gt;
 &lt;tr&gt;
 &lt;td style=&quot;border: none;&quot;&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'.Helvetica Neue DeskInterface'; font-size:13pt;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'Sans Serif'; font-size:9pt;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
@@ -461,6 +462,25 @@ p, li { white-space: pre-wrap; }
 &lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;img src=&quot;:/img/calaos.png&quot; /&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</string>
              </property>
             </widget>
+           </item>
+          </layout>
+         </widget>
+         <widget class="QWidget" name="page">
+          <layout class="QHBoxLayout" name="horizontalLayout_2">
+           <property name="leftMargin">
+            <number>0</number>
+           </property>
+           <property name="topMargin">
+            <number>0</number>
+           </property>
+           <property name="rightMargin">
+            <number>0</number>
+           </property>
+           <property name="bottomMargin">
+            <number>0</number>
+           </property>
+           <item>
+            <widget class="FormDaliMaster" name="widgetDaliMaster" native="true"/>
            </item>
           </layout>
          </widget>
@@ -521,6 +541,7 @@ p, li { white-space: pre-wrap; }
     <addaction name="separator"/>
     <addaction name="actionDALI"/>
     <addaction name="actionSet_DMX4ALL_IP_Address"/>
+    <addaction name="actionUploadDaliMasterCSV"/>
    </widget>
    <widget class="QMenu" name="menuCentrale">
     <property name="title">
@@ -683,6 +704,18 @@ p, li { white-space: pre-wrap; }
     <string>Set DMX4ALL IP Address</string>
    </property>
   </action>
+  <action name="actionUploadDaliMasterCSV">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/img/icon_light_on.png</normaloff>:/img/icon_light_on.png</iconset>
+   </property>
+   <property name="text">
+    <string>Upload Dali Master 647 CSV configuration</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
@@ -696,6 +729,12 @@ p, li { white-space: pre-wrap; }
    <class>FormRules</class>
    <extends>QWidget</extends>
    <header>formrules.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>FormDaliMaster</class>
+   <extends>QWidget</extends>
+   <header>FormDaliMaster.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

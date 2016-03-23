@@ -7,6 +7,7 @@ DialogAutoDetect::DialogAutoDetect(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::DialogAutoDetect)
 {
+    setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
     ui->setupUi(this);
     udpSocket = new QUdpSocket(this);
     timer = new QTimer(this);

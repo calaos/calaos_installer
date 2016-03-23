@@ -24,7 +24,7 @@ namespace Ui
 class MainWindow;
 }
 
-enum { PAGE_PROG=0, PAGE_DALI=1, PAGE_ABOUT=2 };
+enum { PAGE_PROG=0, PAGE_DALI=1, PAGE_ABOUT=2, PAGE_DALIMASTER=3 };
 
 class MainWindow : public QMainWindow
 {
@@ -101,6 +101,7 @@ private slots:
     void on_btAutodetect_clicked();
     void on_actionCreateNewImage_triggered();
     void on_actionSet_DMX4ALL_IP_Address_triggered();
+    void on_actionUploadDaliMasterCSV_triggered();
 };
 
 #endif // MAINWINDOW_H
