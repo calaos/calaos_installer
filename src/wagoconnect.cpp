@@ -207,7 +207,8 @@ void WagoConnect::readPendingDatagrams()
         udpSocket->readDatagram(datagram.data(), datagram.size(),
                                 &sender, &senderPort);
 
-        if (sender.toString() != wago_ip) continue;
+        qDebug() << "Received from: " << QHostAddress(sender.toIPv4Address()).toString();
+        if (QHostAddress(sender.toIPv4Address()).toString() != wago_ip) continue;
 
         current_cmd.response = datagram.data();
         current_cmd.emitCallback();

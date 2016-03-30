@@ -218,6 +218,7 @@ void FormDaliMaster::on_pushButtonSend_clicked()
 
 void FormDaliMaster::updateDataTransferProgress(qint64 done, qint64 total)
 {
+    if (total <= 0) total = 1;
     progress->setValue(done * 100 / total);
 }
 
