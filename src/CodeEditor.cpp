@@ -362,7 +362,7 @@ LuaHighlighter::LuaHighlighter(QTextDocument *parent): QSyntaxHighlighter(parent
     singleLineCommentFormat.setFontItalic(true);
 
     quotationFormat.setForeground(Qt::red);
-    rule.pattern = QRegExp("\".*\"");
+    rule.pattern = QRegExp("\"[^\"]*\"");
     rule.format = quotationFormat;
     highlightingRules.append(rule);
 
