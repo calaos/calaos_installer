@@ -101,7 +101,11 @@
            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
           </property>
           <item row="0" column="1">
-           <widget class="QSpinBox" name="spin_var_up"/>
+           <widget class="QSpinBox" name="spin_var_up">
+            <property name="maximum">
+             <number>9999</number>
+            </property>
+           </widget>
           </item>
           <item row="0" column="0">
            <widget class="QLabel" name="label_2">
@@ -114,7 +118,11 @@
            </widget>
           </item>
           <item row="1" column="1">
-           <widget class="QSpinBox" name="spin_var_down"/>
+           <widget class="QSpinBox" name="spin_var_down">
+            <property name="maximum">
+             <number>9999</number>
+            </property>
+           </widget>
           </item>
           <item row="2" column="1">
            <widget class="QSpinBox" name="spin_time_up">

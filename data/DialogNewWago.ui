@@ -279,7 +279,7 @@ p, li { white-space: pre-wrap; }
      </rect>
     </property>
     <property name="maximum">
-     <number>999</number>
+     <number>9999</number>
     </property>
    </widget>
    <widget class="QStackedWidget" name="pager">
