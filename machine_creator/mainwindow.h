@@ -22,7 +22,7 @@
 #include <QFileDialog>
 #include <QStandardPaths>
 #include <QProcess>
-#include <lzma.h>
+#include "LzmaLoader.h"
 
 #include "DiskWriter.h"
 

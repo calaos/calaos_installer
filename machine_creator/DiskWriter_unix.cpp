@@ -48,9 +48,11 @@ void DiskWriter_unix::close()
 
 void DiskWriter_unix::sync()
 {
+#ifndef Q_OS_WIN
     if (this->isOpen()) {
         fsync(dev.handle());
     }
+#endif
 }
 
 bool DiskWriter_unix::isOpen()

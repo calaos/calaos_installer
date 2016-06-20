@@ -6,10 +6,7 @@
 #include <windows.h>
 #endif
 
-#if defined Q_OS_UNIX
 #include "DiskWriter_unix.h"
-#endif
-
 
 //#define CALAOS_UPDATE_VERSION_URL "http://calaos.fr/update?versions=all"
 #define CALAOS_UPDATE_VERSION_URL "http://127.0.0.1:8428?versions=all"
@@ -107,9 +104,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     });
 
-#if defined(Q_OS_UNIX)
     diskWriter = new DiskWriter_unix();
-#endif
 
     diskWriterThread = new QThread(this);
     diskWriter->moveToThread(diskWriterThread);
@@ -211,7 +206,7 @@ void MainWindow::on_continueButton_clicked()
                     });
 
                     memset(&strm, 0, sizeof(strm));
-                    int ret_xz = lzma_stream_decoder (&strm, UINT64_MAX, LZMA_TELL_UNSUPPORTED_CHECK | LZMA_CONCATENATED);
+                    int ret_xz = LZMA.lzma_stream_decoder (&strm, UINT64_MAX, LZMA_TELL_UNSUPPORTED_CHECK | LZMA_CONCATENATED);
                     if (ret_xz == LZMA_OK)
                     {
                         connect(reply, SIGNAL(downloadProgress(qint64,qint64)), this, SLOT(downloadNewData(qint64,qint64)));
@@ -360,7 +355,7 @@ void MainWindow::downloadNewData(qint64 bytesReceived, qint64 bytesTotal)
     do {
         strm.next_out = out_buf;
         strm.avail_out = OUT_BUF_MAX;
-        (void)lzma_code (&strm, LZMA_RUN);
+        (void)LZMA.lzma_code (&strm, LZMA_RUN);
         out_len = OUT_BUF_MAX - strm.avail_out;
 
         QFile file(path);
@@ -376,6 +371,7 @@ void MainWindow::downloadNewData(qint64 bytesReceived, qint64 bytesTotal)
 
 void MainWindow::downloadFinished(QNetworkReply* repl)
 {
+    Q_UNUSED(repl)
     ui->stackedWidget->setCurrentIndex(MainWindow::Page_Partition);
 }
 
