@@ -4,6 +4,7 @@
 #include <QDialog>
 #include <QTimer>
 #include <QUdpSocket>
+#include <QPushButton>
 
 namespace Ui {
 class DialogAutoDetect;
