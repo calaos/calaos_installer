@@ -9,6 +9,7 @@ DialogAutoDetect::DialogAutoDetect(QWidget *parent) :
 {
     setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
     ui->setupUi(this);
+    ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
     udpSocket = new QUdpSocket(this);
     timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(timeout()));
@@ -59,6 +60,7 @@ void DialogAutoDetect::readPendingDatagrams()
             if (ui->list->count() == 1)
                 ui->list->setCurrentRow(0);
         }
+        ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(true);
     }
 }
 
