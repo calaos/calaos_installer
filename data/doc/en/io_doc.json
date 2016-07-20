@@ -1765,6 +1765,14 @@
         "alias": [],
         "parameters": [
             {
+                "default": "127.0.0.1",
+                "description": "Hostname of knxd, default to localhost",
+                "mandatory": "true",
+                "name": "host",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
                 "default": "2",
                 "description": "Precision of the returned value. The value represents the number of decimal after the dot. The value is rounded like this : value = 19.275 => returned value 19.28 when preicision = 2, 19.3 when precision = 1, 19 when precision = 0",
                 "mandatory": "false",
@@ -1905,12 +1913,70 @@
         "alias": [],
         "parameters": [
             {
-                "default": "false",
-                "description": "Send a read request at start to get the current value. Default is false",
+                "default": "127.0.0.1",
+                "description": "Hostname of knxd, default to localhost",
                 "mandatory": "true",
-                "name": "read_at_start",
+                "name": "host",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "default": "true",
+                "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
+                "mandatory": "false",
+                "name": "enabled",
                 "readonly": "false",
                 "type": "bool"
+            },
+            {
+                "description": "Name of Input/Output.",
+                "mandatory": "true",
+                "name": "name",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "default": "false",
+                "description": "A switch can't be visible. Always false.",
+                "mandatory": "false",
+                "name": "visible",
+                "readonly": "true",
+                "type": "bool"
+            },
+            {
+                "description": "Unique ID identifying the Input/Output in calaos-server",
+                "mandatory": "true",
+                "name": "id",
+                "readonly": "true",
+                "type": "string"
+            },
+            {
+                "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
+                "mandatory": "false",
+                "name": "gui_type",
+                "readonly": "true",
+                "type": "string"
+            },
+            {
+                "description": "KNX Group address, Ex: x/y/z",
+                "mandatory": "true",
+                "name": "knx_group",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "KNX Group address for listening status, Ex: x/y/z",
+                "mandatory": "false",
+                "name": "listen_knx_group",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "IO type, can be \"input\", \"output\", \"inout\"",
+                "mandatory": "true",
+                "name": "io_type",
+                "readonly": "true",
+                "type": "string"
             },
             {
                 "default": "6",
@@ -1923,60 +1989,10 @@
                 "type": "int"
             },
             {
-                "description": "KNX Group address for listening status, Ex: x/y/z",
-                "mandatory": "false",
-                "name": "listen_knx_group",
-                "readonly": "false",
-                "type": "string"
-            },
-            {
-                "description": "KNX Group address, Ex: x/y/z",
-                "mandatory": "true",
-                "name": "knx_group",
-                "readonly": "false",
-                "type": "string"
-            },
-            {
-                "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
-                "mandatory": "false",
-                "name": "gui_type",
-                "readonly": "true",
-                "type": "string"
-            },
-            {
-                "description": "Unique ID identifying the Input/Output in calaos-server",
-                "mandatory": "true",
-                "name": "id",
-                "readonly": "true",
-                "type": "string"
-            },
-            {
                 "default": "false",
-                "description": "A switch can't be visible. Always false.",
-                "mandatory": "false",
-                "name": "visible",
-                "readonly": "true",
-                "type": "bool"
-            },
-            {
-                "description": "IO type, can be \"input\", \"output\", \"inout\"",
+                "description": "Send a read request at start to get the current value. Default is false",
                 "mandatory": "true",
-                "name": "io_type",
-                "readonly": "true",
-                "type": "string"
-            },
-            {
-                "description": "Name of Input/Output.",
-                "mandatory": "true",
-                "name": "name",
-                "readonly": "false",
-                "type": "string"
-            },
-            {
-                "default": "true",
-                "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
-                "mandatory": "false",
-                "name": "enabled",
+                "name": "read_at_start",
                 "readonly": "false",
                 "type": "bool"
             }
@@ -2002,12 +2018,70 @@
         "alias": [],
         "parameters": [
             {
-                "default": "false",
-                "description": "Send a read request at start to get the current value. Default is false",
+                "default": "127.0.0.1",
+                "description": "Hostname of knxd, default to localhost",
                 "mandatory": "true",
-                "name": "read_at_start",
+                "name": "host",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "default": "true",
+                "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
+                "mandatory": "false",
+                "name": "enabled",
                 "readonly": "false",
                 "type": "bool"
+            },
+            {
+                "description": "Name of Input/Output.",
+                "mandatory": "true",
+                "name": "name",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "default": "false",
+                "description": "A switch can't be visible. Always false.",
+                "mandatory": "false",
+                "name": "visible",
+                "readonly": "true",
+                "type": "bool"
+            },
+            {
+                "description": "Unique ID identifying the Input/Output in calaos-server",
+                "mandatory": "true",
+                "name": "id",
+                "readonly": "true",
+                "type": "string"
+            },
+            {
+                "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
+                "mandatory": "false",
+                "name": "gui_type",
+                "readonly": "true",
+                "type": "string"
+            },
+            {
+                "description": "KNX Group address, Ex: x/y/z",
+                "mandatory": "true",
+                "name": "knx_group",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "KNX Group address for listening status, Ex: x/y/z",
+                "mandatory": "false",
+                "name": "listen_knx_group",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "IO type, can be \"input\", \"output\", \"inout\"",
+                "mandatory": "true",
+                "name": "io_type",
+                "readonly": "true",
+                "type": "string"
             },
             {
                 "default": "6",
@@ -2020,60 +2094,10 @@
                 "type": "int"
             },
             {
-                "description": "KNX Group address for listening status, Ex: x/y/z",
-                "mandatory": "false",
-                "name": "listen_knx_group",
-                "readonly": "false",
-                "type": "string"
-            },
-            {
-                "description": "KNX Group address, Ex: x/y/z",
-                "mandatory": "true",
-                "name": "knx_group",
-                "readonly": "false",
-                "type": "string"
-            },
-            {
-                "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
-                "mandatory": "false",
-                "name": "gui_type",
-                "readonly": "true",
-                "type": "string"
-            },
-            {
-                "description": "Unique ID identifying the Input/Output in calaos-server",
-                "mandatory": "true",
-                "name": "id",
-                "readonly": "true",
-                "type": "string"
-            },
-            {
                 "default": "false",
-                "description": "A switch can't be visible. Always false.",
-                "mandatory": "false",
-                "name": "visible",
-                "readonly": "true",
-                "type": "bool"
-            },
-            {
-                "description": "IO type, can be \"input\", \"output\", \"inout\"",
+                "description": "Send a read request at start to get the current value. Default is false",
                 "mandatory": "true",
-                "name": "io_type",
-                "readonly": "true",
-                "type": "string"
-            },
-            {
-                "description": "Name of Input/Output.",
-                "mandatory": "true",
-                "name": "name",
-                "readonly": "false",
-                "type": "string"
-            },
-            {
-                "default": "true",
-                "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
-                "mandatory": "false",
-                "name": "enabled",
+                "name": "read_at_start",
                 "readonly": "false",
                 "type": "bool"
             }
@@ -2099,12 +2123,70 @@
         "alias": [],
         "parameters": [
             {
-                "default": "false",
-                "description": "Send a read request at start to get the current value. Default is false",
+                "default": "127.0.0.1",
+                "description": "Hostname of knxd, default to localhost",
                 "mandatory": "true",
-                "name": "read_at_start",
+                "name": "host",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "default": "true",
+                "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
+                "mandatory": "false",
+                "name": "enabled",
                 "readonly": "false",
                 "type": "bool"
+            },
+            {
+                "description": "Name of Input/Output.",
+                "mandatory": "true",
+                "name": "name",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "default": "false",
+                "description": "A switch can't be visible. Always false.",
+                "mandatory": "false",
+                "name": "visible",
+                "readonly": "true",
+                "type": "bool"
+            },
+            {
+                "description": "Unique ID identifying the Input/Output in calaos-server",
+                "mandatory": "true",
+                "name": "id",
+                "readonly": "true",
+                "type": "string"
+            },
+            {
+                "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
+                "mandatory": "false",
+                "name": "gui_type",
+                "readonly": "true",
+                "type": "string"
+            },
+            {
+                "description": "KNX Group address, Ex: x/y/z",
+                "mandatory": "true",
+                "name": "knx_group",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "KNX Group address for listening status, Ex: x/y/z",
+                "mandatory": "false",
+                "name": "listen_knx_group",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "IO type, can be \"input\", \"output\", \"inout\"",
+                "mandatory": "true",
+                "name": "io_type",
+                "readonly": "true",
+                "type": "string"
             },
             {
                 "default": "6",
@@ -2117,60 +2199,10 @@
                 "type": "int"
             },
             {
-                "description": "KNX Group address for listening status, Ex: x/y/z",
-                "mandatory": "false",
-                "name": "listen_knx_group",
-                "readonly": "false",
-                "type": "string"
-            },
-            {
-                "description": "KNX Group address, Ex: x/y/z",
-                "mandatory": "true",
-                "name": "knx_group",
-                "readonly": "false",
-                "type": "string"
-            },
-            {
-                "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
-                "mandatory": "false",
-                "name": "gui_type",
-                "readonly": "true",
-                "type": "string"
-            },
-            {
-                "description": "Unique ID identifying the Input/Output in calaos-server",
-                "mandatory": "true",
-                "name": "id",
-                "readonly": "true",
-                "type": "string"
-            },
-            {
                 "default": "false",
-                "description": "A switch can't be visible. Always false.",
-                "mandatory": "false",
-                "name": "visible",
-                "readonly": "true",
-                "type": "bool"
-            },
-            {
-                "description": "IO type, can be \"input\", \"output\", \"inout\"",
+                "description": "Send a read request at start to get the current value. Default is false",
                 "mandatory": "true",
-                "name": "io_type",
-                "readonly": "true",
-                "type": "string"
-            },
-            {
-                "description": "Name of Input/Output.",
-                "mandatory": "true",
-                "name": "name",
-                "readonly": "false",
-                "type": "string"
-            },
-            {
-                "default": "true",
-                "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
-                "mandatory": "false",
-                "name": "enabled",
+                "name": "read_at_start",
                 "readonly": "false",
                 "type": "bool"
             }
@@ -2199,6 +2231,14 @@
         "description": "Input temperature with KNX and eibnetmux Temperature sensor input. Use for displaying temperature and to control heating devices with rules based on temperature value",
         "alias": [],
         "parameters": [
+            {
+                "default": "127.0.0.1",
+                "description": "Hostname of knxd, default to localhost",
+                "mandatory": "true",
+                "name": "host",
+                "readonly": "false",
+                "type": "string"
+            },
             {
                 "default": "2",
                 "description": "Precision of the returned value. The value represents the number of decimal after the dot. The value is rounded like this : value = 19.275 => returned value 19.28 when preicision = 2, 19.3 when precision = 1, 19 when precision = 0",
@@ -2337,6 +2377,14 @@
         "description": "Analog output with KNX and eibnetmux Analog output. Useful to control analog output devices connected to calaos.",
         "alias": [],
         "parameters": [
+            {
+                "default": "127.0.0.1",
+                "description": "Hostname of knxd, default to localhost",
+                "mandatory": "true",
+                "name": "host",
+                "readonly": "false",
+                "type": "string"
+            },
             {
                 "default": "true",
                 "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
@@ -2480,12 +2528,70 @@
         "alias": [],
         "parameters": [
             {
-                "default": "false",
-                "description": "Send a read request at start to get the current value. Default is false",
+                "default": "127.0.0.1",
+                "description": "Hostname of knxd, default to localhost",
                 "mandatory": "true",
-                "name": "read_at_start",
+                "name": "host",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "default": "true",
+                "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
+                "mandatory": "false",
+                "name": "enabled",
                 "readonly": "false",
                 "type": "bool"
+            },
+            {
+                "description": "Name of Input/Output.",
+                "mandatory": "true",
+                "name": "name",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "default": "true",
+                "description": "Display the Input/Output on all user interfaces if set. Default to true",
+                "mandatory": "false",
+                "name": "visible",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "description": "Unique ID identifying the Input/Output in calaos-server",
+                "mandatory": "true",
+                "name": "id",
+                "readonly": "true",
+                "type": "string"
+            },
+            {
+                "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
+                "mandatory": "false",
+                "name": "gui_type",
+                "readonly": "true",
+                "type": "string"
+            },
+            {
+                "description": "KNX Group address, Ex: x/y/z",
+                "mandatory": "true",
+                "name": "knx_group",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "KNX Group address for listening status, Ex: x/y/z",
+                "mandatory": "false",
+                "name": "listen_knx_group",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "IO type, can be \"input\", \"output\", \"inout\"",
+                "mandatory": "true",
+                "name": "io_type",
+                "readonly": "true",
+                "type": "string"
             },
             {
                 "default": "6",
@@ -2498,60 +2604,10 @@
                 "type": "int"
             },
             {
-                "description": "KNX Group address for listening status, Ex: x/y/z",
-                "mandatory": "false",
-                "name": "listen_knx_group",
-                "readonly": "false",
-                "type": "string"
-            },
-            {
-                "description": "KNX Group address, Ex: x/y/z",
+                "default": "false",
+                "description": "Send a read request at start to get the current value. Default is false",
                 "mandatory": "true",
-                "name": "knx_group",
-                "readonly": "false",
-                "type": "string"
-            },
-            {
-                "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
-                "mandatory": "false",
-                "name": "gui_type",
-                "readonly": "true",
-                "type": "string"
-            },
-            {
-                "description": "Unique ID identifying the Input/Output in calaos-server",
-                "mandatory": "true",
-                "name": "id",
-                "readonly": "true",
-                "type": "string"
-            },
-            {
-                "default": "true",
-                "description": "Display the Input/Output on all user interfaces if set. Default to true",
-                "mandatory": "false",
-                "name": "visible",
-                "readonly": "false",
-                "type": "bool"
-            },
-            {
-                "description": "IO type, can be \"input\", \"output\", \"inout\"",
-                "mandatory": "true",
-                "name": "io_type",
-                "readonly": "true",
-                "type": "string"
-            },
-            {
-                "description": "Name of Input/Output.",
-                "mandatory": "true",
-                "name": "name",
-                "readonly": "false",
-                "type": "string"
-            },
-            {
-                "default": "true",
-                "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
-                "mandatory": "false",
-                "name": "enabled",
+                "name": "read_at_start",
                 "readonly": "false",
                 "type": "bool"
             }
@@ -2606,12 +2662,70 @@
         "alias": [],
         "parameters": [
             {
-                "default": "false",
-                "description": "Send a read request at start to get the current value. Default is false",
+                "default": "127.0.0.1",
+                "description": "Hostname of knxd, default to localhost",
                 "mandatory": "true",
-                "name": "read_at_start",
+                "name": "host",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "default": "true",
+                "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
+                "mandatory": "false",
+                "name": "enabled",
                 "readonly": "false",
                 "type": "bool"
+            },
+            {
+                "description": "Name of Input/Output.",
+                "mandatory": "true",
+                "name": "name",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "default": "true",
+                "description": "Display the Input/Output on all user interfaces if set. Default to true",
+                "mandatory": "false",
+                "name": "visible",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "description": "Unique ID identifying the Input/Output in calaos-server",
+                "mandatory": "true",
+                "name": "id",
+                "readonly": "true",
+                "type": "string"
+            },
+            {
+                "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
+                "mandatory": "false",
+                "name": "gui_type",
+                "readonly": "true",
+                "type": "string"
+            },
+            {
+                "description": "KNX Group address, Ex: x/y/z",
+                "mandatory": "true",
+                "name": "knx_group",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "KNX Group address for listening status, Ex: x/y/z",
+                "mandatory": "false",
+                "name": "listen_knx_group",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "IO type, can be \"input\", \"output\", \"inout\"",
+                "mandatory": "true",
+                "name": "io_type",
+                "readonly": "true",
+                "type": "string"
             },
             {
                 "default": "6",
@@ -2624,60 +2738,10 @@
                 "type": "int"
             },
             {
-                "description": "KNX Group address for listening status, Ex: x/y/z",
-                "mandatory": "false",
-                "name": "listen_knx_group",
-                "readonly": "false",
-                "type": "string"
-            },
-            {
-                "description": "KNX Group address, Ex: x/y/z",
+                "default": "false",
+                "description": "Send a read request at start to get the current value. Default is false",
                 "mandatory": "true",
-                "name": "knx_group",
-                "readonly": "false",
-                "type": "string"
-            },
-            {
-                "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
-                "mandatory": "false",
-                "name": "gui_type",
-                "readonly": "true",
-                "type": "string"
-            },
-            {
-                "description": "Unique ID identifying the Input/Output in calaos-server",
-                "mandatory": "true",
-                "name": "id",
-                "readonly": "true",
-                "type": "string"
-            },
-            {
-                "default": "true",
-                "description": "Display the Input/Output on all user interfaces if set. Default to true",
-                "mandatory": "false",
-                "name": "visible",
-                "readonly": "false",
-                "type": "bool"
-            },
-            {
-                "description": "IO type, can be \"input\", \"output\", \"inout\"",
-                "mandatory": "true",
-                "name": "io_type",
-                "readonly": "true",
-                "type": "string"
-            },
-            {
-                "description": "Name of Input/Output.",
-                "mandatory": "true",
-                "name": "name",
-                "readonly": "false",
-                "type": "string"
-            },
-            {
-                "default": "true",
-                "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
-                "mandatory": "false",
-                "name": "enabled",
+                "name": "read_at_start",
                 "readonly": "false",
                 "type": "bool"
             }
@@ -2755,6 +2819,14 @@
         "description": "Light RGB with KNX and eibnetmux RGB light. Choose a color to be set for this light.",
         "alias": [],
         "parameters": [
+            {
+                "default": "127.0.0.1",
+                "description": "Hostname of knxd, default to localhost",
+                "mandatory": "true",
+                "name": "host",
+                "readonly": "false",
+                "type": "string"
+            },
             {
                 "description": "Blue Group address for listening status, Ex: x/y/z",
                 "mandatory": "false",
@@ -2986,6 +3058,14 @@
                 "type": "string"
             },
             {
+                "default": "127.0.0.1",
+                "description": "Hostname of knxd, default to localhost",
+                "mandatory": "true",
+                "name": "host",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
                 "description": "Up KNX Group address, Ex: x/y/z",
                 "mandatory": "true",
                 "name": "knx_group_up",
@@ -3109,6 +3189,14 @@
                 "description": "KNX Group address, Ex: x/y/z",
                 "mandatory": "true",
                 "name": "knx_group",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "default": "127.0.0.1",
+                "description": "Hostname of knxd, default to localhost",
+                "mandatory": "true",
+                "name": "host",
                 "readonly": "false",
                 "type": "string"
             },
