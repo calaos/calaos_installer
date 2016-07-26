@@ -158,13 +158,13 @@ int Lua_Calaos::getIOValue(lua_State *L)
             switch (io->get_type())
             {
             case TBOOL:
-                lua_pushboolean(L, true);
+                lua_pushboolean(L, io->getDemoValueBool());
                 break;
             case TINT:
-                lua_pushnumber(L, 42);
+                lua_pushnumber(L, io->getDemoValueDouble());
                 break;
             case TSTRING:
-                lua_pushstring(L, "18.42");
+                lua_pushstring(L, io->getDemoValueString().c_str());
                 break;
             case TUNKNOWN :
                 lua_pushstring(L, "unknown");

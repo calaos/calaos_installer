@@ -37,12 +37,12 @@ public:
     Registrar(string type, function<IOBase *(Params &)> classFunc);
 };
 
-#define REGISTER_FACTORY(NAME, GTYPE, DTYPE, ITYPE) \
-    static Registrar NAME##_reg_(#NAME, [](Params &_p) -> IOBase * { return new IOBase(_p, GTYPE, DTYPE, ITYPE); });
+#define REGISTER_FACTORY(NAME, GTYPE, DTYPE, ITYPE, SVALUE) \
+    static Registrar NAME##_reg_(#NAME, [](Params &_p) -> IOBase * { return new IOBase(_p, GTYPE, DTYPE, ITYPE, SVALUE); });
 
-#define REGISTER_INPUT(NAME, GTYPE, DTYPE) REGISTER_FACTORY(NAME, GTYPE, DTYPE, IOBase::IO_INPUT)
-#define REGISTER_OUTPUT(NAME, GTYPE, DTYPE) REGISTER_FACTORY(NAME, GTYPE, DTYPE, IOBase::IO_OUTPUT)
-#define REGISTER_INOUT(NAME, GTYPE, DTYPE) REGISTER_FACTORY(NAME, GTYPE, DTYPE, IOBase::IO_BOTH)
+#define REGISTER_INPUT(NAME, GTYPE, DTYPE, SVALUE) REGISTER_FACTORY(NAME, GTYPE, DTYPE, IOBase::IO_INPUT, SVALUE)
+#define REGISTER_OUTPUT(NAME, GTYPE, DTYPE, SVALUE) REGISTER_FACTORY(NAME, GTYPE, DTYPE, IOBase::IO_OUTPUT, SVALUE)
+#define REGISTER_INOUT(NAME, GTYPE, DTYPE, SVALUE) REGISTER_FACTORY(NAME, GTYPE, DTYPE, IOBase::IO_BOTH, SVALUE)
 
 class IOFactory
 {
@@ -53,7 +53,7 @@ private:
 
 public:
 
-    IOBase *CreateIO(string type, Params &params, int io_type = IOBase::IO_NONE);
+    IOBase *CreateIO(string type, Params &params, int io_type = IOBase::IO_NONE, string scriptDemoValue = string());
 
     void RegisterClass(string type, function<IOBase *(Params &)> classFunc)
     {

@@ -50,11 +50,12 @@ public:
 
     enum { IO_NONE = 0, IO_INPUT, IO_OUTPUT, IO_BOTH };
 
-    IOBase(Params &p, string g, DATA_TYPE d, int i):
+    IOBase(Params &p, string g, DATA_TYPE d, int i, string s = string()):
         param(p),
         gui_type(g),
         basic_type(d),
-        io_type(i)
+        io_type(i),
+        scriptDemoValue(s)
     {
         range_months.set();
     }
@@ -101,6 +102,11 @@ public:
     //Input source mapping for AVReceiver
     typedef map<int ,string> AVRList;
     AVRList source_names;
+
+    bool getDemoValueBool();
+    double getDemoValueDouble();
+    string getDemoValueString();
+    string scriptDemoValue;
 
     void buildInputSourcesList();
 
