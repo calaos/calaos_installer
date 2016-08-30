@@ -2188,12 +2188,13 @@ void FormRules::on_bt_rules_add_clicked()
 
 void FormRules::on_tree_rules_currentItemChanged(QTreeWidgetItem *current, QTreeWidgetItem *)
 {
+    //clear both lists
+    ui->tree_condition->clear_all();
+    ui->tree_action->clear_all();
+
     QTreeWidgetItemRule *itrule = dynamic_cast<QTreeWidgetItemRule *>(current);
     if (itrule)
     {
-        //clear both lists
-        ui->tree_condition->clear_all();
-        ui->tree_action->clear_all();
 
         //add new elements from selected rule
         Rule *rule = itrule->getRule();
