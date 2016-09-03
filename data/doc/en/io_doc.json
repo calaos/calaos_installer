@@ -1780,27 +1780,15 @@
                 "type": "string"
             },
             {
-                "default": "temperature",
+                "default": "other",
                 "description": "GUI style display. This will control the icon displayed on the UI",
                 "mandatory": "true",
                 "name": "gui_style",
                 "readonly": "false",
                 "type": "list",
                 "list_value": {
-                    "current": "Current",
-                    "distance": "Distance",
                     "humidity": "Humidity",
-                    "luminosity": "Luminosity",
-                    "other": "Other",
-                    "percent": "Percent",
-                    "pressure": "Pressure",
-                    "speed": "Speed",
-                    "temperature": "Temperature",
-                    "voltage": "Voltage",
-                    "water_flow": "Water Flow",
-                    "watt": "Watt",
-                    "weight": "Weight",
-                    "wind_speed": "Wind Speed"
+                    "other": "Other"
                 }
             },
             {
@@ -2431,27 +2419,15 @@
                 "type": "string"
             },
             {
-                "default": "temperature",
+                "default": "other",
                 "description": "GUI style display. This will control the icon displayed on the UI",
                 "mandatory": "true",
                 "name": "gui_style",
                 "readonly": "false",
                 "type": "list",
                 "list_value": {
-                    "current": "Current",
-                    "distance": "Distance",
                     "humidity": "Humidity",
-                    "luminosity": "Luminosity",
-                    "other": "Other",
-                    "percent": "Percent",
-                    "pressure": "Pressure",
-                    "speed": "Speed",
-                    "temperature": "Temperature",
-                    "voltage": "Voltage",
-                    "water_flow": "Water Flow",
-                    "watt": "Watt",
-                    "weight": "Weight",
-                    "wind_speed": "Wind Speed"
+                    "other": "Other"
                 }
             },
             {
@@ -3620,27 +3596,15 @@
                 "type": "string"
             },
             {
-                "default": "temperature",
+                "default": "other",
                 "description": "GUI style display. This will control the icon displayed on the UI",
                 "mandatory": "true",
                 "name": "gui_style",
                 "readonly": "false",
                 "type": "list",
                 "list_value": {
-                    "current": "Current",
-                    "distance": "Distance",
                     "humidity": "Humidity",
-                    "luminosity": "Luminosity",
-                    "other": "Other",
-                    "percent": "Percent",
-                    "pressure": "Pressure",
-                    "speed": "Speed",
-                    "temperature": "Temperature",
-                    "voltage": "Voltage",
-                    "water_flow": "Water Flow",
-                    "watt": "Watt",
-                    "weight": "Weight",
-                    "wind_speed": "Wind Speed"
+                    "other": "Other"
                 }
             },
             {
@@ -4369,27 +4333,15 @@
                 "type": "string"
             },
             {
-                "default": "temperature",
+                "default": "other",
                 "description": "GUI style display. This will control the icon displayed on the UI",
                 "mandatory": "true",
                 "name": "gui_style",
                 "readonly": "false",
                 "type": "list",
                 "list_value": {
-                    "current": "Current",
-                    "distance": "Distance",
                     "humidity": "Humidity",
-                    "luminosity": "Luminosity",
-                    "other": "Other",
-                    "percent": "Percent",
-                    "pressure": "Pressure",
-                    "speed": "Speed",
-                    "temperature": "Temperature",
-                    "voltage": "Voltage",
-                    "water_flow": "Water Flow",
-                    "watt": "Watt",
-                    "weight": "Weight",
-                    "wind_speed": "Wind Speed"
+                    "other": "Other"
                 }
             },
             {
@@ -6605,27 +6557,15 @@
                 "type": "string"
             },
             {
-                "default": "temperature",
+                "default": "other",
                 "description": "GUI style display. This will control the icon displayed on the UI",
                 "mandatory": "true",
                 "name": "gui_style",
                 "readonly": "false",
                 "type": "list",
                 "list_value": {
-                    "current": "Current",
-                    "distance": "Distance",
                     "humidity": "Humidity",
-                    "luminosity": "Luminosity",
-                    "other": "Other",
-                    "percent": "Percent",
-                    "pressure": "Pressure",
-                    "speed": "Speed",
-                    "temperature": "Temperature",
-                    "voltage": "Voltage",
-                    "water_flow": "Water Flow",
-                    "watt": "Watt",
-                    "weight": "Weight",
-                    "wind_speed": "Wind Speed"
+                    "other": "Other"
                 }
             },
             {
@@ -7330,27 +7270,15 @@
                 "type": "string"
             },
             {
-                "default": "temperature",
+                "default": "other",
                 "description": "GUI style display. This will control the icon displayed on the UI",
                 "mandatory": "true",
                 "name": "gui_style",
                 "readonly": "false",
                 "type": "list",
                 "list_value": {
-                    "current": "Current",
-                    "distance": "Distance",
                     "humidity": "Humidity",
-                    "luminosity": "Luminosity",
-                    "other": "Other",
-                    "percent": "Percent",
-                    "pressure": "Pressure",
-                    "speed": "Speed",
-                    "temperature": "Temperature",
-                    "voltage": "Voltage",
-                    "water_flow": "Water Flow",
-                    "watt": "Watt",
-                    "weight": "Weight",
-                    "wind_speed": "Wind Speed"
+                    "other": "Other"
                 }
             },
             {
@@ -7920,27 +7848,15 @@
                 "type": "string"
             },
             {
-                "default": "temperature",
+                "default": "other",
                 "description": "GUI style display. This will control the icon displayed on the UI",
                 "mandatory": "true",
                 "name": "gui_style",
                 "readonly": "false",
                 "type": "list",
                 "list_value": {
-                    "current": "Current",
-                    "distance": "Distance",
                     "humidity": "Humidity",
-                    "luminosity": "Luminosity",
-                    "other": "Other",
-                    "percent": "Percent",
-                    "pressure": "Pressure",
-                    "speed": "Speed",
-                    "temperature": "Temperature",
-                    "voltage": "Voltage",
-                    "water_flow": "Water Flow",
-                    "watt": "Watt",
-                    "weight": "Weight",
-                    "wind_speed": "Wind Speed"
+                    "other": "Other"
                 }
             },
             {
@@ -9255,27 +9171,15 @@
                 "type": "string"
             },
             {
-                "default": "temperature",
+                "default": "other",
                 "description": "GUI style display. This will control the icon displayed on the UI",
                 "mandatory": "true",
                 "name": "gui_style",
                 "readonly": "false",
                 "type": "list",
                 "list_value": {
-                    "current": "Current",
-                    "distance": "Distance",
                     "humidity": "Humidity",
-                    "luminosity": "Luminosity",
-                    "other": "Other",
-                    "percent": "Percent",
-                    "pressure": "Pressure",
-                    "speed": "Speed",
-                    "temperature": "Temperature",
-                    "voltage": "Voltage",
-                    "water_flow": "Water Flow",
-                    "watt": "Watt",
-                    "weight": "Weight",
-                    "wind_speed": "Wind Speed"
+                    "other": "Other"
                 }
             },
             {
