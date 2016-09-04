@@ -1780,15 +1780,15 @@
                 "type": "string"
             },
             {
-                "default": "other",
+                "default": "default",
                 "description": "GUI style display. This will control the icon displayed on the UI",
                 "mandatory": "true",
                 "name": "gui_style",
                 "readonly": "false",
                 "type": "list",
                 "list_value": {
-                    "humidity": "Humidity",
-                    "other": "Other"
+                    "default": "Default",
+                    "humidity": "Humidity"
                 }
             },
             {
@@ -2419,15 +2419,15 @@
                 "type": "string"
             },
             {
-                "default": "other",
+                "default": "default",
                 "description": "GUI style display. This will control the icon displayed on the UI",
                 "mandatory": "true",
                 "name": "gui_style",
                 "readonly": "false",
                 "type": "list",
                 "list_value": {
-                    "humidity": "Humidity",
-                    "other": "Other"
+                    "default": "Default",
+                    "humidity": "Humidity"
                 }
             },
             {
@@ -3596,15 +3596,15 @@
                 "type": "string"
             },
             {
-                "default": "other",
+                "default": "default",
                 "description": "GUI style display. This will control the icon displayed on the UI",
                 "mandatory": "true",
                 "name": "gui_style",
                 "readonly": "false",
                 "type": "list",
                 "list_value": {
-                    "humidity": "Humidity",
-                    "other": "Other"
+                    "default": "Default",
+                    "humidity": "Humidity"
                 }
             },
             {
@@ -4333,15 +4333,15 @@
                 "type": "string"
             },
             {
-                "default": "other",
+                "default": "default",
                 "description": "GUI style display. This will control the icon displayed on the UI",
                 "mandatory": "true",
                 "name": "gui_style",
                 "readonly": "false",
                 "type": "list",
                 "list_value": {
-                    "humidity": "Humidity",
-                    "other": "Other"
+                    "default": "Default",
+                    "humidity": "Humidity"
                 }
             },
             {
@@ -6557,15 +6557,15 @@
                 "type": "string"
             },
             {
-                "default": "other",
+                "default": "default",
                 "description": "GUI style display. This will control the icon displayed on the UI",
                 "mandatory": "true",
                 "name": "gui_style",
                 "readonly": "false",
                 "type": "list",
                 "list_value": {
-                    "humidity": "Humidity",
-                    "other": "Other"
+                    "default": "Default",
+                    "humidity": "Humidity"
                 }
             },
             {
@@ -7270,15 +7270,15 @@
                 "type": "string"
             },
             {
-                "default": "other",
+                "default": "default",
                 "description": "GUI style display. This will control the icon displayed on the UI",
                 "mandatory": "true",
                 "name": "gui_style",
                 "readonly": "false",
                 "type": "list",
                 "list_value": {
-                    "humidity": "Humidity",
-                    "other": "Other"
+                    "default": "Default",
+                    "humidity": "Humidity"
                 }
             },
             {
@@ -7848,15 +7848,15 @@
                 "type": "string"
             },
             {
-                "default": "other",
+                "default": "default",
                 "description": "GUI style display. This will control the icon displayed on the UI",
                 "mandatory": "true",
                 "name": "gui_style",
                 "readonly": "false",
                 "type": "list",
                 "list_value": {
-                    "humidity": "Humidity",
-                    "other": "Other"
+                    "default": "Default",
+                    "humidity": "Humidity"
                 }
             },
             {
@@ -9171,15 +9171,15 @@
                 "type": "string"
             },
             {
-                "default": "other",
+                "default": "default",
                 "description": "GUI style display. This will control the icon displayed on the UI",
                 "mandatory": "true",
                 "name": "gui_style",
                 "readonly": "false",
                 "type": "list",
                 "list_value": {
-                    "humidity": "Humidity",
-                    "other": "Other"
+                    "default": "Default",
+                    "humidity": "Humidity"
                 }
             },
             {
