@@ -4,8 +4,9 @@ set -ev
 SCRIPTDIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 source $SCRIPTDIR/../funcs.sh
 
-mkdir build
+mkdir -p build
 pushd build
+mkdir -p build/machine_creator
 
 unset `env | \
 grep -vi '^EDITOR=\|^HOME=\|^LANG=\|MXE\|^PATH=' | \
@@ -20,7 +21,8 @@ CPPFLAGS=-I$QTDIR/include
 make_version ..
 qmake ../calaos_installer.pro
 make
-qmake ../machine_creator/machine_creator.pro
+pushd machine_creator
+qmake ../../machine_creator/machine_creator.pro
 make
-
+popd
 popd

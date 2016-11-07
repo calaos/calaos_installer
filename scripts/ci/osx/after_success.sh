@@ -14,11 +14,11 @@ VERSION="$(get_version .)"
 #Only build if the commit we are building is for the last tag
 if [ "$(git rev-list -n 1 $VERSION)" != "$(cat .git/HEAD)"  ]; then
     echo "Not uploading package"
-    return 0
+#    return 0
 fi
 
 QTDIR="/usr/local/opt/qt5"
-APP=CalaosInstaller
+APP=calaos_installer
 # this directory name will also be shown in the title when the DMG is mounted
 TEMPDIR=build/$APP
 SIGNATURE="Raoul Hecky"
@@ -29,16 +29,17 @@ if [ "$NAME" != "Darwin" ]; then
     exit 1
 fi
 
-cat build/$APP.app/Contents/Info.plist
+# copy icon
+cp macos/icon.icns build/$APP.app/Contents/Resources/
 
-echo "Changing bundle identifier"
-sed -i -e 's/com.yourcompany.CalaosInstaller/com.Calaos.CalaosInstaller/g' build/$APP.app/Contents/Info.plist
+# copy Info.plist
+cp macos/Info.plist build/$APP.app/Contents/Info.plist
+
 # removing backup plist
 rm -f build/$APP.app/Contents/Info.plist-e
 
-# Copy daemon to bundle
-cp build/calaos_machinecreator build/$APP.app/Contents/MacOS/
-
+# Copy machine_creator to bundle
+cp build/machine_creator/calaos_machinecreator.app/Contents/MacOS/calaos_machinecreator build/$APP.app/Contents/MacOS/
 # use macdeployqt to deploy the application
 #echo "Calling macdeployqt and code signing application"
 #$QTDIR/bin/macdeployqt ./$APP.app -codesign="$DEVELOPER_NAME"
@@ -53,8 +54,8 @@ fi
 
 #Call fix to change all rpath
 wget https://raw.githubusercontent.com/aurelien-rainone/macdeployqtfix/master/macdeployqtfix.py
-python macdeployqtfix.py build/$APP.app/Contents/MacOS/calaos_installer /usr/local/Cellar/qt5/5.*/
-python macdeployqtfix.py build/$APP.app/Contents/MacOS/calaos_machinecreator /usr/local/Cellar/qt5/5.*/
+python macdeployqtfix.py build/$APP.app/Contents/MacOS/calaos_installer /usr/local/Cellar/qt5/5.6.1-1
+python macdeployqtfix.py build/$APP.app/Contents/MacOS/calaos_machinecreator /usr/local/Cellar/qt5/5.6.1-1
 
 #install appdmg https://github.com/LinusU/node-appdmg a tool to create awesome dmg !
 npm install -g appdmg
