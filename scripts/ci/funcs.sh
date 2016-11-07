@@ -18,7 +18,7 @@ function make_version()
     echo "#define VERSION__H" >> $1/src/version.h
 
     echo "#define APP_VERSION \"$(get_version $1)\"" >> $1/src/version.h
-    echo "const char *calaos_installer_version = APP_VERSION" >> $1/src/version.h;
+    echo "const char *calaos_installer_version = APP_VERSION;" >> $1/src/version.h
 
     echo "#endif" >> $1/src/version.h
 }
