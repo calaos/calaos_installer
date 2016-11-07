@@ -609,8 +609,14 @@ void MainWindow::on_btAutodetect_clicked()
 
 void MainWindow::on_actionCreateNewImage_triggered()
 {
-    DialogCreateNewImage d;
-    d.exec();
+    QProcess *createImageProcess= new QProcess();
+    createImageProcess->start("./machine_creator");
+
+    connect(createImageProcess, &QProcess::finished, [=](int exitCode) {
+        delete createImageProcess;
+    });
+
+
 }
 
 void MainWindow::on_actionSet_DMX4ALL_IP_Address_triggered()
