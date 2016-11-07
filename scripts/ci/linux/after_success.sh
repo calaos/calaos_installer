@@ -5,11 +5,11 @@ SCRIPTDIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 source $SCRIPTDIR/../funcs.sh
 
 MXE_BIN=$HOME/mxe/usr/i686-w64-mingw32.shared
-WDIR=$HOME/.wine/drive_c/moolticute_build
+WDIR=$HOME/.wine/drive_c/calaos_installer_build
 
 VERSION="$(get_version .)"
 
-FILENAME=moolticute_setup_$VERSION
+FILENAME=calaos_installer_setup_$VERSION
 
 #Only build if the commit we are building is for the last tag
 if [ "$(git rev-list -n 1 $VERSION)" != "$(cat .git/HEAD)"  ]; then
@@ -31,8 +31,8 @@ for f in $MXE_BIN/bin/libgcc_s_sjlj-1.dll \
          $MXE_BIN/qt5/bin/Qt5WebSockets.dll \
          $MXE_BIN/qt5/plugins/imageformats \
          $MXE_BIN/qt5/plugins/platforms \
-         build/release/MoolticuteApp.exe \
-         build/release/moolticuted.exe
+         build/release/CalaosInstaller.exe \
+         build/release/calaos_machinecreator.exe
 do
     cp -R $f $WDIR
 done

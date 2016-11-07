@@ -3,7 +3,7 @@
 set -ev
 
 #
-# creating the Moolticute.dmg with Applications link
+# creating the CalaosInstaller.dmg with Applications link
 #
 
 SCRIPTDIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
@@ -32,7 +32,7 @@ fi
 cat build/$APP.app/Contents/Info.plist
 
 echo "Changing bundle identifier"
-sed -i -e 's/com.yourcompany.Moolticute/com.Mooltipass.Moolticute/g' build/$APP.app/Contents/Info.plist
+sed -i -e 's/com.yourcompany.CalaosInstaller/com.Calaos.CalaosInstaller/g' build/$APP.app/Contents/Info.plist
 # removing backup plist
 rm -f build/$APP.app/Contents/Info.plist-e
 
