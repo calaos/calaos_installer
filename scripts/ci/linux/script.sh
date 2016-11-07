@@ -5,6 +5,7 @@ SCRIPTDIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 source $SCRIPTDIR/../funcs.sh
 
 mkdir build
+mkdir build/machine_creator
 pushd build
 
 unset `env | \
@@ -19,7 +20,8 @@ make_version ..
 
 $MXE_BASE/usr/i686-w64-mingw32.shared/qt5/bin/qmake ../calaos_installer.pro
 make
+pushd machine_creator
 $MXE_BASE/usr/i686-w64-mingw32.shared/qt5/bin/qmake ../machine_creator/machine_creator.pro
 make
-
+popd
 popd
