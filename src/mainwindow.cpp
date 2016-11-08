@@ -610,7 +610,8 @@ void MainWindow::on_btAutodetect_clicked()
 void MainWindow::on_actionCreateNewImage_triggered()
 {
     QProcess *createImageProcess = new QProcess();
-    createImageProcess->start("./calaos_machinecreator.sh");
+    QDir dir;
+    createImageProcess->start(dir.absolutePath() + "/calaos_machinecreator.sh");
     createImageProcess->waitForFinished();
     delete createImageProcess;
 }
