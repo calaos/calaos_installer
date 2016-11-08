@@ -40,6 +40,10 @@ rm -f build/$APP.app/Contents/Info.plist-e
 
 # Copy machine_creator to bundle
 cp build/machine_creator/calaos_machinecreator.app/Contents/MacOS/calaos_machinecreator build/$APP.app/Contents/MacOS/
+
+cp macos/calaos_machinecreator.sh build/$APP.app/Contents/MacOS/
+cp macos/main.scpt build/$APP.app/
+
 # use macdeployqt to deploy the application
 #echo "Calling macdeployqt and code signing application"
 #$QTDIR/bin/macdeployqt ./$APP.app -codesign="$DEVELOPER_NAME"
