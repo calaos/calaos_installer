@@ -8,8 +8,8 @@
 
 #include "DiskWriter_unix.h"
 
-//#define CALAOS_UPDATE_VERSION_URL "http://calaos.fr/update?versions=all"
-#define CALAOS_UPDATE_VERSION_URL "http://127.0.0.1:8428?versions=all"
+#define CALAOS_UPDATE_VERSION_URL "http://calaos.fr/update?versions=all"
+//#define CALAOS_UPDATE_VERSION_URL "http://127.0.0.1:8428?versions=all"
 
 MainWindow::MainWindow(QWidget *parent) :
     QDialog(parent),
