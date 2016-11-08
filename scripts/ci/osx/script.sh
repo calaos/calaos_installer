@@ -6,7 +6,7 @@ source $SCRIPTDIR/../funcs.sh
 
 mkdir -p build
 pushd build
-mkdir -p build/machine_creator
+
 
 unset `env | \
 grep -vi '^EDITOR=\|^HOME=\|^LANG=\|MXE\|^PATH=' | \
@@ -21,8 +21,9 @@ CPPFLAGS=-I$QTDIR/include
 make_version ..
 qmake ../calaos_installer.pro
 make
-pushd machine_creator
+mkdir -p build/machine_creator
+cd machine_creator
 qmake ../../machine_creator/machine_creator.pro
 make
-popd
+
 popd
