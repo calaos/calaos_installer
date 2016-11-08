@@ -21,7 +21,7 @@ CPPFLAGS=-I$QTDIR/include
 make_version ..
 qmake ../calaos_installer.pro
 make
-mkdir -p build/machine_creator
+mkdir machine_creator
 cd machine_creator
 qmake ../../machine_creator/machine_creator.pro
 make
