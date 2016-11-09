@@ -1,3 +1,4 @@
 #!/bin/sh
-cd ../..
-osascript main.scpt
+script="$0"
+basename="$(dirname $script)"
+osascript $basename/main.scpt
