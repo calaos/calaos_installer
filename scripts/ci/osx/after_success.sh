@@ -42,7 +42,7 @@ rm -f build/$APP.app/Contents/Info.plist-e
 cp build/machine_creator/calaos_machinecreator.app/Contents/MacOS/calaos_machinecreator build/$APP.app/Contents/MacOS/
 
 cp macos/calaos_machinecreator.sh build/$APP.app/Contents/MacOS/
-cp macos/main.scpt build/$APP.app/
+cp macos/main.scpt build/$APP.app/Contents/MacOS/
 
 # use macdeployqt to deploy the application
 #echo "Calling macdeployqt and code signing application"
