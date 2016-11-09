@@ -1,11 +1,8 @@
 #!/bin/bash
 
-# NOTE: This script currently only runs ONCE
-# which means we cannot use it for nightly builds
-# TODO: 
-# Make this run repeatedly and only compile what needs to be compiled (not everything) (FIXME)
+# Compile Calaos Installer and bundle it as an AppImage on CentOS 6
+# Based on Simon Peter AppImage Recipe for Subsurface
 
-# Comment this if you want to build the Docker image (FIXME: determine automatically)
 # Halt on errors
 set -e
 
@@ -15,95 +12,162 @@ set -x
 # TODO: move to a library function
 git_pull_rebase_helper()
 {
-git reset --hard HEAD
-git pull
+    git reset --hard HEAD
+    git pull
 }
 
-# Determine which architecture should be built
+export PATH=/bin:/sbin:$PATH # For CentOS 6
 
-# Now we are inside CentOS 6
-grep -r "CentOS release 6" /etc/redhat-release || exit 1
+# Source helper functions
+wget -q https://github.com/probonopd/AppImages/raw/master/functions.sh -O ./functions.sh
+. ./functions.sh
+rm functions.sh
+
+if [ -z "$NO_DOWNLOAD" ] ; then
+    # Enable EPEL repository; needed for recent Qt and
+    # install dependencies
+    sudo yum -y install wget epel-release git make autoconf automake libtool \
+	 libzip-devel libxml2-devel libxslt-devel libsqlite3x-devel \
+	 libudev-devel libusbx-devel libcurl-devel libssh2-devel mesa-libGL-devel sqlite-devel \
+	 tar gzip which make autoconf automake gstreamer-devel mesa-libEGL coreutils grep wget
+
+    # Determine which architecture should be built
+    if [[ "$(/bin/arch)" = "i686" ||  "$(/bin/arch)" = "x86_64" ]] ; then
+
+    else
+	echo "Architecture could not be determined"
+	exit 1
+    fi
+
+    # Now we are inside CentOS 6
+    grep -r "CentOS release 6" /etc/redhat-release || exit 1
+
+    if [ ! -d AppImages ] ; then
+	git clone https://github.com/probonopd/AppImages.git
+    fi
+    cd AppImages/
+    git_pull_rebase_helper
+    cd ..
+
+    # Need a newer gcc, getting it from Developer Toolset 2
+    sudo wget http://people.centos.org/tru/devtools-2/devtools-2.repo -O /etc/yum.repos.d/devtools-2.repo
+    sudo yum -y install devtoolset-2-gcc devtoolset-2-gcc-c++ devtoolset-2-binutils
+    # /opt/rh/devtoolset-2/root/usr/bin/gcc
+    # now holds gcc and c++ 4.8.2
+
+    # Get newer version of cmake
+    # Install CMake 3.2.2 and Qt 5.5.x # https://github.com/vlc-qt/examples/blob/master/tools/ci/linux/install.sh
+    if [[ "$ARCH" = "x86_64" ]] ; then
+	wget --no-check-certificate -c https://www.cmake.org/files/v3.2/cmake-3.2.2-Linux-x86_64.tar.gz
+    fi
+    if [[ "$ARCH" = "i686" ]] ; then
+	wget --no-check-certificate -c https://cmake.org/files/v3.2/cmake-3.2.2-Linux-i386.tar.gz
+    fi
+    tar xf cmake-*.tar.gz
+
+    # EPEL is awesome - fresh Qt5 for old base systems
+    sudo yum -y install qt5-qtbase-devel qt5-qtlocation-devel qt5-qtscript-devel qt5-qtwebkit-devel qt5-qtsvg-devel qt5-linguist qt5-qtconnectivity-devel
+fi
+
+CMAKE_PATH=$(find $PWD/cmake-*/ -type d | head -n 1)bin
+export LD_LIBRARY_PATH=/opt/rh/devtoolset-2/root/usr/lib:$LD_LIBRARY_PATH # Needed for bundling the libraries into AppDir below
+export PATH=/opt/rh/devtoolset-2/root/usr/bin/:$CMAKE_PATH:$PATH # Needed at compile time to find Qt and cmake
+
+if [ -z "$NO_DOWNLOAD" ] ; then
+    # Install AppImageKit build dependencies
+    sudo yum -y install binutils fuse glibc-devel glib2-devel fuse-devel gcc zlib-devel libpng12 # Fedora, RHEL, CentOS
+
+    # Build AppImageKit
+    if [ ! -d AppImageKit ] ; then
+	git clone https://github.com/probonopd/AppImageKit.git
+    fi
+    cd AppImageKit/
+    git_pull_rebase_helper
+    cmake .
+    make clean
+    make
+    cd ..
+fi
 
 APP=calaos_installer
-rm -rf /$APP/$APP.AppDir
-mkdir -p /$APP/$APP.AppDir
+rm -rf ./$APP/$APP.AppDir
+mkdir -p ./$APP/$APP.AppDir
+cd ./$APP
 
-cd /
-
-yum -y install xz tar wget bzip2 make which libtool gcc-c++ git epel-release wget qt-devel gettext-devel
-
-
-
-# Install AppImageKit build dependencies
-yum -y install binutils fuse glibc-devel fuse-devel gcc
-
-# Build AppImageKit
-if [ ! -d AppImageKit ] ; then
-git clone https://github.com/probonopd/AppImageKit.git
+# Get latest subsurface project from git
+if [ ! -d $APP ] ; then
+    git clone git://github.com/calaos/$APP
 fi
-cd AppImageKit/
+cd $APP
 git_pull_rebase_helper
-cmake .
-make clean
-make
 cd ..
 
+# this is a bit hackish as the build.sh script isn't setup in
+# the best possible way for us
+mkdir -p $APP.AppDir/usr
+INSTALL_ROOT=$(cd $APP.AppDir/usr; pwd)
 
-cd /$APP
-
-
-git clone https://github.com/calaos/calaos-installer --depth 1
-
-cd calaos-installer
-git_pull_rebase_helper
 mkdir build
-cd builds
-qmake ../calaos_installer.pro
+mkdir build/machine_creator
+cd build
+qmake ../calaos_insatller.pro
 make
-mkdir machine_creator
+cp calaos_installer /$APP/$APP.AppDir/usr/bin
+
 cd machine_creator
 qmake ../../machine_creator/machine_creator.pro
 make
+cp machine_creator /$APP/$APP.AppDir/usr/bin
 
-# Clean up so that the Docker image won't be so large
-# as without cleaning it has over 5 GB;
-# not sure if it will work with the below deleted (to be verified)
-rm -rf /var/cache/yum || true # 75 MB
-rm -rf /usr/src || true # 337 MB
+cd /$APP
 
-ls -l /$APP/
-cd /$APP/calaos-installer/
+cp ./linux/calaos_installer.desktop $APP.AppDir/
+cp ./linux/calaos_installer-icon.svg $APP.AppDir/
 
 # Bundle dependency libraries into the AppDir
-cd /$APP/$APP.AppDir/
+cd $APP.AppDir/
 cp ../../AppImageKit/AppRun .
 chmod a+x AppRun
+# FIXME: How to find out which subset of plugins is really needed? I used strace when running the binary
+mkdir -p ./usr/lib/qt5/plugins/
 
-#Desktop file
-cat > ./calaos_installer.desktop <<\EOF
-[Desktop Entry]
-Name=Calaos Installer
-Type=Application
-Comment=Calaos Installer
-Exec=calaos_installer
-Categories=System
-Icon=calaos_installer.png
-EOF
+if [ -e $(dirname /usr/li*/qt5/plugins/bearer) ] ; then
+    PLUGINS=$(dirname /usr/li*/qt5/plugins/bearer)
+else
+    PLUGINS=../../5.5/gc*/plugins/
+fi
+echo $PLUGINS # /usr/lib64/qt5/plugins if build system Qt is found
+cp -r $PLUGINS/{bearer,iconengines,imageformats,platforminputcontexts,platforms,platformthemes,sensors,xcbglintegrations} ./usr/lib/qt5/plugins/
 
-rm -rf usr/share/icons/hicolor/48x48/
+if [ -e $(dirname /usr/li*/libicudata.so.42) ] ; then
+    LIB=$(dirname /usr/li*/libicudata.so.42)
+else
+    LIB=../../5.5/gc*/lib
+fi
+echo $LIB
+cp -a $LIB/libicu* usr/lib
 
-mkdir -p ./usr/lib/qt4
-cp -r /usr/lib64/qt4/plugins ./usr/lib/qt4/
+export LD_LIBRARY_PATH=./usr/lib/:../../5.5/gc*/lib/:$LD_LIBRARY_PATH
+ldd usr/bin/calaos_server | grep "=>" | awk '{print $3}'  |  xargs -I '{}' cp -v '{}' ./usr/lib || true
+ldd usr/bin/machine_creator | grep "=>" | awk '{print $3}'  |  xargs -I '{}' cp -v '{}' ./usr/lib || true
+ldd usr/lib/qt5/plugins/platforms/libqxcb.so | grep "=>" | awk '{print $3}'  |  xargs -I '{}' cp -v '{}' ./usr/lib || true
 
-export LD_LIBRARY_PATH=./usr/lib/:../../4/gc*/lib/:$LD_LIBRARY_PATH
-ldd usr/bin/calaos_installer | grep "=>" | awk '{print $3}'  |  xargs -I '{}' cp -v '{}' ./usr/lib || true
+# These seem to be available on most systems but not Ubuntu 11.04
+# rm -f usr/lib/libffi.so.6 usr/lib/libGL.so.1 usr/lib/libglapi.so.0 usr/lib/libxcb.so.1 usr/lib/libxcb-glx.so.0 || true
 
-# Copy in the indirect dependencies
-FILES=$(find . -type f -executable)
-
-for FILE in $FILES ; do
-    ldd "${FILE}" | grep "=>" | awk '{print $3}' | xargs -I '{}' cp -v '{}' ./usr/lib || true
-done
+# Accoring to the Subsurface upstream project, these are not needed in the AppImage
+rm -f usr/lib/libdivecomputer.a || true
+rm -f usr/lib/libdivecomputer.la || true
+rm -f usr/lib/libdivecomputer.so || true
+rm -f usr/lib/libdivecomputer.so.0 || true
+rm -f usr/lib/libdivecomputer.so.0.0.0 || true
+rm -f usr/lib/libGrantlee_TextDocument.so || true
+rm -f usr/lib/libGrantlee_TextDocument.so.5.0.0 || true
+rm -f usr/lib/libssrfmarblewidget.so || true
+rm -f usr/lib/subsurface || true
+rm -f usr/bin/universal || true
+rm -f usr/bin/ostc-fwupdate || true
+rm -f usr/bin/subsurface.debug || true
 
 # Delete potentially dangerous libraries
 rm -f usr/lib/libstdc* usr/lib/libgobject* usr/lib/libc.so.* || true
@@ -115,10 +179,11 @@ rm -rf usr/include || true
 rm -rf usr/lib/cmake || true
 rm -rf usr/lib/pkgconfig || true
 
-find /calaos_installer/calaos_installer.AppDir/usr/lib/ -name '*.la' | xargs -i rm {}
-
 strip usr/bin/* usr/lib/* || true
 
+# According to http://www.grantlee.org/apidox/using_and_deploying.html
+# Grantlee looks for plugins in $QT_PLUGIN_DIR/grantlee/$grantleeversion/
+mv ./usr/lib/grantlee/ ./usr/lib/qt5/plugins/
 # Fix GDK_IS_PIXBUF errors on older distributions
 
 # TODO: Move all cp lib things to using ldconfig because it is more robust
@@ -139,68 +204,37 @@ cp $(ldconfig -p | grep libEGL.so.1 | cut -d ">" -f 2 | xargs) ./usr/lib/ # Othe
 
 # I have no clue why but on i386 systems this seems to be required
 if [[ "$ARCH" = "i686" ]] ; then
-        cp $(ldconfig -p | grep libgbm.so.1 | cut -d ">" -f 2 | xargs) ./usr/lib/
+    cp $(ldconfig -p | grep libgbm.so.1 | cut -d ">" -f 2 | xargs) ./usr/lib/
 fi
 
 # On openSUSE Qt is picking up the wrong libqxcb.so
 # (the one from the system when in fact it should use the bundled one) - is this a Qt bug?
 # Hence, we binary patch /usr/lib* to $CWD/lib* which works because at runtime,
 # the current working directory is set to usr/ inside the AppImage before running the app
-#cd usr/ ; find . -type f -exec sed -i -e 's|/usr/lib|././/lib|g' {} \; ; cd ..
+cd usr/ ; find . -type f -exec sed -i -e 's|/usr/lib|././/lib|g' {} \; ; cd ..
 
 cp $(ldconfig -p | grep libfreetype.so.6 | cut -d ">" -f 2 | xargs) ./usr/lib/ # For Fedora 20
 
-# Add desktop integration - TODO: move to a library function
-XAPP=calaos_installer
-wget -O ./usr/bin/$XAPP.wrapper https://raw.githubusercontent.com/probonopd/AppImageKit/master/desktopintegration
-chmod a+x ./usr/bin/$XAPP.wrapper
-sed -i -e "s|Exec=$XAPP|Exec=$XAPP.wrapper|g" $XAPP.desktop
+# Add desktop integration
+get_desktopintegration subsurface
 
-# Delete blacklisted files; TODO: Move to a library function
-BLACKLISTED_FILES=$(wget -q https://github.com/probonopd/AppImages/raw/master/excludelist -O - | sed '/^\s*$/d' | sed '/^#.*$/d')
-echo $BLACKLISTED_FILES
-for FILE in $BLACKLISTED_FILES ; do
-  FOUND=$(find . -type f -name "${FILE}" 2>/dev/null)
-  if [ ! -z "$FOUND" ] ; then
-    echo "Deleting blacklisted ${FOUND}"
-    rm -f "${FOUND}"
-  fi
-done
-
-# Remove .a and .la files
-find . -name *.la -exec rm {} \;
-find . -name *.a -exec rm {} \;
-
-# Workaround for:
-# On debian sid,
-# symbol lookup error: /lib/x86_64-linux-gnu/libncurses.so.5: undefined symbol: _nc_putchar
-yum -y install ncurses
-cp $(ldconfig -p | grep libncurses.so.5 | cut -d ">" -f 2 | xargs) ./usr/lib/
-
-# Workaround for:
-# On debian sid,
-# Gtk-CRITICAL **: IA__gtk_widget_style_get: assertion 'GTK_IS_WIDGET (widget)' failed
-cp $(ldconfig -p | grep libtinfo.so.5 | cut -d ">" -f 2 | xargs) ./usr/lib/
-
-# Workaround for:
-# symbol lookup error: /usr/lib/x86_64-linux-gnu/gtk-2.0/modules/libunity-gtk-module.so: undefined symbol: g_settings_newn
-#rm usr/lib/qt5/plugins/platformthemes/libqgtk* || true
-
-# Workaround for:
-# GTK theme is broken
-rm -rf usr/lib/libgtk* usr/lib/libgdk* usr/lib/libpango* || true
-
-GLIBC_NEEDED=$(find . -type f -executable -exec strings {} \; | grep ^GLIBC_2 | sed s/GLIBC_//g | sort --version-sort | uniq | tail -n 1)
-VERSION="${VER1}.glibc${GLIBC_NEEDED}"
+# Remove blacklisted files
+delete_blacklisted
 
 cd ..
 find $APP.AppDir/
 
+# Figure out $VERSION
+GITVERSION=$(cd subsurface ; git describe | sed -e 's/-g.*$// ; s/^v//')
+GITREVISION=$(echo $GITVERSION | sed -e 's/.*-// ; s/.*\..*//')
+VERSION=$(echo $GITVERSION | sed -e 's/-/./')
+echo $VERSION
+
 if [[ "$ARCH" = "x86_64" ]] ; then
-APPIMAGE=$APP"-"$VERSION"-x86_64.AppImage"
+    APPIMAGE=$APP"-"$VERSION"-x86_64.AppImage"
 fi
 if [[ "$ARCH" = "i686" ]] ; then
-APPIMAGE=$APP"-"$VERSION"-i386.AppImage"
+    APPIMAGE=$APP"-"$VERSION"-i386.AppImage"
 fi
 
 # Put this script into the AppImage for debugging
