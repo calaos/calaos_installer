@@ -33,7 +33,7 @@ rm functions.sh
 if [ -z "$NO_DOWNLOAD" ] ; then
     # Determine which architecture should be built
     if [[ "$(/bin/arch)" = "i686" ||  "$(/bin/arch)" = "x86_64" ]] ; then
-
+	echo "Arch is $(bin/arch)"
     else
 	echo "Architecture could not be determined"
 	exit 1
