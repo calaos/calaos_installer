@@ -55,16 +55,6 @@ if [ -z "$NO_DOWNLOAD" ] ; then
     # /opt/rh/devtoolset-2/root/usr/bin/gcc
     # now holds gcc and c++ 4.8.2
 
-    # Get newer version of cmake
-    # Install CMake 3.2.2 and Qt 5.5.x # https://github.com/vlc-qt/examples/blob/master/tools/ci/linux/install.sh
-    if [[ "$ARCH" = "x86_64" ]] ; then
-	wget --no-check-certificate -c https://www.cmake.org/files/v3.2/cmake-3.2.2-Linux-x86_64.tar.gz
-    fi
-    if [[ "$ARCH" = "i686" ]] ; then
-	wget --no-check-certificate -c https://cmake.org/files/v3.2/cmake-3.2.2-Linux-i386.tar.gz
-    fi
-    tar xf cmake-*.tar.gz
-
     # EPEL is awesome - fresh Qt5 for old base systems
     yum -y install qt5-qtbase-devel qt5-qtlocation-devel qt5-qtscript-devel qt5-qtwebkit-devel qt5-qtsvg-devel qt5-linguist qt5-qtconnectivity-devel
 fi
@@ -83,9 +73,7 @@ if [ -z "$NO_DOWNLOAD" ] ; then
     fi
     cd AppImageKit/
     git_pull_rebase_helper
-    cmake .
-    make clean
-    make
+    ./build.sh
     cd ..
 fi
 
