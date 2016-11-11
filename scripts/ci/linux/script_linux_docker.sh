@@ -1,0 +1,12 @@
+#!/bin/bash
+set -ev
+
+./script_win32.sh
+
+#docker pull centos:6
+#docker run -i -t --name buildvm -d centos:6 /bin/bash
+#docker cp scripts/ci/linux/Recipe buildvm:Recipe
+#docker exec -ti buildvm /Recipe
+#docker cp buildvm:/calaos_instaler/calaos_installer.AppImage calaos_installer.AppImage
+
+
