@@ -1,5 +1,5 @@
 #include "DiskWriter.h"
-#include <qDebug>
+#include <QDebug>
 #include <QCoreApplication>
 #include <QFile>
 #include <QTime>
