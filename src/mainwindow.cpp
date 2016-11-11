@@ -49,14 +49,11 @@ MainWindow::MainWindow(QWidget *parent):
     progressBar->hide();
 
     statusConnectText = new QLabel(tr("Disconnected."), this);
-    ui->wagoPLCStatusGroup->layout()->addWidget(statusConnectText);
-    //statusBar()->addPermanentWidget(statusConnectText);
+    statusBar()->addPermanentWidget(statusConnectText);
 
     statusConnectIcon = new QLabel(this);
     statusConnectIcon->setPixmap(QPixmap(":/img/user-invisible_16x16.png"));
-    QGridLayout *layout = ui->wagoPLCStatusGroup->layout();
-    layout->addWidget(statusConnectIcon, 1, 1);
-    //statusBar()->addPermanentWidget(statusConnectIcon);
+    statusBar()->addPermanentWidget(statusConnectIcon);
 
     connect(&wuploader, SIGNAL(progressUpdate(int)), progressBar, SLOT(setValue(int)));
     connect(&wuploader, SIGNAL(statusUpdate(int)), this, SLOT(wagoStatusProgress(int)));
@@ -297,7 +294,7 @@ void MainWindow::on_actionCharger_un_projet_triggered()
     Load();
 }
 
-void MainWindow::on_actionOpenOnlineProject_triggered()
+void MainWindow::on_actionOuvrir_un_projet_en_ligne_triggered()
 {
     if (ui->widgetRules->projectChanged())
     {
@@ -606,7 +603,7 @@ void MainWindow::on_btAutodetect_clicked()
     {
         QString host = d.getHost();
         ConfigOptions::Instance().setHost(host);
-        on_actionOpenOnlineProject_triggered();
+        on_actionOuvrir_un_projet_en_ligne_triggered();
     }
 }
 

@@ -82,7 +82,7 @@ private slots:
     void on_actionDALI_triggered();
     void on_pushButtonBack_clicked();
     void on_actionSauvegarder_un_projet_en_ligne_triggered();
-    void on_actionOpenOnlineProject_triggered();
+    void on_actionOuvrir_un_projet_en_ligne_triggered();
     void on_actionSe_d_connecter_triggered();
     void on_actionProgrammer_l_automate_triggered();
     void on_actionSe_connecter_triggered();
