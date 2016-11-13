@@ -531,6 +531,19 @@ FormRules::FormRules(QWidget *parent) :
          addCalaosIO(p);
      });
     
+     QMenu *telinfo_menu = add_menu->addMenu(QIcon("://img/teleinfo.png"), "Teleinfo");
+
+     action = telinfo_menu->addAction(tr("TeleinfoInputAnalog"));
+     action->setIcon(QIcon(":/img/icon_analog.png"));
+
+     connect(action, &QAction::triggered, [=]()
+     {
+         Params p = {{ "type", "TeleinfoInputAnalog" },
+                     { "io_type", "input" }};
+         addCalaosIO(p);
+     });
+
+
     add_menu->addSeparator();
 
     action = add_menu->addAction(tr("Camera"));
