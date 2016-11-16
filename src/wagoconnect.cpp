@@ -240,6 +240,8 @@ void WagoConnect::ResetWago()
 
 void WagoConnect::modbusResetDone(bool success, Modbus &result)
 {
+    Q_UNUSED(result);
+    Q_UNUSED(success);
     modbus->disconnect(modbus, SIGNAL(requestDone(bool,Modbus&)), this, SLOT(modbusResetDone(bool,Modbus&)));
 }
 

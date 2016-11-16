@@ -97,6 +97,7 @@ void FormDali::Init()
 
 void FormDali::Init_cb(QString cmd, QString res)
 {
+    Q_UNUSED(cmd);
     if (res == "WAGO_DALI_ADDRESSING_STATUS 1")
         WagoConnect::Instance().SendCommand("WAGO_DALI_GET_ADDR", this, "searchDevices_cb");
     else
@@ -105,6 +106,7 @@ void FormDali::Init_cb(QString cmd, QString res)
 
 void FormDali::searchDevices_cb(QString cmd, QString res)
 {
+    Q_UNUSED(cmd);
     EnableControls();
     ui->listLights->clear();
     mapCache.clear();
@@ -187,6 +189,7 @@ void FormDali::addressingInProgress_cb()
 
 void FormDali::addressingStatus_cb(QString cmd, QString res)
 {
+    Q_UNUSED(cmd);
     if (res == "WAGO_DALI_ADDRESSING_STATUS 1")
     {
         //Addressing done
@@ -198,6 +201,7 @@ void FormDali::addressingStatus_cb(QString cmd, QString res)
 
 void FormDali::on_listLights_currentItemChanged(QListWidgetItem* current, QListWidgetItem* previous)
 {
+    Q_UNUSED(previous);
     if (mapCache.contains(current))
     {
         ui->groupProps->setVisible(true);
@@ -248,6 +252,7 @@ void FormDali::on_buttonAdvanced_clicked()
 
 void FormDali::advancedInfo_cb(QString cmd, QString res)
 {
+    Q_UNUSED(cmd);
     QStringList list = res.split(" ");
 
     EnableControls();
@@ -345,6 +350,7 @@ void FormDali::LoadGroup()
 
 void FormDali::LoadGroups_cb(QString cmd, QString res)
 {
+    Q_UNUSED(cmd);
     QStringList sl = res.split(" ");
 
     if (sl.size() != 3)
@@ -442,6 +448,8 @@ void FormDali::delFromGroup()
 
 void FormDali::modifyGroup_cb(QString cmd, QString res)
 {
+    Q_UNUSED(cmd);
+    Q_UNUSED(res);
     LoadGroup();
 }
 

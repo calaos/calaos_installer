@@ -51,6 +51,7 @@ void SqueezeServer::readTCPPacket()
 
 void SqueezeServer::tcpError(QAbstractSocket::SocketError socketError)
 {
+    Q_UNUSED(socketError);
     emit error();
 }
 
@@ -235,6 +236,7 @@ void DialogDetectSqueezebox::squeezeConnected()
 
 void DialogDetectSqueezebox::squeezePlayerCount(QString cmd, QString res)
 {
+    Q_UNUSED(cmd);
     QStringList l = res.split(" ");
 
     numberSqueeze = 0;
@@ -263,6 +265,7 @@ void DialogDetectSqueezebox::getSqueezeId()
 
 void DialogDetectSqueezebox::squeezePlayerId(QString cmd, QString res)
 {
+    Q_UNUSED(cmd);
     QStringList l = res.split(" ");
 
     if (l.size() >= 4)
@@ -286,6 +289,7 @@ void DialogDetectSqueezebox::getSqueezeName()
 
 void DialogDetectSqueezebox::squeezePlayerName(QString cmd, QString res)
 {
+    Q_UNUSED(cmd);
     QStringList l = res.split(" ");
 
     if (l.size() >= 4)
