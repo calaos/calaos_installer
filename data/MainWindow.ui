@@ -518,12 +518,12 @@ p, li { white-space: pre-wrap; }
      <addaction name="actionPar_pi_ce"/>
      <addaction name="actionPar_Entr_es_Sorties"/>
     </widget>
-    <addaction name="actionNouveau_projet"/>
+    <addaction name="actionNewProject"/>
     <addaction name="separator"/>
-    <addaction name="actionCharger_un_projet"/>
+    <addaction name="actionLoadProject"/>
     <addaction name="separator"/>
-    <addaction name="actionSauvegarder"/>
-    <addaction name="actionSauvegarder_un_projet"/>
+    <addaction name="actionSave"/>
+    <addaction name="actionSaveProject"/>
     <addaction name="separator"/>
     <addaction name="menuG_n_rer_fichier_d_impression"/>
     <addaction name="separator"/>
@@ -533,7 +533,7 @@ p, li { white-space: pre-wrap; }
     <property name="title">
      <string>Wago PLC</string>
     </property>
-    <addaction name="actionSe_connecter"/>
+    <addaction name="actionConnect"/>
     <addaction name="actionSe_d_connecter"/>
     <addaction name="separator"/>
     <addaction name="actionProgrammer_l_automate"/>
@@ -548,13 +548,13 @@ p, li { white-space: pre-wrap; }
      <string>Calaos Server</string>
     </property>
     <addaction name="actionOuvrir_un_projet_en_ligne"/>
-    <addaction name="actionSauvegarder_un_projet_en_ligne"/>
+    <addaction name="actionSaveProject_en_ligne"/>
    </widget>
    <addaction name="menuProjet"/>
    <addaction name="menuCentrale"/>
    <addaction name="menuWago"/>
   </widget>
-  <action name="actionCharger_un_projet">
+  <action name="actionLoadProject">
    <property name="icon">
     <iconset resource="resources.qrc">
      <normaloff>:/img/document-open.png</normaloff>:/img/document-open.png</iconset>
@@ -563,7 +563,7 @@ p, li { white-space: pre-wrap; }
     <string>Open a projet...</string>
    </property>
   </action>
-  <action name="actionSauvegarder_un_projet">
+  <action name="actionSaveProject">
    <property name="icon">
     <iconset resource="resources.qrc">
      <normaloff>:/img/document-save.png</normaloff>:/img/document-save.png</iconset>
@@ -572,7 +572,7 @@ p, li { white-space: pre-wrap; }
     <string>Save project as...</string>
    </property>
   </action>
-  <action name="actionNouveau_projet">
+  <action name="actionNewProject">
    <property name="icon">
     <iconset resource="resources.qrc">
      <normaloff>:/img/document-new.png</normaloff>:/img/document-new.png</iconset>
@@ -581,7 +581,7 @@ p, li { white-space: pre-wrap; }
     <string>New projet...</string>
    </property>
   </action>
-  <action name="actionSauvegarder">
+  <action name="actionSave">
    <property name="icon">
     <iconset resource="resources.qrc">
      <normaloff>:/img/document-save.png</normaloff>:/img/document-save.png</iconset>
@@ -593,7 +593,7 @@ p, li { white-space: pre-wrap; }
     <string>Ctrl+S</string>
    </property>
   </action>
-  <action name="actionSe_connecter">
+  <action name="actionConnect">
    <property name="icon">
     <iconset resource="resources.qrc">
      <normaloff>:/img/user-online.png</normaloff>:/img/user-online.png</iconset>
@@ -644,7 +644,7 @@ p, li { white-space: pre-wrap; }
     <string>Download project from Calaos Server...</string>
    </property>
   </action>
-  <action name="actionSauvegarder_un_projet_en_ligne">
+  <action name="actionSaveProject_en_ligne">
    <property name="icon">
     <iconset resource="resources.qrc">
      <normaloff>:/img/svn-commit.png</normaloff>:/img/svn-commit.png</iconset>

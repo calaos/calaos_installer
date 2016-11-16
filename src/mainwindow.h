@@ -81,16 +81,16 @@ private slots:
 
     void on_actionDALI_triggered();
     void on_pushButtonBack_clicked();
-    void on_actionSauvegarder_un_projet_en_ligne_triggered();
+    void on_actionSaveProject_en_ligne_triggered();
     void on_actionOuvrir_un_projet_en_ligne_triggered();
     void on_actionSe_d_connecter_triggered();
     void on_actionProgrammer_l_automate_triggered();
-    void on_actionSe_connecter_triggered();
+    void on_actionConnect_triggered();
     void button_wagostop_clicked();
-    void on_actionCharger_un_projet_triggered();
-    void on_actionSauvegarder_triggered();
-    void on_actionNouveau_projet_triggered();
-    void on_actionSauvegarder_un_projet_triggered();
+    void on_actionLoadProject_triggered();
+    void on_actionSave_triggered();
+    void on_actionNewProject_triggered();
+    void on_actionSaveProject_triggered();
     void on_Pages_currentChanged(int );
     void closeDaliForm_clicked();
     void on_actionPar_pi_ce_triggered();

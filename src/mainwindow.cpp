@@ -95,7 +95,7 @@ MainWindow::MainWindow(QWidget *parent):
         }
         else*/
         {
-            on_actionNouveau_projet_triggered();
+            on_actionNewProject_triggered();
         }
     }
 
@@ -167,7 +167,7 @@ void MainWindow::closeEvent(QCloseEvent *event)
                                       QMessageBox::Yes | QMessageBox::No);
 
         if (reply == QMessageBox::Yes)
-            on_actionSauvegarder_triggered();
+            on_actionSave_triggered();
 
         event->accept();
     }
@@ -181,7 +181,7 @@ void MainWindow::closeEvent(QCloseEvent *event)
     ConfigOptions::Instance().saveConfig();
 }
 
-void MainWindow::on_actionSauvegarder_un_projet_triggered()
+void MainWindow::on_actionSaveProject_triggered()
 {
     QString dir = QFileDialog::getExistingDirectory(this, tr("Choose a project folder..."),
                                                     QDir::homePath(),
@@ -193,7 +193,7 @@ void MainWindow::on_actionSauvegarder_un_projet_triggered()
     Save();
 }
 
-void MainWindow::on_actionNouveau_projet_triggered()
+void MainWindow::on_actionNewProject_triggered()
 {
     if (ui->widgetRules->projectChanged())
     {
@@ -203,7 +203,7 @@ void MainWindow::on_actionNouveau_projet_triggered()
                                       QMessageBox::Yes | QMessageBox::No);
 
         if (reply == QMessageBox::Yes)
-            on_actionSauvegarder_triggered();
+            on_actionSave_triggered();
     }
 
     ListeRule::Instance().clear();
@@ -215,10 +215,10 @@ void MainWindow::on_actionNouveau_projet_triggered()
     projectChanged(false);
 }
 
-void MainWindow::on_actionSauvegarder_triggered()
+void MainWindow::on_actionSave_triggered()
 {
     if (project_path.isEmpty() || project_path == "new")
-        on_actionSauvegarder_un_projet_triggered();
+        on_actionSaveProject_triggered();
 
     Save();
 }
@@ -264,7 +264,7 @@ void MainWindow::Load(QString path)
     statusBar()->showMessage(QString(tr("Project loaded: %1")).arg(project_path), 3000);
 }
 
-void MainWindow::on_actionCharger_un_projet_triggered()
+void MainWindow::on_actionLoadProject_triggered()
 {
     if (ui->widgetRules->projectChanged())
     {
@@ -274,7 +274,7 @@ void MainWindow::on_actionCharger_un_projet_triggered()
                                       QMessageBox::Yes | QMessageBox::No);
 
         if (reply == QMessageBox::Yes)
-            on_actionSauvegarder_triggered();
+            on_actionSave_triggered();
     }
 
     QString dir = QFileDialog::getExistingDirectory(this, tr("Choose a project folder..."),
@@ -304,7 +304,7 @@ void MainWindow::on_actionOuvrir_un_projet_en_ligne_triggered()
                                       QMessageBox::Yes | QMessageBox::No);
 
         if (reply == QMessageBox::Yes)
-            on_actionSauvegarder_triggered();
+            on_actionSave_triggered();
     }
 
     DialogOpenOnline dopen(tempDir.path());
@@ -322,7 +322,7 @@ void MainWindow::on_actionOuvrir_un_projet_en_ligne_triggered()
     }
 }
 
-void MainWindow::on_actionSauvegarder_un_projet_en_ligne_triggered()
+void MainWindow::on_actionSaveProject_en_ligne_triggered()
 {
     DialogSaveOnline dsave(project_path);
 
@@ -384,7 +384,7 @@ void MainWindow::wagoStatusProgress(int status)
     }
 }
 
-void MainWindow::on_actionSe_connecter_triggered()
+void MainWindow::on_actionConnect_triggered()
 {
     DialogConnect dconnect;
     dconnect.exec();
@@ -397,7 +397,7 @@ void MainWindow::on_actionSe_d_connecter_triggered()
 
 void MainWindow::wagoConnected(QString &, bool)
 {
-    ui->actionSe_connecter->setEnabled(false);
+    ui->actionConnect->setEnabled(false);
     ui->actionSe_d_connecter->setEnabled(true);
     ui->actionProgrammer_l_automate->setEnabled(true);
     ui->actionDALI->setEnabled(true);
@@ -411,7 +411,7 @@ void MainWindow::wagoConnected(QString &, bool)
 
 void MainWindow::wagoDisconnected()
 {
-    ui->actionSe_connecter->setEnabled(true);
+    ui->actionConnect->setEnabled(true);
     ui->actionSe_d_connecter->setEnabled(false);
     ui->actionProgrammer_l_automate->setEnabled(false);
     ui->actionDALI->setEnabled(false);
@@ -455,7 +455,7 @@ void MainWindow::wagoError(int error)
     //                                          QMessageBox::Ok,
     //                                          QMessageBox::Cancel
     //                        ) == QMessageBox::Ok)
-    //                        on_actionSe_connecter_triggered();
+    //                        on_actionConnect_triggered();
     //                break;
     //          case WERROR_NOTCONNECTED:
     //                if (QMessageBox::question(this, tr("Calaos Installer"),
@@ -463,7 +463,7 @@ void MainWindow::wagoError(int error)
     //                                          QMessageBox::Ok,
     //                                          QMessageBox::Cancel
     //                        ) == QMessageBox::Ok)
-    //                        on_actionSe_connecter_triggered();
+    //                        on_actionConnect_triggered();
     //                break;
     //          case WERROR_TIMEOUT:
     //                if (QMessageBox::question(this, tr("Calaos Installer"),
@@ -471,7 +471,7 @@ void MainWindow::wagoError(int error)
     //                                          QMessageBox::Ok,
     //                                          QMessageBox::Cancel
     //                        ) == QMessageBox::Ok)
-    //                        on_actionSe_connecter_triggered();
+    //                        on_actionConnect_triggered();
     //                break;
     case WERROR_CONNECT_FAILED:
         QMessageBox::critical(this, tr("Calaos Installer"), tr("Connection failed!"));
