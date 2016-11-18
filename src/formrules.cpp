@@ -814,6 +814,7 @@ IOBase *FormRules::addCalaosItemString(int item, int hw_type)
 
 IOBase *FormRules::addCalaosItemShutter(int item, int hw_type)
 {
+    Q_UNUSED(item);
     IOBase *output = nullptr;
 
     if (hw_type == HW_WAGO)
@@ -834,6 +835,7 @@ IOBase *FormRules::addCalaosItemShutter(int item, int hw_type)
 
 IOBase *FormRules::addCalaosItemDimmer(int item, int hw_type)
 {
+    Q_UNUSED(item);
     IOBase *output = nullptr;
 
     if (hw_type == HW_WAGO)
@@ -888,6 +890,8 @@ IOBase *FormRules::addCalaosItemTemp(int item, int hw_type)
 
 IOBase *FormRules::addCalaosItemCamera(int item, int hw_type)
 {
+    Q_UNUSED(item);
+    Q_UNUSED(hw_type);
     IOBase *io = nullptr;
 
     DialogNewCamera dialog(current_room);
@@ -899,6 +903,8 @@ IOBase *FormRules::addCalaosItemCamera(int item, int hw_type)
 
 IOBase *FormRules::addCalaosItemAudio(int item, int hw_type)
 {
+    Q_UNUSED(item);
+    Q_UNUSED(hw_type);
     IOBase *io = nullptr;
 
     DialogNewAudio dialog(current_room);
@@ -910,6 +916,8 @@ IOBase *FormRules::addCalaosItemAudio(int item, int hw_type)
 
 IOBase *FormRules::addCalaosItemAVR(int item, int hw_type)
 {
+    Q_UNUSED(item);
+    Q_UNUSED(hw_type);
     IOBase *io = nullptr;
 
     DialogNewAVReceiver dialog(current_room);
@@ -921,6 +929,7 @@ IOBase *FormRules::addCalaosItemAVR(int item, int hw_type)
 
 IOBase *FormRules::addCalaosItemInternal(int item, int hw_type)
 {
+    Q_UNUSED(hw_type);
     IOBase *io = nullptr;
 
     if (item == ITEM_INTERN)
@@ -3112,6 +3121,7 @@ void FormRules::on_filterEditRules_textChanged(QString filter_text)
 
 void FormRules::on_tree_condition_itemClicked(QTreeWidgetItem* item, int column)
 {
+    Q_UNUSED(column);
     Rule *rule = getCurrentRule();
     if (!rule) return;
 
@@ -3163,6 +3173,7 @@ void FormRules::on_tree_condition_itemClicked(QTreeWidgetItem* item, int column)
 
 void FormRules::on_tree_action_itemClicked(QTreeWidgetItem* item, int column)
 {
+    Q_UNUSED(column);
     Rule *rule = getCurrentRule();
     if (!rule) return;
 
@@ -3269,6 +3280,8 @@ void FormRules::showPopup_rule(const QPoint point)
 
 void FormRules::on_tree_rules_itemDoubleClicked(QTreeWidgetItem* item, int column)
 {
+    Q_UNUSED(item);
+    Q_UNUSED(column);
     treeItem = ui->tree_rules->currentItem();
     showPropertiesItem();
 }

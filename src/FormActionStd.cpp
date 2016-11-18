@@ -292,6 +292,7 @@ void FormActionStd::menuAction(RuleActionMenu *action)
 
 void FormActionStd::on_editValue_textChanged(const QString &arg1)
 {
+    Q_UNUSED(arg1);
     if (onStart) return;
 
     IOBase *output = NULL;

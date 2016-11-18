@@ -17,6 +17,7 @@ WizardHue::WizardHue(Room *room, QWidget *parent) :
     networkAccessManager(new QNetworkAccessManager(this)),
     retry(0)
 {
+    Q_UNUSED(room);
     ui->setupUi(this);
     udpSocket = new QUdpSocket(this);
     timer = new QTimer(this);

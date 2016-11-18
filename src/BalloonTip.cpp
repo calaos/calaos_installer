@@ -255,11 +255,15 @@ void BalloonTip::show() {
 //  }
 }
 
-bool BalloonTip::eventFilter(QObject* obj, QEvent* ev) {
-  if ( ev->type() != QEvent::Move &&
-       ev->type() != QEvent::Resize) {
-    return false;
-  }
+bool BalloonTip::eventFilter(QObject* obj, QEvent* ev)
+{
+    Q_UNUSED(obj);
+
+    if ( ev->type() != QEvent::Move &&
+         ev->type() != QEvent::Resize)
+    {
+        return false;
+    }
 
   my_animation->start();
 

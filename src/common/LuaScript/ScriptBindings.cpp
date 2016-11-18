@@ -89,6 +89,7 @@ int Calaos::Lua_print(lua_State *L)
 
 void Calaos::Lua_DebugHook(lua_State *L, lua_Debug *ar)
 {
+    Q_UNUSED(ar);
     double time;
 
     QTime t = QTime::currentTime();

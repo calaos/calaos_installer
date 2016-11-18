@@ -381,6 +381,7 @@ void FormConditionStd::on_comboOp_currentIndexChanged(int)
 
 void FormConditionStd::on_editValue_textChanged(const QString &arg1)
 {
+    Q_UNUSED(arg1);
     if (onStart) return;
 
     if (condition->getType() == COND_STD)

@@ -66,6 +66,7 @@ void WagoModbus::modbusReadTCPPacket()
 
 void WagoModbus::modbusTcpError(QAbstractSocket::SocketError socketError)
 {
+    Q_UNUSED(socketError);
     qDebug() << "modbusTcpError: error: " << modbusSocket->errorString();
 
     Modbus data;
@@ -74,7 +75,7 @@ void WagoModbus::modbusTcpError(QAbstractSocket::SocketError socketError)
 
 void WagoModbus::modbusTcpConnected()
 {
-    qint64 dataSent = 0;
+    quint64 dataSent = 0;
     while(dataSent < sizeof(request.size()))
     {
         qint64 sentNow = modbusSocket->write(request.constData() + dataSent, request.size());

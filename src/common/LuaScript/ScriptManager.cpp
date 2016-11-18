@@ -44,7 +44,6 @@ bool ScriptManager::ExecuteScript(string script)
     bool ret = true;
     errorScript = true;
 
-    const luaL_Reg *l;
     lua_State *L = lua_open();
 
     luaL_openlibs(L);

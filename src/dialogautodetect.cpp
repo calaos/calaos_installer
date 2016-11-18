@@ -78,5 +78,6 @@ void DialogAutoDetect::calaosDiscover()
 
 void DialogAutoDetect::on_list_doubleClicked(const QModelIndex &index)
 {
+    Q_UNUSED(index);
     accept();
 }

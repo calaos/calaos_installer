@@ -894,7 +894,7 @@ void TextEdit::loadIOList()
                 .arg(tr("Name"))
                 .arg("")
                 .arg("");
-        for (int i = 0;i < wago_inputs_digital.size();i++)
+        for (unsigned int i = 0;i < wago_inputs_digital.size();i++)
         {
             QString icon, var;
             IOBase *io = wago_inputs_digital[i];
@@ -918,7 +918,7 @@ void TextEdit::loadIOList()
                 .arg(tr("Name"))
                 .arg("")
                 .arg("");
-        for (int i = 0;i < wago_inputs_digital_knx.size();i++)
+        for (unsigned int i = 0;i < wago_inputs_digital_knx.size();i++)
         {
             QString icon, var;
             IOBase *io = wago_inputs_digital_knx[i];
@@ -942,7 +942,7 @@ void TextEdit::loadIOList()
                 .arg(tr("Name"))
                 .arg("")
                 .arg("");
-        for (int i = 0;i < wago_inputs_analog.size();i++)
+        for (unsigned int i = 0;i < wago_inputs_analog.size();i++)
         {
             QString icon, var;
             IOBase *io = wago_inputs_analog[i];
@@ -966,7 +966,7 @@ void TextEdit::loadIOList()
                 .arg(tr("Name"))
                 .arg("")
                 .arg("");
-        for (int i = 0;i < wago_inputs_temp.size();i++)
+        for (unsigned int i = 0;i < wago_inputs_temp.size();i++)
         {
             QString icon, var;
             IOBase *io = wago_inputs_temp[i];
@@ -990,7 +990,7 @@ void TextEdit::loadIOList()
                 .arg(tr("Name"))
                 .arg("")
                 .arg("");
-        for (int i = 0;i < wago_outputs_digital.size();i++)
+        for (unsigned int i = 0;i < wago_outputs_digital.size();i++)
         {
             QString icon, var;
             IOBase *io = wago_outputs_digital[i];
@@ -1018,7 +1018,7 @@ void TextEdit::loadIOList()
                 .arg(tr("Name"))
                 .arg("")
                 .arg("");
-        for (int i = 0;i < wago_outputs_digital_knx.size();i++)
+        for (unsigned int i = 0;i < wago_outputs_digital_knx.size();i++)
         {
             QString icon, var;
             IOBase *io = wago_outputs_digital_knx[i];
@@ -1046,7 +1046,7 @@ void TextEdit::loadIOList()
                 .arg(tr("Name"))
                 .arg("")
                 .arg("");
-        for (int i = 0;i < wago_outputs_dali.size();i++)
+        for (unsigned int i = 0;i < wago_outputs_dali.size();i++)
         {
             QString icon, var;
             IOBase *io = wago_outputs_dali[i];
@@ -1071,7 +1071,7 @@ void TextEdit::loadIOList()
                 .arg(tr("Name"))
                 .arg("")
                 .arg("");
-        for (int i = 0;i < wago_outputs_dali_group.size();i++)
+        for (unsigned int i = 0;i < wago_outputs_dali_group.size();i++)
         {
             QString icon, var;
             IOBase *io = wago_outputs_dali_group[i];
@@ -1096,7 +1096,7 @@ void TextEdit::loadIOList()
                 .arg(tr("Name"))
                 .arg("")
                 .arg("");
-        for (int i = 0;i < wago_outputs_analog.size();i++)
+        for (unsigned int i = 0;i < wago_outputs_analog.size();i++)
         {
             QString icon, var;
             IOBase *io = wago_outputs_analog[i];
@@ -1115,7 +1115,7 @@ void TextEdit::loadIOList()
     }
 
     //Free temp memory
-    for (int i = 0;i < temp_ios.size();i++)
+    for (unsigned int i = 0;i < temp_ios.size();i++)
     {
         delete temp_ios[i];
     }
