@@ -4,7 +4,7 @@ set -ev
 SCRIPTDIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 source $SCRIPTDIR/../funcs.sh
 
-MXE_BIN=$HOME/mxe/usr/i686-w64-mingw32.shared
+MXE_BIN=$HOME/mxe/usr/i686-w64-mingw32.shared.posix
 WDIR=$HOME/.wine/drive_c/calaos_installer_build
 
 VERSION="$(get_version .)"
@@ -24,6 +24,9 @@ for f in $MXE_BIN/bin/libgcc_s_sjlj-1.dll \
          $MXE_BIN/bin/icudt56.dll \
          $MXE_BIN/bin/icuin56.dll \
          $MXE_BIN/bin/icuuc56.dll \
+         $MXE_BIN/bin/libwinpthread-1.dll \
+         $MXE_BIN/bin/libwebp-5.dll \
+         $MXE_BIN/bin/zlib1.dll \
          $MXE_BIN/qt5/bin/Qt5Core.dll \
          $MXE_BIN/qt5/bin/Qt5Gui.dll \
          $MXE_BIN/qt5/bin/Qt5Network.dll \
