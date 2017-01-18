@@ -58,9 +58,9 @@ void FormActionMail::setAction(QTreeWidgetItem *item, Rule *_rule, Action *_acti
         if (camera->get_gui_type() == "camera")
         {
             ui->comboCamera->addItem(QString::fromUtf8(camera->get_param("name").c_str()),
-                                     QString::fromUtf8(camera->get_param("oid").c_str()));
+                                     QString::fromUtf8(camera->get_param("id").c_str()));
 
-            if (camera->get_param("oid") == action->getMailAttachment())
+            if (camera->get_param("id") == action->getMailAttachment())
                 ui->comboCamera->setCurrentIndex(ui->comboCamera->count() - 1);
         }
     }
