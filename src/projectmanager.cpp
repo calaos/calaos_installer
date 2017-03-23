@@ -451,6 +451,8 @@ void RuleXmlWriter::writeAction(Rule *rule)
             QXmlStreamAttributes attr;
             attr.append("type", "touchscreen");
             attr.append("action", QString::fromUtf8(action->getTouchscreenAction().c_str()));
+            if (action->getTouchscreenAction() == "view_camera")
+                attr.append("camera", QString::fromUtf8(action->getTouchscreenCamera().c_str()));
             writeAttributes(attr);
             writeEndElement();
             break;

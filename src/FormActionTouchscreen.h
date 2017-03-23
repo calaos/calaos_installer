@@ -34,8 +34,11 @@ protected:
 
     bool setDone;
 
+    void updateAction();
+
 private slots:
-    void on_editAction_textChanged(QString );
+    void on_comboBoxAction_currentIndexChanged(int);
+    void on_comboBoxCamera_currentIndexChanged(int);
 };
 
 #endif // FORMACTIONTOUCHSCREEN_H

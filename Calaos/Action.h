@@ -48,7 +48,7 @@ protected:
 
     string script;
 
-    string action_touchscreen;
+    string action_touchscreen, action_touchscreen_cam;
 
 public:
     Action(int atype): action_type(atype)
@@ -93,6 +93,8 @@ public:
     /*-- Touchscreen Action --*/
     string getTouchscreenAction() { return action_touchscreen; }
     void setTouchscreenAction(string s) { action_touchscreen = s; }
+    string getTouchscreenCamera() { return action_touchscreen_cam; }
+    void setTouchscreenCamera(string s) { action_touchscreen_cam = s; }
     /*-- Touchscreen Action --*/
 
     Action *duplicate();

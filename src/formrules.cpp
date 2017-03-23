@@ -1621,7 +1621,21 @@ void FormRules::updateItemAction(QTreeWidgetItem *item, Action *action)
     else if (action->getType() == ACTION_TOUCHSCREEN)
     {
         item->setData(0, Qt::DisplayRole, tr("Touchscreen"));
-        item->setData(1, Qt::DisplayRole, QString::fromUtf8(action->getTouchscreenAction().c_str()));
+
+        QString s, camname = "UNKNOWN Camera!";
+        if (action->getTouchscreenAction() == "view_camera")
+        {
+            IOBase *io = ListeRoom::Instance().get_output(action->getTouchscreenCamera());
+            if (io)
+                camname = QString::fromUtf8(io->get_param("name").c_str());
+            s = QString("View camera '%1'").arg(camname);
+        }
+        else
+        {
+            s = "Unknown Touchscreen action!";
+        }
+
+        item->setData(1, Qt::DisplayRole, s);
         item->setData(0, Qt::DecorationRole, QIcon(":/img/icon_rule.png"));
     }
 
