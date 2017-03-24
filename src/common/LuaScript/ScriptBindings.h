@@ -65,6 +65,8 @@ public:
 
     /* Urel request */
     int requestUrl(lua_State *L);
+
+    int getEnv(lua_State *L);
 };
 }
 

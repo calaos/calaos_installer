@@ -118,6 +118,7 @@ Lunar<Lua_Calaos>::RegType Lua_Calaos::methods[] =
     { "setIOParam", &Lua_Calaos::setIOParam },
     { "waitForIO", &Lua_Calaos::waitForIO },
     { "requestUrl", &Lua_Calaos::requestUrl },
+    { "getEnv", &Lua_Calaos::getEnv },
     { 0, 0 }
 };
 
@@ -278,4 +279,22 @@ int Lua_Calaos::requestUrl(lua_State *L)
     }
 
     return 0;
+}
+
+int Lua_Calaos::getEnv(lua_State *L)
+{
+    int nb = lua_gettop(L);
+
+    if (nb == 1 && lua_isstring(L, 1))
+    {
+        lua_pushstring(L, "abc");
+    }
+    else
+    {
+        string err = "getEnv(): invalid call, no arguments required.";
+        lua_pushstring(L, err.c_str());
+        lua_error(L);
+    }
+
+    return 1;
 }
