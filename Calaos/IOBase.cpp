@@ -61,6 +61,10 @@ REGISTER_INPUT(KNXInputAnalog, "analog_in", TINT, "42")
 REGISTER_INPUT(KNXInputSwitchLongPress, "switch_long", TINT, "2")
 REGISTER_INPUT(KNXInputSwitchTriple, "switch3", TINT, "2")
 REGISTER_INPUT(KNXInputTemp, "temp", TINT, "21")
+REGISTER_INPUT(xPLInputTemp, "temp", TINT, "21")
+REGISTER_INPUT(xPLInputSwitch, "switch", TBOOL, "true")
+REGISTER_INPUT(xPLInputAnalog, "analog_in", TINT, "42")
+REGISTER_INPUT(xPLInputString, "string_in", TSTRING, "Test")
 
 /* Declare output class/type */
 REGISTER_OUTPUT(OutputFake, "light", TBOOL, "true")
@@ -101,6 +105,9 @@ REGISTER_OUTPUT(KNXOutputLightRGB, "light_rgb", TSTRING, "#00FF11")
 REGISTER_OUTPUT(KNXOutputShutter, "shutter", TSTRING, "true")
 REGISTER_OUTPUT(KNXOutputShutterSmart, "shutter_smart", TSTRING, "up")
 REGISTER_OUTPUT(HueOutputLightRGB, "light_rgb", TSTRING, "#00FF11")
+REGISTER_OUTPUT(xPLOutputSwitch, "light", TBOOL, "true")
+REGISTER_OUTPUT(xPLOutputAnalog, "analog_out", TINT, "42")
+REGISTER_OUTPUT(xPLOutputString, "string_out", TSTRING, "Test")
 
 /* Declare InOut class/type */
 REGISTER_INOUT(InputTimer, "timer", TSTRING, "true")
