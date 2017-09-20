@@ -9,6 +9,7 @@
 #include <Params.h>
 #include <ListeRoom.h>
 #include "BalloonTip.h"
+#include "EntryHelpers.h"
 
 using namespace Calaos;
 
@@ -44,6 +45,18 @@ public:
     }
 };
 
+enum UiObjectType { LineEdit, CheckBox, SpinBox, DoubleSpinBox, ComboBox };
+
+struct UiObject
+{
+    UiObjectType type;
+    QLineEdit* lineEdit;
+    QCheckBox* checkBox;
+    QSpinBox* spinBox;
+    QDoubleSpinBox* doubleSpinBox;
+    QComboBox* comboBox;
+};
+
 class WidgetIOProperties : public QWidget
 {
     Q_OBJECT
@@ -65,8 +78,12 @@ private:
 
     BalloonTip *balloonTip = nullptr;
 
+    std::map<string, UiObject> uiObjectMap;
+    IEntryHelper* entryHelper;
+
     void createIOProperties();
     void updateChangedParam(const string &prop, const QString value, const QString pvalue, QLabel *title, QPushButton *revert);
+    void setValues(Params& params);
 };
 
 #endif // WIDGETIOPROPERTIES_H

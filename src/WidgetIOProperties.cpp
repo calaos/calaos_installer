@@ -11,11 +11,13 @@ WidgetIOProperties::WidgetIOProperties(const Params &p, bool _editable, QWidget 
     ui->setupUi(this);
 
     ui->toolBox->setCurrentIndex(0);
+    entryHelper = EntryHelpers::getEntryHelper(p, this);
     createIOProperties();
 }
 
 WidgetIOProperties::~WidgetIOProperties()
 {
+    if(entryHelper!=nullptr) delete entryHelper;
     delete ui;
 }
 
@@ -138,6 +140,11 @@ void WidgetIOProperties::createIOProperties()
             w->setText(pvalue);
             layout->addWidget(w, row, 2);
 
+            UiObject uiObject;
+            uiObject.type = UiObjectType::LineEdit;
+            uiObject.lineEdit = w;
+            uiObjectMap[prop] = uiObject;
+
             connect(w, &QLineEdit::textChanged, [=]()
             {
                 updateChangedParam(prop, w->text(), pvalue, title, revert);
@@ -154,6 +161,11 @@ void WidgetIOProperties::createIOProperties()
             w->setEnabled(jparam["readonly"].toString() != "true" && editable);
             w->setChecked(pvalue == "true");
             layout->addWidget(w, row, 2);
+
+            UiObject uiObject;
+            uiObject.type = UiObjectType::CheckBox;
+            uiObject.checkBox = w;
+            uiObjectMap[prop] = uiObject;
 
             connect(w, &QCheckBox::stateChanged, [=]()
             {
@@ -180,6 +192,11 @@ void WidgetIOProperties::createIOProperties()
             w->setValue(pvalue.toInt());
             layout->addWidget(w, row, 2);
 
+            UiObject uiObject;
+            uiObject.type = UiObjectType::SpinBox;
+            uiObject.spinBox = w;
+            uiObjectMap[prop] = uiObject;
+
             connect(w, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), [=]()
             {
                 updateChangedParam(prop, QString("%1").arg(w->value()), pvalue.isEmpty()?"0":pvalue, title, revert);
@@ -205,6 +222,11 @@ void WidgetIOProperties::createIOProperties()
             w->setValue(pvalue.toDouble());
             layout->addWidget(w, row, 2);
             w->setDecimals(3);
+
+            UiObject uiObject;
+            uiObject.type = UiObjectType::DoubleSpinBox;
+            uiObject.doubleSpinBox = w;
+            uiObjectMap[prop] = uiObject;
 
             connect(w, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), [=]()
             {
@@ -242,6 +264,11 @@ void WidgetIOProperties::createIOProperties()
 
             layout->addWidget(w, row, 2);
 
+            UiObject uiObject;
+            uiObject.type = UiObjectType::ComboBox;
+            uiObject.comboBox = w;
+            uiObjectMap[prop] = uiObject;
+
             if (w->isEditable())
             {
                 connect(w, &QComboBox::currentTextChanged, [=]()
@@ -271,6 +298,19 @@ void WidgetIOProperties::createIOProperties()
         help->setFlat(true);
         layout->addWidget(help, row, 3);
 
+        if((i==0)&&(entryHelper != nullptr))
+        {
+            QPushButton *entryHelperButton = new QPushButton();
+            entryHelperButton->setIcon(QIcon(":/img/icon_entry_helper.png"));
+            entryHelperButton->setFlat(true);
+            layout->addWidget(entryHelperButton, row, 4);
+            connect(entryHelperButton, &QPushButton::clicked,  [=]()
+            {
+                if (entryHelper->exec() == QDialog::Accepted)
+                    setValues(entryHelper->getParams());
+            });
+        }
+
         //avoid copy the QJsonObject in the lambda
         QString helpInfo = jparam["description"].toString();
 
@@ -289,5 +329,47 @@ void WidgetIOProperties::createIOProperties()
             rowMain++;
         else
             rowOption++;
+    }
+}
+
+void WidgetIOProperties::setValues(Params& params)
+{
+    int size = params.size();
+    string key;
+    string value;
+    QString qvalue;
+    map<string, UiObject>::iterator it;
+
+    for(int i=0; i < size; i++)
+    {
+        params.get_item(i, key, value);
+        it = uiObjectMap.find(key);
+        if(it==uiObjectMap.end()) continue;
+
+        qvalue = QString::fromUtf8(value.c_str());
+        switch(it->second.type)
+        {
+            case UiObjectType::LineEdit :
+                it->second.lineEdit->setText(qvalue);
+                break;
+            case UiObjectType::CheckBox :
+                it->second.checkBox->setChecked(qvalue == "true");
+                break;
+            case UiObjectType::SpinBox :
+                it->second.spinBox->setValue(qvalue.toInt());
+                break;
+            case UiObjectType::DoubleSpinBox :
+                it->second.spinBox->setValue(qvalue.toDouble());
+                break;
+            case UiObjectType::ComboBox :
+                if (it->second.comboBox->isEditable())
+                    it->second.comboBox->setEditText(qvalue);
+                else
+                {
+                    int defIndex = it->second.comboBox->findText(qvalue);
+                    if(defIndex!=-1) it->second.comboBox->setCurrentIndex(defIndex);
+                }
+                break;
+        }
     }
 }
