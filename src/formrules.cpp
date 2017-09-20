@@ -543,6 +543,70 @@ FormRules::FormRules(QWidget *parent) :
          addCalaosIO(p);
      });
 
+     QMenu *xplsensors_menu = add_menu->addMenu(QIcon("://img/xpl.png"), "xPL");
+
+     action = xplsensors_menu->addAction(tr("Temperature sensor"));
+     action->setIcon(QIcon(":/img/temp.png"));
+     connect(action, &QAction::triggered, [=]()
+     {
+         Params p = {{ "type", "xPLInputTemp" },
+                     { "io_type", "input" }};
+         addCalaosIO(p);
+     });
+
+     action = xplsensors_menu->addAction(tr("Switch"));
+     action->setIcon(QIcon(":/img/icon_inter.png"));
+     connect(action, &QAction::triggered, [=]()
+     {
+         Params p = {{ "type", "xPLInputSwitch" },
+                     { "io_type", "input" }};
+         addCalaosIO(p);
+     });
+
+     action = xplsensors_menu->addAction(tr("Analog Input"));
+     action->setIcon(QIcon(":/img/icon_analog.png"));
+     connect(action, &QAction::triggered, [=]()
+     {
+         Params p = {{ "type", "xPLInputAnalog" },
+                     { "io_type", "input" }};
+         addCalaosIO(p);
+     });
+
+     action = xplsensors_menu->addAction(tr("String Input"));
+     action->setIcon(QIcon(":/img/text.png"));
+     connect(action, &QAction::triggered, [=]()
+     {
+         Params p = {{ "type", "xPLInputString" },
+                     { "io_type", "input" }};
+         addCalaosIO(p);
+     });
+
+     action = xplsensors_menu->addAction(tr("Light"));
+     action->setIcon(QIcon(":/img/icon_light_on.png"));
+     connect(action, &QAction::triggered, [=]()
+     {
+         Params p = {{ "type", "xPLOutputSwitch" },
+                     { "io_type", "output" }};
+         addCalaosIO(p);
+     });
+
+     action = xplsensors_menu->addAction(tr("Analog Output"));
+     action->setIcon(QIcon(":/img/icon_analog.png"));
+     connect(action, &QAction::triggered, [=]()
+     {
+         Params p = {{ "type", "xPLOutputAnalog" },
+                     { "io_type", "output" }};
+         addCalaosIO(p);
+     });
+
+     action = xplsensors_menu->addAction(tr("String Output"));
+     action->setIcon(QIcon(":/img/text.png"));
+     connect(action, &QAction::triggered, [=]()
+     {
+         Params p = {{ "type", "xPLOutputString" },
+                     { "io_type", "output" }};
+         addCalaosIO(p);
+     });
 
     add_menu->addSeparator();
 

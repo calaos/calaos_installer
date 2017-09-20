@@ -2625,6 +2625,205 @@ hold stop | Dynamically change light intensity when holding a switch (stop actio
  set 50 | Set light intensity and swith on if light is off 
  
 
+#xPLInputAnalog
+xPL analog sensor
+
+
+An analog input can be used to read analog values to display them and use them in rules.
+
+##Parameters of xPLInputAnalog
+Name | Type | Mandatory | Description
+---- | ---- | --------- | -----------
+sensor | string | yes | Sensor ID, as set in your xPL network
+source | string | yes | Source name, as set in your xPL network (Format VendorId-DeviceId.Instance)
+gui_style | list | yes | GUI style display. This will control the icon displayed on the UI
+interval | float | no | Sampling time in seconds. The value is read at this frequency. If this value is not set, the default value is 15s
+precision | int | no | Precision of the returned value. The value represents the number of decimal after the dot. The value is rounded like this : value = 19.275 => returned value 19.28 when preicision = 2, 19.3 when precision = 1, 19 when precision = 0
+offset | float | no | same as coeff_b, can be used alone. Default value is 0.0
+coeff_a | float | no | use in conjunction of coeff_b to apply equation of the form `value_displayed = coeff_a * raw_value + coeff_b`. Default value is 1.0.
+unit | string | no | Unit which will be displayed on the UI as a suffix.
+frequency | float | no | Sampling time in microsecond. The value is read at this frequency. If this value is not set, calaos tries to read the interval parameter
+name | string | yes | Name of Input/Output.
+coeff_b | float | no | use in conjunction of coeff_a to apply equation of the form `value_displayed = coeff_a * raw_value + coeff_b`. Default value is 0.0
+gui_type | string | no | Internal graphical type for all calaos objects. Set automatically, read-only parameter.
+id | string | yes | Unique ID identifying the Input/Output in calaos-server
+visible | bool | no | Display the Input/Output on all user interfaces if set. Default to true
+enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
+io_type | string | yes | IO type, can be "input", "output", "inout"
+
+##Conditions of xPLInputAnalog
+Name | Description
+---- | -----------
+changed | Event on any change of value 
+ value | Event on a specific value 
+ 
+
+#xPLInputAnalog
+xPL string sensor
+
+##Parameters of xPLInputAnalog
+Name | Type | Mandatory | Description
+---- | ---- | --------- | -----------
+sensor | string | yes | Sensor ID, as set in your xPL network
+source | string | yes | Source name, as set in your xPL network (Format VendorId-DeviceId.Instance)
+name | string | yes | Name of Input/Output.
+gui_type | string | no | Internal graphical type for all calaos objects. Set automatically, read-only parameter.
+id | string | yes | Unique ID identifying the Input/Output in calaos-server
+visible | bool | no | Display the Input/Output on all user interfaces if set. Default to true
+enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
+io_type | string | yes | IO type, can be "input", "output", "inout"
+
+
+#xPLInputSwitch
+xPL input switch
+
+
+Basic switch with press/release states.
+
+##Parameters of xPLInputSwitch
+Name | Type | Mandatory | Description
+---- | ---- | --------- | -----------
+sensor | string | yes | Sensor ID, as set in your xPL network
+source | string | yes | Source name, as set in your xPL network (Format VendorId-DeviceId.Instance)
+name | string | yes | Name of Input/Output.
+gui_type | string | no | Internal graphical type for all calaos objects. Set automatically, read-only parameter.
+id | string | yes | Unique ID identifying the Input/Output in calaos-server
+visible | bool | no | A switch can't be visible. Always false.
+enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
+io_type | string | yes | IO type, can be "input", "output", "inout"
+
+##Conditions of xPLInputSwitch
+Name | Description
+---- | -----------
+changed | Event on any change of state 
+ true | Event triggered when switch is pressed 
+ false | Event triggered when switch is released 
+ 
+
+#xPLInputTemp
+xPL temperature sensor
+
+
+Temperature sensor input. Use for displaying temperature and to control heating devices with rules based on temperature value
+
+##Parameters of xPLInputTemp
+Name | Type | Mandatory | Description
+---- | ---- | --------- | -----------
+sensor | string | yes | Sensor ID, as set in your xPL network
+source | string | yes | Source name, as set in your xPL network (Format VendorId-DeviceId.Instance)
+interval | float | no | Sampling time in seconds. The value is read at this frequency. If this value is not set, the default value is 15s
+precision | int | no | Precision of the returned value. The value represents the number of decimal after the dot. The value is rounded like this : value = 19.275 => returned value 19.28 when preicision = 2, 19.3 when precision = 1, 19 when precision = 0
+offset | float | no | same as coeff_b, can be used alone. Default value is 0.0
+coeff_a | float | no | use in conjunction of coeff_b to apply equation of the form `value_displayed = coeff_a * raw_value + coeff_b`. Default value is 1.0.
+frequency | float | no | Sampling time in microsecond. The value is read at this frequency. If this value is not set, calaos tries to read the interval parameter
+name | string | yes | Name of Input/Output.
+coeff_b | float | no | use in conjunction of coeff_a to apply equation of the form `value_displayed = coeff_a * raw_value + coeff_b`. Default value is 0.0
+gui_type | string | no | Internal graphical type for all calaos objects. Set automatically, read-only parameter.
+id | string | yes | Unique ID identifying the Input/Output in calaos-server
+visible | bool | no | Display the Input/Output on all user interfaces if set. Default to true
+enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
+io_type | string | yes | IO type, can be "input", "output", "inout"
+
+##Conditions of xPLInputTemp
+Name | Description
+---- | -----------
+changed | Event on any change of temperature value 
+ value | Event on a temperature value in degree Celsius 
+ 
+
+#xPLOutputAnalog
+Analog output controlled by xPL Protocol
+
+
+Analog output. Useful to control analog output devices connected to calaos.
+
+##Parameters of xPLOutputAnalog
+Name | Type | Mandatory | Description
+---- | ---- | --------- | -----------
+actuator | string | yes | Actuator ID, as set in your xPL network
+source | string | yes | Source name, as set in your xPL network (Format VendorId-DeviceId.Instance)
+gui_style | list | yes | GUI style display. This will control the icon displayed on the UI
+step | float | no | Set a step for increment/decrement value. Default is 1.0
+coeff_a | float | no | use in conjunction of coeff_b to apply equation of the form `value_sent = coeff_a * raw_value + coeff_b`. Default value is 1.0.
+unit | string | no | Unit which will be displayed on the UI as a suffix.
+name | string | yes | Name of Input/Output.
+coeff_b | float | no | use in conjunction of coeff_a to apply equation of the form `value_sent = coeff_a * raw_value + coeff_b`. Default value is 0.0
+gui_type | string | no | Internal graphical type for all calaos objects. Set automatically, read-only parameter.
+id | string | yes | Unique ID identifying the Input/Output in calaos-server
+visible | bool | no | Display the Input/Output on all user interfaces if set. Default to true
+enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
+io_type | string | yes | IO type, can be "input", "output", "inout"
+
+##Conditions of xPLOutputAnalog
+Name | Description
+---- | -----------
+0 | Event on a specific number value 
+ value | Event on a specific value 
+ changed | Event on any change of value 
+ 
+##Actions of xPLOutputAnalog
+Name | Description
+---- | -----------
+dec 1 | Decrement value by value 
+ dec | Decrement value with configured step 
+ inc 1 | Increment value by value 
+ 0 | Set a specific number value 
+ inc | Increment value with configured step 
+ 
+
+#xPLOutputAnalog
+Analog output controlled by xPL Protocol
+
+##Parameters of xPLOutputAnalog
+Name | Type | Mandatory | Description
+---- | ---- | --------- | -----------
+actuator | string | yes | Actuator ID, as set in your xPL network
+source | string | yes | Source name, as set in your xPL network (Format VendorId-DeviceId.Instance)
+name | string | yes | Name of Input/Output.
+gui_type | string | no | Internal graphical type for all calaos objects. Set automatically, read-only parameter.
+id | string | yes | Unique ID identifying the Input/Output in calaos-server
+visible | bool | no | Display the Input/Output on all user interfaces if set. Default to true
+enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
+io_type | string | yes | IO type, can be "input", "output", "inout"
+
+
+#xPLOutputSwitch
+Light/relay controlled by xPL Protocol
+
+
+Basic light. This light have only 2 states, ON or OFF. Can also be used to control simple relays output
+
+##Parameters of xPLOutputSwitch
+Name | Type | Mandatory | Description
+---- | ---- | --------- | -----------
+actuator | string | yes | Actuator ID, as set in your xPL network
+source | string | yes | Source name, as set in your xPL network (Format VendorId-DeviceId.Instance)
+name | string | yes | Name of Input/Output.
+gui_type | string | no | Internal graphical type for all calaos objects. Set automatically, read-only parameter.
+id | string | yes | Unique ID identifying the Input/Output in calaos-server
+visible | bool | no | Display the Input/Output on all user interfaces if set. Default to true
+enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
+io_type | string | yes | IO type, can be "input", "output", "inout"
+
+##Conditions of xPLOutputSwitch
+Name | Description
+---- | -----------
+false | Event when light is off 
+ changed | Event on any change of value 
+ true | Event when light is on 
+ 
+##Actions of xPLOutputSwitch
+Name | Description
+---- | -----------
+false | Switch the light off 
+ true | Switch the light on 
+ set_state false | Update internal light state without starting real action. This is useful when having updating the light state from an external source. 
+ toggle | Invert light state 
+ impulse 200 | Do an impulse on light state. Set to true for X ms then reset to false 
+ impulse 500 200 500 200 | Do an impulse on light state with a pattern.<br>Ex: 500 200 500 200 means: TRUE for 500ms, FALSE for 200ms, TRUE for 500ms, FALSE for 200ms<br>Ex: 500 loop 200 300 means: TRUE for 500ms, then loop the next steps for infinite, FALSE for 200ms, TRUE for 300ms<br>Ex: 100 100 200 old means: blinks and then set to the old start state (before impulse starts) 
+ set_state true | Update internal light state without starting real action. This is useful when having updating the light state from an external source. 
+ 
+
 #ZibaseAnalogIn
 Zibase analog input. This object can read value from devices like Energy monitor sensors, Lux sensors, ...
 

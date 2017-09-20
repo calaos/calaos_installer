@@ -115,5 +115,6 @@
         <file>img/blinkstick.png</file>
         <file>img/hue_find_bridge.png</file>
         <file>img/hue.jpg</file>
+        <file>img/xpl.png</file>
     </qresource>
 </RCC>
