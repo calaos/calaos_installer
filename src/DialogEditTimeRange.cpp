@@ -40,6 +40,10 @@ DialogEditTimeRange::DialogEditTimeRange(IOBase *in) :
     input->range_months = inTimeRange->range_months;
 
     reloadTimeRanges();
+
+    //reload months
+    for (uint i = 0;i < items_months.size();i++)
+        items_months[i]->setChecked(input->range_months.test(i));
 }
 
 DialogEditTimeRange::~DialogEditTimeRange()
@@ -99,10 +103,6 @@ void DialogEditTimeRange::reloadTimeRanges()
 
     for (TimeRange &range: trange_sorted)
         addTreeItem(range);
-
-    //reload months
-    for (uint i = 0;i < items_months.size();i++)
-        items_months[i]->setChecked(input->range_months.test(i));
 
     ui->groupBoxRange->setEnabled(false);
     clearRangeEdit();
