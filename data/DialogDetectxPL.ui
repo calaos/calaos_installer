@@ -48,7 +48,7 @@
      </property>
      <column>
       <property name="text">
-       <string>Device</string>
+       <string>Source</string>
       </property>
      </column>
      <column>
