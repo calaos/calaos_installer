@@ -19,7 +19,7 @@ public:
         return dip;
     }
 
-    void startDetectIP();
+    void startDetectIP(QString wagohost);
     string getLocalIP() { return ip; }
 
 private:
