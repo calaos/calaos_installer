@@ -116,7 +116,7 @@ void WagoConnect::heartbeat_cb(QString command, QString response)
                 /* Start the IP detection mechanism and send the
                                  * WAGO_SET_SERVER_IP command to catch INT datagram from wago
                                  */
-                DetectIP::Instance().startDetectIP();
+                DetectIP::Instance().startDetectIP(wago_ip);
 
                 if (wago_type == "")
                 {
