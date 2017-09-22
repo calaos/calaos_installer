@@ -101,7 +101,8 @@ SOURCES += src/main.cpp \
     src/wizards/hue/wizardhue.cpp \
     src/WidgetIPAddr.cpp \
     src/FormDaliMaster.cpp \
-    src/DialogDaliMasterItem.cpp
+    src/DialogDaliMasterItem.cpp \
+    src/DialogDetectxPL.cpp
 
 HEADERS += src/mainwindow.h \
     src/common/Utils.h \
@@ -192,7 +193,10 @@ HEADERS += src/mainwindow.h \
     src/wizards/hue/wizardhue.h \
     src/WidgetIPAddr.h \
     src/FormDaliMaster.h \
-    src/DialogDaliMasterItem.h
+    src/DialogDaliMasterItem.h \
+    src/DialogDetectxPL.h \
+    src/EntryHelpers.h \
+    src/IEntryHelper.h
 
 
 FORMS += \
@@ -245,7 +249,8 @@ FORMS += \
     data/WidgetIOProperties.ui \
     src/wizards/hue/wizardhue.ui \
     data/FormDaliMaster.ui \
-    data/DialogDaliMasterItem.ui
+    data/DialogDaliMasterItem.ui \
+    data/DialogDetectxPL.ui
 
 RESOURCES += data/resources.qrc \
     data/textedit.qrc \
