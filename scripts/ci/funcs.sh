@@ -2,6 +2,11 @@
 
 set -e
 
+export PROJECT_NAME=calaos_installer
+export TRAVIS_BUILD_DIR=$(pwd)
+export BUILD_TAG=$(git tag --points-at=HEAD --sort version:refname | head -n 1)
+
+
 #Usage: get_version /path/to/repo
 function get_version()
 {
@@ -21,6 +26,26 @@ function make_version()
     echo "const char *calaos_installer_version = APP_VERSION;" >> $1/src/version.h
 
     echo "#endif" >> $1/src/version.h
+}
+
+function wget_retry()
+{
+    count=0
+    while [ $count -le 4 ]; do
+        echo Downloading $@
+        set +e
+        wget --retry-connrefused --waitretry=1 --read-timeout=20 --timeout=15 -t 0 --continue $@
+        ret=$?
+        set -e
+        if [ $ret = 0 ]
+        then
+            return 0
+        fi
+        sleep 1
+        count=$((count+1))
+        echo Download failed.
+    done
+    return 1
 }
 
 function upload_file()
