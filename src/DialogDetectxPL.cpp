@@ -3,7 +3,7 @@
 
 using namespace std;
 
-DialogDetectxPL::DialogDetectxPL(QWidget *parent) :
+DialogDetectxPL::DialogDetectxPL(const Params &params, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::DialogDetectxPL)
 {
