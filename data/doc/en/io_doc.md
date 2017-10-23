@@ -9,21 +9,21 @@ model | string | yes | AVReceiver model. Supported: pioneer, denon, onkyo, maran
 zone | int | no | Zone of the amplifier (if supported)
 host | string | yes | IP address of the device
 gui_type | string | no | Internal graphical type for all calaos objects. Set automatically, read-only parameter.
+id | string | yes | Unique ID identifying the Input/Output in calaos-server
 port | int | no | Port to use for connection
 visible | bool | no | Display the Input/Output on all user interfaces if set. Default to true
 io_type | string | yes | IO type, can be "input", "output", "inout"
-enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
 name | string | yes | Name of Input/Output.
-id | string | yes | Unique ID identifying the Input/Output in calaos-server
+enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
 
 ##Actions of AVReceiver
 Name | Description
 ---- | -----------
 custom XXXXXX | Send a custom command to receiver (if you know the protocol) 
- source X | Change current input source 
- volume 50 | Set current volume 
- power off | Switch receiver off 
  power on | Switch receiver on 
+ power off | Switch receiver off 
+ volume 50 | Set current volume 
+ source X | Change current input source 
  
 #Axis - UNDOCUMENTED IO
 SPANK SPANK SPANK : naughty programmer ! You did not add documentation for this IO, that's BAD :'(
@@ -34,11 +34,11 @@ Go document it in your code or you will burn in hell!
 Name | Type | Mandatory | Description
 ---- | ---- | --------- | -----------
 gui_type | string | no | Internal graphical type for all calaos objects. Set automatically, read-only parameter.
+id | string | yes | Unique ID identifying the Input/Output in calaos-server
 visible | bool | no | Display the Input/Output on all user interfaces if set. Default to true
 io_type | string | yes | IO type, can be "input", "output", "inout"
-enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
 name | string | yes | Name of Input/Output.
-id | string | yes | Unique ID identifying the Input/Output in calaos-server
+enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
 
 
 #BlinkstickOutputLightRGB
@@ -52,12 +52,12 @@ Name | Type | Mandatory | Description
 ---- | ---- | --------- | -----------
 serial | string | yes | Blinkstick serial to control
 gui_type | string | no | Internal graphical type for all calaos objects. Set automatically, read-only parameter.
+id | string | yes | Unique ID identifying the Input/Output in calaos-server
 visible | bool | no | Display the Input/Output on all user interfaces if set. Default to true
 nb_leds | int | yes | Number of LEDs to control with the blinkstick
 io_type | string | yes | IO type, can be "input", "output", "inout"
-enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
 name | string | yes | Name of Input/Output.
-id | string | yes | Unique ID identifying the Input/Output in calaos-server
+enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
 
 ##Conditions of BlinkstickOutputLightRGB
 Name | Description
@@ -72,14 +72,14 @@ down_green 5 | Decrease intensity by X percent of green channel
  down_red 5 | Decrease intensity by X percent of red channel 
  up_blue 5 | Increase intensity by X percent of blue channel 
  up_green 5 | Increase intensity by X percent of green channel 
+ set_state true | Update internal light state without starting real action. This is useful when having updating the light state from an external source. 
+ false | Switch the light off 
+ toggle | Invert the light state (ON/OFF) 
+ set_state false | Update internal light state without starting real action. This is useful when having updating the light state from an external source. 
+ set #AA1294 | Set color. Color can be represented by using HTML notation: #AABBCC, rgb(50, 10, 30), hsl(11, 22, 33) 
  true | Switch the light on 
  up_red 5 | Increase intensity by X percent of red channel 
  set_blue 50 | Set blue channel to X percent 
- false | Switch the light off 
- set #AA1294 | Set color. Color can be represented by using HTML notation: #AABBCC, rgb(50, 10, 30), hsl(11, 22, 33) 
- set_state false | Update internal light state without starting real action. This is useful when having updating the light state from an external source. 
- toggle | Invert the light state (ON/OFF) 
- set_state true | Update internal light state without starting real action. This is useful when having updating the light state from an external source. 
  down_blue 5 | Decrease intensity by X percent of blue channel 
  set_state #AA1294 | Update internal light state without starting real action. This is useful when having updating the light state from an external source. 
  set_red 50 | Set red channel to X percent 
@@ -97,11 +97,11 @@ Go document it in your code or you will burn in hell!
 Name | Type | Mandatory | Description
 ---- | ---- | --------- | -----------
 gui_type | string | no | Internal graphical type for all calaos objects. Set automatically, read-only parameter.
+id | string | yes | Unique ID identifying the Input/Output in calaos-server
 visible | bool | no | Display the Input/Output on all user interfaces if set. Default to true
 io_type | string | yes | IO type, can be "input", "output", "inout"
-enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
 name | string | yes | Name of Input/Output.
-id | string | yes | Unique ID identifying the Input/Output in calaos-server
+enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
 
 
 #GpioInputSwitch
@@ -116,11 +116,11 @@ Name | Type | Mandatory | Description
 active_low | bool | no | Set this is your GPIO has an inverted level
 gpio | int | yes | GPIO ID on your hardware
 gui_type | string | no | Internal graphical type for all calaos objects. Set automatically, read-only parameter.
+id | string | yes | Unique ID identifying the Input/Output in calaos-server
 visible | bool | no | A switch can't be visible. Always false.
 io_type | string | yes | IO type, can be "input", "output", "inout"
-enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
 name | string | yes | Name of Input/Output.
-id | string | yes | Unique ID identifying the Input/Output in calaos-server
+enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
 
 ##Conditions of GpioInputSwitch
 Name | Description
@@ -142,11 +142,11 @@ Name | Type | Mandatory | Description
 active_low | bool | no | Set this is your GPIO has an inverted level
 gpio | int | yes | GPIO ID on your hardware
 gui_type | string | no | Internal graphical type for all calaos objects. Set automatically, read-only parameter.
+id | string | yes | Unique ID identifying the Input/Output in calaos-server
 visible | bool | no | A switch can't be visible. Always false.
 io_type | string | yes | IO type, can be "input", "output", "inout"
-enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
 name | string | yes | Name of Input/Output.
-id | string | yes | Unique ID identifying the Input/Output in calaos-server
+enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
 
 ##Conditions of GpioInputSwitchLongPress
 Name | Description
@@ -168,17 +168,17 @@ Name | Type | Mandatory | Description
 active_low | bool | no | Set this is your GPIO has an inverted level
 gpio | int | yes | GPIO ID on your hardware
 gui_type | string | no | Internal graphical type for all calaos objects. Set automatically, read-only parameter.
+id | string | yes | Unique ID identifying the Input/Output in calaos-server
 visible | bool | no | A switch can't be visible. Always false.
 io_type | string | yes | IO type, can be "input", "output", "inout"
-enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
 name | string | yes | Name of Input/Output.
-id | string | yes | Unique ID identifying the Input/Output in calaos-server
+enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
 
 ##Conditions of GpioInputSwitchTriple
 Name | Description
 ---- | -----------
-changed | Event on any change of state 
- 3 | Event triggered when switch is triple clicked 
+3 | Event triggered when switch is triple clicked 
+ changed | Event on any change of state 
  2 | Event triggered when switch is double clicked 
  1 | Event triggered when switch is single clicked 
  
@@ -193,11 +193,11 @@ Simple shutter. This shutter supports open/close states, as well as impulse shut
 Name | Type | Mandatory | Description
 ---- | ---- | --------- | -----------
 gpio_down | int | yes | GPIO ID for closing on your hardware
-active_low_down | bool | no | Set this is your GPIO has an inverted level
-id | string | yes | Unique ID identifying the Input/Output in calaos-server
-name | string | yes | Name of Input/Output.
 active_low_up | bool | no | Set this is your GPIO has an inverted level
 enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
+name | string | yes | Name of Input/Output.
+active_low_down | bool | no | Set this is your GPIO has an inverted level
+id | string | yes | Unique ID identifying the Input/Output in calaos-server
 gui_type | string | no | Internal graphical type for all calaos objects. Set automatically, read-only parameter.
 visible | bool | no | Display the Input/Output on all user interfaces if set. Default to true
 gpio_up | int | yes | GPIO ID for opening on your hardware
@@ -209,8 +209,8 @@ stop_both | bool | no | If in impulse mode, some shutters needs to activate both
 ##Conditions of GpioOutputShutter
 Name | Description
 ---- | -----------
-false | Event when shutter is closed 
- true | Event when shutter is open 
+true | Event when shutter is open 
+ false | Event when shutter is closed 
  changed | Event on any change of shutter state 
  
 ##Actions of GpioOutputShutter
@@ -219,11 +219,11 @@ Name | Description
 set_state true | Update internal shutter state without starting real action. This is useful when having updating the shutter state from an external source. 
  set_state false | Update internal shutter state without starting real action. This is useful when having updating the shutter state from an external source. 
  impulse down 200 | Close shutter for X ms 
- toggle | Invert shutter state 
+ up | Open the shutter 
+ down | Close the shutter 
  impulse up 200 | Open shutter for X ms 
  stop | Stop the shutter 
- down | Close the shutter 
- up | Open the shutter 
+ toggle | Invert shutter state 
  
 
 #GpioOutputShutterSmart
@@ -236,14 +236,14 @@ Smart shutter. This shutter calculates the position of the shutter based on the 
 Name | Type | Mandatory | Description
 ---- | ---- | --------- | -----------
 gpio_down | int | yes | GPIO ID for closing on your hardware
+active_low_up | bool | no | Set this is your GPIO has an inverted level
+enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
+name | string | yes | Name of Input/Output.
+gpio_up | int | yes | GPIO ID for opening on your hardware
+visible | bool | no | Display the Input/Output on all user interfaces if set. Default to true
 active_low_down | bool | no | Set this is your GPIO has an inverted level
 id | string | yes | Unique ID identifying the Input/Output in calaos-server
 time_down | int | yes | Time in sec for shutter to fully closed. The more accurate, the better it will work
-name | string | yes | Name of Input/Output.
-active_low_up | bool | no | Set this is your GPIO has an inverted level
-enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
-gpio_up | int | yes | GPIO ID for opening on your hardware
-visible | bool | no | Display the Input/Output on all user interfaces if set. Default to true
 gui_type | string | no | Internal graphical type for all calaos objects. Set automatically, read-only parameter.
 time_up | int | yes | Time in sec for shutter to be fully open. The more accurate, the better it will work
 io_type | string | yes | IO type, can be "input", "output", "inout"
@@ -253,18 +253,18 @@ stop_both | bool | no | If in impulse mode, some shutters needs to activate both
 ##Conditions of GpioOutputShutterSmart
 Name | Description
 ---- | -----------
-false | Event when shutter is closed 
- true | Event when shutter is open 
+true | Event when shutter is open 
+ false | Event when shutter is closed 
  changed | Event on any change of shutter state 
  
 ##Actions of GpioOutputShutterSmart
 Name | Description
 ---- | -----------
 set_state true | Update internal shutter state without starting real action. This is useful when having updating the shutter state from an external source. 
- up | Open the shutter 
- down | Close the shutter 
  impulse up 200 | Open shutter for X ms 
  set 50 | Set shutter at position X in percent 
+ down | Close the shutter 
+ up | Open the shutter 
  impulse down 200 | Close shutter for X ms 
  set_state false | Update internal shutter state without starting real action. This is useful when having updating the shutter state from an external source. 
  toggle | Invert shutter state 
@@ -286,29 +286,29 @@ Name | Type | Mandatory | Description
 active_low | bool | no | Set this is your GPIO has an inverted level
 gpio | int | yes | GPIO ID on your hardware
 gui_type | string | no | Internal graphical type for all calaos objects. Set automatically, read-only parameter.
+id | string | yes | Unique ID identifying the Input/Output in calaos-server
 visible | bool | no | Display the Input/Output on all user interfaces if set. Default to true
 io_type | string | yes | IO type, can be "input", "output", "inout"
-enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
 name | string | yes | Name of Input/Output.
-id | string | yes | Unique ID identifying the Input/Output in calaos-server
+enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
 
 ##Conditions of GpioOutputSwitch
 Name | Description
 ---- | -----------
-false | Event when light is off 
- true | Event when light is on 
+true | Event when light is on 
+ false | Event when light is off 
  changed | Event on any change of value 
  
 ##Actions of GpioOutputSwitch
 Name | Description
 ---- | -----------
 set_state true | Update internal light state without starting real action. This is useful when having updating the light state from an external source. 
- impulse 500 200 500 200 | Do an impulse on light state with a pattern.<br>Ex: 500 200 500 200 means: TRUE for 500ms, FALSE for 200ms, TRUE for 500ms, FALSE for 200ms<br>Ex: 500 loop 200 300 means: TRUE for 500ms, then loop the next steps for infinite, FALSE for 200ms, TRUE for 300ms<br>Ex: 100 100 200 old means: blinks and then set to the old start state (before impulse starts) 
- impulse 200 | Do an impulse on light state. Set to true for X ms then reset to false 
- toggle | Invert light state 
+ true | Switch the light on 
  set_state false | Update internal light state without starting real action. This is useful when having updating the light state from an external source. 
  false | Switch the light off 
- true | Switch the light on 
+ toggle | Invert light state 
+ impulse 500 200 500 200 | Do an impulse on light state with a pattern.<br>Ex: 500 200 500 200 means: TRUE for 500ms, FALSE for 200ms, TRUE for 500ms, FALSE for 200ms<br>Ex: 500 loop 200 300 means: TRUE for 500ms, then loop the next steps for infinite, FALSE for 200ms, TRUE for 300ms<br>Ex: 100 100 200 old means: blinks and then set to the old start state (before impulse starts) 
+ impulse 200 | Do an impulse on light state. Set to true for X ms then reset to false 
  
 
 #HueOutputLightRGB
@@ -324,11 +324,11 @@ id_hue | string | yes | Unique ID describing the Hue Light. This value is return
 api | string | yes | API key return by Hue bridge when assciation has been made. Use Hue Wizard in calaos_installer to get this value automatically.
 host | string | yes | Hue bridge IP address
 gui_type | string | no | Internal graphical type for all calaos objects. Set automatically, read-only parameter.
+id | string | yes | Unique ID identifying the Input/Output in calaos-server
 visible | bool | no | Display the Input/Output on all user interfaces if set. Default to true
 io_type | string | yes | IO type, can be "input", "output", "inout"
-enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
 name | string | yes | Name of Input/Output.
-id | string | yes | Unique ID identifying the Input/Output in calaos-server
+enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
 
 ##Conditions of HueOutputLightRGB
 Name | Description
@@ -343,14 +343,14 @@ down_green 5 | Decrease intensity by X percent of green channel
  down_red 5 | Decrease intensity by X percent of red channel 
  up_blue 5 | Increase intensity by X percent of blue channel 
  up_green 5 | Increase intensity by X percent of green channel 
+ set_state true | Update internal light state without starting real action. This is useful when having updating the light state from an external source. 
+ false | Switch the light off 
+ toggle | Invert the light state (ON/OFF) 
+ set_state false | Update internal light state without starting real action. This is useful when having updating the light state from an external source. 
+ set #AA1294 | Set color. Color can be represented by using HTML notation: #AABBCC, rgb(50, 10, 30), hsl(11, 22, 33) 
  true | Switch the light on 
  up_red 5 | Increase intensity by X percent of red channel 
  set_blue 50 | Set blue channel to X percent 
- false | Switch the light off 
- set #AA1294 | Set color. Color can be represented by using HTML notation: #AABBCC, rgb(50, 10, 30), hsl(11, 22, 33) 
- set_state false | Update internal light state without starting real action. This is useful when having updating the light state from an external source. 
- toggle | Invert the light state (ON/OFF) 
- set_state true | Update internal light state without starting real action. This is useful when having updating the light state from an external source. 
  down_blue 5 | Decrease intensity by X percent of blue channel 
  set_state #AA1294 | Update internal light state without starting real action. This is useful when having updating the light state from an external source. 
  set_red 50 | Set red channel to X percent 
@@ -368,12 +368,12 @@ Name | Type | Mandatory | Description
 ---- | ---- | --------- | -----------
 day | int | no | Day for this time input
 month | int | no | Month for this time input
-id | string | yes | Unique ID identifying the Input/Output in calaos-server
-name | string | yes | Name of Input/Output.
 enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
+name | string | yes | Name of Input/Output.
 io_type | string | yes | IO type, can be "input", "output", "inout"
 sec | int | yes | Seconds for this time input
 visible | bool | no | A time object can't be visible. Always false.
+id | string | yes | Unique ID identifying the Input/Output in calaos-server
 year | int | no | Year for this time input
 gui_type | string | no | Internal graphical type for all calaos objects. Set automatically, read-only parameter.
 min | int | yes | Minutes for this time input
@@ -395,13 +395,13 @@ Name | Type | Mandatory | Description
 ---- | ---- | --------- | -----------
 autorestart | bool | yes | Auto restart the timer when time expires
 autostart | bool | yes | Auto start the timer when calaos starts
-id | string | yes | Unique ID identifying the Input/Output in calaos-server
-name | string | yes | Name of Input/Output.
 enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
+name | string | yes | Name of Input/Output.
 io_type | string | yes | IO type, can be "input", "output", "inout"
 sec | int | yes | Seconds for the timer interval
 visible | bool | no | A timer object can't be visible. Always false.
 msec | int | yes | Miliseconds for the timer interval
+id | string | yes | Unique ID identifying the Input/Output in calaos-server
 gui_type | string | no | Internal graphical type for all calaos objects. Set automatically, read-only parameter.
 min | int | yes | Minutes for the timer interval
 hour | int | yes | Hour for the timer interval
@@ -430,11 +430,11 @@ Name | Type | Mandatory | Description
 save | bool | no | Automatically save the value in cache. The value will be reloaded when restarting calaos is true. Default to false
 rw | bool | no | Enable edit mode for this object. It allows user to modify the value on interfaces. Default to false
 gui_type | string | no | Internal graphical type for all calaos objects. Set automatically, read-only parameter.
+id | string | yes | Unique ID identifying the Input/Output in calaos-server
 visible | bool | no | Display the Input/Output on all user interfaces if set. Default to true
 io_type | string | yes | IO type, can be "input", "output", "inout"
-enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
 name | string | yes | Name of Input/Output.
-id | string | yes | Unique ID identifying the Input/Output in calaos-server
+enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
 
 ##Conditions of InternalBool
 Name | Description
@@ -446,11 +446,11 @@ changed | Event on any change of value
 ##Actions of InternalBool
 Name | Description
 ---- | -----------
-impulse 500 200 500 200 | Do an impulse on boolean value with a pattern.<br>Ex: 500 200 500 200 means: TRUE for 500ms, FALSE for 200ms, TRUE for 500ms, FALSE for 200ms<br>Ex: 500 loop 200 300 means: TRUE for 500ms, then loop the next steps for infinite, FALSE for 200ms, TRUE for 300ms<br>Ex: 100 100 200 old means: blinks and then set to the old start state (before impulse starts) 
- impulse 200 | Do an impulse on boolean value. Set to true for X ms then reset to false 
- toggle | Invert boolean value 
+true | Set a value to true 
  false | Set a value to false 
- true | Set a value to true 
+ toggle | Invert boolean value 
+ impulse 500 200 500 200 | Do an impulse on boolean value with a pattern.<br>Ex: 500 200 500 200 means: TRUE for 500ms, FALSE for 200ms, TRUE for 500ms, FALSE for 200ms<br>Ex: 500 loop 200 300 means: TRUE for 500ms, then loop the next steps for infinite, FALSE for 200ms, TRUE for 300ms<br>Ex: 100 100 200 old means: blinks and then set to the old start state (before impulse starts) 
+ impulse 200 | Do an impulse on boolean value. Set to true for X ms then reset to false 
  
 
 #InternalInt
@@ -462,13 +462,13 @@ Name | Type | Mandatory | Description
 save | bool | no | Automatically save the value in cache. The value will be reloaded when restarting calaos is true. Default to false
 rw | bool | no | Enable edit mode for this object. It allows user to modify the value on interfaces. Default to false
 gui_type | string | no | Internal graphical type for all calaos objects. Set automatically, read-only parameter.
+step | float | no | Set a step for increment/decrement value. Default is 1.0
+id | string | yes | Unique ID identifying the Input/Output in calaos-server
 unit | string | no | Unit which will be displayed on the UI as a suffix.
 visible | bool | no | Display the Input/Output on all user interfaces if set. Default to true
 io_type | string | yes | IO type, can be "input", "output", "inout"
-enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
 name | string | yes | Name of Input/Output.
-step | float | no | Set a step for increment/decrement value. Default is 1.0
-id | string | yes | Unique ID identifying the Input/Output in calaos-server
+enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
 
 ##Conditions of InternalInt
 Name | Description
@@ -480,10 +480,10 @@ changed | Event on any change of value
 Name | Description
 ---- | -----------
 dec 1 | Decrement value by value 
- inc 1 | Increment value by value 
- dec | Decrement value with configured step 
- inc | Increment value with configured step 
  0 | Set a specific number value 
+ inc | Increment value with configured step 
+ dec | Decrement value with configured step 
+ inc 1 | Increment value by value 
  
 
 #InternalString
@@ -495,11 +495,11 @@ Name | Type | Mandatory | Description
 save | bool | no | Automatically save the value in cache. The value will be reloaded when restarting calaos is true. Default to false
 rw | bool | no | Enable edit mode for this object. It allows user to modify the value on interfaces. Default to false
 gui_type | string | no | Internal graphical type for all calaos objects. Set automatically, read-only parameter.
+id | string | yes | Unique ID identifying the Input/Output in calaos-server
 visible | bool | no | Display the Input/Output on all user interfaces if set. Default to true
 io_type | string | yes | IO type, can be "input", "output", "inout"
-enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
 name | string | yes | Name of Input/Output.
-id | string | yes | Unique ID identifying the Input/Output in calaos-server
+enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
 
 ##Conditions of InternalString
 Name | Description
@@ -526,7 +526,6 @@ host | string | yes | Hostname of knxd, default to localhost
 gui_style | list | yes | GUI style display. This will control the icon displayed on the UI
 unit | string | no | Unit which will be displayed on the UI as a suffix.
 precision | int | no | Precision of the returned value. The value represents the number of decimal after the dot. The value is rounded like this : value = 19.275 => returned value 19.28 when preicision = 2, 19.3 when precision = 1, 19 when precision = 0
-id | string | yes | Unique ID identifying the Input/Output in calaos-server
 name | string | yes | Name of Input/Output.
 read_at_start | bool | yes | Send a read request at start to get the current value. Default is false
 eis | int | no | KNX EIS (Data type)
@@ -534,6 +533,7 @@ io_type | string | yes | IO type, can be "input", "output", "inout"
 visible | bool | no | Display the Input/Output on all user interfaces if set. Default to true
 knx_group | string | yes | KNX Group address, Ex: x/y/z
 frequency | float | no | Sampling time in microsecond. The value is read at this frequency. If this value is not set, calaos tries to read the interval parameter
+id | string | yes | Unique ID identifying the Input/Output in calaos-server
 gui_type | string | no | Internal graphical type for all calaos objects. Set automatically, read-only parameter.
 listen_knx_group | string | no | KNX Group address for listening status, Ex: x/y/z
 interval | float | no | Sampling time in seconds. The value is read at this frequency. If this value is not set, the default value is 15s
@@ -562,10 +562,10 @@ Basic switch with press/release states.
 Name | Type | Mandatory | Description
 ---- | ---- | --------- | -----------
 host | string | yes | Hostname of knxd, default to localhost
-id | string | yes | Unique ID identifying the Input/Output in calaos-server
-name | string | yes | Name of Input/Output.
 enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
+name | string | yes | Name of Input/Output.
 visible | bool | no | A switch can't be visible. Always false.
+id | string | yes | Unique ID identifying the Input/Output in calaos-server
 gui_type | string | no | Internal graphical type for all calaos objects. Set automatically, read-only parameter.
 knx_group | string | yes | KNX Group address, Ex: x/y/z
 listen_knx_group | string | no | KNX Group address for listening status, Ex: x/y/z
@@ -594,10 +594,10 @@ Long press switch. This switch supports single press and long press. User has 50
 Name | Type | Mandatory | Description
 ---- | ---- | --------- | -----------
 host | string | yes | Hostname of knxd, default to localhost
-id | string | yes | Unique ID identifying the Input/Output in calaos-server
-name | string | yes | Name of Input/Output.
 enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
+name | string | yes | Name of Input/Output.
 visible | bool | no | A switch can't be visible. Always false.
+id | string | yes | Unique ID identifying the Input/Output in calaos-server
 gui_type | string | no | Internal graphical type for all calaos objects. Set automatically, read-only parameter.
 knx_group | string | yes | KNX Group address, Ex: x/y/z
 listen_knx_group | string | no | KNX Group address for listening status, Ex: x/y/z
@@ -626,10 +626,10 @@ Triple click switch. This switch can start 3 kind of actions. User has 500ms to 
 Name | Type | Mandatory | Description
 ---- | ---- | --------- | -----------
 host | string | yes | Hostname of knxd, default to localhost
-id | string | yes | Unique ID identifying the Input/Output in calaos-server
-name | string | yes | Name of Input/Output.
 enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
+name | string | yes | Name of Input/Output.
 visible | bool | no | A switch can't be visible. Always false.
+id | string | yes | Unique ID identifying the Input/Output in calaos-server
 gui_type | string | no | Internal graphical type for all calaos objects. Set automatically, read-only parameter.
 knx_group | string | yes | KNX Group address, Ex: x/y/z
 listen_knx_group | string | no | KNX Group address for listening status, Ex: x/y/z
@@ -640,8 +640,8 @@ read_at_start | bool | yes | Send a read request at start to get the current val
 ##Conditions of KNXInputSwitchTriple
 Name | Description
 ---- | -----------
-changed | Event on any change of state 
- 3 | Event triggered when switch is triple clicked 
+3 | Event triggered when switch is triple clicked 
+ changed | Event on any change of state 
  2 | Event triggered when switch is double clicked 
  1 | Event triggered when switch is single clicked 
  
@@ -660,7 +660,6 @@ Name | Type | Mandatory | Description
 ---- | ---- | --------- | -----------
 host | string | yes | Hostname of knxd, default to localhost
 precision | int | no | Precision of the returned value. The value represents the number of decimal after the dot. The value is rounded like this : value = 19.275 => returned value 19.28 when preicision = 2, 19.3 when precision = 1, 19 when precision = 0
-id | string | yes | Unique ID identifying the Input/Output in calaos-server
 name | string | yes | Name of Input/Output.
 read_at_start | bool | yes | Send a read request at start to get the current value. Default is false
 eis | int | no | KNX EIS (Data type)
@@ -668,6 +667,7 @@ io_type | string | yes | IO type, can be "input", "output", "inout"
 visible | bool | no | Display the Input/Output on all user interfaces if set. Default to true
 knx_group | string | yes | KNX Group address, Ex: x/y/z
 frequency | float | no | Sampling time in microsecond. The value is read at this frequency. If this value is not set, calaos tries to read the interval parameter
+id | string | yes | Unique ID identifying the Input/Output in calaos-server
 gui_type | string | no | Internal graphical type for all calaos objects. Set automatically, read-only parameter.
 listen_knx_group | string | no | KNX Group address for listening status, Ex: x/y/z
 interval | float | no | Sampling time in seconds. The value is read at this frequency. If this value is not set, the default value is 15s
@@ -698,14 +698,14 @@ Name | Type | Mandatory | Description
 host | string | yes | Hostname of knxd, default to localhost
 knx_group | string | yes | KNX Group address, Ex: x/y/z
 gui_style | list | yes | GUI style display. This will control the icon displayed on the UI
-id | string | yes | Unique ID identifying the Input/Output in calaos-server
-name | string | yes | Name of Input/Output.
 enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
+name | string | yes | Name of Input/Output.
 read_at_start | bool | yes | Send a read request at start to get the current value. Default is false
 eis | int | no | KNX EIS (Data type)
 io_type | string | yes | IO type, can be "input", "output", "inout"
 visible | bool | no | Display the Input/Output on all user interfaces if set. Default to true
 unit | string | no | Unit which will be displayed on the UI as a suffix.
+id | string | yes | Unique ID identifying the Input/Output in calaos-server
 step | float | no | Set a step for increment/decrement value. Default is 1.0
 gui_type | string | no | Internal graphical type for all calaos objects. Set automatically, read-only parameter.
 listen_knx_group | string | no | KNX Group address for listening status, Ex: x/y/z
@@ -723,10 +723,10 @@ Name | Description
 Name | Description
 ---- | -----------
 dec 1 | Decrement value by value 
- inc 1 | Increment value by value 
- dec | Decrement value with configured step 
- inc | Increment value with configured step 
  0 | Set a specific number value 
+ inc | Increment value with configured step 
+ dec | Decrement value with configured step 
+ inc 1 | Increment value by value 
  
 ##More Infos
 * knxd: https://github.com/knxd/knxd/g
@@ -742,10 +742,10 @@ Basic light. This light have only 2 states, ON or OFF. Can also be used to contr
 Name | Type | Mandatory | Description
 ---- | ---- | --------- | -----------
 host | string | yes | Hostname of knxd, default to localhost
-id | string | yes | Unique ID identifying the Input/Output in calaos-server
-name | string | yes | Name of Input/Output.
 enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
+name | string | yes | Name of Input/Output.
 visible | bool | no | Display the Input/Output on all user interfaces if set. Default to true
+id | string | yes | Unique ID identifying the Input/Output in calaos-server
 gui_type | string | no | Internal graphical type for all calaos objects. Set automatically, read-only parameter.
 knx_group | string | yes | KNX Group address, Ex: x/y/z
 listen_knx_group | string | no | KNX Group address for listening status, Ex: x/y/z
@@ -756,20 +756,20 @@ read_at_start | bool | yes | Send a read request at start to get the current val
 ##Conditions of KNXOutputLight
 Name | Description
 ---- | -----------
-false | Event when light is off 
- true | Event when light is on 
+true | Event when light is on 
+ false | Event when light is off 
  changed | Event on any change of value 
  
 ##Actions of KNXOutputLight
 Name | Description
 ---- | -----------
 set_state true | Update internal light state without starting real action. This is useful when having updating the light state from an external source. 
- impulse 500 200 500 200 | Do an impulse on light state with a pattern.<br>Ex: 500 200 500 200 means: TRUE for 500ms, FALSE for 200ms, TRUE for 500ms, FALSE for 200ms<br>Ex: 500 loop 200 300 means: TRUE for 500ms, then loop the next steps for infinite, FALSE for 200ms, TRUE for 300ms<br>Ex: 100 100 200 old means: blinks and then set to the old start state (before impulse starts) 
- impulse 200 | Do an impulse on light state. Set to true for X ms then reset to false 
- toggle | Invert light state 
+ true | Switch the light on 
  set_state false | Update internal light state without starting real action. This is useful when having updating the light state from an external source. 
  false | Switch the light off 
- true | Switch the light on 
+ toggle | Invert light state 
+ impulse 500 200 500 200 | Do an impulse on light state with a pattern.<br>Ex: 500 200 500 200 means: TRUE for 500ms, FALSE for 200ms, TRUE for 500ms, FALSE for 200ms<br>Ex: 500 loop 200 300 means: TRUE for 500ms, then loop the next steps for infinite, FALSE for 200ms, TRUE for 300ms<br>Ex: 100 100 200 old means: blinks and then set to the old start state (before impulse starts) 
+ impulse 200 | Do an impulse on light state. Set to true for X ms then reset to false 
  
 ##More Infos
 * knxd: https://github.com/knxd/knxd/g
@@ -785,10 +785,10 @@ Light with dimming control. Light intensity can be changed for this light.
 Name | Type | Mandatory | Description
 ---- | ---- | --------- | -----------
 host | string | yes | Hostname of knxd, default to localhost
-id | string | yes | Unique ID identifying the Input/Output in calaos-server
-name | string | yes | Name of Input/Output.
 enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
+name | string | yes | Name of Input/Output.
 visible | bool | no | Display the Input/Output on all user interfaces if set. Default to true
+id | string | yes | Unique ID identifying the Input/Output in calaos-server
 gui_type | string | no | Internal graphical type for all calaos objects. Set automatically, read-only parameter.
 knx_group | string | yes | KNX Group address, Ex: x/y/z
 listen_knx_group | string | no | KNX Group address for listening status, Ex: x/y/z
@@ -808,14 +808,14 @@ Name | Description
 hold stop | Dynamically change light intensity when holding a switch (stop action) 
  hold press | Dynamically change light intensity when holding a switch (press action) 
  down 5 | Decrease intensity by X percent 
- true | Switch the light on 
- set_state 50 | Update internal light state without starting real action. This is useful when having updating the light state from an external source. 
+ impulse 500 200 500 200 | Do an impulse on light state with a pattern.<br>Ex: 500 200 500 200 means: TRUE for 500ms, FALSE for 200ms, TRUE for 500ms, FALSE for 200ms<br>Ex: 500 loop 200 300 means: TRUE for 500ms, then loop the next steps for infinite, FALSE for 200ms, TRUE for 300ms<br>Ex: 100 100 200 old means: blinks and then set to the old start state (before impulse starts) 
+ set off 50 | Set light value without switching on. This will be the light intensity for the next ON 
  false | Switch the light off 
  up 5 | Increase intensity by X percent 
- set_state false | Update internal light state without starting real action. This is useful when having updating the light state from an external source. 
  toggle | Invert the light state 
- set off 50 | Set light value without switching on. This will be the light intensity for the next ON 
- impulse 500 200 500 200 | Do an impulse on light state with a pattern.<br>Ex: 500 200 500 200 means: TRUE for 500ms, FALSE for 200ms, TRUE for 500ms, FALSE for 200ms<br>Ex: 500 loop 200 300 means: TRUE for 500ms, then loop the next steps for infinite, FALSE for 200ms, TRUE for 300ms<br>Ex: 100 100 200 old means: blinks and then set to the old start state (before impulse starts) 
+ set_state false | Update internal light state without starting real action. This is useful when having updating the light state from an external source. 
+ true | Switch the light on 
+ set_state 50 | Update internal light state without starting real action. This is useful when having updating the light state from an external source. 
  set_state true | Update internal light state without starting real action. This is useful when having updating the light state from an external source. 
  impulse 200 | Do an impulse on light state. Set to true for X ms then reset to false 
  set 50 | Set light intensity and swith on if light is off 
@@ -836,8 +836,8 @@ Name | Type | Mandatory | Description
 host | string | yes | Hostname of knxd, default to localhost
 listen_knx_group_blue | string | no | Blue Group address for listening status, Ex: x/y/z
 listen_knx_group_green | string | no | Green Group address for listening status, Ex: x/y/z
-name | string | yes | Name of Input/Output.
 enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
+name | string | yes | Name of Input/Output.
 read_at_start | bool | yes | Send a read request at start to get the current value. Default is false
 eis | int | no | KNX EIS (Data type)
 io_type | string | yes | IO type, can be "input", "output", "inout"
@@ -862,14 +862,14 @@ down_green 5 | Decrease intensity by X percent of green channel
  down_red 5 | Decrease intensity by X percent of red channel 
  up_blue 5 | Increase intensity by X percent of blue channel 
  up_green 5 | Increase intensity by X percent of green channel 
+ set_state true | Update internal light state without starting real action. This is useful when having updating the light state from an external source. 
+ false | Switch the light off 
+ toggle | Invert the light state (ON/OFF) 
+ set_state false | Update internal light state without starting real action. This is useful when having updating the light state from an external source. 
+ set #AA1294 | Set color. Color can be represented by using HTML notation: #AABBCC, rgb(50, 10, 30), hsl(11, 22, 33) 
  true | Switch the light on 
  up_red 5 | Increase intensity by X percent of red channel 
  set_blue 50 | Set blue channel to X percent 
- false | Switch the light off 
- set #AA1294 | Set color. Color can be represented by using HTML notation: #AABBCC, rgb(50, 10, 30), hsl(11, 22, 33) 
- set_state false | Update internal light state without starting real action. This is useful when having updating the light state from an external source. 
- toggle | Invert the light state (ON/OFF) 
- set_state true | Update internal light state without starting real action. This is useful when having updating the light state from an external source. 
  down_blue 5 | Decrease intensity by X percent of blue channel 
  set_state #AA1294 | Update internal light state without starting real action. This is useful when having updating the light state from an external source. 
  set_red 50 | Set red channel to X percent 
@@ -888,11 +888,11 @@ Simple shutter. This shutter supports open/close states, as well as impulse shut
 ##Parameters of KNXOutputShutter
 Name | Type | Mandatory | Description
 ---- | ---- | --------- | -----------
-id | string | yes | Unique ID identifying the Input/Output in calaos-server
-name | string | yes | Name of Input/Output.
 enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
+name | string | yes | Name of Input/Output.
 knx_group_down | string | yes | Down KNX Group address, Ex: x/y/z
 visible | bool | no | Display the Input/Output on all user interfaces if set. Default to true
+id | string | yes | Unique ID identifying the Input/Output in calaos-server
 gui_type | string | no | Internal graphical type for all calaos objects. Set automatically, read-only parameter.
 host | string | yes | Hostname of knxd, default to localhost
 knx_group_up | string | yes | Up KNX Group address, Ex: x/y/z
@@ -906,8 +906,8 @@ stop_both | bool | no | If in impulse mode, some shutters needs to activate both
 ##Conditions of KNXOutputShutter
 Name | Description
 ---- | -----------
-false | Event when shutter is closed 
- true | Event when shutter is open 
+true | Event when shutter is open 
+ false | Event when shutter is closed 
  changed | Event on any change of shutter state 
  
 ##Actions of KNXOutputShutter
@@ -916,11 +916,11 @@ Name | Description
 set_state true | Update internal shutter state without starting real action. This is useful when having updating the shutter state from an external source. 
  set_state false | Update internal shutter state without starting real action. This is useful when having updating the shutter state from an external source. 
  impulse down 200 | Close shutter for X ms 
- toggle | Invert shutter state 
+ up | Open the shutter 
+ down | Close the shutter 
  impulse up 200 | Open shutter for X ms 
  stop | Stop the shutter 
- down | Close the shutter 
- up | Open the shutter 
+ toggle | Invert shutter state 
  
 ##More Infos
 * knxd: https://github.com/knxd/knxd/g
@@ -939,12 +939,12 @@ listen_knx_group | string | no | KNX Group address for listening status, Ex: x/y
 knx_group | string | yes | KNX Group address, Ex: x/y/z
 host | string | yes | Hostname of knxd, default to localhost
 knx_group_up | string | yes | Up KNX Group address, Ex: x/y/z
-id | string | yes | Unique ID identifying the Input/Output in calaos-server
-time_down | int | yes | Time in sec for shutter to fully closed. The more accurate, the better it will work
-name | string | yes | Name of Input/Output.
 enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
+name | string | yes | Name of Input/Output.
 knx_group_down | string | yes | Down KNX Group address, Ex: x/y/z
 visible | bool | no | Display the Input/Output on all user interfaces if set. Default to true
+id | string | yes | Unique ID identifying the Input/Output in calaos-server
+time_down | int | yes | Time in sec for shutter to fully closed. The more accurate, the better it will work
 gui_type | string | no | Internal graphical type for all calaos objects. Set automatically, read-only parameter.
 time_up | int | yes | Time in sec for shutter to be fully open. The more accurate, the better it will work
 read_at_start | bool | yes | Send a read request at start to get the current value. Default is false
@@ -956,18 +956,18 @@ stop_both | bool | no | If in impulse mode, some shutters needs to activate both
 ##Conditions of KNXOutputShutterSmart
 Name | Description
 ---- | -----------
-false | Event when shutter is closed 
- true | Event when shutter is open 
+true | Event when shutter is open 
+ false | Event when shutter is closed 
  changed | Event on any change of shutter state 
  
 ##Actions of KNXOutputShutterSmart
 Name | Description
 ---- | -----------
 set_state true | Update internal shutter state without starting real action. This is useful when having updating the shutter state from an external source. 
- up | Open the shutter 
- down | Close the shutter 
  impulse up 200 | Open shutter for X ms 
  set 50 | Set shutter at position X in percent 
+ down | Close the shutter 
+ up | Open the shutter 
  impulse down 200 | Close shutter for X ms 
  set_state false | Update internal shutter state without starting real action. This is useful when having updating the shutter state from an external source. 
  toggle | Invert shutter state 
@@ -992,12 +992,12 @@ Name | Type | Mandatory | Description
 zone | int | yes | Zone to control. Each gateway supports 4 zones.
 host | string | yes | Milight wifi gateway IP address
 gui_type | string | no | Internal graphical type for all calaos objects. Set automatically, read-only parameter.
+id | string | yes | Unique ID identifying the Input/Output in calaos-server
 port | int | no | Gateway port, default to 8899
 visible | bool | no | Display the Input/Output on all user interfaces if set. Default to true
 io_type | string | yes | IO type, can be "input", "output", "inout"
-enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
 name | string | yes | Name of Input/Output.
-id | string | yes | Unique ID identifying the Input/Output in calaos-server
+enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
 
 ##Conditions of MilightOutputLightRGB
 Name | Description
@@ -1012,14 +1012,14 @@ down_green 5 | Decrease intensity by X percent of green channel
  down_red 5 | Decrease intensity by X percent of red channel 
  up_blue 5 | Increase intensity by X percent of blue channel 
  up_green 5 | Increase intensity by X percent of green channel 
+ set_state true | Update internal light state without starting real action. This is useful when having updating the light state from an external source. 
+ false | Switch the light off 
+ toggle | Invert the light state (ON/OFF) 
+ set_state false | Update internal light state without starting real action. This is useful when having updating the light state from an external source. 
+ set #AA1294 | Set color. Color can be represented by using HTML notation: #AABBCC, rgb(50, 10, 30), hsl(11, 22, 33) 
  true | Switch the light on 
  up_red 5 | Increase intensity by X percent of red channel 
  set_blue 50 | Set blue channel to X percent 
- false | Switch the light off 
- set #AA1294 | Set color. Color can be represented by using HTML notation: #AABBCC, rgb(50, 10, 30), hsl(11, 22, 33) 
- set_state false | Update internal light state without starting real action. This is useful when having updating the light state from an external source. 
- toggle | Invert the light state (ON/OFF) 
- set_state true | Update internal light state without starting real action. This is useful when having updating the light state from an external source. 
  down_blue 5 | Decrease intensity by X percent of blue channel 
  set_state #AA1294 | Update internal light state without starting real action. This is useful when having updating the light state from an external source. 
  set_red 50 | Set red channel to X percent 
@@ -1043,14 +1043,14 @@ host | string | yes | IP address of the tcp gateway if relevant
 gui_style | list | yes | GUI style display. This will control the icon displayed on the UI
 unit | string | no | Unit which will be displayed on the UI as a suffix.
 precision | int | no | Precision of the returned value. The value represents the number of decimal after the dot. The value is rounded like this : value = 19.275 => returned value 19.28 when preicision = 2, 19.3 when precision = 1, 19 when precision = 0
-node_id | string | yes | Node ID as set in your network
-id | string | yes | Unique ID identifying the Input/Output in calaos-server
 gateway | list | yes | Gateway type used, tcp or serial are supported
 name | string | yes | Name of Input/Output.
 port | string | yes | If using serial gateway, port is the serial port (/dev/ttyUSB0 for ex.). If using tcp gateway port is TCP port of the gateway.
 io_type | string | yes | IO type, can be "input", "output", "inout"
 visible | bool | no | Display the Input/Output on all user interfaces if set. Default to true
 frequency | float | no | Sampling time in microsecond. The value is read at this frequency. If this value is not set, calaos tries to read the interval parameter
+node_id | string | yes | Node ID as set in your network
+id | string | yes | Unique ID identifying the Input/Output in calaos-server
 gui_type | string | no | Internal graphical type for all calaos objects. Set automatically, read-only parameter.
 interval | float | no | Sampling time in seconds. The value is read at this frequency. If this value is not set, the default value is 15s
 coeff_a | float | no | use in conjunction of coeff_b to apply equation of the form `value_displayed = coeff_a * raw_value + coeff_b`. Default value is 1.0.
@@ -1178,8 +1178,8 @@ node_id | string | yes | Node ID as set in your network
 ##Conditions of MySensorsInputSwitchTriple
 Name | Description
 ---- | -----------
-changed | Event on any change of state 
- 3 | Event triggered when switch is triple clicked 
+3 | Event triggered when switch is triple clicked 
+ changed | Event on any change of state 
  2 | Event triggered when switch is double clicked 
  1 | Event triggered when switch is single clicked 
  
@@ -1199,14 +1199,14 @@ Name | Type | Mandatory | Description
 sensor_id | string | yes | Sensor ID, as set in your node
 host | string | yes | IP address of the tcp gateway if relevant
 precision | int | no | Precision of the returned value. The value represents the number of decimal after the dot. The value is rounded like this : value = 19.275 => returned value 19.28 when preicision = 2, 19.3 when precision = 1, 19 when precision = 0
-node_id | string | yes | Node ID as set in your network
-id | string | yes | Unique ID identifying the Input/Output in calaos-server
 gateway | list | yes | Gateway type used, tcp or serial are supported
 name | string | yes | Name of Input/Output.
 port | string | yes | If using serial gateway, port is the serial port (/dev/ttyUSB0 for ex.). If using tcp gateway port is TCP port of the gateway.
 io_type | string | yes | IO type, can be "input", "output", "inout"
 visible | bool | no | Display the Input/Output on all user interfaces if set. Default to true
 frequency | float | no | Sampling time in microsecond. The value is read at this frequency. If this value is not set, calaos tries to read the interval parameter
+node_id | string | yes | Node ID as set in your network
+id | string | yes | Unique ID identifying the Input/Output in calaos-server
 gui_type | string | no | Internal graphical type for all calaos objects. Set automatically, read-only parameter.
 interval | float | no | Sampling time in seconds. The value is read at this frequency. If this value is not set, the default value is 15s
 coeff_a | float | no | use in conjunction of coeff_b to apply equation of the form `value_displayed = coeff_a * raw_value + coeff_b`. Default value is 1.0.
@@ -1237,15 +1237,15 @@ data_type | string | no | Data type sent to the node. Default: V_DIMMER, see MyS
 sensor_id | string | yes | Sensor ID, as set in your node
 host | string | yes | IP address of the tcp gateway if relevant
 gui_style | list | yes | GUI style display. This will control the icon displayed on the UI
-node_id | string | yes | Node ID as set in your network
-id | string | yes | Unique ID identifying the Input/Output in calaos-server
+enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
 gateway | list | yes | Gateway type used, tcp or serial are supported
 name | string | yes | Name of Input/Output.
-enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
 port | string | yes | If using serial gateway, port is the serial port (/dev/ttyUSB0 for ex.). If using tcp gateway port is TCP port of the gateway.
 io_type | string | yes | IO type, can be "input", "output", "inout"
 visible | bool | no | Display the Input/Output on all user interfaces if set. Default to true
 unit | string | no | Unit which will be displayed on the UI as a suffix.
+node_id | string | yes | Node ID as set in your network
+id | string | yes | Unique ID identifying the Input/Output in calaos-server
 step | float | no | Set a step for increment/decrement value. Default is 1.0
 gui_type | string | no | Internal graphical type for all calaos objects. Set automatically, read-only parameter.
 coeff_a | float | no | use in conjunction of coeff_b to apply equation of the form `value_sent = coeff_a * raw_value + coeff_b`. Default value is 1.0.
@@ -1262,10 +1262,10 @@ Name | Description
 Name | Description
 ---- | -----------
 dec 1 | Decrement value by value 
- inc 1 | Increment value by value 
- dec | Decrement value with configured step 
- inc | Increment value with configured step 
  0 | Set a specific number value 
+ inc | Increment value with configured step 
+ dec | Decrement value with configured step 
+ inc 1 | Increment value by value 
  
 ##More Infos
 * MySensors: http://mysensors.org
@@ -1305,14 +1305,14 @@ Name | Description
 hold stop | Dynamically change light intensity when holding a switch (stop action) 
  hold press | Dynamically change light intensity when holding a switch (press action) 
  down 5 | Decrease intensity by X percent 
- true | Switch the light on 
- set_state 50 | Update internal light state without starting real action. This is useful when having updating the light state from an external source. 
+ impulse 500 200 500 200 | Do an impulse on light state with a pattern.<br>Ex: 500 200 500 200 means: TRUE for 500ms, FALSE for 200ms, TRUE for 500ms, FALSE for 200ms<br>Ex: 500 loop 200 300 means: TRUE for 500ms, then loop the next steps for infinite, FALSE for 200ms, TRUE for 300ms<br>Ex: 100 100 200 old means: blinks and then set to the old start state (before impulse starts) 
+ set off 50 | Set light value without switching on. This will be the light intensity for the next ON 
  false | Switch the light off 
  up 5 | Increase intensity by X percent 
- set_state false | Update internal light state without starting real action. This is useful when having updating the light state from an external source. 
  toggle | Invert the light state 
- set off 50 | Set light value without switching on. This will be the light intensity for the next ON 
- impulse 500 200 500 200 | Do an impulse on light state with a pattern.<br>Ex: 500 200 500 200 means: TRUE for 500ms, FALSE for 200ms, TRUE for 500ms, FALSE for 200ms<br>Ex: 500 loop 200 300 means: TRUE for 500ms, then loop the next steps for infinite, FALSE for 200ms, TRUE for 300ms<br>Ex: 100 100 200 old means: blinks and then set to the old start state (before impulse starts) 
+ set_state false | Update internal light state without starting real action. This is useful when having updating the light state from an external source. 
+ true | Switch the light on 
+ set_state 50 | Update internal light state without starting real action. This is useful when having updating the light state from an external source. 
  set_state true | Update internal light state without starting real action. This is useful when having updating the light state from an external source. 
  impulse 200 | Do an impulse on light state. Set to true for X ms then reset to false 
  set 50 | Set light intensity and swith on if light is off 
@@ -1346,20 +1346,20 @@ node_id | string | yes | Node ID as set in your network
 ##Conditions of MySensorsOutputLight
 Name | Description
 ---- | -----------
-false | Event when light is off 
- true | Event when light is on 
+true | Event when light is on 
+ false | Event when light is off 
  changed | Event on any change of value 
  
 ##Actions of MySensorsOutputLight
 Name | Description
 ---- | -----------
 set_state true | Update internal light state without starting real action. This is useful when having updating the light state from an external source. 
- impulse 500 200 500 200 | Do an impulse on light state with a pattern.<br>Ex: 500 200 500 200 means: TRUE for 500ms, FALSE for 200ms, TRUE for 500ms, FALSE for 200ms<br>Ex: 500 loop 200 300 means: TRUE for 500ms, then loop the next steps for infinite, FALSE for 200ms, TRUE for 300ms<br>Ex: 100 100 200 old means: blinks and then set to the old start state (before impulse starts) 
- impulse 200 | Do an impulse on light state. Set to true for X ms then reset to false 
- toggle | Invert light state 
+ true | Switch the light on 
  set_state false | Update internal light state without starting real action. This is useful when having updating the light state from an external source. 
  false | Switch the light off 
- true | Switch the light on 
+ toggle | Invert light state 
+ impulse 500 200 500 200 | Do an impulse on light state with a pattern.<br>Ex: 500 200 500 200 means: TRUE for 500ms, FALSE for 200ms, TRUE for 500ms, FALSE for 200ms<br>Ex: 500 loop 200 300 means: TRUE for 500ms, then loop the next steps for infinite, FALSE for 200ms, TRUE for 300ms<br>Ex: 100 100 200 old means: blinks and then set to the old start state (before impulse starts) 
+ impulse 200 | Do an impulse on light state. Set to true for X ms then reset to false 
  
 ##More Infos
 * MySensors: http://mysensors.org
@@ -1379,14 +1379,14 @@ sensor_id_blue | string | yes | Sensor ID blue red channel, as set in your node
 sensor_id_green | string | yes | Sensor ID green red channel, as set in your node
 node_id_green | string | yes | Node ID for green channel, as set in your network
 sensor_id_red | string | yes | Sensor ID for red channel, as set in your node
-node_id_blue | string | yes | Node ID for blue channel, as set in your network
-id | string | yes | Unique ID identifying the Input/Output in calaos-server
 enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
 name | string | yes | Name of Input/Output.
 gateway | list | yes | Gateway type used, tcp or serial are supported
 visible | bool | no | Display the Input/Output on all user interfaces if set. Default to true
 io_type | string | yes | IO type, can be "input", "output", "inout"
 port | string | yes | If using serial gateway, port is the serial port (/dev/ttyUSB0 for ex.). If using tcp gateway port is TCP port of the gateway.
+node_id_blue | string | yes | Node ID for blue channel, as set in your network
+id | string | yes | Unique ID identifying the Input/Output in calaos-server
 gui_type | string | no | Internal graphical type for all calaos objects. Set automatically, read-only parameter.
 host | string | yes | IP address of the tcp gateway if relevant
 node_id_red | string | yes | Node ID for red channel, as set in your network
@@ -1404,14 +1404,14 @@ down_green 5 | Decrease intensity by X percent of green channel
  down_red 5 | Decrease intensity by X percent of red channel 
  up_blue 5 | Increase intensity by X percent of blue channel 
  up_green 5 | Increase intensity by X percent of green channel 
+ set_state true | Update internal light state without starting real action. This is useful when having updating the light state from an external source. 
+ false | Switch the light off 
+ toggle | Invert the light state (ON/OFF) 
+ set_state false | Update internal light state without starting real action. This is useful when having updating the light state from an external source. 
+ set #AA1294 | Set color. Color can be represented by using HTML notation: #AABBCC, rgb(50, 10, 30), hsl(11, 22, 33) 
  true | Switch the light on 
  up_red 5 | Increase intensity by X percent of red channel 
  set_blue 50 | Set blue channel to X percent 
- false | Switch the light off 
- set #AA1294 | Set color. Color can be represented by using HTML notation: #AABBCC, rgb(50, 10, 30), hsl(11, 22, 33) 
- set_state false | Update internal light state without starting real action. This is useful when having updating the light state from an external source. 
- toggle | Invert the light state (ON/OFF) 
- set_state true | Update internal light state without starting real action. This is useful when having updating the light state from an external source. 
  down_blue 5 | Decrease intensity by X percent of blue channel 
  set_state #AA1294 | Update internal light state without starting real action. This is useful when having updating the light state from an external source. 
  set_red 50 | Set red channel to X percent 
@@ -1435,11 +1435,11 @@ sensor_id_down | string | yes | Sensor ID for closing shutter, as set in your no
 node_id_up | string | yes | Node ID for opening shutter, as set in your network
 sensor_id_up | string | yes | Sensor ID for opening shutter, as set in your node
 host | string | yes | IP address of the tcp gateway if relevant
-id | string | yes | Unique ID identifying the Input/Output in calaos-server
 enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
 name | string | yes | Name of Input/Output.
 gateway | list | yes | Gateway type used, tcp or serial are supported
 visible | bool | no | Display the Input/Output on all user interfaces if set. Default to true
+id | string | yes | Unique ID identifying the Input/Output in calaos-server
 node_id_down | string | yes | Node ID for closing shutter, as set in your network
 gui_type | string | no | Internal graphical type for all calaos objects. Set automatically, read-only parameter.
 time | int | yes | Time in sec for shutter to open or close
@@ -1451,8 +1451,8 @@ stop_both | bool | no | If in impulse mode, some shutters needs to activate both
 ##Conditions of MySensorsOutputShutter
 Name | Description
 ---- | -----------
-false | Event when shutter is closed 
- true | Event when shutter is open 
+true | Event when shutter is open 
+ false | Event when shutter is closed 
  changed | Event on any change of shutter state 
  
 ##Actions of MySensorsOutputShutter
@@ -1461,11 +1461,11 @@ Name | Description
 set_state true | Update internal shutter state without starting real action. This is useful when having updating the shutter state from an external source. 
  set_state false | Update internal shutter state without starting real action. This is useful when having updating the shutter state from an external source. 
  impulse down 200 | Close shutter for X ms 
- toggle | Invert shutter state 
+ up | Open the shutter 
+ down | Close the shutter 
  impulse up 200 | Open shutter for X ms 
  stop | Stop the shutter 
- down | Close the shutter 
- up | Open the shutter 
+ toggle | Invert shutter state 
  
 ##More Infos
 * MySensors: http://mysensors.org
@@ -1485,12 +1485,12 @@ sensor_id_down | string | yes | Sensor ID for closing shutter, as set in your no
 node_id_up | string | yes | Node ID for opening shutter, as set in your network
 sensor_id_up | string | yes | Sensor ID for opening shutter, as set in your node
 host | string | yes | IP address of the tcp gateway if relevant
-id | string | yes | Unique ID identifying the Input/Output in calaos-server
-time_down | int | yes | Time in sec for shutter to fully closed. The more accurate, the better it will work
+enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
 gateway | list | yes | Gateway type used, tcp or serial are supported
 name | string | yes | Name of Input/Output.
-enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
 visible | bool | no | Display the Input/Output on all user interfaces if set. Default to true
+id | string | yes | Unique ID identifying the Input/Output in calaos-server
+time_down | int | yes | Time in sec for shutter to fully closed. The more accurate, the better it will work
 node_id_down | string | yes | Node ID for closing shutter, as set in your network
 gui_type | string | no | Internal graphical type for all calaos objects. Set automatically, read-only parameter.
 time_up | int | yes | Time in sec for shutter to be fully open. The more accurate, the better it will work
@@ -1502,18 +1502,18 @@ stop_both | bool | no | If in impulse mode, some shutters needs to activate both
 ##Conditions of MySensorsOutputShutterSmart
 Name | Description
 ---- | -----------
-false | Event when shutter is closed 
- true | Event when shutter is open 
+true | Event when shutter is open 
+ false | Event when shutter is closed 
  changed | Event on any change of shutter state 
  
 ##Actions of MySensorsOutputShutterSmart
 Name | Description
 ---- | -----------
 set_state true | Update internal shutter state without starting real action. This is useful when having updating the shutter state from an external source. 
- up | Open the shutter 
- down | Close the shutter 
  impulse up 200 | Open shutter for X ms 
  set 50 | Set shutter at position X in percent 
+ down | Close the shutter 
+ up | Open the shutter 
  impulse down 200 | Close shutter for X ms 
  set_state false | Update internal shutter state without starting real action. This is useful when having updating the shutter state from an external source. 
  toggle | Invert shutter state 
@@ -1560,12 +1560,12 @@ Name | Type | Mandatory | Description
 ---- | ---- | --------- | -----------
 universe | int | yes | OLA universe to control
 gui_type | string | no | Internal graphical type for all calaos objects. Set automatically, read-only parameter.
+id | string | yes | Unique ID identifying the Input/Output in calaos-server
 visible | bool | no | Display the Input/Output on all user interfaces if set. Default to true
 channel | int | yes | DMX channel to control
 io_type | string | yes | IO type, can be "input", "output", "inout"
-enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
 name | string | yes | Name of Input/Output.
-id | string | yes | Unique ID identifying the Input/Output in calaos-server
+enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
 
 ##Conditions of OLAOutputLightDimmer
 Name | Description
@@ -1579,14 +1579,14 @@ Name | Description
 hold stop | Dynamically change light intensity when holding a switch (stop action) 
  hold press | Dynamically change light intensity when holding a switch (press action) 
  down 5 | Decrease intensity by X percent 
- true | Switch the light on 
- set_state 50 | Update internal light state without starting real action. This is useful when having updating the light state from an external source. 
+ impulse 500 200 500 200 | Do an impulse on light state with a pattern.<br>Ex: 500 200 500 200 means: TRUE for 500ms, FALSE for 200ms, TRUE for 500ms, FALSE for 200ms<br>Ex: 500 loop 200 300 means: TRUE for 500ms, then loop the next steps for infinite, FALSE for 200ms, TRUE for 300ms<br>Ex: 100 100 200 old means: blinks and then set to the old start state (before impulse starts) 
+ set off 50 | Set light value without switching on. This will be the light intensity for the next ON 
  false | Switch the light off 
  up 5 | Increase intensity by X percent 
- set_state false | Update internal light state without starting real action. This is useful when having updating the light state from an external source. 
  toggle | Invert the light state 
- set off 50 | Set light value without switching on. This will be the light intensity for the next ON 
- impulse 500 200 500 200 | Do an impulse on light state with a pattern.<br>Ex: 500 200 500 200 means: TRUE for 500ms, FALSE for 200ms, TRUE for 500ms, FALSE for 200ms<br>Ex: 500 loop 200 300 means: TRUE for 500ms, then loop the next steps for infinite, FALSE for 200ms, TRUE for 300ms<br>Ex: 100 100 200 old means: blinks and then set to the old start state (before impulse starts) 
+ set_state false | Update internal light state without starting real action. This is useful when having updating the light state from an external source. 
+ true | Switch the light on 
+ set_state 50 | Update internal light state without starting real action. This is useful when having updating the light state from an external source. 
  set_state true | Update internal light state without starting real action. This is useful when having updating the light state from an external source. 
  impulse 200 | Do an impulse on light state. Set to true for X ms then reset to false 
  set 50 | Set light intensity and swith on if light is off 
@@ -1609,11 +1609,11 @@ channel_blue | int | yes | DMX channel for blue to control
 channel_green | int | yes | DMX channel for green to control
 universe | int | yes | OLA universe to control
 gui_type | string | no | Internal graphical type for all calaos objects. Set automatically, read-only parameter.
+id | string | yes | Unique ID identifying the Input/Output in calaos-server
 visible | bool | no | Display the Input/Output on all user interfaces if set. Default to true
 io_type | string | yes | IO type, can be "input", "output", "inout"
-enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
 name | string | yes | Name of Input/Output.
-id | string | yes | Unique ID identifying the Input/Output in calaos-server
+enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
 
 ##Conditions of OLAOutputLightRGB
 Name | Description
@@ -1628,14 +1628,14 @@ down_green 5 | Decrease intensity by X percent of green channel
  down_red 5 | Decrease intensity by X percent of red channel 
  up_blue 5 | Increase intensity by X percent of blue channel 
  up_green 5 | Increase intensity by X percent of green channel 
+ set_state true | Update internal light state without starting real action. This is useful when having updating the light state from an external source. 
+ false | Switch the light off 
+ toggle | Invert the light state (ON/OFF) 
+ set_state false | Update internal light state without starting real action. This is useful when having updating the light state from an external source. 
+ set #AA1294 | Set color. Color can be represented by using HTML notation: #AABBCC, rgb(50, 10, 30), hsl(11, 22, 33) 
  true | Switch the light on 
  up_red 5 | Increase intensity by X percent of red channel 
  set_blue 50 | Set blue channel to X percent 
- false | Switch the light off 
- set #AA1294 | Set color. Color can be represented by using HTML notation: #AABBCC, rgb(50, 10, 30), hsl(11, 22, 33) 
- set_state false | Update internal light state without starting real action. This is useful when having updating the light state from an external source. 
- toggle | Invert the light state (ON/OFF) 
- set_state true | Update internal light state without starting real action. This is useful when having updating the light state from an external source. 
  down_blue 5 | Decrease intensity by X percent of blue channel 
  set_state #AA1294 | Update internal light state without starting real action. This is useful when having updating the light state from an external source. 
  set_red 50 | Set red channel to X percent 
@@ -1652,11 +1652,11 @@ Fake test output. Do nothing. Do not use.
 Name | Type | Mandatory | Description
 ---- | ---- | --------- | -----------
 gui_type | string | no | Internal graphical type for all calaos objects. Set automatically, read-only parameter.
+id | string | yes | Unique ID identifying the Input/Output in calaos-server
 visible | bool | no | Display the Input/Output on all user interfaces if set. Default to true
 io_type | string | yes | IO type, can be "input", "output", "inout"
-enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
 name | string | yes | Name of Input/Output.
-id | string | yes | Unique ID identifying the Input/Output in calaos-server
+enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
 
 
 #OWTemp
@@ -1672,11 +1672,11 @@ ow_args | string | yes | Additional parameter used for owfs initialization.For e
 ow_id | string | yes | Unique ID of sensor on OneWire bus.
 use_w1 | bool | no | Force the use of w1 kernel driver instead of OneWire driver
 precision | int | no | Precision of the returned value. The value represents the number of decimal after the dot. The value is rounded like this : value = 19.275 => returned value 19.28 when preicision = 2, 19.3 when precision = 1, 19 when precision = 0
-id | string | yes | Unique ID identifying the Input/Output in calaos-server
 name | string | yes | Name of Input/Output.
 io_type | string | yes | IO type, can be "input", "output", "inout"
 visible | bool | no | Display the Input/Output on all user interfaces if set. Default to true
 frequency | float | no | Sampling time in microsecond. The value is read at this frequency. If this value is not set, calaos tries to read the interval parameter
+id | string | yes | Unique ID identifying the Input/Output in calaos-server
 gui_type | string | no | Internal graphical type for all calaos objects. Set automatically, read-only parameter.
 interval | float | no | Sampling time in seconds. The value is read at this frequency. If this value is not set, the default value is 15s
 coeff_a | float | no | use in conjunction of coeff_b to apply equation of the form `value_displayed = coeff_a * raw_value + coeff_b`. Default value is 1.0.
@@ -1707,11 +1707,11 @@ interval | int | no | Interval between pings in ms. Default to 15 sec
 timeout | int | no | Timeout of the ping request in ms
 host | string | yes | IP address or host where to send the ping
 gui_type | string | no | Internal graphical type for all calaos objects. Set automatically, read-only parameter.
+id | string | yes | Unique ID identifying the Input/Output in calaos-server
 visible | bool | no | A switch can't be visible. Always false.
 io_type | string | yes | IO type, can be "input", "output", "inout"
-enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
 name | string | yes | Name of Input/Output.
-id | string | yes | Unique ID identifying the Input/Output in calaos-server
+enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
 
 ##Conditions of PingInputSwitch
 Name | Description
@@ -1729,11 +1729,11 @@ Go document it in your code or you will burn in hell!
 Name | Type | Mandatory | Description
 ---- | ---- | --------- | -----------
 gui_type | string | no | Internal graphical type for all calaos objects. Set automatically, read-only parameter.
+id | string | yes | Unique ID identifying the Input/Output in calaos-server
 visible | bool | no | Display the Input/Output on all user interfaces if set. Default to true
 io_type | string | yes | IO type, can be "input", "output", "inout"
-enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
 name | string | yes | Name of Input/Output.
-id | string | yes | Unique ID identifying the Input/Output in calaos-server
+enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
 
 
 #Scenario
@@ -1744,11 +1744,11 @@ Name | Type | Mandatory | Description
 ---- | ---- | --------- | -----------
 auto_scenario | string | no | Internal use only for Auto Scenario. read only.
 gui_type | string | no | Internal graphical type for all calaos objects. Set automatically, read-only parameter.
+id | string | yes | Unique ID identifying the Input/Output in calaos-server
 visible | bool | no | Display the Input/Output on all user interfaces if set. Default to true
 io_type | string | yes | IO type, can be "input", "output", "inout"
-enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
 name | string | yes | Name of Input/Output.
-id | string | yes | Unique ID identifying the Input/Output in calaos-server
+enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
 
 ##Conditions of Scenario
 Name | Description
@@ -1774,21 +1774,21 @@ port_web | int | no | Web interface port of LMS, default to 9000.
 port_cli | int | no | CLI port of LMS, default to 9090
 host | string | yes | Logitech media server IP address
 gui_type | string | no | Internal graphical type for all calaos objects. Set automatically, read-only parameter.
+id | string | yes | Unique ID of squeezebox in LMS
 visible | bool | yes | Audio players are not displayed in rooms
 io_type | string | yes | IO type, can be "input", "output", "inout"
-enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
 name | string | yes | Name of Input/Output.
-id | string | yes | Unique ID of squeezebox in LMS
+enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
 
 ##Conditions of Squeezebox
 Name | Description
 ---- | -----------
 onvolumechange | Event when a change of volume happens 
  onplaylistchange | Event when a change in the current playlist happens 
- onsongchange | Event when a new song is being played 
- onstop | Event when stopping player 
- onpause | Event when pausing player 
  onplay | Event when play is started 
+ onpause | Event when pausing player 
+ onstop | Event when stopping player 
+ onsongchange | Event when a new song is being played 
  
 ##Actions of Squeezebox
 Name | Description
@@ -1796,13 +1796,13 @@ Name | Description
 add <argument> | Add tracks to playlist. <argument> can be any of album_id:XX artist_id:XX playlist_id:XX, ... 
  play <argument> | Clear playlist and play argument. <argument> can be any of album_id:XX artist_id:XX playlist_id:XX, ... 
  sync <playerid> | Sync this player with an other 
- unsync <playerid> | Stop sync of this player with an other 
- play | Start playing 
- pause | Pause player 
- stop | Stop player 
  sleep 10 | Start sleep mode with X seconds 
  next | Play next song in playlist 
  volume down 1 | Decrease volume by a value 
+ stop | Stop player 
+ pause | Pause player 
+ unsync <playerid> | Stop sync of this player with an other 
+ play | Start playing 
  previous | Play previous song in playlist 
  power off | Switch player off 
  volume set 50 | Set current volume 
@@ -1818,11 +1818,11 @@ Go document it in your code or you will burn in hell!
 Name | Type | Mandatory | Description
 ---- | ---- | --------- | -----------
 gui_type | string | no | Internal graphical type for all calaos objects. Set automatically, read-only parameter.
+id | string | yes | Unique ID identifying the Input/Output in calaos-server
 visible | bool | no | Display the Input/Output on all user interfaces if set. Default to true
 io_type | string | yes | IO type, can be "input", "output", "inout"
-enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
 name | string | yes | Name of Input/Output.
-id | string | yes | Unique ID identifying the Input/Output in calaos-server
+enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
 
 #StandardMjpeg - UNDOCUMENTED IO
 SPANK SPANK SPANK : naughty programmer ! You did not add documentation for this IO, that's BAD :'(
@@ -1833,12 +1833,45 @@ Go document it in your code or you will burn in hell!
 Name | Type | Mandatory | Description
 ---- | ---- | --------- | -----------
 gui_type | string | no | Internal graphical type for all calaos objects. Set automatically, read-only parameter.
+id | string | yes | Unique ID identifying the Input/Output in calaos-server
 visible | bool | no | Display the Input/Output on all user interfaces if set. Default to true
 io_type | string | yes | IO type, can be "input", "output", "inout"
-enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
 name | string | yes | Name of Input/Output.
-id | string | yes | Unique ID identifying the Input/Output in calaos-server
+enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
 
+
+#TeleinfoInputAnalog
+Analog measurement retrieved from Teleinfo informations.
+
+
+An analog input can be used to read analog values to display them and use them in rules.
+
+##Parameters of TeleinfoInputAnalog
+Name | Type | Mandatory | Description
+---- | ---- | --------- | -----------
+value | list | yes | All theses values are reported by the Teleinfo equipment as double.
+gui_style | list | yes | GUI style display. This will control the icon displayed on the UI
+unit | string | no | Unit which will be displayed on the UI as a suffix.
+precision | int | no | Precision of the returned value. The value represents the number of decimal after the dot. The value is rounded like this : value = 19.275 => returned value 19.28 when preicision = 2, 19.3 when precision = 1, 19 when precision = 0
+name | string | yes | Name of Input/Output.
+port | string | yes | port on which to get Teleinfo information usually a serial port like /dev/ttyS0 or /dev/ttyAMA0
+io_type | string | yes | IO type, can be "input", "output", "inout"
+visible | bool | no | Display the Input/Output on all user interfaces if set. Default to true
+frequency | float | no | Sampling time in microsecond. The value is read at this frequency. If this value is not set, calaos tries to read the interval parameter
+id | string | yes | Unique ID identifying the Input/Output in calaos-server
+gui_type | string | no | Internal graphical type for all calaos objects. Set automatically, read-only parameter.
+interval | float | no | Sampling time in seconds. The value is read at this frequency. If this value is not set, the default value is 15s
+coeff_a | float | no | use in conjunction of coeff_b to apply equation of the form `value_displayed = coeff_a * raw_value + coeff_b`. Default value is 1.0.
+coeff_b | float | no | use in conjunction of coeff_a to apply equation of the form `value_displayed = coeff_a * raw_value + coeff_b`. Default value is 0.0
+enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
+offset | float | no | same as coeff_b, can be used alone. Default value is 0.0
+
+##Conditions of TeleinfoInputAnalog
+Name | Description
+---- | -----------
+changed | Event on any change of value 
+ value | Event on a specific value 
+ 
 
 #TimeRange
 #### Alias: InPlageHoraire
@@ -1848,11 +1881,11 @@ Represent a time range object. A time range is true if current time is in one of
 Name | Type | Mandatory | Description
 ---- | ---- | --------- | -----------
 gui_type | string | no | Internal graphical type for all calaos objects. Set automatically, read-only parameter.
+id | string | yes | Unique ID identifying the Input/Output in calaos-server
 visible | bool | no | A time range can't be visible. Always false.
 io_type | string | yes | IO type, can be "input", "output", "inout"
-enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
 name | string | yes | Name of Input/Output.
-id | string | yes | Unique ID identifying the Input/Output in calaos-server
+enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
 
 ##Conditions of TimeRange
 Name | Description
@@ -1879,15 +1912,15 @@ If the path is 2/4/, the value returne wil be 20.3
 
 file_type | string | yes | File type of the document. Values can be xml, json or text.
 url | string | yes | URL where to download the document from
-If URL begins with file:// the data is read from the local file
+If URL begins with / or with file:// the data is read from the local file
 gui_style | list | yes | GUI style display. This will control the icon displayed on the UI
 unit | string | no | Unit which will be displayed on the UI as a suffix.
 precision | int | no | Precision of the returned value. The value represents the number of decimal after the dot. The value is rounded like this : value = 19.275 => returned value 19.28 when preicision = 2, 19.3 when precision = 1, 19 when precision = 0
-id | string | yes | Unique ID identifying the Input/Output in calaos-server
 name | string | yes | Name of Input/Output.
 io_type | string | yes | IO type, can be "input", "output", "inout"
 visible | bool | no | Display the Input/Output on all user interfaces if set. Default to true
 frequency | float | no | Sampling time in microsecond. The value is read at this frequency. If this value is not set, calaos tries to read the interval parameter
+id | string | yes | Unique ID identifying the Input/Output in calaos-server
 gui_type | string | no | Internal graphical type for all calaos objects. Set automatically, read-only parameter.
 interval | float | no | Sampling time in seconds. The value is read at this frequency. If this value is not set, the default value is 15s
 coeff_a | float | no | use in conjunction of coeff_b to apply equation of the form `value_displayed = coeff_a * raw_value + coeff_b`. Default value is 1.0.
@@ -1914,15 +1947,15 @@ If file_type is XML, the path is an xpath expression; Look here for syntax : htt
 20.0,20.1,20.2,20.3
 If the path is 2/4/, the value returne wil be 20.3
 
-url | string | yes | URL where to download the document from.
-If URL begins with file:// the data is read from the local file
+url | string | yes | URL where to download the document from
+If URL begins with / or with file:// the data is read from the local file
 gui_type | string | no | Internal graphical type for all calaos objects. Set automatically, read-only parameter.
+id | string | yes | Unique ID identifying the Input/Output in calaos-server
 visible | bool | no | Display the Input/Output on all user interfaces if set. Default to true
 file_type | string | yes | File type of the document. Values can be xml, json or text.
 io_type | string | yes | IO type, can be "input", "output", "inout"
-enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
 name | string | yes | Name of Input/Output.
-id | string | yes | Unique ID identifying the Input/Output in calaos-server
+enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
 
 
 #WebInputTemp
@@ -1941,14 +1974,14 @@ If file_type is XML, the path is an xpath expression; Look here for syntax : htt
 If the path is 2/4/, the value returne wil be 20.3
 
 file_type | string | yes | File type of the document. Values can be xml, json or text.
-url | string | yes | URL where to download the document from.
-If URL begins with file:// the data is read from the local file
+url | string | yes | URL where to download the document from
+If URL begins with / or with file:// the data is read from the local file
 precision | int | no | Precision of the returned value. The value represents the number of decimal after the dot. The value is rounded like this : value = 19.275 => returned value 19.28 when preicision = 2, 19.3 when precision = 1, 19 when precision = 0
-id | string | yes | Unique ID identifying the Input/Output in calaos-server
 name | string | yes | Name of Input/Output.
 io_type | string | yes | IO type, can be "input", "output", "inout"
 visible | bool | no | Display the Input/Output on all user interfaces if set. Default to true
 frequency | float | no | Sampling time in microsecond. The value is read at this frequency. If this value is not set, calaos tries to read the interval parameter
+id | string | yes | Unique ID identifying the Input/Output in calaos-server
 gui_type | string | no | Internal graphical type for all calaos objects. Set automatically, read-only parameter.
 interval | float | no | Sampling time in seconds. The value is read at this frequency. If this value is not set, the default value is 15s
 coeff_a | float | no | use in conjunction of coeff_b to apply equation of the form `value_displayed = coeff_a * raw_value + coeff_b`. Default value is 1.0.
@@ -1972,43 +2005,36 @@ Basic light. This light have only 2 states, ON or OFF. Can also be used to contr
 ##Parameters of WebOutputLight
 Name | Type | Mandatory | Description
 ---- | ---- | --------- | -----------
-path | string | yes | The path where to found the value. This value can take multiple values depending on the file type. If file_type is JSON, the json file downloaded will be read, and the informations will be extracted from the path. for example weather[0]/description, try to read the description value of the 1 element of the array of the weather object.
-If file_type is XML, the path is an xpath expression; Look here for syntax : http://www.w3schools.com/xsl/xpath_syntax.asp If file_type is TEXT, the downloaded file is returned as plain text file, and path must be in the form line/pos/separator Line is read, and is split using separator as delimiters The value returned is the value at pos in the split list. If the separator is not found, the whole line is returned. Example the file contains 
-10.0,10.1,10.2,10.3
-20.0,20.1,20.2,20.3
-If the path is 2/4/, the value returne wil be 20.3
-
-id | string | yes | Unique ID identifying the Input/Output in calaos-server
-name | string | yes | Name of Input/Output.
-enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
-io_type | string | yes | IO type, can be "input", "output", "inout"
-file_type | string | yes | File type of the document. Values can be xml, json or text.
-visible | bool | no | Display the Input/Output on all user interfaces if set. Default to true
-gui_type | string | no | Internal graphical type for all calaos objects. Set automatically, read-only parameter.
-url | string | yes | URL where to POST the document to. The POST request is associated with the data field if not void. When no data is provided, Calaos substitutes __##VALUE##__ string with the value to send. For example if the url is http://example.com/api?value=__##VALUE##__ the url post will be :
+data_type | string | yes | The HTTP header Content-Type used when posting the document. It depends on the website, but you can use application/json application/xml as correct values.
+data | string | yes | The document send when posting data. This value can be void, in, that case the value is substituted in the url, otherwise the __##VALUE##__ contained in data is substituted with with the value to be sent.
+url | string | yes | URL where to POST the document to. The POST request is associated with the data field if not null. When no data is provided, Calaos substitutes __##VALUE##__ string with the value to send. For example if the url is http://example.com/api?value=__##VALUE##__ the url post will be :
 http://example.com/api?value=20.3
 The url is encoded before being sent.
-If the URL is of type file:// the data is written to a file.
-data | string | yes | The document send when posting data. This value can be void, in, that case the value is substituted in the url, otherwise the __##VALUE##__ contained in data is substituted with with the value to be sent.
-data_type | string | yes | The HTTP header Content-Type used when posting the document. It depends on the website, but you can use application/json application/xml as correct values.
+If the URL begins with / or file:// the data is written to a file.
+gui_type | string | no | Internal graphical type for all calaos objects. Set automatically, read-only parameter.
+id | string | yes | Unique ID identifying the Input/Output in calaos-server
+visible | bool | no | Display the Input/Output on all user interfaces if set. Default to true
+io_type | string | yes | IO type, can be "input", "output", "inout"
+name | string | yes | Name of Input/Output.
+enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
 
 ##Conditions of WebOutputLight
 Name | Description
 ---- | -----------
-false | Event when light is off 
- true | Event when light is on 
+true | Event when light is on 
+ false | Event when light is off 
  changed | Event on any change of value 
  
 ##Actions of WebOutputLight
 Name | Description
 ---- | -----------
 set_state true | Update internal light state without starting real action. This is useful when having updating the light state from an external source. 
- impulse 500 200 500 200 | Do an impulse on light state with a pattern.<br>Ex: 500 200 500 200 means: TRUE for 500ms, FALSE for 200ms, TRUE for 500ms, FALSE for 200ms<br>Ex: 500 loop 200 300 means: TRUE for 500ms, then loop the next steps for infinite, FALSE for 200ms, TRUE for 300ms<br>Ex: 100 100 200 old means: blinks and then set to the old start state (before impulse starts) 
- impulse 200 | Do an impulse on light state. Set to true for X ms then reset to false 
- toggle | Invert light state 
+ true | Switch the light on 
  set_state false | Update internal light state without starting real action. This is useful when having updating the light state from an external source. 
  false | Switch the light off 
- true | Switch the light on 
+ toggle | Invert light state 
+ impulse 500 200 500 200 | Do an impulse on light state with a pattern.<br>Ex: 500 200 500 200 means: TRUE for 500ms, FALSE for 200ms, TRUE for 500ms, FALSE for 200ms<br>Ex: 500 loop 200 300 means: TRUE for 500ms, then loop the next steps for infinite, FALSE for 200ms, TRUE for 300ms<br>Ex: 100 100 200 old means: blinks and then set to the old start state (before impulse starts) 
+ impulse 200 | Do an impulse on light state. Set to true for X ms then reset to false 
  
 
 #WebOutputLightRGB
@@ -2020,20 +2046,19 @@ RGB light. Choose a color to be set for this light.
 ##Parameters of WebOutputLightRGB
 Name | Type | Mandatory | Description
 ---- | ---- | --------- | -----------
-raw_value | bool | no | RGB value has #RRGGBB. Sometimes some web api take only RRGGBBformat. If raw_value is true, the # in front of the line isremoved. The default value for this parameter is false.
-id | string | yes | Unique ID identifying the Input/Output in calaos-server
-name | string | yes | Name of Input/Output.
-enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
-io_type | string | yes | IO type, can be "input", "output", "inout"
-file_type | string | yes | File type of the document. Values can be xml, json or text.
-visible | bool | no | Display the Input/Output on all user interfaces if set. Default to true
-gui_type | string | no | Internal graphical type for all calaos objects. Set automatically, read-only parameter.
-url | string | yes | URL where to POST the document to. The POST request is associated with the data field if not void. When no data is provided, Calaos substitutes __##VALUE##__ string with the value to send. For example if the url is http://example.com/api?value=__##VALUE##__ the url post will be :
+data_type | string | yes | The HTTP header Content-Type used when posting the document. It depends on the website, but you can use application/json application/xml as correct values.
+data | string | yes | The document send when posting data. This value can be void, in, that case the value is substituted in the url, otherwise the __##VALUE##__ contained in data is substituted with with the value to be sent.
+url | string | yes | URL where to POST the document to. The POST request is associated with the data field if not null. When no data is provided, Calaos substitutes __##VALUE##__ string with the value to send. For example if the url is http://example.com/api?value=__##VALUE##__ the url post will be :
 http://example.com/api?value=20.3
 The url is encoded before being sent.
-If the URL is of type file:// the data is written to a file.
-data | string | yes | The document send when posting data. This value can be void, in, that case the value is substituted in the url, otherwise the __##VALUE##__ contained in data is substituted with with the value to be sent. Value sent has #RRGGBB format or RRGGBB depending on raw_value boolean
-data_type | string | yes | The HTTP header Content-Type used when posting the document. It depends on the website, but you can use application/json application/xml as correct values.
+If the URL begins with / or file:// the data is written to a file.
+gui_type | string | no | Internal graphical type for all calaos objects. Set automatically, read-only parameter.
+id | string | yes | Unique ID identifying the Input/Output in calaos-server
+raw_value | bool | no | RGB value has #RRGGBB. Sometimes some web api take only RRGGBBformat. If raw_value is true, the # in front of the line isremoved. The default value for this parameter is false.
+visible | bool | no | Display the Input/Output on all user interfaces if set. Default to true
+io_type | string | yes | IO type, can be "input", "output", "inout"
+name | string | yes | Name of Input/Output.
+enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
 
 ##Conditions of WebOutputLightRGB
 Name | Description
@@ -2048,14 +2073,14 @@ down_green 5 | Decrease intensity by X percent of green channel
  down_red 5 | Decrease intensity by X percent of red channel 
  up_blue 5 | Increase intensity by X percent of blue channel 
  up_green 5 | Increase intensity by X percent of green channel 
+ set_state true | Update internal light state without starting real action. This is useful when having updating the light state from an external source. 
+ false | Switch the light off 
+ toggle | Invert the light state (ON/OFF) 
+ set_state false | Update internal light state without starting real action. This is useful when having updating the light state from an external source. 
+ set #AA1294 | Set color. Color can be represented by using HTML notation: #AABBCC, rgb(50, 10, 30), hsl(11, 22, 33) 
  true | Switch the light on 
  up_red 5 | Increase intensity by X percent of red channel 
  set_blue 50 | Set blue channel to X percent 
- false | Switch the light off 
- set #AA1294 | Set color. Color can be represented by using HTML notation: #AABBCC, rgb(50, 10, 30), hsl(11, 22, 33) 
- set_state false | Update internal light state without starting real action. This is useful when having updating the light state from an external source. 
- toggle | Invert the light state (ON/OFF) 
- set_state true | Update internal light state without starting real action. This is useful when having updating the light state from an external source. 
  down_blue 5 | Decrease intensity by X percent of blue channel 
  set_state #AA1294 | Update internal light state without starting real action. This is useful when having updating the light state from an external source. 
  set_red 50 | Set red channel to X percent 
@@ -2068,24 +2093,25 @@ String output written to a web document or URL
 ##Parameters of WebOutputString
 Name | Type | Mandatory | Description
 ---- | ---- | --------- | -----------
+data_type | string | yes | The HTTP header Content-Type used when posting the document. It depends on the website, but you can use application/json application/xml as correct values.
+enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
+name | string | yes | Name of Input/Output.
+io_type | string | yes | IO type, can be "input", "output", "inout"
+file_type | string | yes | File type of the document. Values can be xml, json or text.
+visible | bool | no | Display the Input/Output on all user interfaces if set. Default to true
+id | string | yes | Unique ID identifying the Input/Output in calaos-server
+gui_type | string | no | Internal graphical type for all calaos objects. Set automatically, read-only parameter.
+url | string | yes | URL where to POST the document to. The POST request is associated with the data field if not null. When no data is provided, Calaos substitutes __##VALUE##__ string with the value to send. For example if the url is http://example.com/api?value=__##VALUE##__ the url post will be :
+http://example.com/api?value=20.3
+The url is encoded before being sent.
+If the URL begins with / or file:// the data is written to a file.
+data | string | yes | The document send when posting data. This value can be void, in, that case the value is substituted in the url, otherwise the __##VALUE##__ contained in data is substituted with with the value to be sent.
 path | string | yes | The path where to found the value. This value can take multiple values depending on the file type. If file_type is JSON, the json file downloaded will be read, and the informations will be extracted from the path. for example weather[0]/description, try to read the description value of the 1 element of the array of the weather object.
 If file_type is XML, the path is an xpath expression; Look here for syntax : http://www.w3schools.com/xsl/xpath_syntax.asp If file_type is TEXT, the downloaded file is returned as plain text file, and path must be in the form line/pos/separator Line is read, and is split using separator as delimiters The value returned is the value at pos in the split list. If the separator is not found, the whole line is returned. Example the file contains 
 10.0,10.1,10.2,10.3
 20.0,20.1,20.2,20.3
 If the path is 2/4/, the value returne wil be 20.3
 
-id | string | yes | Unique ID identifying the Input/Output in calaos-server
-name | string | yes | Name of Input/Output.
-enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
-io_type | string | yes | IO type, can be "input", "output", "inout"
-file_type | string | yes | File type of the document. Values can be xml, json or text.
-visible | bool | no | Display the Input/Output on all user interfaces if set. Default to true
-gui_type | string | no | Internal graphical type for all calaos objects. Set automatically, read-only parameter.
-url | string | yes | URL where to POST the document to. The POST request is associated with the data field if not void. When no data is provided, Calaos substitutes __##VALUE##__ string with the value to send. For example if the url is http://example.com/api?value=__##VALUE##__ the url post will be :
-http://example.com/api?value=20.3
-The url is encoded before being sent.
-data | string | yes | The document send when posting data. This value can be void, in, that case the value is substituted in the url, otherwise the __##VALUE##__ contained in data is substituted with with the value to be sent.
-data_type | string | yes | The HTTP header Content-Type used when posting the document. It depends on the website, but you can use application/json application/xml as correct values.
 
 
 #WIAnalog
@@ -2103,12 +2129,12 @@ gui_style | list | yes | GUI style display. This will control the icon displayed
 var | int | yes | PLC address of the input sensor
 unit | string | no | Unit which will be displayed on the UI as a suffix.
 precision | int | no | Precision of the returned value. The value represents the number of decimal after the dot. The value is rounded like this : value = 19.275 => returned value 19.28 when preicision = 2, 19.3 when precision = 1, 19 when precision = 0
-id | string | yes | Unique ID identifying the Input/Output in calaos-server
 name | string | yes | Name of Input/Output.
 port | int | no | Wago ethernet port, default to 502
 io_type | string | yes | IO type, can be "input", "output", "inout"
 visible | bool | no | Display the Input/Output on all user interfaces if set. Default to true
 frequency | float | no | Sampling time in microsecond. The value is read at this frequency. If this value is not set, calaos tries to read the interval parameter
+id | string | yes | Unique ID identifying the Input/Output in calaos-server
 gui_type | string | no | Internal graphical type for all calaos objects. Set automatically, read-only parameter.
 interval | float | no | Sampling time in seconds. The value is read at this frequency. If this value is not set, the default value is 15s
 coeff_a | float | no | use in conjunction of coeff_b to apply equation of the form `value_displayed = coeff_a * raw_value + coeff_b`. Default value is 1.0.
@@ -2138,13 +2164,13 @@ Name | Type | Mandatory | Description
 ---- | ---- | --------- | -----------
 host | string | yes | Wago PLC IP address on the network
 gui_type | string | no | Internal graphical type for all calaos objects. Set automatically, read-only parameter.
+var | int | yes | PLC address of the digital input
+id | string | yes | Unique ID identifying the Input/Output in calaos-server
 port | int | no | Wago ethernet port, default to 502
 visible | bool | no | A switch can't be visible. Always false.
 io_type | string | yes | IO type, can be "input", "output", "inout"
-enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
 name | string | yes | Name of Input/Output.
-var | int | yes | PLC address of the digital input
-id | string | yes | Unique ID identifying the Input/Output in calaos-server
+enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
 
 ##Conditions of WIDigitalBP
 Name | Description
@@ -2169,13 +2195,13 @@ Name | Type | Mandatory | Description
 ---- | ---- | --------- | -----------
 host | string | yes | Wago PLC IP address on the network
 gui_type | string | no | Internal graphical type for all calaos objects. Set automatically, read-only parameter.
+var | int | yes | PLC address of the digital input
+id | string | yes | Unique ID identifying the Input/Output in calaos-server
 port | int | no | Wago ethernet port, default to 502
 visible | bool | no | A switch can't be visible. Always false.
 io_type | string | yes | IO type, can be "input", "output", "inout"
-enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
 name | string | yes | Name of Input/Output.
-var | int | yes | PLC address of the digital input
-id | string | yes | Unique ID identifying the Input/Output in calaos-server
+enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
 
 ##Conditions of WIDigitalLong
 Name | Description
@@ -2200,19 +2226,19 @@ Name | Type | Mandatory | Description
 ---- | ---- | --------- | -----------
 host | string | yes | Wago PLC IP address on the network
 gui_type | string | no | Internal graphical type for all calaos objects. Set automatically, read-only parameter.
+var | int | yes | PLC address of the digital input
+id | string | yes | Unique ID identifying the Input/Output in calaos-server
 port | int | no | Wago ethernet port, default to 502
 visible | bool | no | A switch can't be visible. Always false.
 io_type | string | yes | IO type, can be "input", "output", "inout"
-enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
 name | string | yes | Name of Input/Output.
-var | int | yes | PLC address of the digital input
-id | string | yes | Unique ID identifying the Input/Output in calaos-server
+enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
 
 ##Conditions of WIDigitalTriple
 Name | Description
 ---- | -----------
-changed | Event on any change of state 
- 3 | Event triggered when switch is triple clicked 
+3 | Event triggered when switch is triple clicked 
+ changed | Event on any change of state 
  2 | Event triggered when switch is double clicked 
  1 | Event triggered when switch is single clicked 
  
@@ -2233,12 +2259,12 @@ Name | Type | Mandatory | Description
 host | string | yes | Wago PLC IP address on the network
 var | int | yes | PLC address of the input sensor
 precision | int | no | Precision of the returned value. The value represents the number of decimal after the dot. The value is rounded like this : value = 19.275 => returned value 19.28 when preicision = 2, 19.3 when precision = 1, 19 when precision = 0
-id | string | yes | Unique ID identifying the Input/Output in calaos-server
 name | string | yes | Name of Input/Output.
 port | int | no | Wago ethernet port, default to 502
 io_type | string | yes | IO type, can be "input", "output", "inout"
 visible | bool | no | Display the Input/Output on all user interfaces if set. Default to true
 frequency | float | no | Sampling time in microsecond. The value is read at this frequency. If this value is not set, calaos tries to read the interval parameter
+id | string | yes | Unique ID identifying the Input/Output in calaos-server
 gui_type | string | no | Internal graphical type for all calaos objects. Set automatically, read-only parameter.
 interval | float | no | Sampling time in seconds. The value is read at this frequency. If this value is not set, the default value is 15s
 coeff_a | float | no | use in conjunction of coeff_b to apply equation of the form `value_displayed = coeff_a * raw_value + coeff_b`. Default value is 1.0.
@@ -2268,14 +2294,14 @@ Name | Type | Mandatory | Description
 ---- | ---- | --------- | -----------
 host | string | yes | Wago PLC IP address on the network
 gui_style | list | yes | GUI style display. This will control the icon displayed on the UI
-id | string | yes | Unique ID identifying the Input/Output in calaos-server
-name | string | yes | Name of Input/Output.
 enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
+name | string | yes | Name of Input/Output.
 port | int | no | Wago ethernet port, default to 502
 io_type | string | yes | IO type, can be "input", "output", "inout"
 visible | bool | no | Display the Input/Output on all user interfaces if set. Default to true
 var | int | yes | PLC address of the output
 unit | string | no | Unit which will be displayed on the UI as a suffix.
+id | string | yes | Unique ID identifying the Input/Output in calaos-server
 step | float | no | Set a step for increment/decrement value. Default is 1.0
 gui_type | string | no | Internal graphical type for all calaos objects. Set automatically, read-only parameter.
 coeff_a | float | no | use in conjunction of coeff_b to apply equation of the form `value_sent = coeff_a * raw_value + coeff_b`. Default value is 1.0.
@@ -2292,10 +2318,10 @@ Name | Description
 Name | Description
 ---- | -----------
 dec 1 | Decrement value by value 
- inc 1 | Increment value by value 
- dec | Decrement value with configured step 
- inc | Increment value with configured step 
  0 | Set a specific number value 
+ inc | Increment value with configured step 
+ dec | Decrement value with configured step 
+ inc 1 | Increment value by value 
  
 ##More Infos
 * Calaos Wiki: http://calaos.fr/wiki/fr/sortie_analog
@@ -2313,10 +2339,10 @@ Name | Type | Mandatory | Description
 ---- | ---- | --------- | -----------
 fade_time | int | no | DALI fade time. value is between 1-10
 group | int | no | Set to 1 if address is a DALI group address, set to 0 otherwise.
-id | string | yes | Unique ID identifying the Input/Output in calaos-server
-name | string | yes | Name of Input/Output.
 enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
+name | string | yes | Name of Input/Output.
 visible | bool | no | Display the Input/Output on all user interfaces if set. Default to true
+id | string | yes | Unique ID identifying the Input/Output in calaos-server
 gui_type | string | no | Internal graphical type for all calaos objects. Set automatically, read-only parameter.
 address | int | yes | Device address. For DALI address is between 1-64. For DMX, the address starts at 100. So for DMX device 5, address should be 105
 host | string | yes | Wago PLC IP address on the network
@@ -2336,14 +2362,14 @@ Name | Description
 hold stop | Dynamically change light intensity when holding a switch (stop action) 
  hold press | Dynamically change light intensity when holding a switch (press action) 
  down 5 | Decrease intensity by X percent 
- true | Switch the light on 
- set_state 50 | Update internal light state without starting real action. This is useful when having updating the light state from an external source. 
+ impulse 500 200 500 200 | Do an impulse on light state with a pattern.<br>Ex: 500 200 500 200 means: TRUE for 500ms, FALSE for 200ms, TRUE for 500ms, FALSE for 200ms<br>Ex: 500 loop 200 300 means: TRUE for 500ms, then loop the next steps for infinite, FALSE for 200ms, TRUE for 300ms<br>Ex: 100 100 200 old means: blinks and then set to the old start state (before impulse starts) 
+ set off 50 | Set light value without switching on. This will be the light intensity for the next ON 
  false | Switch the light off 
  up 5 | Increase intensity by X percent 
- set_state false | Update internal light state without starting real action. This is useful when having updating the light state from an external source. 
  toggle | Invert the light state 
- set off 50 | Set light value without switching on. This will be the light intensity for the next ON 
- impulse 500 200 500 200 | Do an impulse on light state with a pattern.<br>Ex: 500 200 500 200 means: TRUE for 500ms, FALSE for 200ms, TRUE for 500ms, FALSE for 200ms<br>Ex: 500 loop 200 300 means: TRUE for 500ms, then loop the next steps for infinite, FALSE for 200ms, TRUE for 300ms<br>Ex: 100 100 200 old means: blinks and then set to the old start state (before impulse starts) 
+ set_state false | Update internal light state without starting real action. This is useful when having updating the light state from an external source. 
+ true | Switch the light on 
+ set_state 50 | Update internal light state without starting real action. This is useful when having updating the light state from an external source. 
  set_state true | Update internal light state without starting real action. This is useful when having updating the light state from an external source. 
  impulse 200 | Do an impulse on light state. Set to true for X ms then reset to false 
  set 50 | Set light intensity and swith on if light is off 
@@ -2367,18 +2393,18 @@ gfade_time | int | no | DALI fade time for green channel. value is between 1-10
 gline | int | no | DALI bus line for green channel, usually 1
 bgroup | int | no | Set to 1 if address for blue channel is a DALI group address, set to 0 otherwise.
 rgroup | int | no | Set to 1 if address for red channel is a DALI group address, set to 0 otherwise.
-baddress | int | yes | Device address for blue channel. For DALI address is between 1-64. For DMX, the address starts at 100. So for DMX device 5, address should be 105
-id | string | yes | Unique ID identifying the Input/Output in calaos-server
-raddress | int | yes | Device address for red channel. For DALI address is between 1-64. For DMX, the address starts at 100. So for DMX device 5, address should be 105
-name | string | yes | Name of Input/Output.
 bfade_time | int | no | DALI fade time for blue channel. value is between 1-10
 bline | int | no | DALI bus line for blue channel, usually 1
 gaddress | int | yes | Device address for green channel. For DALI address is between 1-64. For DMX, the address starts at 100. So for DMX device 5, address should be 105
 enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
+name | string | yes | Name of Input/Output.
 visible | bool | no | Display the Input/Output on all user interfaces if set. Default to true
 ggroup | int | no | Set to 1 if address for green channel is a DALI group address, set to 0 otherwise.
 io_type | string | yes | IO type, can be "input", "output", "inout"
 port | int | no | Wago ethernet port, default to 502
+baddress | int | yes | Device address for blue channel. For DALI address is between 1-64. For DMX, the address starts at 100. So for DMX device 5, address should be 105
+id | string | yes | Unique ID identifying the Input/Output in calaos-server
+raddress | int | yes | Device address for red channel. For DALI address is between 1-64. For DMX, the address starts at 100. So for DMX device 5, address should be 105
 gui_type | string | no | Internal graphical type for all calaos objects. Set automatically, read-only parameter.
 rfade_time | int | no | DALI fade time for red channel. value is between 1-10
 rline | int | no | DALI bus line for red channel, usually 1
@@ -2397,14 +2423,14 @@ down_green 5 | Decrease intensity by X percent of green channel
  down_red 5 | Decrease intensity by X percent of red channel 
  up_blue 5 | Increase intensity by X percent of blue channel 
  up_green 5 | Increase intensity by X percent of green channel 
+ set_state true | Update internal light state without starting real action. This is useful when having updating the light state from an external source. 
+ false | Switch the light off 
+ toggle | Invert the light state (ON/OFF) 
+ set_state false | Update internal light state without starting real action. This is useful when having updating the light state from an external source. 
+ set #AA1294 | Set color. Color can be represented by using HTML notation: #AABBCC, rgb(50, 10, 30), hsl(11, 22, 33) 
  true | Switch the light on 
  up_red 5 | Increase intensity by X percent of red channel 
  set_blue 50 | Set blue channel to X percent 
- false | Switch the light off 
- set #AA1294 | Set color. Color can be represented by using HTML notation: #AABBCC, rgb(50, 10, 30), hsl(11, 22, 33) 
- set_state false | Update internal light state without starting real action. This is useful when having updating the light state from an external source. 
- toggle | Invert the light state (ON/OFF) 
- set_state true | Update internal light state without starting real action. This is useful when having updating the light state from an external source. 
  down_blue 5 | Decrease intensity by X percent of blue channel 
  set_state #AA1294 | Update internal light state without starting real action. This is useful when having updating the light state from an external source. 
  set_red 50 | Set red channel to X percent 
@@ -2425,13 +2451,13 @@ Basic light. This light have only 2 states, ON or OFF. Can also be used to contr
 ##Parameters of WODigital
 Name | Type | Mandatory | Description
 ---- | ---- | --------- | -----------
-id | string | yes | Unique ID identifying the Input/Output in calaos-server
-var | int | yes | PLC address of the output
-name | string | yes | Name of Input/Output.
 enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
+name | string | yes | Name of Input/Output.
 visible | bool | no | Display the Input/Output on all user interfaces if set. Default to true
 io_type | string | yes | IO type, can be "input", "output", "inout"
 port | int | no | Wago ethernet port, default to 502
+id | string | yes | Unique ID identifying the Input/Output in calaos-server
+var | int | yes | PLC address of the output
 gui_type | string | no | Internal graphical type for all calaos objects. Set automatically, read-only parameter.
 knx | bool | no | Set to true if output is a KNX device (only for 750-849 with KNX/TP1 module)
 host | string | yes | Wago PLC IP address on the network
@@ -2440,20 +2466,20 @@ wago_841 | bool | yes | Should be false if PLC is 750-842, true otherwise
 ##Conditions of WODigital
 Name | Description
 ---- | -----------
-false | Event when light is off 
- true | Event when light is on 
+true | Event when light is on 
+ false | Event when light is off 
  changed | Event on any change of value 
  
 ##Actions of WODigital
 Name | Description
 ---- | -----------
 set_state true | Update internal light state without starting real action. This is useful when having updating the light state from an external source. 
- impulse 500 200 500 200 | Do an impulse on light state with a pattern.<br>Ex: 500 200 500 200 means: TRUE for 500ms, FALSE for 200ms, TRUE for 500ms, FALSE for 200ms<br>Ex: 500 loop 200 300 means: TRUE for 500ms, then loop the next steps for infinite, FALSE for 200ms, TRUE for 300ms<br>Ex: 100 100 200 old means: blinks and then set to the old start state (before impulse starts) 
- impulse 200 | Do an impulse on light state. Set to true for X ms then reset to false 
- toggle | Invert light state 
+ true | Switch the light on 
  set_state false | Update internal light state without starting real action. This is useful when having updating the light state from an external source. 
  false | Switch the light off 
- true | Switch the light on 
+ toggle | Invert light state 
+ impulse 500 200 500 200 | Do an impulse on light state with a pattern.<br>Ex: 500 200 500 200 means: TRUE for 500ms, FALSE for 200ms, TRUE for 500ms, FALSE for 200ms<br>Ex: 500 loop 200 300 means: TRUE for 500ms, then loop the next steps for infinite, FALSE for 200ms, TRUE for 300ms<br>Ex: 100 100 200 old means: blinks and then set to the old start state (before impulse starts) 
+ impulse 200 | Do an impulse on light state. Set to true for X ms then reset to false 
  
 ##More Infos
 * Calaos Wiki: http://calaos.fr/wiki/fr/750-1504
@@ -2468,11 +2494,11 @@ Name | Type | Mandatory | Description
 interval | int | no | Interval between pings in ms. Default to 15 sec
 address | string | yes | Ethernet MAC address of the host to wake up
 gui_type | string | no | Internal graphical type for all calaos objects. Set automatically, read-only parameter.
+id | string | yes | Unique ID identifying the Input/Output in calaos-server
 visible | bool | no | Display the Input/Output on all user interfaces if set. Default to true
 io_type | string | yes | IO type, can be "input", "output", "inout"
-enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
 name | string | yes | Name of Input/Output.
-id | string | yes | Unique ID identifying the Input/Output in calaos-server
+enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
 
 ##Actions of WOLOutputBool
 Name | Description
@@ -2491,11 +2517,11 @@ Simple shutter. This shutter supports open/close states, as well as impulse shut
 Name | Type | Mandatory | Description
 ---- | ---- | --------- | -----------
 var_down | int | yes | Digital output address on the PLC for closing the shutter
-id | string | yes | Unique ID identifying the Input/Output in calaos-server
+enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
 var_up | int | yes | Digital output address on the PLC for opening the shutter
 name | string | yes | Name of Input/Output.
-enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
 visible | bool | no | Display the Input/Output on all user interfaces if set. Default to true
+id | string | yes | Unique ID identifying the Input/Output in calaos-server
 gui_type | string | no | Internal graphical type for all calaos objects. Set automatically, read-only parameter.
 wago_841 | bool | yes | Should be false if PLC is 750-842, true otherwise
 time | int | yes | Time in sec for shutter to open or close
@@ -2509,8 +2535,8 @@ stop_both | bool | no | If in impulse mode, some shutters needs to activate both
 ##Conditions of WOVolet
 Name | Description
 ---- | -----------
-false | Event when shutter is closed 
- true | Event when shutter is open 
+true | Event when shutter is open 
+ false | Event when shutter is closed 
  changed | Event on any change of shutter state 
  
 ##Actions of WOVolet
@@ -2519,11 +2545,11 @@ Name | Description
 set_state true | Update internal shutter state without starting real action. This is useful when having updating the shutter state from an external source. 
  set_state false | Update internal shutter state without starting real action. This is useful when having updating the shutter state from an external source. 
  impulse down 200 | Close shutter for X ms 
- toggle | Invert shutter state 
+ up | Open the shutter 
+ down | Close the shutter 
  impulse up 200 | Open shutter for X ms 
  stop | Stop the shutter 
- down | Close the shutter 
- up | Open the shutter 
+ toggle | Invert shutter state 
  
 ##More Infos
 * Calaos Wiki: http://calaos.fr/wiki/fr/750-1504
@@ -2543,12 +2569,12 @@ wago_841 | bool | yes | Should be false if PLC is 750-842, true otherwise
 var_down | int | yes | Digital output address on the PLC for closing the shutter
 knx | bool | no | Set to true if output is a KNX device (only for 750-849 with KNX/TP1 module)
 host | string | yes | Wago PLC IP address on the network
-id | string | yes | Unique ID identifying the Input/Output in calaos-server
-time_down | int | yes | Time in sec for shutter to fully closed. The more accurate, the better it will work
+enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
 var_up | int | yes | Digital output address on the PLC for opening the shutter
 name | string | yes | Name of Input/Output.
-enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
 visible | bool | no | Display the Input/Output on all user interfaces if set. Default to true
+id | string | yes | Unique ID identifying the Input/Output in calaos-server
+time_down | int | yes | Time in sec for shutter to fully closed. The more accurate, the better it will work
 gui_type | string | no | Internal graphical type for all calaos objects. Set automatically, read-only parameter.
 time_up | int | yes | Time in sec for shutter to be fully open. The more accurate, the better it will work
 port | int | no | Wago ethernet port, default to 502
@@ -2559,18 +2585,18 @@ stop_both | bool | no | If in impulse mode, some shutters needs to activate both
 ##Conditions of WOVoletSmart
 Name | Description
 ---- | -----------
-false | Event when shutter is closed 
- true | Event when shutter is open 
+true | Event when shutter is open 
+ false | Event when shutter is closed 
  changed | Event on any change of shutter state 
  
 ##Actions of WOVoletSmart
 Name | Description
 ---- | -----------
 set_state true | Update internal shutter state without starting real action. This is useful when having updating the shutter state from an external source. 
- up | Open the shutter 
- down | Close the shutter 
  impulse up 200 | Open shutter for X ms 
  set 50 | Set shutter at position X in percent 
+ down | Close the shutter 
+ up | Open the shutter 
  impulse down 200 | Close shutter for X ms 
  set_state false | Update internal shutter state without starting real action. This is useful when having updating the shutter state from an external source. 
  toggle | Invert shutter state 
@@ -2594,11 +2620,11 @@ Name | Type | Mandatory | Description
 ---- | ---- | --------- | -----------
 code | string | yes | House code of the X10 light device
 gui_type | string | no | Internal graphical type for all calaos objects. Set automatically, read-only parameter.
+id | string | yes | Unique ID identifying the Input/Output in calaos-server
 visible | bool | no | Display the Input/Output on all user interfaces if set. Default to true
 io_type | string | yes | IO type, can be "input", "output", "inout"
-enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
 name | string | yes | Name of Input/Output.
-id | string | yes | Unique ID identifying the Input/Output in calaos-server
+enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
 
 ##Conditions of X10Output
 Name | Description
@@ -2612,14 +2638,14 @@ Name | Description
 hold stop | Dynamically change light intensity when holding a switch (stop action) 
  hold press | Dynamically change light intensity when holding a switch (press action) 
  down 5 | Decrease intensity by X percent 
- true | Switch the light on 
- set_state 50 | Update internal light state without starting real action. This is useful when having updating the light state from an external source. 
+ impulse 500 200 500 200 | Do an impulse on light state with a pattern.<br>Ex: 500 200 500 200 means: TRUE for 500ms, FALSE for 200ms, TRUE for 500ms, FALSE for 200ms<br>Ex: 500 loop 200 300 means: TRUE for 500ms, then loop the next steps for infinite, FALSE for 200ms, TRUE for 300ms<br>Ex: 100 100 200 old means: blinks and then set to the old start state (before impulse starts) 
+ set off 50 | Set light value without switching on. This will be the light intensity for the next ON 
  false | Switch the light off 
  up 5 | Increase intensity by X percent 
- set_state false | Update internal light state without starting real action. This is useful when having updating the light state from an external source. 
  toggle | Invert the light state 
- set off 50 | Set light value without switching on. This will be the light intensity for the next ON 
- impulse 500 200 500 200 | Do an impulse on light state with a pattern.<br>Ex: 500 200 500 200 means: TRUE for 500ms, FALSE for 200ms, TRUE for 500ms, FALSE for 200ms<br>Ex: 500 loop 200 300 means: TRUE for 500ms, then loop the next steps for infinite, FALSE for 200ms, TRUE for 300ms<br>Ex: 100 100 200 old means: blinks and then set to the old start state (before impulse starts) 
+ set_state false | Update internal light state without starting real action. This is useful when having updating the light state from an external source. 
+ true | Switch the light on 
+ set_state 50 | Update internal light state without starting real action. This is useful when having updating the light state from an external source. 
  set_state true | Update internal light state without starting real action. This is useful when having updating the light state from an external source. 
  impulse 200 | Do an impulse on light state. Set to true for X ms then reset to false 
  set 50 | Set light intensity and swith on if light is off 
@@ -2634,22 +2660,22 @@ An analog input can be used to read analog values to display them and use them i
 ##Parameters of xPLInputAnalog
 Name | Type | Mandatory | Description
 ---- | ---- | --------- | -----------
-sensor | string | yes | Sensor ID, as set in your xPL network
-source | string | yes | Source name, as set in your xPL network (Format VendorId-DeviceId.Instance)
 gui_style | list | yes | GUI style display. This will control the icon displayed on the UI
-interval | float | no | Sampling time in seconds. The value is read at this frequency. If this value is not set, the default value is 15s
-precision | int | no | Precision of the returned value. The value represents the number of decimal after the dot. The value is rounded like this : value = 19.275 => returned value 19.28 when preicision = 2, 19.3 when precision = 1, 19 when precision = 0
-offset | float | no | same as coeff_b, can be used alone. Default value is 0.0
-coeff_a | float | no | use in conjunction of coeff_b to apply equation of the form `value_displayed = coeff_a * raw_value + coeff_b`. Default value is 1.0.
 unit | string | no | Unit which will be displayed on the UI as a suffix.
-frequency | float | no | Sampling time in microsecond. The value is read at this frequency. If this value is not set, calaos tries to read the interval parameter
+precision | int | no | Precision of the returned value. The value represents the number of decimal after the dot. The value is rounded like this : value = 19.275 => returned value 19.28 when preicision = 2, 19.3 when precision = 1, 19 when precision = 0
 name | string | yes | Name of Input/Output.
-coeff_b | float | no | use in conjunction of coeff_a to apply equation of the form `value_displayed = coeff_a * raw_value + coeff_b`. Default value is 0.0
-gui_type | string | no | Internal graphical type for all calaos objects. Set automatically, read-only parameter.
-id | string | yes | Unique ID identifying the Input/Output in calaos-server
-visible | bool | no | Display the Input/Output on all user interfaces if set. Default to true
-enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
 io_type | string | yes | IO type, can be "input", "output", "inout"
+sensor | string | yes | Sensor ID, as set in your xPL network
+visible | bool | no | Display the Input/Output on all user interfaces if set. Default to true
+frequency | float | no | Sampling time in microsecond. The value is read at this frequency. If this value is not set, calaos tries to read the interval parameter
+id | string | yes | Unique ID identifying the Input/Output in calaos-server
+gui_type | string | no | Internal graphical type for all calaos objects. Set automatically, read-only parameter.
+interval | float | no | Sampling time in seconds. The value is read at this frequency. If this value is not set, the default value is 15s
+coeff_a | float | no | use in conjunction of coeff_b to apply equation of the form `value_displayed = coeff_a * raw_value + coeff_b`. Default value is 1.0.
+coeff_b | float | no | use in conjunction of coeff_a to apply equation of the form `value_displayed = coeff_a * raw_value + coeff_b`. Default value is 0.0
+source | string | yes | Source name, as set in your xPL network (Format VendorId-DeviceId.Instance)
+enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
+offset | float | no | same as coeff_b, can be used alone. Default value is 0.0
 
 ##Conditions of xPLInputAnalog
 Name | Description
@@ -2664,14 +2690,14 @@ xPL string sensor
 ##Parameters of xPLInputAnalog
 Name | Type | Mandatory | Description
 ---- | ---- | --------- | -----------
-sensor | string | yes | Sensor ID, as set in your xPL network
 source | string | yes | Source name, as set in your xPL network (Format VendorId-DeviceId.Instance)
-name | string | yes | Name of Input/Output.
 gui_type | string | no | Internal graphical type for all calaos objects. Set automatically, read-only parameter.
 id | string | yes | Unique ID identifying the Input/Output in calaos-server
 visible | bool | no | Display the Input/Output on all user interfaces if set. Default to true
-enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
+sensor | string | yes | Sensor ID, as set in your xPL network
 io_type | string | yes | IO type, can be "input", "output", "inout"
+name | string | yes | Name of Input/Output.
+enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
 
 
 #xPLInputSwitch
@@ -2683,21 +2709,21 @@ Basic switch with press/release states.
 ##Parameters of xPLInputSwitch
 Name | Type | Mandatory | Description
 ---- | ---- | --------- | -----------
-sensor | string | yes | Sensor ID, as set in your xPL network
 source | string | yes | Source name, as set in your xPL network (Format VendorId-DeviceId.Instance)
-name | string | yes | Name of Input/Output.
 gui_type | string | no | Internal graphical type for all calaos objects. Set automatically, read-only parameter.
 id | string | yes | Unique ID identifying the Input/Output in calaos-server
 visible | bool | no | A switch can't be visible. Always false.
-enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
+sensor | string | yes | Sensor ID, as set in your xPL network
 io_type | string | yes | IO type, can be "input", "output", "inout"
+name | string | yes | Name of Input/Output.
+enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
 
 ##Conditions of xPLInputSwitch
 Name | Description
 ---- | -----------
 changed | Event on any change of state 
- true | Event triggered when switch is pressed 
  false | Event triggered when switch is released 
+ true | Event triggered when switch is pressed 
  
 
 #xPLInputTemp
@@ -2709,20 +2735,20 @@ Temperature sensor input. Use for displaying temperature and to control heating 
 ##Parameters of xPLInputTemp
 Name | Type | Mandatory | Description
 ---- | ---- | --------- | -----------
-sensor | string | yes | Sensor ID, as set in your xPL network
-source | string | yes | Source name, as set in your xPL network (Format VendorId-DeviceId.Instance)
-interval | float | no | Sampling time in seconds. The value is read at this frequency. If this value is not set, the default value is 15s
 precision | int | no | Precision of the returned value. The value represents the number of decimal after the dot. The value is rounded like this : value = 19.275 => returned value 19.28 when preicision = 2, 19.3 when precision = 1, 19 when precision = 0
-offset | float | no | same as coeff_b, can be used alone. Default value is 0.0
-coeff_a | float | no | use in conjunction of coeff_b to apply equation of the form `value_displayed = coeff_a * raw_value + coeff_b`. Default value is 1.0.
-frequency | float | no | Sampling time in microsecond. The value is read at this frequency. If this value is not set, calaos tries to read the interval parameter
 name | string | yes | Name of Input/Output.
-coeff_b | float | no | use in conjunction of coeff_a to apply equation of the form `value_displayed = coeff_a * raw_value + coeff_b`. Default value is 0.0
-gui_type | string | no | Internal graphical type for all calaos objects. Set automatically, read-only parameter.
-id | string | yes | Unique ID identifying the Input/Output in calaos-server
-visible | bool | no | Display the Input/Output on all user interfaces if set. Default to true
-enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
 io_type | string | yes | IO type, can be "input", "output", "inout"
+sensor | string | yes | Sensor ID, as set in your xPL network
+visible | bool | no | Display the Input/Output on all user interfaces if set. Default to true
+frequency | float | no | Sampling time in microsecond. The value is read at this frequency. If this value is not set, calaos tries to read the interval parameter
+id | string | yes | Unique ID identifying the Input/Output in calaos-server
+gui_type | string | no | Internal graphical type for all calaos objects. Set automatically, read-only parameter.
+interval | float | no | Sampling time in seconds. The value is read at this frequency. If this value is not set, the default value is 15s
+coeff_a | float | no | use in conjunction of coeff_b to apply equation of the form `value_displayed = coeff_a * raw_value + coeff_b`. Default value is 1.0.
+coeff_b | float | no | use in conjunction of coeff_a to apply equation of the form `value_displayed = coeff_a * raw_value + coeff_b`. Default value is 0.0
+source | string | yes | Source name, as set in your xPL network (Format VendorId-DeviceId.Instance)
+enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
+offset | float | no | same as coeff_b, can be used alone. Default value is 0.0
 
 ##Conditions of xPLInputTemp
 Name | Description
@@ -2740,35 +2766,35 @@ Analog output. Useful to control analog output devices connected to calaos.
 ##Parameters of xPLOutputAnalog
 Name | Type | Mandatory | Description
 ---- | ---- | --------- | -----------
-actuator | string | yes | Actuator ID, as set in your xPL network
-source | string | yes | Source name, as set in your xPL network (Format VendorId-DeviceId.Instance)
 gui_style | list | yes | GUI style display. This will control the icon displayed on the UI
-step | float | no | Set a step for increment/decrement value. Default is 1.0
-coeff_a | float | no | use in conjunction of coeff_b to apply equation of the form `value_sent = coeff_a * raw_value + coeff_b`. Default value is 1.0.
-unit | string | no | Unit which will be displayed on the UI as a suffix.
-name | string | yes | Name of Input/Output.
-coeff_b | float | no | use in conjunction of coeff_a to apply equation of the form `value_sent = coeff_a * raw_value + coeff_b`. Default value is 0.0
-gui_type | string | no | Internal graphical type for all calaos objects. Set automatically, read-only parameter.
-id | string | yes | Unique ID identifying the Input/Output in calaos-server
-visible | bool | no | Display the Input/Output on all user interfaces if set. Default to true
+source | string | yes | Source name, as set in your xPL network (Format VendorId-DeviceId.Instance)
 enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
+name | string | yes | Name of Input/Output.
 io_type | string | yes | IO type, can be "input", "output", "inout"
+visible | bool | no | Display the Input/Output on all user interfaces if set. Default to true
+unit | string | no | Unit which will be displayed on the UI as a suffix.
+id | string | yes | Unique ID identifying the Input/Output in calaos-server
+actuator | string | yes | Actuator ID, as set in your xPL network
+step | float | no | Set a step for increment/decrement value. Default is 1.0
+gui_type | string | no | Internal graphical type for all calaos objects. Set automatically, read-only parameter.
+coeff_a | float | no | use in conjunction of coeff_b to apply equation of the form `value_sent = coeff_a * raw_value + coeff_b`. Default value is 1.0.
+coeff_b | float | no | use in conjunction of coeff_a to apply equation of the form `value_sent = coeff_a * raw_value + coeff_b`. Default value is 0.0
 
 ##Conditions of xPLOutputAnalog
 Name | Description
 ---- | -----------
 0 | Event on a specific number value 
- value | Event on a specific value 
  changed | Event on any change of value 
+ value | Event on a specific value 
  
 ##Actions of xPLOutputAnalog
 Name | Description
 ---- | -----------
 dec 1 | Decrement value by value 
- dec | Decrement value with configured step 
- inc 1 | Increment value by value 
  0 | Set a specific number value 
  inc | Increment value with configured step 
+ dec | Decrement value with configured step 
+ inc 1 | Increment value by value 
  
 
 #xPLOutputAnalog
@@ -2779,12 +2805,12 @@ Name | Type | Mandatory | Description
 ---- | ---- | --------- | -----------
 actuator | string | yes | Actuator ID, as set in your xPL network
 source | string | yes | Source name, as set in your xPL network (Format VendorId-DeviceId.Instance)
-name | string | yes | Name of Input/Output.
 gui_type | string | no | Internal graphical type for all calaos objects. Set automatically, read-only parameter.
 id | string | yes | Unique ID identifying the Input/Output in calaos-server
 visible | bool | no | Display the Input/Output on all user interfaces if set. Default to true
-enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
 io_type | string | yes | IO type, can be "input", "output", "inout"
+name | string | yes | Name of Input/Output.
+enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
 
 
 #xPLOutputSwitch
@@ -2798,30 +2824,30 @@ Name | Type | Mandatory | Description
 ---- | ---- | --------- | -----------
 actuator | string | yes | Actuator ID, as set in your xPL network
 source | string | yes | Source name, as set in your xPL network (Format VendorId-DeviceId.Instance)
-name | string | yes | Name of Input/Output.
 gui_type | string | no | Internal graphical type for all calaos objects. Set automatically, read-only parameter.
 id | string | yes | Unique ID identifying the Input/Output in calaos-server
 visible | bool | no | Display the Input/Output on all user interfaces if set. Default to true
-enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
 io_type | string | yes | IO type, can be "input", "output", "inout"
+name | string | yes | Name of Input/Output.
+enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
 
 ##Conditions of xPLOutputSwitch
 Name | Description
 ---- | -----------
-false | Event when light is off 
+true | Event when light is on 
+ false | Event when light is off 
  changed | Event on any change of value 
- true | Event when light is on 
  
 ##Actions of xPLOutputSwitch
 Name | Description
 ---- | -----------
-false | Switch the light off 
+set_state true | Update internal light state without starting real action. This is useful when having updating the light state from an external source. 
  true | Switch the light on 
  set_state false | Update internal light state without starting real action. This is useful when having updating the light state from an external source. 
+ false | Switch the light off 
  toggle | Invert light state 
- impulse 200 | Do an impulse on light state. Set to true for X ms then reset to false 
  impulse 500 200 500 200 | Do an impulse on light state with a pattern.<br>Ex: 500 200 500 200 means: TRUE for 500ms, FALSE for 200ms, TRUE for 500ms, FALSE for 200ms<br>Ex: 500 loop 200 300 means: TRUE for 500ms, then loop the next steps for infinite, FALSE for 200ms, TRUE for 300ms<br>Ex: 100 100 200 old means: blinks and then set to the old start state (before impulse starts) 
- set_state true | Update internal light state without starting real action. This is useful when having updating the light state from an external source. 
+ impulse 200 | Do an impulse on light state. Set to true for X ms then reset to false 
  
 
 #ZibaseAnalogIn
@@ -2838,13 +2864,13 @@ host | string | yes | Zibase IP address on the network
 gui_style | list | yes | GUI style display. This will control the icon displayed on the UI
 unit | string | no | Unit which will be displayed on the UI as a suffix.
 precision | int | no | Precision of the returned value. The value represents the number of decimal after the dot. The value is rounded like this : value = 19.275 => returned value 19.28 when preicision = 2, 19.3 when precision = 1, 19 when precision = 0
-id | string | yes | Unique ID identifying the Input/Output in calaos-server
 name | string | yes | Name of Input/Output.
 port | int | no | Zibase ethernet port, default to 17100
 io_type | string | yes | IO type, can be "input", "output", "inout"
 visible | bool | no | Display the Input/Output on all user interfaces if set. Default to true
 zibase_id | string | yes | Zibase device ID (ABC)
 frequency | float | no | Sampling time in microsecond. The value is read at this frequency. If this value is not set, calaos tries to read the interval parameter
+id | string | yes | Unique ID identifying the Input/Output in calaos-server
 gui_type | string | no | Internal graphical type for all calaos objects. Set automatically, read-only parameter.
 interval | float | no | Sampling time in seconds. The value is read at this frequency. If this value is not set, the default value is 15s
 coeff_a | float | no | use in conjunction of coeff_b to apply equation of the form `value_displayed = coeff_a * raw_value + coeff_b`. Default value is 1.0.
@@ -2869,12 +2895,12 @@ Basic switch with press/release states.
 Name | Type | Mandatory | Description
 ---- | ---- | --------- | -----------
 zibase_sensor | list | yes | Type of sensor
-id | string | yes | Unique ID identifying the Input/Output in calaos-server
-name | string | yes | Name of Input/Output.
 enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
+name | string | yes | Name of Input/Output.
 visible | bool | no | A switch can't be visible. Always false.
 io_type | string | yes | IO type, can be "input", "output", "inout"
 port | int | no | Zibase ethernet port, default to 17100
+id | string | yes | Unique ID identifying the Input/Output in calaos-server
 gui_type | string | no | Internal graphical type for all calaos objects. Set automatically, read-only parameter.
 zibase_id | string | yes | First Zibase device ID (ABC)
 zibase_id2 | string | yes | Second Zibase device ID (ABC)
@@ -2898,12 +2924,12 @@ Basic light. This light have only 2 states, ON or OFF. Can also be used to contr
 Name | Type | Mandatory | Description
 ---- | ---- | --------- | -----------
 nbburst | int | no | Number of burst to send to the device
-id | string | yes | Unique ID identifying the Input/Output in calaos-server
-name | string | yes | Name of Input/Output.
 enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
+name | string | yes | Name of Input/Output.
 visible | bool | no | Display the Input/Output on all user interfaces if set. Default to true
 io_type | string | yes | IO type, can be "input", "output", "inout"
 port | int | no | Zibase ethernet port, default to 17100
+id | string | yes | Unique ID identifying the Input/Output in calaos-server
 gui_type | string | no | Internal graphical type for all calaos objects. Set automatically, read-only parameter.
 zibase_id | string | yes | Zibase device ID (ABC)
 host | string | yes | Zibase IP address on the network
@@ -2912,20 +2938,20 @@ protocol | list | yes | Protocol to use
 ##Conditions of ZibaseDigitalOut
 Name | Description
 ---- | -----------
-false | Event when light is off 
- true | Event when light is on 
+true | Event when light is on 
+ false | Event when light is off 
  changed | Event on any change of value 
  
 ##Actions of ZibaseDigitalOut
 Name | Description
 ---- | -----------
 set_state true | Update internal light state without starting real action. This is useful when having updating the light state from an external source. 
- impulse 500 200 500 200 | Do an impulse on light state with a pattern.<br>Ex: 500 200 500 200 means: TRUE for 500ms, FALSE for 200ms, TRUE for 500ms, FALSE for 200ms<br>Ex: 500 loop 200 300 means: TRUE for 500ms, then loop the next steps for infinite, FALSE for 200ms, TRUE for 300ms<br>Ex: 100 100 200 old means: blinks and then set to the old start state (before impulse starts) 
- impulse 200 | Do an impulse on light state. Set to true for X ms then reset to false 
- toggle | Invert light state 
+ true | Switch the light on 
  set_state false | Update internal light state without starting real action. This is useful when having updating the light state from an external source. 
  false | Switch the light off 
- true | Switch the light on 
+ toggle | Invert light state 
+ impulse 500 200 500 200 | Do an impulse on light state with a pattern.<br>Ex: 500 200 500 200 means: TRUE for 500ms, FALSE for 200ms, TRUE for 500ms, FALSE for 200ms<br>Ex: 500 loop 200 300 means: TRUE for 500ms, then loop the next steps for infinite, FALSE for 200ms, TRUE for 300ms<br>Ex: 100 100 200 old means: blinks and then set to the old start state (before impulse starts) 
+ impulse 200 | Do an impulse on light state. Set to true for X ms then reset to false 
  
 
 #ZibaseTemp
@@ -2940,13 +2966,13 @@ Name | Type | Mandatory | Description
 zibase_sensor | list | yes | Type of sensor
 host | string | yes | Zibase IP address on the network
 precision | int | no | Precision of the returned value. The value represents the number of decimal after the dot. The value is rounded like this : value = 19.275 => returned value 19.28 when preicision = 2, 19.3 when precision = 1, 19 when precision = 0
-id | string | yes | Unique ID identifying the Input/Output in calaos-server
 name | string | yes | Name of Input/Output.
 port | int | no | Zibase ethernet port, default to 17100
 io_type | string | yes | IO type, can be "input", "output", "inout"
 visible | bool | no | Display the Input/Output on all user interfaces if set. Default to true
 zibase_id | string | yes | Zibase device ID (ABC)
 frequency | float | no | Sampling time in microsecond. The value is read at this frequency. If this value is not set, calaos tries to read the interval parameter
+id | string | yes | Unique ID identifying the Input/Output in calaos-server
 gui_type | string | no | Internal graphical type for all calaos objects. Set automatically, read-only parameter.
 interval | float | no | Sampling time in seconds. The value is read at this frequency. If this value is not set, the default value is 15s
 coeff_a | float | no | use in conjunction of coeff_b to apply equation of the form `value_displayed = coeff_a * raw_value + coeff_b`. Default value is 1.0.

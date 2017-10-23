@@ -46,6 +46,7 @@
 #include <Params.h>
 #include <base64.h>
 #include <QtCore>
+#include "ConfigOptions.h"
 
 //-----------------------------------------------------------------------------
 using namespace std;
@@ -173,6 +174,8 @@ void *Base64_decode_data(std::string &str);
 //!encode a BASE64 string
 std::string Base64_encode(std::string &str);
 std::string Base64_encode(void *data, int size);
+
+QString GetLocale();
 
 //-----------------------------------------------------------------------------
 template<typename T>

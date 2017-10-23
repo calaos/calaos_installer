@@ -345,6 +345,24 @@ void Utils::parseParamsItemList(string l, vector<Params> &res, int start_at)
         res.push_back(item);
 }
 
+QString Utils::GetLocale()
+{
+    QString locale;
+
+    if (ConfigOptions::Instance().optionExists("ui/lang"))
+    {
+        //set language from config
+        locale = ConfigOptions::Instance().getOption("ui/lang").toString();
+    }
+    else
+    {
+        //set default system language
+        locale = QLocale::system().name().section('_', 0, 0);
+    }
+
+    return locale;
+}
+
 int CURL_write_callback(void *buffer, size_t size, size_t nmemb, void *stream)
 {
     File_CURL *out = (File_CURL *)stream;

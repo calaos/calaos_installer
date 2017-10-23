@@ -51,21 +51,8 @@ int main(int argc, char *argv[])
     }
 
 
-    QString locale;
-    {
-        if (ConfigOptions::Instance().optionExists("ui/lang"))
-        {
-            //set language from config
-            locale = ConfigOptions::Instance().getOption("ui/lang").toString();
-        }
-        else
-        {
-            //set default system language
-            locale = QLocale::system().name().section('_', 0, 0);
-        }
-    }
-
     //Set language
+    QString locale = Utils::GetLocale();
     QString langfile = QString(":/lang/calaos_installer_%1.qm").arg(locale);
     QTranslator translator;
     qDebug() << "Trying to set language: " << langfile;
