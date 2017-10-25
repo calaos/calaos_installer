@@ -38,8 +38,8 @@ for f in $MXE_BIN/bin/libgcc_s_sjlj-1.dll \
          $MXE_BIN/qt5/bin/Qt5WebSockets.dll \
          $MXE_BIN/qt5/plugins/imageformats \
          $MXE_BIN/qt5/plugins/platforms \
-         build/release/calaos_installer.exe \
-         build/release/calaos_machinecreator.exe
+         $HOME/build/calaos/calaos_installer/build/release/calaos_installer.exe \
+         $HOME/build/calaos/calaos_installer/machine_creator/release/calaos_machinecreator.exe
 do
     cp -R $f $WDIR
 done
