@@ -2791,6 +2791,7 @@ void FormRules::itemTempWizard()
                     Params p;
                     p.Add("name", name.toUtf8().constData());
                     p.Add("type", "InternalInt");
+                    p.Add("save", "true"); //save the value
 
                     consigne = ListeRoom::Instance().createInput(p, room);
 
