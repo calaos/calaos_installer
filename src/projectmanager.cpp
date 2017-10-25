@@ -799,7 +799,7 @@ void IOXmlReader::readAVR(Room *room)
 bool ProjectManager::saveIOsToFile(QString &file)
 {
     QFile t(file);
-    if (!t.open(QIODevice::WriteOnly | QIODevice::Text))
+    if (!t.open(QIODevice::WriteOnly))
         return false;
 
     IOXmlWriter xmlfile;
@@ -812,20 +812,13 @@ bool ProjectManager::saveIOsToFile(QString &file)
 
 bool ProjectManager::saveRulesToFile(QString &file)
 {
-    QByteArray byteArray;
-    QBuffer buffer(&byteArray);
-
-    RuleXmlWriter xmlfile;
-    xmlfile.writeFile(&buffer);
-    buffer.close();
-
-    //On windows it fixes the new line to be LF only and not CRLF
-    byteArray.replace("\r\n", "\n");
-
     QFile t(file);
     if (!t.open(QIODevice::WriteOnly))
         return false;
-    t.write(byteArray);
+
+    RuleXmlWriter xmlfile;
+    xmlfile.writeFile(&t);
+
     t.close();
 
     return true;
