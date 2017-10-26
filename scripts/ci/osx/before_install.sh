@@ -14,8 +14,6 @@ nvm use 6.4.0
 npm/.bin/npm --version
 node --version
 
-pip install ipdb
-
 #openssl aes-256-cbc \
 #    -K $encrypted_7917762619ed_key \
 #    -iv $encrypted_7917762619ed_iv \
