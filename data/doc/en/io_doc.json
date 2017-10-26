@@ -7038,6 +7038,156 @@
         ],
         "actions": []
     },
+    "WebOutputAnalog": {
+        "description": "Analog output in a web request Analog output. Useful to control analog output devices connected to calaos.",
+        "alias": [],
+        "parameters": [
+            {
+                "description": "The path where to found the value. This value can take multiple values depending on the file type. If file_type is JSON, the json file downloaded will be read, and the informations will be extracted from the path. for example weather[0]/description, try to read the description value of the 1 element of the array of the weather object.\nIf file_type is XML, the path is an xpath expression; Look here for syntax : http://www.w3schools.com/xsl/xpath_syntax.asp If file_type is TEXT, the downloaded file is returned as plain text file, and path must be in the form line/pos/separator Line is read, and is split using separator as delimiters The value returned is the value at pos in the split list. If the separator is not found, the whole line is returned. Example the file contains \n10.0,10.1,10.2,10.3\n20.0,20.1,20.2,20.3\nIf the path is 2/4/, the value returne wil be 20.3\n",
+                "mandatory": "true",
+                "name": "path",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "File type of the document. Values can be xml, json or text.",
+                "mandatory": "true",
+                "name": "file_type",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "URL where to download the document from\nIf URL begins with / or with file:// the data is read from the local file",
+                "mandatory": "true",
+                "name": "url",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "default": "default",
+                "description": "GUI style display. This will control the icon displayed on the UI",
+                "mandatory": "true",
+                "name": "gui_style",
+                "readonly": "false",
+                "type": "list",
+                "list_value": {
+                    "default": "Default",
+                    "humidity": "Humidity"
+                }
+            },
+            {
+                "default": "true",
+                "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
+                "mandatory": "false",
+                "name": "enabled",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "description": "Name of Input/Output.",
+                "mandatory": "true",
+                "name": "name",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "IO type, can be \"input\", \"output\", \"inout\"",
+                "mandatory": "true",
+                "name": "io_type",
+                "readonly": "true",
+                "type": "string"
+            },
+            {
+                "default": "true",
+                "description": "Display the Input/Output on all user interfaces if set. Default to true",
+                "mandatory": "false",
+                "name": "visible",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "description": "Unit which will be displayed on the UI as a suffix.",
+                "mandatory": "false",
+                "name": "unit",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "Unique ID identifying the Input/Output in calaos-server",
+                "mandatory": "true",
+                "name": "id",
+                "readonly": "true",
+                "type": "string"
+            },
+            {
+                "default": "1",
+                "description": "Set a step for increment/decrement value. Default is 1.0",
+                "mandatory": "false",
+                "name": "step",
+                "readonly": "false",
+                "type": "float"
+            },
+            {
+                "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
+                "mandatory": "false",
+                "name": "gui_type",
+                "readonly": "true",
+                "type": "string"
+            },
+            {
+                "default": "1",
+                "description": "use in conjunction of coeff_b to apply equation of the form `value_sent = coeff_a * raw_value + coeff_b`. Default value is 1.0.",
+                "mandatory": "false",
+                "name": "coeff_a",
+                "readonly": "false",
+                "type": "float"
+            },
+            {
+                "default": "0",
+                "description": "use in conjunction of coeff_a to apply equation of the form `value_sent = coeff_a * raw_value + coeff_b`. Default value is 0.0",
+                "mandatory": "false",
+                "name": "coeff_b",
+                "readonly": "false",
+                "type": "float"
+            }
+        ],
+        "conditions": [
+            {
+                "description": "Event on a specific number value",
+                "name": "0"
+            },
+            {
+                "description": "Event on any change of value",
+                "name": "changed"
+            },
+            {
+                "description": "Event on a specific value",
+                "name": "value"
+            }
+        ],
+        "actions": [
+            {
+                "description": "Decrement value by value",
+                "name": "dec 1"
+            },
+            {
+                "description": "Set a specific number value",
+                "name": "0"
+            },
+            {
+                "description": "Increment value with configured step",
+                "name": "inc"
+            },
+            {
+                "description": "Decrement value with configured step",
+                "name": "dec"
+            },
+            {
+                "description": "Increment value by value",
+                "name": "inc 1"
+            }
+        ]
+    },
     "WebOutputLight": {
         "description": "Bool output written to a web document or URL Basic light. This light have only 2 states, ON or OFF. Can also be used to control simple relays output",
         "alias": [],

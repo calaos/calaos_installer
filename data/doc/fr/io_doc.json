@@ -7038,6 +7038,156 @@
         ],
         "actions": []
     },
+    "WebOutputAnalog": {
+        "description": "Analog output in a web request Utile pour contrôler les périphériques de sortie analogique connectés à calaos.",
+        "alias": [],
+        "parameters": [
+            {
+                "description": "Chemin pour identifier l'emplacement de la valeur. Ce chemin peut prendre plusieurs formes en fonction du type de fichier. Si file_type est JSON, le fichier téléchargé sera lu et les informations seront extraites du chemin. Par exemple weather[0]/description, essayez de lire la description du premier élément du tableau de l'objet weahter.\nSi file_type est XML, le chemin d'accès est une expression xpath; Regardez ici la syntaxe: http://www.w3schools.com/xsl/xpath_syntax.asp. Si file_type est TEXT, le fichier téléchargé est renvoyé en tant que fichier texte simple, et le chemin doit être sous la forme ligne/pos/separateur. La ligne lue est divisée à l'aide du séparateur en tant que délimiteurs. La valeur renvoyée est la valeur à pos dans la ligne fractionnée. Si le séparateur n'est pas trouvé, la ligne entière est renvoyée. Exemple, pour un fichier contenant \n10,0,10,1,10,2,10,3\n20,0,20,1,20,2,20.3\nSi le chemin est 2/4/, la valeur retournée sera 20.3\n",
+                "mandatory": "true",
+                "name": "path",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "Type de fichier. Les valeurs peuvent être xml, json ou text.",
+                "mandatory": "true",
+                "name": "file_type",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "URL où télécharger le document\nSi l'URL commence avec / ou file:// les données sont lues sur un disque local",
+                "mandatory": "true",
+                "name": "url",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "default": "default",
+                "description": "Style d'affichage. Contrôle l'icône affichée sur l'interface utilisateur",
+                "mandatory": "true",
+                "name": "gui_style",
+                "readonly": "false",
+                "type": "list",
+                "list_value": {
+                    "default": "Défaut",
+                    "humidity": "Humidité"
+                }
+            },
+            {
+                "default": "true",
+                "description": "Activez l'entrée/sortie. Vrai par défaut. Ce paramètre est ajouté s'il n'est pas trouvé dans la configuration.",
+                "mandatory": "false",
+                "name": "enabled",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "description": "Nom de l'entrée/sortie.",
+                "mandatory": "true",
+                "name": "name",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "Type d'entrée/sortie (input, output, inout)",
+                "mandatory": "true",
+                "name": "io_type",
+                "readonly": "true",
+                "type": "string"
+            },
+            {
+                "default": "true",
+                "description": "Affichez l'entrée/sortie sur toutes les interfaces utilisateur. Vrai par défaut",
+                "mandatory": "false",
+                "name": "visible",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "description": "Unité affichée sur l'interface utilisateur en tant que suffixe.",
+                "mandatory": "false",
+                "name": "unit",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "Identifiant unique de l'entrée/sortie dans calaos-server",
+                "mandatory": "true",
+                "name": "id",
+                "readonly": "true",
+                "type": "string"
+            },
+            {
+                "default": "1",
+                "description": "Définit le pas pour incrémenter/décrémenter la valeur. La valeur par défaut est 1.0",
+                "mandatory": "false",
+                "name": "step",
+                "readonly": "false",
+                "type": "float"
+            },
+            {
+                "description": "Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement",
+                "mandatory": "false",
+                "name": "gui_type",
+                "readonly": "true",
+                "type": "string"
+            },
+            {
+                "default": "1",
+                "description": "Utiliser conjointement coeff_b pour appliquer l'équation de la forme valeur = coeff_a * raw_value + coeff_b. La valeur par défaut est 1.0.",
+                "mandatory": "false",
+                "name": "coeff_a",
+                "readonly": "false",
+                "type": "float"
+            },
+            {
+                "default": "0",
+                "description": "Utiliser conjointement coeff_a pour appliquer l'équation de la forme valeur = coeff_a * raw_value + coeff_b. La valeur par défaut est 0.0.",
+                "mandatory": "false",
+                "name": "coeff_b",
+                "readonly": "false",
+                "type": "float"
+            }
+        ],
+        "conditions": [
+            {
+                "description": "Événement sur une valeur spécifique",
+                "name": "0"
+            },
+            {
+                "description": "Événement à chaque changement",
+                "name": "changed"
+            },
+            {
+                "description": "Événement sur une valeur spécifique",
+                "name": "value"
+            }
+        ],
+        "actions": [
+            {
+                "description": "Diminuer valeur par valeur",
+                "name": "dec 1"
+            },
+            {
+                "description": "Définir une valeur spécifique",
+                "name": "0"
+            },
+            {
+                "description": "Augmenter la valeur avec le pas définit",
+                "name": "inc"
+            },
+            {
+                "description": "Diminuer la valeur avec le pas définit",
+                "name": "dec"
+            },
+            {
+                "description": "Augmenter valeur par valeur",
+                "name": "inc 1"
+            }
+        ]
+    },
     "WebOutputLight": {
         "description": "Booléen à écrire dans un document Web ou une URL Lumière simple. Cette lumière ne comporte que 2 états, ON ou OFF. Peut également être utilisé pour contrôler la sortie des relais simples",
         "alias": [],

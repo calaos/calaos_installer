@@ -1996,6 +1996,53 @@ changed | Événement sur toute modification de température
  value | Événement sur une valeur de température en degrés Celsius 
  
 
+#WebOutputAnalog
+Analog output in a web request
+
+
+Utile pour contrôler les périphériques de sortie analogique connectés à calaos.
+
+##Parameters of WebOutputAnalog
+Name | Type | Mandatory | Description
+---- | ---- | --------- | -----------
+path | string | yes | Chemin pour identifier l'emplacement de la valeur. Ce chemin peut prendre plusieurs formes en fonction du type de fichier. Si file_type est JSON, le fichier téléchargé sera lu et les informations seront extraites du chemin. Par exemple weather[0]/description, essayez de lire la description du premier élément du tableau de l'objet weahter.
+Si file_type est XML, le chemin d'accès est une expression xpath; Regardez ici la syntaxe: http://www.w3schools.com/xsl/xpath_syntax.asp. Si file_type est TEXT, le fichier téléchargé est renvoyé en tant que fichier texte simple, et le chemin doit être sous la forme ligne/pos/separateur. La ligne lue est divisée à l'aide du séparateur en tant que délimiteurs. La valeur renvoyée est la valeur à pos dans la ligne fractionnée. Si le séparateur n'est pas trouvé, la ligne entière est renvoyée. Exemple, pour un fichier contenant 
+10,0,10,1,10,2,10,3
+20,0,20,1,20,2,20.3
+Si le chemin est 2/4/, la valeur retournée sera 20.3
+
+file_type | string | yes | Type de fichier. Les valeurs peuvent être xml, json ou text.
+url | string | yes | URL où télécharger le document
+Si l'URL commence avec / ou file:// les données sont lues sur un disque local
+gui_style | list | yes | Style d'affichage. Contrôle l'icône affichée sur l'interface utilisateur
+enabled | bool | no | Activez l'entrée/sortie. Vrai par défaut. Ce paramètre est ajouté s'il n'est pas trouvé dans la configuration.
+name | string | yes | Nom de l'entrée/sortie.
+io_type | string | yes | Type d'entrée/sortie (input, output, inout)
+visible | bool | no | Affichez l'entrée/sortie sur toutes les interfaces utilisateur. Vrai par défaut
+unit | string | no | Unité affichée sur l'interface utilisateur en tant que suffixe.
+id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
+step | float | no | Définit le pas pour incrémenter/décrémenter la valeur. La valeur par défaut est 1.0
+gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
+coeff_a | float | no | Utiliser conjointement coeff_b pour appliquer l'équation de la forme valeur = coeff_a * raw_value + coeff_b. La valeur par défaut est 1.0.
+coeff_b | float | no | Utiliser conjointement coeff_a pour appliquer l'équation de la forme valeur = coeff_a * raw_value + coeff_b. La valeur par défaut est 0.0.
+
+##Conditions of WebOutputAnalog
+Name | Description
+---- | -----------
+0 | Événement sur une valeur spécifique 
+ changed | Événement à chaque changement 
+ value | Événement sur une valeur spécifique 
+ 
+##Actions of WebOutputAnalog
+Name | Description
+---- | -----------
+dec 1 | Diminuer valeur par valeur 
+ 0 | Définir une valeur spécifique 
+ inc | Augmenter la valeur avec le pas définit 
+ dec | Diminuer la valeur avec le pas définit 
+ inc 1 | Augmenter valeur par valeur 
+ 
+
 #WebOutputLight
 Booléen à écrire dans un document Web ou une URL
 

@@ -1996,6 +1996,53 @@ changed | Event on any change of temperature value
  value | Event on a temperature value in degree Celsius 
  
 
+#WebOutputAnalog
+Analog output in a web request
+
+
+Analog output. Useful to control analog output devices connected to calaos.
+
+##Parameters of WebOutputAnalog
+Name | Type | Mandatory | Description
+---- | ---- | --------- | -----------
+path | string | yes | The path where to found the value. This value can take multiple values depending on the file type. If file_type is JSON, the json file downloaded will be read, and the informations will be extracted from the path. for example weather[0]/description, try to read the description value of the 1 element of the array of the weather object.
+If file_type is XML, the path is an xpath expression; Look here for syntax : http://www.w3schools.com/xsl/xpath_syntax.asp If file_type is TEXT, the downloaded file is returned as plain text file, and path must be in the form line/pos/separator Line is read, and is split using separator as delimiters The value returned is the value at pos in the split list. If the separator is not found, the whole line is returned. Example the file contains 
+10.0,10.1,10.2,10.3
+20.0,20.1,20.2,20.3
+If the path is 2/4/, the value returne wil be 20.3
+
+file_type | string | yes | File type of the document. Values can be xml, json or text.
+url | string | yes | URL where to download the document from
+If URL begins with / or with file:// the data is read from the local file
+gui_style | list | yes | GUI style display. This will control the icon displayed on the UI
+enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
+name | string | yes | Name of Input/Output.
+io_type | string | yes | IO type, can be "input", "output", "inout"
+visible | bool | no | Display the Input/Output on all user interfaces if set. Default to true
+unit | string | no | Unit which will be displayed on the UI as a suffix.
+id | string | yes | Unique ID identifying the Input/Output in calaos-server
+step | float | no | Set a step for increment/decrement value. Default is 1.0
+gui_type | string | no | Internal graphical type for all calaos objects. Set automatically, read-only parameter.
+coeff_a | float | no | use in conjunction of coeff_b to apply equation of the form `value_sent = coeff_a * raw_value + coeff_b`. Default value is 1.0.
+coeff_b | float | no | use in conjunction of coeff_a to apply equation of the form `value_sent = coeff_a * raw_value + coeff_b`. Default value is 0.0
+
+##Conditions of WebOutputAnalog
+Name | Description
+---- | -----------
+0 | Event on a specific number value 
+ changed | Event on any change of value 
+ value | Event on a specific value 
+ 
+##Actions of WebOutputAnalog
+Name | Description
+---- | -----------
+dec 1 | Decrement value by value 
+ 0 | Set a specific number value 
+ inc | Increment value with configured step 
+ dec | Decrement value with configured step 
+ inc 1 | Increment value by value 
+ 
+
 #WebOutputLight
 Bool output written to a web document or URL
 
