@@ -142,9 +142,9 @@ void FormDaliMaster::writeCsv()
                         .arg(item->data(0, DialogDaliMasterItem::RoleAddr3).toString())
                         .arg(item->data(0, DialogDaliMasterItem::RoleAddr4).toString());
         }
-        csvTempFile->write(line.toLocal8Bit());
+        csvIoBuffer.write(line.toLocal8Bit());
         if (i < ui->treeWidget->topLevelItemCount() - 1)
-            csvTempFile->write("\r\n");
+            csvIoBuffer.write("\r\n");
     }
 }
 
@@ -167,11 +167,12 @@ void FormDaliMaster::on_pushButtonLoad_clicked()
     QString dir = "PLC";
     cmd_cd = ftp->cd(dir);
 
-    if (csvTempFile)
-        delete csvTempFile;
-    csvTempFile = new QTemporaryFile(this);
-    csvTempFile->open();
-    cmd_file_get = ftp->get(CALAOS_CSV_FILE, csvTempFile);
+    csvData.clear();
+    csvIoBuffer.close();
+    csvIoBuffer.setBuffer(&csvData);
+    csvIoBuffer.open(QBuffer::ReadWrite);
+
+    cmd_file_get = ftp->get(CALAOS_CSV_FILE, &csvIoBuffer);
 
     progress = new QProgressDialog(this);
     progress->setCancelButton(nullptr);
@@ -200,13 +201,15 @@ void FormDaliMaster::on_pushButtonSend_clicked()
     QString dir = "PLC";
     cmd_cd = ftp->cd(dir);
 
-    if (csvTempFile)
-        delete csvTempFile;
-    csvTempFile = new QTemporaryFile(this);
-    csvTempFile->open();
+    csvData.clear();
+    csvIoBuffer.close();
+    csvIoBuffer.setBuffer(&csvData);
+    csvIoBuffer.open(QBuffer::ReadWrite);
+
     writeCsv();
-    csvTempFile->reset();
-    cmd_file_set = ftp->put(csvTempFile, CALAOS_CSV_FILE);
+    csvIoBuffer.close();
+
+    cmd_file_set = ftp->put(csvData, CALAOS_CSV_FILE);
 
     progress = new QProgressDialog(this);
     progress->setCancelButton(nullptr);
@@ -336,4 +339,55 @@ void FormDaliMaster::resetDone()
     ftp = nullptr;
     progress->hide();
     progress->deleteLater();
+}
+
+void FormDaliMaster::on_pushButtonLoadFile_clicked()
+{
+    QString fname = QFileDialog::getOpenFileName(this, tr("Open wago DALI Master file"), CALAOS_CSV_FILE, "CSV File (*.csv)");
+    if (fname.isEmpty())
+        return;
+
+    QFile file(fname);
+    if (!file.open(QFile::ReadOnly))
+    {
+        QMessageBox::warning(this, "Calaos Installer",
+                             tr("Unable to open file %1 with read access").arg(fname));
+        return;
+    }
+
+    QStringList csv;
+    while (!file.atEnd())
+    {
+        QByteArray line = file.readLine();
+        QString fline(line);
+        csv << fline;
+    }
+    file.close();
+    loadCsv(csv);
+}
+
+void FormDaliMaster::on_pushButtonExportFile_clicked()
+{
+    QString fname = QFileDialog::getSaveFileName(this, tr("Save to wago DALI Master file"), CALAOS_CSV_FILE, "CSV File (*.csv)");
+    if (fname.isEmpty())
+        return;
+
+    QFile file(fname);
+    if (!file.open(QFile::WriteOnly | QFile::Truncate))
+    {
+        QMessageBox::warning(this, "Calaos Installer",
+                             tr("Unable to open file %1 with write access").arg(fname));
+        return;
+    }
+
+    csvData.clear();
+    csvIoBuffer.close();
+    csvIoBuffer.setBuffer(&csvData);
+    csvIoBuffer.open(QBuffer::ReadWrite);
+
+    writeCsv();
+    csvIoBuffer.close();
+
+    file.write(csvData);
+    file.close();
 }

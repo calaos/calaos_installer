@@ -86,8 +86,8 @@ public:
 
     static QString getIconFromRoom(Room *room);
 
-    IOBase *addCalaosItemInputSwitch(int item, int hw_type);
-    IOBase *addCalaosItemLight(int item, int hw_type);
+    QVector<IOBase *> addCalaosItemInputSwitch(int item, int hw_type);
+    QVector<IOBase *> addCalaosItemLight(int item, int hw_type);
     IOBase *addCalaosItemString(int item, int hw_type);
     IOBase *addCalaosItemShutter(int item, int hw_type);
     IOBase *addCalaosItemDimmer(int item, int hw_type);

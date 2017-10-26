@@ -799,7 +799,7 @@ void IOXmlReader::readAVR(Room *room)
 bool ProjectManager::saveIOsToFile(QString &file)
 {
     QFile t(file);
-    if (!t.open(QIODevice::WriteOnly | QIODevice::Text))
+    if (!t.open(QIODevice::WriteOnly))
         return false;
 
     IOXmlWriter xmlfile;
@@ -813,7 +813,7 @@ bool ProjectManager::saveIOsToFile(QString &file)
 bool ProjectManager::saveRulesToFile(QString &file)
 {
     QFile t(file);
-    if (!t.open(QIODevice::WriteOnly | QIODevice::Text))
+    if (!t.open(QIODevice::WriteOnly))
         return false;
 
     RuleXmlWriter xmlfile;

@@ -5,6 +5,7 @@
 #include <QTemporaryFile>
 #include "ftp/qftp.h"
 #include <QProgressDialog>
+#include <QBuffer>
 
 namespace Ui {
 class FormDaliMaster;
@@ -34,12 +35,18 @@ private slots:
 
     void resetDone();
 
+    void on_pushButtonLoadFile_clicked();
+
+    void on_pushButtonExportFile_clicked();
+
 private:
     Ui::FormDaliMaster *ui;
 
     QFtp *ftp = nullptr;
 
     QTemporaryFile *csvTempFile = nullptr;
+    QByteArray csvData;
+    QBuffer csvIoBuffer;
 
     QProgressDialog *progress = nullptr;
 

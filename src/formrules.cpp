@@ -799,9 +799,9 @@ void FormRules::setProjectModified(bool modified)
     emit projectModified(project_changed);
 }
 
-IOBase *FormRules::addCalaosItemInputSwitch(int item, int hw_type)
+QVector<IOBase *> FormRules::addCalaosItemInputSwitch(int item, int hw_type)
 {
-    IOBase *input = nullptr;
+    QVector<IOBase *> inputs;
     bool another;
 
     if (hw_type == HW_WAGO)
@@ -812,7 +812,7 @@ IOBase *FormRules::addCalaosItemInputSwitch(int item, int hw_type)
             if (dialog.exec() == QDialog::Accepted)
             {
                 another = dialog.wantAnother();
-                input = dialog.getInput();
+                inputs.append(dialog.getInput());
             }
             else
                 another = false;
@@ -822,16 +822,16 @@ IOBase *FormRules::addCalaosItemInputSwitch(int item, int hw_type)
     {
         DialogNewWebIO dialog(current_room, item);
         if (dialog.exec() == QDialog::Accepted)
-            input = dialog.getInput();
+            inputs.append(dialog.getInput());
     }
 
-    return input;
+    return inputs;
 }
 
-IOBase *FormRules::addCalaosItemLight(int item, int hw_type)
+QVector<IOBase *> FormRules::addCalaosItemLight(int item, int hw_type)
 {
     bool another;
-    IOBase *output = nullptr;
+    QVector<IOBase *> outputs;
 
     if (hw_type == HW_WAGO)
     {
@@ -841,7 +841,7 @@ IOBase *FormRules::addCalaosItemLight(int item, int hw_type)
             if (dialog.exec() == QDialog::Accepted)
             {
                 another = dialog.wantAnother();
-                output = dialog.getOutput();
+                outputs.append(dialog.getOutput());
             }
             else
                 another = false;
@@ -851,10 +851,10 @@ IOBase *FormRules::addCalaosItemLight(int item, int hw_type)
     {
         DialogNewWebIO dialog(current_room, item);
         if (dialog.exec() == QDialog::Accepted)
-            output = dialog.getInput();
+            outputs.append(dialog.getInput());
     }
 
-    return output;
+    return outputs;
 }
 
 IOBase *FormRules::addCalaosItemString(int item, int hw_type)
@@ -1067,6 +1067,7 @@ void FormRules::addCalaosItem(int hw_type, int item)
 
     setProjectModified(true);
     IOBase *res = nullptr;
+    QVector<IOBase *> resList;
 
     switch (item)
     {
@@ -1088,10 +1089,10 @@ void FormRules::addCalaosItem(int hw_type, int item)
         break;
 
     case ITEM_INPUT_SWITCH:
-        res = addCalaosItemInputSwitch(item, hw_type);
+        resList = addCalaosItemInputSwitch(item, hw_type);
         break;
     case ITEM_LIGHT:
-        res = addCalaosItemLight(item, hw_type);
+        resList = addCalaosItemLight(item, hw_type);
         break;
     case ITEM_SHUTTER:
         res = addCalaosItemShutter(item, hw_type);
@@ -1136,13 +1137,16 @@ void FormRules::addCalaosItem(int hw_type, int item)
         QMessageBox::warning(this, tr("Calaos Installer"), QString(tr("Unknown type (%1)")).arg(item));
     }
 
-    if (!res)
-        return;
+    if (res)
+        resList.append(res);
 
-    if (res->is_inout() || res->is_output())
-        addItemOutput(res, current_room, true);
-    else if (res->is_input())
-        addItemInput(res, current_room, true);
+    for (IOBase *ioRes: resList)
+    {
+        if (ioRes->is_inout() || ioRes->is_output())
+            addItemOutput(ioRes, current_room, true);
+        else if (ioRes->is_input())
+            addItemInput(ioRes, current_room, true);
+    }
 }
 
 void FormRules::addCalaosIO(Params &params)
@@ -2791,6 +2795,7 @@ void FormRules::itemTempWizard()
                     Params p;
                     p.Add("name", name.toUtf8().constData());
                     p.Add("type", "InternalInt");
+                    p.Add("save", "true"); //save the value
 
                     consigne = ListeRoom::Instance().createInput(p, room);
 

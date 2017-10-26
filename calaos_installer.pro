@@ -102,7 +102,9 @@ SOURCES += src/main.cpp \
     src/WidgetIPAddr.cpp \
     src/FormDaliMaster.cpp \
     src/DialogDaliMasterItem.cpp \
-    src/DialogDetectxPL.cpp
+    src/DialogDetectxPL.cpp \
+    src/DialogDetectMySensors.cpp \
+    src/MySensors.cpp
 
 HEADERS += src/mainwindow.h \
     src/common/Utils.h \
@@ -195,6 +197,8 @@ HEADERS += src/mainwindow.h \
     src/FormDaliMaster.h \
     src/DialogDaliMasterItem.h \
     src/DialogDetectxPL.h \
+    src/DialogDetectMySensors.h \
+    src/MySensors.h \
     src/EntryHelpers.h \
     src/IEntryHelper.h
 
@@ -250,7 +254,8 @@ FORMS += \
     src/wizards/hue/wizardhue.ui \
     data/FormDaliMaster.ui \
     data/DialogDaliMasterItem.ui \
-    data/DialogDetectxPL.ui
+    data/DialogDetectxPL.ui \
+    data/DialogDetectMySensors.ui
 
 RESOURCES += data/resources.qrc \
     data/textedit.qrc \

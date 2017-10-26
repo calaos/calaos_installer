@@ -18,7 +18,7 @@ class DialogDetectxPL : public QDialog, public IEntryHelper
     Q_OBJECT
 
 public:
-    explicit DialogDetectxPL(QWidget *parent = 0);
+    explicit DialogDetectxPL(const Params &params, QWidget *parent = 0);
     ~DialogDetectxPL();
 
     Params& getParams();
