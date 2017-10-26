@@ -14,7 +14,7 @@ VERSION="$(get_version .)"
 #Only build if the commit we are building is for the last tag
 if [ "$(git rev-list -n 1 $VERSION)" != "$(cat .git/HEAD)"  ]; then
     echo "Not uploading package"
-    return 0
+#    return 0
 fi
 
 QTDIR="/usr/local/opt/qt5"
@@ -58,6 +58,14 @@ fi
 
 #Call fix to change all rpath
 wget_retry https://raw.githubusercontent.com/aurelien-rainone/macdeployqtfix/master/macdeployqtfix.py
+
+pwd
+ls -al
+ls -l build/$APP.app/Contents/MacOS/calaos_installer
+ls -l build/$APP.app/Contents/MacOS/calaos_machinecreator
+ls -l /usr/local/Cellar/qt5/
+ls -l /usr/local/Cellar/qt5/5.*/
+
 python macdeployqtfix.py build/$APP.app/Contents/MacOS/calaos_installer /usr/local/Cellar/qt5/5.*/
 python macdeployqtfix.py build/$APP.app/Contents/MacOS/calaos_machinecreator /usr/local/Cellar/qt5/5.*/
 

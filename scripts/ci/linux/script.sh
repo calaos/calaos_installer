@@ -16,8 +16,9 @@ $MXE_BASE/usr/i686-w64-mingw32.shared.posix/qt5/bin/qmake ../calaos_installer.pr
 make
 
 mkdir machine_creator
-cd machine_creator
+pushd machine_creator
 $MXE_BASE/usr/i686-w64-mingw32.shared.posix/qt5/bin/qmake ../../machine_creator/machine_creator.pro
 make
+popd
 
 popd
