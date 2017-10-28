@@ -18,7 +18,7 @@
     <name>DialogAutoDetect</name>
     <message>
         <location filename="../data/dialogautodetect.ui" line="14"/>
-        <source>Dialog</source>
+        <source>Autodetect</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -237,6 +237,149 @@ p, li { white-space: pre-wrap; }
     </message>
 </context>
 <context>
+    <name>DialogDaliMasterItem</name>
+    <message>
+        <location filename="../data/DialogDaliMasterItem.ui" line="14"/>
+        <source>Dali Item</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../data/DialogDaliMasterItem.ui" line="22"/>
+        <source>Device type:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../data/DialogDaliMasterItem.ui" line="77"/>
+        <source>Address:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../data/DialogDaliMasterItem.ui" line="97"/>
+        <source>Group Address:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../data/DialogDaliMasterItem.ui" line="124"/>
+        <location filename="../data/DialogDaliMasterItem.ui" line="254"/>
+        <source>Address presence:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../data/DialogDaliMasterItem.ui" line="138"/>
+        <location filename="../data/DialogDaliMasterItem.ui" line="268"/>
+        <source>Address light level:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../data/DialogDaliMasterItem.ui" line="152"/>
+        <location filename="../data/DialogDaliMasterItem.ui" line="296"/>
+        <source>Off timeout (ms):</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../data/DialogDaliMasterItem.ui" line="185"/>
+        <source>Address button 1:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../data/DialogDaliMasterItem.ui" line="199"/>
+        <source>Address button 2:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../data/DialogDaliMasterItem.ui" line="206"/>
+        <source>Address button 3:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../data/DialogDaliMasterItem.ui" line="213"/>
+        <source>Address button 4:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../data/DialogDaliMasterItem.ui" line="282"/>
+        <source>Address IR remote control:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../data/DialogDaliMasterItem.ui" line="329"/>
+        <source>Address buttons:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/DialogDaliMasterItem.cpp" line="12"/>
+        <location filename="../src/DialogDaliMasterItem.cpp" line="105"/>
+        <source>Dali Ballast</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/DialogDaliMasterItem.cpp" line="13"/>
+        <location filename="../src/DialogDaliMasterItem.cpp" line="112"/>
+        <source>Dali Ballast Group</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/DialogDaliMasterItem.cpp" line="14"/>
+        <location filename="../src/DialogDaliMasterItem.cpp" line="119"/>
+        <source>Multi Sensor Type 1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/DialogDaliMasterItem.cpp" line="15"/>
+        <location filename="../src/DialogDaliMasterItem.cpp" line="126"/>
+        <source>Push Button Sensor Type 1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/DialogDaliMasterItem.cpp" line="16"/>
+        <location filename="../src/DialogDaliMasterItem.cpp" line="135"/>
+        <source>Multi Sensor Type 2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/DialogDaliMasterItem.cpp" line="17"/>
+        <location filename="../src/DialogDaliMasterItem.cpp" line="142"/>
+        <source>Push Button Sensor Type 2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/DialogDaliMasterItem.cpp" line="106"/>
+        <source>Address: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/DialogDaliMasterItem.cpp" line="113"/>
+        <source>Group address: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/DialogDaliMasterItem.cpp" line="120"/>
+        <source>Presence_address: %1 Light_address: %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/DialogDaliMasterItem.cpp" line="121"/>
+        <location filename="../src/DialogDaliMasterItem.cpp" line="137"/>
+        <source>%1 ms</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/DialogDaliMasterItem.cpp" line="127"/>
+        <source>Button1: %1 Button2: %2 Button3: %3 Button4: %4</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/DialogDaliMasterItem.cpp" line="136"/>
+        <source>Presence_address: %1 Light_address: %2 IR_address: %3</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/DialogDaliMasterItem.cpp" line="143"/>
+        <source>Buttons_address: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>DialogDetectSqueezebox</name>
     <message>
         <location filename="../data/DialogDetectSqueezebox.ui" line="26"/>
@@ -260,6 +403,29 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../data/DialogDetectSqueezebox.ui" line="65"/>
+        <source>Refresh</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>DialogDetectxPL</name>
+    <message>
+        <location filename="../data/DialogDetectxPL.ui" line="26"/>
+        <source>xPL devices detection</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../data/DialogDetectxPL.ui" line="51"/>
+        <source>Source</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../data/DialogDetectxPL.ui" line="56"/>
+        <source>Sensor</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../data/DialogDetectxPL.ui" line="69"/>
         <source>Refresh</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1459,7 +1625,7 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../data/DialogNewVolet.ui" line="109"/>
+        <location filename="../data/DialogNewVolet.ui" line="113"/>
         <source>Up address:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1469,7 +1635,7 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../data/DialogNewVolet.ui" line="245"/>
+        <location filename="../data/DialogNewVolet.ui" line="253"/>
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
@@ -1478,7 +1644,7 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../data/DialogNewVolet.ui" line="305"/>
+        <location filename="../data/DialogNewVolet.ui" line="313"/>
         <source>Please give a valid item name...</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1488,17 +1654,17 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../data/DialogNewVolet.ui" line="142"/>
+        <location filename="../data/DialogNewVolet.ui" line="150"/>
         <source>Down address:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../data/DialogNewVolet.ui" line="162"/>
+        <location filename="../data/DialogNewVolet.ui" line="170"/>
         <source>Down duration (sec.):</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../data/DialogNewVolet.ui" line="152"/>
+        <location filename="../data/DialogNewVolet.ui" line="160"/>
         <source>Up Duration (sec.):</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2807,23 +2973,38 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../data/FormActionTouchscreen.ui" line="145"/>
+        <location filename="../data/FormActionTouchscreen.ui" line="163"/>
         <source>Action</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../data/FormActionTouchscreen.ui" line="152"/>
+        <location filename="../data/FormActionTouchscreen.ui" line="170"/>
         <source>action_type</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../data/FormActionTouchscreen.ui" line="175"/>
+        <location filename="../data/FormActionTouchscreen.ui" line="193"/>
         <source>action_name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../data/FormActionTouchscreen.ui" line="207"/>
+        <location filename="../data/FormActionTouchscreen.ui" line="222"/>
         <source>Action :</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../data/FormActionTouchscreen.ui" line="249"/>
+        <source>Camera to display on screens:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/FormActionTouchscreen.cpp" line="54"/>
+        <source>Display Camera</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/FormActionTouchscreen.cpp" line="57"/>
+        <source>&lt;None&gt;</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3296,8 +3477,135 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/formdali.cpp" line="158"/>
+        <location filename="../src/formdali.cpp" line="160"/>
         <source>Calaos Installer</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>FormDaliMaster</name>
+    <message>
+        <location filename="../data/FormDaliMaster.ui" line="14"/>
+        <source>Form</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../data/FormDaliMaster.ui" line="42"/>
+        <source>Wago Dali Master 753-647</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../data/FormDaliMaster.ui" line="49"/>
+        <source>Use this page to configure connected devices on the DALI bus. You should list all devices (ECG, Sensors, Buttons) and their address. This is required to make the DALI master module work correctly with Calaos.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../data/FormDaliMaster.ui" line="69"/>
+        <source>Load from PLC</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../data/FormDaliMaster.ui" line="80"/>
+        <source>Send to PLC</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../data/FormDaliMaster.ui" line="104"/>
+        <source>Quit</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../data/FormDaliMaster.ui" line="158"/>
+        <source>Edit</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../data/FormDaliMaster.ui" line="169"/>
+        <source>Remove</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../data/FormDaliMaster.ui" line="180"/>
+        <source>Add...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/FormDaliMaster.cpp" line="21"/>
+        <source>Device Type</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/FormDaliMaster.cpp" line="22"/>
+        <source>Addresses</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/FormDaliMaster.cpp" line="23"/>
+        <source>Off Timeout</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/FormDaliMaster.cpp" line="58"/>
+        <location filename="../src/FormDaliMaster.cpp" line="245"/>
+        <location filename="../src/FormDaliMaster.cpp" line="259"/>
+        <location filename="../src/FormDaliMaster.cpp" line="273"/>
+        <location filename="../src/FormDaliMaster.cpp" line="311"/>
+        <source>Calaos Installer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/FormDaliMaster.cpp" line="59"/>
+        <source>Do you want to remove selected item?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/FormDaliMaster.cpp" line="228"/>
+        <source>Connecting to PLC...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/FormDaliMaster.cpp" line="230"/>
+        <source>Login into PLC...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/FormDaliMaster.cpp" line="232"/>
+        <source>Selecting context...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/FormDaliMaster.cpp" line="234"/>
+        <source>Downloading configuration from PLC...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/FormDaliMaster.cpp" line="236"/>
+        <source>Uploading configuration to PLC...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/FormDaliMaster.cpp" line="246"/>
+        <source>Error connecting to PLC</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/FormDaliMaster.cpp" line="260"/>
+        <source>Failed to login into PLC</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/FormDaliMaster.cpp" line="274"/>
+        <source>Failed to switch context on PLC</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/FormDaliMaster.cpp" line="312"/>
+        <source>Failed to send configuration to PLC</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/FormDaliMaster.cpp" line="322"/>
+        <source>Rebooting PLC... Please wait.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3326,7 +3634,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../data/FormRules.ui" line="198"/>
-        <location filename="../src/formrules.cpp" line="630"/>
+        <location filename="../src/formrules.cpp" line="707"/>
         <source>Home</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3373,7 +3681,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../data/FormRules.ui" line="519"/>
-        <location filename="../src/formrules.cpp" line="690"/>
+        <location filename="../src/formrules.cpp" line="767"/>
         <source>Name</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3406,6 +3714,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/formrules.cpp" line="39"/>
         <location filename="../src/formrules.cpp" line="129"/>
+        <location filename="../src/formrules.cpp" line="557"/>
         <source>Switch</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3415,6 +3724,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../src/formrules.cpp" line="252"/>
         <location filename="../src/formrules.cpp" line="313"/>
         <location filename="../src/formrules.cpp" line="436"/>
+        <location filename="../src/formrules.cpp" line="584"/>
         <source>Light</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3444,6 +3754,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../src/formrules.cpp" line="201"/>
         <location filename="../src/formrules.cpp" line="264"/>
         <location filename="../src/formrules.cpp" line="418"/>
+        <location filename="../src/formrules.cpp" line="548"/>
         <source>Temperature sensor</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3512,24 +3823,28 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/formrules.cpp" line="210"/>
         <location filename="../src/formrules.cpp" line="268"/>
+        <location filename="../src/formrules.cpp" line="566"/>
         <source>Analog Input</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/formrules.cpp" line="219"/>
         <location filename="../src/formrules.cpp" line="272"/>
+        <location filename="../src/formrules.cpp" line="593"/>
         <source>Analog Output</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/formrules.cpp" line="228"/>
         <location filename="../src/formrules.cpp" line="276"/>
+        <location filename="../src/formrules.cpp" line="575"/>
         <source>String Input</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/formrules.cpp" line="237"/>
         <location filename="../src/formrules.cpp" line="280"/>
+        <location filename="../src/formrules.cpp" line="602"/>
         <source>String Output</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3597,334 +3912,339 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../src/formrules.cpp" line="536"/>
+        <source>TeleinfoInputAnalog</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/formrules.cpp" line="613"/>
         <source>Camera</source>
         <translation type="unfinished">Cámara</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="540"/>
+        <location filename="../src/formrules.cpp" line="617"/>
         <source>Music zone</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="544"/>
+        <location filename="../src/formrules.cpp" line="621"/>
         <source>Audio amplifier</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="550"/>
+        <location filename="../src/formrules.cpp" line="627"/>
         <source>Internal Variable</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="554"/>
+        <location filename="../src/formrules.cpp" line="631"/>
         <source>Scenario variable</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="558"/>
+        <location filename="../src/formrules.cpp" line="635"/>
         <source>Time/Scheduling Variable</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="565"/>
+        <location filename="../src/formrules.cpp" line="642"/>
         <source>Normal Condition</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="569"/>
+        <location filename="../src/formrules.cpp" line="646"/>
         <source>Condition on output event</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="573"/>
+        <location filename="../src/formrules.cpp" line="650"/>
         <source>Condition at start</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="577"/>
+        <location filename="../src/formrules.cpp" line="654"/>
         <source>Script Condition</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="584"/>
+        <location filename="../src/formrules.cpp" line="661"/>
         <source>Normal Action</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="588"/>
+        <location filename="../src/formrules.cpp" line="665"/>
         <source>E-Mail Action</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="592"/>
+        <location filename="../src/formrules.cpp" line="669"/>
         <source>Script Action</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="596"/>
+        <location filename="../src/formrules.cpp" line="673"/>
         <source>Touchscreen Action</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="690"/>
+        <location filename="../src/formrules.cpp" line="767"/>
         <source>Type</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="972"/>
-        <location filename="../src/formrules.cpp" line="977"/>
-        <location filename="../src/formrules.cpp" line="1050"/>
-        <location filename="../src/formrules.cpp" line="1068"/>
-        <location filename="../src/formrules.cpp" line="1070"/>
-        <location filename="../src/formrules.cpp" line="1956"/>
-        <location filename="../src/formrules.cpp" line="2016"/>
-        <location filename="../src/formrules.cpp" line="2185"/>
-        <location filename="../src/formrules.cpp" line="2231"/>
-        <location filename="../src/formrules.cpp" line="2378"/>
-        <location filename="../src/formrules.cpp" line="2400"/>
-        <location filename="../src/formrules.cpp" line="2416"/>
-        <location filename="../src/formrules.cpp" line="2470"/>
-        <location filename="../src/formrules.cpp" line="2490"/>
+        <location filename="../src/formrules.cpp" line="1058"/>
+        <location filename="../src/formrules.cpp" line="1063"/>
+        <location filename="../src/formrules.cpp" line="1136"/>
+        <location filename="../src/formrules.cpp" line="1154"/>
+        <location filename="../src/formrules.cpp" line="1156"/>
+        <location filename="../src/formrules.cpp" line="2056"/>
+        <location filename="../src/formrules.cpp" line="2116"/>
+        <location filename="../src/formrules.cpp" line="2285"/>
+        <location filename="../src/formrules.cpp" line="2332"/>
+        <location filename="../src/formrules.cpp" line="2479"/>
         <location filename="../src/formrules.cpp" line="2501"/>
-        <location filename="../src/formrules.cpp" line="2541"/>
-        <location filename="../src/formrules.cpp" line="2566"/>
-        <location filename="../src/formrules.cpp" line="2588"/>
-        <location filename="../src/formrules.cpp" line="2604"/>
-        <location filename="../src/formrules.cpp" line="2670"/>
-        <location filename="../src/formrules.cpp" line="2701"/>
-        <location filename="../src/formrules.cpp" line="2855"/>
-        <location filename="../src/formrules.cpp" line="2874"/>
-        <location filename="../src/formrules.cpp" line="2896"/>
-        <location filename="../src/formrules.cpp" line="2914"/>
-        <location filename="../src/formrules.cpp" line="3294"/>
-        <location filename="../src/formrules.cpp" line="3330"/>
-        <location filename="../src/formrules.cpp" line="3391"/>
-        <location filename="../src/formrules.cpp" line="3469"/>
-        <location filename="../src/formrules.cpp" line="3498"/>
+        <location filename="../src/formrules.cpp" line="2517"/>
+        <location filename="../src/formrules.cpp" line="2571"/>
+        <location filename="../src/formrules.cpp" line="2591"/>
+        <location filename="../src/formrules.cpp" line="2602"/>
+        <location filename="../src/formrules.cpp" line="2642"/>
+        <location filename="../src/formrules.cpp" line="2667"/>
+        <location filename="../src/formrules.cpp" line="2689"/>
+        <location filename="../src/formrules.cpp" line="2705"/>
+        <location filename="../src/formrules.cpp" line="2771"/>
+        <location filename="../src/formrules.cpp" line="2802"/>
+        <location filename="../src/formrules.cpp" line="2956"/>
+        <location filename="../src/formrules.cpp" line="2975"/>
+        <location filename="../src/formrules.cpp" line="2997"/>
+        <location filename="../src/formrules.cpp" line="3015"/>
+        <location filename="../src/formrules.cpp" line="3399"/>
+        <location filename="../src/formrules.cpp" line="3435"/>
+        <location filename="../src/formrules.cpp" line="3496"/>
+        <location filename="../src/formrules.cpp" line="3574"/>
+        <location filename="../src/formrules.cpp" line="3603"/>
         <source>Calaos Installer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="972"/>
-        <location filename="../src/formrules.cpp" line="1068"/>
+        <location filename="../src/formrules.cpp" line="1058"/>
+        <location filename="../src/formrules.cpp" line="1154"/>
         <source>You need to add one room at least!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="977"/>
-        <location filename="../src/formrules.cpp" line="1070"/>
+        <location filename="../src/formrules.cpp" line="1063"/>
+        <location filename="../src/formrules.cpp" line="1156"/>
         <source>You must select a room prior adding elements!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="1050"/>
+        <location filename="../src/formrules.cpp" line="1136"/>
         <source>Unknown type (%1)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="1486"/>
+        <location filename="../src/formrules.cpp" line="1572"/>
         <source>Start</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="1491"/>
-        <location filename="../src/formrules.cpp" line="1596"/>
+        <location filename="../src/formrules.cpp" line="1577"/>
+        <location filename="../src/formrules.cpp" line="1682"/>
         <source>Script</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="1591"/>
+        <location filename="../src/formrules.cpp" line="1677"/>
         <source>EMail</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="1601"/>
+        <location filename="../src/formrules.cpp" line="1687"/>
         <source>Touchscreen</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="1681"/>
+        <location filename="../src/formrules.cpp" line="1781"/>
         <source>Display the associated rules</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="1691"/>
+        <location filename="../src/formrules.cpp" line="1791"/>
         <source>Move to...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="1710"/>
-        <location filename="../src/formrules.cpp" line="1923"/>
-        <location filename="../src/formrules.cpp" line="1944"/>
-        <location filename="../src/formrules.cpp" line="3249"/>
+        <location filename="../src/formrules.cpp" line="1810"/>
+        <location filename="../src/formrules.cpp" line="2023"/>
+        <location filename="../src/formrules.cpp" line="2044"/>
+        <location filename="../src/formrules.cpp" line="3352"/>
         <source>Delete</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="1723"/>
+        <location filename="../src/formrules.cpp" line="1823"/>
         <source>Switch on</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="1727"/>
+        <location filename="../src/formrules.cpp" line="1827"/>
         <source>Switch off</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="1736"/>
+        <location filename="../src/formrules.cpp" line="1836"/>
         <source>Display the camera view</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="1748"/>
+        <location filename="../src/formrules.cpp" line="1848"/>
         <source>Convert to normal shutter</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="1754"/>
+        <location filename="../src/formrules.cpp" line="1854"/>
         <source>Convert to smart shutter</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="1763"/>
+        <location filename="../src/formrules.cpp" line="1863"/>
         <source>Up</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="1767"/>
+        <location filename="../src/formrules.cpp" line="1867"/>
         <source>Down</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="1771"/>
+        <location filename="../src/formrules.cpp" line="1871"/>
         <source>Stop</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="1786"/>
+        <location filename="../src/formrules.cpp" line="1886"/>
         <source>Edit the time ranges...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="1795"/>
-        <location filename="../src/formrules.cpp" line="1825"/>
+        <location filename="../src/formrules.cpp" line="1895"/>
+        <location filename="../src/formrules.cpp" line="1925"/>
         <source>Convert in triple switch...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="1799"/>
-        <location filename="../src/formrules.cpp" line="1812"/>
+        <location filename="../src/formrules.cpp" line="1899"/>
+        <location filename="../src/formrules.cpp" line="1912"/>
         <source>Convert in long press switch...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="1808"/>
-        <location filename="../src/formrules.cpp" line="1821"/>
+        <location filename="../src/formrules.cpp" line="1908"/>
+        <location filename="../src/formrules.cpp" line="1921"/>
         <source>Convert in normal switch...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="1834"/>
+        <location filename="../src/formrules.cpp" line="1934"/>
         <source>Link a setpoint...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="1842"/>
-        <location filename="../src/formrules.cpp" line="3245"/>
+        <location filename="../src/formrules.cpp" line="1942"/>
+        <location filename="../src/formrules.cpp" line="3348"/>
         <source>Properties</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="1957"/>
+        <location filename="../src/formrules.cpp" line="2057"/>
         <source>Are you sure to delete item &quot;%1&quot;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="2017"/>
+        <location filename="../src/formrules.cpp" line="2117"/>
         <source>Are you sure to clone the selected rule?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="2185"/>
+        <location filename="../src/formrules.cpp" line="2285"/>
         <source>Error when creating the object!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="2232"/>
+        <location filename="../src/formrules.cpp" line="2333"/>
         <source>Are you sure to delete the rule?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="2379"/>
+        <location filename="../src/formrules.cpp" line="2480"/>
         <source>Are you sure to convert this switch into a triple click switch?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="2400"/>
-        <location filename="../src/formrules.cpp" line="2490"/>
-        <location filename="../src/formrules.cpp" line="2588"/>
-        <location filename="../src/formrules.cpp" line="2874"/>
-        <location filename="../src/formrules.cpp" line="2914"/>
+        <location filename="../src/formrules.cpp" line="2501"/>
+        <location filename="../src/formrules.cpp" line="2591"/>
+        <location filename="../src/formrules.cpp" line="2689"/>
+        <location filename="../src/formrules.cpp" line="2975"/>
+        <location filename="../src/formrules.cpp" line="3015"/>
         <source>Sorry, this is not implemented !</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="2417"/>
-        <location filename="../src/formrules.cpp" line="2502"/>
-        <location filename="../src/formrules.cpp" line="2605"/>
+        <location filename="../src/formrules.cpp" line="2518"/>
+        <location filename="../src/formrules.cpp" line="2603"/>
+        <location filename="../src/formrules.cpp" line="2706"/>
         <source>Do you want to automatically convert the rules?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="2471"/>
+        <location filename="../src/formrules.cpp" line="2572"/>
         <source>Are you sure to convert this switch into a standard switch?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="2541"/>
+        <location filename="../src/formrules.cpp" line="2642"/>
         <source>Warning, the rules with double/triple were not converted, do it manually.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="2567"/>
+        <location filename="../src/formrules.cpp" line="2668"/>
         <source>Are you sure to convert this switch into a long press switch?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="2670"/>
-        <location filename="../src/formrules.cpp" line="2701"/>
+        <location filename="../src/formrules.cpp" line="2771"/>
+        <location filename="../src/formrules.cpp" line="2802"/>
         <source>Internal error!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="2856"/>
+        <location filename="../src/formrules.cpp" line="2957"/>
         <source>Do you want to convert to a smart shutter?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="2897"/>
+        <location filename="../src/formrules.cpp" line="2998"/>
         <source>Do you want to convert to normal shutter?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="3242"/>
+        <location filename="../src/formrules.cpp" line="3345"/>
         <source>Clone rule</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="3294"/>
+        <location filename="../src/formrules.cpp" line="3399"/>
         <source>You must select an input.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="3330"/>
-        <location filename="../src/formrules.cpp" line="3391"/>
+        <location filename="../src/formrules.cpp" line="3435"/>
+        <location filename="../src/formrules.cpp" line="3496"/>
         <source>You must select an output.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="3470"/>
-        <location filename="../src/formrules.cpp" line="3499"/>
+        <location filename="../src/formrules.cpp" line="3575"/>
+        <location filename="../src/formrules.cpp" line="3604"/>
         <source>Are you sure to delete the item &quot;%1&quot;</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3947,21 +4267,22 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../data/MainWindow.ui" line="14"/>
         <location filename="../src/mainwindow.cpp" line="14"/>
-        <location filename="../src/mainwindow.cpp" line="164"/>
-        <location filename="../src/mainwindow.cpp" line="200"/>
-        <location filename="../src/mainwindow.cpp" line="271"/>
-        <location filename="../src/mainwindow.cpp" line="301"/>
-        <location filename="../src/mainwindow.cpp" line="429"/>
-        <location filename="../src/mainwindow.cpp" line="474"/>
+        <location filename="../src/mainwindow.cpp" line="165"/>
+        <location filename="../src/mainwindow.cpp" line="201"/>
+        <location filename="../src/mainwindow.cpp" line="272"/>
+        <location filename="../src/mainwindow.cpp" line="302"/>
+        <location filename="../src/mainwindow.cpp" line="432"/>
         <location filename="../src/mainwindow.cpp" line="477"/>
         <location filename="../src/mainwindow.cpp" line="480"/>
         <location filename="../src/mainwindow.cpp" line="483"/>
-        <location filename="../src/mainwindow.cpp" line="507"/>
-        <location filename="../src/mainwindow.cpp" line="562"/>
-        <location filename="../src/mainwindow.cpp" line="572"/>
-        <location filename="../src/mainwindow.cpp" line="648"/>
-        <location filename="../src/mainwindow.cpp" line="651"/>
-        <location filename="../src/mainwindow.cpp" line="656"/>
+        <location filename="../src/mainwindow.cpp" line="486"/>
+        <location filename="../src/mainwindow.cpp" line="510"/>
+        <location filename="../src/mainwindow.cpp" line="565"/>
+        <location filename="../src/mainwindow.cpp" line="575"/>
+        <location filename="../src/mainwindow.cpp" line="655"/>
+        <location filename="../src/mainwindow.cpp" line="658"/>
+        <location filename="../src/mainwindow.cpp" line="663"/>
+        <location filename="../src/mainwindow.cpp" line="677"/>
         <source>Calaos Installer</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4020,6 +4341,7 @@ p, li { white-space: pre-wrap; }
 &lt;table border=&quot;0&quot; style=&quot;-qt-table-type: root; margin-top:4px; margin-bottom:4px; margin-left:4px; margin-right:4px;&quot;&gt;
 &lt;tr&gt;
 &lt;td style=&quot;border: none;&quot;&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;.Helvetica Neue DeskInterface&apos;; font-size:13pt;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;Sans Serif&apos;; font-size:9pt;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
@@ -4046,182 +4368,187 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../data/MainWindow.ui" line="488"/>
+        <location filename="../data/MainWindow.ui" line="508"/>
         <source>File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../data/MainWindow.ui" line="492"/>
+        <location filename="../data/MainWindow.ui" line="512"/>
         <source>Create print report</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../data/MainWindow.ui" line="514"/>
+        <location filename="../data/MainWindow.ui" line="534"/>
         <source>Wago PLC</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../data/MainWindow.ui" line="527"/>
+        <location filename="../data/MainWindow.ui" line="548"/>
         <source>Calaos Server</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../data/MainWindow.ui" line="542"/>
+        <location filename="../data/MainWindow.ui" line="563"/>
         <source>Open a projet...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../data/MainWindow.ui" line="551"/>
+        <location filename="../data/MainWindow.ui" line="572"/>
         <source>Save project as...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../data/MainWindow.ui" line="560"/>
+        <location filename="../data/MainWindow.ui" line="581"/>
         <source>New projet...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../data/MainWindow.ui" line="569"/>
+        <location filename="../data/MainWindow.ui" line="590"/>
         <source>Save</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../data/MainWindow.ui" line="572"/>
+        <location filename="../data/MainWindow.ui" line="593"/>
         <source>Ctrl+S</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../data/MainWindow.ui" line="581"/>
+        <location filename="../data/MainWindow.ui" line="602"/>
         <source>Connect</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../data/MainWindow.ui" line="593"/>
+        <location filename="../data/MainWindow.ui" line="614"/>
         <source>Disconnect</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../data/MainWindow.ui" line="605"/>
+        <location filename="../data/MainWindow.ui" line="626"/>
         <source>Send failsafe program</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../data/MainWindow.ui" line="614"/>
+        <location filename="../data/MainWindow.ui" line="635"/>
         <source>Programmer le serveur</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../data/MainWindow.ui" line="623"/>
+        <location filename="../data/MainWindow.ui" line="644"/>
         <source>Download project from Calaos Server...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../data/MainWindow.ui" line="632"/>
+        <location filename="../data/MainWindow.ui" line="653"/>
         <source>Send project to Calaos Server...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../data/MainWindow.ui" line="644"/>
+        <location filename="../data/MainWindow.ui" line="665"/>
         <source>DALI configuration...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../data/MainWindow.ui" line="649"/>
+        <location filename="../data/MainWindow.ui" line="670"/>
         <source>By rooms...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../data/MainWindow.ui" line="654"/>
+        <location filename="../data/MainWindow.ui" line="675"/>
         <source>By inputs/outputs</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../data/MainWindow.ui" line="666"/>
+        <location filename="../data/MainWindow.ui" line="687"/>
         <source>Upgrade PLC firmware</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../data/MainWindow.ui" line="671"/>
+        <location filename="../data/MainWindow.ui" line="692"/>
         <source>Create New Image</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../data/MainWindow.ui" line="683"/>
+        <location filename="../data/MainWindow.ui" line="704"/>
         <source>Set DMX4ALL IP Address</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../data/MainWindow.ui" line="716"/>
+        <source>Upload Dali Master 647 CSV configuration</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../src/mainwindow.cpp" line="51"/>
-        <location filename="../src/mainwindow.cpp" line="419"/>
+        <location filename="../src/mainwindow.cpp" line="422"/>
         <source>Disconnected.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="63"/>
+        <location filename="../src/mainwindow.cpp" line="64"/>
         <source>New</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="165"/>
-        <location filename="../src/mainwindow.cpp" line="201"/>
-        <location filename="../src/mainwindow.cpp" line="272"/>
-        <location filename="../src/mainwindow.cpp" line="302"/>
+        <location filename="../src/mainwindow.cpp" line="166"/>
+        <location filename="../src/mainwindow.cpp" line="202"/>
+        <location filename="../src/mainwindow.cpp" line="273"/>
+        <location filename="../src/mainwindow.cpp" line="303"/>
         <source>The project was modified, do you want to save it?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="185"/>
-        <location filename="../src/mainwindow.cpp" line="279"/>
+        <location filename="../src/mainwindow.cpp" line="186"/>
+        <location filename="../src/mainwindow.cpp" line="280"/>
         <source>Choose a project folder...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="213"/>
+        <location filename="../src/mainwindow.cpp" line="214"/>
         <source>Nouveau</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="238"/>
+        <location filename="../src/mainwindow.cpp" line="239"/>
         <source>Project saved: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="246"/>
+        <location filename="../src/mainwindow.cpp" line="247"/>
         <source>Loading in progress...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="263"/>
+        <location filename="../src/mainwindow.cpp" line="264"/>
         <source>Project loaded: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="360"/>
+        <location filename="../src/mainwindow.cpp" line="361"/>
         <source>Please wait...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="364"/>
+        <location filename="../src/mainwindow.cpp" line="365"/>
         <source>Creating %p%</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="368"/>
+        <location filename="../src/mainwindow.cpp" line="369"/>
         <source>Loading PLC %p%</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="372"/>
+        <location filename="../src/mainwindow.cpp" line="373"/>
         <source>Canceled</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="406"/>
+        <location filename="../src/mainwindow.cpp" line="408"/>
         <source>Connected (%1)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="430"/>
+        <location filename="../src/mainwindow.cpp" line="433"/>
         <source>The WAGO PLC have to be upgraded.
 
 It is actually running the version %1, the last version is %2.
@@ -4231,57 +4558,58 @@ Do you want to do it now?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="474"/>
+        <location filename="../src/mainwindow.cpp" line="477"/>
         <source>Connection failed!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="477"/>
+        <location filename="../src/mainwindow.cpp" line="480"/>
         <source>Wago PLC is not connected!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="480"/>
+        <location filename="../src/mainwindow.cpp" line="483"/>
         <source>Wait timeout reached, error in communication!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="483"/>
+        <location filename="../src/mainwindow.cpp" line="486"/>
         <source>Unknown error!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="507"/>
+        <location filename="../src/mainwindow.cpp" line="510"/>
+        <location filename="../src/mainwindow.cpp" line="677"/>
         <source>DALI configuration tool is not available on your PLC!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="563"/>
+        <location filename="../src/mainwindow.cpp" line="566"/>
         <source>Your PLC can be upgraded to the latest version right now, do it?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="572"/>
+        <location filename="../src/mainwindow.cpp" line="575"/>
         <source>Wago PLC upgrade not supported on your PLC!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="628"/>
+        <location filename="../src/mainwindow.cpp" line="635"/>
         <source>Please enter the IP address of the DMX4ALL:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="648"/>
+        <location filename="../src/mainwindow.cpp" line="655"/>
         <source>IP Address changed successfully</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="651"/>
+        <location filename="../src/mainwindow.cpp" line="658"/>
         <source>Wrong IP Address!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="656"/>
+        <location filename="../src/mainwindow.cpp" line="663"/>
         <source>DMX4ALL configuration is not available on your PLC!</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4417,17 +4745,17 @@ The wizard is going to create 2 rules that would start or stop the heating syste
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/projectmanager.cpp" line="489"/>
+        <location filename="../src/projectmanager.cpp" line="491"/>
         <source>This file is not correctly formated!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/projectmanager.cpp" line="573"/>
+        <location filename="../src/projectmanager.cpp" line="575"/>
         <source>Input with id &quot;%1&quot; already exists!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/projectmanager.cpp" line="703"/>
+        <location filename="../src/projectmanager.cpp" line="705"/>
         <source>Output with id &quot;%1&quot; already exists!</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4733,29 +5061,29 @@ The wizard is going to create 2 rules that would start or stop the heating syste
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/WidgetIOProperties.cpp" line="57"/>
-        <location filename="../src/WidgetIOProperties.cpp" line="65"/>
-        <location filename="../src/WidgetIOProperties.cpp" line="95"/>
+        <location filename="../src/WidgetIOProperties.cpp" line="59"/>
+        <location filename="../src/WidgetIOProperties.cpp" line="67"/>
+        <location filename="../src/WidgetIOProperties.cpp" line="97"/>
         <source>Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/WidgetIOProperties.cpp" line="57"/>
+        <location filename="../src/WidgetIOProperties.cpp" line="59"/>
         <source>Failed to load IO documentation from %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/WidgetIOProperties.cpp" line="65"/>
+        <location filename="../src/WidgetIOProperties.cpp" line="67"/>
         <source>Failed to parse JSON IO documentation from %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/WidgetIOProperties.cpp" line="95"/>
+        <location filename="../src/WidgetIOProperties.cpp" line="97"/>
         <source>IO type %1 is not found in %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/WidgetIOProperties.cpp" line="123"/>
+        <location filename="../src/WidgetIOProperties.cpp" line="125"/>
         <source>Revert modification</source>
         <translation type="unfinished"></translation>
     </message>

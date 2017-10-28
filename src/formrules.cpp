@@ -1793,7 +1793,7 @@ void FormRules::showPopup_tree(const QPoint point)
             (itoutput || itinput))
         {
             QMenu *moveMenu = item_menu.addMenu(tr("Move to..."));
-            Room *current;
+            Room *current = nullptr;
 
             if (itinput) current = ListeRoom::Instance().searchRoomByInput(itinput->getInput());
             if (itoutput) current = ListeRoom::Instance().searchRoomByOutput(itoutput->getOutput());

@@ -50,7 +50,7 @@ void WidgetIOProperties::createIOProperties()
     ui->mainLayout->setColumnMinimumWidth(0, 150);
     ui->optionLayout->setColumnMinimumWidth(0, 150);
 
-    QString lang = "en"; //TODO change language here
+    QString lang = Utils::GetLocale();
     QString rsc = QString(":/doc/%1/io_doc.json").arg(lang);
 
     QFile f(rsc);
