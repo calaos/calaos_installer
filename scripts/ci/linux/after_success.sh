@@ -47,7 +47,7 @@ done
 pwd
 ls -al
 
-pushd win
+pushd win32
 
 echo "#define MyAppVersion \"$VERSION\"" > build.iss
 cat installer.iss >> build.iss
