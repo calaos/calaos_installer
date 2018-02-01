@@ -59,17 +59,6 @@ fi
 #Call fix to change all rpath
 wget_retry https://raw.githubusercontent.com/aurelien-rainone/macdeployqtfix/master/macdeployqtfix.py
 
-pwd
-ls -al
-ls -l build/$APP.app/Contents/MacOS/calaos_installer
-ls -l build/$APP.app/Contents/MacOS/calaos_machinecreator
-ls -l /usr/local/Cellar/qt5/
-ls -l /usr/local/Cellar/qt5/5.*/
-ls -l /usr/local/opt/qt5/
-ls -l /usr/local/opt/qt5/5.*/
-echo brew prefix: $(brew --prefix qt@5.10)
-ls -l $(brew --prefix qt@5.10)
-
 python macdeployqtfix.py build/$APP.app/Contents/MacOS/calaos_installer $(brew --prefix qt@5.10)
 python macdeployqtfix.py build/$APP.app/Contents/MacOS/calaos_machinecreator $(brew --prefix qt@5.10)
 
