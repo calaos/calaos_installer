@@ -439,7 +439,7 @@ void RuleXmlWriter::writeAction(Rule *rule)
             attr.append("type", "lua");
             writeAttributes(attr);
 
-            writeCDATA(QString::fromUtf8(action->getScript().c_str()));
+            writeCDATA(QString::fromUtf8(action->getScript().c_str()).replace('\r', ""));
 
             writeEndElement();
             writeEndElement();
