@@ -36,6 +36,10 @@ for f in $MXE_BIN/bin/libgcc_s_sjlj-1.dll \
          $MXE_BIN/qt5/bin/Qt5Network.dll \
          $MXE_BIN/qt5/bin/Qt5Widgets.dll \
          $MXE_BIN/qt5/bin/Qt5WebSockets.dll \
+         $MXE_BIN/qt5/bin/Qt5Xml.dll \
+         $MXE_BIN/qt5/bin/Qt5XmlPatterns.dll \
+         $MXE_BIN/qt5/bin/Qt5PrintSupport.dll \
+         $MXE_BIN/qt5/plugins/printsupport \
          $MXE_BIN/qt5/plugins/imageformats \
          $MXE_BIN/qt5/plugins/platforms \
          $HOME/build/calaos/calaos_installer/build/release/calaos_installer.exe \
