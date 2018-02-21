@@ -131,6 +131,10 @@ void Rule::Print()
         {
             cout << "  * Action Touchscreen" << endl;
         }
+        else if (a->getType() == ACTION_PUSH)
+        {
+            cout << "  * Action Push" << endl;
+        }
         else
         {
             cout << "  * Action UNKNOWN !" << endl;

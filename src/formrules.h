@@ -30,6 +30,7 @@
 #include <FormActionMail.h>
 #include <FormActionScript.h>
 #include <FormActionTouchscreen.h>
+#include <FormActionPush.h>
 
 #include <qtreewidget_addition.h>
 
@@ -125,6 +126,7 @@ private:
     FormActionMail *popupActionMail;
     FormActionScript *popupActionScript;
     FormActionTouchscreen *popupActionTouchscreen;
+    FormActionPush *popupActionPush;
 
 signals:
     void projectModified(bool modified);

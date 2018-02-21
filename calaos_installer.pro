@@ -104,7 +104,8 @@ SOURCES += src/main.cpp \
     src/DialogDaliMasterItem.cpp \
     src/DialogDetectxPL.cpp \
     src/DialogDetectMySensors.cpp \
-    src/MySensors.cpp
+    src/MySensors.cpp \
+    src/FormActionPush.cpp
 
 HEADERS += src/mainwindow.h \
     src/common/Utils.h \
@@ -200,7 +201,8 @@ HEADERS += src/mainwindow.h \
     src/DialogDetectMySensors.h \
     src/MySensors.h \
     src/EntryHelpers.h \
-    src/IEntryHelper.h
+    src/IEntryHelper.h \
+    src/FormActionPush.h
 
 
 FORMS += \
@@ -255,7 +257,8 @@ FORMS += \
     data/FormDaliMaster.ui \
     data/DialogDaliMasterItem.ui \
     data/DialogDetectxPL.ui \
-    data/DialogDetectMySensors.ui
+    data/DialogDetectMySensors.ui \
+    data/FormActionPush.ui
 
 RESOURCES += data/resources.qrc \
     data/textedit.qrc \

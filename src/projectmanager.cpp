@@ -457,6 +457,24 @@ void RuleXmlWriter::writeAction(Rule *rule)
             writeEndElement();
             break;
         }
+        case ACTION_PUSH:
+        {
+            writeStartElement("http://www.calaos.fr", "action");
+            QXmlStreamAttributes attr;
+            attr.append("type", "push");
+            writeAttributes(attr);
+
+            writeStartElement("http://www.calaos.fr", "push");
+            attr.clear();
+            attr.append("attachment", QString::fromUtf8(action->getMailAttachment().c_str()));
+            writeAttributes(attr);
+
+            writeCDATA(QString::fromUtf8(action->getMailMessage().c_str()).replace('\r', ""));
+
+            writeEndElement();
+            writeEndElement();
+            break;
+        }
         }
 
     }
@@ -1036,6 +1054,18 @@ bool ProjectManager::loadRulesFromFile(QString &file)
 
                 string tact = node_action.attribute("action").toUtf8().data();
                 action->setTouchscreenAction(tact);
+            }
+            else if (action_type == "push")
+            {
+                action = new Action(ACTION_PUSH);
+
+                QDomElement node_mail = node_action.firstChildElement("calaos:push");
+                string mail_attachment = node_mail.attribute("attachment").toUtf8().data();
+
+                action->setMailAttachment(mail_attachment);
+
+                QDomCDATASection data = node_mail.firstChild().toCDATASection();
+                action->setMailMessage(data.data().toUtf8().data());
             }
 
             if (action)

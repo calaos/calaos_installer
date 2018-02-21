@@ -19,7 +19,8 @@ FormRules::FormRules(QWidget *parent) :
     popupActionStd(new FormActionStd(this)),
     popupActionMail(new FormActionMail(this)),
     popupActionScript(new FormActionScript(this)),
-    popupActionTouchscreen(new FormActionTouchscreen(this))
+    popupActionTouchscreen(new FormActionTouchscreen(this)),
+    popupActionPush(new FormActionPush(this))
 {
     ui->setupUi(this);
 
@@ -674,6 +675,9 @@ FormRules::FormRules(QWidget *parent) :
     action->setIcon(QIcon(":/img/icon_rule.png"));
     connect(action, &QAction::triggered, [=]() { addAction(ACTION_TOUCHSCREEN); });
 
+    action = addActionMenu->addAction(tr("Push Notification Action"));
+    action->setIcon(QIcon(":/img/icon_rule_mail.png"));
+    connect(action, &QAction::triggered, [=]() { addAction(ACTION_PUSH); });
 
     connect(ui->tree_home, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(showPopup_tree(QPoint)));
     connect(ui->tree_condition, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(showPopup_condition(QPoint)));
@@ -1705,6 +1709,11 @@ void FormRules::updateItemAction(QTreeWidgetItem *item, Action *action)
 
         item->setData(1, Qt::DisplayRole, s);
         item->setData(0, Qt::DecorationRole, QIcon(":/img/icon_rule.png"));
+    }
+    else if (action->getType() == ACTION_PUSH)
+    {
+        item->setData(0, Qt::DisplayRole, tr("Push Notification"));
+        item->setData(0, Qt::DecorationRole, QIcon(":/img/icon_rule_mail.png"));
     }
 
     item->treeWidget()->resizeColumnToContents(0);
@@ -3311,6 +3320,14 @@ void FormRules::on_tree_action_itemClicked(QTreeWidgetItem* item, int column)
 
         break;
     }
+    case ACTION_PUSH:
+    {
+        popupActionPush->setAction(item, rule, action);
+        popupActionPush->layout()->update();
+        popupActionPush->move(ui->tree_action->mapToGlobal(QPoint(0 - popupActionPush->width(), 0)));
+        popupActionPush->setFocus();
+        popupActionPush->show();
+    }
     }
 
 }
@@ -3562,6 +3579,19 @@ void FormRules::addAction(int type)
         if (!rule) return;
 
         Action *action = new Action(ACTION_TOUCHSCREEN);
+
+        rule->AddAction(action);
+
+        addItemAction(action, true, true);
+
+        setProjectModified(true);
+    }
+    else if (type == ACTION_PUSH)
+    {
+        Rule *rule = getCurrentRule();
+        if (!rule) return;
+
+        Action *action = new Action(ACTION_PUSH);
 
         rule->AddAction(action);
 
