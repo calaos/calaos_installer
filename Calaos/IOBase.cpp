@@ -128,6 +128,7 @@ REGISTER_INOUT(Gadspot, "camera", TSTRING, "0")
 REGISTER_INOUT(Planet, "camera", TSTRING, "0")
 REGISTER_INOUT(StandardMjpeg, "camera", TSTRING, "0")
 REGISTER_INOUT(standard_mjpeg, "camera", TSTRING, "0")
+REGISTER_INOUT(SynoSurveillanceStation, "camera", TSTRING, "0")
 
 
 void IOBase::buildInputSourcesList()

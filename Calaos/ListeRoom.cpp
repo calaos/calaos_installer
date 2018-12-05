@@ -507,12 +507,9 @@ IOBase* ListeRoom::createCamera(Params param, Room *room)
 {
     if (!param.Exists("name")) param.Add("name", "Camera");
     if (!param.Exists("type")) param.Add("type", "axis");
-    if (!param.Exists("host")) param.Add("host", "192.168.1.10");
-    if (!param.Exists("port")) param.Add("port", "80");
     if (!param.Exists("oid")) param.Add("oid", ListeRoom::get_new_id("output_"));
     if (!param.Exists("iid")) param.Add("iid", ListeRoom::get_new_id("input_"));
     if (!param.Exists("id")) param.Add("id", param["iid"] + "_" + param["oid"]);
-    if (!param.Exists("model")) param.Add("model", "");
 
     IOBase *output = IOFactory::Instance().CreateIO(param["type"], param, IOBase::IO_BOTH);
     if (output) room->AddOutput(output);

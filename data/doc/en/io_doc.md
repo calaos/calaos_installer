@@ -31,12 +31,21 @@ SPANK SPANK SPANK : naughty programmer ! You did not add documentation for this 
 Go document it in your code or you will burn in hell!
 
 
+
+Axis IP Camera/Encoder. Camera can be viewed directly inside calaos and used in rules.
+
 ##Parameters of Axis
 Name | Type | Mandatory | Description
 ---- | ---- | --------- | -----------
+resolution | string | no | Resolution to use
+tilt_framesize | string | no | 
+ptz | bool | no | Set to true if camera has PTZ support
+model | string | yes | Camera model/chanel to use
 log_history | bool | no | If enabled, write an entry in the history event log for this IO
+zoom_step | string | no | 
 name | string | yes | Name of Input/Output.
 gui_type | string | no | Internal graphical type for all calaos objects. Set automatically, read-only parameter.
+pan_framesize | string | no | 
 id | string | yes | Unique ID identifying the Input/Output in calaos-server
 visible | bool | no | Display the Input/Output on all user interfaces if set. Default to true
 enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
@@ -95,6 +104,9 @@ down_blue 5 | Decrease intensity by X percent of blue channel
 SPANK SPANK SPANK : naughty programmer ! You did not add documentation for this IO, that's BAD :'(
 Go document it in your code or you will burn in hell!
 
+
+
+Gadspot IP Camera. Camera can be viewed directly inside calaos and used in rules.
 
 ##Parameters of Gadspot
 Name | Type | Mandatory | Description
@@ -1771,11 +1783,17 @@ SPANK SPANK SPANK : naughty programmer ! You did not add documentation for this 
 Go document it in your code or you will burn in hell!
 
 
+
+Planet IP Camera/Encoder. Camera can be viewed directly inside calaos and used in rules.
+
 ##Parameters of Planet
 Name | Type | Mandatory | Description
 ---- | ---- | --------- | -----------
+password | string | no | Password for user
+model | string | yes | Camera model (ICA-210, ICA-210W, ICA-300, ICA-302, ICA-500) to use
 log_history | bool | no | If enabled, write an entry in the history event log for this IO
 name | string | yes | Name of Input/Output.
+username | string | no | Username for accessing the camera
 gui_type | string | no | Internal graphical type for all calaos objects. Set automatically, read-only parameter.
 id | string | yes | Unique ID identifying the Input/Output in calaos-server
 visible | bool | no | Display the Input/Output on all user interfaces if set. Default to true
@@ -1863,10 +1881,16 @@ SPANK SPANK SPANK : naughty programmer ! You did not add documentation for this 
 Go document it in your code or you will burn in hell!
 
 
+
+MJPEG/Jpeg IP Camera. Camera can be viewed directly inside calaos and used in rules.
+
 ##Parameters of standard_mjpeg
 Name | Type | Mandatory | Description
 ---- | ---- | --------- | -----------
+ptz | bool | no | Set to true if camera has PTZ support
+url_jpeg | string | yes | URL for snapshot in jpeg format
 log_history | bool | no | If enabled, write an entry in the history event log for this IO
+url_mjpeg | string | no | URL for mjpeg stream support
 name | string | yes | Name of Input/Output.
 gui_type | string | no | Internal graphical type for all calaos objects. Set automatically, read-only parameter.
 id | string | yes | Unique ID identifying the Input/Output in calaos-server
@@ -1879,11 +1903,41 @@ SPANK SPANK SPANK : naughty programmer ! You did not add documentation for this 
 Go document it in your code or you will burn in hell!
 
 
+
+MJPEG/Jpeg IP Camera. Camera can be viewed directly inside calaos and used in rules.
+
 ##Parameters of StandardMjpeg
 Name | Type | Mandatory | Description
 ---- | ---- | --------- | -----------
+ptz | bool | no | Set to true if camera has PTZ support
+url_jpeg | string | yes | URL for snapshot in jpeg format
+log_history | bool | no | If enabled, write an entry in the history event log for this IO
+url_mjpeg | string | no | URL for mjpeg stream support
+name | string | yes | Name of Input/Output.
+gui_type | string | no | Internal graphical type for all calaos objects. Set automatically, read-only parameter.
+id | string | yes | Unique ID identifying the Input/Output in calaos-server
+visible | bool | no | Display the Input/Output on all user interfaces if set. Default to true
+enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
+io_type | string | yes | IO type, can be "input", "output", "inout"
+
+#SynoSurveillanceStation - UNDOCUMENTED IO
+SPANK SPANK SPANK : naughty programmer ! You did not add documentation for this IO, that's BAD :'(
+Go document it in your code or you will burn in hell!
+
+
+
+Synology Surveillance Station IP Camera. Camera can be viewed directly inside calaos and used in rules.
+
+##Parameters of SynoSurveillanceStation
+Name | Type | Mandatory | Description
+---- | ---- | --------- | -----------
+camera_profile | int | no | Profile to use for snapshot. 0- High quality, 1- Balanced, 2- Low bandwidth
+camera_id | string | yes | ID of the camera
+password | string | yes | Password for user
 log_history | bool | no | If enabled, write an entry in the history event log for this IO
 name | string | yes | Name of Input/Output.
+username | string | yes | Username which can access Surveillance Station
+url | string | yes | Full url to Synology nas. Ex: https://192.168.0.22:5000
 gui_type | string | no | Internal graphical type for all calaos objects. Set automatically, read-only parameter.
 id | string | yes | Unique ID identifying the Input/Output in calaos-server
 visible | bool | no | Display the Input/Output on all user interfaces if set. Default to true
