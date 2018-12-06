@@ -1,8 +1,9 @@
 #!/bin/bash
 set -ev
 
-pushd $HOME
-tar xJf mxe_qt591.tar.xz
-popd
+docker run -t --name winbuilder -d \
+    -v $(pwd):/calaos_installer \
+    calaos/winbuilder
 
+docker ps
 
