@@ -15,6 +15,6 @@ fi
 
 docker exec winbuilder /bin/bash /scripts/package_installer.sh
 
-upload_file packages/$FILENAME.exe $(sha256sum build/$FILENAME.exe | cut -d' ' -f1) "experimental/calaos_installer/windows"
+upload_file packages/$FILENAME.exe $(sha256sum packages/$FILENAME.exe | cut -d' ' -f1) "experimental/calaos_installer/windows"
 
 popd
