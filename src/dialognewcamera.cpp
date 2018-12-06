@@ -133,6 +133,7 @@ void DialogNewCamera::on_pushButtonConnectDsm_clicked()
             {
                 isRunning = false;
                 ui->pushButtonConnectDsm->setEnabled(true);
+                QMessageBox::warning(this, tr("Calaos Installer"), tr("Failed to get api to login"));
                 return;
             }
 
@@ -158,6 +159,8 @@ void DialogNewCamera::tryLogin()
                 apiSid.clear();
                 listUrl.clear();
                 isRunning = false;
+                ui->pushButtonConnectDsm->setEnabled(true);
+                QMessageBox::warning(this, tr("Calaos Installer"), tr("Failed to login"));
                 return;
             }
 
@@ -184,6 +187,7 @@ void DialogNewCamera::tryGetList()
                 listUrl.clear();
                 isRunning = false;
                 ui->pushButtonConnectDsm->setEnabled(true);
+                QMessageBox::warning(this, tr("Calaos Installer"), tr("Failed to get api to list cameras"));
                 return;
             }
 
@@ -247,6 +251,9 @@ void DialogNewCamera::listCameras(std::function<void(const QJsonArray &arr)> dat
         QByteArray bytes = reply->readAll();
         bool err;
         QJsonObject jdata = parseResult(bytes, err);
+
+        if (err)
+            QMessageBox::warning(this, tr("Calaos Installer"), tr("Failed to list cameras"));
 
         if (err || !jdata["cameras"].isArray())
         {
