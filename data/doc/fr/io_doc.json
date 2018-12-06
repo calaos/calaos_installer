@@ -115,9 +115,38 @@
         ]
     },
     "Axis": {
-        "description": "",
+        "description": " Axis IP Camera/Encoder. Camera can be viewed directly inside calaos and used in rules.",
         "alias": [],
         "parameters": [
+            {
+                "description": "Resolution to use",
+                "mandatory": "false",
+                "name": "resolution",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "",
+                "mandatory": "false",
+                "name": "tilt_framesize",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "default": "false",
+                "description": "Set to true if camera has PTZ support",
+                "mandatory": "false",
+                "name": "ptz",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "description": "Camera model/chanel to use",
+                "mandatory": "true",
+                "name": "model",
+                "readonly": "false",
+                "type": "string"
+            },
             {
                 "default": "false",
                 "description": "If enabled, write an entry in the history event log for this IO",
@@ -125,6 +154,13 @@
                 "name": "log_history",
                 "readonly": "false",
                 "type": "bool"
+            },
+            {
+                "description": "",
+                "mandatory": "false",
+                "name": "zoom_step",
+                "readonly": "false",
+                "type": "string"
             },
             {
                 "description": "Nom de l'entrée/sortie.",
@@ -138,6 +174,13 @@
                 "mandatory": "false",
                 "name": "gui_type",
                 "readonly": "true",
+                "type": "string"
+            },
+            {
+                "description": "",
+                "mandatory": "false",
+                "name": "pan_framesize",
+                "readonly": "false",
                 "type": "string"
             },
             {
@@ -326,7 +369,7 @@
         ]
     },
     "Gadspot": {
-        "description": "",
+        "description": " Gadspot IP Camera. Camera can be viewed directly inside calaos and used in rules.",
         "alias": [],
         "parameters": [
             {
@@ -6433,9 +6476,23 @@
         "actions": []
     },
     "Planet": {
-        "description": "",
+        "description": " Planet IP Camera/Encoder. Camera can be viewed directly inside calaos and used in rules.",
         "alias": [],
         "parameters": [
+            {
+                "description": "Password for user",
+                "mandatory": "false",
+                "name": "password",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "Camera model (ICA-210, ICA-210W, ICA-300, ICA-302, ICA-500) to use",
+                "mandatory": "true",
+                "name": "model",
+                "readonly": "false",
+                "type": "string"
+            },
             {
                 "default": "false",
                 "description": "If enabled, write an entry in the history event log for this IO",
@@ -6448,6 +6505,13 @@
                 "description": "Nom de l'entrée/sortie.",
                 "mandatory": "true",
                 "name": "name",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "Username for accessing the camera",
+                "mandatory": "false",
+                "name": "username",
                 "readonly": "false",
                 "type": "string"
             },
@@ -6753,9 +6817,24 @@
         ]
     },
     "standard_mjpeg": {
-        "description": "",
+        "description": " MJPEG/Jpeg IP Camera. Camera can be viewed directly inside calaos and used in rules.",
         "alias": [],
         "parameters": [
+            {
+                "default": "false",
+                "description": "Set to true if camera has PTZ support",
+                "mandatory": "false",
+                "name": "ptz",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "description": "URL for snapshot in jpeg format",
+                "mandatory": "true",
+                "name": "url_jpeg",
+                "readonly": "false",
+                "type": "string"
+            },
             {
                 "default": "false",
                 "description": "If enabled, write an entry in the history event log for this IO",
@@ -6763,6 +6842,13 @@
                 "name": "log_history",
                 "readonly": "false",
                 "type": "bool"
+            },
+            {
+                "description": "URL for mjpeg stream support",
+                "mandatory": "false",
+                "name": "url_mjpeg",
+                "readonly": "false",
+                "type": "string"
             },
             {
                 "description": "Nom de l'entrée/sortie.",
@@ -6813,9 +6899,115 @@
         "actions": []
     },
     "StandardMjpeg": {
-        "description": "",
+        "description": " MJPEG/Jpeg IP Camera. Camera can be viewed directly inside calaos and used in rules.",
         "alias": [],
         "parameters": [
+            {
+                "default": "false",
+                "description": "Set to true if camera has PTZ support",
+                "mandatory": "false",
+                "name": "ptz",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "description": "URL for snapshot in jpeg format",
+                "mandatory": "true",
+                "name": "url_jpeg",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "default": "false",
+                "description": "If enabled, write an entry in the history event log for this IO",
+                "mandatory": "false",
+                "name": "log_history",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "description": "URL for mjpeg stream support",
+                "mandatory": "false",
+                "name": "url_mjpeg",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "Nom de l'entrée/sortie.",
+                "mandatory": "true",
+                "name": "name",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement",
+                "mandatory": "false",
+                "name": "gui_type",
+                "readonly": "true",
+                "type": "string"
+            },
+            {
+                "description": "Identifiant unique de l'entrée/sortie dans calaos-server",
+                "mandatory": "true",
+                "name": "id",
+                "readonly": "true",
+                "type": "string"
+            },
+            {
+                "default": "true",
+                "description": "Affichez l'entrée/sortie sur toutes les interfaces utilisateur. Vrai par défaut",
+                "mandatory": "false",
+                "name": "visible",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "default": "true",
+                "description": "Activez l'entrée/sortie. Vrai par défaut. Ce paramètre est ajouté s'il n'est pas trouvé dans la configuration.",
+                "mandatory": "false",
+                "name": "enabled",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "description": "Type d'entrée/sortie (input, output, inout)",
+                "mandatory": "true",
+                "name": "io_type",
+                "readonly": "true",
+                "type": "string"
+            }
+        ],
+        "conditions": [],
+        "actions": []
+    },
+    "SynoSurveillanceStation": {
+        "description": " Synology Surveillance Station IP Camera. Camera can be viewed directly inside calaos and used in rules.",
+        "alias": [],
+        "parameters": [
+            {
+                "default": "1",
+                "description": "Profile to use for snapshot. 0- High quality, 1- Balanced, 2- Low bandwidth",
+                "mandatory": "false",
+                "max": "2",
+                "min": "0",
+                "name": "camera_profile",
+                "readonly": "false",
+                "type": "int"
+            },
+            {
+                "description": "ID of the camera",
+                "mandatory": "true",
+                "name": "camera_id",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "Password for user",
+                "mandatory": "true",
+                "name": "password",
+                "readonly": "false",
+                "type": "string"
+            },
             {
                 "default": "false",
                 "description": "If enabled, write an entry in the history event log for this IO",
@@ -6828,6 +7020,20 @@
                 "description": "Nom de l'entrée/sortie.",
                 "mandatory": "true",
                 "name": "name",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "Username which can access Surveillance Station",
+                "mandatory": "true",
+                "name": "username",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "Full url to Synology nas. Ex: https://192.168.0.22:5000",
+                "mandatory": "true",
+                "name": "url",
                 "readonly": "false",
                 "type": "string"
             },
