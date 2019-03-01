@@ -56,8 +56,9 @@ Name: "Full"; Description: "Full installation"
 Name: "calaosinstaller"; Description: "Calaos Installer"; Types: Full
 
 [Run]
-Filename: "{app}\redist\vcredist_sp1_x86.exe"; Parameters: "/q /NoSetupVersionCheck"; WorkingDir: "{app}\redist"; StatusMsg: "Installing Visual Studio 2010 C++ CRT Libraries..."; Components: calaosinstaller
-Filename: "{app}\redist\Win32OpenSSL_Light-1_0_2L.exe"; Parameters: "/silent /verysilent /sp- /suppressmsgboxes"; WorkingDir: "{app}\redist"; StatusMsg: "Installing OpenSSL libraries..."; Components: calaosinstaller
+;Not needed as we ship openssl dll, and the dll are now built using mingw64, no vc runtime needed too
+;Filename: "{app}\redist\vcredist_sp1_x86.exe"; Parameters: "/q /NoSetupVersionCheck"; WorkingDir: "{app}\redist"; StatusMsg: "Installing Visual Studio 2010 C++ CRT Libraries..."; Components: calaosinstaller
+;Filename: "{app}\redist\Win32OpenSSL_Light-1_0_2L.exe"; Parameters: "/silent /verysilent /sp- /suppressmsgboxes"; WorkingDir: "{app}\redist"; StatusMsg: "Installing OpenSSL libraries..."; Components: calaosinstaller
 ;For bonjour when we need it one day
 ;Filename: "msiexec.exe"; Parameters: "/i ""{app}\redist\Bonjour.msi"" /qn"; WorkingDir: "{app}\redist"; StatusMsg: "Installing Bonjour32..."; Components: calaosinstaller; Check: not IsWin64
 ;Filename: "msiexec.exe"; Parameters: "/i ""{app}\redist\Bonjour64.msi"" /qn"; WorkingDir: "{app}\redist"; StatusMsg: "Installing Bonjour64..."; Components: calaosinstaller; Check: IsWin64
