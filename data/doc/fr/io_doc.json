@@ -3888,6 +3888,1223 @@
             }
         ]
     },
+    "MqttInputAnalog": {
+        "description": "Temperature read from a mqtt broker Une entrée analogique peut être utilisée pour lire des valeurs analogiques pour les afficher et les utiliser dans les règles.",
+        "alias": [],
+        "parameters": [
+            {
+                "description": "The path where to found the value in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. for example weather[0]/description, try to read the description value of the 1 element of the array of the weather object. if payload is somple json, just try to use the key of the value you want to read, for example : {\"temperature\":14.23} use \"temperature\" as path\n",
+                "mandatory": "true",
+                "name": "path",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "Password to use for authentication with mqtt broker. User must be defined in that case.",
+                "mandatory": "false",
+                "name": "password",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "default": "120",
+                "description": "keepalive timeout in seconds. Time between two mqtt PING.",
+                "mandatory": "false",
+                "name": "keepalive",
+                "readonly": "false",
+                "type": "int"
+            },
+            {
+                "default": "127.0.0.1",
+                "description": "IP address of the mqtt broker to connect to. Default value is 127.0.0.1.",
+                "mandatory": "false",
+                "name": "host",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "default": "default",
+                "description": "Style d'affichage. Contrôle l'icône affichée sur l'interface utilisateur",
+                "mandatory": "true",
+                "name": "io_style",
+                "readonly": "false",
+                "type": "list",
+                "list_value": {
+                    "current": "Courant",
+                    "default": "Défaut",
+                    "humidity": "Humidité",
+                    "luminosity": "Luminosité",
+                    "pressure": "Pression",
+                    "speed": "Vitesse",
+                    "temperature": "Température",
+                    "voltage": "Voltage",
+                    "watt": "Puissance"
+                }
+            },
+            {
+                "description": "Unité affichée sur l'interface utilisateur en tant que suffixe.",
+                "mandatory": "false",
+                "name": "unit",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "default": "2",
+                "description": "Précision de la valeur retournée. La valeur représente le nombre de décimales après le point. La valeur est arrondie comme ceci: valeur = 19.275 => valeur renvoyée 19.28 lors de la précision = 2, 19.3 lorsque la précision = 1, 19 lorsque la précision = 0",
+                "mandatory": "false",
+                "max": "9999",
+                "min": "0",
+                "name": "precision",
+                "readonly": "false",
+                "type": "int"
+            },
+            {
+                "description": "Nom de l'entrée/sortie.",
+                "mandatory": "true",
+                "name": "name",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "default": "1883",
+                "description": "TCP port of the mqtt broker. Default value is 1883",
+                "mandatory": "false",
+                "name": "port",
+                "readonly": "false",
+                "type": "int"
+            },
+            {
+                "description": "Type d'entrée/sortie (input, output, inout)",
+                "mandatory": "true",
+                "name": "io_type",
+                "readonly": "true",
+                "type": "string"
+            },
+            {
+                "default": "true",
+                "description": "Affichez l'entrée/sortie sur toutes les interfaces utilisateur. Vrai par défaut",
+                "mandatory": "false",
+                "name": "visible",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "description": "Temps d'échantillonnage en microseconde. La valeur est lue à cette fréquence. Si cette valeur n'est pas définie, calaos essaie de lire le paramètre d'intervalle en seconde",
+                "mandatory": "false",
+                "name": "frequency",
+                "readonly": "false",
+                "type": "float"
+            },
+            {
+                "description": "Identifiant unique de l'entrée/sortie dans calaos-server",
+                "mandatory": "true",
+                "name": "id",
+                "readonly": "true",
+                "type": "string"
+            },
+            {
+                "description": "Topic on witch to subscribe.",
+                "mandatory": "true",
+                "name": "topic_sub",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "Topic on witch to publish.",
+                "mandatory": "true",
+                "name": "topic_pub",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement",
+                "mandatory": "false",
+                "name": "gui_type",
+                "readonly": "true",
+                "type": "string"
+            },
+            {
+                "description": "Temps d'échantillonnage en secondes. La valeur est lue à cette fréquence. Si cette valeur n'est pas définie, la valeur par défaut est 15s",
+                "mandatory": "false",
+                "name": "interval",
+                "readonly": "false",
+                "type": "float"
+            },
+            {
+                "default": "1",
+                "description": "Utiliser conjointement coeff_b pour appliquer l'équation de la forme valeur = coeff_a * raw_value + coeff_b. La valeur par défaut est 1.0.",
+                "mandatory": "false",
+                "name": "coeff_a",
+                "readonly": "false",
+                "type": "float"
+            },
+            {
+                "description": "User to use for authentication with mqtt broker. Password must be defined in that case.",
+                "mandatory": "false",
+                "name": "user",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "default": "0",
+                "description": "Utiliser conjointement coeff_a pour appliquer l'équation de la forme valeur = coeff_a * raw_value + coeff_b. La valeur par défaut est 0.0.",
+                "mandatory": "false",
+                "name": "coeff_b",
+                "readonly": "false",
+                "type": "float"
+            },
+            {
+                "default": "true",
+                "description": "Activez l'entrée/sortie. Vrai par défaut. Ce paramètre est ajouté s'il n'est pas trouvé dans la configuration.",
+                "mandatory": "false",
+                "name": "enabled",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "default": "false",
+                "description": "Si activé, ecrit une entrée dans l'historique pour cet IO",
+                "mandatory": "false",
+                "name": "log_history",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "description": "Comme le coeff_b, peut être utilisé seul. La valeur par défaut est 0.0",
+                "mandatory": "false",
+                "name": "offset",
+                "readonly": "false",
+                "type": "float"
+            }
+        ],
+        "conditions": [
+            {
+                "description": "Événement à chaque changement",
+                "name": "changed"
+            },
+            {
+                "description": "Événement sur une valeur spécifique",
+                "name": "value"
+            }
+        ],
+        "actions": []
+    },
+    "MqttInputString": {
+        "description": "Temperature read from a mqtt broker",
+        "alias": [],
+        "parameters": [
+            {
+                "description": "The path where to found the value in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. for example weather[0]/description, try to read the description value of the 1 element of the array of the weather object. if payload is somple json, just try to use the key of the value you want to read, for example : {\"temperature\":14.23} use \"temperature\" as path\n",
+                "mandatory": "true",
+                "name": "path",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "User to use for authentication with mqtt broker. Password must be defined in that case.",
+                "mandatory": "false",
+                "name": "user",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "Nom de l'entrée/sortie.",
+                "mandatory": "true",
+                "name": "name",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "default": "true",
+                "description": "Activez l'entrée/sortie. Vrai par défaut. Ce paramètre est ajouté s'il n'est pas trouvé dans la configuration.",
+                "mandatory": "false",
+                "name": "enabled",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "default": "false",
+                "description": "Si activé, ecrit une entrée dans l'historique pour cet IO",
+                "mandatory": "false",
+                "name": "log_history",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "default": "true",
+                "description": "Affichez l'entrée/sortie sur toutes les interfaces utilisateur. Vrai par défaut",
+                "mandatory": "false",
+                "name": "visible",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "description": "Type d'entrée/sortie (input, output, inout)",
+                "mandatory": "true",
+                "name": "io_type",
+                "readonly": "true",
+                "type": "string"
+            },
+            {
+                "default": "1883",
+                "description": "TCP port of the mqtt broker. Default value is 1883",
+                "mandatory": "false",
+                "name": "port",
+                "readonly": "false",
+                "type": "int"
+            },
+            {
+                "default": "120",
+                "description": "keepalive timeout in seconds. Time between two mqtt PING.",
+                "mandatory": "false",
+                "name": "keepalive",
+                "readonly": "false",
+                "type": "int"
+            },
+            {
+                "description": "Identifiant unique de l'entrée/sortie dans calaos-server",
+                "mandatory": "true",
+                "name": "id",
+                "readonly": "true",
+                "type": "string"
+            },
+            {
+                "description": "Topic on witch to subscribe.",
+                "mandatory": "true",
+                "name": "topic_sub",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "Topic on witch to publish.",
+                "mandatory": "true",
+                "name": "topic_pub",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement",
+                "mandatory": "false",
+                "name": "gui_type",
+                "readonly": "true",
+                "type": "string"
+            },
+            {
+                "default": "127.0.0.1",
+                "description": "IP address of the mqtt broker to connect to. Default value is 127.0.0.1.",
+                "mandatory": "false",
+                "name": "host",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "Password to use for authentication with mqtt broker. User must be defined in that case.",
+                "mandatory": "false",
+                "name": "password",
+                "readonly": "false",
+                "type": "string"
+            }
+        ],
+        "conditions": [],
+        "actions": []
+    },
+    "MqttInputSwitch": {
+        "description": "Switch value readed from a mqtt broker Interrupteur de base avec états de appuyé/relâché.",
+        "alias": [],
+        "parameters": [
+            {
+                "description": "Value to interpret as OFF value",
+                "mandatory": "true",
+                "name": "off_value",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "Value to interpret as ON value",
+                "mandatory": "true",
+                "name": "on_value",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "The path where to found the value in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. for example weather[0]/description, try to read the description value of the 1 element of the array of the weather object. if payload is somple json, just try to use the key of the value you want to read, for example : {\"temperature\":14.23} use \"temperature\" as path\n",
+                "mandatory": "true",
+                "name": "path",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "User to use for authentication with mqtt broker. Password must be defined in that case.",
+                "mandatory": "false",
+                "name": "user",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "Nom de l'entrée/sortie.",
+                "mandatory": "true",
+                "name": "name",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "default": "true",
+                "description": "Activez l'entrée/sortie. Vrai par défaut. Ce paramètre est ajouté s'il n'est pas trouvé dans la configuration.",
+                "mandatory": "false",
+                "name": "enabled",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "default": "false",
+                "description": "Si activé, ecrit une entrée dans l'historique pour cet IO",
+                "mandatory": "false",
+                "name": "log_history",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "default": "false",
+                "description": "Un interrupteur ne peut pas être visible. Toujours faux.",
+                "mandatory": "false",
+                "name": "visible",
+                "readonly": "true",
+                "type": "bool"
+            },
+            {
+                "description": "Type d'entrée/sortie (input, output, inout)",
+                "mandatory": "true",
+                "name": "io_type",
+                "readonly": "true",
+                "type": "string"
+            },
+            {
+                "default": "1883",
+                "description": "TCP port of the mqtt broker. Default value is 1883",
+                "mandatory": "false",
+                "name": "port",
+                "readonly": "false",
+                "type": "int"
+            },
+            {
+                "default": "120",
+                "description": "keepalive timeout in seconds. Time between two mqtt PING.",
+                "mandatory": "false",
+                "name": "keepalive",
+                "readonly": "false",
+                "type": "int"
+            },
+            {
+                "description": "Identifiant unique de l'entrée/sortie dans calaos-server",
+                "mandatory": "true",
+                "name": "id",
+                "readonly": "true",
+                "type": "string"
+            },
+            {
+                "description": "Topic on witch to subscribe.",
+                "mandatory": "true",
+                "name": "topic_sub",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "Topic on witch to publish.",
+                "mandatory": "true",
+                "name": "topic_pub",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement",
+                "mandatory": "false",
+                "name": "gui_type",
+                "readonly": "true",
+                "type": "string"
+            },
+            {
+                "default": "127.0.0.1",
+                "description": "IP address of the mqtt broker to connect to. Default value is 127.0.0.1.",
+                "mandatory": "false",
+                "name": "host",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "Password to use for authentication with mqtt broker. User must be defined in that case.",
+                "mandatory": "false",
+                "name": "password",
+                "readonly": "false",
+                "type": "string"
+            }
+        ],
+        "conditions": [
+            {
+                "description": "Événement déclenché lors de l'appui",
+                "name": "true"
+            },
+            {
+                "description": "Événement lors de chaque changement d'état",
+                "name": "changed"
+            },
+            {
+                "description": "Événement déclenché lors du relaché",
+                "name": "false"
+            }
+        ],
+        "actions": []
+    },
+    "MqttInputTemp": {
+        "description": "Temperature read from a mqtt broker Capteur de température. Utiliser pour afficher la température et contrôler les appareils de chauffage avec des règles basées sur la valeur de la température",
+        "alias": [],
+        "parameters": [
+            {
+                "description": "The path where to found the value in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. for example weather[0]/description, try to read the description value of the 1 element of the array of the weather object. if payload is somple json, just try to use the key of the value you want to read, for example : {\"temperature\":14.23} use \"temperature\" as path\n",
+                "mandatory": "true",
+                "name": "path",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "Password to use for authentication with mqtt broker. User must be defined in that case.",
+                "mandatory": "false",
+                "name": "password",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "default": "120",
+                "description": "keepalive timeout in seconds. Time between two mqtt PING.",
+                "mandatory": "false",
+                "name": "keepalive",
+                "readonly": "false",
+                "type": "int"
+            },
+            {
+                "default": "127.0.0.1",
+                "description": "IP address of the mqtt broker to connect to. Default value is 127.0.0.1.",
+                "mandatory": "false",
+                "name": "host",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "default": "2",
+                "description": "Précision de la valeur retournée. La valeur représente le nombre de décimales après le point. La valeur est arrondie comme ceci: valeur = 19.275 => valeur renvoyée 19.28 lors de la précision = 2, 19.3 lorsque la précision = 1, 19 lorsque la précision = 0",
+                "mandatory": "false",
+                "max": "9999",
+                "min": "0",
+                "name": "precision",
+                "readonly": "false",
+                "type": "int"
+            },
+            {
+                "description": "Nom de l'entrée/sortie.",
+                "mandatory": "true",
+                "name": "name",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "default": "1883",
+                "description": "TCP port of the mqtt broker. Default value is 1883",
+                "mandatory": "false",
+                "name": "port",
+                "readonly": "false",
+                "type": "int"
+            },
+            {
+                "description": "Type d'entrée/sortie (input, output, inout)",
+                "mandatory": "true",
+                "name": "io_type",
+                "readonly": "true",
+                "type": "string"
+            },
+            {
+                "default": "true",
+                "description": "Affichez l'entrée/sortie sur toutes les interfaces utilisateur. Vrai par défaut",
+                "mandatory": "false",
+                "name": "visible",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "description": "Temps d'échantillonnage en microseconde. La valeur est lue à cette fréquence. Si cette valeur n'est pas définie, calaos essaie de lire le paramètre d'intervalle en seconde",
+                "mandatory": "false",
+                "name": "frequency",
+                "readonly": "false",
+                "type": "float"
+            },
+            {
+                "description": "Identifiant unique de l'entrée/sortie dans calaos-server",
+                "mandatory": "true",
+                "name": "id",
+                "readonly": "true",
+                "type": "string"
+            },
+            {
+                "description": "Topic on witch to subscribe.",
+                "mandatory": "true",
+                "name": "topic_sub",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "Topic on witch to publish.",
+                "mandatory": "true",
+                "name": "topic_pub",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement",
+                "mandatory": "false",
+                "name": "gui_type",
+                "readonly": "true",
+                "type": "string"
+            },
+            {
+                "description": "Temps d'échantillonnage en secondes. La valeur est lue à cette fréquence. Si cette valeur n'est pas définie, la valeur par défaut est 15s",
+                "mandatory": "false",
+                "name": "interval",
+                "readonly": "false",
+                "type": "float"
+            },
+            {
+                "description": "Utiliser conjointement coeff_b pour appliquer l'équation de la forme valeur = coeff_a * raw_value + coeff_b. La valeur par défaut est 1.0.",
+                "mandatory": "false",
+                "name": "coeff_a",
+                "readonly": "false",
+                "type": "float"
+            },
+            {
+                "description": "User to use for authentication with mqtt broker. Password must be defined in that case.",
+                "mandatory": "false",
+                "name": "user",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "Utiliser conjointement coeff_a pour appliquer l'équation de la forme valeur = coeff_a * raw_value + coeff_b. La valeur par défaut est 0.0.",
+                "mandatory": "false",
+                "name": "coeff_b",
+                "readonly": "false",
+                "type": "float"
+            },
+            {
+                "default": "true",
+                "description": "Activez l'entrée/sortie. Vrai par défaut. Ce paramètre est ajouté s'il n'est pas trouvé dans la configuration.",
+                "mandatory": "false",
+                "name": "enabled",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "default": "false",
+                "description": "Si activé, ecrit une entrée dans l'historique pour cet IO",
+                "mandatory": "false",
+                "name": "log_history",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "description": "Comme le coeff_b, peut être utilisé seul. La valeur par défaut est 0.0",
+                "mandatory": "false",
+                "name": "offset",
+                "readonly": "false",
+                "type": "float"
+            }
+        ],
+        "conditions": [
+            {
+                "description": "Événement sur toute modification de température",
+                "name": "changed"
+            },
+            {
+                "description": "Événement sur une valeur de température en degrés Celsius",
+                "name": "value"
+            }
+        ],
+        "actions": []
+    },
+    "MqttOutputAnalog": {
+        "description": "Control analog output through mqtt broker Utile pour contrôler les périphériques de sortie analogique connectés à calaos.",
+        "alias": [],
+        "parameters": [
+            {
+                "description": "The path where to found the value in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. for example weather[0]/description, try to read the description value of the 1 element of the array of the weather object. if payload is somple json, just try to use the key of the value you want to read, for example : {\"temperature\":14.23} use \"temperature\" as path\n",
+                "mandatory": "true",
+                "name": "path",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "Password to use for authentication with mqtt broker. User must be defined in that case.",
+                "mandatory": "false",
+                "name": "password",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "default": "120",
+                "description": "keepalive timeout in seconds. Time between two mqtt PING.",
+                "mandatory": "false",
+                "name": "keepalive",
+                "readonly": "false",
+                "type": "int"
+            },
+            {
+                "default": "127.0.0.1",
+                "description": "IP address of the mqtt broker to connect to. Default value is 127.0.0.1.",
+                "mandatory": "false",
+                "name": "host",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "default": "default",
+                "description": "Style d'affichage. Contrôle l'icône affichée sur l'interface utilisateur",
+                "mandatory": "true",
+                "name": "io_style",
+                "readonly": "false",
+                "type": "list",
+                "list_value": {
+                    "current": "Courant",
+                    "default": "Défaut",
+                    "humidity": "Humidité",
+                    "luminosity": "Luminosité",
+                    "pressure": "Pression",
+                    "speed": "Vitesse",
+                    "temperature": "Température",
+                    "voltage": "Voltage",
+                    "watt": "Puissance"
+                }
+            },
+            {
+                "description": "Nom de l'entrée/sortie.",
+                "mandatory": "true",
+                "name": "name",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "default": "1883",
+                "description": "TCP port of the mqtt broker. Default value is 1883",
+                "mandatory": "false",
+                "name": "port",
+                "readonly": "false",
+                "type": "int"
+            },
+            {
+                "description": "Type d'entrée/sortie (input, output, inout)",
+                "mandatory": "true",
+                "name": "io_type",
+                "readonly": "true",
+                "type": "string"
+            },
+            {
+                "default": "true",
+                "description": "Activez l'entrée/sortie. Vrai par défaut. Ce paramètre est ajouté s'il n'est pas trouvé dans la configuration.",
+                "mandatory": "false",
+                "name": "enabled",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "default": "false",
+                "description": "Si activé, ecrit une entrée dans l'historique pour cet IO",
+                "mandatory": "false",
+                "name": "log_history",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "default": "true",
+                "description": "Affichez l'entrée/sortie sur toutes les interfaces utilisateur. Vrai par défaut",
+                "mandatory": "false",
+                "name": "visible",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "description": "Unité affichée sur l'interface utilisateur en tant que suffixe.",
+                "mandatory": "false",
+                "name": "unit",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "Identifiant unique de l'entrée/sortie dans calaos-server",
+                "mandatory": "true",
+                "name": "id",
+                "readonly": "true",
+                "type": "string"
+            },
+            {
+                "description": "Topic on witch to subscribe.",
+                "mandatory": "true",
+                "name": "topic_sub",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "Topic on witch to publish.",
+                "mandatory": "true",
+                "name": "topic_pub",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "default": "1",
+                "description": "Définit le pas pour incrémenter/décrémenter la valeur. La valeur par défaut est 1.0",
+                "mandatory": "false",
+                "name": "step",
+                "readonly": "false",
+                "type": "float"
+            },
+            {
+                "description": "Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement",
+                "mandatory": "false",
+                "name": "gui_type",
+                "readonly": "true",
+                "type": "string"
+            },
+            {
+                "default": "1",
+                "description": "Utiliser conjointement coeff_b pour appliquer l'équation de la forme valeur = coeff_a * raw_value + coeff_b. La valeur par défaut est 1.0.",
+                "mandatory": "false",
+                "name": "coeff_a",
+                "readonly": "false",
+                "type": "float"
+            },
+            {
+                "description": "User to use for authentication with mqtt broker. Password must be defined in that case.",
+                "mandatory": "false",
+                "name": "user",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "default": "0",
+                "description": "Utiliser conjointement coeff_a pour appliquer l'équation de la forme valeur = coeff_a * raw_value + coeff_b. La valeur par défaut est 0.0.",
+                "mandatory": "false",
+                "name": "coeff_b",
+                "readonly": "false",
+                "type": "float"
+            }
+        ],
+        "conditions": [
+            {
+                "description": "Événement sur une valeur spécifique",
+                "name": "0"
+            },
+            {
+                "description": "Événement sur une valeur spécifique",
+                "name": "value"
+            },
+            {
+                "description": "Événement à chaque changement",
+                "name": "changed"
+            }
+        ],
+        "actions": [
+            {
+                "description": "Diminuer valeur par valeur",
+                "name": "dec 1"
+            },
+            {
+                "description": "Augmenter valeur par valeur",
+                "name": "inc 1"
+            },
+            {
+                "description": "Diminuer la valeur avec le pas définit",
+                "name": "dec"
+            },
+            {
+                "description": "Définir une valeur spécifique",
+                "name": "0"
+            },
+            {
+                "description": "Augmenter la valeur avec le pas définit",
+                "name": "inc"
+            }
+        ]
+    },
+    "MqttOutputLight": {
+        "description": "Control lights through mqtt broker Lumière simple. Cette lumière ne comporte que 2 états, ON ou OFF. Peut également être utilisé pour contrôler la sortie des relais simples",
+        "alias": [],
+        "parameters": [
+            {
+                "description": "Value to interpret as OFF value",
+                "mandatory": "true",
+                "name": "off_value",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "Value to interpret as ON value",
+                "mandatory": "true",
+                "name": "on_value",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "The path where to found the value in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. for example weather[0]/description, try to read the description value of the 1 element of the array of the weather object. if payload is somple json, just try to use the key of the value you want to read, for example : {\"temperature\":14.23} use \"temperature\" as path\n",
+                "mandatory": "true",
+                "name": "path",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "User to use for authentication with mqtt broker. Password must be defined in that case.",
+                "mandatory": "false",
+                "name": "user",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "Password to use for authentication with mqtt broker. User must be defined in that case.",
+                "mandatory": "false",
+                "name": "password",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "Nom de l'entrée/sortie.",
+                "mandatory": "true",
+                "name": "name",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "default": "true",
+                "description": "Activez l'entrée/sortie. Vrai par défaut. Ce paramètre est ajouté s'il n'est pas trouvé dans la configuration.",
+                "mandatory": "false",
+                "name": "enabled",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "default": "false",
+                "description": "Si activé, ecrit une entrée dans l'historique pour cet IO",
+                "mandatory": "false",
+                "name": "log_history",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "default": "true",
+                "description": "Affichez l'entrée/sortie sur toutes les interfaces utilisateur. Vrai par défaut",
+                "mandatory": "false",
+                "name": "visible",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "description": "Type d'entrée/sortie (input, output, inout)",
+                "mandatory": "true",
+                "name": "io_type",
+                "readonly": "true",
+                "type": "string"
+            },
+            {
+                "default": "1883",
+                "description": "TCP port of the mqtt broker. Default value is 1883",
+                "mandatory": "false",
+                "name": "port",
+                "readonly": "false",
+                "type": "int"
+            },
+            {
+                "default": "120",
+                "description": "keepalive timeout in seconds. Time between two mqtt PING.",
+                "mandatory": "false",
+                "name": "keepalive",
+                "readonly": "false",
+                "type": "int"
+            },
+            {
+                "description": "Identifiant unique de l'entrée/sortie dans calaos-server",
+                "mandatory": "true",
+                "name": "id",
+                "readonly": "true",
+                "type": "string"
+            },
+            {
+                "description": "Topic on witch to subscribe.",
+                "mandatory": "true",
+                "name": "topic_sub",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "Topic on witch to publish.",
+                "mandatory": "true",
+                "name": "topic_pub",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement",
+                "mandatory": "false",
+                "name": "gui_type",
+                "readonly": "true",
+                "type": "string"
+            },
+            {
+                "default": "light",
+                "description": "Style d'affichage. Contrôle l'icône affichée sur l'interface utilisateur",
+                "mandatory": "true",
+                "name": "io_style",
+                "readonly": "false",
+                "type": "list",
+                "list_value": {
+                    "boiler": "Chauffe-eau",
+                    "heater": "Chauffage",
+                    "light": "Lumière",
+                    "outlet": "Sortie",
+                    "pump": "Pompe"
+                }
+            },
+            {
+                "default": "127.0.0.1",
+                "description": "IP address of the mqtt broker to connect to. Default value is 127.0.0.1.",
+                "mandatory": "false",
+                "name": "host",
+                "readonly": "false",
+                "type": "string"
+            }
+        ],
+        "conditions": [
+            {
+                "description": "Événement lorsque la lumière est éteinte",
+                "name": "false"
+            },
+            {
+                "description": "Événement à chaque changement",
+                "name": "changed"
+            },
+            {
+                "description": "Événement lorsque la lumière est allumée",
+                "name": "true"
+            }
+        ],
+        "actions": [
+            {
+                "description": "Mettre à jour l'état de la lumière interne sans une action réelle. Ceci est utile lorsque vous avez mis à jour l'état de la lumière à partir d'une source externe.",
+                "name": "set_state true"
+            },
+            {
+                "description": "Mettre à jour l'état de la lumière interne sans une action réelle. Ceci est utile lorsque vous avez mis à jour l'état de la lumière à partir d'une source externe.",
+                "name": "set_state false"
+            },
+            {
+                "description": "Eteindre la lumière",
+                "name": "false"
+            },
+            {
+                "description": "Allumer la lumière",
+                "name": "true"
+            },
+            {
+                "description": "Inverser l'état de la lumière",
+                "name": "toggle"
+            },
+            {
+                "description": "Allume la lumière avec un motif.<br>Ex: 500 200 500 200 signifie: VRAI pour 500ms, FAUX pour 200ms, VRAI pour 500ms, FAUX pour 200ms<br>Ex: 500 loop 200 300 signifie: VRAI pour 500ms, puis relancer les prochaines étapes à l'infini, FAUX pour 200ms, VRAI pour 300ms<br>Ex: 100 100 200 old signifie: clignote et reprend l'ancien état (avant le clignotement)",
+                "name": "impulse 500 200 500 200"
+            },
+            {
+                "description": "Impulsion sur la lumière. Allume pour X ms puis éteint",
+                "name": "impulse 200"
+            }
+        ]
+    },
+    "MqttOutputLightDimmer": {
+        "description": "Control lights through mqtt broker Lumière avec variateur. La luminosité peut-être modifiée pour cette lumière.",
+        "alias": [],
+        "parameters": [
+            {
+                "description": "The path where to found the value in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. for example weather[0]/description, try to read the description value of the 1 element of the array of the weather object. if payload is somple json, just try to use the key of the value you want to read, for example : {\"temperature\":14.23} use \"temperature\" as path\n",
+                "mandatory": "true",
+                "name": "path",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "User to use for authentication with mqtt broker. Password must be defined in that case.",
+                "mandatory": "false",
+                "name": "user",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "Nom de l'entrée/sortie.",
+                "mandatory": "true",
+                "name": "name",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "default": "true",
+                "description": "Activez l'entrée/sortie. Vrai par défaut. Ce paramètre est ajouté s'il n'est pas trouvé dans la configuration.",
+                "mandatory": "false",
+                "name": "enabled",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "default": "false",
+                "description": "Si activé, ecrit une entrée dans l'historique pour cet IO",
+                "mandatory": "false",
+                "name": "log_history",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "default": "true",
+                "description": "Affichez l'entrée/sortie sur toutes les interfaces utilisateur. Vrai par défaut",
+                "mandatory": "false",
+                "name": "visible",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "description": "Type d'entrée/sortie (input, output, inout)",
+                "mandatory": "true",
+                "name": "io_type",
+                "readonly": "true",
+                "type": "string"
+            },
+            {
+                "default": "1883",
+                "description": "TCP port of the mqtt broker. Default value is 1883",
+                "mandatory": "false",
+                "name": "port",
+                "readonly": "false",
+                "type": "int"
+            },
+            {
+                "default": "120",
+                "description": "keepalive timeout in seconds. Time between two mqtt PING.",
+                "mandatory": "false",
+                "name": "keepalive",
+                "readonly": "false",
+                "type": "int"
+            },
+            {
+                "description": "Identifiant unique de l'entrée/sortie dans calaos-server",
+                "mandatory": "true",
+                "name": "id",
+                "readonly": "true",
+                "type": "string"
+            },
+            {
+                "description": "Topic on witch to subscribe.",
+                "mandatory": "true",
+                "name": "topic_sub",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "Topic on witch to publish.",
+                "mandatory": "true",
+                "name": "topic_pub",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement",
+                "mandatory": "false",
+                "name": "gui_type",
+                "readonly": "true",
+                "type": "string"
+            },
+            {
+                "default": "127.0.0.1",
+                "description": "IP address of the mqtt broker to connect to. Default value is 127.0.0.1.",
+                "mandatory": "false",
+                "name": "host",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "Password to use for authentication with mqtt broker. User must be defined in that case.",
+                "mandatory": "false",
+                "name": "password",
+                "readonly": "false",
+                "type": "string"
+            }
+        ],
+        "conditions": [
+            {
+                "description": "Événement lorsque la lumière est à cette valeur",
+                "name": "value"
+            },
+            {
+                "description": "Événement à chaque changement",
+                "name": "changed"
+            }
+        ],
+        "actions": [
+            {
+                "description": "Modifie dynamiquement l'intensité lumineuse lorsque vous maintenez un interrupteur (action relacher)",
+                "name": "hold stop"
+            },
+            {
+                "description": "Modifie dynamiquement l'intensité lumineuse lorsque vous maintenez un interrupteur (action appuyer)",
+                "name": "hold press"
+            },
+            {
+                "description": "Diminuer l'intensité de X pourcent",
+                "name": "down 5"
+            },
+            {
+                "description": "Allume la lumière avec un motif.<br>Ex: 500 200 500 200 signifie: VRAI pour 500ms, FAUX pour 200ms, VRAI pour 500ms, FAUX pour 200ms<br>Ex: 500 loop 200 300 signifie: VRAI pour 500ms, puis relancer les prochaines étapes à l'infini, FAUX pour 200ms, VRAI pour 300ms<br>Ex: 100 100 200 old signifie: clignote et reprend l'ancien état (avant le clignotement)",
+                "name": "impulse 500 200 500 200"
+            },
+            {
+                "description": "Réglez la valeur de la lumière sans allumer. Ce sera l'intensité lumineuse pour le prochaine allumage",
+                "name": "set off 50"
+            },
+            {
+                "description": "Allumer la lumière",
+                "name": "true"
+            },
+            {
+                "description": "Mettre à jour l'état de la lumière interne sans une action réelle. Ceci est utile lorsque vous avez mis à jour l'état de la lumière à partir d'une source externe.",
+                "name": "set_state 50"
+            },
+            {
+                "description": "Eteindre la lumière",
+                "name": "false"
+            },
+            {
+                "description": "Inverser l'état de la lumière",
+                "name": "toggle"
+            },
+            {
+                "description": "Mettre à jour l'état de la lumière interne sans une action réelle. Ceci est utile lorsque vous avez mis à jour l'état de la lumière à partir d'une source externe.",
+                "name": "set_state false"
+            },
+            {
+                "description": "Augmenter l'intensité de X pourcent",
+                "name": "up 5"
+            },
+            {
+                "description": "Mettre à jour l'état de la lumière interne sans une action réelle. Ceci est utile lorsque vous avez mis à jour l'état de la lumière à partir d'une source externe.",
+                "name": "set_state true"
+            },
+            {
+                "description": "Impulsion sur la lumière. Allume pour X ms puis éteint",
+                "name": "impulse 200"
+            },
+            {
+                "description": "Réglez l'intensité lumineuse et allumez si la lumière est éteinte",
+                "name": "set 50"
+            }
+        ]
+    },
     "MySensorsInputAnalog": {
         "description": "Mesure analogique depuis un noeud MySensors Une entrée analogique peut être utilisée pour lire des valeurs analogiques pour les afficher et les utiliser dans les règles.",
         "alias": [],

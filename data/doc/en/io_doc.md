@@ -1071,6 +1071,293 @@ down_green 5 | Decrease intensity by X percent of green channel
 * LimitlessLED: http://www.limitlessled.com
 
 
+#MqttInputAnalog
+Temperature read from a mqtt broker
+
+
+An analog input can be used to read analog values to display them and use them in rules.
+
+##Parameters of MqttInputAnalog
+Name | Type | Mandatory | Description
+---- | ---- | --------- | -----------
+path | string | yes | The path where to found the value in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. for example weather[0]/description, try to read the description value of the 1 element of the array of the weather object. if payload is somple json, just try to use the key of the value you want to read, for example : {"temperature":14.23} use "temperature" as path
+
+password | string | no | Password to use for authentication with mqtt broker. User must be defined in that case.
+keepalive | int | no | keepalive timeout in seconds. Time between two mqtt PING.
+host | string | no | IP address of the mqtt broker to connect to. Default value is 127.0.0.1.
+io_style | list | yes | GUI style display. This will control the icon displayed on the UI
+unit | string | no | Unit which will be displayed on the UI as a suffix.
+precision | int | no | Precision of the returned value. The value represents the number of decimal after the dot. The value is rounded like this : value = 19.275 => returned value 19.28 when preicision = 2, 19.3 when precision = 1, 19 when precision = 0
+name | string | yes | Name of Input/Output.
+port | int | no | TCP port of the mqtt broker. Default value is 1883
+io_type | string | yes | IO type, can be "input", "output", "inout"
+visible | bool | no | Display the Input/Output on all user interfaces if set. Default to true
+frequency | float | no | Sampling time in microsecond. The value is read at this frequency. If this value is not set, calaos tries to read the interval parameter
+id | string | yes | Unique ID identifying the Input/Output in calaos-server
+topic_sub | string | yes | Topic on witch to subscribe.
+topic_pub | string | yes | Topic on witch to publish.
+gui_type | string | no | Internal graphical type for all calaos objects. Set automatically, read-only parameter.
+interval | float | no | Sampling time in seconds. The value is read at this frequency. If this value is not set, the default value is 15s
+coeff_a | float | no | use in conjunction of coeff_b to apply equation of the form `value_displayed = coeff_a * raw_value + coeff_b`. Default value is 1.0.
+user | string | no | User to use for authentication with mqtt broker. Password must be defined in that case.
+coeff_b | float | no | use in conjunction of coeff_a to apply equation of the form `value_displayed = coeff_a * raw_value + coeff_b`. Default value is 0.0
+enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
+log_history | bool | no | If enabled, write an entry in the history event log for this IO
+offset | float | no | same as coeff_b, can be used alone. Default value is 0.0
+
+##Conditions of MqttInputAnalog
+Name | Description
+---- | -----------
+changed | Event on any change of value 
+ value | Event on a specific value 
+ 
+
+#MqttInputString
+Temperature read from a mqtt broker
+
+##Parameters of MqttInputString
+Name | Type | Mandatory | Description
+---- | ---- | --------- | -----------
+path | string | yes | The path where to found the value in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. for example weather[0]/description, try to read the description value of the 1 element of the array of the weather object. if payload is somple json, just try to use the key of the value you want to read, for example : {"temperature":14.23} use "temperature" as path
+
+user | string | no | User to use for authentication with mqtt broker. Password must be defined in that case.
+name | string | yes | Name of Input/Output.
+enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
+log_history | bool | no | If enabled, write an entry in the history event log for this IO
+visible | bool | no | Display the Input/Output on all user interfaces if set. Default to true
+io_type | string | yes | IO type, can be "input", "output", "inout"
+port | int | no | TCP port of the mqtt broker. Default value is 1883
+keepalive | int | no | keepalive timeout in seconds. Time between two mqtt PING.
+id | string | yes | Unique ID identifying the Input/Output in calaos-server
+topic_sub | string | yes | Topic on witch to subscribe.
+topic_pub | string | yes | Topic on witch to publish.
+gui_type | string | no | Internal graphical type for all calaos objects. Set automatically, read-only parameter.
+host | string | no | IP address of the mqtt broker to connect to. Default value is 127.0.0.1.
+password | string | no | Password to use for authentication with mqtt broker. User must be defined in that case.
+
+
+#MqttInputSwitch
+Switch value readed from a mqtt broker
+
+
+Basic switch with press/release states.
+
+##Parameters of MqttInputSwitch
+Name | Type | Mandatory | Description
+---- | ---- | --------- | -----------
+off_value | string | yes | Value to interpret as OFF value
+on_value | string | yes | Value to interpret as ON value
+path | string | yes | The path where to found the value in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. for example weather[0]/description, try to read the description value of the 1 element of the array of the weather object. if payload is somple json, just try to use the key of the value you want to read, for example : {"temperature":14.23} use "temperature" as path
+
+user | string | no | User to use for authentication with mqtt broker. Password must be defined in that case.
+name | string | yes | Name of Input/Output.
+enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
+log_history | bool | no | If enabled, write an entry in the history event log for this IO
+visible | bool | no | A switch can't be visible. Always false.
+io_type | string | yes | IO type, can be "input", "output", "inout"
+port | int | no | TCP port of the mqtt broker. Default value is 1883
+keepalive | int | no | keepalive timeout in seconds. Time between two mqtt PING.
+id | string | yes | Unique ID identifying the Input/Output in calaos-server
+topic_sub | string | yes | Topic on witch to subscribe.
+topic_pub | string | yes | Topic on witch to publish.
+gui_type | string | no | Internal graphical type for all calaos objects. Set automatically, read-only parameter.
+host | string | no | IP address of the mqtt broker to connect to. Default value is 127.0.0.1.
+password | string | no | Password to use for authentication with mqtt broker. User must be defined in that case.
+
+##Conditions of MqttInputSwitch
+Name | Description
+---- | -----------
+true | Event triggered when switch is pressed 
+ changed | Event on any change of state 
+ false | Event triggered when switch is released 
+ 
+
+#MqttInputTemp
+Temperature read from a mqtt broker
+
+
+Temperature sensor input. Use for displaying temperature and to control heating devices with rules based on temperature value
+
+##Parameters of MqttInputTemp
+Name | Type | Mandatory | Description
+---- | ---- | --------- | -----------
+path | string | yes | The path where to found the value in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. for example weather[0]/description, try to read the description value of the 1 element of the array of the weather object. if payload is somple json, just try to use the key of the value you want to read, for example : {"temperature":14.23} use "temperature" as path
+
+password | string | no | Password to use for authentication with mqtt broker. User must be defined in that case.
+keepalive | int | no | keepalive timeout in seconds. Time between two mqtt PING.
+host | string | no | IP address of the mqtt broker to connect to. Default value is 127.0.0.1.
+precision | int | no | Precision of the returned value. The value represents the number of decimal after the dot. The value is rounded like this : value = 19.275 => returned value 19.28 when preicision = 2, 19.3 when precision = 1, 19 when precision = 0
+name | string | yes | Name of Input/Output.
+port | int | no | TCP port of the mqtt broker. Default value is 1883
+io_type | string | yes | IO type, can be "input", "output", "inout"
+visible | bool | no | Display the Input/Output on all user interfaces if set. Default to true
+frequency | float | no | Sampling time in microsecond. The value is read at this frequency. If this value is not set, calaos tries to read the interval parameter
+id | string | yes | Unique ID identifying the Input/Output in calaos-server
+topic_sub | string | yes | Topic on witch to subscribe.
+topic_pub | string | yes | Topic on witch to publish.
+gui_type | string | no | Internal graphical type for all calaos objects. Set automatically, read-only parameter.
+interval | float | no | Sampling time in seconds. The value is read at this frequency. If this value is not set, the default value is 15s
+coeff_a | float | no | use in conjunction of coeff_b to apply equation of the form `value_displayed = coeff_a * raw_value + coeff_b`. Default value is 1.0.
+user | string | no | User to use for authentication with mqtt broker. Password must be defined in that case.
+coeff_b | float | no | use in conjunction of coeff_a to apply equation of the form `value_displayed = coeff_a * raw_value + coeff_b`. Default value is 0.0
+enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
+log_history | bool | no | If enabled, write an entry in the history event log for this IO
+offset | float | no | same as coeff_b, can be used alone. Default value is 0.0
+
+##Conditions of MqttInputTemp
+Name | Description
+---- | -----------
+changed | Event on any change of temperature value 
+ value | Event on a temperature value in degree Celsius 
+ 
+
+#MqttOutputAnalog
+Control analog output through mqtt broker
+
+
+Analog output. Useful to control analog output devices connected to calaos.
+
+##Parameters of MqttOutputAnalog
+Name | Type | Mandatory | Description
+---- | ---- | --------- | -----------
+path | string | yes | The path where to found the value in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. for example weather[0]/description, try to read the description value of the 1 element of the array of the weather object. if payload is somple json, just try to use the key of the value you want to read, for example : {"temperature":14.23} use "temperature" as path
+
+password | string | no | Password to use for authentication with mqtt broker. User must be defined in that case.
+keepalive | int | no | keepalive timeout in seconds. Time between two mqtt PING.
+host | string | no | IP address of the mqtt broker to connect to. Default value is 127.0.0.1.
+io_style | list | yes | GUI style display. This will control the icon displayed on the UI
+name | string | yes | Name of Input/Output.
+port | int | no | TCP port of the mqtt broker. Default value is 1883
+io_type | string | yes | IO type, can be "input", "output", "inout"
+enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
+log_history | bool | no | If enabled, write an entry in the history event log for this IO
+visible | bool | no | Display the Input/Output on all user interfaces if set. Default to true
+unit | string | no | Unit which will be displayed on the UI as a suffix.
+id | string | yes | Unique ID identifying the Input/Output in calaos-server
+topic_sub | string | yes | Topic on witch to subscribe.
+topic_pub | string | yes | Topic on witch to publish.
+step | float | no | Set a step for increment/decrement value. Default is 1.0
+gui_type | string | no | Internal graphical type for all calaos objects. Set automatically, read-only parameter.
+coeff_a | float | no | use in conjunction of coeff_b to apply equation of the form `value_sent = coeff_a * raw_value + coeff_b`. Default value is 1.0.
+user | string | no | User to use for authentication with mqtt broker. Password must be defined in that case.
+coeff_b | float | no | use in conjunction of coeff_a to apply equation of the form `value_sent = coeff_a * raw_value + coeff_b`. Default value is 0.0
+
+##Conditions of MqttOutputAnalog
+Name | Description
+---- | -----------
+0 | Event on a specific number value 
+ value | Event on a specific value 
+ changed | Event on any change of value 
+ 
+##Actions of MqttOutputAnalog
+Name | Description
+---- | -----------
+dec 1 | Decrement value by value 
+ inc 1 | Increment value by value 
+ dec | Decrement value with configured step 
+ 0 | Set a specific number value 
+ inc | Increment value with configured step 
+ 
+
+#MqttOutputLight
+Control lights through mqtt broker
+
+
+Basic light. This light have only 2 states, ON or OFF. Can also be used to control simple relays output
+
+##Parameters of MqttOutputLight
+Name | Type | Mandatory | Description
+---- | ---- | --------- | -----------
+off_value | string | yes | Value to interpret as OFF value
+on_value | string | yes | Value to interpret as ON value
+path | string | yes | The path where to found the value in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. for example weather[0]/description, try to read the description value of the 1 element of the array of the weather object. if payload is somple json, just try to use the key of the value you want to read, for example : {"temperature":14.23} use "temperature" as path
+
+user | string | no | User to use for authentication with mqtt broker. Password must be defined in that case.
+password | string | no | Password to use for authentication with mqtt broker. User must be defined in that case.
+name | string | yes | Name of Input/Output.
+enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
+log_history | bool | no | If enabled, write an entry in the history event log for this IO
+visible | bool | no | Display the Input/Output on all user interfaces if set. Default to true
+io_type | string | yes | IO type, can be "input", "output", "inout"
+port | int | no | TCP port of the mqtt broker. Default value is 1883
+keepalive | int | no | keepalive timeout in seconds. Time between two mqtt PING.
+id | string | yes | Unique ID identifying the Input/Output in calaos-server
+topic_sub | string | yes | Topic on witch to subscribe.
+topic_pub | string | yes | Topic on witch to publish.
+gui_type | string | no | Internal graphical type for all calaos objects. Set automatically, read-only parameter.
+io_style | list | yes | GUI style display. This will control the icon displayed on the UI
+host | string | no | IP address of the mqtt broker to connect to. Default value is 127.0.0.1.
+
+##Conditions of MqttOutputLight
+Name | Description
+---- | -----------
+false | Event when light is off 
+ changed | Event on any change of value 
+ true | Event when light is on 
+ 
+##Actions of MqttOutputLight
+Name | Description
+---- | -----------
+set_state true | Update internal light state without starting real action. This is useful when having updating the light state from an external source. 
+ set_state false | Update internal light state without starting real action. This is useful when having updating the light state from an external source. 
+ false | Switch the light off 
+ true | Switch the light on 
+ toggle | Invert light state 
+ impulse 500 200 500 200 | Do an impulse on light state with a pattern.<br>Ex: 500 200 500 200 means: TRUE for 500ms, FALSE for 200ms, TRUE for 500ms, FALSE for 200ms<br>Ex: 500 loop 200 300 means: TRUE for 500ms, then loop the next steps for infinite, FALSE for 200ms, TRUE for 300ms<br>Ex: 100 100 200 old means: blinks and then set to the old start state (before impulse starts) 
+ impulse 200 | Do an impulse on light state. Set to true for X ms then reset to false 
+ 
+
+#MqttOutputLightDimmer
+Control lights through mqtt broker
+
+
+Light with dimming control. Light intensity can be changed for this light.
+
+##Parameters of MqttOutputLightDimmer
+Name | Type | Mandatory | Description
+---- | ---- | --------- | -----------
+path | string | yes | The path where to found the value in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. for example weather[0]/description, try to read the description value of the 1 element of the array of the weather object. if payload is somple json, just try to use the key of the value you want to read, for example : {"temperature":14.23} use "temperature" as path
+
+user | string | no | User to use for authentication with mqtt broker. Password must be defined in that case.
+name | string | yes | Name of Input/Output.
+enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
+log_history | bool | no | If enabled, write an entry in the history event log for this IO
+visible | bool | no | Display the Input/Output on all user interfaces if set. Default to true
+io_type | string | yes | IO type, can be "input", "output", "inout"
+port | int | no | TCP port of the mqtt broker. Default value is 1883
+keepalive | int | no | keepalive timeout in seconds. Time between two mqtt PING.
+id | string | yes | Unique ID identifying the Input/Output in calaos-server
+topic_sub | string | yes | Topic on witch to subscribe.
+topic_pub | string | yes | Topic on witch to publish.
+gui_type | string | no | Internal graphical type for all calaos objects. Set automatically, read-only parameter.
+host | string | no | IP address of the mqtt broker to connect to. Default value is 127.0.0.1.
+password | string | no | Password to use for authentication with mqtt broker. User must be defined in that case.
+
+##Conditions of MqttOutputLightDimmer
+Name | Description
+---- | -----------
+value | Event when light is at this value 
+ changed | Event on any change of value 
+ 
+##Actions of MqttOutputLightDimmer
+Name | Description
+---- | -----------
+hold stop | Dynamically change light intensity when holding a switch (stop action) 
+ hold press | Dynamically change light intensity when holding a switch (press action) 
+ down 5 | Decrease intensity by X percent 
+ impulse 500 200 500 200 | Do an impulse on light state with a pattern.<br>Ex: 500 200 500 200 means: TRUE for 500ms, FALSE for 200ms, TRUE for 500ms, FALSE for 200ms<br>Ex: 500 loop 200 300 means: TRUE for 500ms, then loop the next steps for infinite, FALSE for 200ms, TRUE for 300ms<br>Ex: 100 100 200 old means: blinks and then set to the old start state (before impulse starts) 
+ set off 50 | Set light value without switching on. This will be the light intensity for the next ON 
+ true | Switch the light on 
+ set_state 50 | Update internal light state without starting real action. This is useful when having updating the light state from an external source. 
+ false | Switch the light off 
+ toggle | Invert the light state 
+ set_state false | Update internal light state without starting real action. This is useful when having updating the light state from an external source. 
+ up 5 | Increase intensity by X percent 
+ set_state true | Update internal light state without starting real action. This is useful when having updating the light state from an external source. 
+ impulse 200 | Do an impulse on light state. Set to true for X ms then reset to false 
+ set 50 | Set light intensity and swith on if light is off 
+ 
+
 #MySensorsInputAnalog
 Analog measurement with MySensors node
 
