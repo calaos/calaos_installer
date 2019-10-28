@@ -117,5 +117,6 @@
         <file>img/hue.jpg</file>
         <file>img/xpl.png</file>
         <file>img/icon_entry_helper.png</file>
+        <file>img/mqtt.png</file>   
     </qresource>
 </RCC>

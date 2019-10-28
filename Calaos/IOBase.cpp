@@ -65,6 +65,13 @@ REGISTER_INPUT(xPLInputTemp, "temp", TINT, "21")
 REGISTER_INPUT(xPLInputSwitch, "switch", TBOOL, "true")
 REGISTER_INPUT(xPLInputAnalog, "analog_in", TINT, "42")
 REGISTER_INPUT(xPLInputString, "string_in", TSTRING, "Test")
+REGISTER_INPUT(MqttInputTemp, "temp", TINT, "19")
+REGISTER_INPUT(MqttInputAnalog, "analog_in", TINT, "19")
+REGISTER_INPUT(MqttInputString, "string_in", TSTRING, "Test")
+REGISTER_INPUT(MqttInputSwitch, "switch", TBOOL, "true")
+REGISTER_INPUT(MqttInputSwitchLongPress, "switch_long", TINT, "2")
+REGISTER_INPUT(MqttInputSwitchTriple, "switch3", TINT, "2")
+
 
 /* Declare output class/type */
 REGISTER_OUTPUT(OutputFake, "light", TBOOL, "true")
@@ -109,6 +116,10 @@ REGISTER_OUTPUT(HueOutputLightRGB, "light_rgb", TSTRING, "#00FF11")
 REGISTER_OUTPUT(xPLOutputSwitch, "light", TBOOL, "true")
 REGISTER_OUTPUT(xPLOutputAnalog, "analog_out", TINT, "42")
 REGISTER_OUTPUT(xPLOutputString, "string_out", TSTRING, "Test")
+REGISTER_OUTPUT(MqttOutputLight, "light", TBOOL, "true")
+REGISTER_OUTPUT(MqttOutputLightDimmer, "light_dimmer", TSTRING, "42")
+REGISTER_OUTPUT(MqttOutputLightRGB, "light_rgb", TSTRING, "#FF00FF")
+REGISTER_OUTPUT(MqttOutputAnalog, "analog_out", TINT, "42")
 
 /* Declare InOut class/type */
 REGISTER_INOUT(InputTimer, "timer", TSTRING, "true")

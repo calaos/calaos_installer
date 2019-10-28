@@ -609,6 +609,62 @@ FormRules::FormRules(QWidget *parent) :
          addCalaosIO(p);
      });
 
+     QMenu *mqtt_menu = add_menu->addMenu(QIcon("://img/mqtt.png"), "Mqtt");
+
+     action = mqtt_menu->addAction(tr("Temperature sensor"));
+     action->setIcon(QIcon(":/img/temp.png"));
+     connect(action, &QAction::triggered, [=]()
+     {
+         Params p = {{ "type", "MqttInputTemp" },
+                     { "io_type", "input" }};
+         addCalaosIO(p);
+     });
+
+     action = mqtt_menu->addAction(tr("Switch"));
+     action->setIcon(QIcon(":/img/icon_inter.png"));
+     connect(action, &QAction::triggered, [=]()
+     {
+         Params p = {{ "type", "MqttInputSwitch" },
+                     { "io_type", "input" }};
+         addCalaosIO(p);
+     });
+
+     action = mqtt_menu->addAction(tr("Analog Input"));
+     action->setIcon(QIcon(":/img/icon_analog.png"));
+     connect(action, &QAction::triggered, [=]()
+     {
+         Params p = {{ "type", "MqttInputAnalog" },
+                     { "io_type", "input" }};
+         addCalaosIO(p);
+     });
+
+     action = mqtt_menu->addAction(tr("String Input"));
+     action->setIcon(QIcon(":/img/text.png"));
+     connect(action, &QAction::triggered, [=]()
+     {
+         Params p = {{ "type", "MqttInputString" },
+                     { "io_type", "input" }};
+         addCalaosIO(p);
+     });
+
+     action = mqtt_menu->addAction(tr("Light"));
+     action->setIcon(QIcon(":/img/icon_light_on.png"));
+     connect(action, &QAction::triggered, [=]()
+     {
+         Params p = {{ "type", "MqttOutputLight" },
+                     { "io_type", "output" }};
+         addCalaosIO(p);
+     });
+
+     action = mqtt_menu->addAction(tr("Analog Output"));
+     action->setIcon(QIcon(":/img/icon_analog.png"));
+     connect(action, &QAction::triggered, [=]()
+     {
+         Params p = {{ "type", "MqttOutputAnalog" },
+                     { "io_type", "output" }};
+         addCalaosIO(p);
+     });
+  
     add_menu->addSeparator();
 
     action = add_menu->addAction(tr("Camera"));
@@ -624,7 +680,6 @@ FormRules::FormRules(QWidget *parent) :
     connect(action, &QAction::triggered, [=]() { addCalaosItem(HW_NONE, ITEM_AVR); });
 
     add_menu->addSeparator();
-
     action = add_menu->addAction(tr("Internal Variable"));
     action->setIcon(QIcon(":/img/text.png"));
     connect(action, &QAction::triggered, [=]() { addCalaosItem(HW_NONE, ITEM_INTERN); });
