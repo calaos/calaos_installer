@@ -69,8 +69,6 @@ REGISTER_INPUT(MqttInputTemp, "temp", TINT, "19")
 REGISTER_INPUT(MqttInputAnalog, "analog_in", TINT, "19")
 REGISTER_INPUT(MqttInputString, "string_in", TSTRING, "Test")
 REGISTER_INPUT(MqttInputSwitch, "switch", TBOOL, "true")
-REGISTER_INPUT(MqttInputSwitchLongPress, "switch_long", TINT, "2")
-REGISTER_INPUT(MqttInputSwitchTriple, "switch3", TINT, "2")
 
 
 /* Declare output class/type */
