@@ -59,9 +59,6 @@ void FormActionStd::setAction(QTreeWidgetItem *item, Rule *_rule, Action *_actio
     string type = output->get_param("type");
     string gtype = output->get_gui_type();
     string id = output->get_param("id");
-    if (output->get_gui_type() == "audio" ||
-        output->get_gui_type() == "camera")
-        id = output->get_param("oid");
 
     //Search room icon
     for (int i = 0;i < ListeRoom::Instance().size();i++)
@@ -252,21 +249,12 @@ void FormActionStd::on_btMore_clicked()
 
     string type = output->get_param("type");
     string id = output->get_param("id");
-    if (output->get_gui_type() == "audio" ||
-        output->get_gui_type() == "camera")
-        id = output->get_param("oid");
-
     DialogIOList dio(NULL, output);
 
     if (dio.exec() == QDialog::Accepted)
     {
         string var_id = dio.getOutput()->get_param("id");
-        if (dio.getOutput()->get_gui_type() == "audio" ||
-            dio.getOutput()->get_gui_type() == "camera")
-            var_id = dio.getOutput()->get_param("iid");
-
         action->get_params_var().Add(id, var_id);
-
         FormRules::updateItemAction(qitem, action);
     }
 }
@@ -303,10 +291,6 @@ void FormActionStd::on_editValue_textChanged(const QString &arg1)
 
     string type = output->get_param("type");
     string id = output->get_param("id");
-    if (output->get_gui_type() == "audio" ||
-        output->get_gui_type() == "camera")
-        id = output->get_param("oid");
-
     string value = ui->editValue->text().toUtf8().constData();
 
     action->get_params().Add(id, value);

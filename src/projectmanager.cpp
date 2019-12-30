@@ -275,10 +275,6 @@ void RuleXmlWriter::writeCondition(Rule *rule)
                 Params &params_var = cond->get_params_var();
 
                 string id = cond->get_input(j)->get_param("id");
-                if (cond->get_input(j)->get_gui_type() == "audio" ||
-                    cond->get_input(j)->get_gui_type() == "camera")
-                    id = cond->get_input(j)->get_param("iid");
-
                 attr.clear();
                 attr.append("id", QString::fromUtf8(id.c_str()));
                 attr.append("oper", QString::fromUtf8(oper[id].c_str()));
@@ -302,13 +298,8 @@ void RuleXmlWriter::writeCondition(Rule *rule)
 
             writeStartElement("http://www.calaos.fr", "output");
 
-            string id = cond->getOutput()->get_param("id");
-            if (cond->getOutput()->get_gui_type() == "audio" ||
-                cond->getOutput()->get_gui_type() == "camera")
-                id = cond->getOutput()->get_param("oid");
-
             attr.clear();
-            attr.append("id", QString::fromUtf8(id.c_str()));
+            attr.append("id", QString::fromStdString(cond->getOutput()->get_param("id")));
             attr.append("oper", QString::fromUtf8(cond->getOutputOper().c_str()));
             attr.append("val", QString::fromUtf8(cond->getOutputParam().c_str()));
             if (cond->getOutputParamVar() != "")
@@ -342,12 +333,7 @@ void RuleXmlWriter::writeCondition(Rule *rule)
                 writeStartElement("http://www.calaos.fr", "input");
                 QXmlStreamAttributes attr;
 
-                string id = cond->getScriptInput(i)->get_param("id");
-                if (cond->getScriptInput(i)->get_gui_type() == "audio" ||
-                    cond->getScriptInput(i)->get_gui_type() == "camera")
-                    id = cond->getScriptInput(i)->get_param("iid");
-
-                attr.append("id", QString::fromUtf8(id.c_str()));
+                attr.append("id", QString::fromStdString(cond->getScriptInput(i)->get_param("id")));
                 writeAttributes(attr);
                 writeEndElement();
             }
@@ -390,9 +376,6 @@ void RuleXmlWriter::writeAction(Rule *rule)
                 Params &params_var = action->get_params_var();
 
                 string id = action->get_output(j)->get_param("id");
-                if (action->get_output(j)->get_gui_type() == "audio" ||
-                    action->get_output(j)->get_gui_type() == "camera")
-                    id = action->get_output(j)->get_param("oid");
 
                 attr.clear();
                 attr.append("id", QString::fromUtf8(id.c_str()));
@@ -590,7 +573,7 @@ void IOXmlReader::readInput(Room *room)
 
     if (ListeRoom::Instance().get_input(p["id"]))
     {
-        QMessageBox::critical(NULL, "Calaos Installer", QString(QObject::tr("Input with id \"%1\" already exists!")).arg(QString(p["id"].c_str())));
+        QMessageBox::critical(nullptr, "Calaos Installer", QObject::tr("Input with id \"%1\" already exists!").arg(QString(p["id"].c_str())));
     }
 
     IOBase *in = ListeRoom::Instance().createInput(p, room);
@@ -720,7 +703,7 @@ void IOXmlReader::readOutput(Room *room)
 
     if (ListeRoom::Instance().get_output(p["id"]))
     {
-        QMessageBox::critical(NULL, "Calaos Installer", QString(QObject::tr("Output with id \"%1\" already exists!")).arg(QString(p["id"].c_str())));
+        QMessageBox::critical(nullptr, "Calaos Installer", QObject::tr("Output with id \"%1\" already exists!").arg(QString(p["id"].c_str())));
     }
 
     IOBase *output = ListeRoom::Instance().createOutput(p, room);
@@ -894,7 +877,7 @@ bool ProjectManager::loadRulesFromFile(QString &file)
         QDomElement node_cond = node_rule.firstChildElement("calaos:condition");
         while (!node_cond.isNull())
         {
-            Condition *cond = NULL;
+            Condition *cond = nullptr;
             string cond_type = node_cond.attribute("type").toUtf8().data();
 
             if (cond_type == "standard" || cond_type == "")
@@ -914,6 +897,7 @@ bool ProjectManager::loadRulesFromFile(QString &file)
                     string val_var = node_in.attribute("val_var").toUtf8().data();
 
                     IOBase *input = ListeRoom::Instance().get_input(id);
+                    id = input->get_param("id"); //set id back to "id" parameter if old iid/oid where used
 
                     if (input)
                     {
@@ -940,6 +924,7 @@ bool ProjectManager::loadRulesFromFile(QString &file)
                     string val_var = node_in.attribute("val_var").toUtf8().data();
 
                     IOBase *output = ListeRoom::Instance().get_output(id);
+                    id = output->get_param("id"); //set id back to "id" parameter if old iid/oid where used
 
                     if (output)
                     {
@@ -968,6 +953,7 @@ bool ProjectManager::loadRulesFromFile(QString &file)
                     {
                         string id = node_in.attribute("id").toUtf8().data();
                         IOBase *input = ListeRoom::Instance().get_input(id);
+                        id = input->get_param("id"); //set id back to "id" parameter if old iid/oid where used
                         if (input)
                             cond->addScriptInput(input);
                     }
@@ -993,7 +979,7 @@ bool ProjectManager::loadRulesFromFile(QString &file)
         QDomElement node_action = node_rule.firstChildElement("calaos:action");
         while (!node_action.isNull())
         {
-            Action *action = NULL;
+            Action *action = nullptr;
             string action_type = node_action.attribute("type").toUtf8().data();
             if (action_type == "standard" || action_type == "")
             {
@@ -1007,6 +993,7 @@ bool ProjectManager::loadRulesFromFile(QString &file)
                     string val_var = node_out.attribute("val_var").toUtf8().data();
 
                     IOBase *output = ListeRoom::Instance().get_output(id);
+                    id = output->get_param("id"); //set id back to "id" parameter if old iid/oid where used
 
                     if (output)
                     {

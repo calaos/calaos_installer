@@ -22,13 +22,12 @@ class DialogNewWebIO : public QDialog
         Q_OBJECT
         Q_DISABLE_COPY(DialogNewWebIO)
 public:
-        explicit DialogNewWebIO(Room *r, int item,  QWidget *parent = 0);
+        explicit DialogNewWebIO(Room *r, int item,  QWidget *parent = nullptr);
         virtual ~DialogNewWebIO();
 
         bool isInputType()
         {
-            if (type.find("Input") != string::npos)
-                return true; return false;
+            return (type.find("Input") != string::npos);
         }
         IOBase *getInput() { return io; }
         IOBase *getOutput() { return io; }

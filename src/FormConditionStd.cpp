@@ -95,9 +95,6 @@ void FormConditionStd::setCondition(QTreeWidgetItem *item, Rule *_rule, Conditio
     string type = io->get_param("type");
     string gtype = io->get_gui_type();
     string id = io->get_param("id");
-    if (io->get_gui_type() == "audio" ||
-        io->get_gui_type() == "camera")
-        id = io->get_param("iid");
 
     //Search room icon
     for (int i = 0;i < ListeRoom::Instance().size();i++)
@@ -290,19 +287,11 @@ void FormConditionStd::on_btMore_clicked()
         if (!input) return;
 
         string id = input->get_param("id");
-        if (input->get_gui_type() == "audio" ||
-            input->get_gui_type() == "camera")
-            id = input->get_param("iid");
-
         DialogIOList dio(input, NULL);
 
         if (dio.exec() == QDialog::Accepted)
         {
             string var_id = dio.getInput()->get_param("id");
-            if (dio.getInput()->get_gui_type() == "audio" ||
-                dio.getInput()->get_gui_type() == "camera")
-                var_id = dio.getInput()->get_param("iid");
-
             condition->get_params().Add(id, "");
             condition->get_params_var().Add(id, var_id);
 
@@ -316,19 +305,11 @@ void FormConditionStd::on_btMore_clicked()
         if (!output) return;
 
         string id = output->get_param("id");
-        if (output->get_gui_type() == "audio" ||
-            output->get_gui_type() == "camera")
-            id = output->get_param("iid");
-
         DialogIOList dio(NULL, output);
 
         if (dio.exec() == QDialog::Accepted)
         {
             string var_id = dio.getOutput()->get_param("id");
-            if (dio.getOutput()->get_gui_type() == "audio" ||
-                dio.getOutput()->get_gui_type() == "camera")
-                var_id = dio.getOutput()->get_param("iid");
-
             condition->setOutputParamVar(var_id);
             condition->setOutputParam("");
 
@@ -350,10 +331,6 @@ void FormConditionStd::on_comboOp_currentIndexChanged(int)
         if (!input) return;
 
         string id = input->get_param("id");
-        if (input->get_gui_type() == "audio" ||
-            input->get_gui_type() == "camera")
-            id = input->get_param("iid");
-
         int current = ui->comboOp->currentIndex();
 
         string v = ui->comboOp->itemData(current).toString().toUtf8().constData();
@@ -366,10 +343,6 @@ void FormConditionStd::on_comboOp_currentIndexChanged(int)
         if (!output) return;
 
         string id = output->get_param("id");
-        if (output->get_gui_type() == "audio" ||
-            output->get_gui_type() == "camera")
-            id = output->get_param("iid");
-
         int current = ui->comboOp->currentIndex();
 
         string v = ui->comboOp->itemData(current).toString().toUtf8().constData();
@@ -394,10 +367,6 @@ void FormConditionStd::on_editValue_textChanged(const QString &arg1)
         if (!input) return;
 
         string id = input->get_param("id");
-        if (input->get_gui_type() == "audio" ||
-            input->get_gui_type() == "camera")
-            id = input->get_param("iid");
-
         string value = ui->editValue->text().toUtf8().constData();
 
         condition->get_params().Add(id, value);
@@ -410,10 +379,6 @@ void FormConditionStd::on_editValue_textChanged(const QString &arg1)
         if (!output) return;
 
         string id = output->get_param("id");
-        if (output->get_gui_type() == "audio" ||
-            output->get_gui_type() == "camera")
-            id = output->get_param("iid");
-
         string value = ui->editValue->text().toUtf8().constData();
 
         condition->setOutputParam(value);

@@ -172,10 +172,6 @@ void HomeTreeWidget::mouseMoveEvent(QMouseEvent *event)
     if (itinput)
     {
         string id = itinput->getInput()->get_param("id");
-        if (itinput->getInput()->get_gui_type() == "audio" ||
-            itinput->getInput()->get_gui_type() == "camera")
-            id = itinput->getInput()->get_param("iid");
-
         QDrag *drag = new QDrag(this);
         QMimeData *mimeData = new QMimeData;
         QList<QUrl> list;
@@ -197,10 +193,6 @@ void HomeTreeWidget::mouseMoveEvent(QMouseEvent *event)
     if (itoutput)
     {
         string id = itoutput->getOutput()->get_param("id");
-        if (itoutput->getOutput()->get_gui_type() == "audio" ||
-            itoutput->getOutput()->get_gui_type() == "camera")
-            id = itoutput->getOutput()->get_param("oid");
-
         QDrag *drag = new QDrag(this);
         QMimeData *mimeData = new QMimeData;
         QList<QUrl> list;

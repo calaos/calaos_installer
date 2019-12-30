@@ -1485,10 +1485,6 @@ void FormRules::updateItemCondition(QTreeWidgetItem *item, Condition *condition)
         if (!input) return;
 
         string id = input->get_param("id");
-        if (input->get_gui_type() == "audio" ||
-            input->get_gui_type() == "camera")
-            id = input->get_param("iid");
-
         name = input->get_param("name");
         oper = condition->get_operator().get_param(id);
 
@@ -1562,10 +1558,6 @@ void FormRules::updateItemCondition(QTreeWidgetItem *item, Condition *condition)
         if (!output) return;
 
         string id = output->get_param("id");
-        if (output->get_gui_type() == "audio" ||
-            output->get_gui_type() == "camera")
-            id = output->get_param("iid");
-
         name = output->get_param("name");
         oper = condition->getOutputOper();
 
@@ -1676,10 +1668,6 @@ void FormRules::updateItemAction(QTreeWidgetItem *item, Action *action)
         if (!output) return;
 
         string id = output->get_param("id");
-        if (output->get_gui_type() == "audio" ||
-            output->get_gui_type() == "camera")
-            id = output->get_param("oid");
-
         name = output->get_param("name");
 
         if (action->get_params_var().get_param(id) != "")
@@ -1785,10 +1773,6 @@ void FormRules::goSelectRule()
     if (itinput)
     {
         string id = itinput->getInput()->get_param("id");
-        if (itinput->getInput()->get_gui_type() == "audio" ||
-            itinput->getInput()->get_gui_type() == "camera")
-            id = itinput->getInput()->get_param("iid");
-
         filter_text += id.c_str();
     }
 
@@ -1796,10 +1780,6 @@ void FormRules::goSelectRule()
     if (itoutput)
     {
         string id = itoutput->getOutput()->get_param("id");
-        if (itoutput->getOutput()->get_gui_type() == "audio" ||
-            itoutput->getOutput()->get_gui_type() == "camera")
-            id = itoutput->getOutput()->get_param("oid");
-
         filter_text += id.c_str();
     }
 
@@ -3182,12 +3162,7 @@ void FormRules::on_filterEditRules_textChanged(QString filter_text)
                     for (int j = 0;j < action->get_size();j++)
                     {
                         searchList << action->get_output(j)->get_param("name").c_str();
-
                         string id = action->get_output(j)->get_param("id");
-                        if (action->get_output(j)->get_gui_type() == "audio" ||
-                            action->get_output(j)->get_gui_type() == "camera")
-                            id = action->get_output(j)->get_param("oid");
-
                         searchList << id.c_str();
                     }
                 }
@@ -3202,12 +3177,7 @@ void FormRules::on_filterEditRules_textChanged(QString filter_text)
                     for (int j = 0;j < cond->get_size();j++)
                     {
                         searchList << cond->get_input(j)->get_param("name").c_str();
-
                         string id = cond->get_input(j)->get_param("id");
-                        if (cond->get_input(j)->get_gui_type() == "audio" ||
-                            cond->get_input(j)->get_gui_type() == "camera")
-                            id = cond->get_input(j)->get_param("iid");
-
                         searchList << id.c_str();
                     }
                 }
@@ -3455,15 +3425,11 @@ void FormRules::addCondition(int type)
                 string type = outitem->getOutput()->get_gui_type();
                 if (type == "timer" || type == "scenario" ||
                     type == "var_bool" || type == "var_int" ||
-                    type == "var_string")
+                    type == "var_string" || type == "avreceiver" ||
+                    type == "audio")
                 {
-                    input = ListeRoom::Instance().get_input(outitem->getOutput()->get_param("id"));
+                    input = outitem->getOutput();
                 }
-
-                if (outitem->getOutput()->get_gui_type() == "audio")
-                    input = ListeRoom::Instance().get_input(outitem->getOutput()->get_param("iid"));
-                if (outitem->getOutput()->get_gui_type() == "camera")
-                    input = ListeRoom::Instance().get_input(outitem->getOutput()->get_param("iid"));
             }
         }
         else
@@ -3478,10 +3444,6 @@ void FormRules::addCondition(int type)
         }
 
         string id = input->get_param("id");
-        if (input->get_gui_type() == "audio" ||
-            input->get_gui_type() == "camera")
-            id = input->get_param("iid");
-
         Rule *rule = getCurrentRule();
         if (!rule) return;
 
@@ -3517,10 +3479,6 @@ void FormRules::addCondition(int type)
         if (!output) return;
 
         string id = output->get_param("id");
-        if (output->get_gui_type() == "audio" ||
-            output->get_gui_type() == "camera")
-            id = output->get_param("iid");
-
         Rule *rule = getCurrentRule();
         if (!rule) return;
 
@@ -3578,9 +3536,6 @@ void FormRules::addAction(int type)
         if (!output) return;
 
         string id = output->get_param("id");
-        if (output->get_gui_type() == "audio" ||
-            output->get_gui_type() == "camera")
-            id = output->get_param("oid");
 
         Rule *rule = getCurrentRule();
         if (!rule) return;

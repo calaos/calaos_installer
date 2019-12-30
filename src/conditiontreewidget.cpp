@@ -22,27 +22,18 @@ bool ConditionTreeWidget::dropMimeData(QTreeWidgetItem *, int, const QMimeData *
     {
         string id = url.toString().toUtf8().data();
 
-        IOBase *input = ListeRoom::Instance().get_input(id);
-        IOBase *output = NULL;
-        if (!input)
+        IOBase *io = ListeRoom::Instance().get_input(id);
+        if (!io)
         {
             //In case id is a Audio/Cam output id
-            output = ListeRoom::Instance().get_output(id);
-
-            if (output)
-            {
-                if (output->get_gui_type() == "audio" ||
-                    output->get_gui_type() == "camera")
-                    input = ListeRoom::Instance().get_input(output->get_param("iid"));
-            }
-
-            if (!input && !output)
+            io = ListeRoom::Instance().get_output(id);
+            if (!io)
                 return false;
         }
 
         MainWindow *win = dynamic_cast<MainWindow *>(QApplication::activeWindow());
 
-        if (input)
+        if (io)
             win->getFormRules()->addCondition(COND_STD);
         else
             win->getFormRules()->addCondition(COND_OUTPUT);
