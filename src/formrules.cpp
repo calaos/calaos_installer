@@ -664,6 +664,24 @@ FormRules::FormRules(QWidget *parent) :
                      { "io_type", "output" }};
          addCalaosIO(p);
      });
+
+     action = mqtt_menu->addAction(tr("Shutter"));
+     action->setIcon(QIcon(":/img/icon_shutter.png"));
+     connect(action, &QAction::triggered, [=]()
+     {
+         Params p = {{ "type", "MqttOutputShutter" },
+                     { "io_type", "output" }};
+         addCalaosIO(p);
+     });
+
+     action = mqtt_menu->addAction(tr("Smart Shutter"));
+     action->setIcon(QIcon(":/img/icon_shutter.png"));
+     connect(action, &QAction::triggered, [=]()
+     {
+         Params p = {{ "type", "MqttOutputShutterSmart" },
+                     { "io_type", "output" }};
+         addCalaosIO(p);
+     });
   
     add_menu->addSeparator();
 
