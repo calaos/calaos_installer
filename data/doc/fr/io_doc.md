@@ -6,16 +6,17 @@ Objet AVReceiver pour contrôler l'amplificateur réseau
 Name | Type | Mandatory | Description
 ---- | ---- | --------- | -----------
 model | string | yes | Modèle AVReceiver. Pris en charge : pionnier, denon, onkyo, marantz, yamaha
-zone | int | no | Zone de l'amplificateur (si pris en charge)
-host | string | yes | Adresse IP de l'appareil
-gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
-id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
-port | int | no | Port pour la connexion
-visible | bool | no | Affichez l'entrée/sortie sur toutes les interfaces utilisateur. Vrai par défaut
-log_history | bool | no | Si activé, ecrit une entrée dans l'historique pour cet IO
-io_type | string | yes | Type d'entrée/sortie (input, output, inout)
 name | string | yes | Nom de l'entrée/sortie.
 enabled | bool | no | Activez l'entrée/sortie. Vrai par défaut. Ce paramètre est ajouté s'il n'est pas trouvé dans la configuration.
+log_history | bool | no | Si activé, ecrit une entrée dans l'historique pour cet IO
+visible | bool | no | Affichez l'entrée/sortie sur toutes les interfaces utilisateur. Vrai par défaut
+io_type | string | yes | Type d'entrée/sortie (input, output, inout)
+port | int | no | Port pour la connexion
+id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
+gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
+logged | bool | no | If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO
+host | string | yes | Adresse IP de l'appareil
+zone | int | no | Zone de l'amplificateur (si pris en charge)
 
 ##Actions of AVReceiver
 Name | Description
@@ -43,13 +44,14 @@ name | string | yes | Nom de l'entrée/sortie.
 io_type | string | yes | Type d'entrée/sortie (input, output, inout)
 enabled | bool | no | Activez l'entrée/sortie. Vrai par défaut. Ce paramètre est ajouté s'il n'est pas trouvé dans la configuration.
 log_history | bool | no | Si activé, ecrit une entrée dans l'historique pour cet IO
-zoom_step | string | no | 
 visible | bool | no | Affichez l'entrée/sortie sur toutes les interfaces utilisateur. Vrai par défaut
+pan_framesize | string | no | 
+id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
 gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
+zoom_step | string | no | 
+logged | bool | no | If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO
 ptz | bool | no | Activer si la caméra supporte le PTZ
 model | string | yes | Modèle de caméra/Canal à utiliser
-id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
-pan_framesize | string | no | 
 
 
 #BlinkstickOutputLightRGB
@@ -62,6 +64,7 @@ Lumière RVB. Choisir une couleur à définir pour cette lumière.
 Name | Type | Mandatory | Description
 ---- | ---- | --------- | -----------
 serial | string | yes | Blinkstick série à contrôler
+logged | bool | no | If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO
 gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
 id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
 visible | bool | no | Affichez l'entrée/sortie sur toutes les interfaces utilisateur. Vrai par défaut
@@ -111,6 +114,7 @@ Gadspot IP Camera. Camera can be viewed directly inside calaos and used in rules
 ##Parameters of Gadspot
 Name | Type | Mandatory | Description
 ---- | ---- | --------- | -----------
+logged | bool | no | If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO
 gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
 id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
 visible | bool | no | Affichez l'entrée/sortie sur toutes les interfaces utilisateur. Vrai par défaut
@@ -131,6 +135,7 @@ Name | Type | Mandatory | Description
 ---- | ---- | --------- | -----------
 active_low | bool | no | Mettre à vrai pour inverser le GPIO
 gpio | int | yes | ID du GPIO sur la carte
+logged | bool | no | If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO
 gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
 id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
 visible | bool | no | Un interrupteur ne peut pas être visible. Toujours faux.
@@ -158,6 +163,7 @@ Name | Type | Mandatory | Description
 ---- | ---- | --------- | -----------
 active_low | bool | no | Mettre à vrai pour inverser le GPIO
 gpio | int | yes | ID du GPIO sur la carte
+logged | bool | no | If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO
 gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
 id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
 visible | bool | no | Un interrupteur ne peut pas être visible. Toujours faux.
@@ -185,6 +191,7 @@ Name | Type | Mandatory | Description
 ---- | ---- | --------- | -----------
 active_low | bool | no | Mettre à vrai pour inverser le GPIO
 gpio | int | yes | ID du GPIO sur la carte
+logged | bool | no | If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO
 gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
 id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
 visible | bool | no | Un interrupteur ne peut pas être visible. Toujours faux.
@@ -216,11 +223,12 @@ name | string | yes | Nom de l'entrée/sortie.
 active_low_up | bool | no | Mettre à vrai pour inverser le GPIO
 enabled | bool | no | Activez l'entrée/sortie. Vrai par défaut. Ce paramètre est ajouté s'il n'est pas trouvé dans la configuration.
 log_history | bool | no | Si activé, ecrit une entrée dans l'historique pour cet IO
+gpio_up | int | yes | ID du GPIO pour ouvrir
+visible | bool | no | Affichez l'entrée/sortie sur toutes les interfaces utilisateur. Vrai par défaut
 active_low_down | bool | no | Mettre à vrai pour inverser le GPIO
 id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
 gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
-visible | bool | no | Affichez l'entrée/sortie sur toutes les interfaces utilisateur. Vrai par défaut
-gpio_up | int | yes | ID du GPIO pour ouvrir
+logged | bool | no | If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO
 time | int | yes | Temps en sec pour ouvrir ou fermer le volet
 io_type | string | yes | Type d'entrée/sortie (input, output, inout)
 impulse_time | int | no | Temps d'impulsion en ms pour les volets à impulsion. Si 0, le déclencheur d'impulsion est désactivé. 0 par défaut.
@@ -256,6 +264,7 @@ Volet intelligent. Cet volet calcule sa position en fonction du temps nécessair
 Name | Type | Mandatory | Description
 ---- | ---- | --------- | -----------
 gpio_down | int | yes | ID du GPIO pour fermer
+stop_both | bool | no | En mode impulsion, certains volets doivent activer les deux relais haut et bas lors de l'arrêt du volet
 name | string | yes | Nom de l'entrée/sortie.
 active_low_up | bool | no | Mettre à vrai pour inverser le GPIO
 enabled | bool | no | Activez l'entrée/sortie. Vrai par défaut. Ce paramètre est ajouté s'il n'est pas trouvé dans la configuration.
@@ -265,11 +274,11 @@ visible | bool | no | Affichez l'entrée/sortie sur toutes les interfaces utilis
 active_low_down | bool | no | Mettre à vrai pour inverser le GPIO
 id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
 time_down | int | yes | Temps en sec pour que le volet soit complètement fermé. Plus il est précis, plus le positionnement sera précis
+logged | bool | no | If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO
 gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
 time_up | int | yes | Temps en sec pour que le volet soit complètement ouvert. Plus il est précis, plus le positionnement sera précis
 io_type | string | yes | Type d'entrée/sortie (input, output, inout)
 impulse_time | int | no | Temps d'impulsion en ms pour les volets à impulsion. Si 0, le déclencheur d'impulsion est désactivé. 0 par défaut.
-stop_both | bool | no | En mode impulsion, certains volets doivent activer les deux relais haut et bas lors de l'arrêt du volet
 
 ##Conditions of GpioOutputShutterSmart
 Name | Description
@@ -307,6 +316,7 @@ Name | Type | Mandatory | Description
 active_low | bool | no | Mettre à vrai pour inverser le GPIO
 gpio | int | yes | ID du GPIO sur la carte
 io_style | list | yes | Style d'affichage. Contrôle l'icône affichée sur l'interface utilisateur
+logged | bool | no | If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO
 gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
 id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
 visible | bool | no | Affichez l'entrée/sortie sur toutes les interfaces utilisateur. Vrai par défaut
@@ -346,6 +356,7 @@ Name | Type | Mandatory | Description
 id_hue | string | yes | ID unique décrivant la lumière Hue. Cette valeur est renvoyée par Hue Wizard.
 api | string | yes | Clé API renvoyée par la passerelle Hue lorsque l'association a été effectuée. Utilisez Hue Wizard dans Calaos_installer pour obtenir cette valeur automatiquement.
 host | string | yes | Adresse IP de la passerelle Philips Hue
+logged | bool | no | If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO
 gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
 id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
 visible | bool | no | Affichez l'entrée/sortie sur toutes les interfaces utilisateur. Vrai par défaut
@@ -401,6 +412,7 @@ visible | bool | no | Une entrée horaire ne peut pas être affichée. Toujours 
 id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
 year | int | no | Année pour l'entrée horaire
 gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
+logged | bool | no | If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO
 min | int | yes | Minute pour l'entrée horaire
 hour | int | yes | Heure pour l'entrée horaire
 
@@ -426,9 +438,10 @@ enabled | bool | no | Activez l'entrée/sortie. Vrai par défaut. Ce paramètre 
 log_history | bool | no | Si activé, ecrit une entrée dans l'historique pour cet IO
 sec | int | yes | Secondes pour la minuterie
 visible | bool | no | Une minuterie ne peut pas être affichée. Toujours faux
-msec | int | yes | Milisecondes pour la minuterie
 id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
 gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
+msec | int | yes | Milisecondes pour la minuterie
+logged | bool | no | If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO
 min | int | yes | Minutes pour la minuterie
 hour | int | yes | Heure pour la minuterie
 
@@ -455,6 +468,7 @@ Name | Type | Mandatory | Description
 ---- | ---- | --------- | -----------
 save | bool | no | Enregistrer automatiquement la valeur dans le cache. La valeur sera rechargée lors du démarrage de calaos. Défaut à faux
 rw | bool | no | Activer le mode d'édition pour cet objet. Il permet aux utilisateurs de modifier la valeur sur les interfaces. Faux par défaut
+logged | bool | no | If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO
 gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
 id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
 visible | bool | no | Affichez l'entrée/sortie sur toutes les interfaces utilisateur. Vrai par défaut
@@ -487,16 +501,17 @@ Objet de numérique interne. Cet objet est utile pour la programmation interne d
 Name | Type | Mandatory | Description
 ---- | ---- | --------- | -----------
 save | bool | no | Enregistrer automatiquement la valeur dans le cache. La valeur sera rechargée lors du démarrage de calaos. Défaut à faux
-rw | bool | no | Activer le mode d'édition pour cet objet. Il permet aux utilisateurs de modifier la valeur sur les interfaces. Faux par défaut
-gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
-step | float | no | Définit le pas pour incrémenter/décrémenter la valeur. La valeur par défaut est 1.0
-id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
-unit | string | no | Unité affichée sur l'interface utilisateur en tant que suffixe.
-visible | bool | no | Affichez l'entrée/sortie sur toutes les interfaces utilisateur. Vrai par défaut
-log_history | bool | no | Si activé, ecrit une entrée dans l'historique pour cet IO
-io_type | string | yes | Type d'entrée/sortie (input, output, inout)
 name | string | yes | Nom de l'entrée/sortie.
+io_type | string | yes | Type d'entrée/sortie (input, output, inout)
 enabled | bool | no | Activez l'entrée/sortie. Vrai par défaut. Ce paramètre est ajouté s'il n'est pas trouvé dans la configuration.
+log_history | bool | no | Si activé, ecrit une entrée dans l'historique pour cet IO
+visible | bool | no | Affichez l'entrée/sortie sur toutes les interfaces utilisateur. Vrai par défaut
+unit | string | no | Unité affichée sur l'interface utilisateur en tant que suffixe.
+id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
+step | float | no | Définit le pas pour incrémenter/décrémenter la valeur. La valeur par défaut est 1.0
+gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
+logged | bool | no | If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO
+rw | bool | no | Activer le mode d'édition pour cet objet. Il permet aux utilisateurs de modifier la valeur sur les interfaces. Faux par défaut
 
 ##Conditions of InternalInt
 Name | Description
@@ -522,6 +537,7 @@ Name | Type | Mandatory | Description
 ---- | ---- | --------- | -----------
 save | bool | no | Enregistrer automatiquement la valeur dans le cache. La valeur sera rechargée lors du démarrage de calaos. Défaut à faux
 rw | bool | no | Activer le mode d'édition pour cet objet. Il permet aux utilisateurs de modifier la valeur sur les interfaces. Faux par défaut
+logged | bool | no | If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO
 gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
 id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
 visible | bool | no | Affichez l'entrée/sortie sur toutes les interfaces utilisateur. Vrai par défaut
@@ -555,15 +571,16 @@ host | string | yes | Nom d'hôte de knxd, localhost par défaut
 io_style | list | yes | Style d'affichage. Contrôle l'icône affichée sur l'interface utilisateur
 unit | string | no | Unité affichée sur l'interface utilisateur en tant que suffixe.
 precision | int | no | Précision de la valeur retournée. La valeur représente le nombre de décimales après le point. La valeur est arrondie comme ceci: valeur = 19.275 => valeur renvoyée 19.28 lors de la précision = 2, 19.3 lorsque la précision = 1, 19 lorsque la précision = 0
+knx_group | string | yes | Adresse de groupe KNX, Ex: x/y/z
+frequency | float | no | Temps d'échantillonnage en microseconde. La valeur est lue à cette fréquence. Si cette valeur n'est pas définie, calaos essaie de lire le paramètre d'intervalle en seconde
 name | string | yes | Nom de l'entrée/sortie.
 read_at_start | bool | yes | Envoyer une demande de lecture au démarrage pour obtenir la valeur. Faux par défaut
 eis | int | no | KNX EIS (type de données)
 io_type | string | yes | Type d'entrée/sortie (input, output, inout)
 visible | bool | no | Affichez l'entrée/sortie sur toutes les interfaces utilisateur. Vrai par défaut
-knx_group | string | yes | Adresse de groupe KNX, Ex: x/y/z
-frequency | float | no | Temps d'échantillonnage en microseconde. La valeur est lue à cette fréquence. Si cette valeur n'est pas définie, calaos essaie de lire le paramètre d'intervalle en seconde
 id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
 gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
+logged | bool | no | If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO
 listen_knx_group | string | no | Adresse de groupe KNX pour l'écoute de l'état, Ex: x/y/z
 interval | float | no | Temps d'échantillonnage en secondes. La valeur est lue à cette fréquence. Si cette valeur n'est pas définie, la valeur par défaut est 15s
 coeff_a | float | no | Utiliser conjointement coeff_b pour appliquer l'équation de la forme valeur = coeff_a * raw_value + coeff_b. La valeur par défaut est 1.0.
@@ -598,11 +615,12 @@ log_history | bool | no | Si activé, ecrit une entrée dans l'historique pour c
 visible | bool | no | Un interrupteur ne peut pas être visible. Toujours faux.
 id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
 gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
+logged | bool | no | If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO
 knx_group | string | yes | Adresse de groupe KNX, Ex: x/y/z
 listen_knx_group | string | no | Adresse de groupe KNX pour l'écoute de l'état, Ex: x/y/z
+read_at_start | bool | yes | Envoyer une demande de lecture au démarrage pour obtenir la valeur. Faux par défaut
 io_type | string | yes | Type d'entrée/sortie (input, output, inout)
 eis | int | no | KNX EIS (type de données)
-read_at_start | bool | yes | Envoyer une demande de lecture au démarrage pour obtenir la valeur. Faux par défaut
 
 ##Conditions of KNXInputSwitch
 Name | Description
@@ -631,11 +649,12 @@ log_history | bool | no | Si activé, ecrit une entrée dans l'historique pour c
 visible | bool | no | Un interrupteur ne peut pas être visible. Toujours faux.
 id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
 gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
+logged | bool | no | If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO
 knx_group | string | yes | Adresse de groupe KNX, Ex: x/y/z
 listen_knx_group | string | no | Adresse de groupe KNX pour l'écoute de l'état, Ex: x/y/z
+read_at_start | bool | yes | Envoyer une demande de lecture au démarrage pour obtenir la valeur. Faux par défaut
 io_type | string | yes | Type d'entrée/sortie (input, output, inout)
 eis | int | no | KNX EIS (type de données)
-read_at_start | bool | yes | Envoyer une demande de lecture au démarrage pour obtenir la valeur. Faux par défaut
 
 ##Conditions of KNXInputSwitchLongPress
 Name | Description
@@ -664,11 +683,12 @@ log_history | bool | no | Si activé, ecrit une entrée dans l'historique pour c
 visible | bool | no | Un interrupteur ne peut pas être visible. Toujours faux.
 id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
 gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
+logged | bool | no | If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO
 knx_group | string | yes | Adresse de groupe KNX, Ex: x/y/z
 listen_knx_group | string | no | Adresse de groupe KNX pour l'écoute de l'état, Ex: x/y/z
+read_at_start | bool | yes | Envoyer une demande de lecture au démarrage pour obtenir la valeur. Faux par défaut
 io_type | string | yes | Type d'entrée/sortie (input, output, inout)
 eis | int | no | KNX EIS (type de données)
-read_at_start | bool | yes | Envoyer une demande de lecture au démarrage pour obtenir la valeur. Faux par défaut
 
 ##Conditions of KNXInputSwitchTriple
 Name | Description
@@ -693,15 +713,16 @@ Name | Type | Mandatory | Description
 ---- | ---- | --------- | -----------
 host | string | yes | Nom d'hôte de knxd, localhost par défaut
 precision | int | no | Précision de la valeur retournée. La valeur représente le nombre de décimales après le point. La valeur est arrondie comme ceci: valeur = 19.275 => valeur renvoyée 19.28 lors de la précision = 2, 19.3 lorsque la précision = 1, 19 lorsque la précision = 0
+knx_group | string | yes | Adresse de groupe KNX, Ex: x/y/z
+frequency | float | no | Temps d'échantillonnage en microseconde. La valeur est lue à cette fréquence. Si cette valeur n'est pas définie, calaos essaie de lire le paramètre d'intervalle en seconde
 name | string | yes | Nom de l'entrée/sortie.
 read_at_start | bool | yes | Envoyer une demande de lecture au démarrage pour obtenir la valeur. Faux par défaut
 eis | int | no | KNX EIS (type de données)
 io_type | string | yes | Type d'entrée/sortie (input, output, inout)
 visible | bool | no | Affichez l'entrée/sortie sur toutes les interfaces utilisateur. Vrai par défaut
-knx_group | string | yes | Adresse de groupe KNX, Ex: x/y/z
-frequency | float | no | Temps d'échantillonnage en microseconde. La valeur est lue à cette fréquence. Si cette valeur n'est pas définie, calaos essaie de lire le paramètre d'intervalle en seconde
 id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
 gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
+logged | bool | no | If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO
 listen_knx_group | string | no | Adresse de groupe KNX pour l'écoute de l'état, Ex: x/y/z
 interval | float | no | Temps d'échantillonnage en secondes. La valeur est lue à cette fréquence. Si cette valeur n'est pas définie, la valeur par défaut est 15s
 coeff_a | float | no | Utiliser conjointement coeff_b pour appliquer l'équation de la forme valeur = coeff_a * raw_value + coeff_b. La valeur par défaut est 1.0.
@@ -732,6 +753,7 @@ Name | Type | Mandatory | Description
 host | string | yes | Nom d'hôte de knxd, localhost par défaut
 knx_group | string | yes | Adresse de groupe KNX, Ex: x/y/z
 io_style | list | yes | Style d'affichage. Contrôle l'icône affichée sur l'interface utilisateur
+unit | string | no | Unité affichée sur l'interface utilisateur en tant que suffixe.
 name | string | yes | Nom de l'entrée/sortie.
 read_at_start | bool | yes | Envoyer une demande de lecture au démarrage pour obtenir la valeur. Faux par défaut
 eis | int | no | KNX EIS (type de données)
@@ -739,10 +761,10 @@ io_type | string | yes | Type d'entrée/sortie (input, output, inout)
 enabled | bool | no | Activez l'entrée/sortie. Vrai par défaut. Ce paramètre est ajouté s'il n'est pas trouvé dans la configuration.
 log_history | bool | no | Si activé, ecrit une entrée dans l'historique pour cet IO
 visible | bool | no | Affichez l'entrée/sortie sur toutes les interfaces utilisateur. Vrai par défaut
-unit | string | no | Unité affichée sur l'interface utilisateur en tant que suffixe.
 id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
 step | float | no | Définit le pas pour incrémenter/décrémenter la valeur. La valeur par défaut est 1.0
 gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
+logged | bool | no | If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO
 listen_knx_group | string | no | Adresse de groupe KNX pour l'écoute de l'état, Ex: x/y/z
 coeff_a | float | no | Utiliser conjointement coeff_b pour appliquer l'équation de la forme valeur = coeff_a * raw_value + coeff_b. La valeur par défaut est 1.0.
 coeff_b | float | no | Utiliser conjointement coeff_a pour appliquer l'équation de la forme valeur = coeff_a * raw_value + coeff_b. La valeur par défaut est 0.0.
@@ -778,15 +800,16 @@ Name | Type | Mandatory | Description
 ---- | ---- | --------- | -----------
 host | string | yes | Nom d'hôte de knxd, localhost par défaut
 name | string | yes | Nom de l'entrée/sortie.
+read_at_start | bool | yes | Envoyer une demande de lecture au démarrage pour obtenir la valeur. Faux par défaut
+eis | int | no | KNX EIS (type de données)
+io_type | string | yes | Type d'entrée/sortie (input, output, inout)
 enabled | bool | no | Activez l'entrée/sortie. Vrai par défaut. Ce paramètre est ajouté s'il n'est pas trouvé dans la configuration.
 log_history | bool | no | Si activé, ecrit une entrée dans l'historique pour cet IO
 visible | bool | no | Affichez l'entrée/sortie sur toutes les interfaces utilisateur. Vrai par défaut
 id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
 gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
+logged | bool | no | If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO
 io_style | list | yes | Style d'affichage. Contrôle l'icône affichée sur l'interface utilisateur
-read_at_start | bool | yes | Envoyer une demande de lecture au démarrage pour obtenir la valeur. Faux par défaut
-io_type | string | yes | Type d'entrée/sortie (input, output, inout)
-eis | int | no | KNX EIS (type de données)
 knx_group | string | yes | Adresse de groupe KNX, Ex: x/y/z
 listen_knx_group | string | no | Adresse de groupe KNX pour l'écoute de l'état, Ex: x/y/z
 
@@ -828,11 +851,12 @@ log_history | bool | no | Si activé, ecrit une entrée dans l'historique pour c
 visible | bool | no | Affichez l'entrée/sortie sur toutes les interfaces utilisateur. Vrai par défaut
 id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
 gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
+logged | bool | no | If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO
 knx_group | string | yes | Adresse de groupe KNX, Ex: x/y/z
 listen_knx_group | string | no | Adresse de groupe KNX pour l'écoute de l'état, Ex: x/y/z
+read_at_start | bool | yes | Envoyer une demande de lecture au démarrage pour obtenir la valeur. Faux par défaut
 io_type | string | yes | Type d'entrée/sortie (input, output, inout)
 eis | int | no | KNX EIS (type de données)
-read_at_start | bool | yes | Envoyer une demande de lecture au démarrage pour obtenir la valeur. Faux par défaut
 
 ##Conditions of KNXOutputLightDimmer
 Name | Description
@@ -874,6 +898,7 @@ Name | Type | Mandatory | Description
 host | string | yes | Nom d'hôte de knxd, localhost par défaut
 listen_knx_group_blue | string | no | Adresse du groupe bleu pour l'écoute de l'état, Ex: x/y/z
 listen_knx_group_green | string | no | Adresse du groupe vert pour l'écoute de l'état, Ex: x/y/z
+listen_knx_group_red | string | no | Adresse du groupe rouge pour l'écoute de l'état, Ex: x/y/z
 name | string | yes | Nom de l'entrée/sortie.
 read_at_start | bool | yes | Envoyer une demande de lecture au démarrage pour obtenir la valeur. Faux par défaut
 eis | int | no | KNX EIS (type de données)
@@ -883,10 +908,10 @@ log_history | bool | no | Si activé, ecrit une entrée dans l'historique pour c
 visible | bool | no | Affichez l'entrée/sortie sur toutes les interfaces utilisateur. Vrai par défaut
 knx_group_green | string | yes | Adresse du groupe KNX du canal vert, ex: x/y/z
 gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
+logged | bool | no | If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO
 id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
 knx_group_blue | string | yes | Adresse du groupe KNX du canal bleu, ex: x/y/z
 knx_group_red | string | yes | Adresse du groupe KNX du canal rouge, ex: x/y/z
-listen_knx_group_red | string | no | Adresse du groupe rouge pour l'écoute de l'état, Ex: x/y/z
 
 ##Conditions of KNXOutputLightRGB
 Name | Description
@@ -927,6 +952,8 @@ Volet simple. Ce volet prend en charge les états ouvert/fermer, ainsi que les v
 ##Parameters of KNXOutputShutter
 Name | Type | Mandatory | Description
 ---- | ---- | --------- | -----------
+host | string | yes | Nom d'hôte de knxd, localhost par défaut
+knx_group_up | string | yes | Adresse du groupe KNX pour ouvrir, Ex: x/y/z
 name | string | yes | Nom de l'entrée/sortie.
 enabled | bool | no | Activez l'entrée/sortie. Vrai par défaut. Ce paramètre est ajouté s'il n'est pas trouvé dans la configuration.
 log_history | bool | no | Si activé, ecrit une entrée dans l'historique pour cet IO
@@ -934,8 +961,7 @@ knx_group_down | string | yes | Adresse du groupe KNX pour fermer, Ex: x/y/z
 visible | bool | no | Affichez l'entrée/sortie sur toutes les interfaces utilisateur. Vrai par défaut
 id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
 gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
-host | string | yes | Nom d'hôte de knxd, localhost par défaut
-knx_group_up | string | yes | Adresse du groupe KNX pour ouvrir, Ex: x/y/z
+logged | bool | no | If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO
 time | int | yes | Temps en sec pour ouvrir ou fermer le volet
 read_at_start | bool | yes | Envoyer une demande de lecture au démarrage pour obtenir la valeur. Faux par défaut
 eis | int | no | KNX EIS (type de données)
@@ -979,6 +1005,7 @@ listen_knx_group | string | no | Adresse de groupe KNX pour l'écoute de l'état
 knx_group | string | yes | Adresse de groupe KNX, Ex: x/y/z
 host | string | yes | Nom d'hôte de knxd, localhost par défaut
 knx_group_up | string | yes | Adresse du groupe KNX pour ouvrir, Ex: x/y/z
+stop_both | bool | no | En mode impulsion, certains volets doivent activer les deux relais haut et bas lors de l'arrêt du volet
 name | string | yes | Nom de l'entrée/sortie.
 enabled | bool | no | Activez l'entrée/sortie. Vrai par défaut. Ce paramètre est ajouté s'il n'est pas trouvé dans la configuration.
 log_history | bool | no | Si activé, ecrit une entrée dans l'historique pour cet IO
@@ -986,13 +1013,13 @@ knx_group_down | string | yes | Adresse du groupe KNX pour fermer, Ex: x/y/z
 visible | bool | no | Affichez l'entrée/sortie sur toutes les interfaces utilisateur. Vrai par défaut
 id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
 time_down | int | yes | Temps en sec pour que le volet soit complètement fermé. Plus il est précis, plus le positionnement sera précis
+logged | bool | no | If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO
 gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
 time_up | int | yes | Temps en sec pour que le volet soit complètement ouvert. Plus il est précis, plus le positionnement sera précis
 read_at_start | bool | yes | Envoyer une demande de lecture au démarrage pour obtenir la valeur. Faux par défaut
 eis | int | no | KNX EIS (type de données)
 io_type | string | yes | Type d'entrée/sortie (input, output, inout)
 impulse_time | int | no | Temps d'impulsion en ms pour les volets à impulsion. Si 0, le déclencheur d'impulsion est désactivé. 0 par défaut.
-stop_both | bool | no | En mode impulsion, certains volets doivent activer les deux relais haut et bas lors de l'arrêt du volet
 
 ##Conditions of KNXOutputShutterSmart
 Name | Description
@@ -1032,6 +1059,7 @@ Name | Type | Mandatory | Description
 ---- | ---- | --------- | -----------
 zone | int | yes | Zone à contrôler. Chaque passerelle supporte 4 zones.
 host | string | yes | Adresse IP de la passerelle wifi Milight
+logged | bool | no | If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO
 gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
 id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
 port | int | no | Port de la passerelle, 8899 par défaut
@@ -1080,30 +1108,31 @@ Une entrée analogique peut être utilisée pour lire des valeurs analogiques po
 ##Parameters of MqttInputAnalog
 Name | Type | Mandatory | Description
 ---- | ---- | --------- | -----------
+offset | float | no | Comme le coeff_b, peut être utilisé seul. La valeur par défaut est 0.0
+log_history | bool | no | Si activé, ecrit une entrée dans l'historique pour cet IO
+enabled | bool | no | Activez l'entrée/sortie. Vrai par défaut. Ce paramètre est ajouté s'il n'est pas trouvé dans la configuration.
+coeff_b | float | no | Utiliser conjointement coeff_a pour appliquer l'équation de la forme valeur = coeff_a * raw_value + coeff_b. La valeur par défaut est 0.0.
+gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
+topic_pub | string | yes | Topic on witch to publish.
+visible | bool | no | Affichez l'entrée/sortie sur toutes les interfaces utilisateur. Vrai par défaut
+logged | bool | no | If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO
+io_type | string | yes | Type d'entrée/sortie (input, output, inout)
+user | string | no | User to use for authentication with mqtt broker. Password must be defined in that case.
+port | int | no | TCP port of the mqtt broker. Default value is 1883
+topic_sub | string | yes | Topic on witch to subscribe.
+id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
+name | string | yes | Nom de l'entrée/sortie.
 path | string | yes | The path where to found the value in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. for example weather[0]/description, try to read the description value of the 1 element of the array of the weather object. if payload is somple json, just try to use the key of the value you want to read, for example : {"temperature":14.23} use "temperature" as path
 
-password | string | no | Password to use for authentication with mqtt broker. User must be defined in that case.
-keepalive | int | no | keepalive timeout in seconds. Time between two mqtt PING.
-host | string | no | IP address of the mqtt broker to connect to. Default value is 127.0.0.1.
-io_style | list | yes | Style d'affichage. Contrôle l'icône affichée sur l'interface utilisateur
-unit | string | no | Unité affichée sur l'interface utilisateur en tant que suffixe.
-precision | int | no | Précision de la valeur retournée. La valeur représente le nombre de décimales après le point. La valeur est arrondie comme ceci: valeur = 19.275 => valeur renvoyée 19.28 lors de la précision = 2, 19.3 lorsque la précision = 1, 19 lorsque la précision = 0
-name | string | yes | Nom de l'entrée/sortie.
-port | int | no | TCP port of the mqtt broker. Default value is 1883
-io_type | string | yes | Type d'entrée/sortie (input, output, inout)
-visible | bool | no | Affichez l'entrée/sortie sur toutes les interfaces utilisateur. Vrai par défaut
 frequency | float | no | Temps d'échantillonnage en microseconde. La valeur est lue à cette fréquence. Si cette valeur n'est pas définie, calaos essaie de lire le paramètre d'intervalle en seconde
-id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
-topic_sub | string | yes | Topic on witch to subscribe.
-topic_pub | string | yes | Topic on witch to publish.
-gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
-interval | float | no | Temps d'échantillonnage en secondes. La valeur est lue à cette fréquence. Si cette valeur n'est pas définie, la valeur par défaut est 15s
+unit | string | no | Unité affichée sur l'interface utilisateur en tant que suffixe.
 coeff_a | float | no | Utiliser conjointement coeff_b pour appliquer l'équation de la forme valeur = coeff_a * raw_value + coeff_b. La valeur par défaut est 1.0.
-user | string | no | User to use for authentication with mqtt broker. Password must be defined in that case.
-coeff_b | float | no | Utiliser conjointement coeff_a pour appliquer l'équation de la forme valeur = coeff_a * raw_value + coeff_b. La valeur par défaut est 0.0.
-enabled | bool | no | Activez l'entrée/sortie. Vrai par défaut. Ce paramètre est ajouté s'il n'est pas trouvé dans la configuration.
-log_history | bool | no | Si activé, ecrit une entrée dans l'historique pour cet IO
-offset | float | no | Comme le coeff_b, peut être utilisé seul. La valeur par défaut est 0.0
+io_style | list | yes | Style d'affichage. Contrôle l'icône affichée sur l'interface utilisateur
+precision | int | no | Précision de la valeur retournée. La valeur représente le nombre de décimales après le point. La valeur est arrondie comme ceci: valeur = 19.275 => valeur renvoyée 19.28 lors de la précision = 2, 19.3 lorsque la précision = 1, 19 lorsque la précision = 0
+host | string | no | IP address of the mqtt broker to connect to. Default value is 127.0.0.1.
+keepalive | int | no | keepalive timeout in seconds. Time between two mqtt PING.
+interval | float | no | Temps d'échantillonnage en secondes. La valeur est lue à cette fréquence. Si cette valeur n'est pas définie, la valeur par défaut est 15s
+password | string | no | Password to use for authentication with mqtt broker. User must be defined in that case.
 
 ##Conditions of MqttInputAnalog
 Name | Description
@@ -1121,6 +1150,7 @@ Name | Type | Mandatory | Description
 path | string | yes | The path where to found the value in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. for example weather[0]/description, try to read the description value of the 1 element of the array of the weather object. if payload is somple json, just try to use the key of the value you want to read, for example : {"temperature":14.23} use "temperature" as path
 
 user | string | no | User to use for authentication with mqtt broker. Password must be defined in that case.
+password | string | no | Password to use for authentication with mqtt broker. User must be defined in that case.
 name | string | yes | Nom de l'entrée/sortie.
 enabled | bool | no | Activez l'entrée/sortie. Vrai par défaut. Ce paramètre est ajouté s'il n'est pas trouvé dans la configuration.
 log_history | bool | no | Si activé, ecrit une entrée dans l'historique pour cet IO
@@ -1132,8 +1162,8 @@ id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
 topic_sub | string | yes | Topic on witch to subscribe.
 topic_pub | string | yes | Topic on witch to publish.
 gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
+logged | bool | no | If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO
 host | string | no | IP address of the mqtt broker to connect to. Default value is 127.0.0.1.
-password | string | no | Password to use for authentication with mqtt broker. User must be defined in that case.
 
 
 #MqttInputSwitch
@@ -1150,6 +1180,7 @@ on_value | string | yes | Value to interpret as ON value
 path | string | yes | The path where to found the value in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. for example weather[0]/description, try to read the description value of the 1 element of the array of the weather object. if payload is somple json, just try to use the key of the value you want to read, for example : {"temperature":14.23} use "temperature" as path
 
 user | string | no | User to use for authentication with mqtt broker. Password must be defined in that case.
+password | string | no | Password to use for authentication with mqtt broker. User must be defined in that case.
 name | string | yes | Nom de l'entrée/sortie.
 enabled | bool | no | Activez l'entrée/sortie. Vrai par défaut. Ce paramètre est ajouté s'il n'est pas trouvé dans la configuration.
 log_history | bool | no | Si activé, ecrit une entrée dans l'historique pour cet IO
@@ -1161,8 +1192,8 @@ id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
 topic_sub | string | yes | Topic on witch to subscribe.
 topic_pub | string | yes | Topic on witch to publish.
 gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
+logged | bool | no | If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO
 host | string | no | IP address of the mqtt broker to connect to. Default value is 127.0.0.1.
-password | string | no | Password to use for authentication with mqtt broker. User must be defined in that case.
 
 ##Conditions of MqttInputSwitch
 Name | Description
@@ -1187,15 +1218,16 @@ password | string | no | Password to use for authentication with mqtt broker. Us
 keepalive | int | no | keepalive timeout in seconds. Time between two mqtt PING.
 host | string | no | IP address of the mqtt broker to connect to. Default value is 127.0.0.1.
 precision | int | no | Précision de la valeur retournée. La valeur représente le nombre de décimales après le point. La valeur est arrondie comme ceci: valeur = 19.275 => valeur renvoyée 19.28 lors de la précision = 2, 19.3 lorsque la précision = 1, 19 lorsque la précision = 0
+frequency | float | no | Temps d'échantillonnage en microseconde. La valeur est lue à cette fréquence. Si cette valeur n'est pas définie, calaos essaie de lire le paramètre d'intervalle en seconde
 name | string | yes | Nom de l'entrée/sortie.
 port | int | no | TCP port of the mqtt broker. Default value is 1883
 io_type | string | yes | Type d'entrée/sortie (input, output, inout)
 visible | bool | no | Affichez l'entrée/sortie sur toutes les interfaces utilisateur. Vrai par défaut
-frequency | float | no | Temps d'échantillonnage en microseconde. La valeur est lue à cette fréquence. Si cette valeur n'est pas définie, calaos essaie de lire le paramètre d'intervalle en seconde
 id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
 topic_sub | string | yes | Topic on witch to subscribe.
 topic_pub | string | yes | Topic on witch to publish.
 gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
+logged | bool | no | If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO
 interval | float | no | Temps d'échantillonnage en secondes. La valeur est lue à cette fréquence. Si cette valeur n'est pas définie, la valeur par défaut est 15s
 coeff_a | float | no | Utiliser conjointement coeff_b pour appliquer l'équation de la forme valeur = coeff_a * raw_value + coeff_b. La valeur par défaut est 1.0.
 user | string | no | User to use for authentication with mqtt broker. Password must be defined in that case.
@@ -1226,18 +1258,19 @@ password | string | no | Password to use for authentication with mqtt broker. Us
 keepalive | int | no | keepalive timeout in seconds. Time between two mqtt PING.
 host | string | no | IP address of the mqtt broker to connect to. Default value is 127.0.0.1.
 io_style | list | yes | Style d'affichage. Contrôle l'icône affichée sur l'interface utilisateur
+unit | string | no | Unité affichée sur l'interface utilisateur en tant que suffixe.
 name | string | yes | Nom de l'entrée/sortie.
 port | int | no | TCP port of the mqtt broker. Default value is 1883
 io_type | string | yes | Type d'entrée/sortie (input, output, inout)
 enabled | bool | no | Activez l'entrée/sortie. Vrai par défaut. Ce paramètre est ajouté s'il n'est pas trouvé dans la configuration.
 log_history | bool | no | Si activé, ecrit une entrée dans l'historique pour cet IO
 visible | bool | no | Affichez l'entrée/sortie sur toutes les interfaces utilisateur. Vrai par défaut
-unit | string | no | Unité affichée sur l'interface utilisateur en tant que suffixe.
 id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
 topic_sub | string | yes | Topic on witch to subscribe.
 topic_pub | string | yes | Topic on witch to publish.
 step | float | no | Définit le pas pour incrémenter/décrémenter la valeur. La valeur par défaut est 1.0
 gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
+logged | bool | no | If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO
 coeff_a | float | no | Utiliser conjointement coeff_b pour appliquer l'équation de la forme valeur = coeff_a * raw_value + coeff_b. La valeur par défaut est 1.0.
 user | string | no | User to use for authentication with mqtt broker. Password must be defined in that case.
 coeff_b | float | no | Utiliser conjointement coeff_a pour appliquer l'équation de la forme valeur = coeff_a * raw_value + coeff_b. La valeur par défaut est 0.0.
@@ -1274,17 +1307,18 @@ path | string | yes | The path where to found the value in the mqtt payload. If 
 
 user | string | no | User to use for authentication with mqtt broker. Password must be defined in that case.
 password | string | no | Password to use for authentication with mqtt broker. User must be defined in that case.
+keepalive | int | no | keepalive timeout in seconds. Time between two mqtt PING.
 name | string | yes | Nom de l'entrée/sortie.
 enabled | bool | no | Activez l'entrée/sortie. Vrai par défaut. Ce paramètre est ajouté s'il n'est pas trouvé dans la configuration.
 log_history | bool | no | Si activé, ecrit une entrée dans l'historique pour cet IO
 visible | bool | no | Affichez l'entrée/sortie sur toutes les interfaces utilisateur. Vrai par défaut
 io_type | string | yes | Type d'entrée/sortie (input, output, inout)
 port | int | no | TCP port of the mqtt broker. Default value is 1883
-keepalive | int | no | keepalive timeout in seconds. Time between two mqtt PING.
 id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
 topic_sub | string | yes | Topic on witch to subscribe.
 topic_pub | string | yes | Topic on witch to publish.
 gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
+logged | bool | no | If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO
 io_style | list | yes | Style d'affichage. Contrôle l'icône affichée sur l'interface utilisateur
 host | string | no | IP address of the mqtt broker to connect to. Default value is 127.0.0.1.
 
@@ -1319,6 +1353,7 @@ Name | Type | Mandatory | Description
 path | string | yes | The path where to found the value in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. for example weather[0]/description, try to read the description value of the 1 element of the array of the weather object. if payload is somple json, just try to use the key of the value you want to read, for example : {"temperature":14.23} use "temperature" as path
 
 user | string | no | User to use for authentication with mqtt broker. Password must be defined in that case.
+password | string | no | Password to use for authentication with mqtt broker. User must be defined in that case.
 name | string | yes | Nom de l'entrée/sortie.
 enabled | bool | no | Activez l'entrée/sortie. Vrai par défaut. Ce paramètre est ajouté s'il n'est pas trouvé dans la configuration.
 log_history | bool | no | Si activé, ecrit une entrée dans l'historique pour cet IO
@@ -1330,8 +1365,8 @@ id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
 topic_sub | string | yes | Topic on witch to subscribe.
 topic_pub | string | yes | Topic on witch to publish.
 gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
+logged | bool | no | If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO
 host | string | no | IP address of the mqtt broker to connect to. Default value is 127.0.0.1.
-password | string | no | Password to use for authentication with mqtt broker. User must be defined in that case.
 
 ##Conditions of MqttOutputLightDimmer
 Name | Description
@@ -1372,15 +1407,16 @@ host | string | yes | Adresse IP de la passerelle tcp si pertinent
 io_style | list | yes | Style d'affichage. Contrôle l'icône affichée sur l'interface utilisateur
 unit | string | no | Unité affichée sur l'interface utilisateur en tant que suffixe.
 precision | int | no | Précision de la valeur retournée. La valeur représente le nombre de décimales après le point. La valeur est arrondie comme ceci: valeur = 19.275 => valeur renvoyée 19.28 lors de la précision = 2, 19.3 lorsque la précision = 1, 19 lorsque la précision = 0
+frequency | float | no | Temps d'échantillonnage en microseconde. La valeur est lue à cette fréquence. Si cette valeur n'est pas définie, calaos essaie de lire le paramètre d'intervalle en seconde
 gateway | list | yes | Passerelle utilisée, tcp ou série
 name | string | yes | Nom de l'entrée/sortie.
 port | string | yes | Si vous utilisez la passerelle série, le port est le port série (/dev/ttyUSB0 par ex.). Si vous utilisez la passerelle tcp, c'est le port TCP de la passerelle.
 io_type | string | yes | Type d'entrée/sortie (input, output, inout)
 visible | bool | no | Affichez l'entrée/sortie sur toutes les interfaces utilisateur. Vrai par défaut
-frequency | float | no | Temps d'échantillonnage en microseconde. La valeur est lue à cette fréquence. Si cette valeur n'est pas définie, calaos essaie de lire le paramètre d'intervalle en seconde
 node_id | string | yes | ID du noeud sur le réseau MySensors
 id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
 gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
+logged | bool | no | If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO
 interval | float | no | Temps d'échantillonnage en secondes. La valeur est lue à cette fréquence. Si cette valeur n'est pas définie, la valeur par défaut est 15s
 coeff_a | float | no | Utiliser conjointement coeff_b pour appliquer l'équation de la forme valeur = coeff_a * raw_value + coeff_b. La valeur par défaut est 1.0.
 coeff_b | float | no | Utiliser conjointement coeff_a pour appliquer l'équation de la forme valeur = coeff_a * raw_value + coeff_b. La valeur par défaut est 0.0.
@@ -1412,10 +1448,11 @@ gateway | list | yes | Passerelle utilisée, tcp ou série
 visible | bool | no | Affichez l'entrée/sortie sur toutes les interfaces utilisateur. Vrai par défaut
 io_type | string | yes | Type d'entrée/sortie (input, output, inout)
 port | string | yes | Si vous utilisez la passerelle série, le port est le port série (/dev/ttyUSB0 par ex.). Si vous utilisez la passerelle tcp, c'est le port TCP de la passerelle.
-gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
-host | string | yes | Adresse IP de la passerelle tcp si pertinent
-id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
 node_id | string | yes | ID du noeud sur le réseau MySensors
+id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
+gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
+logged | bool | no | If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO
+host | string | yes | Adresse IP de la passerelle tcp si pertinent
 
 ##More Infos
 * MySensors: http://mysensors.org
@@ -1438,10 +1475,11 @@ gateway | list | yes | Passerelle utilisée, tcp ou série
 visible | bool | no | Un interrupteur ne peut pas être visible. Toujours faux.
 io_type | string | yes | Type d'entrée/sortie (input, output, inout)
 port | string | yes | Si vous utilisez la passerelle série, le port est le port série (/dev/ttyUSB0 par ex.). Si vous utilisez la passerelle tcp, c'est le port TCP de la passerelle.
-gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
-host | string | yes | Adresse IP de la passerelle tcp si pertinent
-id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
 node_id | string | yes | ID du noeud sur le réseau MySensors
+id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
+gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
+logged | bool | no | If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO
+host | string | yes | Adresse IP de la passerelle tcp si pertinent
 
 ##Conditions of MySensorsInputSwitch
 Name | Description
@@ -1471,10 +1509,11 @@ gateway | list | yes | Passerelle utilisée, tcp ou série
 visible | bool | no | Un interrupteur ne peut pas être visible. Toujours faux.
 io_type | string | yes | Type d'entrée/sortie (input, output, inout)
 port | string | yes | Si vous utilisez la passerelle série, le port est le port série (/dev/ttyUSB0 par ex.). Si vous utilisez la passerelle tcp, c'est le port TCP de la passerelle.
-gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
-host | string | yes | Adresse IP de la passerelle tcp si pertinent
-id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
 node_id | string | yes | ID du noeud sur le réseau MySensors
+id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
+gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
+logged | bool | no | If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO
+host | string | yes | Adresse IP de la passerelle tcp si pertinent
 
 ##Conditions of MySensorsInputSwitchLongPress
 Name | Description
@@ -1504,10 +1543,11 @@ gateway | list | yes | Passerelle utilisée, tcp ou série
 visible | bool | no | Un interrupteur ne peut pas être visible. Toujours faux.
 io_type | string | yes | Type d'entrée/sortie (input, output, inout)
 port | string | yes | Si vous utilisez la passerelle série, le port est le port série (/dev/ttyUSB0 par ex.). Si vous utilisez la passerelle tcp, c'est le port TCP de la passerelle.
-gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
-host | string | yes | Adresse IP de la passerelle tcp si pertinent
-id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
 node_id | string | yes | ID du noeud sur le réseau MySensors
+id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
+gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
+logged | bool | no | If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO
+host | string | yes | Adresse IP de la passerelle tcp si pertinent
 
 ##Conditions of MySensorsInputSwitchTriple
 Name | Description
@@ -1533,15 +1573,16 @@ Name | Type | Mandatory | Description
 sensor_id | string | yes | ID du capteur, tel que défini dans votre noeud
 host | string | yes | Adresse IP de la passerelle tcp si pertinent
 precision | int | no | Précision de la valeur retournée. La valeur représente le nombre de décimales après le point. La valeur est arrondie comme ceci: valeur = 19.275 => valeur renvoyée 19.28 lors de la précision = 2, 19.3 lorsque la précision = 1, 19 lorsque la précision = 0
+frequency | float | no | Temps d'échantillonnage en microseconde. La valeur est lue à cette fréquence. Si cette valeur n'est pas définie, calaos essaie de lire le paramètre d'intervalle en seconde
 gateway | list | yes | Passerelle utilisée, tcp ou série
 name | string | yes | Nom de l'entrée/sortie.
 port | string | yes | Si vous utilisez la passerelle série, le port est le port série (/dev/ttyUSB0 par ex.). Si vous utilisez la passerelle tcp, c'est le port TCP de la passerelle.
 io_type | string | yes | Type d'entrée/sortie (input, output, inout)
 visible | bool | no | Affichez l'entrée/sortie sur toutes les interfaces utilisateur. Vrai par défaut
-frequency | float | no | Temps d'échantillonnage en microseconde. La valeur est lue à cette fréquence. Si cette valeur n'est pas définie, calaos essaie de lire le paramètre d'intervalle en seconde
 node_id | string | yes | ID du noeud sur le réseau MySensors
 id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
 gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
+logged | bool | no | If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO
 interval | float | no | Temps d'échantillonnage en secondes. La valeur est lue à cette fréquence. Si cette valeur n'est pas définie, la valeur par défaut est 15s
 coeff_a | float | no | Utiliser conjointement coeff_b pour appliquer l'équation de la forme valeur = coeff_a * raw_value + coeff_b. La valeur par défaut est 1.0.
 coeff_b | float | no | Utiliser conjointement coeff_a pour appliquer l'équation de la forme valeur = coeff_a * raw_value + coeff_b. La valeur par défaut est 0.0.
@@ -1572,6 +1613,7 @@ data_type | string | no | Type de données envoyé au noeud. Par défaut: V_DIMM
 sensor_id | string | yes | ID du capteur, tel que défini dans votre noeud
 host | string | yes | Adresse IP de la passerelle tcp si pertinent
 io_style | list | yes | Style d'affichage. Contrôle l'icône affichée sur l'interface utilisateur
+unit | string | no | Unité affichée sur l'interface utilisateur en tant que suffixe.
 gateway | list | yes | Passerelle utilisée, tcp ou série
 name | string | yes | Nom de l'entrée/sortie.
 port | string | yes | Si vous utilisez la passerelle série, le port est le port série (/dev/ttyUSB0 par ex.). Si vous utilisez la passerelle tcp, c'est le port TCP de la passerelle.
@@ -1579,11 +1621,11 @@ io_type | string | yes | Type d'entrée/sortie (input, output, inout)
 enabled | bool | no | Activez l'entrée/sortie. Vrai par défaut. Ce paramètre est ajouté s'il n'est pas trouvé dans la configuration.
 log_history | bool | no | Si activé, ecrit une entrée dans l'historique pour cet IO
 visible | bool | no | Affichez l'entrée/sortie sur toutes les interfaces utilisateur. Vrai par défaut
-unit | string | no | Unité affichée sur l'interface utilisateur en tant que suffixe.
 node_id | string | yes | ID du noeud sur le réseau MySensors
 id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
 step | float | no | Définit le pas pour incrémenter/décrémenter la valeur. La valeur par défaut est 1.0
 gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
+logged | bool | no | If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO
 coeff_a | float | no | Utiliser conjointement coeff_b pour appliquer l'équation de la forme valeur = coeff_a * raw_value + coeff_b. La valeur par défaut est 1.0.
 coeff_b | float | no | Utiliser conjointement coeff_a pour appliquer l'équation de la forme valeur = coeff_a * raw_value + coeff_b. La valeur par défaut est 0.0.
 
@@ -1625,10 +1667,11 @@ gateway | list | yes | Passerelle utilisée, tcp ou série
 visible | bool | no | Affichez l'entrée/sortie sur toutes les interfaces utilisateur. Vrai par défaut
 io_type | string | yes | Type d'entrée/sortie (input, output, inout)
 port | string | yes | Si vous utilisez la passerelle série, le port est le port série (/dev/ttyUSB0 par ex.). Si vous utilisez la passerelle tcp, c'est le port TCP de la passerelle.
-gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
-host | string | yes | Adresse IP de la passerelle tcp si pertinent
-id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
 node_id | string | yes | ID du noeud sur le réseau MySensors
+id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
+gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
+logged | bool | no | If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO
+host | string | yes | Adresse IP de la passerelle tcp si pertinent
 
 ##Conditions of MySensorsOutputDimmer
 Name | Description
@@ -1669,6 +1712,7 @@ Name | Type | Mandatory | Description
 ---- | ---- | --------- | -----------
 data_type | string | no | Type de données envoyé au noeud. Par défaut: V_LIGHT, voir MySensors.cpp pour plus de valeurs.
 sensor_id | string | yes | ID du capteur, tel que défini dans votre noeud
+host | string | yes | Adresse IP de la passerelle tcp si pertinent
 enabled | bool | no | Activez l'entrée/sortie. Vrai par défaut. Ce paramètre est ajouté s'il n'est pas trouvé dans la configuration.
 log_history | bool | no | Si activé, ecrit une entrée dans l'historique pour cet IO
 name | string | yes | Nom de l'entrée/sortie.
@@ -1679,8 +1723,8 @@ port | string | yes | Si vous utilisez la passerelle série, le port est le port
 node_id | string | yes | ID du noeud sur le réseau MySensors
 id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
 gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
+logged | bool | no | If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO
 io_style | list | yes | Style d'affichage. Contrôle l'icône affichée sur l'interface utilisateur
-host | string | yes | Adresse IP de la passerelle tcp si pertinent
 
 ##Conditions of MySensorsOutputLight
 Name | Description
@@ -1718,6 +1762,7 @@ sensor_id_blue | string | yes | ID du capteur pour le canal bleu, tel que défin
 sensor_id_green | string | yes | ID du capteur pour le canal vert, tel que défini dans votre noeud
 node_id_green | string | yes | ID du noeud pour le canal vert sur le réseau MySensors
 sensor_id_red | string | yes | ID du capteur pour le canal rouge, tel que défini dans votre noeud
+node_id_red | string | yes | ID du noeud pour le canal rouge sur le réseau MySensors
 enabled | bool | no | Activez l'entrée/sortie. Vrai par défaut. Ce paramètre est ajouté s'il n'est pas trouvé dans la configuration.
 log_history | bool | no | Si activé, ecrit une entrée dans l'historique pour cet IO
 name | string | yes | Nom de l'entrée/sortie.
@@ -1728,8 +1773,8 @@ port | string | yes | Si vous utilisez la passerelle série, le port est le port
 node_id_blue | string | yes | ID du noeud pour le canal bleu sur le réseau MySensors
 id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
 gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
+logged | bool | no | If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO
 host | string | yes | Adresse IP de la passerelle tcp si pertinent
-node_id_red | string | yes | ID du noeud pour le canal rouge sur le réseau MySensors
 
 ##Conditions of MySensorsOutputLightRGB
 Name | Description
@@ -1775,14 +1820,15 @@ sensor_id_down | string | yes | ID du capteur pour fermer, tel que défini dans 
 node_id_up | string | yes | ID du noeud pour ouvrir sur le réseau MySensors
 sensor_id_up | string | yes | ID du capteur pour ouvrir, tel que défini dans votre noeud
 host | string | yes | Adresse IP de la passerelle tcp si pertinent
+gateway | list | yes | Passerelle utilisée, tcp ou série
+name | string | yes | Nom de l'entrée/sortie.
 enabled | bool | no | Activez l'entrée/sortie. Vrai par défaut. Ce paramètre est ajouté s'il n'est pas trouvé dans la configuration.
 log_history | bool | no | Si activé, ecrit une entrée dans l'historique pour cet IO
-name | string | yes | Nom de l'entrée/sortie.
-gateway | list | yes | Passerelle utilisée, tcp ou série
 visible | bool | no | Affichez l'entrée/sortie sur toutes les interfaces utilisateur. Vrai par défaut
 id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
 node_id_down | string | yes | ID du noeud pour fermer sur le réseau MySensors
 gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
+logged | bool | no | If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO
 time | int | yes | Temps en sec pour ouvrir ou fermer le volet
 port | string | yes | Si vous utilisez la passerelle série, le port est le port série (/dev/ttyUSB0 par ex.). Si vous utilisez la passerelle tcp, c'est le port TCP de la passerelle.
 io_type | string | yes | Type d'entrée/sortie (input, output, inout)
@@ -1826,6 +1872,7 @@ sensor_id_down | string | yes | ID du capteur pour fermer, tel que défini dans 
 node_id_up | string | yes | ID du noeud pour ouvrir sur le réseau MySensors
 sensor_id_up | string | yes | ID du capteur pour ouvrir, tel que défini dans votre noeud
 host | string | yes | Adresse IP de la passerelle tcp si pertinent
+stop_both | bool | no | En mode impulsion, certains volets doivent activer les deux relais haut et bas lors de l'arrêt du volet
 gateway | list | yes | Passerelle utilisée, tcp ou série
 name | string | yes | Nom de l'entrée/sortie.
 enabled | bool | no | Activez l'entrée/sortie. Vrai par défaut. Ce paramètre est ajouté s'il n'est pas trouvé dans la configuration.
@@ -1833,13 +1880,13 @@ log_history | bool | no | Si activé, ecrit une entrée dans l'historique pour c
 visible | bool | no | Affichez l'entrée/sortie sur toutes les interfaces utilisateur. Vrai par défaut
 id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
 time_down | int | yes | Temps en sec pour que le volet soit complètement fermé. Plus il est précis, plus le positionnement sera précis
+logged | bool | no | If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO
 node_id_down | string | yes | ID du noeud pour fermer sur le réseau MySensors
 gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
 time_up | int | yes | Temps en sec pour que le volet soit complètement ouvert. Plus il est précis, plus le positionnement sera précis
 port | string | yes | Si vous utilisez la passerelle série, le port est le port série (/dev/ttyUSB0 par ex.). Si vous utilisez la passerelle tcp, c'est le port TCP de la passerelle.
 io_type | string | yes | Type d'entrée/sortie (input, output, inout)
 impulse_time | int | no | Temps d'impulsion en ms pour les volets à impulsion. Si 0, le déclencheur d'impulsion est désactivé. 0 par défaut.
-stop_both | bool | no | En mode impulsion, certains volets doivent activer les deux relais haut et bas lors de l'arrêt du volet
 
 ##Conditions of MySensorsOutputShutterSmart
 Name | Description
@@ -1883,10 +1930,11 @@ gateway | list | yes | Passerelle utilisée, tcp ou série
 visible | bool | no | Affichez l'entrée/sortie sur toutes les interfaces utilisateur. Vrai par défaut
 io_type | string | yes | Type d'entrée/sortie (input, output, inout)
 port | string | yes | Si vous utilisez la passerelle série, le port est le port série (/dev/ttyUSB0 par ex.). Si vous utilisez la passerelle tcp, c'est le port TCP de la passerelle.
-gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
-host | string | yes | Adresse IP de la passerelle tcp si pertinent
-id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
 node_id | string | yes | ID du noeud sur le réseau MySensors
+id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
+gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
+logged | bool | no | If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO
+host | string | yes | Adresse IP de la passerelle tcp si pertinent
 
 ##More Infos
 * MySensors: http://mysensors.org
@@ -1902,6 +1950,7 @@ Lumière avec variateur. La luminosité peut-être modifiée pour cette lumière
 Name | Type | Mandatory | Description
 ---- | ---- | --------- | -----------
 universe | int | yes | Univers OLA à contrôler
+logged | bool | no | If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO
 gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
 id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
 visible | bool | no | Affichez l'entrée/sortie sur toutes les interfaces utilisateur. Vrai par défaut
@@ -1948,17 +1997,18 @@ Lumière RVB. Choisir une couleur à définir pour cette lumière.
 ##Parameters of OLAOutputLightRGB
 Name | Type | Mandatory | Description
 ---- | ---- | --------- | -----------
-channel_red | int | yes | Canal DMX rouge à contrôler
-channel_blue | int | yes | Canal DMX bleu à contrôler
-channel_green | int | yes | Canal DMX vert à contrôler
-universe | int | yes | Univers OLA à contrôler
-gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
-id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
-visible | bool | no | Affichez l'entrée/sortie sur toutes les interfaces utilisateur. Vrai par défaut
-log_history | bool | no | Si activé, ecrit une entrée dans l'historique pour cet IO
-io_type | string | yes | Type d'entrée/sortie (input, output, inout)
 name | string | yes | Nom de l'entrée/sortie.
+io_type | string | yes | Type d'entrée/sortie (input, output, inout)
 enabled | bool | no | Activez l'entrée/sortie. Vrai par défaut. Ce paramètre est ajouté s'il n'est pas trouvé dans la configuration.
+log_history | bool | no | Si activé, ecrit une entrée dans l'historique pour cet IO
+visible | bool | no | Affichez l'entrée/sortie sur toutes les interfaces utilisateur. Vrai par défaut
+id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
+gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
+channel_blue | int | yes | Canal DMX bleu à contrôler
+logged | bool | no | If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO
+universe | int | yes | Univers OLA à contrôler
+channel_green | int | yes | Canal DMX vert à contrôler
+channel_red | int | yes | Canal DMX rouge à contrôler
 
 ##Conditions of OLAOutputLightRGB
 Name | Description
@@ -1996,6 +2046,7 @@ Fausse sortie de test. Ne fait rien. Ne pas utiliser.
 ##Parameters of OutputFake
 Name | Type | Mandatory | Description
 ---- | ---- | --------- | -----------
+logged | bool | no | If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO
 gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
 id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
 visible | bool | no | Affichez l'entrée/sortie sur toutes les interfaces utilisateur. Vrai par défaut
@@ -2018,12 +2069,13 @@ ow_args | string | yes | Paramètre supplémentaire utilisé pour initialiser ow
 ow_id | string | yes | Identifiant du capteur sur le bus OneWire
 use_w1 | bool | no | Forcer l'utilisation du pilote kernel w1 au lieu du pilote OneWire
 precision | int | no | Précision de la valeur retournée. La valeur représente le nombre de décimales après le point. La valeur est arrondie comme ceci: valeur = 19.275 => valeur renvoyée 19.28 lors de la précision = 2, 19.3 lorsque la précision = 1, 19 lorsque la précision = 0
+frequency | float | no | Temps d'échantillonnage en microseconde. La valeur est lue à cette fréquence. Si cette valeur n'est pas définie, calaos essaie de lire le paramètre d'intervalle en seconde
 name | string | yes | Nom de l'entrée/sortie.
 io_type | string | yes | Type d'entrée/sortie (input, output, inout)
 visible | bool | no | Affichez l'entrée/sortie sur toutes les interfaces utilisateur. Vrai par défaut
-frequency | float | no | Temps d'échantillonnage en microseconde. La valeur est lue à cette fréquence. Si cette valeur n'est pas définie, calaos essaie de lire le paramètre d'intervalle en seconde
 id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
 gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
+logged | bool | no | If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO
 interval | float | no | Temps d'échantillonnage en secondes. La valeur est lue à cette fréquence. Si cette valeur n'est pas définie, la valeur par défaut est 15s
 coeff_a | float | no | Utiliser conjointement coeff_b pour appliquer l'équation de la forme valeur = coeff_a * raw_value + coeff_b. La valeur par défaut est 1.0.
 coeff_b | float | no | Utiliser conjointement coeff_a pour appliquer l'équation de la forme valeur = coeff_a * raw_value + coeff_b. La valeur par défaut est 0.0.
@@ -2053,6 +2105,7 @@ Name | Type | Mandatory | Description
 interval | int | no | Intervalle entre 2 pings en ms. 15 sec par défaut 
 timeout | int | no | Délai d'attente en ms pour la réponse du ping
 host | string | yes | Adresse IP ou nom de l'hôte pour le ping
+logged | bool | no | If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO
 gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
 id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
 visible | bool | no | Un interrupteur ne peut pas être visible. Toujours faux.
@@ -2082,6 +2135,7 @@ Name | Type | Mandatory | Description
 password | string | no | Mot de passe pour l'utilisateur
 username | string | no | Nom d'utilisateur pour accéder à la caméra
 model | string | yes | Camera model (ICA-210, ICA-210W, ICA-300, ICA-302, ICA-500) to use
+logged | bool | no | If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO
 gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
 id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
 visible | bool | no | Affichez l'entrée/sortie sur toutes les interfaces utilisateur. Vrai par défaut
@@ -2098,6 +2152,7 @@ Une variable de scénario. Utilisez-la comme un bouton virtuel pour lancer un sc
 Name | Type | Mandatory | Description
 ---- | ---- | --------- | -----------
 auto_scenario | string | no | Utilisation interne uniquement pour les scénarios auto. Lecture seule.
+logged | bool | no | If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO
 gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
 id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
 visible | bool | no | Affichez l'entrée/sortie sur toutes les interfaces utilisateur. Vrai par défaut
@@ -2129,6 +2184,7 @@ Name | Type | Mandatory | Description
 port_web | int | no | Port de l'interface Web, 9000 par défaut
 port_cli | int | no | Port du serveur, 9090 par défaut
 host | string | yes | Adresse IP du serveur multimédia Logitech
+logged | bool | no | If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO
 gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
 id | string | yes | ID unique de la squeezebox sur le serveur
 visible | bool | yes | Les lecteurs audio ne sont pas affichés dans les pièces
@@ -2179,6 +2235,7 @@ Name | Type | Mandatory | Description
 ---- | ---- | --------- | -----------
 url_mjpeg | string | no | URL for mjpeg stream support
 ptz | bool | no | Activer si la caméra supporte le PTZ
+logged | bool | no | If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO
 gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
 url_jpeg | string | yes | URL for snapshot in jpeg format
 id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
@@ -2201,6 +2258,7 @@ Name | Type | Mandatory | Description
 ---- | ---- | --------- | -----------
 url_mjpeg | string | no | URL for mjpeg stream support
 ptz | bool | no | Activer si la caméra supporte le PTZ
+logged | bool | no | If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO
 gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
 url_jpeg | string | yes | URL for snapshot in jpeg format
 id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
@@ -2229,9 +2287,10 @@ log_history | bool | no | Si activé, ecrit une entrée dans l'historique pour c
 visible | bool | no | Affichez l'entrée/sortie sur toutes les interfaces utilisateur. Vrai par défaut
 id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
 gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
+camera_id | string | yes | Arrêter la minuterie
+logged | bool | no | If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO
 url | string | yes | Full url to Synology nas. Ex: https://192.168.0.22:5000
 username | string | yes | Username which can access Surveillance Station
-camera_id | string | yes | Arrêter la minuterie
 password | string | yes | Mot de passe pour l'utilisateur
 
 
@@ -2248,13 +2307,14 @@ value | list | yes | Toutes ces valeurs sont lues sur l'équipement de Teleinfo 
 io_style | list | yes | Style d'affichage. Contrôle l'icône affichée sur l'interface utilisateur
 unit | string | no | Unité affichée sur l'interface utilisateur en tant que suffixe.
 precision | int | no | Précision de la valeur retournée. La valeur représente le nombre de décimales après le point. La valeur est arrondie comme ceci: valeur = 19.275 => valeur renvoyée 19.28 lors de la précision = 2, 19.3 lorsque la précision = 1, 19 lorsque la précision = 0
+frequency | float | no | Temps d'échantillonnage en microseconde. La valeur est lue à cette fréquence. Si cette valeur n'est pas définie, calaos essaie de lire le paramètre d'intervalle en seconde
 name | string | yes | Nom de l'entrée/sortie.
 port | string | yes | Port sur lequel obtenir les informations Teleinfo habituellement un port série comme / dev / ttyS0 ou / dev / ttyAMA0
 io_type | string | yes | Type d'entrée/sortie (input, output, inout)
 visible | bool | no | Affichez l'entrée/sortie sur toutes les interfaces utilisateur. Vrai par défaut
-frequency | float | no | Temps d'échantillonnage en microseconde. La valeur est lue à cette fréquence. Si cette valeur n'est pas définie, calaos essaie de lire le paramètre d'intervalle en seconde
 id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
 gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
+logged | bool | no | If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO
 interval | float | no | Temps d'échantillonnage en secondes. La valeur est lue à cette fréquence. Si cette valeur n'est pas définie, la valeur par défaut est 15s
 coeff_a | float | no | Utiliser conjointement coeff_b pour appliquer l'équation de la forme valeur = coeff_a * raw_value + coeff_b. La valeur par défaut est 1.0.
 coeff_b | float | no | Utiliser conjointement coeff_a pour appliquer l'équation de la forme valeur = coeff_a * raw_value + coeff_b. La valeur par défaut est 0.0.
@@ -2276,6 +2336,7 @@ Représentez un objet de plage de temps. Une plage de temps est vraie si l'heure
 ##Parameters of TimeRange
 Name | Type | Mandatory | Description
 ---- | ---- | --------- | -----------
+logged | bool | no | If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO
 gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
 id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
 visible | bool | no | Une plage de temps ne peut pas être visible. Toujours faux.
@@ -2313,12 +2374,13 @@ Si l'URL commence avec / ou file:// les données sont lues sur un disque local
 io_style | list | yes | Style d'affichage. Contrôle l'icône affichée sur l'interface utilisateur
 unit | string | no | Unité affichée sur l'interface utilisateur en tant que suffixe.
 precision | int | no | Précision de la valeur retournée. La valeur représente le nombre de décimales après le point. La valeur est arrondie comme ceci: valeur = 19.275 => valeur renvoyée 19.28 lors de la précision = 2, 19.3 lorsque la précision = 1, 19 lorsque la précision = 0
+frequency | float | no | Temps d'échantillonnage en microseconde. La valeur est lue à cette fréquence. Si cette valeur n'est pas définie, calaos essaie de lire le paramètre d'intervalle en seconde
 name | string | yes | Nom de l'entrée/sortie.
 io_type | string | yes | Type d'entrée/sortie (input, output, inout)
 visible | bool | no | Affichez l'entrée/sortie sur toutes les interfaces utilisateur. Vrai par défaut
-frequency | float | no | Temps d'échantillonnage en microseconde. La valeur est lue à cette fréquence. Si cette valeur n'est pas définie, calaos essaie de lire le paramètre d'intervalle en seconde
 id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
 gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
+logged | bool | no | If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO
 interval | float | no | Temps d'échantillonnage en secondes. La valeur est lue à cette fréquence. Si cette valeur n'est pas définie, la valeur par défaut est 15s
 coeff_a | float | no | Utiliser conjointement coeff_b pour appliquer l'équation de la forme valeur = coeff_a * raw_value + coeff_b. La valeur par défaut est 1.0.
 coeff_b | float | no | Utiliser conjointement coeff_a pour appliquer l'équation de la forme valeur = coeff_a * raw_value + coeff_b. La valeur par défaut est 0.0.
@@ -2347,6 +2409,7 @@ Si le chemin est 2/4/, la valeur retournée sera 20.3
 
 url | string | yes | URL où télécharger le document
 Si l'URL commence avec / ou file:// les données sont lues sur un disque local
+logged | bool | no | If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO
 gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
 id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
 visible | bool | no | Affichez l'entrée/sortie sur toutes les interfaces utilisateur. Vrai par défaut
@@ -2376,12 +2439,13 @@ file_type | string | yes | Type de fichier. Les valeurs peuvent être xml, json 
 url | string | yes | URL où télécharger le document
 Si l'URL commence avec / ou file:// les données sont lues sur un disque local
 precision | int | no | Précision de la valeur retournée. La valeur représente le nombre de décimales après le point. La valeur est arrondie comme ceci: valeur = 19.275 => valeur renvoyée 19.28 lors de la précision = 2, 19.3 lorsque la précision = 1, 19 lorsque la précision = 0
+frequency | float | no | Temps d'échantillonnage en microseconde. La valeur est lue à cette fréquence. Si cette valeur n'est pas définie, calaos essaie de lire le paramètre d'intervalle en seconde
 name | string | yes | Nom de l'entrée/sortie.
 io_type | string | yes | Type d'entrée/sortie (input, output, inout)
 visible | bool | no | Affichez l'entrée/sortie sur toutes les interfaces utilisateur. Vrai par défaut
-frequency | float | no | Temps d'échantillonnage en microseconde. La valeur est lue à cette fréquence. Si cette valeur n'est pas définie, calaos essaie de lire le paramètre d'intervalle en seconde
 id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
 gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
+logged | bool | no | If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO
 interval | float | no | Temps d'échantillonnage en secondes. La valeur est lue à cette fréquence. Si cette valeur n'est pas définie, la valeur par défaut est 15s
 coeff_a | float | no | Utiliser conjointement coeff_b pour appliquer l'équation de la forme valeur = coeff_a * raw_value + coeff_b. La valeur par défaut est 1.0.
 coeff_b | float | no | Utiliser conjointement coeff_a pour appliquer l'équation de la forme valeur = coeff_a * raw_value + coeff_b. La valeur par défaut est 0.0.
@@ -2415,15 +2479,16 @@ file_type | string | yes | Type de fichier. Les valeurs peuvent être xml, json 
 url | string | yes | URL où télécharger le document
 Si l'URL commence avec / ou file:// les données sont lues sur un disque local
 io_style | list | yes | Style d'affichage. Contrôle l'icône affichée sur l'interface utilisateur
+unit | string | no | Unité affichée sur l'interface utilisateur en tant que suffixe.
 name | string | yes | Nom de l'entrée/sortie.
 io_type | string | yes | Type d'entrée/sortie (input, output, inout)
 enabled | bool | no | Activez l'entrée/sortie. Vrai par défaut. Ce paramètre est ajouté s'il n'est pas trouvé dans la configuration.
 log_history | bool | no | Si activé, ecrit une entrée dans l'historique pour cet IO
 visible | bool | no | Affichez l'entrée/sortie sur toutes les interfaces utilisateur. Vrai par défaut
-unit | string | no | Unité affichée sur l'interface utilisateur en tant que suffixe.
 id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
 step | float | no | Définit le pas pour incrémenter/décrémenter la valeur. La valeur par défaut est 1.0
 gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
+logged | bool | no | If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO
 coeff_a | float | no | Utiliser conjointement coeff_b pour appliquer l'équation de la forme valeur = coeff_a * raw_value + coeff_b. La valeur par défaut est 1.0.
 coeff_b | float | no | Utiliser conjointement coeff_a pour appliquer l'équation de la forme valeur = coeff_a * raw_value + coeff_b. La valeur par défaut est 0.0.
 
@@ -2454,19 +2519,20 @@ Lumière simple. Cette lumière ne comporte que 2 états, ON ou OFF. Peut égale
 Name | Type | Mandatory | Description
 ---- | ---- | --------- | -----------
 data_type | string | yes | Entête HTTP Content-Type utilisé lors de l'envoi du document. Cela dépend du site, mais vous pouvez utiliser application/json ou application/xml comme valeurs correctes.
-data | string | yes | Données à publier. Cette valeur peut être nulle, dans ce cas, la valeur est remplacée dans l'URL, sinon la valeur __##VALUE##__ contenue dans les données est remplacée par la valeur à envoyer.
+name | string | yes | Nom de l'entrée/sortie.
+io_type | string | yes | Type d'entrée/sortie (input, output, inout)
+enabled | bool | no | Activez l'entrée/sortie. Vrai par défaut. Ce paramètre est ajouté s'il n'est pas trouvé dans la configuration.
+log_history | bool | no | Si activé, ecrit une entrée dans l'historique pour cet IO
+visible | bool | no | Affichez l'entrée/sortie sur toutes les interfaces utilisateur. Vrai par défaut
+id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
+gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
+logged | bool | no | If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO
+io_style | list | yes | Style d'affichage. Contrôle l'icône affichée sur l'interface utilisateur
 url | string | yes | URL pour poster le document. Le champ data est envoyé en POST si il n'est pas nul. Lorsque aucune donnée n'est fournie, Calaos substitue __##VALUE##__ de l'URL avec la valeur à envoyer. Par exemple, si l'url est http://example.com/api?value=__##VALUE##__ l'url sera :
 http://example.com/api?value=20.3
 L'URL est encodée avant d'être envoyée.
 Si l'URL commence par / ou file:// les données sont écrites dans un fichier local.
-io_style | list | yes | Style d'affichage. Contrôle l'icône affichée sur l'interface utilisateur
-gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
-id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
-visible | bool | no | Affichez l'entrée/sortie sur toutes les interfaces utilisateur. Vrai par défaut
-log_history | bool | no | Si activé, ecrit une entrée dans l'historique pour cet IO
-io_type | string | yes | Type d'entrée/sortie (input, output, inout)
-name | string | yes | Nom de l'entrée/sortie.
-enabled | bool | no | Activez l'entrée/sortie. Vrai par défaut. Ce paramètre est ajouté s'il n'est pas trouvé dans la configuration.
+data | string | yes | Données à publier. Cette valeur peut être nulle, dans ce cas, la valeur est remplacée dans l'URL, sinon la valeur __##VALUE##__ contenue dans les données est remplacée par la valeur à envoyer.
 
 ##Conditions of WebOutputLight
 Name | Description
@@ -2496,20 +2562,21 @@ Lumière RVB. Choisir une couleur à définir pour cette lumière.
 ##Parameters of WebOutputLightRGB
 Name | Type | Mandatory | Description
 ---- | ---- | --------- | -----------
-data_type | string | yes | Entête HTTP Content-Type utilisé lors de l'envoi du document. Cela dépend du site, mais vous pouvez utiliser application/json ou application/xml comme valeurs correctes.
-data | string | yes | Données à publier. Cette valeur peut être nulle, dans ce cas, la valeur est remplacée dans l'URL, sinon la valeur __##VALUE##__ contenue dans les données est remplacée par la valeur à envoyer.
+raw_value | bool | no | Valeur RVB au format #RRVVBB. Certaines web api prennent seulement le format RRVVBB. Si Raw_value est à vrai, le # est supprimé. La valeur par défaut est faux.
+name | string | yes | Nom de l'entrée/sortie.
+io_type | string | yes | Type d'entrée/sortie (input, output, inout)
+enabled | bool | no | Activez l'entrée/sortie. Vrai par défaut. Ce paramètre est ajouté s'il n'est pas trouvé dans la configuration.
+log_history | bool | no | Si activé, ecrit une entrée dans l'historique pour cet IO
+visible | bool | no | Affichez l'entrée/sortie sur toutes les interfaces utilisateur. Vrai par défaut
+id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
+gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
+logged | bool | no | If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO
 url | string | yes | URL pour poster le document. Le champ data est envoyé en POST si il n'est pas nul. Lorsque aucune donnée n'est fournie, Calaos substitue __##VALUE##__ de l'URL avec la valeur à envoyer. Par exemple, si l'url est http://example.com/api?value=__##VALUE##__ l'url sera :
 http://example.com/api?value=20.3
 L'URL est encodée avant d'être envoyée.
 Si l'URL commence par / ou file:// les données sont écrites dans un fichier local.
-gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
-id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
-raw_value | bool | no | Valeur RVB au format #RRVVBB. Certaines web api prennent seulement le format RRVVBB. Si Raw_value est à vrai, le # est supprimé. La valeur par défaut est faux.
-visible | bool | no | Affichez l'entrée/sortie sur toutes les interfaces utilisateur. Vrai par défaut
-log_history | bool | no | Si activé, ecrit une entrée dans l'historique pour cet IO
-io_type | string | yes | Type d'entrée/sortie (input, output, inout)
-name | string | yes | Nom de l'entrée/sortie.
-enabled | bool | no | Activez l'entrée/sortie. Vrai par défaut. Ce paramètre est ajouté s'il n'est pas trouvé dans la configuration.
+data | string | yes | Données à publier. Cette valeur peut être nulle, dans ce cas, la valeur est remplacée dans l'URL, sinon la valeur __##VALUE##__ contenue dans les données est remplacée par la valeur à envoyer.
+data_type | string | yes | Entête HTTP Content-Type utilisé lors de l'envoi du document. Cela dépend du site, mais vous pouvez utiliser application/json ou application/xml comme valeurs correctes.
 
 ##Conditions of WebOutputLightRGB
 Name | Description
@@ -2545,6 +2612,7 @@ Ecriture d'une chaine dans un document web ou une URL.
 Name | Type | Mandatory | Description
 ---- | ---- | --------- | -----------
 data_type | string | yes | Entête HTTP Content-Type utilisé lors de l'envoi du document. Cela dépend du site, mais vous pouvez utiliser application/json ou application/xml comme valeurs correctes.
+data | string | yes | Données à publier. Cette valeur peut être nulle, dans ce cas, la valeur est remplacée dans l'URL, sinon la valeur __##VALUE##__ contenue dans les données est remplacée par la valeur à envoyer.
 name | string | yes | Nom de l'entrée/sortie.
 io_type | string | yes | Type d'entrée/sortie (input, output, inout)
 enabled | bool | no | Activez l'entrée/sortie. Vrai par défaut. Ce paramètre est ajouté s'il n'est pas trouvé dans la configuration.
@@ -2553,11 +2621,11 @@ file_type | string | yes | Type de fichier. Les valeurs peuvent être xml, json 
 visible | bool | no | Affichez l'entrée/sortie sur toutes les interfaces utilisateur. Vrai par défaut
 id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
 gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
+logged | bool | no | If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO
 url | string | yes | URL pour poster le document. Le champ data est envoyé en POST si il n'est pas nul. Lorsque aucune donnée n'est fournie, Calaos substitue __##VALUE##__ de l'URL avec la valeur à envoyer. Par exemple, si l'url est http://example.com/api?value=__##VALUE##__ l'url sera :
 http://example.com/api?value=20.3
 L'URL est encodée avant d'être envoyée.
 Si l'URL commence par / ou file:// les données sont écrites dans un fichier local.
-data | string | yes | Données à publier. Cette valeur peut être nulle, dans ce cas, la valeur est remplacée dans l'URL, sinon la valeur __##VALUE##__ contenue dans les données est remplacée par la valeur à envoyer.
 path | string | yes | Chemin pour identifier l'emplacement de la valeur. Ce chemin peut prendre plusieurs formes en fonction du type de fichier. Si file_type est JSON, le fichier téléchargé sera lu et les informations seront extraites du chemin. Par exemple weather[0]/description, essayez de lire la description du premier élément du tableau de l'objet weahter.
 Si file_type est XML, le chemin d'accès est une expression xpath; Regardez ici la syntaxe: http://www.w3schools.com/xsl/xpath_syntax.asp. Si file_type est TEXT, le fichier téléchargé est renvoyé en tant que fichier texte simple, et le chemin doit être sous la forme ligne/pos/separateur. La ligne lue est divisée à l'aide du séparateur en tant que délimiteurs. La valeur renvoyée est la valeur à pos dans la ligne fractionnée. Si le séparateur n'est pas trouvé, la ligne entière est renvoyée. Exemple, pour un fichier contenant 
 10,0,10,1,10,2,10,3
@@ -2581,13 +2649,14 @@ io_style | list | yes | Style d'affichage. Contrôle l'icône affichée sur l'in
 var | int | yes | Adresse PLC du capteur d'entrée
 unit | string | no | Unité affichée sur l'interface utilisateur en tant que suffixe.
 precision | int | no | Précision de la valeur retournée. La valeur représente le nombre de décimales après le point. La valeur est arrondie comme ceci: valeur = 19.275 => valeur renvoyée 19.28 lors de la précision = 2, 19.3 lorsque la précision = 1, 19 lorsque la précision = 0
+frequency | float | no | Temps d'échantillonnage en microseconde. La valeur est lue à cette fréquence. Si cette valeur n'est pas définie, calaos essaie de lire le paramètre d'intervalle en seconde
 name | string | yes | Nom de l'entrée/sortie.
 port | int | no | Port de l'automate Wage, 502 par défaut
 io_type | string | yes | Type d'entrée/sortie (input, output, inout)
 visible | bool | no | Affichez l'entrée/sortie sur toutes les interfaces utilisateur. Vrai par défaut
-frequency | float | no | Temps d'échantillonnage en microseconde. La valeur est lue à cette fréquence. Si cette valeur n'est pas définie, calaos essaie de lire le paramètre d'intervalle en seconde
 id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
 gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
+logged | bool | no | If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO
 interval | float | no | Temps d'échantillonnage en secondes. La valeur est lue à cette fréquence. Si cette valeur n'est pas définie, la valeur par défaut est 15s
 coeff_a | float | no | Utiliser conjointement coeff_b pour appliquer l'équation de la forme valeur = coeff_a * raw_value + coeff_b. La valeur par défaut est 1.0.
 coeff_b | float | no | Utiliser conjointement coeff_a pour appliquer l'équation de la forme valeur = coeff_a * raw_value + coeff_b. La valeur par défaut est 0.0.
@@ -2616,6 +2685,7 @@ Interrupteur de base avec états de appuyé/relâché.
 Name | Type | Mandatory | Description
 ---- | ---- | --------- | -----------
 host | string | yes | Adresse IP de l'automate Wago
+logged | bool | no | If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO
 gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
 var | int | yes | Adresse PLC de l'entrée numérique
 id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
@@ -2648,6 +2718,7 @@ Interrupteur à appui long. Cet interrupteur prend en charge un appui court et u
 Name | Type | Mandatory | Description
 ---- | ---- | --------- | -----------
 host | string | yes | Adresse IP de l'automate Wago
+logged | bool | no | If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO
 gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
 var | int | yes | Adresse PLC de l'entrée numérique
 id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
@@ -2680,6 +2751,7 @@ Commutateur à triple clic. Ce commutateur peut déclencher 3 types d'actions. L
 Name | Type | Mandatory | Description
 ---- | ---- | --------- | -----------
 host | string | yes | Adresse IP de l'automate Wago
+logged | bool | no | If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO
 gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
 var | int | yes | Adresse PLC de l'entrée numérique
 id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
@@ -2715,13 +2787,14 @@ Name | Type | Mandatory | Description
 host | string | yes | Adresse IP de l'automate Wago
 var | int | yes | Adresse PLC du capteur d'entrée
 precision | int | no | Précision de la valeur retournée. La valeur représente le nombre de décimales après le point. La valeur est arrondie comme ceci: valeur = 19.275 => valeur renvoyée 19.28 lors de la précision = 2, 19.3 lorsque la précision = 1, 19 lorsque la précision = 0
+frequency | float | no | Temps d'échantillonnage en microseconde. La valeur est lue à cette fréquence. Si cette valeur n'est pas définie, calaos essaie de lire le paramètre d'intervalle en seconde
 name | string | yes | Nom de l'entrée/sortie.
 port | int | no | Port de l'automate Wage, 502 par défaut
 io_type | string | yes | Type d'entrée/sortie (input, output, inout)
 visible | bool | no | Affichez l'entrée/sortie sur toutes les interfaces utilisateur. Vrai par défaut
-frequency | float | no | Temps d'échantillonnage en microseconde. La valeur est lue à cette fréquence. Si cette valeur n'est pas définie, calaos essaie de lire le paramètre d'intervalle en seconde
 id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
 gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
+logged | bool | no | If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO
 interval | float | no | Temps d'échantillonnage en secondes. La valeur est lue à cette fréquence. Si cette valeur n'est pas définie, la valeur par défaut est 15s
 coeff_a | float | no | Utiliser conjointement coeff_b pour appliquer l'équation de la forme valeur = coeff_a * raw_value + coeff_b. La valeur par défaut est 1.0.
 coeff_b | float | no | Utiliser conjointement coeff_a pour appliquer l'équation de la forme valeur = coeff_a * raw_value + coeff_b. La valeur par défaut est 0.0.
@@ -2751,17 +2824,18 @@ Name | Type | Mandatory | Description
 ---- | ---- | --------- | -----------
 host | string | yes | Adresse IP de l'automate Wago
 io_style | list | yes | Style d'affichage. Contrôle l'icône affichée sur l'interface utilisateur
+var | int | yes | Adresse de l'automate de la sortie
+unit | string | no | Unité affichée sur l'interface utilisateur en tant que suffixe.
 name | string | yes | Nom de l'entrée/sortie.
 port | int | no | Port de l'automate Wage, 502 par défaut
 io_type | string | yes | Type d'entrée/sortie (input, output, inout)
 enabled | bool | no | Activez l'entrée/sortie. Vrai par défaut. Ce paramètre est ajouté s'il n'est pas trouvé dans la configuration.
 log_history | bool | no | Si activé, ecrit une entrée dans l'historique pour cet IO
 visible | bool | no | Affichez l'entrée/sortie sur toutes les interfaces utilisateur. Vrai par défaut
-var | int | yes | Adresse de l'automate de la sortie
-unit | string | no | Unité affichée sur l'interface utilisateur en tant que suffixe.
 id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
 step | float | no | Définit le pas pour incrémenter/décrémenter la valeur. La valeur par défaut est 1.0
 gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
+logged | bool | no | If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO
 coeff_a | float | no | Utiliser conjointement coeff_b pour appliquer l'équation de la forme valeur = coeff_a * raw_value + coeff_b. La valeur par défaut est 1.0.
 coeff_b | float | no | Utiliser conjointement coeff_a pour appliquer l'équation de la forme valeur = coeff_a * raw_value + coeff_b. La valeur par défaut est 0.0.
 
@@ -2803,6 +2877,7 @@ log_history | bool | no | Si activé, ecrit une entrée dans l'historique pour c
 visible | bool | no | Affichez l'entrée/sortie sur toutes les interfaces utilisateur. Vrai par défaut
 id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
 gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
+logged | bool | no | If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO
 address | int | yes | Adresse de l'appareil. Les adresses DALI se situent entre 1 et 64. Pour les DMX, les adresses commencent à 100. Donc, pour le périphérique DMX 5, l'adresse doit être 105.
 host | string | yes | Adresse IP de l'automate Wago
 io_type | string | yes | Type d'entrée/sortie (input, output, inout)
@@ -2852,6 +2927,7 @@ gfade_time | int | no | Durée du fondu pour le canal vert DALI (entre 1 et 10)
 gline | int | no | Ligne de bus DALI pour canal vert, habituellement 1
 bgroup | int | no | Réglez sur 1 si l'adresse du canal bleu est une adresse de groupe DALI, sinon mettre 0
 rgroup | int | no | Réglez sur 1 si l'adresse du canal rouge est une adresse de groupe DALI,  sinon mettre 0
+raddress | int | yes | Adresse pour le canal rouge. Les adresses DALI se situent entre 1 et 64. Pour les DMX, les adresses commencent à 100. Donc, pour le périphérique DMX 5, l'adresse doit être 105.
 name | string | yes | Nom de l'entrée/sortie.
 bfade_time | int | no | Durée du fondu pour le canal bleu DALI (entre 1 et 10)
 bline | int | no | Ligne de bus DALI pour canal bleu, habituellement 1
@@ -2864,8 +2940,8 @@ io_type | string | yes | Type d'entrée/sortie (input, output, inout)
 port | int | no | Port de l'automate Wage, 502 par défaut
 baddress | int | yes | Adresse pour le canal bleu. Les adresses DALI se situent entre 1 et 64. Pour les DMX, les adresses commencent à 100. Donc, pour le périphérique DMX 5, l'adresse doit être 105.
 id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
-raddress | int | yes | Adresse pour le canal rouge. Les adresses DALI se situent entre 1 et 64. Pour les DMX, les adresses commencent à 100. Donc, pour le périphérique DMX 5, l'adresse doit être 105.
 gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
+logged | bool | no | If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO
 rfade_time | int | no | Durée du fondu pour le canal rouge DALI (entre 1 et 10)
 rline | int | no | Ligne de bus DALI pour canal rouge, habituellement 1
 host | string | yes | Adresse IP de l'automate Wago
@@ -2912,6 +2988,7 @@ Lumière simple. Cette lumière ne comporte que 2 états, ON ou OFF. Peut égale
 Name | Type | Mandatory | Description
 ---- | ---- | --------- | -----------
 wago_841 | bool | yes | Doit être faux pour le PLC 750-842, sinon vrai
+var | int | yes | Adresse de l'automate de la sortie
 name | string | yes | Nom de l'entrée/sortie.
 enabled | bool | no | Activez l'entrée/sortie. Vrai par défaut. Ce paramètre est ajouté s'il n'est pas trouvé dans la configuration.
 log_history | bool | no | Si activé, ecrit une entrée dans l'historique pour cet IO
@@ -2919,8 +2996,8 @@ visible | bool | no | Affichez l'entrée/sortie sur toutes les interfaces utilis
 io_type | string | yes | Type d'entrée/sortie (input, output, inout)
 port | int | no | Port de l'automate Wage, 502 par défaut
 id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
-var | int | yes | Adresse de l'automate de la sortie
 gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
+logged | bool | no | If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO
 io_style | list | yes | Style d'affichage. Contrôle l'icône affichée sur l'interface utilisateur
 knx | bool | no | Mettre à true si la sortie est un périphérique KNX (uniquement pour 750-849 avec le module KNX / TP1)
 host | string | yes | Adresse IP de l'automate Wago
@@ -2955,6 +3032,7 @@ Name | Type | Mandatory | Description
 ---- | ---- | --------- | -----------
 interval | int | no | Intervalle entre 2 pings en ms. 15 sec par défaut 
 address | string | yes | Adresse MAC de l'hôte à réveiller
+logged | bool | no | If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO
 gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
 id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
 visible | bool | no | Affichez l'entrée/sortie sur toutes les interfaces utilisateur. Vrai par défaut
@@ -2980,6 +3058,8 @@ Volet simple. Ce volet prend en charge les états ouvert/fermer, ainsi que les v
 Name | Type | Mandatory | Description
 ---- | ---- | --------- | -----------
 var_down | int | yes | Sortie numérique sur l'automate pour fermer le volet
+knx | bool | no | Mettre à true si la sortie est un périphérique KNX (uniquement pour 750-849 avec le module KNX / TP1)
+host | string | yes | Adresse IP de l'automate Wago
 var_up | int | yes | Sortie numérique sur l'automate pour ouvrir le volet
 name | string | yes | Nom de l'entrée/sortie.
 enabled | bool | no | Activez l'entrée/sortie. Vrai par défaut. Ce paramètre est ajouté s'il n'est pas trouvé dans la configuration.
@@ -2987,13 +3067,12 @@ log_history | bool | no | Si activé, ecrit une entrée dans l'historique pour c
 visible | bool | no | Affichez l'entrée/sortie sur toutes les interfaces utilisateur. Vrai par défaut
 id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
 gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
+logged | bool | no | If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO
 wago_841 | bool | yes | Doit être faux pour le PLC 750-842, sinon vrai
 time | int | yes | Temps en sec pour ouvrir ou fermer le volet
 port | int | no | Port de l'automate Wage, 502 par défaut
 io_type | string | yes | Type d'entrée/sortie (input, output, inout)
 impulse_time | int | no | Temps d'impulsion en ms pour les volets à impulsion. Si 0, le déclencheur d'impulsion est désactivé. 0 par défaut.
-knx | bool | no | Mettre à true si la sortie est un périphérique KNX (uniquement pour 750-849 avec le module KNX / TP1)
-host | string | yes | Adresse IP de l'automate Wago
 stop_both | bool | no | En mode impulsion, certains volets doivent activer les deux relais haut et bas lors de l'arrêt du volet
 
 ##Conditions of WOVolet
@@ -3033,6 +3112,7 @@ wago_841 | bool | yes | Doit être faux pour le PLC 750-842, sinon vrai
 var_down | int | yes | Sortie numérique sur l'automate pour fermer le volet
 knx | bool | no | Mettre à true si la sortie est un périphérique KNX (uniquement pour 750-849 avec le module KNX / TP1)
 host | string | yes | Adresse IP de l'automate Wago
+stop_both | bool | no | En mode impulsion, certains volets doivent activer les deux relais haut et bas lors de l'arrêt du volet
 var_up | int | yes | Sortie numérique sur l'automate pour ouvrir le volet
 name | string | yes | Nom de l'entrée/sortie.
 enabled | bool | no | Activez l'entrée/sortie. Vrai par défaut. Ce paramètre est ajouté s'il n'est pas trouvé dans la configuration.
@@ -3040,12 +3120,12 @@ log_history | bool | no | Si activé, ecrit une entrée dans l'historique pour c
 visible | bool | no | Affichez l'entrée/sortie sur toutes les interfaces utilisateur. Vrai par défaut
 id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
 time_down | int | yes | Temps en sec pour que le volet soit complètement fermé. Plus il est précis, plus le positionnement sera précis
+logged | bool | no | If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO
 gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
 time_up | int | yes | Temps en sec pour que le volet soit complètement ouvert. Plus il est précis, plus le positionnement sera précis
 port | int | no | Port de l'automate Wage, 502 par défaut
 io_type | string | yes | Type d'entrée/sortie (input, output, inout)
 impulse_time | int | no | Temps d'impulsion en ms pour les volets à impulsion. Si 0, le déclencheur d'impulsion est désactivé. 0 par défaut.
-stop_both | bool | no | En mode impulsion, certains volets doivent activer les deux relais haut et bas lors de l'arrêt du volet
 
 ##Conditions of WOVoletSmart
 Name | Description
@@ -3084,6 +3164,7 @@ Lumière avec variateur. La luminosité peut-être modifiée pour cette lumière
 Name | Type | Mandatory | Description
 ---- | ---- | --------- | -----------
 code | string | yes | House code de la lumière X10
+logged | bool | no | If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO
 gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
 id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
 visible | bool | no | Affichez l'entrée/sortie sur toutes les interfaces utilisateur. Vrai par défaut
@@ -3129,13 +3210,14 @@ Name | Type | Mandatory | Description
 io_style | list | yes | Style d'affichage. Contrôle l'icône affichée sur l'interface utilisateur
 unit | string | no | Unité affichée sur l'interface utilisateur en tant que suffixe.
 precision | int | no | Précision de la valeur retournée. La valeur représente le nombre de décimales après le point. La valeur est arrondie comme ceci: valeur = 19.275 => valeur renvoyée 19.28 lors de la précision = 2, 19.3 lorsque la précision = 1, 19 lorsque la précision = 0
+frequency | float | no | Temps d'échantillonnage en microseconde. La valeur est lue à cette fréquence. Si cette valeur n'est pas définie, calaos essaie de lire le paramètre d'intervalle en seconde
 name | string | yes | Nom de l'entrée/sortie.
 io_type | string | yes | Type d'entrée/sortie (input, output, inout)
 sensor | string | yes | ID du capteur sur le réseau xPL
 visible | bool | no | Affichez l'entrée/sortie sur toutes les interfaces utilisateur. Vrai par défaut
-frequency | float | no | Temps d'échantillonnage en microseconde. La valeur est lue à cette fréquence. Si cette valeur n'est pas définie, calaos essaie de lire le paramètre d'intervalle en seconde
 id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
 gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
+logged | bool | no | If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO
 interval | float | no | Temps d'échantillonnage en secondes. La valeur est lue à cette fréquence. Si cette valeur n'est pas définie, la valeur par défaut est 15s
 coeff_a | float | no | Utiliser conjointement coeff_b pour appliquer l'équation de la forme valeur = coeff_a * raw_value + coeff_b. La valeur par défaut est 1.0.
 coeff_b | float | no | Utiliser conjointement coeff_a pour appliquer l'équation de la forme valeur = coeff_a * raw_value + coeff_b. La valeur par défaut est 0.0.
@@ -3158,6 +3240,7 @@ Capteur xPL chaine
 Name | Type | Mandatory | Description
 ---- | ---- | --------- | -----------
 source | string | yes | Nom de la source sur le réseau xPL (Format VendorId-DeviceId.Instance)
+logged | bool | no | If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO
 gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
 id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
 visible | bool | no | Affichez l'entrée/sortie sur toutes les interfaces utilisateur. Vrai par défaut
@@ -3178,6 +3261,7 @@ Interrupteur de base avec états de appuyé/relâché.
 Name | Type | Mandatory | Description
 ---- | ---- | --------- | -----------
 source | string | yes | Nom de la source sur le réseau xPL (Format VendorId-DeviceId.Instance)
+logged | bool | no | If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO
 gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
 id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
 visible | bool | no | Un interrupteur ne peut pas être visible. Toujours faux.
@@ -3205,13 +3289,14 @@ Capteur de température. Utiliser pour afficher la température et contrôler le
 Name | Type | Mandatory | Description
 ---- | ---- | --------- | -----------
 precision | int | no | Précision de la valeur retournée. La valeur représente le nombre de décimales après le point. La valeur est arrondie comme ceci: valeur = 19.275 => valeur renvoyée 19.28 lors de la précision = 2, 19.3 lorsque la précision = 1, 19 lorsque la précision = 0
+frequency | float | no | Temps d'échantillonnage en microseconde. La valeur est lue à cette fréquence. Si cette valeur n'est pas définie, calaos essaie de lire le paramètre d'intervalle en seconde
 name | string | yes | Nom de l'entrée/sortie.
 io_type | string | yes | Type d'entrée/sortie (input, output, inout)
 sensor | string | yes | ID du capteur sur le réseau xPL
 visible | bool | no | Affichez l'entrée/sortie sur toutes les interfaces utilisateur. Vrai par défaut
-frequency | float | no | Temps d'échantillonnage en microseconde. La valeur est lue à cette fréquence. Si cette valeur n'est pas définie, calaos essaie de lire le paramètre d'intervalle en seconde
 id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
 gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
+logged | bool | no | If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO
 interval | float | no | Temps d'échantillonnage en secondes. La valeur est lue à cette fréquence. Si cette valeur n'est pas définie, la valeur par défaut est 15s
 coeff_a | float | no | Utiliser conjointement coeff_b pour appliquer l'équation de la forme valeur = coeff_a * raw_value + coeff_b. La valeur par défaut est 1.0.
 coeff_b | float | no | Utiliser conjointement coeff_a pour appliquer l'équation de la forme valeur = coeff_a * raw_value + coeff_b. La valeur par défaut est 0.0.
@@ -3237,17 +3322,18 @@ Utile pour contrôler les périphériques de sortie analogique connectés à cal
 Name | Type | Mandatory | Description
 ---- | ---- | --------- | -----------
 io_style | list | yes | Style d'affichage. Contrôle l'icône affichée sur l'interface utilisateur
+unit | string | no | Unité affichée sur l'interface utilisateur en tant que suffixe.
 name | string | yes | Nom de l'entrée/sortie.
 io_type | string | yes | Type d'entrée/sortie (input, output, inout)
 source | string | yes | Nom de la source sur le réseau xPL (Format VendorId-DeviceId.Instance)
 enabled | bool | no | Activez l'entrée/sortie. Vrai par défaut. Ce paramètre est ajouté s'il n'est pas trouvé dans la configuration.
 log_history | bool | no | Si activé, ecrit une entrée dans l'historique pour cet IO
 visible | bool | no | Affichez l'entrée/sortie sur toutes les interfaces utilisateur. Vrai par défaut
-unit | string | no | Unité affichée sur l'interface utilisateur en tant que suffixe.
 id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
 actuator | string | yes | ID de l'actionneur sur le réseau xPL
 step | float | no | Définit le pas pour incrémenter/décrémenter la valeur. La valeur par défaut est 1.0
 gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
+logged | bool | no | If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO
 coeff_a | float | no | Utiliser conjointement coeff_b pour appliquer l'équation de la forme valeur = coeff_a * raw_value + coeff_b. La valeur par défaut est 1.0.
 coeff_b | float | no | Utiliser conjointement coeff_a pour appliquer l'équation de la forme valeur = coeff_a * raw_value + coeff_b. La valeur par défaut est 0.0.
 
@@ -3276,6 +3362,7 @@ Name | Type | Mandatory | Description
 ---- | ---- | --------- | -----------
 actuator | string | yes | ID de l'actionneur sur le réseau xPL
 source | string | yes | Nom de la source sur le réseau xPL (Format VendorId-DeviceId.Instance)
+logged | bool | no | If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO
 gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
 id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
 visible | bool | no | Affichez l'entrée/sortie sur toutes les interfaces utilisateur. Vrai par défaut
@@ -3297,6 +3384,7 @@ Name | Type | Mandatory | Description
 actuator | string | yes | ID de l'actionneur sur le réseau xPL
 source | string | yes | Nom de la source sur le réseau xPL (Format VendorId-DeviceId.Instance)
 io_style | list | yes | Style d'affichage. Contrôle l'icône affichée sur l'interface utilisateur
+logged | bool | no | If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO
 gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
 id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
 visible | bool | no | Affichez l'entrée/sortie sur toutes les interfaces utilisateur. Vrai par défaut
@@ -3338,14 +3426,15 @@ host | string | yes | Adresse IP de la Zibase
 io_style | list | yes | Style d'affichage. Contrôle l'icône affichée sur l'interface utilisateur
 unit | string | no | Unité affichée sur l'interface utilisateur en tant que suffixe.
 precision | int | no | Précision de la valeur retournée. La valeur représente le nombre de décimales après le point. La valeur est arrondie comme ceci: valeur = 19.275 => valeur renvoyée 19.28 lors de la précision = 2, 19.3 lorsque la précision = 1, 19 lorsque la précision = 0
+zibase_id | string | yes | ID du périphérie Zibase (ABC)
+frequency | float | no | Temps d'échantillonnage en microseconde. La valeur est lue à cette fréquence. Si cette valeur n'est pas définie, calaos essaie de lire le paramètre d'intervalle en seconde
 name | string | yes | Nom de l'entrée/sortie.
 port | int | no | Port de la Zibase, 17100 par défaut
 io_type | string | yes | Type d'entrée/sortie (input, output, inout)
 visible | bool | no | Affichez l'entrée/sortie sur toutes les interfaces utilisateur. Vrai par défaut
-zibase_id | string | yes | ID du périphérie Zibase (ABC)
-frequency | float | no | Temps d'échantillonnage en microseconde. La valeur est lue à cette fréquence. Si cette valeur n'est pas définie, calaos essaie de lire le paramètre d'intervalle en seconde
 id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
 gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
+logged | bool | no | If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO
 interval | float | no | Temps d'échantillonnage en secondes. La valeur est lue à cette fréquence. Si cette valeur n'est pas définie, la valeur par défaut est 15s
 coeff_a | float | no | Utiliser conjointement coeff_b pour appliquer l'équation de la forme valeur = coeff_a * raw_value + coeff_b. La valeur par défaut est 1.0.
 coeff_b | float | no | Utiliser conjointement coeff_a pour appliquer l'équation de la forme valeur = coeff_a * raw_value + coeff_b. La valeur par défaut est 0.0.
@@ -3378,8 +3467,9 @@ io_type | string | yes | Type d'entrée/sortie (input, output, inout)
 port | int | no | Port de la Zibase, 17100 par défaut
 id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
 gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
-zibase_id | string | yes | ID du premier périphérie Zibase (ABC)
 zibase_id2 | string | yes | ID du deuxième périphérie Zibase (ABC)
+logged | bool | no | If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO
+zibase_id | string | yes | ID du premier périphérie Zibase (ABC)
 host | string | yes | Adresse IP de la Zibase
 
 ##Conditions of ZibaseDigitalIn
@@ -3401,6 +3491,7 @@ Name | Type | Mandatory | Description
 ---- | ---- | --------- | -----------
 nbburst | int | no | Nombre d'impulsion à envoyer
 protocol | list | yes | Protocol to use
+zibase_id | string | yes | ID du périphérie Zibase (ABC)
 name | string | yes | Nom de l'entrée/sortie.
 enabled | bool | no | Activez l'entrée/sortie. Vrai par défaut. Ce paramètre est ajouté s'il n'est pas trouvé dans la configuration.
 log_history | bool | no | Si activé, ecrit une entrée dans l'historique pour cet IO
@@ -3409,7 +3500,7 @@ io_type | string | yes | Type d'entrée/sortie (input, output, inout)
 port | int | no | Port de la Zibase, 17100 par défaut
 id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
 gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
-zibase_id | string | yes | ID du périphérie Zibase (ABC)
+logged | bool | no | If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO
 io_style | list | yes | Style d'affichage. Contrôle l'icône affichée sur l'interface utilisateur
 host | string | yes | Adresse IP de la Zibase
 
@@ -3444,14 +3535,15 @@ Name | Type | Mandatory | Description
 zibase_sensor | list | yes | Type of sensor
 host | string | yes | Adresse IP de la Zibase
 precision | int | no | Précision de la valeur retournée. La valeur représente le nombre de décimales après le point. La valeur est arrondie comme ceci: valeur = 19.275 => valeur renvoyée 19.28 lors de la précision = 2, 19.3 lorsque la précision = 1, 19 lorsque la précision = 0
+zibase_id | string | yes | ID du périphérie Zibase (ABC)
+frequency | float | no | Temps d'échantillonnage en microseconde. La valeur est lue à cette fréquence. Si cette valeur n'est pas définie, calaos essaie de lire le paramètre d'intervalle en seconde
 name | string | yes | Nom de l'entrée/sortie.
 port | int | no | Port de la Zibase, 17100 par défaut
 io_type | string | yes | Type d'entrée/sortie (input, output, inout)
 visible | bool | no | Affichez l'entrée/sortie sur toutes les interfaces utilisateur. Vrai par défaut
-zibase_id | string | yes | ID du périphérie Zibase (ABC)
-frequency | float | no | Temps d'échantillonnage en microseconde. La valeur est lue à cette fréquence. Si cette valeur n'est pas définie, calaos essaie de lire le paramètre d'intervalle en seconde
 id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
 gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
+logged | bool | no | If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO
 interval | float | no | Temps d'échantillonnage en secondes. La valeur est lue à cette fréquence. Si cette valeur n'est pas définie, la valeur par défaut est 15s
 coeff_a | float | no | Utiliser conjointement coeff_b pour appliquer l'équation de la forme valeur = coeff_a * raw_value + coeff_b. La valeur par défaut est 1.0.
 coeff_b | float | no | Utiliser conjointement coeff_a pour appliquer l'équation de la forme valeur = coeff_a * raw_value + coeff_b. La valeur par défaut est 0.0.

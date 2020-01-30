@@ -11,33 +11,40 @@
                 "type": "string"
             },
             {
-                "default": "0",
-                "description": "Zone de l'amplificateur (si pris en charge)",
-                "mandatory": "false",
-                "max": "10",
-                "min": "0",
-                "name": "zone",
-                "readonly": "false",
-                "type": "int"
-            },
-            {
-                "description": "Adresse IP de l'appareil",
+                "description": "Nom de l'entrée/sortie.",
                 "mandatory": "true",
-                "name": "host",
+                "name": "name",
                 "readonly": "false",
                 "type": "string"
             },
             {
-                "description": "Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement",
+                "default": "true",
+                "description": "Activez l'entrée/sortie. Vrai par défaut. Ce paramètre est ajouté s'il n'est pas trouvé dans la configuration.",
                 "mandatory": "false",
-                "name": "gui_type",
-                "readonly": "true",
-                "type": "string"
+                "name": "enabled",
+                "readonly": "false",
+                "type": "bool"
             },
             {
-                "description": "Identifiant unique de l'entrée/sortie dans calaos-server",
+                "default": "false",
+                "description": "Si activé, ecrit une entrée dans l'historique pour cet IO",
+                "mandatory": "false",
+                "name": "log_history",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "default": "true",
+                "description": "Affichez l'entrée/sortie sur toutes les interfaces utilisateur. Vrai par défaut",
+                "mandatory": "false",
+                "name": "visible",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "description": "Type d'entrée/sortie (input, output, inout)",
                 "mandatory": "true",
-                "name": "id",
+                "name": "io_type",
                 "readonly": "true",
                 "type": "string"
             },
@@ -52,42 +59,43 @@
                 "type": "int"
             },
             {
-                "default": "true",
-                "description": "Affichez l'entrée/sortie sur toutes les interfaces utilisateur. Vrai par défaut",
-                "mandatory": "false",
-                "name": "visible",
-                "readonly": "false",
-                "type": "bool"
-            },
-            {
-                "default": "false",
-                "description": "Si activé, ecrit une entrée dans l'historique pour cet IO",
-                "mandatory": "false",
-                "name": "log_history",
-                "readonly": "false",
-                "type": "bool"
-            },
-            {
-                "description": "Type d'entrée/sortie (input, output, inout)",
+                "description": "Identifiant unique de l'entrée/sortie dans calaos-server",
                 "mandatory": "true",
-                "name": "io_type",
+                "name": "id",
                 "readonly": "true",
                 "type": "string"
             },
             {
-                "description": "Nom de l'entrée/sortie.",
+                "description": "Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement",
+                "mandatory": "false",
+                "name": "gui_type",
+                "readonly": "true",
+                "type": "string"
+            },
+            {
+                "default": "false",
+                "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "mandatory": "false",
+                "name": "logged",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "description": "Adresse IP de l'appareil",
                 "mandatory": "true",
-                "name": "name",
+                "name": "host",
                 "readonly": "false",
                 "type": "string"
             },
             {
-                "default": "true",
-                "description": "Activez l'entrée/sortie. Vrai par défaut. Ce paramètre est ajouté s'il n'est pas trouvé dans la configuration.",
+                "default": "0",
+                "description": "Zone de l'amplificateur (si pris en charge)",
                 "mandatory": "false",
-                "name": "enabled",
+                "max": "10",
+                "min": "0",
+                "name": "zone",
                 "readonly": "false",
-                "type": "bool"
+                "type": "int"
             }
         ],
         "conditions": [],
@@ -163,13 +171,6 @@
                 "type": "bool"
             },
             {
-                "description": "",
-                "mandatory": "false",
-                "name": "zoom_step",
-                "readonly": "false",
-                "type": "string"
-            },
-            {
                 "default": "true",
                 "description": "Affichez l'entrée/sortie sur toutes les interfaces utilisateur. Vrai par défaut",
                 "mandatory": "false",
@@ -178,11 +179,40 @@
                 "type": "bool"
             },
             {
+                "description": "",
+                "mandatory": "false",
+                "name": "pan_framesize",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "Identifiant unique de l'entrée/sortie dans calaos-server",
+                "mandatory": "true",
+                "name": "id",
+                "readonly": "true",
+                "type": "string"
+            },
+            {
                 "description": "Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement",
                 "mandatory": "false",
                 "name": "gui_type",
                 "readonly": "true",
                 "type": "string"
+            },
+            {
+                "description": "",
+                "mandatory": "false",
+                "name": "zoom_step",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "default": "false",
+                "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "mandatory": "false",
+                "name": "logged",
+                "readonly": "false",
+                "type": "bool"
             },
             {
                 "default": "false",
@@ -196,20 +226,6 @@
                 "description": "Modèle de caméra/Canal à utiliser",
                 "mandatory": "true",
                 "name": "model",
-                "readonly": "false",
-                "type": "string"
-            },
-            {
-                "description": "Identifiant unique de l'entrée/sortie dans calaos-server",
-                "mandatory": "true",
-                "name": "id",
-                "readonly": "true",
-                "type": "string"
-            },
-            {
-                "description": "",
-                "mandatory": "false",
-                "name": "pan_framesize",
                 "readonly": "false",
                 "type": "string"
             }
@@ -227,6 +243,14 @@
                 "name": "serial",
                 "readonly": "false",
                 "type": "string"
+            },
+            {
+                "default": "false",
+                "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "mandatory": "false",
+                "name": "logged",
+                "readonly": "false",
+                "type": "bool"
             },
             {
                 "description": "Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement",
@@ -373,6 +397,14 @@
         "alias": [],
         "parameters": [
             {
+                "default": "false",
+                "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "mandatory": "false",
+                "name": "logged",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
                 "description": "Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement",
                 "mandatory": "false",
                 "name": "gui_type",
@@ -449,6 +481,14 @@
                 "name": "gpio",
                 "readonly": "false",
                 "type": "int"
+            },
+            {
+                "default": "false",
+                "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "mandatory": "false",
+                "name": "logged",
+                "readonly": "false",
+                "type": "bool"
             },
             {
                 "description": "Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement",
@@ -542,6 +582,14 @@
                 "type": "int"
             },
             {
+                "default": "false",
+                "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "mandatory": "false",
+                "name": "logged",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
                 "description": "Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement",
                 "mandatory": "false",
                 "name": "gui_type",
@@ -631,6 +679,14 @@
                 "name": "gpio",
                 "readonly": "false",
                 "type": "int"
+            },
+            {
+                "default": "false",
+                "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "mandatory": "false",
+                "name": "logged",
+                "readonly": "false",
+                "type": "bool"
             },
             {
                 "description": "Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement",
@@ -751,6 +807,24 @@
                 "type": "bool"
             },
             {
+                "default": "0",
+                "description": "ID du GPIO pour ouvrir",
+                "mandatory": "true",
+                "max": "65535",
+                "min": "0",
+                "name": "gpio_up",
+                "readonly": "false",
+                "type": "int"
+            },
+            {
+                "default": "true",
+                "description": "Affichez l'entrée/sortie sur toutes les interfaces utilisateur. Vrai par défaut",
+                "mandatory": "false",
+                "name": "visible",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
                 "default": "false",
                 "description": "Mettre à vrai pour inverser le GPIO",
                 "mandatory": "false",
@@ -773,22 +847,12 @@
                 "type": "string"
             },
             {
-                "default": "true",
-                "description": "Affichez l'entrée/sortie sur toutes les interfaces utilisateur. Vrai par défaut",
+                "default": "false",
+                "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
                 "mandatory": "false",
-                "name": "visible",
+                "name": "logged",
                 "readonly": "false",
                 "type": "bool"
-            },
-            {
-                "default": "0",
-                "description": "ID du GPIO pour ouvrir",
-                "mandatory": "true",
-                "max": "65535",
-                "min": "0",
-                "name": "gpio_up",
-                "readonly": "false",
-                "type": "int"
             },
             {
                 "default": "60",
@@ -889,6 +953,13 @@
                 "type": "int"
             },
             {
+                "description": "En mode impulsion, certains volets doivent activer les deux relais haut et bas lors de l'arrêt du volet",
+                "mandatory": "false",
+                "name": "stop_both",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
                 "description": "Nom de l'entrée/sortie.",
                 "mandatory": "true",
                 "name": "name",
@@ -963,6 +1034,14 @@
                 "type": "int"
             },
             {
+                "default": "false",
+                "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "mandatory": "false",
+                "name": "logged",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
                 "description": "Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement",
                 "mandatory": "false",
                 "name": "gui_type",
@@ -995,13 +1074,6 @@
                 "name": "impulse_time",
                 "readonly": "false",
                 "type": "int"
-            },
-            {
-                "description": "En mode impulsion, certains volets doivent activer les deux relais haut et bas lors de l'arrêt du volet",
-                "mandatory": "false",
-                "name": "stop_both",
-                "readonly": "false",
-                "type": "bool"
             }
         ],
         "conditions": [
@@ -1105,6 +1177,14 @@
                     "outlet": "Sortie",
                     "pump": "Pompe"
                 }
+            },
+            {
+                "default": "false",
+                "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "mandatory": "false",
+                "name": "logged",
+                "readonly": "false",
+                "type": "bool"
             },
             {
                 "description": "Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement",
@@ -1228,6 +1308,14 @@
                 "name": "host",
                 "readonly": "false",
                 "type": "string"
+            },
+            {
+                "default": "false",
+                "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "mandatory": "false",
+                "name": "logged",
+                "readonly": "false",
+                "type": "bool"
             },
             {
                 "description": "Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement",
@@ -1456,6 +1544,14 @@
                 "type": "string"
             },
             {
+                "default": "false",
+                "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "mandatory": "false",
+                "name": "logged",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
                 "default": "0",
                 "description": "Minute pour l'entrée horaire",
                 "mandatory": "true",
@@ -1559,16 +1655,6 @@
                 "type": "bool"
             },
             {
-                "default": "0",
-                "description": "Milisecondes pour la minuterie",
-                "mandatory": "true",
-                "max": "999",
-                "min": "0",
-                "name": "msec",
-                "readonly": "false",
-                "type": "int"
-            },
-            {
                 "description": "Identifiant unique de l'entrée/sortie dans calaos-server",
                 "mandatory": "true",
                 "name": "id",
@@ -1581,6 +1667,24 @@
                 "name": "gui_type",
                 "readonly": "true",
                 "type": "string"
+            },
+            {
+                "default": "0",
+                "description": "Milisecondes pour la minuterie",
+                "mandatory": "true",
+                "max": "999",
+                "min": "0",
+                "name": "msec",
+                "readonly": "false",
+                "type": "int"
+            },
+            {
+                "default": "false",
+                "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "mandatory": "false",
+                "name": "logged",
+                "readonly": "false",
+                "type": "bool"
             },
             {
                 "default": "0",
@@ -1649,6 +1753,14 @@
                 "description": "Activer le mode d'édition pour cet objet. Il permet aux utilisateurs de modifier la valeur sur les interfaces. Faux par défaut",
                 "mandatory": "false",
                 "name": "rw",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "default": "false",
+                "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "mandatory": "false",
+                "name": "logged",
                 "readonly": "false",
                 "type": "bool"
             },
@@ -1755,47 +1867,24 @@
                 "type": "bool"
             },
             {
-                "default": "false",
-                "description": "Activer le mode d'édition pour cet objet. Il permet aux utilisateurs de modifier la valeur sur les interfaces. Faux par défaut",
-                "mandatory": "false",
-                "name": "rw",
-                "readonly": "false",
-                "type": "bool"
-            },
-            {
-                "description": "Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement",
-                "mandatory": "false",
-                "name": "gui_type",
-                "readonly": "true",
-                "type": "string"
-            },
-            {
-                "default": "1",
-                "description": "Définit le pas pour incrémenter/décrémenter la valeur. La valeur par défaut est 1.0",
-                "mandatory": "false",
-                "name": "step",
-                "readonly": "false",
-                "type": "float"
-            },
-            {
-                "description": "Identifiant unique de l'entrée/sortie dans calaos-server",
+                "description": "Nom de l'entrée/sortie.",
                 "mandatory": "true",
-                "name": "id",
-                "readonly": "true",
+                "name": "name",
+                "readonly": "false",
                 "type": "string"
             },
             {
-                "description": "Unité affichée sur l'interface utilisateur en tant que suffixe.",
-                "mandatory": "false",
-                "name": "unit",
-                "readonly": "false",
+                "description": "Type d'entrée/sortie (input, output, inout)",
+                "mandatory": "true",
+                "name": "io_type",
+                "readonly": "true",
                 "type": "string"
             },
             {
                 "default": "true",
-                "description": "Affichez l'entrée/sortie sur toutes les interfaces utilisateur. Vrai par défaut",
+                "description": "Activez l'entrée/sortie. Vrai par défaut. Ce paramètre est ajouté s'il n'est pas trouvé dans la configuration.",
                 "mandatory": "false",
-                "name": "visible",
+                "name": "enabled",
                 "readonly": "false",
                 "type": "bool"
             },
@@ -1808,24 +1897,55 @@
                 "type": "bool"
             },
             {
-                "description": "Type d'entrée/sortie (input, output, inout)",
-                "mandatory": "true",
-                "name": "io_type",
-                "readonly": "true",
-                "type": "string"
+                "default": "true",
+                "description": "Affichez l'entrée/sortie sur toutes les interfaces utilisateur. Vrai par défaut",
+                "mandatory": "false",
+                "name": "visible",
+                "readonly": "false",
+                "type": "bool"
             },
             {
-                "description": "Nom de l'entrée/sortie.",
-                "mandatory": "true",
-                "name": "name",
+                "description": "Unité affichée sur l'interface utilisateur en tant que suffixe.",
+                "mandatory": "false",
+                "name": "unit",
                 "readonly": "false",
                 "type": "string"
             },
             {
-                "default": "true",
-                "description": "Activez l'entrée/sortie. Vrai par défaut. Ce paramètre est ajouté s'il n'est pas trouvé dans la configuration.",
+                "description": "Identifiant unique de l'entrée/sortie dans calaos-server",
+                "mandatory": "true",
+                "name": "id",
+                "readonly": "true",
+                "type": "string"
+            },
+            {
+                "default": "1",
+                "description": "Définit le pas pour incrémenter/décrémenter la valeur. La valeur par défaut est 1.0",
                 "mandatory": "false",
-                "name": "enabled",
+                "name": "step",
+                "readonly": "false",
+                "type": "float"
+            },
+            {
+                "description": "Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement",
+                "mandatory": "false",
+                "name": "gui_type",
+                "readonly": "true",
+                "type": "string"
+            },
+            {
+                "default": "false",
+                "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "mandatory": "false",
+                "name": "logged",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "default": "false",
+                "description": "Activer le mode d'édition pour cet objet. Il permet aux utilisateurs de modifier la valeur sur les interfaces. Faux par défaut",
+                "mandatory": "false",
+                "name": "rw",
                 "readonly": "false",
                 "type": "bool"
             }
@@ -1880,6 +2000,14 @@
                 "description": "Activer le mode d'édition pour cet objet. Il permet aux utilisateurs de modifier la valeur sur les interfaces. Faux par défaut",
                 "mandatory": "false",
                 "name": "rw",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "default": "false",
+                "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "mandatory": "false",
+                "name": "logged",
                 "readonly": "false",
                 "type": "bool"
             },
@@ -2002,6 +2130,20 @@
                 "type": "int"
             },
             {
+                "description": "Adresse de groupe KNX, Ex: x/y/z",
+                "mandatory": "true",
+                "name": "knx_group",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "Temps d'échantillonnage en microseconde. La valeur est lue à cette fréquence. Si cette valeur n'est pas définie, calaos essaie de lire le paramètre d'intervalle en seconde",
+                "mandatory": "false",
+                "name": "frequency",
+                "readonly": "false",
+                "type": "float"
+            },
+            {
                 "description": "Nom de l'entrée/sortie.",
                 "mandatory": "true",
                 "name": "name",
@@ -2042,20 +2184,6 @@
                 "type": "bool"
             },
             {
-                "description": "Adresse de groupe KNX, Ex: x/y/z",
-                "mandatory": "true",
-                "name": "knx_group",
-                "readonly": "false",
-                "type": "string"
-            },
-            {
-                "description": "Temps d'échantillonnage en microseconde. La valeur est lue à cette fréquence. Si cette valeur n'est pas définie, calaos essaie de lire le paramètre d'intervalle en seconde",
-                "mandatory": "false",
-                "name": "frequency",
-                "readonly": "false",
-                "type": "float"
-            },
-            {
                 "description": "Identifiant unique de l'entrée/sortie dans calaos-server",
                 "mandatory": "true",
                 "name": "id",
@@ -2068,6 +2196,14 @@
                 "name": "gui_type",
                 "readonly": "true",
                 "type": "string"
+            },
+            {
+                "default": "false",
+                "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "mandatory": "false",
+                "name": "logged",
+                "readonly": "false",
+                "type": "bool"
             },
             {
                 "description": "Adresse de groupe KNX pour l'écoute de l'état, Ex: x/y/z",
@@ -2193,6 +2329,14 @@
                 "type": "string"
             },
             {
+                "default": "false",
+                "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "mandatory": "false",
+                "name": "logged",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
                 "description": "Adresse de groupe KNX, Ex: x/y/z",
                 "mandatory": "true",
                 "name": "knx_group",
@@ -2205,6 +2349,14 @@
                 "name": "listen_knx_group",
                 "readonly": "false",
                 "type": "string"
+            },
+            {
+                "default": "false",
+                "description": "Envoyer une demande de lecture au démarrage pour obtenir la valeur. Faux par défaut",
+                "mandatory": "true",
+                "name": "read_at_start",
+                "readonly": "false",
+                "type": "bool"
             },
             {
                 "description": "Type d'entrée/sortie (input, output, inout)",
@@ -2222,14 +2374,6 @@
                 "name": "eis",
                 "readonly": "false",
                 "type": "int"
-            },
-            {
-                "default": "false",
-                "description": "Envoyer une demande de lecture au démarrage pour obtenir la valeur. Faux par défaut",
-                "mandatory": "true",
-                "name": "read_at_start",
-                "readonly": "false",
-                "type": "bool"
             }
         ],
         "conditions": [
@@ -2306,6 +2450,14 @@
                 "type": "string"
             },
             {
+                "default": "false",
+                "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "mandatory": "false",
+                "name": "logged",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
                 "description": "Adresse de groupe KNX, Ex: x/y/z",
                 "mandatory": "true",
                 "name": "knx_group",
@@ -2318,6 +2470,14 @@
                 "name": "listen_knx_group",
                 "readonly": "false",
                 "type": "string"
+            },
+            {
+                "default": "false",
+                "description": "Envoyer une demande de lecture au démarrage pour obtenir la valeur. Faux par défaut",
+                "mandatory": "true",
+                "name": "read_at_start",
+                "readonly": "false",
+                "type": "bool"
             },
             {
                 "description": "Type d'entrée/sortie (input, output, inout)",
@@ -2335,14 +2495,6 @@
                 "name": "eis",
                 "readonly": "false",
                 "type": "int"
-            },
-            {
-                "default": "false",
-                "description": "Envoyer une demande de lecture au démarrage pour obtenir la valeur. Faux par défaut",
-                "mandatory": "true",
-                "name": "read_at_start",
-                "readonly": "false",
-                "type": "bool"
             }
         ],
         "conditions": [
@@ -2419,6 +2571,14 @@
                 "type": "string"
             },
             {
+                "default": "false",
+                "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "mandatory": "false",
+                "name": "logged",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
                 "description": "Adresse de groupe KNX, Ex: x/y/z",
                 "mandatory": "true",
                 "name": "knx_group",
@@ -2431,6 +2591,14 @@
                 "name": "listen_knx_group",
                 "readonly": "false",
                 "type": "string"
+            },
+            {
+                "default": "false",
+                "description": "Envoyer une demande de lecture au démarrage pour obtenir la valeur. Faux par défaut",
+                "mandatory": "true",
+                "name": "read_at_start",
+                "readonly": "false",
+                "type": "bool"
             },
             {
                 "description": "Type d'entrée/sortie (input, output, inout)",
@@ -2448,14 +2616,6 @@
                 "name": "eis",
                 "readonly": "false",
                 "type": "int"
-            },
-            {
-                "default": "false",
-                "description": "Envoyer une demande de lecture au démarrage pour obtenir la valeur. Faux par défaut",
-                "mandatory": "true",
-                "name": "read_at_start",
-                "readonly": "false",
-                "type": "bool"
             }
         ],
         "conditions": [
@@ -2501,6 +2661,20 @@
                 "type": "int"
             },
             {
+                "description": "Adresse de groupe KNX, Ex: x/y/z",
+                "mandatory": "true",
+                "name": "knx_group",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "Temps d'échantillonnage en microseconde. La valeur est lue à cette fréquence. Si cette valeur n'est pas définie, calaos essaie de lire le paramètre d'intervalle en seconde",
+                "mandatory": "false",
+                "name": "frequency",
+                "readonly": "false",
+                "type": "float"
+            },
+            {
                 "description": "Nom de l'entrée/sortie.",
                 "mandatory": "true",
                 "name": "name",
@@ -2541,20 +2715,6 @@
                 "type": "bool"
             },
             {
-                "description": "Adresse de groupe KNX, Ex: x/y/z",
-                "mandatory": "true",
-                "name": "knx_group",
-                "readonly": "false",
-                "type": "string"
-            },
-            {
-                "description": "Temps d'échantillonnage en microseconde. La valeur est lue à cette fréquence. Si cette valeur n'est pas définie, calaos essaie de lire le paramètre d'intervalle en seconde",
-                "mandatory": "false",
-                "name": "frequency",
-                "readonly": "false",
-                "type": "float"
-            },
-            {
                 "description": "Identifiant unique de l'entrée/sortie dans calaos-server",
                 "mandatory": "true",
                 "name": "id",
@@ -2567,6 +2727,14 @@
                 "name": "gui_type",
                 "readonly": "true",
                 "type": "string"
+            },
+            {
+                "default": "false",
+                "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "mandatory": "false",
+                "name": "logged",
+                "readonly": "false",
+                "type": "bool"
             },
             {
                 "description": "Adresse de groupe KNX pour l'écoute de l'état, Ex: x/y/z",
@@ -2671,6 +2839,13 @@
                 }
             },
             {
+                "description": "Unité affichée sur l'interface utilisateur en tant que suffixe.",
+                "mandatory": "false",
+                "name": "unit",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
                 "description": "Nom de l'entrée/sortie.",
                 "mandatory": "true",
                 "name": "name",
@@ -2727,13 +2902,6 @@
                 "type": "bool"
             },
             {
-                "description": "Unité affichée sur l'interface utilisateur en tant que suffixe.",
-                "mandatory": "false",
-                "name": "unit",
-                "readonly": "false",
-                "type": "string"
-            },
-            {
                 "description": "Identifiant unique de l'entrée/sortie dans calaos-server",
                 "mandatory": "true",
                 "name": "id",
@@ -2754,6 +2922,14 @@
                 "name": "gui_type",
                 "readonly": "true",
                 "type": "string"
+            },
+            {
+                "default": "false",
+                "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "mandatory": "false",
+                "name": "logged",
+                "readonly": "false",
+                "type": "bool"
             },
             {
                 "description": "Adresse de groupe KNX pour l'écoute de l'état, Ex: x/y/z",
@@ -2836,6 +3012,31 @@
                 "type": "string"
             },
             {
+                "default": "false",
+                "description": "Envoyer une demande de lecture au démarrage pour obtenir la valeur. Faux par défaut",
+                "mandatory": "true",
+                "name": "read_at_start",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "default": "6",
+                "description": "KNX EIS (type de données)",
+                "mandatory": "false",
+                "max": "15",
+                "min": "0",
+                "name": "eis",
+                "readonly": "false",
+                "type": "int"
+            },
+            {
+                "description": "Type d'entrée/sortie (input, output, inout)",
+                "mandatory": "true",
+                "name": "io_type",
+                "readonly": "true",
+                "type": "string"
+            },
+            {
                 "default": "true",
                 "description": "Activez l'entrée/sortie. Vrai par défaut. Ce paramètre est ajouté s'il n'est pas trouvé dans la configuration.",
                 "mandatory": "false",
@@ -2874,6 +3075,14 @@
                 "type": "string"
             },
             {
+                "default": "false",
+                "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "mandatory": "false",
+                "name": "logged",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
                 "default": "light",
                 "description": "Style d'affichage. Contrôle l'icône affichée sur l'interface utilisateur",
                 "mandatory": "true",
@@ -2887,31 +3096,6 @@
                     "outlet": "Sortie",
                     "pump": "Pompe"
                 }
-            },
-            {
-                "default": "false",
-                "description": "Envoyer une demande de lecture au démarrage pour obtenir la valeur. Faux par défaut",
-                "mandatory": "true",
-                "name": "read_at_start",
-                "readonly": "false",
-                "type": "bool"
-            },
-            {
-                "description": "Type d'entrée/sortie (input, output, inout)",
-                "mandatory": "true",
-                "name": "io_type",
-                "readonly": "true",
-                "type": "string"
-            },
-            {
-                "default": "6",
-                "description": "KNX EIS (type de données)",
-                "mandatory": "false",
-                "max": "15",
-                "min": "0",
-                "name": "eis",
-                "readonly": "false",
-                "type": "int"
             },
             {
                 "description": "Adresse de groupe KNX, Ex: x/y/z",
@@ -3031,6 +3215,14 @@
                 "type": "string"
             },
             {
+                "default": "false",
+                "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "mandatory": "false",
+                "name": "logged",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
                 "description": "Adresse de groupe KNX, Ex: x/y/z",
                 "mandatory": "true",
                 "name": "knx_group",
@@ -3043,6 +3235,14 @@
                 "name": "listen_knx_group",
                 "readonly": "false",
                 "type": "string"
+            },
+            {
+                "default": "false",
+                "description": "Envoyer une demande de lecture au démarrage pour obtenir la valeur. Faux par défaut",
+                "mandatory": "true",
+                "name": "read_at_start",
+                "readonly": "false",
+                "type": "bool"
             },
             {
                 "description": "Type d'entrée/sortie (input, output, inout)",
@@ -3060,14 +3260,6 @@
                 "name": "eis",
                 "readonly": "false",
                 "type": "int"
-            },
-            {
-                "default": "false",
-                "description": "Envoyer une demande de lecture au démarrage pour obtenir la valeur. Faux par défaut",
-                "mandatory": "true",
-                "name": "read_at_start",
-                "readonly": "false",
-                "type": "bool"
             }
         ],
         "conditions": [
@@ -3166,6 +3358,13 @@
                 "type": "string"
             },
             {
+                "description": "Adresse du groupe rouge pour l'écoute de l'état, Ex: x/y/z",
+                "mandatory": "false",
+                "name": "listen_knx_group_red",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
                 "description": "Nom de l'entrée/sortie.",
                 "mandatory": "true",
                 "name": "name",
@@ -3236,6 +3435,14 @@
                 "type": "string"
             },
             {
+                "default": "false",
+                "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "mandatory": "false",
+                "name": "logged",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
                 "description": "Identifiant unique de l'entrée/sortie dans calaos-server",
                 "mandatory": "true",
                 "name": "id",
@@ -3253,13 +3460,6 @@
                 "description": "Adresse du groupe KNX du canal rouge, ex: x/y/z",
                 "mandatory": "true",
                 "name": "knx_group_red",
-                "readonly": "false",
-                "type": "string"
-            },
-            {
-                "description": "Adresse du groupe rouge pour l'écoute de l'état, Ex: x/y/z",
-                "mandatory": "false",
-                "name": "listen_knx_group_red",
                 "readonly": "false",
                 "type": "string"
             }
@@ -3346,6 +3546,21 @@
         "alias": [],
         "parameters": [
             {
+                "default": "127.0.0.1",
+                "description": "Nom d'hôte de knxd, localhost par défaut",
+                "mandatory": "true",
+                "name": "host",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "Adresse du groupe KNX pour ouvrir, Ex: x/y/z",
+                "mandatory": "true",
+                "name": "knx_group_up",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
                 "description": "Nom de l'entrée/sortie.",
                 "mandatory": "true",
                 "name": "name",
@@ -3398,19 +3613,12 @@
                 "type": "string"
             },
             {
-                "default": "127.0.0.1",
-                "description": "Nom d'hôte de knxd, localhost par défaut",
-                "mandatory": "true",
-                "name": "host",
+                "default": "false",
+                "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "mandatory": "false",
+                "name": "logged",
                 "readonly": "false",
-                "type": "string"
-            },
-            {
-                "description": "Adresse du groupe KNX pour ouvrir, Ex: x/y/z",
-                "mandatory": "true",
-                "name": "knx_group_up",
-                "readonly": "false",
-                "type": "string"
+                "type": "bool"
             },
             {
                 "default": "60",
@@ -3548,6 +3756,13 @@
                 "type": "string"
             },
             {
+                "description": "En mode impulsion, certains volets doivent activer les deux relais haut et bas lors de l'arrêt du volet",
+                "mandatory": "false",
+                "name": "stop_both",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
                 "description": "Nom de l'entrée/sortie.",
                 "mandatory": "true",
                 "name": "name",
@@ -3603,6 +3818,14 @@
                 "type": "int"
             },
             {
+                "default": "false",
+                "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "mandatory": "false",
+                "name": "logged",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
                 "description": "Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement",
                 "mandatory": "false",
                 "name": "gui_type",
@@ -3653,13 +3876,6 @@
                 "name": "impulse_time",
                 "readonly": "false",
                 "type": "int"
-            },
-            {
-                "description": "En mode impulsion, certains volets doivent activer les deux relais haut et bas lors de l'arrêt du volet",
-                "mandatory": "false",
-                "name": "stop_both",
-                "readonly": "false",
-                "type": "bool"
             }
         ],
         "conditions": [
@@ -3747,6 +3963,14 @@
                 "name": "host",
                 "readonly": "false",
                 "type": "string"
+            },
+            {
+                "default": "false",
+                "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "mandatory": "false",
+                "name": "logged",
+                "readonly": "false",
+                "type": "bool"
             },
             {
                 "description": "Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement",
@@ -3893,6 +4117,110 @@
         "alias": [],
         "parameters": [
             {
+                "description": "Comme le coeff_b, peut être utilisé seul. La valeur par défaut est 0.0",
+                "mandatory": "false",
+                "name": "offset",
+                "readonly": "false",
+                "type": "float"
+            },
+            {
+                "default": "false",
+                "description": "Si activé, ecrit une entrée dans l'historique pour cet IO",
+                "mandatory": "false",
+                "name": "log_history",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "default": "true",
+                "description": "Activez l'entrée/sortie. Vrai par défaut. Ce paramètre est ajouté s'il n'est pas trouvé dans la configuration.",
+                "mandatory": "false",
+                "name": "enabled",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "default": "0",
+                "description": "Utiliser conjointement coeff_a pour appliquer l'équation de la forme valeur = coeff_a * raw_value + coeff_b. La valeur par défaut est 0.0.",
+                "mandatory": "false",
+                "name": "coeff_b",
+                "readonly": "false",
+                "type": "float"
+            },
+            {
+                "description": "Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement",
+                "mandatory": "false",
+                "name": "gui_type",
+                "readonly": "true",
+                "type": "string"
+            },
+            {
+                "description": "Topic on witch to publish.",
+                "mandatory": "true",
+                "name": "topic_pub",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "default": "true",
+                "description": "Affichez l'entrée/sortie sur toutes les interfaces utilisateur. Vrai par défaut",
+                "mandatory": "false",
+                "name": "visible",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "default": "false",
+                "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "mandatory": "false",
+                "name": "logged",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "description": "Type d'entrée/sortie (input, output, inout)",
+                "mandatory": "true",
+                "name": "io_type",
+                "readonly": "true",
+                "type": "string"
+            },
+            {
+                "description": "User to use for authentication with mqtt broker. Password must be defined in that case.",
+                "mandatory": "false",
+                "name": "user",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "default": "1883",
+                "description": "TCP port of the mqtt broker. Default value is 1883",
+                "mandatory": "false",
+                "name": "port",
+                "readonly": "false",
+                "type": "int"
+            },
+            {
+                "description": "Topic on witch to subscribe.",
+                "mandatory": "true",
+                "name": "topic_sub",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "Identifiant unique de l'entrée/sortie dans calaos-server",
+                "mandatory": "true",
+                "name": "id",
+                "readonly": "true",
+                "type": "string"
+            },
+            {
+                "description": "Nom de l'entrée/sortie.",
+                "mandatory": "true",
+                "name": "name",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
                 "description": "The path where to found the value in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. for example weather[0]/description, try to read the description value of the 1 element of the array of the weather object. if payload is somple json, just try to use the key of the value you want to read, for example : {\"temperature\":14.23} use \"temperature\" as path\n",
                 "mandatory": "true",
                 "name": "path",
@@ -3900,27 +4228,26 @@
                 "type": "string"
             },
             {
-                "description": "Password to use for authentication with mqtt broker. User must be defined in that case.",
+                "description": "Temps d'échantillonnage en microseconde. La valeur est lue à cette fréquence. Si cette valeur n'est pas définie, calaos essaie de lire le paramètre d'intervalle en seconde",
                 "mandatory": "false",
-                "name": "password",
+                "name": "frequency",
+                "readonly": "false",
+                "type": "float"
+            },
+            {
+                "description": "Unité affichée sur l'interface utilisateur en tant que suffixe.",
+                "mandatory": "false",
+                "name": "unit",
                 "readonly": "false",
                 "type": "string"
             },
             {
-                "default": "120",
-                "description": "keepalive timeout in seconds. Time between two mqtt PING.",
+                "default": "1",
+                "description": "Utiliser conjointement coeff_b pour appliquer l'équation de la forme valeur = coeff_a * raw_value + coeff_b. La valeur par défaut est 1.0.",
                 "mandatory": "false",
-                "name": "keepalive",
+                "name": "coeff_a",
                 "readonly": "false",
-                "type": "int"
-            },
-            {
-                "default": "127.0.0.1",
-                "description": "IP address of the mqtt broker to connect to. Default value is 127.0.0.1.",
-                "mandatory": "false",
-                "name": "host",
-                "readonly": "false",
-                "type": "string"
+                "type": "float"
             },
             {
                 "default": "default",
@@ -3942,13 +4269,6 @@
                 }
             },
             {
-                "description": "Unité affichée sur l'interface utilisateur en tant que suffixe.",
-                "mandatory": "false",
-                "name": "unit",
-                "readonly": "false",
-                "type": "string"
-            },
-            {
                 "default": "2",
                 "description": "Précision de la valeur retournée. La valeur représente le nombre de décimales après le point. La valeur est arrondie comme ceci: valeur = 19.275 => valeur renvoyée 19.28 lors de la précision = 2, 19.3 lorsque la précision = 1, 19 lorsque la précision = 0",
                 "mandatory": "false",
@@ -3959,69 +4279,20 @@
                 "type": "int"
             },
             {
-                "description": "Nom de l'entrée/sortie.",
-                "mandatory": "true",
-                "name": "name",
+                "default": "127.0.0.1",
+                "description": "IP address of the mqtt broker to connect to. Default value is 127.0.0.1.",
+                "mandatory": "false",
+                "name": "host",
                 "readonly": "false",
                 "type": "string"
             },
             {
-                "default": "1883",
-                "description": "TCP port of the mqtt broker. Default value is 1883",
+                "default": "120",
+                "description": "keepalive timeout in seconds. Time between two mqtt PING.",
                 "mandatory": "false",
-                "name": "port",
+                "name": "keepalive",
                 "readonly": "false",
                 "type": "int"
-            },
-            {
-                "description": "Type d'entrée/sortie (input, output, inout)",
-                "mandatory": "true",
-                "name": "io_type",
-                "readonly": "true",
-                "type": "string"
-            },
-            {
-                "default": "true",
-                "description": "Affichez l'entrée/sortie sur toutes les interfaces utilisateur. Vrai par défaut",
-                "mandatory": "false",
-                "name": "visible",
-                "readonly": "false",
-                "type": "bool"
-            },
-            {
-                "description": "Temps d'échantillonnage en microseconde. La valeur est lue à cette fréquence. Si cette valeur n'est pas définie, calaos essaie de lire le paramètre d'intervalle en seconde",
-                "mandatory": "false",
-                "name": "frequency",
-                "readonly": "false",
-                "type": "float"
-            },
-            {
-                "description": "Identifiant unique de l'entrée/sortie dans calaos-server",
-                "mandatory": "true",
-                "name": "id",
-                "readonly": "true",
-                "type": "string"
-            },
-            {
-                "description": "Topic on witch to subscribe.",
-                "mandatory": "true",
-                "name": "topic_sub",
-                "readonly": "false",
-                "type": "string"
-            },
-            {
-                "description": "Topic on witch to publish.",
-                "mandatory": "true",
-                "name": "topic_pub",
-                "readonly": "false",
-                "type": "string"
-            },
-            {
-                "description": "Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement",
-                "mandatory": "false",
-                "name": "gui_type",
-                "readonly": "true",
-                "type": "string"
             },
             {
                 "description": "Temps d'échantillonnage en secondes. La valeur est lue à cette fréquence. Si cette valeur n'est pas définie, la valeur par défaut est 15s",
@@ -4031,50 +4302,11 @@
                 "type": "float"
             },
             {
-                "default": "1",
-                "description": "Utiliser conjointement coeff_b pour appliquer l'équation de la forme valeur = coeff_a * raw_value + coeff_b. La valeur par défaut est 1.0.",
+                "description": "Password to use for authentication with mqtt broker. User must be defined in that case.",
                 "mandatory": "false",
-                "name": "coeff_a",
-                "readonly": "false",
-                "type": "float"
-            },
-            {
-                "description": "User to use for authentication with mqtt broker. Password must be defined in that case.",
-                "mandatory": "false",
-                "name": "user",
+                "name": "password",
                 "readonly": "false",
                 "type": "string"
-            },
-            {
-                "default": "0",
-                "description": "Utiliser conjointement coeff_a pour appliquer l'équation de la forme valeur = coeff_a * raw_value + coeff_b. La valeur par défaut est 0.0.",
-                "mandatory": "false",
-                "name": "coeff_b",
-                "readonly": "false",
-                "type": "float"
-            },
-            {
-                "default": "true",
-                "description": "Activez l'entrée/sortie. Vrai par défaut. Ce paramètre est ajouté s'il n'est pas trouvé dans la configuration.",
-                "mandatory": "false",
-                "name": "enabled",
-                "readonly": "false",
-                "type": "bool"
-            },
-            {
-                "default": "false",
-                "description": "Si activé, ecrit une entrée dans l'historique pour cet IO",
-                "mandatory": "false",
-                "name": "log_history",
-                "readonly": "false",
-                "type": "bool"
-            },
-            {
-                "description": "Comme le coeff_b, peut être utilisé seul. La valeur par défaut est 0.0",
-                "mandatory": "false",
-                "name": "offset",
-                "readonly": "false",
-                "type": "float"
             }
         ],
         "conditions": [
@@ -4108,6 +4340,13 @@
                 "type": "string"
             },
             {
+                "description": "Password to use for authentication with mqtt broker. User must be defined in that case.",
+                "mandatory": "false",
+                "name": "password",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
                 "description": "Nom de l'entrée/sortie.",
                 "mandatory": "true",
                 "name": "name",
@@ -4190,17 +4429,18 @@
                 "type": "string"
             },
             {
+                "default": "false",
+                "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "mandatory": "false",
+                "name": "logged",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
                 "default": "127.0.0.1",
                 "description": "IP address of the mqtt broker to connect to. Default value is 127.0.0.1.",
                 "mandatory": "false",
                 "name": "host",
-                "readonly": "false",
-                "type": "string"
-            },
-            {
-                "description": "Password to use for authentication with mqtt broker. User must be defined in that case.",
-                "mandatory": "false",
-                "name": "password",
                 "readonly": "false",
                 "type": "string"
             }
@@ -4237,6 +4477,13 @@
                 "description": "User to use for authentication with mqtt broker. Password must be defined in that case.",
                 "mandatory": "false",
                 "name": "user",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "Password to use for authentication with mqtt broker. User must be defined in that case.",
+                "mandatory": "false",
+                "name": "password",
                 "readonly": "false",
                 "type": "string"
             },
@@ -4323,17 +4570,18 @@
                 "type": "string"
             },
             {
+                "default": "false",
+                "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "mandatory": "false",
+                "name": "logged",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
                 "default": "127.0.0.1",
                 "description": "IP address of the mqtt broker to connect to. Default value is 127.0.0.1.",
                 "mandatory": "false",
                 "name": "host",
-                "readonly": "false",
-                "type": "string"
-            },
-            {
-                "description": "Password to use for authentication with mqtt broker. User must be defined in that case.",
-                "mandatory": "false",
-                "name": "password",
                 "readonly": "false",
                 "type": "string"
             }
@@ -4399,6 +4647,13 @@
                 "type": "int"
             },
             {
+                "description": "Temps d'échantillonnage en microseconde. La valeur est lue à cette fréquence. Si cette valeur n'est pas définie, calaos essaie de lire le paramètre d'intervalle en seconde",
+                "mandatory": "false",
+                "name": "frequency",
+                "readonly": "false",
+                "type": "float"
+            },
+            {
                 "description": "Nom de l'entrée/sortie.",
                 "mandatory": "true",
                 "name": "name",
@@ -4429,13 +4684,6 @@
                 "type": "bool"
             },
             {
-                "description": "Temps d'échantillonnage en microseconde. La valeur est lue à cette fréquence. Si cette valeur n'est pas définie, calaos essaie de lire le paramètre d'intervalle en seconde",
-                "mandatory": "false",
-                "name": "frequency",
-                "readonly": "false",
-                "type": "float"
-            },
-            {
                 "description": "Identifiant unique de l'entrée/sortie dans calaos-server",
                 "mandatory": "true",
                 "name": "id",
@@ -4462,6 +4710,14 @@
                 "name": "gui_type",
                 "readonly": "true",
                 "type": "string"
+            },
+            {
+                "default": "false",
+                "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "mandatory": "false",
+                "name": "logged",
+                "readonly": "false",
+                "type": "bool"
             },
             {
                 "description": "Temps d'échantillonnage en secondes. La valeur est lue à cette fréquence. Si cette valeur n'est pas définie, la valeur par défaut est 15s",
@@ -4581,6 +4837,13 @@
                 }
             },
             {
+                "description": "Unité affichée sur l'interface utilisateur en tant que suffixe.",
+                "mandatory": "false",
+                "name": "unit",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
                 "description": "Nom de l'entrée/sortie.",
                 "mandatory": "true",
                 "name": "name",
@@ -4627,13 +4890,6 @@
                 "type": "bool"
             },
             {
-                "description": "Unité affichée sur l'interface utilisateur en tant que suffixe.",
-                "mandatory": "false",
-                "name": "unit",
-                "readonly": "false",
-                "type": "string"
-            },
-            {
                 "description": "Identifiant unique de l'entrée/sortie dans calaos-server",
                 "mandatory": "true",
                 "name": "id",
@@ -4668,6 +4924,14 @@
                 "name": "gui_type",
                 "readonly": "true",
                 "type": "string"
+            },
+            {
+                "default": "false",
+                "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "mandatory": "false",
+                "name": "logged",
+                "readonly": "false",
+                "type": "bool"
             },
             {
                 "default": "1",
@@ -4770,6 +5034,14 @@
                 "type": "string"
             },
             {
+                "default": "120",
+                "description": "keepalive timeout in seconds. Time between two mqtt PING.",
+                "mandatory": "false",
+                "name": "keepalive",
+                "readonly": "false",
+                "type": "int"
+            },
+            {
                 "description": "Nom de l'entrée/sortie.",
                 "mandatory": "true",
                 "name": "name",
@@ -4816,14 +5088,6 @@
                 "type": "int"
             },
             {
-                "default": "120",
-                "description": "keepalive timeout in seconds. Time between two mqtt PING.",
-                "mandatory": "false",
-                "name": "keepalive",
-                "readonly": "false",
-                "type": "int"
-            },
-            {
                 "description": "Identifiant unique de l'entrée/sortie dans calaos-server",
                 "mandatory": "true",
                 "name": "id",
@@ -4850,6 +5114,14 @@
                 "name": "gui_type",
                 "readonly": "true",
                 "type": "string"
+            },
+            {
+                "default": "false",
+                "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "mandatory": "false",
+                "name": "logged",
+                "readonly": "false",
+                "type": "bool"
             },
             {
                 "default": "light",
@@ -4939,6 +5211,13 @@
                 "type": "string"
             },
             {
+                "description": "Password to use for authentication with mqtt broker. User must be defined in that case.",
+                "mandatory": "false",
+                "name": "password",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
                 "description": "Nom de l'entrée/sortie.",
                 "mandatory": "true",
                 "name": "name",
@@ -5021,17 +5300,18 @@
                 "type": "string"
             },
             {
+                "default": "false",
+                "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "mandatory": "false",
+                "name": "logged",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
                 "default": "127.0.0.1",
                 "description": "IP address of the mqtt broker to connect to. Default value is 127.0.0.1.",
                 "mandatory": "false",
                 "name": "host",
-                "readonly": "false",
-                "type": "string"
-            },
-            {
-                "description": "Password to use for authentication with mqtt broker. User must be defined in that case.",
-                "mandatory": "false",
-                "name": "password",
                 "readonly": "false",
                 "type": "string"
             }
@@ -5160,6 +5440,13 @@
                 "type": "int"
             },
             {
+                "description": "Temps d'échantillonnage en microseconde. La valeur est lue à cette fréquence. Si cette valeur n'est pas définie, calaos essaie de lire le paramètre d'intervalle en seconde",
+                "mandatory": "false",
+                "name": "frequency",
+                "readonly": "false",
+                "type": "float"
+            },
+            {
                 "default": "serial",
                 "description": "Passerelle utilisée, tcp ou série",
                 "mandatory": "true",
@@ -5202,13 +5489,6 @@
                 "type": "bool"
             },
             {
-                "description": "Temps d'échantillonnage en microseconde. La valeur est lue à cette fréquence. Si cette valeur n'est pas définie, calaos essaie de lire le paramètre d'intervalle en seconde",
-                "mandatory": "false",
-                "name": "frequency",
-                "readonly": "false",
-                "type": "float"
-            },
-            {
                 "description": "ID du noeud sur le réseau MySensors",
                 "mandatory": "true",
                 "name": "node_id",
@@ -5228,6 +5508,14 @@
                 "name": "gui_type",
                 "readonly": "true",
                 "type": "string"
+            },
+            {
+                "default": "false",
+                "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "mandatory": "false",
+                "name": "logged",
+                "readonly": "false",
+                "type": "bool"
             },
             {
                 "description": "Temps d'échantillonnage en secondes. La valeur est lue à cette fréquence. Si cette valeur n'est pas définie, la valeur par défaut est 15s",
@@ -5358,16 +5646,9 @@
                 "type": "string"
             },
             {
-                "description": "Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement",
-                "mandatory": "false",
-                "name": "gui_type",
-                "readonly": "true",
-                "type": "string"
-            },
-            {
-                "description": "Adresse IP de la passerelle tcp si pertinent",
+                "description": "ID du noeud sur le réseau MySensors",
                 "mandatory": "true",
-                "name": "host",
+                "name": "node_id",
                 "readonly": "false",
                 "type": "string"
             },
@@ -5379,9 +5660,24 @@
                 "type": "string"
             },
             {
-                "description": "ID du noeud sur le réseau MySensors",
+                "description": "Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement",
+                "mandatory": "false",
+                "name": "gui_type",
+                "readonly": "true",
+                "type": "string"
+            },
+            {
+                "default": "false",
+                "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "mandatory": "false",
+                "name": "logged",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "description": "Adresse IP de la passerelle tcp si pertinent",
                 "mandatory": "true",
-                "name": "node_id",
+                "name": "host",
                 "readonly": "false",
                 "type": "string"
             }
@@ -5459,16 +5755,9 @@
                 "type": "string"
             },
             {
-                "description": "Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement",
-                "mandatory": "false",
-                "name": "gui_type",
-                "readonly": "true",
-                "type": "string"
-            },
-            {
-                "description": "Adresse IP de la passerelle tcp si pertinent",
+                "description": "ID du noeud sur le réseau MySensors",
                 "mandatory": "true",
-                "name": "host",
+                "name": "node_id",
                 "readonly": "false",
                 "type": "string"
             },
@@ -5480,9 +5769,24 @@
                 "type": "string"
             },
             {
-                "description": "ID du noeud sur le réseau MySensors",
+                "description": "Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement",
+                "mandatory": "false",
+                "name": "gui_type",
+                "readonly": "true",
+                "type": "string"
+            },
+            {
+                "default": "false",
+                "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "mandatory": "false",
+                "name": "logged",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "description": "Adresse IP de la passerelle tcp si pertinent",
                 "mandatory": "true",
-                "name": "node_id",
+                "name": "host",
                 "readonly": "false",
                 "type": "string"
             }
@@ -5573,16 +5877,9 @@
                 "type": "string"
             },
             {
-                "description": "Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement",
-                "mandatory": "false",
-                "name": "gui_type",
-                "readonly": "true",
-                "type": "string"
-            },
-            {
-                "description": "Adresse IP de la passerelle tcp si pertinent",
+                "description": "ID du noeud sur le réseau MySensors",
                 "mandatory": "true",
-                "name": "host",
+                "name": "node_id",
                 "readonly": "false",
                 "type": "string"
             },
@@ -5594,9 +5891,24 @@
                 "type": "string"
             },
             {
-                "description": "ID du noeud sur le réseau MySensors",
+                "description": "Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement",
+                "mandatory": "false",
+                "name": "gui_type",
+                "readonly": "true",
+                "type": "string"
+            },
+            {
+                "default": "false",
+                "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "mandatory": "false",
+                "name": "logged",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "description": "Adresse IP de la passerelle tcp si pertinent",
                 "mandatory": "true",
-                "name": "node_id",
+                "name": "host",
                 "readonly": "false",
                 "type": "string"
             }
@@ -5687,16 +5999,9 @@
                 "type": "string"
             },
             {
-                "description": "Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement",
-                "mandatory": "false",
-                "name": "gui_type",
-                "readonly": "true",
-                "type": "string"
-            },
-            {
-                "description": "Adresse IP de la passerelle tcp si pertinent",
+                "description": "ID du noeud sur le réseau MySensors",
                 "mandatory": "true",
-                "name": "host",
+                "name": "node_id",
                 "readonly": "false",
                 "type": "string"
             },
@@ -5708,9 +6013,24 @@
                 "type": "string"
             },
             {
-                "description": "ID du noeud sur le réseau MySensors",
+                "description": "Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement",
+                "mandatory": "false",
+                "name": "gui_type",
+                "readonly": "true",
+                "type": "string"
+            },
+            {
+                "default": "false",
+                "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "mandatory": "false",
+                "name": "logged",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "description": "Adresse IP de la passerelle tcp si pertinent",
                 "mandatory": "true",
-                "name": "node_id",
+                "name": "host",
                 "readonly": "false",
                 "type": "string"
             }
@@ -5764,6 +6084,13 @@
                 "type": "int"
             },
             {
+                "description": "Temps d'échantillonnage en microseconde. La valeur est lue à cette fréquence. Si cette valeur n'est pas définie, calaos essaie de lire le paramètre d'intervalle en seconde",
+                "mandatory": "false",
+                "name": "frequency",
+                "readonly": "false",
+                "type": "float"
+            },
+            {
                 "default": "serial",
                 "description": "Passerelle utilisée, tcp ou série",
                 "mandatory": "true",
@@ -5806,13 +6133,6 @@
                 "type": "bool"
             },
             {
-                "description": "Temps d'échantillonnage en microseconde. La valeur est lue à cette fréquence. Si cette valeur n'est pas définie, calaos essaie de lire le paramètre d'intervalle en seconde",
-                "mandatory": "false",
-                "name": "frequency",
-                "readonly": "false",
-                "type": "float"
-            },
-            {
                 "description": "ID du noeud sur le réseau MySensors",
                 "mandatory": "true",
                 "name": "node_id",
@@ -5832,6 +6152,14 @@
                 "name": "gui_type",
                 "readonly": "true",
                 "type": "string"
+            },
+            {
+                "default": "false",
+                "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "mandatory": "false",
+                "name": "logged",
+                "readonly": "false",
+                "type": "bool"
             },
             {
                 "description": "Temps d'échantillonnage en secondes. La valeur est lue à cette fréquence. Si cette valeur n'est pas définie, la valeur par défaut est 15s",
@@ -5935,6 +6263,13 @@
                 }
             },
             {
+                "description": "Unité affichée sur l'interface utilisateur en tant que suffixe.",
+                "mandatory": "false",
+                "name": "unit",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
                 "default": "serial",
                 "description": "Passerelle utilisée, tcp ou série",
                 "mandatory": "true",
@@ -5993,13 +6328,6 @@
                 "type": "bool"
             },
             {
-                "description": "Unité affichée sur l'interface utilisateur en tant que suffixe.",
-                "mandatory": "false",
-                "name": "unit",
-                "readonly": "false",
-                "type": "string"
-            },
-            {
                 "description": "ID du noeud sur le réseau MySensors",
                 "mandatory": "true",
                 "name": "node_id",
@@ -6027,6 +6355,14 @@
                 "name": "gui_type",
                 "readonly": "true",
                 "type": "string"
+            },
+            {
+                "default": "false",
+                "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "mandatory": "false",
+                "name": "logged",
+                "readonly": "false",
+                "type": "bool"
             },
             {
                 "default": "1",
@@ -6159,16 +6495,9 @@
                 "type": "string"
             },
             {
-                "description": "Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement",
-                "mandatory": "false",
-                "name": "gui_type",
-                "readonly": "true",
-                "type": "string"
-            },
-            {
-                "description": "Adresse IP de la passerelle tcp si pertinent",
+                "description": "ID du noeud sur le réseau MySensors",
                 "mandatory": "true",
-                "name": "host",
+                "name": "node_id",
                 "readonly": "false",
                 "type": "string"
             },
@@ -6180,9 +6509,24 @@
                 "type": "string"
             },
             {
-                "description": "ID du noeud sur le réseau MySensors",
+                "description": "Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement",
+                "mandatory": "false",
+                "name": "gui_type",
+                "readonly": "true",
+                "type": "string"
+            },
+            {
+                "default": "false",
+                "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "mandatory": "false",
+                "name": "logged",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "description": "Adresse IP de la passerelle tcp si pertinent",
                 "mandatory": "true",
-                "name": "node_id",
+                "name": "host",
                 "readonly": "false",
                 "type": "string"
             }
@@ -6275,6 +6619,13 @@
                 "type": "string"
             },
             {
+                "description": "Adresse IP de la passerelle tcp si pertinent",
+                "mandatory": "true",
+                "name": "host",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
                 "default": "true",
                 "description": "Activez l'entrée/sortie. Vrai par défaut. Ce paramètre est ajouté s'il n'est pas trouvé dans la configuration.",
                 "mandatory": "false",
@@ -6354,6 +6705,14 @@
                 "type": "string"
             },
             {
+                "default": "false",
+                "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "mandatory": "false",
+                "name": "logged",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
                 "default": "light",
                 "description": "Style d'affichage. Contrôle l'icône affichée sur l'interface utilisateur",
                 "mandatory": "true",
@@ -6367,13 +6726,6 @@
                     "outlet": "Sortie",
                     "pump": "Pompe"
                 }
-            },
-            {
-                "description": "Adresse IP de la passerelle tcp si pertinent",
-                "mandatory": "true",
-                "name": "host",
-                "readonly": "false",
-                "type": "string"
             }
         ],
         "conditions": [
@@ -6461,6 +6813,13 @@
                 "type": "string"
             },
             {
+                "description": "ID du noeud pour le canal rouge sur le réseau MySensors",
+                "mandatory": "true",
+                "name": "node_id_red",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
                 "default": "true",
                 "description": "Activez l'entrée/sortie. Vrai par défaut. Ce paramètre est ajouté s'il n'est pas trouvé dans la configuration.",
                 "mandatory": "false",
@@ -6540,16 +6899,17 @@
                 "type": "string"
             },
             {
+                "default": "false",
+                "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "mandatory": "false",
+                "name": "logged",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
                 "description": "Adresse IP de la passerelle tcp si pertinent",
                 "mandatory": "true",
                 "name": "host",
-                "readonly": "false",
-                "type": "string"
-            },
-            {
-                "description": "ID du noeud pour le canal rouge sur le réseau MySensors",
-                "mandatory": "true",
-                "name": "node_id_red",
                 "readonly": "false",
                 "type": "string"
             }
@@ -6671,6 +7031,25 @@
                 "type": "string"
             },
             {
+                "default": "serial",
+                "description": "Passerelle utilisée, tcp ou série",
+                "mandatory": "true",
+                "name": "gateway",
+                "readonly": "false",
+                "type": "list",
+                "list_value": {
+                    "serial": "Série",
+                    "tcp": "TCP"
+                }
+            },
+            {
+                "description": "Nom de l'entrée/sortie.",
+                "mandatory": "true",
+                "name": "name",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
                 "default": "true",
                 "description": "Activez l'entrée/sortie. Vrai par défaut. Ce paramètre est ajouté s'il n'est pas trouvé dans la configuration.",
                 "mandatory": "false",
@@ -6685,25 +7064,6 @@
                 "name": "log_history",
                 "readonly": "false",
                 "type": "bool"
-            },
-            {
-                "description": "Nom de l'entrée/sortie.",
-                "mandatory": "true",
-                "name": "name",
-                "readonly": "false",
-                "type": "string"
-            },
-            {
-                "default": "serial",
-                "description": "Passerelle utilisée, tcp ou série",
-                "mandatory": "true",
-                "name": "gateway",
-                "readonly": "false",
-                "type": "list",
-                "list_value": {
-                    "serial": "Série",
-                    "tcp": "TCP"
-                }
             },
             {
                 "default": "true",
@@ -6733,6 +7093,14 @@
                 "name": "gui_type",
                 "readonly": "true",
                 "type": "string"
+            },
+            {
+                "default": "false",
+                "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "mandatory": "false",
+                "name": "logged",
+                "readonly": "false",
+                "type": "bool"
             },
             {
                 "default": "60",
@@ -6866,6 +7234,13 @@
                 "type": "string"
             },
             {
+                "description": "En mode impulsion, certains volets doivent activer les deux relais haut et bas lors de l'arrêt du volet",
+                "mandatory": "false",
+                "name": "stop_both",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
                 "default": "serial",
                 "description": "Passerelle utilisée, tcp ou série",
                 "mandatory": "true",
@@ -6926,6 +7301,14 @@
                 "type": "int"
             },
             {
+                "default": "false",
+                "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "mandatory": "false",
+                "name": "logged",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
                 "description": "ID du noeud pour fermer sur le réseau MySensors",
                 "mandatory": "true",
                 "name": "node_id_down",
@@ -6973,13 +7356,6 @@
                 "name": "impulse_time",
                 "readonly": "false",
                 "type": "int"
-            },
-            {
-                "description": "En mode impulsion, certains volets doivent activer les deux relais haut et bas lors de l'arrêt du volet",
-                "mandatory": "false",
-                "name": "stop_both",
-                "readonly": "false",
-                "type": "bool"
             }
         ],
         "conditions": [
@@ -7124,16 +7500,9 @@
                 "type": "string"
             },
             {
-                "description": "Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement",
-                "mandatory": "false",
-                "name": "gui_type",
-                "readonly": "true",
-                "type": "string"
-            },
-            {
-                "description": "Adresse IP de la passerelle tcp si pertinent",
+                "description": "ID du noeud sur le réseau MySensors",
                 "mandatory": "true",
-                "name": "host",
+                "name": "node_id",
                 "readonly": "false",
                 "type": "string"
             },
@@ -7145,9 +7514,24 @@
                 "type": "string"
             },
             {
-                "description": "ID du noeud sur le réseau MySensors",
+                "description": "Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement",
+                "mandatory": "false",
+                "name": "gui_type",
+                "readonly": "true",
+                "type": "string"
+            },
+            {
+                "default": "false",
+                "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "mandatory": "false",
+                "name": "logged",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "description": "Adresse IP de la passerelle tcp si pertinent",
                 "mandatory": "true",
-                "name": "node_id",
+                "name": "host",
                 "readonly": "false",
                 "type": "string"
             }
@@ -7168,6 +7552,14 @@
                 "name": "universe",
                 "readonly": "false",
                 "type": "int"
+            },
+            {
+                "default": "false",
+                "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "mandatory": "false",
+                "name": "logged",
+                "readonly": "false",
+                "type": "bool"
             },
             {
                 "description": "Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement",
@@ -7306,14 +7698,56 @@
         "alias": [],
         "parameters": [
             {
-                "default": "0",
-                "description": "Canal DMX rouge à contrôler",
+                "description": "Nom de l'entrée/sortie.",
                 "mandatory": "true",
-                "max": "9999",
-                "min": "0",
-                "name": "channel_red",
+                "name": "name",
                 "readonly": "false",
-                "type": "int"
+                "type": "string"
+            },
+            {
+                "description": "Type d'entrée/sortie (input, output, inout)",
+                "mandatory": "true",
+                "name": "io_type",
+                "readonly": "true",
+                "type": "string"
+            },
+            {
+                "default": "true",
+                "description": "Activez l'entrée/sortie. Vrai par défaut. Ce paramètre est ajouté s'il n'est pas trouvé dans la configuration.",
+                "mandatory": "false",
+                "name": "enabled",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "default": "false",
+                "description": "Si activé, ecrit une entrée dans l'historique pour cet IO",
+                "mandatory": "false",
+                "name": "log_history",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "default": "true",
+                "description": "Affichez l'entrée/sortie sur toutes les interfaces utilisateur. Vrai par défaut",
+                "mandatory": "false",
+                "name": "visible",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "description": "Identifiant unique de l'entrée/sortie dans calaos-server",
+                "mandatory": "true",
+                "name": "id",
+                "readonly": "true",
+                "type": "string"
+            },
+            {
+                "description": "Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement",
+                "mandatory": "false",
+                "name": "gui_type",
+                "readonly": "true",
+                "type": "string"
             },
             {
                 "default": "0",
@@ -7322,6 +7756,24 @@
                 "max": "512",
                 "min": "0",
                 "name": "channel_blue",
+                "readonly": "false",
+                "type": "int"
+            },
+            {
+                "default": "false",
+                "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "mandatory": "false",
+                "name": "logged",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "default": "0",
+                "description": "Univers OLA à contrôler",
+                "mandatory": "true",
+                "max": "9999",
+                "min": "0",
+                "name": "universe",
                 "readonly": "false",
                 "type": "int"
             },
@@ -7337,65 +7789,13 @@
             },
             {
                 "default": "0",
-                "description": "Univers OLA à contrôler",
+                "description": "Canal DMX rouge à contrôler",
                 "mandatory": "true",
                 "max": "9999",
                 "min": "0",
-                "name": "universe",
+                "name": "channel_red",
                 "readonly": "false",
                 "type": "int"
-            },
-            {
-                "description": "Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement",
-                "mandatory": "false",
-                "name": "gui_type",
-                "readonly": "true",
-                "type": "string"
-            },
-            {
-                "description": "Identifiant unique de l'entrée/sortie dans calaos-server",
-                "mandatory": "true",
-                "name": "id",
-                "readonly": "true",
-                "type": "string"
-            },
-            {
-                "default": "true",
-                "description": "Affichez l'entrée/sortie sur toutes les interfaces utilisateur. Vrai par défaut",
-                "mandatory": "false",
-                "name": "visible",
-                "readonly": "false",
-                "type": "bool"
-            },
-            {
-                "default": "false",
-                "description": "Si activé, ecrit une entrée dans l'historique pour cet IO",
-                "mandatory": "false",
-                "name": "log_history",
-                "readonly": "false",
-                "type": "bool"
-            },
-            {
-                "description": "Type d'entrée/sortie (input, output, inout)",
-                "mandatory": "true",
-                "name": "io_type",
-                "readonly": "true",
-                "type": "string"
-            },
-            {
-                "description": "Nom de l'entrée/sortie.",
-                "mandatory": "true",
-                "name": "name",
-                "readonly": "false",
-                "type": "string"
-            },
-            {
-                "default": "true",
-                "description": "Activez l'entrée/sortie. Vrai par défaut. Ce paramètre est ajouté s'il n'est pas trouvé dans la configuration.",
-                "mandatory": "false",
-                "name": "enabled",
-                "readonly": "false",
-                "type": "bool"
             }
         ],
         "conditions": [
@@ -7479,6 +7879,14 @@
         "description": "Fausse sortie de test. Ne fait rien. Ne pas utiliser.",
         "alias": [],
         "parameters": [
+            {
+                "default": "false",
+                "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "mandatory": "false",
+                "name": "logged",
+                "readonly": "false",
+                "type": "bool"
+            },
             {
                 "description": "Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement",
                 "mandatory": "false",
@@ -7571,6 +7979,13 @@
                 "type": "int"
             },
             {
+                "description": "Temps d'échantillonnage en microseconde. La valeur est lue à cette fréquence. Si cette valeur n'est pas définie, calaos essaie de lire le paramètre d'intervalle en seconde",
+                "mandatory": "false",
+                "name": "frequency",
+                "readonly": "false",
+                "type": "float"
+            },
+            {
                 "description": "Nom de l'entrée/sortie.",
                 "mandatory": "true",
                 "name": "name",
@@ -7593,13 +8008,6 @@
                 "type": "bool"
             },
             {
-                "description": "Temps d'échantillonnage en microseconde. La valeur est lue à cette fréquence. Si cette valeur n'est pas définie, calaos essaie de lire le paramètre d'intervalle en seconde",
-                "mandatory": "false",
-                "name": "frequency",
-                "readonly": "false",
-                "type": "float"
-            },
-            {
                 "description": "Identifiant unique de l'entrée/sortie dans calaos-server",
                 "mandatory": "true",
                 "name": "id",
@@ -7612,6 +8020,14 @@
                 "name": "gui_type",
                 "readonly": "true",
                 "type": "string"
+            },
+            {
+                "default": "false",
+                "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "mandatory": "false",
+                "name": "logged",
+                "readonly": "false",
+                "type": "bool"
             },
             {
                 "description": "Temps d'échantillonnage en secondes. La valeur est lue à cette fréquence. Si cette valeur n'est pas définie, la valeur par défaut est 15s",
@@ -7695,6 +8111,14 @@
                 "name": "host",
                 "readonly": "false",
                 "type": "string"
+            },
+            {
+                "default": "false",
+                "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "mandatory": "false",
+                "name": "logged",
+                "readonly": "false",
+                "type": "bool"
             },
             {
                 "description": "Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement",
@@ -7791,6 +8215,14 @@
                 "type": "string"
             },
             {
+                "default": "false",
+                "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "mandatory": "false",
+                "name": "logged",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
                 "description": "Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement",
                 "mandatory": "false",
                 "name": "gui_type",
@@ -7856,6 +8288,14 @@
                 "name": "auto_scenario",
                 "readonly": "true",
                 "type": "string"
+            },
+            {
+                "default": "false",
+                "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "mandatory": "false",
+                "name": "logged",
+                "readonly": "false",
+                "type": "bool"
             },
             {
                 "description": "Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement",
@@ -7963,6 +8403,14 @@
                 "name": "host",
                 "readonly": "false",
                 "type": "string"
+            },
+            {
+                "default": "false",
+                "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "mandatory": "false",
+                "name": "logged",
+                "readonly": "false",
+                "type": "bool"
             },
             {
                 "description": "Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement",
@@ -8126,6 +8574,14 @@
                 "type": "bool"
             },
             {
+                "default": "false",
+                "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "mandatory": "false",
+                "name": "logged",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
                 "description": "Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement",
                 "mandatory": "false",
                 "name": "gui_type",
@@ -8204,6 +8660,14 @@
                 "description": "Activer si la caméra supporte le PTZ",
                 "mandatory": "false",
                 "name": "ptz",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "default": "false",
+                "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "mandatory": "false",
+                "name": "logged",
                 "readonly": "false",
                 "type": "bool"
             },
@@ -8337,6 +8801,21 @@
                 "type": "string"
             },
             {
+                "description": "Arrêter la minuterie",
+                "mandatory": "true",
+                "name": "camera_id",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "default": "false",
+                "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "mandatory": "false",
+                "name": "logged",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
                 "description": "Full url to Synology nas. Ex: https://192.168.0.22:5000",
                 "mandatory": "true",
                 "name": "url",
@@ -8347,13 +8826,6 @@
                 "description": "Username which can access Surveillance Station",
                 "mandatory": "true",
                 "name": "username",
-                "readonly": "false",
-                "type": "string"
-            },
-            {
-                "description": "Arrêter la minuterie",
-                "mandatory": "true",
-                "name": "camera_id",
                 "readonly": "false",
                 "type": "string"
             },
@@ -8434,6 +8906,13 @@
                 "type": "int"
             },
             {
+                "description": "Temps d'échantillonnage en microseconde. La valeur est lue à cette fréquence. Si cette valeur n'est pas définie, calaos essaie de lire le paramètre d'intervalle en seconde",
+                "mandatory": "false",
+                "name": "frequency",
+                "readonly": "false",
+                "type": "float"
+            },
+            {
                 "description": "Nom de l'entrée/sortie.",
                 "mandatory": "true",
                 "name": "name",
@@ -8463,13 +8942,6 @@
                 "type": "bool"
             },
             {
-                "description": "Temps d'échantillonnage en microseconde. La valeur est lue à cette fréquence. Si cette valeur n'est pas définie, calaos essaie de lire le paramètre d'intervalle en seconde",
-                "mandatory": "false",
-                "name": "frequency",
-                "readonly": "false",
-                "type": "float"
-            },
-            {
                 "description": "Identifiant unique de l'entrée/sortie dans calaos-server",
                 "mandatory": "true",
                 "name": "id",
@@ -8482,6 +8954,14 @@
                 "name": "gui_type",
                 "readonly": "true",
                 "type": "string"
+            },
+            {
+                "default": "false",
+                "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "mandatory": "false",
+                "name": "logged",
+                "readonly": "false",
+                "type": "bool"
             },
             {
                 "description": "Temps d'échantillonnage en secondes. La valeur est lue à cette fréquence. Si cette valeur n'est pas définie, la valeur par défaut est 15s",
@@ -8548,6 +9028,14 @@
             "InPlageHoraire"
         ],
         "parameters": [
+            {
+                "default": "false",
+                "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "mandatory": "false",
+                "name": "logged",
+                "readonly": "false",
+                "type": "bool"
+            },
             {
                 "description": "Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement",
                 "mandatory": "false",
@@ -8679,6 +9167,13 @@
                 "type": "int"
             },
             {
+                "description": "Temps d'échantillonnage en microseconde. La valeur est lue à cette fréquence. Si cette valeur n'est pas définie, calaos essaie de lire le paramètre d'intervalle en seconde",
+                "mandatory": "false",
+                "name": "frequency",
+                "readonly": "false",
+                "type": "float"
+            },
+            {
                 "description": "Nom de l'entrée/sortie.",
                 "mandatory": "true",
                 "name": "name",
@@ -8701,13 +9196,6 @@
                 "type": "bool"
             },
             {
-                "description": "Temps d'échantillonnage en microseconde. La valeur est lue à cette fréquence. Si cette valeur n'est pas définie, calaos essaie de lire le paramètre d'intervalle en seconde",
-                "mandatory": "false",
-                "name": "frequency",
-                "readonly": "false",
-                "type": "float"
-            },
-            {
                 "description": "Identifiant unique de l'entrée/sortie dans calaos-server",
                 "mandatory": "true",
                 "name": "id",
@@ -8720,6 +9208,14 @@
                 "name": "gui_type",
                 "readonly": "true",
                 "type": "string"
+            },
+            {
+                "default": "false",
+                "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "mandatory": "false",
+                "name": "logged",
+                "readonly": "false",
+                "type": "bool"
             },
             {
                 "description": "Temps d'échantillonnage en secondes. La valeur est lue à cette fréquence. Si cette valeur n'est pas définie, la valeur par défaut est 15s",
@@ -8797,6 +9293,14 @@
                 "name": "url",
                 "readonly": "false",
                 "type": "string"
+            },
+            {
+                "default": "false",
+                "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "mandatory": "false",
+                "name": "logged",
+                "readonly": "false",
+                "type": "bool"
             },
             {
                 "description": "Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement",
@@ -8897,6 +9401,13 @@
                 "type": "int"
             },
             {
+                "description": "Temps d'échantillonnage en microseconde. La valeur est lue à cette fréquence. Si cette valeur n'est pas définie, calaos essaie de lire le paramètre d'intervalle en seconde",
+                "mandatory": "false",
+                "name": "frequency",
+                "readonly": "false",
+                "type": "float"
+            },
+            {
                 "description": "Nom de l'entrée/sortie.",
                 "mandatory": "true",
                 "name": "name",
@@ -8919,13 +9430,6 @@
                 "type": "bool"
             },
             {
-                "description": "Temps d'échantillonnage en microseconde. La valeur est lue à cette fréquence. Si cette valeur n'est pas définie, calaos essaie de lire le paramètre d'intervalle en seconde",
-                "mandatory": "false",
-                "name": "frequency",
-                "readonly": "false",
-                "type": "float"
-            },
-            {
                 "description": "Identifiant unique de l'entrée/sortie dans calaos-server",
                 "mandatory": "true",
                 "name": "id",
@@ -8938,6 +9442,14 @@
                 "name": "gui_type",
                 "readonly": "true",
                 "type": "string"
+            },
+            {
+                "default": "false",
+                "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "mandatory": "false",
+                "name": "logged",
+                "readonly": "false",
+                "type": "bool"
             },
             {
                 "description": "Temps d'échantillonnage en secondes. La valeur est lue à cette fréquence. Si cette valeur n'est pas définie, la valeur par défaut est 15s",
@@ -9041,6 +9553,13 @@
                 }
             },
             {
+                "description": "Unité affichée sur l'interface utilisateur en tant que suffixe.",
+                "mandatory": "false",
+                "name": "unit",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
                 "description": "Nom de l'entrée/sortie.",
                 "mandatory": "true",
                 "name": "name",
@@ -9079,13 +9598,6 @@
                 "type": "bool"
             },
             {
-                "description": "Unité affichée sur l'interface utilisateur en tant que suffixe.",
-                "mandatory": "false",
-                "name": "unit",
-                "readonly": "false",
-                "type": "string"
-            },
-            {
                 "description": "Identifiant unique de l'entrée/sortie dans calaos-server",
                 "mandatory": "true",
                 "name": "id",
@@ -9106,6 +9618,14 @@
                 "name": "gui_type",
                 "readonly": "true",
                 "type": "string"
+            },
+            {
+                "default": "false",
+                "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "mandatory": "false",
+                "name": "logged",
+                "readonly": "false",
+                "type": "bool"
             },
             {
                 "default": "1",
@@ -9173,18 +9693,64 @@
                 "type": "string"
             },
             {
-                "description": "Données à publier. Cette valeur peut être nulle, dans ce cas, la valeur est remplacée dans l'URL, sinon la valeur __##VALUE##__ contenue dans les données est remplacée par la valeur à envoyer.",
+                "description": "Nom de l'entrée/sortie.",
                 "mandatory": "true",
-                "name": "data",
+                "name": "name",
                 "readonly": "false",
                 "type": "string"
             },
             {
-                "description": "URL pour poster le document. Le champ data est envoyé en POST si il n'est pas nul. Lorsque aucune donnée n'est fournie, Calaos substitue __##VALUE##__ de l'URL avec la valeur à envoyer. Par exemple, si l'url est http://example.com/api?value=__##VALUE##__ l'url sera :\nhttp://example.com/api?value=20.3\nL'URL est encodée avant d'être envoyée.\nSi l'URL commence par / ou file:// les données sont écrites dans un fichier local.",
+                "description": "Type d'entrée/sortie (input, output, inout)",
                 "mandatory": "true",
-                "name": "url",
-                "readonly": "false",
+                "name": "io_type",
+                "readonly": "true",
                 "type": "string"
+            },
+            {
+                "default": "true",
+                "description": "Activez l'entrée/sortie. Vrai par défaut. Ce paramètre est ajouté s'il n'est pas trouvé dans la configuration.",
+                "mandatory": "false",
+                "name": "enabled",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "default": "false",
+                "description": "Si activé, ecrit une entrée dans l'historique pour cet IO",
+                "mandatory": "false",
+                "name": "log_history",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "default": "true",
+                "description": "Affichez l'entrée/sortie sur toutes les interfaces utilisateur. Vrai par défaut",
+                "mandatory": "false",
+                "name": "visible",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "description": "Identifiant unique de l'entrée/sortie dans calaos-server",
+                "mandatory": "true",
+                "name": "id",
+                "readonly": "true",
+                "type": "string"
+            },
+            {
+                "description": "Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement",
+                "mandatory": "false",
+                "name": "gui_type",
+                "readonly": "true",
+                "type": "string"
+            },
+            {
+                "default": "false",
+                "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "mandatory": "false",
+                "name": "logged",
+                "readonly": "false",
+                "type": "bool"
             },
             {
                 "default": "light",
@@ -9202,56 +9768,18 @@
                 }
             },
             {
-                "description": "Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement",
-                "mandatory": "false",
-                "name": "gui_type",
-                "readonly": "true",
-                "type": "string"
-            },
-            {
-                "description": "Identifiant unique de l'entrée/sortie dans calaos-server",
+                "description": "URL pour poster le document. Le champ data est envoyé en POST si il n'est pas nul. Lorsque aucune donnée n'est fournie, Calaos substitue __##VALUE##__ de l'URL avec la valeur à envoyer. Par exemple, si l'url est http://example.com/api?value=__##VALUE##__ l'url sera :\nhttp://example.com/api?value=20.3\nL'URL est encodée avant d'être envoyée.\nSi l'URL commence par / ou file:// les données sont écrites dans un fichier local.",
                 "mandatory": "true",
-                "name": "id",
-                "readonly": "true",
+                "name": "url",
+                "readonly": "false",
                 "type": "string"
             },
             {
-                "default": "true",
-                "description": "Affichez l'entrée/sortie sur toutes les interfaces utilisateur. Vrai par défaut",
-                "mandatory": "false",
-                "name": "visible",
-                "readonly": "false",
-                "type": "bool"
-            },
-            {
-                "default": "false",
-                "description": "Si activé, ecrit une entrée dans l'historique pour cet IO",
-                "mandatory": "false",
-                "name": "log_history",
-                "readonly": "false",
-                "type": "bool"
-            },
-            {
-                "description": "Type d'entrée/sortie (input, output, inout)",
+                "description": "Données à publier. Cette valeur peut être nulle, dans ce cas, la valeur est remplacée dans l'URL, sinon la valeur __##VALUE##__ contenue dans les données est remplacée par la valeur à envoyer.",
                 "mandatory": "true",
-                "name": "io_type",
-                "readonly": "true",
-                "type": "string"
-            },
-            {
-                "description": "Nom de l'entrée/sortie.",
-                "mandatory": "true",
-                "name": "name",
+                "name": "data",
                 "readonly": "false",
                 "type": "string"
-            },
-            {
-                "default": "true",
-                "description": "Activez l'entrée/sortie. Vrai par défaut. Ce paramètre est ajouté s'il n'est pas trouvé dans la configuration.",
-                "mandatory": "false",
-                "name": "enabled",
-                "readonly": "false",
-                "type": "bool"
             }
         ],
         "conditions": [
@@ -9304,41 +9832,6 @@
         "alias": [],
         "parameters": [
             {
-                "description": "Entête HTTP Content-Type utilisé lors de l'envoi du document. Cela dépend du site, mais vous pouvez utiliser application/json ou application/xml comme valeurs correctes.",
-                "mandatory": "true",
-                "name": "data_type",
-                "readonly": "false",
-                "type": "string"
-            },
-            {
-                "description": "Données à publier. Cette valeur peut être nulle, dans ce cas, la valeur est remplacée dans l'URL, sinon la valeur __##VALUE##__ contenue dans les données est remplacée par la valeur à envoyer.",
-                "mandatory": "true",
-                "name": "data",
-                "readonly": "false",
-                "type": "string"
-            },
-            {
-                "description": "URL pour poster le document. Le champ data est envoyé en POST si il n'est pas nul. Lorsque aucune donnée n'est fournie, Calaos substitue __##VALUE##__ de l'URL avec la valeur à envoyer. Par exemple, si l'url est http://example.com/api?value=__##VALUE##__ l'url sera :\nhttp://example.com/api?value=20.3\nL'URL est encodée avant d'être envoyée.\nSi l'URL commence par / ou file:// les données sont écrites dans un fichier local.",
-                "mandatory": "true",
-                "name": "url",
-                "readonly": "false",
-                "type": "string"
-            },
-            {
-                "description": "Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement",
-                "mandatory": "false",
-                "name": "gui_type",
-                "readonly": "true",
-                "type": "string"
-            },
-            {
-                "description": "Identifiant unique de l'entrée/sortie dans calaos-server",
-                "mandatory": "true",
-                "name": "id",
-                "readonly": "true",
-                "type": "string"
-            },
-            {
                 "description": "Valeur RVB au format #RRVVBB. Certaines web api prennent seulement le format RRVVBB. Si Raw_value est à vrai, le # est supprimé. La valeur par défaut est faux.",
                 "mandatory": "false",
                 "name": "raw_value",
@@ -9346,10 +9839,24 @@
                 "type": "bool"
             },
             {
+                "description": "Nom de l'entrée/sortie.",
+                "mandatory": "true",
+                "name": "name",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "Type d'entrée/sortie (input, output, inout)",
+                "mandatory": "true",
+                "name": "io_type",
+                "readonly": "true",
+                "type": "string"
+            },
+            {
                 "default": "true",
-                "description": "Affichez l'entrée/sortie sur toutes les interfaces utilisateur. Vrai par défaut",
+                "description": "Activez l'entrée/sortie. Vrai par défaut. Ce paramètre est ajouté s'il n'est pas trouvé dans la configuration.",
                 "mandatory": "false",
-                "name": "visible",
+                "name": "enabled",
                 "readonly": "false",
                 "type": "bool"
             },
@@ -9362,26 +9869,55 @@
                 "type": "bool"
             },
             {
-                "description": "Type d'entrée/sortie (input, output, inout)",
+                "default": "true",
+                "description": "Affichez l'entrée/sortie sur toutes les interfaces utilisateur. Vrai par défaut",
+                "mandatory": "false",
+                "name": "visible",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "description": "Identifiant unique de l'entrée/sortie dans calaos-server",
                 "mandatory": "true",
-                "name": "io_type",
+                "name": "id",
                 "readonly": "true",
                 "type": "string"
             },
             {
-                "description": "Nom de l'entrée/sortie.",
+                "description": "Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement",
+                "mandatory": "false",
+                "name": "gui_type",
+                "readonly": "true",
+                "type": "string"
+            },
+            {
+                "default": "false",
+                "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "mandatory": "false",
+                "name": "logged",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "description": "URL pour poster le document. Le champ data est envoyé en POST si il n'est pas nul. Lorsque aucune donnée n'est fournie, Calaos substitue __##VALUE##__ de l'URL avec la valeur à envoyer. Par exemple, si l'url est http://example.com/api?value=__##VALUE##__ l'url sera :\nhttp://example.com/api?value=20.3\nL'URL est encodée avant d'être envoyée.\nSi l'URL commence par / ou file:// les données sont écrites dans un fichier local.",
                 "mandatory": "true",
-                "name": "name",
+                "name": "url",
                 "readonly": "false",
                 "type": "string"
             },
             {
-                "default": "true",
-                "description": "Activez l'entrée/sortie. Vrai par défaut. Ce paramètre est ajouté s'il n'est pas trouvé dans la configuration.",
-                "mandatory": "false",
-                "name": "enabled",
+                "description": "Données à publier. Cette valeur peut être nulle, dans ce cas, la valeur est remplacée dans l'URL, sinon la valeur __##VALUE##__ contenue dans les données est remplacée par la valeur à envoyer.",
+                "mandatory": "true",
+                "name": "data",
                 "readonly": "false",
-                "type": "bool"
+                "type": "string"
+            },
+            {
+                "description": "Entête HTTP Content-Type utilisé lors de l'envoi du document. Cela dépend du site, mais vous pouvez utiliser application/json ou application/xml comme valeurs correctes.",
+                "mandatory": "true",
+                "name": "data_type",
+                "readonly": "false",
+                "type": "string"
             }
         ],
         "conditions": [
@@ -9473,6 +10009,13 @@
                 "type": "string"
             },
             {
+                "description": "Données à publier. Cette valeur peut être nulle, dans ce cas, la valeur est remplacée dans l'URL, sinon la valeur __##VALUE##__ contenue dans les données est remplacée par la valeur à envoyer.",
+                "mandatory": "true",
+                "name": "data",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
                 "description": "Nom de l'entrée/sortie.",
                 "mandatory": "true",
                 "name": "name",
@@ -9532,16 +10075,17 @@
                 "type": "string"
             },
             {
+                "default": "false",
+                "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "mandatory": "false",
+                "name": "logged",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
                 "description": "URL pour poster le document. Le champ data est envoyé en POST si il n'est pas nul. Lorsque aucune donnée n'est fournie, Calaos substitue __##VALUE##__ de l'URL avec la valeur à envoyer. Par exemple, si l'url est http://example.com/api?value=__##VALUE##__ l'url sera :\nhttp://example.com/api?value=20.3\nL'URL est encodée avant d'être envoyée.\nSi l'URL commence par / ou file:// les données sont écrites dans un fichier local.",
                 "mandatory": "true",
                 "name": "url",
-                "readonly": "false",
-                "type": "string"
-            },
-            {
-                "description": "Données à publier. Cette valeur peut être nulle, dans ce cas, la valeur est remplacée dans l'URL, sinon la valeur __##VALUE##__ contenue dans les données est remplacée par la valeur à envoyer.",
-                "mandatory": "true",
-                "name": "data",
                 "readonly": "false",
                 "type": "string"
             },
@@ -9616,6 +10160,13 @@
                 "type": "int"
             },
             {
+                "description": "Temps d'échantillonnage en microseconde. La valeur est lue à cette fréquence. Si cette valeur n'est pas définie, calaos essaie de lire le paramètre d'intervalle en seconde",
+                "mandatory": "false",
+                "name": "frequency",
+                "readonly": "false",
+                "type": "float"
+            },
+            {
                 "description": "Nom de l'entrée/sortie.",
                 "mandatory": "true",
                 "name": "name",
@@ -9648,13 +10199,6 @@
                 "type": "bool"
             },
             {
-                "description": "Temps d'échantillonnage en microseconde. La valeur est lue à cette fréquence. Si cette valeur n'est pas définie, calaos essaie de lire le paramètre d'intervalle en seconde",
-                "mandatory": "false",
-                "name": "frequency",
-                "readonly": "false",
-                "type": "float"
-            },
-            {
                 "description": "Identifiant unique de l'entrée/sortie dans calaos-server",
                 "mandatory": "true",
                 "name": "id",
@@ -9667,6 +10211,14 @@
                 "name": "gui_type",
                 "readonly": "true",
                 "type": "string"
+            },
+            {
+                "default": "false",
+                "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "mandatory": "false",
+                "name": "logged",
+                "readonly": "false",
+                "type": "bool"
             },
             {
                 "description": "Temps d'échantillonnage en secondes. La valeur est lue à cette fréquence. Si cette valeur n'est pas définie, la valeur par défaut est 15s",
@@ -9740,6 +10292,14 @@
                 "name": "host",
                 "readonly": "false",
                 "type": "string"
+            },
+            {
+                "default": "false",
+                "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "mandatory": "false",
+                "name": "logged",
+                "readonly": "false",
+                "type": "bool"
             },
             {
                 "description": "Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement",
@@ -9844,6 +10404,14 @@
                 "type": "string"
             },
             {
+                "default": "false",
+                "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "mandatory": "false",
+                "name": "logged",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
                 "description": "Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement",
                 "mandatory": "false",
                 "name": "gui_type",
@@ -9944,6 +10512,14 @@
                 "name": "host",
                 "readonly": "false",
                 "type": "string"
+            },
+            {
+                "default": "false",
+                "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "mandatory": "false",
+                "name": "logged",
+                "readonly": "false",
+                "type": "bool"
             },
             {
                 "description": "Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement",
@@ -10072,6 +10648,13 @@
                 "type": "int"
             },
             {
+                "description": "Temps d'échantillonnage en microseconde. La valeur est lue à cette fréquence. Si cette valeur n'est pas définie, calaos essaie de lire le paramètre d'intervalle en seconde",
+                "mandatory": "false",
+                "name": "frequency",
+                "readonly": "false",
+                "type": "float"
+            },
+            {
                 "description": "Nom de l'entrée/sortie.",
                 "mandatory": "true",
                 "name": "name",
@@ -10104,13 +10687,6 @@
                 "type": "bool"
             },
             {
-                "description": "Temps d'échantillonnage en microseconde. La valeur est lue à cette fréquence. Si cette valeur n'est pas définie, calaos essaie de lire le paramètre d'intervalle en seconde",
-                "mandatory": "false",
-                "name": "frequency",
-                "readonly": "false",
-                "type": "float"
-            },
-            {
                 "description": "Identifiant unique de l'entrée/sortie dans calaos-server",
                 "mandatory": "true",
                 "name": "id",
@@ -10123,6 +10699,14 @@
                 "name": "gui_type",
                 "readonly": "true",
                 "type": "string"
+            },
+            {
+                "default": "false",
+                "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "mandatory": "false",
+                "name": "logged",
+                "readonly": "false",
+                "type": "bool"
             },
             {
                 "description": "Temps d'échantillonnage en secondes. La valeur est lue à cette fréquence. Si cette valeur n'est pas définie, la valeur par défaut est 15s",
@@ -10214,6 +10798,23 @@
                 }
             },
             {
+                "default": "0",
+                "description": "Adresse de l'automate de la sortie",
+                "mandatory": "true",
+                "max": "65535",
+                "min": "0",
+                "name": "var",
+                "readonly": "false",
+                "type": "int"
+            },
+            {
+                "description": "Unité affichée sur l'interface utilisateur en tant que suffixe.",
+                "mandatory": "false",
+                "name": "unit",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
                 "description": "Nom de l'entrée/sortie.",
                 "mandatory": "true",
                 "name": "name",
@@ -10262,23 +10863,6 @@
                 "type": "bool"
             },
             {
-                "default": "0",
-                "description": "Adresse de l'automate de la sortie",
-                "mandatory": "true",
-                "max": "65535",
-                "min": "0",
-                "name": "var",
-                "readonly": "false",
-                "type": "int"
-            },
-            {
-                "description": "Unité affichée sur l'interface utilisateur en tant que suffixe.",
-                "mandatory": "false",
-                "name": "unit",
-                "readonly": "false",
-                "type": "string"
-            },
-            {
                 "description": "Identifiant unique de l'entrée/sortie dans calaos-server",
                 "mandatory": "true",
                 "name": "id",
@@ -10299,6 +10883,14 @@
                 "name": "gui_type",
                 "readonly": "true",
                 "type": "string"
+            },
+            {
+                "default": "false",
+                "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "mandatory": "false",
+                "name": "logged",
+                "readonly": "false",
+                "type": "bool"
             },
             {
                 "default": "1",
@@ -10424,6 +11016,14 @@
                 "name": "gui_type",
                 "readonly": "true",
                 "type": "string"
+            },
+            {
+                "default": "false",
+                "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "mandatory": "false",
+                "name": "logged",
+                "readonly": "false",
+                "type": "bool"
             },
             {
                 "default": "0",
@@ -10582,6 +11182,16 @@
                 "type": "int"
             },
             {
+                "default": "0",
+                "description": "Adresse pour le canal rouge. Les adresses DALI se situent entre 1 et 64. Pour les DMX, les adresses commencent à 100. Donc, pour le périphérique DMX 5, l'adresse doit être 105.",
+                "mandatory": "true",
+                "max": "612",
+                "min": "1",
+                "name": "raddress",
+                "readonly": "false",
+                "type": "int"
+            },
+            {
                 "description": "Nom de l'entrée/sortie.",
                 "mandatory": "true",
                 "name": "name",
@@ -10685,21 +11295,19 @@
                 "type": "string"
             },
             {
-                "default": "0",
-                "description": "Adresse pour le canal rouge. Les adresses DALI se situent entre 1 et 64. Pour les DMX, les adresses commencent à 100. Donc, pour le périphérique DMX 5, l'adresse doit être 105.",
-                "mandatory": "true",
-                "max": "612",
-                "min": "1",
-                "name": "raddress",
-                "readonly": "false",
-                "type": "int"
-            },
-            {
                 "description": "Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement",
                 "mandatory": "false",
                 "name": "gui_type",
                 "readonly": "true",
                 "type": "string"
+            },
+            {
+                "default": "false",
+                "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "mandatory": "false",
+                "name": "logged",
+                "readonly": "false",
+                "type": "bool"
             },
             {
                 "default": "0",
@@ -10819,6 +11427,16 @@
                 "type": "bool"
             },
             {
+                "default": "0",
+                "description": "Adresse de l'automate de la sortie",
+                "mandatory": "true",
+                "max": "65535",
+                "min": "0",
+                "name": "var",
+                "readonly": "false",
+                "type": "int"
+            },
+            {
                 "description": "Nom de l'entrée/sortie.",
                 "mandatory": "true",
                 "name": "name",
@@ -10874,21 +11492,19 @@
                 "type": "string"
             },
             {
-                "default": "0",
-                "description": "Adresse de l'automate de la sortie",
-                "mandatory": "true",
-                "max": "65535",
-                "min": "0",
-                "name": "var",
-                "readonly": "false",
-                "type": "int"
-            },
-            {
                 "description": "Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement",
                 "mandatory": "false",
                 "name": "gui_type",
                 "readonly": "true",
                 "type": "string"
+            },
+            {
+                "default": "false",
+                "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "mandatory": "false",
+                "name": "logged",
+                "readonly": "false",
+                "type": "bool"
             },
             {
                 "default": "light",
@@ -10985,6 +11601,14 @@
                 "type": "string"
             },
             {
+                "default": "false",
+                "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "mandatory": "false",
+                "name": "logged",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
                 "description": "Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement",
                 "mandatory": "false",
                 "name": "gui_type",
@@ -11062,6 +11686,20 @@
                 "type": "int"
             },
             {
+                "description": "Mettre à true si la sortie est un périphérique KNX (uniquement pour 750-849 avec le module KNX / TP1)",
+                "mandatory": "false",
+                "name": "knx",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "description": "Adresse IP de l'automate Wago",
+                "mandatory": "true",
+                "name": "host",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
                 "default": "0",
                 "description": "Sortie numérique sur l'automate pour ouvrir le volet",
                 "mandatory": "true",
@@ -11117,6 +11755,14 @@
                 "type": "string"
             },
             {
+                "default": "false",
+                "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "mandatory": "false",
+                "name": "logged",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
                 "default": "true",
                 "description": "Doit être faux pour le PLC 750-842, sinon vrai",
                 "mandatory": "true",
@@ -11160,20 +11806,6 @@
                 "name": "impulse_time",
                 "readonly": "false",
                 "type": "int"
-            },
-            {
-                "description": "Mettre à true si la sortie est un périphérique KNX (uniquement pour 750-849 avec le module KNX / TP1)",
-                "mandatory": "false",
-                "name": "knx",
-                "readonly": "false",
-                "type": "bool"
-            },
-            {
-                "description": "Adresse IP de l'automate Wago",
-                "mandatory": "true",
-                "name": "host",
-                "readonly": "false",
-                "type": "string"
             },
             {
                 "description": "En mode impulsion, certains volets doivent activer les deux relais haut et bas lors de l'arrêt du volet",
@@ -11271,6 +11903,13 @@
                 "type": "string"
             },
             {
+                "description": "En mode impulsion, certains volets doivent activer les deux relais haut et bas lors de l'arrêt du volet",
+                "mandatory": "false",
+                "name": "stop_both",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
                 "default": "0",
                 "description": "Sortie numérique sur l'automate pour ouvrir le volet",
                 "mandatory": "true",
@@ -11329,6 +11968,14 @@
                 "type": "int"
             },
             {
+                "default": "false",
+                "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "mandatory": "false",
+                "name": "logged",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
                 "description": "Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement",
                 "mandatory": "false",
                 "name": "gui_type",
@@ -11371,13 +12018,6 @@
                 "name": "impulse_time",
                 "readonly": "false",
                 "type": "int"
-            },
-            {
-                "description": "En mode impulsion, certains volets doivent activer les deux relais haut et bas lors de l'arrêt du volet",
-                "mandatory": "false",
-                "name": "stop_both",
-                "readonly": "false",
-                "type": "bool"
             }
         ],
         "conditions": [
@@ -11455,6 +12095,14 @@
                 "name": "code",
                 "readonly": "false",
                 "type": "string"
+            },
+            {
+                "default": "false",
+                "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "mandatory": "false",
+                "name": "logged",
+                "readonly": "false",
+                "type": "bool"
             },
             {
                 "description": "Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement",
@@ -11619,6 +12267,13 @@
                 "type": "int"
             },
             {
+                "description": "Temps d'échantillonnage en microseconde. La valeur est lue à cette fréquence. Si cette valeur n'est pas définie, calaos essaie de lire le paramètre d'intervalle en seconde",
+                "mandatory": "false",
+                "name": "frequency",
+                "readonly": "false",
+                "type": "float"
+            },
+            {
                 "description": "Nom de l'entrée/sortie.",
                 "mandatory": "true",
                 "name": "name",
@@ -11648,13 +12303,6 @@
                 "type": "bool"
             },
             {
-                "description": "Temps d'échantillonnage en microseconde. La valeur est lue à cette fréquence. Si cette valeur n'est pas définie, calaos essaie de lire le paramètre d'intervalle en seconde",
-                "mandatory": "false",
-                "name": "frequency",
-                "readonly": "false",
-                "type": "float"
-            },
-            {
                 "description": "Identifiant unique de l'entrée/sortie dans calaos-server",
                 "mandatory": "true",
                 "name": "id",
@@ -11667,6 +12315,14 @@
                 "name": "gui_type",
                 "readonly": "true",
                 "type": "string"
+            },
+            {
+                "default": "false",
+                "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "mandatory": "false",
+                "name": "logged",
+                "readonly": "false",
+                "type": "bool"
             },
             {
                 "description": "Temps d'échantillonnage en secondes. La valeur est lue à cette fréquence. Si cette valeur n'est pas définie, la valeur par défaut est 15s",
@@ -11746,6 +12402,14 @@
                 "type": "string"
             },
             {
+                "default": "false",
+                "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "mandatory": "false",
+                "name": "logged",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
                 "description": "Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement",
                 "mandatory": "false",
                 "name": "gui_type",
@@ -11818,6 +12482,14 @@
                 "name": "source",
                 "readonly": "false",
                 "type": "string"
+            },
+            {
+                "default": "false",
+                "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "mandatory": "false",
+                "name": "logged",
+                "readonly": "false",
+                "type": "bool"
             },
             {
                 "description": "Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement",
@@ -11910,6 +12582,13 @@
                 "type": "int"
             },
             {
+                "description": "Temps d'échantillonnage en microseconde. La valeur est lue à cette fréquence. Si cette valeur n'est pas définie, calaos essaie de lire le paramètre d'intervalle en seconde",
+                "mandatory": "false",
+                "name": "frequency",
+                "readonly": "false",
+                "type": "float"
+            },
+            {
                 "description": "Nom de l'entrée/sortie.",
                 "mandatory": "true",
                 "name": "name",
@@ -11939,13 +12618,6 @@
                 "type": "bool"
             },
             {
-                "description": "Temps d'échantillonnage en microseconde. La valeur est lue à cette fréquence. Si cette valeur n'est pas définie, calaos essaie de lire le paramètre d'intervalle en seconde",
-                "mandatory": "false",
-                "name": "frequency",
-                "readonly": "false",
-                "type": "float"
-            },
-            {
                 "description": "Identifiant unique de l'entrée/sortie dans calaos-server",
                 "mandatory": "true",
                 "name": "id",
@@ -11958,6 +12630,14 @@
                 "name": "gui_type",
                 "readonly": "true",
                 "type": "string"
+            },
+            {
+                "default": "false",
+                "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "mandatory": "false",
+                "name": "logged",
+                "readonly": "false",
+                "type": "bool"
             },
             {
                 "description": "Temps d'échantillonnage en secondes. La valeur est lue à cette fréquence. Si cette valeur n'est pas définie, la valeur par défaut est 15s",
@@ -12047,6 +12727,13 @@
                 }
             },
             {
+                "description": "Unité affichée sur l'interface utilisateur en tant que suffixe.",
+                "mandatory": "false",
+                "name": "unit",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
                 "description": "Nom de l'entrée/sortie.",
                 "mandatory": "true",
                 "name": "name",
@@ -12092,13 +12779,6 @@
                 "type": "bool"
             },
             {
-                "description": "Unité affichée sur l'interface utilisateur en tant que suffixe.",
-                "mandatory": "false",
-                "name": "unit",
-                "readonly": "false",
-                "type": "string"
-            },
-            {
                 "description": "Identifiant unique de l'entrée/sortie dans calaos-server",
                 "mandatory": "true",
                 "name": "id",
@@ -12126,6 +12806,14 @@
                 "name": "gui_type",
                 "readonly": "true",
                 "type": "string"
+            },
+            {
+                "default": "false",
+                "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "mandatory": "false",
+                "name": "logged",
+                "readonly": "false",
+                "type": "bool"
             },
             {
                 "default": "1",
@@ -12198,6 +12886,14 @@
                 "name": "source",
                 "readonly": "false",
                 "type": "string"
+            },
+            {
+                "default": "false",
+                "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "mandatory": "false",
+                "name": "logged",
+                "readonly": "false",
+                "type": "bool"
             },
             {
                 "description": "Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement",
@@ -12287,6 +12983,14 @@
                     "outlet": "Sortie",
                     "pump": "Pompe"
                 }
+            },
+            {
+                "default": "false",
+                "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "mandatory": "false",
+                "name": "logged",
+                "readonly": "false",
+                "type": "bool"
             },
             {
                 "description": "Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement",
@@ -12448,6 +13152,20 @@
                 "type": "int"
             },
             {
+                "description": "ID du périphérie Zibase (ABC)",
+                "mandatory": "true",
+                "name": "zibase_id",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "Temps d'échantillonnage en microseconde. La valeur est lue à cette fréquence. Si cette valeur n'est pas définie, calaos essaie de lire le paramètre d'intervalle en seconde",
+                "mandatory": "false",
+                "name": "frequency",
+                "readonly": "false",
+                "type": "float"
+            },
+            {
                 "description": "Nom de l'entrée/sortie.",
                 "mandatory": "true",
                 "name": "name",
@@ -12480,20 +13198,6 @@
                 "type": "bool"
             },
             {
-                "description": "ID du périphérie Zibase (ABC)",
-                "mandatory": "true",
-                "name": "zibase_id",
-                "readonly": "false",
-                "type": "string"
-            },
-            {
-                "description": "Temps d'échantillonnage en microseconde. La valeur est lue à cette fréquence. Si cette valeur n'est pas définie, calaos essaie de lire le paramètre d'intervalle en seconde",
-                "mandatory": "false",
-                "name": "frequency",
-                "readonly": "false",
-                "type": "float"
-            },
-            {
                 "description": "Identifiant unique de l'entrée/sortie dans calaos-server",
                 "mandatory": "true",
                 "name": "id",
@@ -12506,6 +13210,14 @@
                 "name": "gui_type",
                 "readonly": "true",
                 "type": "string"
+            },
+            {
+                "default": "false",
+                "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "mandatory": "false",
+                "name": "logged",
+                "readonly": "false",
+                "type": "bool"
             },
             {
                 "description": "Temps d'échantillonnage en secondes. La valeur est lue à cette fréquence. Si cette valeur n'est pas définie, la valeur par défaut est 15s",
@@ -12645,16 +13357,24 @@
                 "type": "string"
             },
             {
-                "description": "ID du premier périphérie Zibase (ABC)",
+                "description": "ID du deuxième périphérie Zibase (ABC)",
                 "mandatory": "true",
-                "name": "zibase_id",
+                "name": "zibase_id2",
                 "readonly": "false",
                 "type": "string"
             },
             {
-                "description": "ID du deuxième périphérie Zibase (ABC)",
+                "default": "false",
+                "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "mandatory": "false",
+                "name": "logged",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "description": "ID du premier périphérie Zibase (ABC)",
                 "mandatory": "true",
-                "name": "zibase_id2",
+                "name": "zibase_id",
                 "readonly": "false",
                 "type": "string"
             },
@@ -12720,6 +13440,13 @@
                 }
             },
             {
+                "description": "ID du périphérie Zibase (ABC)",
+                "mandatory": "true",
+                "name": "zibase_id",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
                 "description": "Nom de l'entrée/sortie.",
                 "mandatory": "true",
                 "name": "name",
@@ -12782,11 +13509,12 @@
                 "type": "string"
             },
             {
-                "description": "ID du périphérie Zibase (ABC)",
-                "mandatory": "true",
-                "name": "zibase_id",
+                "default": "false",
+                "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "mandatory": "false",
+                "name": "logged",
                 "readonly": "false",
-                "type": "string"
+                "type": "bool"
             },
             {
                 "default": "light",
@@ -12889,6 +13617,20 @@
                 "type": "int"
             },
             {
+                "description": "ID du périphérie Zibase (ABC)",
+                "mandatory": "true",
+                "name": "zibase_id",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "Temps d'échantillonnage en microseconde. La valeur est lue à cette fréquence. Si cette valeur n'est pas définie, calaos essaie de lire le paramètre d'intervalle en seconde",
+                "mandatory": "false",
+                "name": "frequency",
+                "readonly": "false",
+                "type": "float"
+            },
+            {
                 "description": "Nom de l'entrée/sortie.",
                 "mandatory": "true",
                 "name": "name",
@@ -12921,20 +13663,6 @@
                 "type": "bool"
             },
             {
-                "description": "ID du périphérie Zibase (ABC)",
-                "mandatory": "true",
-                "name": "zibase_id",
-                "readonly": "false",
-                "type": "string"
-            },
-            {
-                "description": "Temps d'échantillonnage en microseconde. La valeur est lue à cette fréquence. Si cette valeur n'est pas définie, calaos essaie de lire le paramètre d'intervalle en seconde",
-                "mandatory": "false",
-                "name": "frequency",
-                "readonly": "false",
-                "type": "float"
-            },
-            {
                 "description": "Identifiant unique de l'entrée/sortie dans calaos-server",
                 "mandatory": "true",
                 "name": "id",
@@ -12947,6 +13675,14 @@
                 "name": "gui_type",
                 "readonly": "true",
                 "type": "string"
+            },
+            {
+                "default": "false",
+                "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "mandatory": "false",
+                "name": "logged",
+                "readonly": "false",
+                "type": "bool"
             },
             {
                 "description": "Temps d'échantillonnage en secondes. La valeur est lue à cette fréquence. Si cette valeur n'est pas définie, la valeur par défaut est 15s",
