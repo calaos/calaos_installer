@@ -279,6 +279,9 @@ QFrame .HeaderButton:pressed
                <property name="uniformRowHeights">
                 <bool>true</bool>
                </property>
+               <property name="sortingEnabled">
+                <bool>true</bool>
+               </property>
                <property name="animated">
                 <bool>true</bool>
                </property>
@@ -286,11 +289,11 @@ QFrame .HeaderButton:pressed
                 <bool>false</bool>
                </property>
                <attribute name="headerVisible">
-                <bool>false</bool>
+                <bool>true</bool>
                </attribute>
                <column>
                 <property name="text">
-                 <string/>
+                 <string>Home</string>
                 </property>
                </column>
               </widget>
@@ -504,6 +507,9 @@ QFrame .HeaderButton:pressed
                  <bool>false</bool>
                 </property>
                 <property name="uniformRowHeights">
+                 <bool>true</bool>
+                </property>
+                <property name="sortingEnabled">
                  <bool>true</bool>
                 </property>
                 <attribute name="headerDefaultSectionSize">
