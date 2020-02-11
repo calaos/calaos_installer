@@ -1,11 +1,13 @@
 #include "mainwindow.h"
 #include "ui_MainWindow.h"
+#include <QSettings>
 #include "version.h"
 #include "ConfigOptions.h"
 #include "DialogOptions.h"
 #include "dialogautodetect.h"
 #include "DialogCreateNewImage.h"
 #include "WidgetIPAddr.h"
+
 
 MainWindow::MainWindow(QWidget *parent):
     QMainWindow(parent),
@@ -103,6 +105,12 @@ MainWindow::MainWindow(QWidget *parent):
         resize(ConfigOptions::Instance().getOption("MainWindow/size").toSize());
     if (ConfigOptions::Instance().optionExists("MainWindow/pos"))
         move(ConfigOptions::Instance().getOption("MainWindow/pos").toPoint());
+
+    // Load the last file used
+    QSettings s;
+    QString mypath = s.value("project_path").toString();
+    if (mypath.size())
+        Load(mypath);
 }
 
 MainWindow::~MainWindow()
@@ -228,6 +236,9 @@ void MainWindow::Save(QString path)
     if (!path.isEmpty())
         project_path = path;
 
+    QSettings s;
+    s.setValue("project_path",project_path);
+
     QString iofile = project_path + "/io.xml";
     QString rulefile = project_path + "/rules.xml";
 
@@ -243,6 +254,10 @@ void MainWindow::Load(QString path)
 {
     if (!path.isEmpty())
         project_path = path;
+
+    QSettings s;
+    if  (s.value("project_path").toString() != project_path)
+        s.setValue("project_path",project_path);
 
     QProgressDialog bar(tr("Loading in progress..."), 0, 0, 0, this);
     bar.setWindowModality(Qt::ApplicationModal);
@@ -296,6 +311,7 @@ void MainWindow::on_actionLoadProject_triggered()
 
 void MainWindow::on_actionOuvrir_un_projet_en_ligne_triggered()
 {
+
     if (ui->widgetRules->projectChanged())
     {
         QMessageBox::StandardButton reply;
