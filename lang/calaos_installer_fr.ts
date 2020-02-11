@@ -250,82 +250,82 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../data/DialogDaliMasterItem.ui" line="14"/>
         <source>Dali Item</source>
-        <translation type="unfinished"></translation>
+        <translation>Elément DALI</translation>
     </message>
     <message>
         <location filename="../data/DialogDaliMasterItem.ui" line="22"/>
         <source>Device type:</source>
-        <translation type="unfinished"></translation>
+        <translation>Type d&apos;appareil:</translation>
     </message>
     <message>
         <location filename="../data/DialogDaliMasterItem.ui" line="77"/>
         <source>Address:</source>
-        <translation type="unfinished">Adresse:</translation>
+        <translation>Adresse:</translation>
     </message>
     <message>
         <location filename="../data/DialogDaliMasterItem.ui" line="97"/>
         <source>Group Address:</source>
-        <translation type="unfinished"></translation>
+        <translation>Adresse de groupe:</translation>
     </message>
     <message>
         <location filename="../data/DialogDaliMasterItem.ui" line="124"/>
         <location filename="../data/DialogDaliMasterItem.ui" line="254"/>
         <source>Address presence:</source>
-        <translation type="unfinished"></translation>
+        <translation>Adresse de présence:</translation>
     </message>
     <message>
         <location filename="../data/DialogDaliMasterItem.ui" line="138"/>
         <location filename="../data/DialogDaliMasterItem.ui" line="268"/>
         <source>Address light level:</source>
-        <translation type="unfinished"></translation>
+        <translation>Adresse de la luminosité:</translation>
     </message>
     <message>
         <location filename="../data/DialogDaliMasterItem.ui" line="152"/>
         <location filename="../data/DialogDaliMasterItem.ui" line="296"/>
         <source>Off timeout (ms):</source>
-        <translation type="unfinished"></translation>
+        <translation>Délai avant extinction(ms):</translation>
     </message>
     <message>
         <location filename="../data/DialogDaliMasterItem.ui" line="185"/>
         <source>Address button 1:</source>
-        <translation type="unfinished"></translation>
+        <translation>Adresse du bouton 1:</translation>
     </message>
     <message>
         <location filename="../data/DialogDaliMasterItem.ui" line="199"/>
         <source>Address button 2:</source>
-        <translation type="unfinished"></translation>
+        <translation>Adresse du bouton 2:</translation>
     </message>
     <message>
         <location filename="../data/DialogDaliMasterItem.ui" line="206"/>
         <source>Address button 3:</source>
-        <translation type="unfinished"></translation>
+        <translation>Adresse du bouton 3:</translation>
     </message>
     <message>
         <location filename="../data/DialogDaliMasterItem.ui" line="213"/>
         <source>Address button 4:</source>
-        <translation type="unfinished"></translation>
+        <translation>Adresse du bouton 4:</translation>
     </message>
     <message>
         <location filename="../data/DialogDaliMasterItem.ui" line="282"/>
         <source>Address IR remote control:</source>
-        <translation type="unfinished"></translation>
+        <translation>Adresse de la télécommande IR:</translation>
     </message>
     <message>
         <location filename="../data/DialogDaliMasterItem.ui" line="329"/>
         <source>Address buttons:</source>
-        <translation type="unfinished"></translation>
+        <translation>Adresse des boutons:</translation>
     </message>
     <message>
         <location filename="../src/DialogDaliMasterItem.cpp" line="12"/>
         <location filename="../src/DialogDaliMasterItem.cpp" line="105"/>
         <source>Dali Ballast</source>
-        <translation type="unfinished"></translation>
+        <translation>Ballast DALI</translation>
     </message>
     <message>
         <location filename="../src/DialogDaliMasterItem.cpp" line="13"/>
         <location filename="../src/DialogDaliMasterItem.cpp" line="112"/>
         <source>Dali Ballast Group</source>
-        <translation type="unfinished"></translation>
+        <translation>Groupe de ballasts DALI</translation>
     </message>
     <message>
         <location filename="../src/DialogDaliMasterItem.cpp" line="14"/>
@@ -354,38 +354,155 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/DialogDaliMasterItem.cpp" line="106"/>
         <source>Address: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Adresse: %1</translation>
     </message>
     <message>
         <location filename="../src/DialogDaliMasterItem.cpp" line="113"/>
         <source>Group address: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Groupe d&apos;adresse: %1</translation>
     </message>
     <message>
         <location filename="../src/DialogDaliMasterItem.cpp" line="120"/>
         <source>Presence_address: %1 Light_address: %2</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Adresse de présence: %1 Adresse de lumière: %2</translation>
     </message>
     <message>
         <location filename="../src/DialogDaliMasterItem.cpp" line="121"/>
         <location filename="../src/DialogDaliMasterItem.cpp" line="137"/>
         <source>%1 ms</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 ms</translation>
     </message>
     <message>
         <location filename="../src/DialogDaliMasterItem.cpp" line="127"/>
         <source>Button1: %1 Button2: %2 Button3: %3 Button4: %4</source>
-        <translation type="unfinished"></translation>
+        <translation>Bouton1: %1 Bouton2: %2 Bouton3: %3 Bouton4: %4</translation>
     </message>
     <message>
         <location filename="../src/DialogDaliMasterItem.cpp" line="136"/>
         <source>Presence_address: %1 Light_address: %2 IR_address: %3</source>
-        <translation type="unfinished"></translation>
+        <translation>Adresse de présence: %1 Adresse de lumière: %2 Adresse IR: %3</translation>
     </message>
     <message>
         <location filename="../src/DialogDaliMasterItem.cpp" line="143"/>
         <source>Buttons_address: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Adresse des boutons: %1</translation>
+    </message>
+</context>
+<context>
+    <name>DialogDetectMySensors</name>
+    <message>
+        <location filename="../data/DialogDetectMySensors.ui" line="26"/>
+        <source>MySensors devices detection</source>
+        <translation type="unfinished">Détections des appareils MySensors</translation>
+    </message>
+    <message>
+        <location filename="../data/DialogDetectMySensors.ui" line="38"/>
+        <source>TCP</source>
+        <translation>TCP</translation>
+    </message>
+    <message>
+        <location filename="../data/DialogDetectMySensors.ui" line="58"/>
+        <location filename="../data/DialogDetectMySensors.ui" line="61"/>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Host&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../data/DialogDetectMySensors.ui" line="67"/>
+        <source>Host</source>
+        <translation>Hôte</translation>
+    </message>
+    <message>
+        <location filename="../data/DialogDetectMySensors.ui" line="83"/>
+        <location filename="../data/DialogDetectMySensors.ui" line="86"/>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Port&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../data/DialogDetectMySensors.ui" line="89"/>
+        <source>5003</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../data/DialogDetectMySensors.ui" line="95"/>
+        <source>Port</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../data/DialogDetectMySensors.ui" line="102"/>
+        <source>Discover</source>
+        <translation>Découverte</translation>
+    </message>
+    <message>
+        <location filename="../data/DialogDetectMySensors.ui" line="139"/>
+        <source>Node ID</source>
+        <translation>ID du Noeud</translation>
+    </message>
+    <message>
+        <location filename="../data/DialogDetectMySensors.ui" line="144"/>
+        <source>Sensor ID</source>
+        <translation>ID du capteur</translation>
+    </message>
+    <message>
+        <location filename="../data/DialogDetectMySensors.ui" line="149"/>
+        <source>Type</source>
+        <translation>Type</translation>
+    </message>
+    <message>
+        <location filename="../data/DialogDetectMySensors.ui" line="154"/>
+        <source>Name</source>
+        <translation>Nom</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogDetectMySensors.cpp" line="43"/>
+        <source>Missing port field</source>
+        <translation>Champ du port manquant</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogDetectMySensors.cpp" line="44"/>
+        <source>Port must be specified (/dev/ttyxxx for Serial or a number (eg 12345) for TCP).</source>
+        <translation>Le port doit être renseigné  (/dev/ttyxxx pour une série ou un nombre (ex 12345) pour TCP).</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogDetectMySensors.cpp" line="52"/>
+        <source>Missing host field</source>
+        <translation>Champ de l&apos;hôte manquant</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogDetectMySensors.cpp" line="53"/>
+        <source>Host must be specified when using TCP.</source>
+        <translation>L&apos;hôte doit être renseigné lorsqu&apos;on utilise TCP.</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogDetectMySensors.cpp" line="61"/>
+        <source>Failed to connect to server</source>
+        <translation>Echec de connexion au serveur</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogDetectMySensors.cpp" line="62"/>
+        <source>Error while connecting to host</source>
+        <translation>Erreur durant la connexion à l&apos;hôte</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogDetectMySensors.cpp" line="141"/>
+        <location filename="../src/DialogDetectMySensors.cpp" line="146"/>
+        <location filename="../src/DialogDetectMySensors.cpp" line="150"/>
+        <source>MySensors detection</source>
+        <translation>Détection MySensors</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogDetectMySensors.cpp" line="142"/>
+        <source>The host was not found. Please check the host name and port settings.</source>
+        <translation>L&apos;hôte n&apos;a pas été trouvée. Verifiez la configuration du nom et du port de l&apos;hôte.</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogDetectMySensors.cpp" line="147"/>
+        <source>The connection was refused by the node.</source>
+        <translation>La connexion a été refusée par le noeud.</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogDetectMySensors.cpp" line="151"/>
+        <source>The following error occurred: %1.</source>
+        <translation>L&apos;erreur suivante est apparue: %1.</translation>
     </message>
 </context>
 <context>
@@ -1037,51 +1154,51 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>DialogNewCamera</name>
     <message>
-        <location filename="../data/DialogNewCamera.ui" line="38"/>
+        <location filename="../data/DialogNewCamera.ui" line="32"/>
         <source>New Camera ...</source>
         <translation>Nouvelle caméra...</translation>
     </message>
     <message>
-        <location filename="../data/DialogNewCamera.ui" line="51"/>
+        <location filename="../data/DialogNewCamera.ui" line="45"/>
         <source>Create a new Camera Item</source>
         <translation>Créer un nouvel élément de caméra</translation>
     </message>
     <message>
-        <location filename="../data/DialogNewCamera.ui" line="57"/>
+        <location filename="../data/DialogNewCamera.ui" line="51"/>
         <source>Camera name :</source>
         <translation>Nom de la caméra:</translation>
     </message>
     <message>
-        <location filename="../data/DialogNewCamera.ui" line="71"/>
+        <location filename="../data/DialogNewCamera.ui" line="65"/>
         <source>Axis</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../data/DialogNewCamera.ui" line="77"/>
-        <location filename="../data/DialogNewCamera.ui" line="198"/>
-        <location filename="../data/DialogNewCamera.ui" line="264"/>
+        <location filename="../data/DialogNewCamera.ui" line="71"/>
+        <location filename="../data/DialogNewCamera.ui" line="192"/>
+        <location filename="../data/DialogNewCamera.ui" line="258"/>
         <source>IP Address :</source>
         <translation>Adresse IP:</translation>
     </message>
     <message>
-        <location filename="../data/DialogNewCamera.ui" line="84"/>
-        <location filename="../data/DialogNewCamera.ui" line="205"/>
-        <location filename="../data/DialogNewCamera.ui" line="271"/>
+        <location filename="../data/DialogNewCamera.ui" line="78"/>
+        <location filename="../data/DialogNewCamera.ui" line="199"/>
+        <location filename="../data/DialogNewCamera.ui" line="265"/>
         <source>192.168.0.10</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../data/DialogNewCamera.ui" line="91"/>
+        <location filename="../data/DialogNewCamera.ui" line="85"/>
         <source>Camera Number :</source>
         <translation>Numéro de la caméra:</translation>
     </message>
     <message>
-        <location filename="../data/DialogNewCamera.ui" line="98"/>
+        <location filename="../data/DialogNewCamera.ui" line="92"/>
         <source>1</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../data/DialogNewCamera.ui" line="174"/>
+        <location filename="../data/DialogNewCamera.ui" line="168"/>
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
@@ -1094,79 +1211,156 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; font-size:10pt;&quot;&gt;Le numéro de caméra sert pour les encodeurs vidéo Axis et permet de sélectionner le canal. La valeur peut être 1, 2, 3, 4 ou quad pour afficher les 4 caméras en même temps. &lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../data/DialogNewCamera.ui" line="192"/>
+        <location filename="../data/DialogNewCamera.ui" line="186"/>
         <source>Planet</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../data/DialogNewCamera.ui" line="212"/>
+        <location filename="../data/DialogNewCamera.ui" line="206"/>
         <source>Model :</source>
         <translation>Modèle:</translation>
     </message>
     <message>
-        <location filename="../data/DialogNewCamera.ui" line="229"/>
+        <location filename="../data/DialogNewCamera.ui" line="223"/>
         <source>ICA-210W</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../data/DialogNewCamera.ui" line="234"/>
+        <location filename="../data/DialogNewCamera.ui" line="228"/>
         <source>ICA-210</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../data/DialogNewCamera.ui" line="239"/>
+        <location filename="../data/DialogNewCamera.ui" line="233"/>
         <source>ICA-500</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../data/DialogNewCamera.ui" line="244"/>
+        <location filename="../data/DialogNewCamera.ui" line="238"/>
         <source>ICA-302</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../data/DialogNewCamera.ui" line="249"/>
+        <location filename="../data/DialogNewCamera.ui" line="243"/>
         <source>ICA-300</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../data/DialogNewCamera.ui" line="258"/>
+        <location filename="../data/DialogNewCamera.ui" line="252"/>
         <source>Gadspot</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../data/DialogNewCamera.ui" line="279"/>
+        <location filename="../data/DialogNewCamera.ui" line="273"/>
         <source>Standard MJPEG</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../data/DialogNewCamera.ui" line="285"/>
+        <location filename="../data/DialogNewCamera.ui" line="279"/>
         <source>URL (jpeg) :</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../data/DialogNewCamera.ui" line="299"/>
+        <location filename="../data/DialogNewCamera.ui" line="293"/>
         <source>URL (mjpeg) :</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../data/DialogNewCamera.ui" line="313"/>
+        <location filename="../data/DialogNewCamera.ui" line="307"/>
         <source>URL (mpeg4) :</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../data/DialogNewCamera.ui" line="334"/>
+        <location filename="../data/DialogNewCamera.ui" line="328"/>
         <source>UP Address :</source>
         <translation>Adresse IP:</translation>
     </message>
     <message>
-        <location filename="../data/DialogNewCamera.ui" line="388"/>
+        <location filename="../data/DialogNewCamera.ui" line="336"/>
+        <source>Synology Surveillance Station</source>
+        <translation>Station de Surveillance Synology</translation>
+    </message>
+    <message>
+        <location filename="../data/DialogNewCamera.ui" line="342"/>
+        <source>DSM Url :</source>
+        <translation>Url DSM :</translation>
+    </message>
+    <message>
+        <location filename="../data/DialogNewCamera.ui" line="352"/>
+        <source>http://192.168.0.235:5000</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../data/DialogNewCamera.ui" line="359"/>
+        <source>Username :</source>
+        <translation>Identifiant :</translation>
+    </message>
+    <message>
+        <location filename="../data/DialogNewCamera.ui" line="369"/>
+        <source>admin</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../data/DialogNewCamera.ui" line="376"/>
+        <source>Password :</source>
+        <translation>Mot de passe :</translation>
+    </message>
+    <message>
+        <location filename="../data/DialogNewCamera.ui" line="393"/>
+        <source>Camera ID :</source>
+        <translation>ID de la caméra</translation>
+    </message>
+    <message>
+        <location filename="../data/DialogNewCamera.ui" line="400"/>
+        <source>Connect</source>
+        <translation>Connecter</translation>
+    </message>
+    <message>
+        <location filename="../data/DialogNewCamera.ui" line="414"/>
+        <source>id</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../data/DialogNewCamera.ui" line="419"/>
+        <source>Name</source>
+        <translation>Nom</translation>
+    </message>
+    <message>
+        <location filename="../data/DialogNewCamera.ui" line="474"/>
         <source>Please enter a name for this item..</source>
         <translation>Veuillez entrer un nom pour cette élément...</translation>
     </message>
     <message>
-        <location filename="../src/dialognewcamera.cpp" line="76"/>
+        <location filename="../src/dialognewcamera.cpp" line="100"/>
+        <location filename="../src/dialognewcamera.cpp" line="136"/>
+        <location filename="../src/dialognewcamera.cpp" line="163"/>
+        <location filename="../src/dialognewcamera.cpp" line="190"/>
+        <location filename="../src/dialognewcamera.cpp" line="246"/>
+        <location filename="../src/dialognewcamera.cpp" line="256"/>
+        <location filename="../src/dialognewcamera.cpp" line="283"/>
+        <location filename="../src/dialognewcamera.cpp" line="319"/>
         <source>Calaos Installer</source>
         <translation></translation>
+    </message>
+    <message>
+        <location filename="../src/dialognewcamera.cpp" line="136"/>
+        <source>Failed to get api to login</source>
+        <translation>Echec de l&apos;obtention de l&apos;api pour s&apos;identifier</translation>
+    </message>
+    <message>
+        <location filename="../src/dialognewcamera.cpp" line="163"/>
+        <source>Failed to login</source>
+        <translation>Echec d&apos;identification</translation>
+    </message>
+    <message>
+        <location filename="../src/dialognewcamera.cpp" line="190"/>
+        <source>Failed to get api to list cameras</source>
+        <translation>Echec de l&apos;obtention de l&apos;api pour la liste des caméras</translation>
+    </message>
+    <message>
+        <location filename="../src/dialognewcamera.cpp" line="256"/>
+        <source>Failed to list cameras</source>
+        <translation>Impossible de lister les caméras</translation>
     </message>
 </context>
 <context>
@@ -2936,6 +3130,54 @@ p, li { white-space: pre-wrap; }
     </message>
 </context>
 <context>
+    <name>FormActionPush</name>
+    <message>
+        <location filename="../data/FormActionPush.ui" line="14"/>
+        <source>Form</source>
+        <translation>From</translation>
+    </message>
+    <message>
+        <location filename="../data/FormActionPush.ui" line="160"/>
+        <source>Action</source>
+        <translation>Action</translation>
+    </message>
+    <message>
+        <location filename="../data/FormActionPush.ui" line="167"/>
+        <source>action_type</source>
+        <translation>Type</translation>
+    </message>
+    <message>
+        <location filename="../data/FormActionPush.ui" line="190"/>
+        <source>action_name</source>
+        <translation>Nom</translation>
+    </message>
+    <message>
+        <location filename="../data/FormActionPush.ui" line="305"/>
+        <source>Attach camera screenshot:</source>
+        <translation>Attacher une capture de caméra:</translation>
+    </message>
+    <message>
+        <location filename="../data/FormActionPush.ui" line="312"/>
+        <source>Edit message...</source>
+        <translation>Editer le message...</translation>
+    </message>
+    <message>
+        <location filename="../data/FormActionPush.ui" line="315"/>
+        <source>buttonStyled</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../data/FormActionPush.ui" line="325"/>
+        <source>Message:</source>
+        <translation>Message:</translation>
+    </message>
+    <message>
+        <location filename="../src/FormActionPush.cpp" line="35"/>
+        <source>&lt;None&gt;</source>
+        <translation>&lt;Aucun&gt;</translation>
+    </message>
+</context>
+<context>
     <name>FormActionScript</name>
     <message>
         <location filename="../data/FormActionScript.ui" line="14"/>
@@ -3022,328 +3264,328 @@ p, li { white-space: pre-wrap; }
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/FormActionStd.cpp" line="116"/>
+        <location filename="../src/FormActionStd.cpp" line="113"/>
         <source>Start timer</source>
         <translation>Démarrer le timer</translation>
     </message>
     <message>
-        <location filename="../src/FormActionStd.cpp" line="117"/>
+        <location filename="../src/FormActionStd.cpp" line="114"/>
         <source>Stop timer</source>
         <translation>Arrêter le timer</translation>
     </message>
     <message>
-        <location filename="../src/FormActionStd.cpp" line="118"/>
+        <location filename="../src/FormActionStd.cpp" line="115"/>
         <source>Change timer duration</source>
         <translation>Changer la durée du timer</translation>
     </message>
     <message>
-        <location filename="../src/FormActionStd.cpp" line="122"/>
+        <location filename="../src/FormActionStd.cpp" line="119"/>
         <source>Start scenario</source>
         <translation>Démarrer le scénario</translation>
     </message>
     <message>
-        <location filename="../src/FormActionStd.cpp" line="123"/>
+        <location filename="../src/FormActionStd.cpp" line="120"/>
         <source>Stop scenario (if possible)</source>
         <translation>Arrêter le scénario (si possible)</translation>
     </message>
     <message>
-        <location filename="../src/FormActionStd.cpp" line="127"/>
+        <location filename="../src/FormActionStd.cpp" line="124"/>
         <source>Set state to false</source>
         <translation>Mettre l&apos;état à false</translation>
     </message>
     <message>
-        <location filename="../src/FormActionStd.cpp" line="128"/>
+        <location filename="../src/FormActionStd.cpp" line="125"/>
         <source>Set state to true</source>
         <translation>Mettre l&apos;état à true</translation>
     </message>
     <message>
-        <location filename="../src/FormActionStd.cpp" line="129"/>
+        <location filename="../src/FormActionStd.cpp" line="126"/>
         <source>Toggle state</source>
         <translation>Inverser l&apos;état</translation>
     </message>
     <message>
-        <location filename="../src/FormActionStd.cpp" line="133"/>
+        <location filename="../src/FormActionStd.cpp" line="130"/>
         <source>Open shutter</source>
         <translation>Ouvrir le volet</translation>
     </message>
     <message>
-        <location filename="../src/FormActionStd.cpp" line="134"/>
+        <location filename="../src/FormActionStd.cpp" line="131"/>
         <source>Close shutter</source>
         <translation>Fermer le volet</translation>
     </message>
     <message>
-        <location filename="../src/FormActionStd.cpp" line="135"/>
+        <location filename="../src/FormActionStd.cpp" line="132"/>
         <source>Stop the shutter</source>
         <translation>Arrêter le volet</translation>
     </message>
     <message>
-        <location filename="../src/FormActionStd.cpp" line="136"/>
+        <location filename="../src/FormActionStd.cpp" line="133"/>
         <source>Toggle shutter state</source>
         <translation>Inverser l&apos;état du volet</translation>
     </message>
     <message>
-        <location filename="../src/FormActionStd.cpp" line="137"/>
+        <location filename="../src/FormActionStd.cpp" line="134"/>
         <source>Open shutter for X ms</source>
         <translation>Ouvrir le volet pendant X ms</translation>
     </message>
     <message>
-        <location filename="../src/FormActionStd.cpp" line="138"/>
+        <location filename="../src/FormActionStd.cpp" line="135"/>
         <source>Close shutter for X ms</source>
         <translation>Fermer le volet pendant X ms</translation>
     </message>
     <message>
-        <location filename="../src/FormActionStd.cpp" line="142"/>
+        <location filename="../src/FormActionStd.cpp" line="139"/>
         <source>Set shutter position to X percent</source>
         <translation>Mettre le volet à la position X pourcent</translation>
     </message>
     <message>
-        <location filename="../src/FormActionStd.cpp" line="143"/>
+        <location filename="../src/FormActionStd.cpp" line="140"/>
         <source>Open shutter for X percent</source>
         <translation>Ouvrir le volet de X pourcent</translation>
     </message>
     <message>
-        <location filename="../src/FormActionStd.cpp" line="144"/>
+        <location filename="../src/FormActionStd.cpp" line="141"/>
         <source>Close shutter for X percent</source>
         <translation>Fermer le volet de X pourcent</translation>
     </message>
     <message>
-        <location filename="../src/FormActionStd.cpp" line="145"/>
+        <location filename="../src/FormActionStd.cpp" line="142"/>
         <source>Start shutter calibration</source>
         <translation>Lancer la calibration du volet</translation>
     </message>
     <message>
-        <location filename="../src/FormActionStd.cpp" line="152"/>
+        <location filename="../src/FormActionStd.cpp" line="149"/>
         <source>Switch light on</source>
         <translation>Allumer la lumière</translation>
     </message>
     <message>
-        <location filename="../src/FormActionStd.cpp" line="153"/>
+        <location filename="../src/FormActionStd.cpp" line="150"/>
         <source>Switch light off</source>
         <translation>Eteindre la lumière</translation>
     </message>
     <message>
-        <location filename="../src/FormActionStd.cpp" line="154"/>
+        <location filename="../src/FormActionStd.cpp" line="151"/>
         <source>Toggle light status</source>
         <translation>Inverser l&apos;état de la lumière</translation>
     </message>
     <message>
-        <location filename="../src/FormActionStd.cpp" line="158"/>
+        <location filename="../src/FormActionStd.cpp" line="155"/>
         <source>Switch light on for X ms</source>
         <translation>Allumer la lumière pendant X ms</translation>
     </message>
     <message>
-        <location filename="../src/FormActionStd.cpp" line="159"/>
+        <location filename="../src/FormActionStd.cpp" line="156"/>
         <source>Blink the light following a pattern</source>
         <translation>Clignoter la lumière en suivant un schéma</translation>
     </message>
     <message>
-        <location filename="../src/FormActionStd.cpp" line="163"/>
+        <location filename="../src/FormActionStd.cpp" line="160"/>
         <source>Set light dimming to X percent</source>
         <translation>Mettre la lumière à X pourcent</translation>
     </message>
     <message>
-        <location filename="../src/FormActionStd.cpp" line="164"/>
+        <location filename="../src/FormActionStd.cpp" line="161"/>
         <source>Set light dimming without switching on</source>
         <translation>Mettre la lumière à X pourcent sans allumer</translation>
     </message>
     <message>
-        <location filename="../src/FormActionStd.cpp" line="165"/>
+        <location filename="../src/FormActionStd.cpp" line="162"/>
         <source>Dim light of X percent</source>
         <translation>Augmenter l&apos;intensité de X pourcent</translation>
     </message>
     <message>
-        <location filename="../src/FormActionStd.cpp" line="166"/>
+        <location filename="../src/FormActionStd.cpp" line="163"/>
         <source>Brighten light of X percent</source>
         <translation>Diminuer l&apos;intensité de X pourcent</translation>
     </message>
     <message>
-        <location filename="../src/FormActionStd.cpp" line="167"/>
+        <location filename="../src/FormActionStd.cpp" line="164"/>
         <source>Change brightness on hold</source>
         <translation>Changer l&apos;intensité (hold)</translation>
     </message>
     <message>
-        <location filename="../src/FormActionStd.cpp" line="168"/>
+        <location filename="../src/FormActionStd.cpp" line="165"/>
         <source>Stop changing brigthness on hold</source>
         <translation>Changer l&apos;intensité (release)</translation>
     </message>
     <message>
-        <location filename="../src/FormActionStd.cpp" line="172"/>
+        <location filename="../src/FormActionStd.cpp" line="169"/>
         <source>Set color to X</source>
         <translation>Mettre la couleur à X</translation>
     </message>
     <message>
-        <location filename="../src/FormActionStd.cpp" line="173"/>
+        <location filename="../src/FormActionStd.cpp" line="170"/>
         <source>Increase red by X percent</source>
         <translation>Augmenter le rouge de X pourcent</translation>
     </message>
     <message>
-        <location filename="../src/FormActionStd.cpp" line="174"/>
+        <location filename="../src/FormActionStd.cpp" line="171"/>
         <source>Decrease red by X percent</source>
         <translation>Diminuer le rouge de X pourcent</translation>
     </message>
     <message>
-        <location filename="../src/FormActionStd.cpp" line="175"/>
+        <location filename="../src/FormActionStd.cpp" line="172"/>
         <source>Set red to X percent</source>
         <translation>Mettre le rouge à X pourcent</translation>
     </message>
     <message>
-        <location filename="../src/FormActionStd.cpp" line="176"/>
+        <location filename="../src/FormActionStd.cpp" line="173"/>
         <source>Increase green by X percent</source>
         <translation>Augmenter le vert de X pourcent</translation>
     </message>
     <message>
-        <location filename="../src/FormActionStd.cpp" line="177"/>
+        <location filename="../src/FormActionStd.cpp" line="174"/>
         <source>Decrease green by X percent</source>
         <translation>Diminuer le vert de X pourcent</translation>
     </message>
     <message>
-        <location filename="../src/FormActionStd.cpp" line="178"/>
+        <location filename="../src/FormActionStd.cpp" line="175"/>
         <source>Set green to X percent</source>
         <translation>Mettre le vert à X pourcent</translation>
     </message>
     <message>
-        <location filename="../src/FormActionStd.cpp" line="179"/>
+        <location filename="../src/FormActionStd.cpp" line="176"/>
         <source>Increase blue by X percent</source>
         <translation>Augmenter le bleu de X pourcent</translation>
     </message>
     <message>
-        <location filename="../src/FormActionStd.cpp" line="180"/>
+        <location filename="../src/FormActionStd.cpp" line="177"/>
         <source>Decrease blue by X percent</source>
         <translation>Diminuer le bleu de X pourcent</translation>
     </message>
     <message>
-        <location filename="../src/FormActionStd.cpp" line="181"/>
+        <location filename="../src/FormActionStd.cpp" line="178"/>
         <source>Set blue to X percent</source>
         <translation>Mettre le bleu à X pourcent</translation>
     </message>
     <message>
-        <location filename="../src/FormActionStd.cpp" line="186"/>
+        <location filename="../src/FormActionStd.cpp" line="183"/>
         <source>Play</source>
         <translation>Lecture</translation>
     </message>
     <message>
-        <location filename="../src/FormActionStd.cpp" line="187"/>
+        <location filename="../src/FormActionStd.cpp" line="184"/>
         <source>Pause</source>
         <translation>Pause</translation>
     </message>
     <message>
-        <location filename="../src/FormActionStd.cpp" line="188"/>
+        <location filename="../src/FormActionStd.cpp" line="185"/>
         <source>Stop</source>
         <translation>Stop</translation>
     </message>
     <message>
-        <location filename="../src/FormActionStd.cpp" line="189"/>
+        <location filename="../src/FormActionStd.cpp" line="186"/>
         <source>Next song</source>
         <translation>Piste suivante</translation>
     </message>
     <message>
-        <location filename="../src/FormActionStd.cpp" line="190"/>
+        <location filename="../src/FormActionStd.cpp" line="187"/>
         <source>Previous song</source>
         <translation>Piste précédente</translation>
     </message>
     <message>
-        <location filename="../src/FormActionStd.cpp" line="191"/>
-        <location filename="../src/FormActionStd.cpp" line="214"/>
+        <location filename="../src/FormActionStd.cpp" line="188"/>
+        <location filename="../src/FormActionStd.cpp" line="211"/>
         <source>Set volume to X percent</source>
         <translation>Mettre le volume à X pourcent</translation>
     </message>
     <message>
-        <location filename="../src/FormActionStd.cpp" line="192"/>
+        <location filename="../src/FormActionStd.cpp" line="189"/>
         <source>Increase volume by X percent</source>
         <translation>Augmenter le volume de X pourcent</translation>
     </message>
     <message>
-        <location filename="../src/FormActionStd.cpp" line="193"/>
+        <location filename="../src/FormActionStd.cpp" line="190"/>
         <source>Decrease volume by X percent</source>
         <translation>Diminuer le volume de X pourcent</translation>
     </message>
     <message>
-        <location filename="../src/FormActionStd.cpp" line="194"/>
+        <location filename="../src/FormActionStd.cpp" line="191"/>
         <source>Power on</source>
         <translation>Mettre en marche</translation>
     </message>
     <message>
-        <location filename="../src/FormActionStd.cpp" line="195"/>
+        <location filename="../src/FormActionStd.cpp" line="192"/>
         <source>Power off</source>
         <translation>Mettre à l&apos;arrêt</translation>
     </message>
     <message>
-        <location filename="../src/FormActionStd.cpp" line="196"/>
+        <location filename="../src/FormActionStd.cpp" line="193"/>
         <source>Power of in X sec. (sleep mode)</source>
         <translation>Mettre à l&apos;arrêt dans X sec (sleep mode)</translation>
     </message>
     <message>
-        <location filename="../src/FormActionStd.cpp" line="197"/>
+        <location filename="../src/FormActionStd.cpp" line="194"/>
         <source>Syncronize with another player</source>
         <translation>Synchroniser avec un autre lecteur</translation>
     </message>
     <message>
-        <location filename="../src/FormActionStd.cpp" line="198"/>
+        <location filename="../src/FormActionStd.cpp" line="195"/>
         <source>Remove sync with another player</source>
         <translation>Enlever la synchro avec un autre lecteur</translation>
     </message>
     <message>
-        <location filename="../src/FormActionStd.cpp" line="199"/>
+        <location filename="../src/FormActionStd.cpp" line="196"/>
         <source>Play something in the database</source>
         <translation>Lire quelque chose dans la base de donnée</translation>
     </message>
     <message>
-        <location filename="../src/FormActionStd.cpp" line="200"/>
+        <location filename="../src/FormActionStd.cpp" line="197"/>
         <source>Add something from the database to the playlist</source>
         <translation>Ajouter quelque chose de la base de donnée à la playlist</translation>
     </message>
     <message>
-        <location filename="../src/FormActionStd.cpp" line="204"/>
+        <location filename="../src/FormActionStd.cpp" line="201"/>
         <source>Recall position position X</source>
         <translation>Rappeler la position X</translation>
     </message>
     <message>
-        <location filename="../src/FormActionStd.cpp" line="205"/>
+        <location filename="../src/FormActionStd.cpp" line="202"/>
         <source>Save position X</source>
         <translation>Sauvegarder la position X</translation>
     </message>
     <message>
-        <location filename="../src/FormActionStd.cpp" line="206"/>
+        <location filename="../src/FormActionStd.cpp" line="203"/>
         <source>Move up</source>
         <translation>Bouger vers le haut</translation>
     </message>
     <message>
-        <location filename="../src/FormActionStd.cpp" line="207"/>
+        <location filename="../src/FormActionStd.cpp" line="204"/>
         <source>Move down</source>
         <translation>Bouger vers le bas</translation>
     </message>
     <message>
-        <location filename="../src/FormActionStd.cpp" line="208"/>
+        <location filename="../src/FormActionStd.cpp" line="205"/>
         <source>Move left</source>
         <translation>Bouger vers la gauche</translation>
     </message>
     <message>
-        <location filename="../src/FormActionStd.cpp" line="209"/>
+        <location filename="../src/FormActionStd.cpp" line="206"/>
         <source>Move right</source>
         <translation>Bouger vers la droite</translation>
     </message>
     <message>
-        <location filename="../src/FormActionStd.cpp" line="210"/>
+        <location filename="../src/FormActionStd.cpp" line="207"/>
         <source>Move to default position</source>
         <translation>Bouger vers la position par défaut</translation>
     </message>
     <message>
-        <location filename="../src/FormActionStd.cpp" line="215"/>
+        <location filename="../src/FormActionStd.cpp" line="212"/>
         <source>Switch on the receiver</source>
         <translation>Allumer l&apos;ampli</translation>
     </message>
     <message>
-        <location filename="../src/FormActionStd.cpp" line="216"/>
+        <location filename="../src/FormActionStd.cpp" line="213"/>
         <source>Switch off the receiver</source>
         <translation>Eteindre l&apos;ampli</translation>
     </message>
     <message>
-        <location filename="../src/FormActionStd.cpp" line="220"/>
+        <location filename="../src/FormActionStd.cpp" line="217"/>
         <source>Change input source</source>
         <translation>Changer la source</translation>
     </message>
     <message>
-        <location filename="../src/FormActionStd.cpp" line="235"/>
+        <location filename="../src/FormActionStd.cpp" line="232"/>
         <source>Send directly a custom command to the receiver</source>
         <translation>Envoyer une commande directe à l&apos;ampli</translation>
     </message>
@@ -3378,17 +3620,17 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../data/FormActionTouchscreen.ui" line="249"/>
         <source>Camera to display on screens:</source>
-        <translation type="unfinished"></translation>
+        <translation>Caméra à afficher sur les écrans:</translation>
     </message>
     <message>
         <location filename="../src/FormActionTouchscreen.cpp" line="54"/>
         <source>Display Camera</source>
-        <translation type="unfinished"></translation>
+        <translation>Affiche la caméra</translation>
     </message>
     <message>
         <location filename="../src/FormActionTouchscreen.cpp" line="57"/>
         <source>&lt;None&gt;</source>
-        <translation type="unfinished">&lt;Aucun&gt;</translation>
+        <translation>&lt;Aucun&gt;</translation>
     </message>
 </context>
 <context>
@@ -3580,194 +3822,194 @@ p, li { white-space: pre-wrap; }
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/FormConditionStd.cpp" line="171"/>
+        <location filename="../src/FormConditionStd.cpp" line="168"/>
         <source>Event when entering data/time</source>
         <translation>Evennement sur heure/date choisie</translation>
     </message>
     <message>
-        <location filename="../src/FormConditionStd.cpp" line="172"/>
+        <location filename="../src/FormConditionStd.cpp" line="169"/>
         <source>Event when exiting date/time</source>
         <translation>Evennement en dehors de l&apos;heure/date choisie</translation>
     </message>
     <message>
-        <location filename="../src/FormConditionStd.cpp" line="173"/>
-        <location filename="../src/FormConditionStd.cpp" line="179"/>
-        <location filename="../src/FormConditionStd.cpp" line="185"/>
-        <location filename="../src/FormConditionStd.cpp" line="190"/>
-        <location filename="../src/FormConditionStd.cpp" line="196"/>
-        <location filename="../src/FormConditionStd.cpp" line="202"/>
-        <location filename="../src/FormConditionStd.cpp" line="208"/>
-        <location filename="../src/FormConditionStd.cpp" line="215"/>
-        <location filename="../src/FormConditionStd.cpp" line="222"/>
-        <location filename="../src/FormConditionStd.cpp" line="229"/>
-        <location filename="../src/FormConditionStd.cpp" line="237"/>
-        <location filename="../src/FormConditionStd.cpp" line="274"/>
+        <location filename="../src/FormConditionStd.cpp" line="170"/>
+        <location filename="../src/FormConditionStd.cpp" line="176"/>
+        <location filename="../src/FormConditionStd.cpp" line="182"/>
+        <location filename="../src/FormConditionStd.cpp" line="187"/>
+        <location filename="../src/FormConditionStd.cpp" line="193"/>
+        <location filename="../src/FormConditionStd.cpp" line="199"/>
+        <location filename="../src/FormConditionStd.cpp" line="205"/>
+        <location filename="../src/FormConditionStd.cpp" line="212"/>
+        <location filename="../src/FormConditionStd.cpp" line="219"/>
+        <location filename="../src/FormConditionStd.cpp" line="226"/>
+        <location filename="../src/FormConditionStd.cpp" line="234"/>
+        <location filename="../src/FormConditionStd.cpp" line="271"/>
         <source>On any event</source>
         <translation>Evennement sur n&apos;importe quel état</translation>
     </message>
     <message>
-        <location filename="../src/FormConditionStd.cpp" line="177"/>
+        <location filename="../src/FormConditionStd.cpp" line="174"/>
         <source>Event on timer finished</source>
         <translation>Evennement sur tempo terminé</translation>
     </message>
     <message>
-        <location filename="../src/FormConditionStd.cpp" line="178"/>
+        <location filename="../src/FormConditionStd.cpp" line="175"/>
         <source>Event on timer start</source>
         <translation>Evennement sur tempo non terminé</translation>
     </message>
     <message>
-        <location filename="../src/FormConditionStd.cpp" line="183"/>
+        <location filename="../src/FormConditionStd.cpp" line="180"/>
         <source>Input is active</source>
         <translation>L&apos;entrée est activé</translation>
     </message>
     <message>
-        <location filename="../src/FormConditionStd.cpp" line="184"/>
+        <location filename="../src/FormConditionStd.cpp" line="181"/>
         <source>Input is inactive</source>
         <translation>L&apos;entrée est désactivé</translation>
     </message>
     <message>
-        <location filename="../src/FormConditionStd.cpp" line="189"/>
+        <location filename="../src/FormConditionStd.cpp" line="186"/>
         <source>Scenario is executed</source>
         <translation>Le bouton scénario est executé</translation>
     </message>
     <message>
-        <location filename="../src/FormConditionStd.cpp" line="194"/>
+        <location filename="../src/FormConditionStd.cpp" line="191"/>
         <source>Event entering time range</source>
         <translation>Evennement sur entrée dans la plage horaire</translation>
     </message>
     <message>
-        <location filename="../src/FormConditionStd.cpp" line="195"/>
+        <location filename="../src/FormConditionStd.cpp" line="192"/>
         <source>Event exiting time range</source>
         <translation>Evennement sur sortie de la plage horaire</translation>
     </message>
     <message>
-        <location filename="../src/FormConditionStd.cpp" line="200"/>
+        <location filename="../src/FormConditionStd.cpp" line="197"/>
         <source>Variable is true</source>
         <translation>La variable est activée</translation>
     </message>
     <message>
-        <location filename="../src/FormConditionStd.cpp" line="201"/>
+        <location filename="../src/FormConditionStd.cpp" line="198"/>
         <source>Variable is false</source>
         <translation>La variable est désactivée</translation>
     </message>
     <message>
-        <location filename="../src/FormConditionStd.cpp" line="206"/>
+        <location filename="../src/FormConditionStd.cpp" line="203"/>
         <source>Output is active</source>
         <translation>La sortie est activée</translation>
     </message>
     <message>
-        <location filename="../src/FormConditionStd.cpp" line="207"/>
+        <location filename="../src/FormConditionStd.cpp" line="204"/>
         <source>Output is inactive</source>
         <translation>La sortie est désactivée</translation>
     </message>
     <message>
-        <location filename="../src/FormConditionStd.cpp" line="212"/>
-        <location filename="../src/FormConditionStd.cpp" line="219"/>
+        <location filename="../src/FormConditionStd.cpp" line="209"/>
+        <location filename="../src/FormConditionStd.cpp" line="216"/>
         <source>Light is on</source>
         <translation>La lumière est allumée</translation>
     </message>
     <message>
-        <location filename="../src/FormConditionStd.cpp" line="213"/>
-        <location filename="../src/FormConditionStd.cpp" line="220"/>
+        <location filename="../src/FormConditionStd.cpp" line="210"/>
+        <location filename="../src/FormConditionStd.cpp" line="217"/>
         <source>Light is off</source>
         <translation>La lumiere est eteinte</translation>
     </message>
     <message>
-        <location filename="../src/FormConditionStd.cpp" line="214"/>
+        <location filename="../src/FormConditionStd.cpp" line="211"/>
         <source>Light is at X%</source>
         <translation>La lumière est a X%</translation>
     </message>
     <message>
-        <location filename="../src/FormConditionStd.cpp" line="221"/>
+        <location filename="../src/FormConditionStd.cpp" line="218"/>
         <source>Light is at XXXX color</source>
         <translation>La lumière est à la couleur XXXX</translation>
     </message>
     <message>
-        <location filename="../src/FormConditionStd.cpp" line="226"/>
-        <location filename="../src/FormConditionStd.cpp" line="233"/>
+        <location filename="../src/FormConditionStd.cpp" line="223"/>
+        <location filename="../src/FormConditionStd.cpp" line="230"/>
         <source>Shutter is open</source>
         <translation>Le volet est ouvert</translation>
     </message>
     <message>
-        <location filename="../src/FormConditionStd.cpp" line="227"/>
-        <location filename="../src/FormConditionStd.cpp" line="234"/>
+        <location filename="../src/FormConditionStd.cpp" line="224"/>
+        <location filename="../src/FormConditionStd.cpp" line="231"/>
         <source>Shutter is closed</source>
         <translation>Le volet est fermé</translation>
     </message>
     <message>
-        <location filename="../src/FormConditionStd.cpp" line="228"/>
-        <location filename="../src/FormConditionStd.cpp" line="235"/>
+        <location filename="../src/FormConditionStd.cpp" line="225"/>
+        <location filename="../src/FormConditionStd.cpp" line="232"/>
         <source>Shutter is stopped</source>
         <translation>Le volet est arrêté</translation>
     </message>
     <message>
-        <location filename="../src/FormConditionStd.cpp" line="236"/>
+        <location filename="../src/FormConditionStd.cpp" line="233"/>
         <source>Shutter is at X%</source>
         <translation>Le volet est à X%</translation>
     </message>
     <message>
-        <location filename="../src/FormConditionStd.cpp" line="241"/>
+        <location filename="../src/FormConditionStd.cpp" line="238"/>
         <source>Event on 1 press</source>
         <translation>Evennement sur 1 appui</translation>
     </message>
     <message>
-        <location filename="../src/FormConditionStd.cpp" line="242"/>
+        <location filename="../src/FormConditionStd.cpp" line="239"/>
         <source>Event on 2 presses</source>
         <translation>Evennement sur 2 appuis</translation>
     </message>
     <message>
-        <location filename="../src/FormConditionStd.cpp" line="243"/>
+        <location filename="../src/FormConditionStd.cpp" line="240"/>
         <source>Event on 3 presses</source>
         <translation>Evennement sur 3 appuis</translation>
     </message>
     <message>
-        <location filename="../src/FormConditionStd.cpp" line="247"/>
+        <location filename="../src/FormConditionStd.cpp" line="244"/>
         <source>Event on normal press</source>
         <translation>Evennement sur appui normal</translation>
     </message>
     <message>
-        <location filename="../src/FormConditionStd.cpp" line="248"/>
+        <location filename="../src/FormConditionStd.cpp" line="245"/>
         <source>Event on long press</source>
         <translation>Evennement sur appui long</translation>
     </message>
     <message>
-        <location filename="../src/FormConditionStd.cpp" line="252"/>
+        <location filename="../src/FormConditionStd.cpp" line="249"/>
         <source>Event when temperature changes to a value</source>
         <translation>Evennement sur une témperature en °C</translation>
     </message>
     <message>
-        <location filename="../src/FormConditionStd.cpp" line="253"/>
+        <location filename="../src/FormConditionStd.cpp" line="250"/>
         <source>Event when temperature changes</source>
         <translation>Evennement sur n&apos;importe quel changement de température</translation>
     </message>
     <message>
-        <location filename="../src/FormConditionStd.cpp" line="257"/>
-        <location filename="../src/FormConditionStd.cpp" line="261"/>
+        <location filename="../src/FormConditionStd.cpp" line="254"/>
+        <location filename="../src/FormConditionStd.cpp" line="258"/>
         <source>Event when value changes</source>
         <translation>Evennement lors du changement d&apos;état</translation>
     </message>
     <message>
-        <location filename="../src/FormConditionStd.cpp" line="265"/>
+        <location filename="../src/FormConditionStd.cpp" line="262"/>
         <source>Event on play</source>
         <translation>Evennement lors de la lecture</translation>
     </message>
     <message>
-        <location filename="../src/FormConditionStd.cpp" line="266"/>
+        <location filename="../src/FormConditionStd.cpp" line="263"/>
         <source>Event on pause</source>
         <translation>Evennement lors de la pause</translation>
     </message>
     <message>
-        <location filename="../src/FormConditionStd.cpp" line="267"/>
+        <location filename="../src/FormConditionStd.cpp" line="264"/>
         <source>Event on stop</source>
         <translation>Evennement lors de l&apos;arrêt</translation>
     </message>
     <message>
-        <location filename="../src/FormConditionStd.cpp" line="268"/>
+        <location filename="../src/FormConditionStd.cpp" line="265"/>
         <source>Event on song change</source>
         <translation>Evennement lors du changement de piste</translation>
     </message>
     <message>
-        <location filename="../src/FormConditionStd.cpp" line="269"/>
+        <location filename="../src/FormConditionStd.cpp" line="266"/>
         <source>Event on error</source>
         <translation>Evennement lors d&apos;erreur</translation>
     </message>
@@ -3870,126 +4112,156 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../data/FormDaliMaster.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>From</translation>
     </message>
     <message>
         <location filename="../data/FormDaliMaster.ui" line="42"/>
         <source>Wago Dali Master 753-647</source>
-        <translation type="unfinished"></translation>
+        <translation>Maître DALI du Wago 753-647</translation>
     </message>
     <message>
         <location filename="../data/FormDaliMaster.ui" line="49"/>
         <source>Use this page to configure connected devices on the DALI bus. You should list all devices (ECG, Sensors, Buttons) and their address. This is required to make the DALI master module work correctly with Calaos.</source>
-        <translation type="unfinished"></translation>
+        <translation>Utilise cette page pour configurer les appareils connectés sur le bus DALI. Vous devez lister l&apos;ensemble des appareils (ECG, capteurs, boutons) et leurs adresses. Ceci est nécessaire pour que le module maître DALI fonctionne correctement avec Calaos.</translation>
     </message>
     <message>
         <location filename="../data/FormDaliMaster.ui" line="69"/>
         <source>Load from PLC</source>
-        <translation type="unfinished"></translation>
+        <translation>Charger de l&apos;automate</translation>
     </message>
     <message>
         <location filename="../data/FormDaliMaster.ui" line="80"/>
         <source>Send to PLC</source>
-        <translation type="unfinished"></translation>
+        <translation>Envoyer à l&apos;automate</translation>
     </message>
     <message>
-        <location filename="../data/FormDaliMaster.ui" line="104"/>
+        <location filename="../data/FormDaliMaster.ui" line="97"/>
+        <source>Load from a file</source>
+        <translation>Charger d&apos;un fichier</translation>
+    </message>
+    <message>
+        <location filename="../data/FormDaliMaster.ui" line="108"/>
+        <source>Export to a file</source>
+        <translation>Exporter vers un fichier</translation>
+    </message>
+    <message>
+        <location filename="../data/FormDaliMaster.ui" line="132"/>
         <source>Quit</source>
-        <translation type="unfinished"></translation>
+        <translation>Quitter</translation>
     </message>
     <message>
-        <location filename="../data/FormDaliMaster.ui" line="158"/>
+        <location filename="../data/FormDaliMaster.ui" line="186"/>
         <source>Edit</source>
-        <translation type="unfinished"></translation>
+        <translation>Editer</translation>
     </message>
     <message>
-        <location filename="../data/FormDaliMaster.ui" line="169"/>
+        <location filename="../data/FormDaliMaster.ui" line="197"/>
         <source>Remove</source>
-        <translation type="unfinished"></translation>
+        <translation>Supprimer</translation>
     </message>
     <message>
-        <location filename="../data/FormDaliMaster.ui" line="180"/>
+        <location filename="../data/FormDaliMaster.ui" line="208"/>
         <source>Add...</source>
-        <translation type="unfinished"></translation>
+        <translation>Ajouter...</translation>
     </message>
     <message>
         <location filename="../src/FormDaliMaster.cpp" line="21"/>
         <source>Device Type</source>
-        <translation type="unfinished"></translation>
+        <translation>Type d&apos;appareil</translation>
     </message>
     <message>
         <location filename="../src/FormDaliMaster.cpp" line="22"/>
         <source>Addresses</source>
-        <translation type="unfinished"></translation>
+        <translation>Adresses</translation>
     </message>
     <message>
         <location filename="../src/FormDaliMaster.cpp" line="23"/>
         <source>Off Timeout</source>
-        <translation type="unfinished"></translation>
+        <translation>Délai avant extinction</translation>
     </message>
     <message>
         <location filename="../src/FormDaliMaster.cpp" line="58"/>
-        <location filename="../src/FormDaliMaster.cpp" line="245"/>
-        <location filename="../src/FormDaliMaster.cpp" line="259"/>
-        <location filename="../src/FormDaliMaster.cpp" line="273"/>
-        <location filename="../src/FormDaliMaster.cpp" line="311"/>
+        <location filename="../src/FormDaliMaster.cpp" line="248"/>
+        <location filename="../src/FormDaliMaster.cpp" line="262"/>
+        <location filename="../src/FormDaliMaster.cpp" line="276"/>
+        <location filename="../src/FormDaliMaster.cpp" line="314"/>
         <source>Calaos Installer</source>
-        <translation type="unfinished"></translation>
+        <translation>Calaos Installer</translation>
     </message>
     <message>
         <location filename="../src/FormDaliMaster.cpp" line="59"/>
         <source>Do you want to remove selected item?</source>
-        <translation type="unfinished"></translation>
+        <translation>Voulez-vous supprimer les éléments sélectionnés?</translation>
     </message>
     <message>
-        <location filename="../src/FormDaliMaster.cpp" line="228"/>
+        <location filename="../src/FormDaliMaster.cpp" line="231"/>
         <source>Connecting to PLC...</source>
-        <translation type="unfinished"></translation>
+        <translation>Connexion en cours à l&apos;automate...</translation>
     </message>
     <message>
-        <location filename="../src/FormDaliMaster.cpp" line="230"/>
+        <location filename="../src/FormDaliMaster.cpp" line="233"/>
         <source>Login into PLC...</source>
-        <translation type="unfinished"></translation>
+        <translation>Identification sur l&apos;automate...</translation>
     </message>
     <message>
-        <location filename="../src/FormDaliMaster.cpp" line="232"/>
+        <location filename="../src/FormDaliMaster.cpp" line="235"/>
         <source>Selecting context...</source>
-        <translation type="unfinished"></translation>
+        <translation>Sélection du contexte...</translation>
     </message>
     <message>
-        <location filename="../src/FormDaliMaster.cpp" line="234"/>
+        <location filename="../src/FormDaliMaster.cpp" line="237"/>
         <source>Downloading configuration from PLC...</source>
-        <translation type="unfinished"></translation>
+        <translation>Téléchargement de la configuration de l&apos;automate...</translation>
     </message>
     <message>
-        <location filename="../src/FormDaliMaster.cpp" line="236"/>
+        <location filename="../src/FormDaliMaster.cpp" line="239"/>
         <source>Uploading configuration to PLC...</source>
-        <translation type="unfinished"></translation>
+        <translation>Transfert de la configuration sur l&apos;automate...</translation>
     </message>
     <message>
-        <location filename="../src/FormDaliMaster.cpp" line="246"/>
+        <location filename="../src/FormDaliMaster.cpp" line="249"/>
         <source>Error connecting to PLC</source>
-        <translation type="unfinished"></translation>
+        <translation>Echec de connexion à l&apos;automate</translation>
     </message>
     <message>
-        <location filename="../src/FormDaliMaster.cpp" line="260"/>
+        <location filename="../src/FormDaliMaster.cpp" line="263"/>
         <source>Failed to login into PLC</source>
-        <translation type="unfinished"></translation>
+        <translation>Echec d&apos;identification à l&apos;automate</translation>
     </message>
     <message>
-        <location filename="../src/FormDaliMaster.cpp" line="274"/>
+        <location filename="../src/FormDaliMaster.cpp" line="277"/>
         <source>Failed to switch context on PLC</source>
-        <translation type="unfinished"></translation>
+        <translation>Echec du changement de contexte sur l&apos;automate</translation>
     </message>
     <message>
-        <location filename="../src/FormDaliMaster.cpp" line="312"/>
+        <location filename="../src/FormDaliMaster.cpp" line="315"/>
         <source>Failed to send configuration to PLC</source>
-        <translation type="unfinished"></translation>
+        <translation>Echec du transfert de la configuration vers l&apos;automate</translation>
     </message>
     <message>
-        <location filename="../src/FormDaliMaster.cpp" line="322"/>
+        <location filename="../src/FormDaliMaster.cpp" line="325"/>
         <source>Rebooting PLC... Please wait.</source>
-        <translation type="unfinished"></translation>
+        <translation>Redémarrage de l&apos;automate... Veuillez patienter.</translation>
+    </message>
+    <message>
+        <location filename="../src/FormDaliMaster.cpp" line="346"/>
+        <source>Open wago DALI Master file</source>
+        <translation>Ouvre le fichier Maître DALI du Wago</translation>
+    </message>
+    <message>
+        <location filename="../src/FormDaliMaster.cpp" line="354"/>
+        <source>Unable to open file %1 with read access</source>
+        <translation>Impossible d&apos;ouvrir en lecture le fichier %1</translation>
+    </message>
+    <message>
+        <location filename="../src/FormDaliMaster.cpp" line="371"/>
+        <source>Save to wago DALI Master file</source>
+        <translation>Enregistrement du fichier Maître DALI du Wago</translation>
+    </message>
+    <message>
+        <location filename="../src/FormDaliMaster.cpp" line="379"/>
+        <source>Unable to open file %1 with write access</source>
+        <translation>Impossible d&apos;ouvrir en écriture le fichier %1</translation>
     </message>
 </context>
 <context>
@@ -4001,31 +4273,32 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../data/FormRules.ui" line="141"/>
-        <location filename="../data/FormRules.ui" line="348"/>
-        <location filename="../data/FormRules.ui" line="537"/>
-        <location filename="../data/FormRules.ui" line="755"/>
+        <location filename="../data/FormRules.ui" line="357"/>
+        <location filename="../data/FormRules.ui" line="549"/>
+        <location filename="../data/FormRules.ui" line="767"/>
         <source>FrameBox</source>
         <translation></translation>
     </message>
     <message>
         <location filename="../data/FormRules.ui" line="168"/>
-        <location filename="../data/FormRules.ui" line="375"/>
-        <location filename="../data/FormRules.ui" line="564"/>
-        <location filename="../data/FormRules.ui" line="782"/>
+        <location filename="../data/FormRules.ui" line="384"/>
+        <location filename="../data/FormRules.ui" line="576"/>
+        <location filename="../data/FormRules.ui" line="794"/>
         <source>FrameHeader</source>
         <translation></translation>
     </message>
     <message>
         <location filename="../data/FormRules.ui" line="198"/>
-        <location filename="../src/formrules.cpp" line="707"/>
+        <location filename="../data/FormRules.ui" line="302"/>
+        <location filename="../src/formrules.cpp" line="766"/>
         <source>Home</source>
         <translation>Maison</translation>
     </message>
     <message>
         <location filename="../data/FormRules.ui" line="201"/>
-        <location filename="../data/FormRules.ui" line="408"/>
-        <location filename="../data/FormRules.ui" line="591"/>
-        <location filename="../data/FormRules.ui" line="809"/>
+        <location filename="../data/FormRules.ui" line="417"/>
+        <location filename="../data/FormRules.ui" line="603"/>
+        <location filename="../data/FormRules.ui" line="821"/>
         <source>FrameTitle</source>
         <translation></translation>
     </message>
@@ -4036,170 +4309,173 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../data/FormRules.ui" line="231"/>
-        <location filename="../data/FormRules.ui" line="438"/>
-        <location filename="../data/FormRules.ui" line="458"/>
-        <location filename="../data/FormRules.ui" line="611"/>
-        <location filename="../data/FormRules.ui" line="631"/>
-        <location filename="../data/FormRules.ui" line="651"/>
-        <location filename="../data/FormRules.ui" line="671"/>
-        <location filename="../data/FormRules.ui" line="829"/>
-        <location filename="../data/FormRules.ui" line="849"/>
-        <location filename="../data/FormRules.ui" line="869"/>
-        <location filename="../data/FormRules.ui" line="889"/>
+        <location filename="../data/FormRules.ui" line="447"/>
+        <location filename="../data/FormRules.ui" line="467"/>
+        <location filename="../data/FormRules.ui" line="623"/>
+        <location filename="../data/FormRules.ui" line="643"/>
+        <location filename="../data/FormRules.ui" line="663"/>
+        <location filename="../data/FormRules.ui" line="683"/>
+        <location filename="../data/FormRules.ui" line="841"/>
+        <location filename="../data/FormRules.ui" line="861"/>
+        <location filename="../data/FormRules.ui" line="881"/>
+        <location filename="../data/FormRules.ui" line="901"/>
         <source>HeaderButton</source>
         <translation></translation>
     </message>
     <message>
         <location filename="../data/FormRules.ui" line="253"/>
-        <location filename="../data/FormRules.ui" line="480"/>
-        <location filename="../data/FormRules.ui" line="693"/>
-        <location filename="../data/FormRules.ui" line="911"/>
+        <location filename="../data/FormRules.ui" line="489"/>
+        <location filename="../data/FormRules.ui" line="705"/>
+        <location filename="../data/FormRules.ui" line="923"/>
         <source>InnerFrame</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../data/FormRules.ui" line="405"/>
+        <location filename="../data/FormRules.ui" line="414"/>
         <source>Rules</source>
         <translation>Règles</translation>
     </message>
     <message>
-        <location filename="../data/FormRules.ui" line="519"/>
-        <location filename="../src/formrules.cpp" line="767"/>
+        <location filename="../data/FormRules.ui" line="531"/>
+        <location filename="../src/formrules.cpp" line="826"/>
         <source>Name</source>
         <translation>Nom</translation>
     </message>
     <message>
-        <location filename="../data/FormRules.ui" line="588"/>
+        <location filename="../data/FormRules.ui" line="600"/>
         <source>Conditions</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../data/FormRules.ui" line="732"/>
+        <location filename="../data/FormRules.ui" line="744"/>
         <source>Operator</source>
         <translation>Opérateur</translation>
     </message>
     <message>
-        <location filename="../data/FormRules.ui" line="737"/>
-        <location filename="../data/FormRules.ui" line="950"/>
+        <location filename="../data/FormRules.ui" line="749"/>
+        <location filename="../data/FormRules.ui" line="962"/>
         <source>Value</source>
         <translation>Valeur</translation>
     </message>
     <message>
-        <location filename="../data/FormRules.ui" line="806"/>
+        <location filename="../data/FormRules.ui" line="818"/>
         <source>Actions</source>
         <translation>Actions</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="31"/>
+        <location filename="../src/formrules.cpp" line="32"/>
         <source>Room</source>
         <translation>Pièce</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="39"/>
-        <location filename="../src/formrules.cpp" line="129"/>
-        <location filename="../src/formrules.cpp" line="557"/>
+        <location filename="../src/formrules.cpp" line="40"/>
+        <location filename="../src/formrules.cpp" line="130"/>
+        <location filename="../src/formrules.cpp" line="558"/>
+        <location filename="../src/formrules.cpp" line="623"/>
         <source>Switch</source>
         <translation>Interrupteur</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="43"/>
-        <location filename="../src/formrules.cpp" line="156"/>
-        <location filename="../src/formrules.cpp" line="252"/>
-        <location filename="../src/formrules.cpp" line="313"/>
-        <location filename="../src/formrules.cpp" line="436"/>
-        <location filename="../src/formrules.cpp" line="584"/>
+        <location filename="../src/formrules.cpp" line="44"/>
+        <location filename="../src/formrules.cpp" line="157"/>
+        <location filename="../src/formrules.cpp" line="253"/>
+        <location filename="../src/formrules.cpp" line="314"/>
+        <location filename="../src/formrules.cpp" line="437"/>
+        <location filename="../src/formrules.cpp" line="585"/>
+        <location filename="../src/formrules.cpp" line="650"/>
         <source>Light</source>
         <translation>Lumière</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="47"/>
-        <location filename="../src/formrules.cpp" line="165"/>
-        <location filename="../src/formrules.cpp" line="260"/>
-        <location filename="../src/formrules.cpp" line="322"/>
-        <location filename="../src/formrules.cpp" line="463"/>
+        <location filename="../src/formrules.cpp" line="48"/>
+        <location filename="../src/formrules.cpp" line="166"/>
+        <location filename="../src/formrules.cpp" line="261"/>
+        <location filename="../src/formrules.cpp" line="323"/>
+        <location filename="../src/formrules.cpp" line="464"/>
         <source>Shutter</source>
         <translation>Volet</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="51"/>
+        <location filename="../src/formrules.cpp" line="52"/>
         <source>DALI/DMX</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="55"/>
+        <location filename="../src/formrules.cpp" line="56"/>
         <source>DALI/DMX RGB</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="59"/>
-        <location filename="../src/formrules.cpp" line="69"/>
-        <location filename="../src/formrules.cpp" line="91"/>
-        <location filename="../src/formrules.cpp" line="201"/>
-        <location filename="../src/formrules.cpp" line="264"/>
-        <location filename="../src/formrules.cpp" line="418"/>
-        <location filename="../src/formrules.cpp" line="548"/>
+        <location filename="../src/formrules.cpp" line="60"/>
+        <location filename="../src/formrules.cpp" line="70"/>
+        <location filename="../src/formrules.cpp" line="92"/>
+        <location filename="../src/formrules.cpp" line="202"/>
+        <location filename="../src/formrules.cpp" line="265"/>
+        <location filename="../src/formrules.cpp" line="419"/>
+        <location filename="../src/formrules.cpp" line="549"/>
+        <location filename="../src/formrules.cpp" line="614"/>
         <source>Temperature sensor</source>
         <translation>Sonde de température</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="63"/>
+        <location filename="../src/formrules.cpp" line="64"/>
         <source>Analog Input/Output</source>
         <translation>E/S Analogique</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="80"/>
+        <location filename="../src/formrules.cpp" line="81"/>
         <source>Light Dimmer</source>
         <translation>Lumière sur variateur</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="100"/>
-        <location filename="../src/formrules.cpp" line="286"/>
+        <location filename="../src/formrules.cpp" line="101"/>
+        <location filename="../src/formrules.cpp" line="287"/>
         <source>Switch input</source>
         <translation>Entrée interrupteur</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="109"/>
-        <location filename="../src/formrules.cpp" line="409"/>
+        <location filename="../src/formrules.cpp" line="110"/>
+        <location filename="../src/formrules.cpp" line="410"/>
         <source>Analog input</source>
         <translation>Entrée analogique</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="118"/>
+        <location filename="../src/formrules.cpp" line="119"/>
         <source>Digital output</source>
         <translation>Sortie digitale</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="138"/>
-        <location filename="../src/formrules.cpp" line="391"/>
+        <location filename="../src/formrules.cpp" line="139"/>
+        <location filename="../src/formrules.cpp" line="392"/>
         <source>Switch triple</source>
         <translation>Triple clic</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="147"/>
-        <location filename="../src/formrules.cpp" line="400"/>
+        <location filename="../src/formrules.cpp" line="148"/>
+        <location filename="../src/formrules.cpp" line="401"/>
         <source>Switch Long press</source>
         <translation>Appui long</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="174"/>
-        <location filename="../src/formrules.cpp" line="331"/>
-        <location filename="../src/formrules.cpp" line="472"/>
+        <location filename="../src/formrules.cpp" line="175"/>
+        <location filename="../src/formrules.cpp" line="332"/>
+        <location filename="../src/formrules.cpp" line="473"/>
         <source>Smart Shutter</source>
         <translation>Volet intelligent</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="183"/>
+        <location filename="../src/formrules.cpp" line="184"/>
         <source>Dimmer</source>
         <translation>Variateur</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="192"/>
-        <location filename="../src/formrules.cpp" line="256"/>
+        <location filename="../src/formrules.cpp" line="193"/>
+        <location filename="../src/formrules.cpp" line="257"/>
         <source>RGB Light</source>
         <translation>Lumière RVB</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="248"/>
+        <location filename="../src/formrules.cpp" line="249"/>
         <source>Switch Input</source>
         <translation>Entrée interrupteur</translation>
     </message>
@@ -4208,430 +4484,443 @@ p, li { white-space: pre-wrap; }
         <translation type="vanished">Lumière RGB</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="210"/>
-        <location filename="../src/formrules.cpp" line="268"/>
-        <location filename="../src/formrules.cpp" line="566"/>
+        <location filename="../src/formrules.cpp" line="211"/>
+        <location filename="../src/formrules.cpp" line="269"/>
+        <location filename="../src/formrules.cpp" line="567"/>
+        <location filename="../src/formrules.cpp" line="632"/>
         <source>Analog Input</source>
         <translation>Entrée analogique</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="219"/>
-        <location filename="../src/formrules.cpp" line="272"/>
-        <location filename="../src/formrules.cpp" line="593"/>
+        <location filename="../src/formrules.cpp" line="220"/>
+        <location filename="../src/formrules.cpp" line="273"/>
+        <location filename="../src/formrules.cpp" line="594"/>
+        <location filename="../src/formrules.cpp" line="659"/>
         <source>Analog Output</source>
         <translation>Sortie analogique</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="228"/>
-        <location filename="../src/formrules.cpp" line="276"/>
-        <location filename="../src/formrules.cpp" line="575"/>
+        <location filename="../src/formrules.cpp" line="229"/>
+        <location filename="../src/formrules.cpp" line="277"/>
+        <location filename="../src/formrules.cpp" line="576"/>
+        <location filename="../src/formrules.cpp" line="641"/>
         <source>String Input</source>
         <translation>Entrée chaine de caractères</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="237"/>
-        <location filename="../src/formrules.cpp" line="280"/>
-        <location filename="../src/formrules.cpp" line="602"/>
+        <location filename="../src/formrules.cpp" line="238"/>
+        <location filename="../src/formrules.cpp" line="281"/>
+        <location filename="../src/formrules.cpp" line="603"/>
         <source>String Output</source>
         <translation>Sortie chaine de caractères</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="295"/>
+        <location filename="../src/formrules.cpp" line="296"/>
         <source>Switch triple click</source>
         <translation>Interrupteur triple clic</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="304"/>
+        <location filename="../src/formrules.cpp" line="305"/>
         <source>Switch long press</source>
         <translation>Interrupteur appui long</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="342"/>
-        <location filename="../src/formrules.cpp" line="445"/>
+        <location filename="../src/formrules.cpp" line="343"/>
+        <location filename="../src/formrules.cpp" line="446"/>
         <source>Light dimmer</source>
         <translation>Variateur de lumière</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="351"/>
-        <location filename="../src/formrules.cpp" line="454"/>
+        <location filename="../src/formrules.cpp" line="352"/>
+        <location filename="../src/formrules.cpp" line="455"/>
         <source>Light RGB</source>
         <translation>Lumière RVB</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="362"/>
+        <location filename="../src/formrules.cpp" line="363"/>
         <source>Ping Switch</source>
         <translation>Ping</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="371"/>
+        <location filename="../src/formrules.cpp" line="372"/>
         <source>Wake On Lan Output</source>
         <translation>Réveil réseau</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="382"/>
+        <location filename="../src/formrules.cpp" line="383"/>
         <source>Normal Switch</source>
         <translation>Interrupteur</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="427"/>
+        <location filename="../src/formrules.cpp" line="428"/>
         <source>Analog output</source>
         <translation>Sortie analogique</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="483"/>
+        <location filename="../src/formrules.cpp" line="484"/>
         <source>MI-Light RGB bulb</source>
         <translation>Ampoule MI-Light RVB</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="494"/>
+        <location filename="../src/formrules.cpp" line="495"/>
         <source>Blinkstick RGB USB stick</source>
         <translation>Blinkstick stick RVB USB</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="509"/>
+        <location filename="../src/formrules.cpp" line="510"/>
         <source>Hue Wizard</source>
         <translation>Hue Wizard</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="525"/>
+        <location filename="../src/formrules.cpp" line="526"/>
         <source>Philips Hue</source>
         <translation>Philips Hue</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="536"/>
+        <location filename="../src/formrules.cpp" line="537"/>
         <source>TeleinfoInputAnalog</source>
         <translation>Téléinformation edf</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="613"/>
+        <location filename="../src/formrules.cpp" line="670"/>
         <source>Camera</source>
         <translation>Camera</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="617"/>
+        <location filename="../src/formrules.cpp" line="674"/>
         <source>Music zone</source>
         <translation>Zone de musique</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="621"/>
+        <location filename="../src/formrules.cpp" line="678"/>
         <source>Audio amplifier</source>
         <translation>Ampli audio</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="627"/>
+        <location filename="../src/formrules.cpp" line="683"/>
         <source>Internal Variable</source>
         <translation>Variable interne</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="631"/>
+        <location filename="../src/formrules.cpp" line="687"/>
         <source>Scenario variable</source>
         <translation>Variable scénario</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="635"/>
+        <location filename="../src/formrules.cpp" line="691"/>
         <source>Time/Scheduling Variable</source>
         <translation>Variable de temps</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="642"/>
+        <location filename="../src/formrules.cpp" line="698"/>
         <source>Normal Condition</source>
         <translation>Condition normale</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="646"/>
+        <location filename="../src/formrules.cpp" line="702"/>
         <source>Condition on output event</source>
         <translation>Condition sur sortie</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="650"/>
+        <location filename="../src/formrules.cpp" line="706"/>
         <source>Condition at start</source>
         <translation>Condition au démarrage</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="654"/>
+        <location filename="../src/formrules.cpp" line="710"/>
         <source>Script Condition</source>
         <translation>Condition script</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="661"/>
+        <location filename="../src/formrules.cpp" line="717"/>
         <source>Normal Action</source>
         <translation>Action normale</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="665"/>
+        <location filename="../src/formrules.cpp" line="721"/>
         <source>E-Mail Action</source>
         <translation>Action Email</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="669"/>
+        <location filename="../src/formrules.cpp" line="725"/>
         <source>Script Action</source>
         <translation>Action script</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="673"/>
+        <location filename="../src/formrules.cpp" line="729"/>
         <source>Touchscreen Action</source>
         <translation>Action Touchscreen</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="767"/>
+        <location filename="../src/formrules.cpp" line="733"/>
+        <source>Push Notification Action</source>
+        <translation>Action Pousser des notifications</translation>
+    </message>
+    <message>
+        <location filename="../src/formrules.cpp" line="826"/>
         <source>Type</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="1058"/>
-        <location filename="../src/formrules.cpp" line="1063"/>
-        <location filename="../src/formrules.cpp" line="1136"/>
-        <location filename="../src/formrules.cpp" line="1154"/>
-        <location filename="../src/formrules.cpp" line="1156"/>
-        <location filename="../src/formrules.cpp" line="2056"/>
-        <location filename="../src/formrules.cpp" line="2116"/>
-        <location filename="../src/formrules.cpp" line="2285"/>
-        <location filename="../src/formrules.cpp" line="2332"/>
-        <location filename="../src/formrules.cpp" line="2479"/>
-        <location filename="../src/formrules.cpp" line="2501"/>
-        <location filename="../src/formrules.cpp" line="2517"/>
-        <location filename="../src/formrules.cpp" line="2571"/>
-        <location filename="../src/formrules.cpp" line="2591"/>
-        <location filename="../src/formrules.cpp" line="2602"/>
-        <location filename="../src/formrules.cpp" line="2642"/>
-        <location filename="../src/formrules.cpp" line="2667"/>
-        <location filename="../src/formrules.cpp" line="2689"/>
-        <location filename="../src/formrules.cpp" line="2705"/>
-        <location filename="../src/formrules.cpp" line="2771"/>
-        <location filename="../src/formrules.cpp" line="2802"/>
-        <location filename="../src/formrules.cpp" line="2956"/>
-        <location filename="../src/formrules.cpp" line="2975"/>
-        <location filename="../src/formrules.cpp" line="2997"/>
-        <location filename="../src/formrules.cpp" line="3015"/>
-        <location filename="../src/formrules.cpp" line="3399"/>
-        <location filename="../src/formrules.cpp" line="3435"/>
-        <location filename="../src/formrules.cpp" line="3496"/>
-        <location filename="../src/formrules.cpp" line="3574"/>
-        <location filename="../src/formrules.cpp" line="3603"/>
+        <location filename="../src/formrules.cpp" line="1117"/>
+        <location filename="../src/formrules.cpp" line="1122"/>
+        <location filename="../src/formrules.cpp" line="1196"/>
+        <location filename="../src/formrules.cpp" line="1217"/>
+        <location filename="../src/formrules.cpp" line="1219"/>
+        <location filename="../src/formrules.cpp" line="2106"/>
+        <location filename="../src/formrules.cpp" line="2166"/>
+        <location filename="../src/formrules.cpp" line="2335"/>
+        <location filename="../src/formrules.cpp" line="2382"/>
+        <location filename="../src/formrules.cpp" line="2529"/>
+        <location filename="../src/formrules.cpp" line="2551"/>
+        <location filename="../src/formrules.cpp" line="2567"/>
+        <location filename="../src/formrules.cpp" line="2621"/>
+        <location filename="../src/formrules.cpp" line="2641"/>
+        <location filename="../src/formrules.cpp" line="2652"/>
+        <location filename="../src/formrules.cpp" line="2692"/>
+        <location filename="../src/formrules.cpp" line="2717"/>
+        <location filename="../src/formrules.cpp" line="2739"/>
+        <location filename="../src/formrules.cpp" line="2755"/>
+        <location filename="../src/formrules.cpp" line="2821"/>
+        <location filename="../src/formrules.cpp" line="2853"/>
+        <location filename="../src/formrules.cpp" line="3007"/>
+        <location filename="../src/formrules.cpp" line="3026"/>
+        <location filename="../src/formrules.cpp" line="3048"/>
+        <location filename="../src/formrules.cpp" line="3066"/>
+        <location filename="../src/formrules.cpp" line="3444"/>
+        <location filename="../src/formrules.cpp" line="3476"/>
+        <location filename="../src/formrules.cpp" line="3533"/>
+        <location filename="../src/formrules.cpp" line="3621"/>
+        <location filename="../src/formrules.cpp" line="3650"/>
         <source>Calaos Installer</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="1058"/>
-        <location filename="../src/formrules.cpp" line="1154"/>
+        <location filename="../src/formrules.cpp" line="1117"/>
+        <location filename="../src/formrules.cpp" line="1217"/>
         <source>You need to add one room at least!</source>
         <translation>Vous devez au moins ajouter une pièce!</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="1063"/>
-        <location filename="../src/formrules.cpp" line="1156"/>
+        <location filename="../src/formrules.cpp" line="1122"/>
+        <location filename="../src/formrules.cpp" line="1219"/>
         <source>You must select a room prior adding elements!</source>
         <translation>Vous devez sélectionner une pièce avant d&apos;ajouter des éléments!</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="1136"/>
+        <location filename="../src/formrules.cpp" line="1196"/>
         <source>Unknown type (%1)</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="1572"/>
+        <location filename="../src/formrules.cpp" line="1627"/>
         <source>Start</source>
         <translation>Démarrage</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="1577"/>
-        <location filename="../src/formrules.cpp" line="1682"/>
+        <location filename="../src/formrules.cpp" line="1632"/>
+        <location filename="../src/formrules.cpp" line="1733"/>
         <source>Script</source>
         <translation>Script</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="1677"/>
+        <location filename="../src/formrules.cpp" line="1728"/>
         <source>EMail</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="1687"/>
+        <location filename="../src/formrules.cpp" line="1738"/>
         <source>Touchscreen</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="1781"/>
+        <location filename="../src/formrules.cpp" line="1758"/>
+        <source>Push Notification</source>
+        <translation>Pousser des notifications</translation>
+    </message>
+    <message>
+        <location filename="../src/formrules.cpp" line="1831"/>
         <source>Display the associated rules</source>
         <translation>Afficher la règle associée</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="1791"/>
+        <location filename="../src/formrules.cpp" line="1841"/>
         <source>Move to...</source>
         <translation>Déplacer vers...</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="1810"/>
-        <location filename="../src/formrules.cpp" line="2023"/>
-        <location filename="../src/formrules.cpp" line="2044"/>
-        <location filename="../src/formrules.cpp" line="3352"/>
+        <location filename="../src/formrules.cpp" line="1860"/>
+        <location filename="../src/formrules.cpp" line="2073"/>
+        <location filename="../src/formrules.cpp" line="2094"/>
+        <location filename="../src/formrules.cpp" line="3401"/>
         <source>Delete</source>
         <translation>Supprimer</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="1823"/>
+        <location filename="../src/formrules.cpp" line="1873"/>
         <source>Switch on</source>
         <translation>Allumer</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="1827"/>
+        <location filename="../src/formrules.cpp" line="1877"/>
         <source>Switch off</source>
         <translation>Eteindre</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="1836"/>
+        <location filename="../src/formrules.cpp" line="1886"/>
         <source>Display the camera view</source>
         <translation>Afficher la vue de la caméra</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="1848"/>
+        <location filename="../src/formrules.cpp" line="1898"/>
         <source>Convert to normal shutter</source>
         <translation>Convertir en interrupteur normal</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="1854"/>
+        <location filename="../src/formrules.cpp" line="1904"/>
         <source>Convert to smart shutter</source>
         <translation>Convertir en volet intelligent</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="1863"/>
+        <location filename="../src/formrules.cpp" line="1913"/>
         <source>Up</source>
         <translation>Monter</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="1867"/>
+        <location filename="../src/formrules.cpp" line="1917"/>
         <source>Down</source>
         <translation>Descendre</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="1871"/>
+        <location filename="../src/formrules.cpp" line="1921"/>
         <source>Stop</source>
         <translation>Arrêter</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="1886"/>
+        <location filename="../src/formrules.cpp" line="1936"/>
         <source>Edit the time ranges...</source>
         <translation>Editer la plage horaire...</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="1895"/>
-        <location filename="../src/formrules.cpp" line="1925"/>
+        <location filename="../src/formrules.cpp" line="1945"/>
+        <location filename="../src/formrules.cpp" line="1975"/>
         <source>Convert in triple switch...</source>
         <translation>Convertir en interrupteur triple click...</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="1899"/>
-        <location filename="../src/formrules.cpp" line="1912"/>
+        <location filename="../src/formrules.cpp" line="1949"/>
+        <location filename="../src/formrules.cpp" line="1962"/>
         <source>Convert in long press switch...</source>
         <translation>Convertir en interrupteur appui long...</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="1908"/>
-        <location filename="../src/formrules.cpp" line="1921"/>
+        <location filename="../src/formrules.cpp" line="1958"/>
+        <location filename="../src/formrules.cpp" line="1971"/>
         <source>Convert in normal switch...</source>
         <translation>Convertir en interrupteur normal...</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="1934"/>
+        <location filename="../src/formrules.cpp" line="1984"/>
         <source>Link a setpoint...</source>
         <translation>Lier à une consigne...</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="1942"/>
-        <location filename="../src/formrules.cpp" line="3348"/>
+        <location filename="../src/formrules.cpp" line="1992"/>
+        <location filename="../src/formrules.cpp" line="3397"/>
         <source>Properties</source>
         <translation>Propriétés</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="2057"/>
+        <location filename="../src/formrules.cpp" line="2107"/>
         <source>Are you sure to delete item &quot;%1&quot;</source>
         <translation>Etes vous sûr de vouloir supprimer l&apos;élément &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="2117"/>
+        <location filename="../src/formrules.cpp" line="2167"/>
         <source>Are you sure to clone the selected rule?</source>
         <translation>Etes vous sûr de vouloir dupliquer la règle sélectionnée?</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="2285"/>
+        <location filename="../src/formrules.cpp" line="2335"/>
         <source>Error when creating the object!</source>
         <translation>Erreur lors de la création de l&apos;objet!</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="2333"/>
+        <location filename="../src/formrules.cpp" line="2383"/>
         <source>Are you sure to delete the rule?</source>
         <translation>Etes vous sûr de vouloir supprimer la règle?</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="2480"/>
+        <location filename="../src/formrules.cpp" line="2530"/>
         <source>Are you sure to convert this switch into a triple click switch?</source>
         <translation>Etes vous sûr de vouloir convertir cet interrupteur en triple click?</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="2501"/>
-        <location filename="../src/formrules.cpp" line="2591"/>
-        <location filename="../src/formrules.cpp" line="2689"/>
-        <location filename="../src/formrules.cpp" line="2975"/>
-        <location filename="../src/formrules.cpp" line="3015"/>
+        <location filename="../src/formrules.cpp" line="2551"/>
+        <location filename="../src/formrules.cpp" line="2641"/>
+        <location filename="../src/formrules.cpp" line="2739"/>
+        <location filename="../src/formrules.cpp" line="3026"/>
+        <location filename="../src/formrules.cpp" line="3066"/>
         <source>Sorry, this is not implemented !</source>
         <translation>Désolé, ceci n&apos;est pas implémenté!</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="2518"/>
-        <location filename="../src/formrules.cpp" line="2603"/>
-        <location filename="../src/formrules.cpp" line="2706"/>
+        <location filename="../src/formrules.cpp" line="2568"/>
+        <location filename="../src/formrules.cpp" line="2653"/>
+        <location filename="../src/formrules.cpp" line="2756"/>
         <source>Do you want to automatically convert the rules?</source>
         <translation>Souhaitez vous convertir automatiquement les règles?</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="2572"/>
+        <location filename="../src/formrules.cpp" line="2622"/>
         <source>Are you sure to convert this switch into a standard switch?</source>
         <translation>Etes vous sûr de vouloir convertir cet interrupteur standard?</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="2642"/>
+        <location filename="../src/formrules.cpp" line="2692"/>
         <source>Warning, the rules with double/triple were not converted, do it manually.</source>
         <translation>Attention, les règles avec double/triple n&apos;ont pas été convertie, faites le manuellement.</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="2668"/>
+        <location filename="../src/formrules.cpp" line="2718"/>
         <source>Are you sure to convert this switch into a long press switch?</source>
         <translation>Etes vous sûr de vouloir convertir cet interrupteur appui long?</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="2771"/>
-        <location filename="../src/formrules.cpp" line="2802"/>
+        <location filename="../src/formrules.cpp" line="2821"/>
+        <location filename="../src/formrules.cpp" line="2853"/>
         <source>Internal error!</source>
         <translation>Erreur interne!</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="2957"/>
+        <location filename="../src/formrules.cpp" line="3008"/>
         <source>Do you want to convert to a smart shutter?</source>
         <translation>Etes vous sûr de vouloir convertir en volet intelligent?</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="2998"/>
+        <location filename="../src/formrules.cpp" line="3049"/>
         <source>Do you want to convert to normal shutter?</source>
         <translation>Etes vous sûr de vouloir convertir en volet normal?</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="3345"/>
+        <location filename="../src/formrules.cpp" line="3394"/>
         <source>Clone rule</source>
         <translation>Dupliquer la règle</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="3399"/>
+        <location filename="../src/formrules.cpp" line="3444"/>
         <source>You must select an input.</source>
         <translation>Vous devez sélectionner une entrée.</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="3435"/>
-        <location filename="../src/formrules.cpp" line="3496"/>
+        <location filename="../src/formrules.cpp" line="3476"/>
+        <location filename="../src/formrules.cpp" line="3533"/>
         <source>You must select an output.</source>
         <translation>Vous devez sélectionner une sortie.</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="3575"/>
-        <location filename="../src/formrules.cpp" line="3604"/>
+        <location filename="../src/formrules.cpp" line="3622"/>
+        <location filename="../src/formrules.cpp" line="3651"/>
         <source>Are you sure to delete the item &quot;%1&quot;</source>
         <translation>Etes vous sûr de vouloir supprimer l&apos;élément &quot;%1&quot;</translation>
     </message>
@@ -4653,23 +4942,23 @@ p, li { white-space: pre-wrap; }
     <name>MainWindow</name>
     <message>
         <location filename="../data/MainWindow.ui" line="14"/>
-        <location filename="../src/mainwindow.cpp" line="14"/>
-        <location filename="../src/mainwindow.cpp" line="165"/>
-        <location filename="../src/mainwindow.cpp" line="201"/>
-        <location filename="../src/mainwindow.cpp" line="272"/>
-        <location filename="../src/mainwindow.cpp" line="302"/>
-        <location filename="../src/mainwindow.cpp" line="432"/>
-        <location filename="../src/mainwindow.cpp" line="477"/>
-        <location filename="../src/mainwindow.cpp" line="480"/>
-        <location filename="../src/mainwindow.cpp" line="483"/>
-        <location filename="../src/mainwindow.cpp" line="486"/>
-        <location filename="../src/mainwindow.cpp" line="510"/>
-        <location filename="../src/mainwindow.cpp" line="565"/>
-        <location filename="../src/mainwindow.cpp" line="575"/>
-        <location filename="../src/mainwindow.cpp" line="655"/>
-        <location filename="../src/mainwindow.cpp" line="658"/>
-        <location filename="../src/mainwindow.cpp" line="663"/>
+        <location filename="../src/mainwindow.cpp" line="15"/>
+        <location filename="../src/mainwindow.cpp" line="172"/>
+        <location filename="../src/mainwindow.cpp" line="208"/>
+        <location filename="../src/mainwindow.cpp" line="286"/>
+        <location filename="../src/mainwindow.cpp" line="316"/>
+        <location filename="../src/mainwindow.cpp" line="446"/>
+        <location filename="../src/mainwindow.cpp" line="491"/>
+        <location filename="../src/mainwindow.cpp" line="494"/>
+        <location filename="../src/mainwindow.cpp" line="497"/>
+        <location filename="../src/mainwindow.cpp" line="500"/>
+        <location filename="../src/mainwindow.cpp" line="524"/>
+        <location filename="../src/mainwindow.cpp" line="579"/>
+        <location filename="../src/mainwindow.cpp" line="589"/>
+        <location filename="../src/mainwindow.cpp" line="669"/>
+        <location filename="../src/mainwindow.cpp" line="672"/>
         <location filename="../src/mainwindow.cpp" line="677"/>
+        <location filename="../src/mainwindow.cpp" line="691"/>
         <source>Calaos Installer</source>
         <translation></translation>
     </message>
@@ -4720,7 +5009,6 @@ p, li { white-space: pre-wrap; }
         <translation>A propos de Qt</translation>
     </message>
     <message>
-        <location filename="../data/MainWindow.ui" line="432"/>
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
@@ -4752,7 +5040,7 @@ p, li { white-space: pre-wrap; }
 &lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; font-size:10pt; color:#cccccc;&quot;&gt;The Calaos Team&lt;/span&gt;&lt;/p&gt;
 &lt;p align=&quot;center&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;Sans Serif&apos;; font-size:9pt; text-decoration: underline; color:#0000ee;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
 &lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;img src=&quot;:/img/calaos.png&quot; /&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+        <translation type="vanished">&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8.25pt; font-weight:400; font-style:normal;&quot;&gt;
@@ -4785,187 +5073,223 @@ p, li { white-space: pre-wrap; }
 &lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;img src=&quot;:/img/calaos.png&quot; /&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../data/MainWindow.ui" line="508"/>
+        <location filename="../data/MainWindow.ui" line="432"/>
+        <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8.25pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;table border=&quot;0&quot; style=&quot;-qt-table-type: root; margin-top:4px; margin-bottom:4px; margin-left:4px; margin-right:4px;&quot;&gt;
+&lt;tr&gt;
+&lt;td style=&quot;border: none;&quot;&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;.Helvetica Neue DeskInterface&apos;; font-size:13pt;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;Sans Serif&apos;; font-size:9pt;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;Sans Serif&apos;; font-size:9pt;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;Sans Serif&apos;; font-size:9pt;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;Sans Serif&apos;; font-size:9pt;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p align=&quot;center&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;Sans Serif&apos;; font-size:9pt;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p align=&quot;center&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;Sans Serif&apos;; font-size:9pt;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; font-size:20pt; font-weight:600; color:#cccccc;&quot;&gt;Calaos Installer&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; font-size:10pt; color:#cccccc;&quot;&gt;Copyright (c) Calaos Team&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;center&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;Sans Serif&apos;; font-size:10pt; color:#cccccc;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; font-size:10pt; font-style:italic; color:#cccccc;&quot;&gt;version: %1&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;center&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;Sans Serif&apos;; font-size:10pt; font-style:italic; color:#cccccc;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; font-size:10pt; color:#cccccc;&quot;&gt;More informations are available on the website:&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://support.calaos.fr&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; font-size:9pt; text-decoration: underline; color:#0057ae;&quot;&gt;http://www.calaos.fr&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p align=&quot;center&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;Sans Serif&apos;; font-size:10pt; color:#cccccc;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; font-size:10pt; color:#cccccc;&quot;&gt;The Calaos Team&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;center&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;Sans Serif&apos;; font-size:9pt; text-decoration: underline; color:#0000ee;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;img src=&quot;:/img/calaos.png&quot; /&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../data/MainWindow.ui" line="509"/>
         <source>File</source>
         <translation>Fichier</translation>
     </message>
     <message>
-        <location filename="../data/MainWindow.ui" line="512"/>
+        <location filename="../data/MainWindow.ui" line="513"/>
         <source>Create print report</source>
         <translation>Créer un rapport</translation>
     </message>
     <message>
-        <location filename="../data/MainWindow.ui" line="534"/>
+        <location filename="../data/MainWindow.ui" line="535"/>
         <source>Wago PLC</source>
         <translation>Automate Wago</translation>
     </message>
     <message>
-        <location filename="../data/MainWindow.ui" line="548"/>
+        <location filename="../data/MainWindow.ui" line="549"/>
         <source>Calaos Server</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../data/MainWindow.ui" line="563"/>
+        <location filename="../data/MainWindow.ui" line="564"/>
         <source>Open a projet...</source>
         <translation>Ouvrir un projet...</translation>
     </message>
     <message>
-        <location filename="../data/MainWindow.ui" line="572"/>
+        <location filename="../data/MainWindow.ui" line="573"/>
         <source>Save project as...</source>
         <translation>Sauvegarder un projet sous...</translation>
     </message>
     <message>
-        <location filename="../data/MainWindow.ui" line="581"/>
+        <location filename="../data/MainWindow.ui" line="582"/>
         <source>New projet...</source>
         <translation>Nouveau projet...</translation>
     </message>
     <message>
-        <location filename="../data/MainWindow.ui" line="590"/>
+        <location filename="../data/MainWindow.ui" line="591"/>
         <source>Save</source>
         <translation>Sauvegarder</translation>
     </message>
     <message>
-        <location filename="../data/MainWindow.ui" line="593"/>
+        <location filename="../data/MainWindow.ui" line="594"/>
         <source>Ctrl+S</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../data/MainWindow.ui" line="602"/>
+        <location filename="../data/MainWindow.ui" line="603"/>
         <source>Connect</source>
         <translation>Connecter</translation>
     </message>
     <message>
-        <location filename="../data/MainWindow.ui" line="614"/>
+        <location filename="../data/MainWindow.ui" line="615"/>
         <source>Disconnect</source>
         <translation>Déconnecter</translation>
     </message>
     <message>
-        <location filename="../data/MainWindow.ui" line="626"/>
+        <location filename="../data/MainWindow.ui" line="627"/>
         <source>Send failsafe program</source>
         <translation>Envoyer programme dégradé</translation>
     </message>
     <message>
-        <location filename="../data/MainWindow.ui" line="635"/>
+        <location filename="../data/MainWindow.ui" line="636"/>
         <source>Programmer le serveur</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../data/MainWindow.ui" line="644"/>
+        <location filename="../data/MainWindow.ui" line="645"/>
         <source>Download project from Calaos Server...</source>
         <translation>Charger le projet depuis Calaos Server...</translation>
     </message>
     <message>
-        <location filename="../data/MainWindow.ui" line="653"/>
+        <location filename="../data/MainWindow.ui" line="654"/>
         <source>Send project to Calaos Server...</source>
         <translation>Envoyer le projet à Calaos Server...</translation>
     </message>
     <message>
-        <location filename="../data/MainWindow.ui" line="665"/>
+        <location filename="../data/MainWindow.ui" line="666"/>
         <source>DALI configuration...</source>
         <translation>Configuration DALI...</translation>
     </message>
     <message>
-        <location filename="../data/MainWindow.ui" line="670"/>
+        <location filename="../data/MainWindow.ui" line="671"/>
         <source>By rooms...</source>
         <translation>Par pièce...</translation>
     </message>
     <message>
-        <location filename="../data/MainWindow.ui" line="675"/>
+        <location filename="../data/MainWindow.ui" line="676"/>
         <source>By inputs/outputs</source>
         <translation>Par entrées/sorties</translation>
     </message>
     <message>
-        <location filename="../data/MainWindow.ui" line="687"/>
+        <location filename="../data/MainWindow.ui" line="688"/>
         <source>Upgrade PLC firmware</source>
         <translation>Mise à jour firmware automate</translation>
     </message>
     <message>
-        <location filename="../data/MainWindow.ui" line="692"/>
+        <location filename="../data/MainWindow.ui" line="693"/>
         <source>Create New Image</source>
         <translation>Créer une image</translation>
     </message>
     <message>
-        <location filename="../data/MainWindow.ui" line="704"/>
+        <location filename="../data/MainWindow.ui" line="705"/>
         <source>Set DMX4ALL IP Address</source>
         <translation>Adresse IP du DMX4ALL</translation>
     </message>
     <message>
-        <location filename="../data/MainWindow.ui" line="716"/>
+        <location filename="../data/MainWindow.ui" line="717"/>
         <source>Upload Dali Master 647 CSV configuration</source>
         <translation>Télécharger la configuration du Dali Master 647 CSV</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="51"/>
-        <location filename="../src/mainwindow.cpp" line="422"/>
+        <location filename="../src/mainwindow.cpp" line="52"/>
+        <location filename="../src/mainwindow.cpp" line="436"/>
         <source>Disconnected.</source>
         <translation>Déconnecté.</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="64"/>
+        <location filename="../src/mainwindow.cpp" line="65"/>
         <source>New</source>
         <translation>Nouveau</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="166"/>
-        <location filename="../src/mainwindow.cpp" line="202"/>
-        <location filename="../src/mainwindow.cpp" line="273"/>
-        <location filename="../src/mainwindow.cpp" line="303"/>
+        <location filename="../src/mainwindow.cpp" line="173"/>
+        <location filename="../src/mainwindow.cpp" line="209"/>
+        <location filename="../src/mainwindow.cpp" line="287"/>
+        <location filename="../src/mainwindow.cpp" line="317"/>
         <source>The project was modified, do you want to save it?</source>
         <translation>Le projet a été modifé, souhaitez vous l&apos;enregistrer?</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="186"/>
-        <location filename="../src/mainwindow.cpp" line="280"/>
+        <location filename="../src/mainwindow.cpp" line="193"/>
+        <location filename="../src/mainwindow.cpp" line="294"/>
         <source>Choose a project folder...</source>
         <translation>Choisir un dossier de projet...</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="214"/>
+        <location filename="../src/mainwindow.cpp" line="221"/>
         <source>Nouveau</source>
         <translation>Nouveau</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="239"/>
+        <location filename="../src/mainwindow.cpp" line="249"/>
         <source>Project saved: %1</source>
         <translation>Projet enregistré: %1</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="247"/>
+        <location filename="../src/mainwindow.cpp" line="261"/>
         <source>Loading in progress...</source>
         <translation>Chargement en cours...</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="264"/>
+        <location filename="../src/mainwindow.cpp" line="278"/>
         <source>Project loaded: %1</source>
         <translation>Projet chargé: %1</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="361"/>
+        <location filename="../src/mainwindow.cpp" line="375"/>
         <source>Please wait...</source>
         <translation>Veuillez patienter...</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="365"/>
+        <location filename="../src/mainwindow.cpp" line="379"/>
         <source>Creating %p%</source>
         <translation>Création %p%</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="369"/>
+        <location filename="../src/mainwindow.cpp" line="383"/>
         <source>Loading PLC %p%</source>
         <translation>Chargement automate %p%</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="373"/>
+        <location filename="../src/mainwindow.cpp" line="387"/>
         <source>Canceled</source>
         <translation>Annulé</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="408"/>
+        <location filename="../src/mainwindow.cpp" line="422"/>
         <source>Connected (%1)</source>
         <translation>Connecté (%1)</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="433"/>
+        <location filename="../src/mainwindow.cpp" line="447"/>
         <source>The WAGO PLC have to be upgraded.
 
 It is actually running the version %1, the last version is %2.
@@ -4980,60 +5304,60 @@ Vous pouvez le faire maintenant, et l&apos;automate sera réinitialisé.
 Voulez-vous le faire maintenant?</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="477"/>
+        <location filename="../src/mainwindow.cpp" line="491"/>
         <source>Connection failed!</source>
         <translation>La connection a échoué!</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="480"/>
+        <location filename="../src/mainwindow.cpp" line="494"/>
         <source>Wago PLC is not connected!</source>
         <translation>L&apos;automate Wago n&apos;est pas connecté!</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="483"/>
+        <location filename="../src/mainwindow.cpp" line="497"/>
         <source>Wait timeout reached, error in communication!</source>
         <translation>Le délai d&apos;attente de la réponse est dépassé ! Erreur dans la réponse!</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="486"/>
+        <location filename="../src/mainwindow.cpp" line="500"/>
         <source>Unknown error!</source>
         <translation>Une erreur inconnue est survenue !</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="510"/>
-        <location filename="../src/mainwindow.cpp" line="677"/>
+        <location filename="../src/mainwindow.cpp" line="524"/>
+        <location filename="../src/mainwindow.cpp" line="691"/>
         <source>DALI configuration tool is not available on your PLC!</source>
         <translation>L&apos;adressage DALI n&apos;est pas supporté sur votre automate!</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="566"/>
+        <location filename="../src/mainwindow.cpp" line="580"/>
         <source>Your PLC can be upgraded to the latest version right now, do it?</source>
         <translation>L&apos;automate peut être mis à jour à la dernière version.
 
 Voulez-vous le faire maintenant?</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="575"/>
+        <location filename="../src/mainwindow.cpp" line="589"/>
         <source>Wago PLC upgrade not supported on your PLC!</source>
         <translation>La mise à jour n&apos;est pas supporté sur votre automate!</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="635"/>
+        <location filename="../src/mainwindow.cpp" line="649"/>
         <source>Please enter the IP address of the DMX4ALL:</source>
         <translation>Entrez l&apos;adresse IP du DMX4ALL :</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="655"/>
+        <location filename="../src/mainwindow.cpp" line="669"/>
         <source>IP Address changed successfully</source>
         <translation>Adresse IP changée avec succès</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="658"/>
+        <location filename="../src/mainwindow.cpp" line="672"/>
         <source>Wrong IP Address!</source>
         <translation>Mauvaise adresse IP !</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="663"/>
+        <location filename="../src/mainwindow.cpp" line="677"/>
         <source>DMX4ALL configuration is not available on your PLC!</source>
         <translation>La configuration DMX4ALL n&apos;est pas disponible sur votre automate !</translation>
     </message>
@@ -5138,17 +5462,17 @@ Voulez-vous le faire maintenant?</translation>
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/projectmanager.cpp" line="491"/>
+        <location filename="../src/projectmanager.cpp" line="492"/>
         <source>This file is not correctly formated!</source>
         <translation>Ce fichier n&apos;est pas formaté correctement!</translation>
     </message>
     <message>
-        <location filename="../src/projectmanager.cpp" line="575"/>
+        <location filename="../src/projectmanager.cpp" line="576"/>
         <source>Input with id &quot;%1&quot; already exists!</source>
         <translation>L&apos;entrée avec l&apos;id &quot;%1&quot; existe déjà!</translation>
     </message>
     <message>
-        <location filename="../src/projectmanager.cpp" line="705"/>
+        <location filename="../src/projectmanager.cpp" line="706"/>
         <source>Output with id &quot;%1&quot; already exists!</source>
         <translation>La sortie avec l&apos;id &quot;%1&quot; existe déjà!</translation>
     </message>
@@ -5198,156 +5522,156 @@ L&apos;assistant va créer les 2 règles qui vont démarrer ou arrêter le chauf
     <message>
         <location filename="../src/textedit.cpp" line="131"/>
         <source>File</source>
-        <translation type="unfinished">Fichier</translation>
+        <translation>Fichier</translation>
     </message>
     <message>
         <location filename="../src/textedit.cpp" line="134"/>
         <source>&amp;File</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Fichier</translation>
     </message>
     <message>
         <location filename="../src/textedit.cpp" line="139"/>
         <location filename="../src/textedit.cpp" line="410"/>
         <source>Save as...</source>
-        <translation type="unfinished"></translation>
+        <translation>Enregistrer sous...</translation>
     </message>
     <message>
         <location filename="../src/textedit.cpp" line="147"/>
         <source>&amp;Print...</source>
-        <translation type="unfinished"></translation>
+        <translation>Im&amp;primer</translation>
     </message>
     <message>
         <location filename="../src/textedit.cpp" line="155"/>
         <source>Print preview...</source>
-        <translation type="unfinished"></translation>
+        <translation>Aperçu d&apos;impression...</translation>
     </message>
     <message>
         <location filename="../src/textedit.cpp" line="160"/>
         <source>&amp;Export in PDF...</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Exporter en PDF...</translation>
     </message>
     <message>
         <location filename="../src/textedit.cpp" line="170"/>
         <source>&amp;Close</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Fermer</translation>
     </message>
     <message>
         <location filename="../src/textedit.cpp" line="179"/>
         <source>Edit</source>
-        <translation type="unfinished"></translation>
+        <translation>Editer</translation>
     </message>
     <message>
         <location filename="../src/textedit.cpp" line="181"/>
         <source>&amp;Edit</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Editer</translation>
     </message>
     <message>
         <location filename="../src/textedit.cpp" line="186"/>
         <source>&amp;Undo</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Annuler</translation>
     </message>
     <message>
         <location filename="../src/textedit.cpp" line="191"/>
         <source>&amp;Redo</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Refaire</translation>
     </message>
     <message>
         <location filename="../src/textedit.cpp" line="198"/>
         <source>Cut</source>
-        <translation type="unfinished"></translation>
+        <translation>Couper</translation>
     </message>
     <message>
         <location filename="../src/textedit.cpp" line="204"/>
         <source>Copy</source>
-        <translation type="unfinished"></translation>
+        <translation>Copier</translation>
     </message>
     <message>
         <location filename="../src/textedit.cpp" line="210"/>
         <source>Paste</source>
-        <translation type="unfinished"></translation>
+        <translation>Coller</translation>
     </message>
     <message>
         <location filename="../src/textedit.cpp" line="223"/>
         <location filename="../src/textedit.cpp" line="311"/>
         <source>Format</source>
-        <translation type="unfinished"></translation>
+        <translation>Format</translation>
     </message>
     <message>
         <location filename="../src/textedit.cpp" line="226"/>
         <source>F&amp;ormat</source>
-        <translation type="unfinished"></translation>
+        <translation>F&amp;ormat</translation>
     </message>
     <message>
         <location filename="../src/textedit.cpp" line="230"/>
         <source>&amp;Bold</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Gras</translation>
     </message>
     <message>
         <location filename="../src/textedit.cpp" line="242"/>
         <source>&amp;Italic</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Italique</translation>
     </message>
     <message>
         <location filename="../src/textedit.cpp" line="254"/>
         <source>&amp;Underline</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Souligné</translation>
     </message>
     <message>
         <location filename="../src/textedit.cpp" line="273"/>
         <source>left</source>
-        <translation type="unfinished"></translation>
+        <translation>Gauche</translation>
     </message>
     <message>
         <location filename="../src/textedit.cpp" line="274"/>
         <location filename="../src/textedit.cpp" line="278"/>
         <source>Centered</source>
-        <translation type="unfinished"></translation>
+        <translation>Centré</translation>
     </message>
     <message>
         <location filename="../src/textedit.cpp" line="275"/>
         <location filename="../src/textedit.cpp" line="277"/>
         <source>Right</source>
-        <translation type="unfinished"></translation>
+        <translation>Droite</translation>
     </message>
     <message>
         <location filename="../src/textedit.cpp" line="279"/>
         <source>Left</source>
-        <translation type="unfinished"></translation>
+        <translation>Gauche</translation>
     </message>
     <message>
         <location filename="../src/textedit.cpp" line="281"/>
         <source>Justify</source>
-        <translation type="unfinished"></translation>
+        <translation>Justifier</translation>
     </message>
     <message>
         <location filename="../src/textedit.cpp" line="303"/>
         <source>Color...</source>
-        <translation type="unfinished"></translation>
+        <translation>Couleur...</translation>
     </message>
     <message>
         <location filename="../src/textedit.cpp" line="392"/>
         <source>Calaos Installer - Listing</source>
-        <translation type="unfinished"></translation>
+        <translation>Calaos Installer - Liste</translation>
     </message>
     <message>
         <location filename="../src/textedit.cpp" line="411"/>
         <source>ODF Files (*.odt);;HTML Files (*.htm *.html);;All files (*)</source>
-        <translation type="unfinished"></translation>
+        <translation>Fichiers ODF (*.odt);; Fichiers HTML (*.htm *.html);; Tous les fichiers (*)</translation>
     </message>
     <message>
         <location filename="../src/textedit.cpp" line="427"/>
         <source>Print the document</source>
-        <translation type="unfinished"></translation>
+        <translation>Imprimer le document</translation>
     </message>
     <message>
         <location filename="../src/textedit.cpp" line="459"/>
         <source>Export in PDF</source>
-        <translation type="unfinished"></translation>
+        <translation>Exporter en PDF</translation>
     </message>
     <message>
         <location filename="../src/textedit.cpp" line="893"/>
         <source>Wago Input</source>
-        <translation type="unfinished"></translation>
+        <translation>Entrée du Wago</translation>
     </message>
     <message>
         <location filename="../src/textedit.cpp" line="894"/>
@@ -5360,102 +5684,102 @@ L&apos;assistant va créer les 2 règles qui vont démarrer ou arrêter le chauf
         <location filename="../src/textedit.cpp" line="1071"/>
         <location filename="../src/textedit.cpp" line="1096"/>
         <source>Name</source>
-        <translation type="unfinished">Nom</translation>
+        <translation>Nom</translation>
     </message>
     <message>
         <location filename="../src/textedit.cpp" line="917"/>
         <source>KNX Input</source>
-        <translation type="unfinished"></translation>
+        <translation>Entrée KNX</translation>
     </message>
     <message>
         <location filename="../src/textedit.cpp" line="941"/>
         <source>Analog Wago input</source>
-        <translation type="unfinished"></translation>
+        <translation>Entrée analogique du Wago</translation>
     </message>
     <message>
         <location filename="../src/textedit.cpp" line="965"/>
         <source>Temperature input</source>
-        <translation type="unfinished"></translation>
+        <translation>Entrée de température</translation>
     </message>
     <message>
         <location filename="../src/textedit.cpp" line="989"/>
         <source>Wago output</source>
-        <translation type="unfinished"></translation>
+        <translation>Sortie du Wago</translation>
     </message>
     <message>
         <location filename="../src/textedit.cpp" line="1017"/>
         <source>KNX Output</source>
-        <translation type="unfinished"></translation>
+        <translation>Sortie KNX</translation>
     </message>
     <message>
         <location filename="../src/textedit.cpp" line="1045"/>
         <source>DALI Output</source>
-        <translation type="unfinished"></translation>
+        <translation>Sortie DALI</translation>
     </message>
     <message>
         <location filename="../src/textedit.cpp" line="1070"/>
         <source>DALI Output (Group)</source>
-        <translation type="unfinished"></translation>
+        <translation>Sortie DALI (Groupe)</translation>
     </message>
     <message>
         <location filename="../src/textedit.cpp" line="1095"/>
         <source>Analog Output</source>
-        <translation type="unfinished">Sortie analogique</translation>
+        <translation>Sortie analogique</translation>
     </message>
     <message>
         <location filename="../src/textedit.cpp" line="1208"/>
         <source> (Group)</source>
-        <translation type="unfinished"></translation>
+        <translation> (Groupe)</translation>
     </message>
     <message>
         <location filename="../src/textedit.cpp" line="1218"/>
         <source> (Red Group)</source>
-        <translation type="unfinished"></translation>
+        <translation> (Groupe rouge)</translation>
     </message>
     <message>
         <location filename="../src/textedit.cpp" line="1220"/>
         <source> (Red)</source>
-        <translation type="unfinished"></translation>
+        <translation> (Rouge)</translation>
     </message>
     <message>
         <location filename="../src/textedit.cpp" line="1230"/>
         <source> (Green Group)</source>
-        <translation type="unfinished"></translation>
+        <translation> (Groupe vert)</translation>
     </message>
     <message>
         <location filename="../src/textedit.cpp" line="1232"/>
         <source> (Green)</source>
-        <translation type="unfinished"></translation>
+        <translation> (Vert)</translation>
     </message>
     <message>
         <location filename="../src/textedit.cpp" line="1242"/>
         <source> (Blue Group)</source>
-        <translation type="unfinished"></translation>
+        <translation> (Groupe bleu)</translation>
     </message>
     <message>
         <location filename="../src/textedit.cpp" line="1244"/>
         <source> (Blue)</source>
-        <translation type="unfinished"></translation>
+        <translation> (Bleu)</translation>
     </message>
     <message>
         <location filename="../src/textedit.cpp" line="1250"/>
         <source> (Relay output)</source>
-        <translation type="unfinished"></translation>
+        <translation> (Sortie relais)</translation>
     </message>
     <message>
         <location filename="../src/textedit.cpp" line="1259"/>
         <source> (Analog output)</source>
-        <translation type="unfinished"></translation>
+        <translation> (Sortie analogique)</translation>
     </message>
     <message>
         <location filename="../src/textedit.cpp" line="1265"/>
         <source> (Up)</source>
-        <translation type="unfinished"></translation>
+        <translation> (Haut)</translation>
     </message>
     <message>
         <location filename="../src/textedit.cpp" line="1274"/>
         <source> (Down)</source>
-        <translation type="unfinished"></translation>
+        <translation> (Bas)</translation>
     </message>
 </context>
 <context>
@@ -5518,50 +5842,50 @@ L&apos;assistant va créer les 2 règles qui vont démarrer ou arrêter le chauf
     <message>
         <location filename="../src/wizards/hue/wizardhue.ui" line="14"/>
         <source>Dialog</source>
-        <translation type="unfinished"></translation>
+        <translation>Dialog</translation>
     </message>
     <message>
         <location filename="../src/wizards/hue/wizardhue.ui" line="30"/>
         <source>Press the link button on the bridge.</source>
-        <translation type="unfinished"></translation>
+        <translation>Appuyer sur le bouton de connexion sur le pont.</translation>
     </message>
     <message>
         <location filename="../src/wizards/hue/wizardhue.ui" line="59"/>
         <source>Bridge not detected !
 Did you really press the link button on the bridge ?</source>
-        <translation type="unfinished"></translation>
+        <translation>Pont non détecté! Avez-vous appuyé sur le bouton de connexion sur le pont?</translation>
     </message>
     <message>
         <location filename="../src/wizards/hue/wizardhue.ui" line="82"/>
         <source>Available Hue Lights :</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Lumières Hue disponibles :</translation>
     </message>
     <message>
         <location filename="../src/wizards/hue/wizardhue.ui" line="114"/>
         <location filename="../src/wizards/hue/wizardhue.ui" line="206"/>
         <source>ID</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">ID</translation>
     </message>
     <message>
         <location filename="../src/wizards/hue/wizardhue.ui" line="119"/>
         <location filename="../src/wizards/hue/wizardhue.ui" line="211"/>
         <source>Hue Name</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Nom Hue</translation>
     </message>
     <message>
         <location filename="../src/wizards/hue/wizardhue.ui" line="183"/>
         <source>Hue Lights in config:</source>
-        <translation type="unfinished"></translation>
+        <translation>Lumières Hue utilisées:</translation>
     </message>
     <message>
         <location filename="../src/wizards/hue/wizardhue.ui" line="216"/>
         <source>Calaos Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Nom Calaos</translation>
     </message>
     <message>
         <location filename="../src/wizards/hue/wizardhue.ui" line="221"/>
         <source>Room</source>
-        <translation type="unfinished">Pièce</translation>
+        <translation>Pièce</translation>
     </message>
 </context>
 </TS>
