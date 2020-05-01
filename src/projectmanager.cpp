@@ -914,6 +914,10 @@ bool ProjectManager::loadRulesFromFile(QString &file)
             else if (cond_type == "output")
             {
                 cond = new Condition(COND_OUTPUT);
+	        string cond_trig = node_cond.attribute("trigger").toUtf8().data();
+
+                if (cond_trig == "false")
+                    cond->setTrigger(false);
 
                 QDomElement node_in = node_cond.firstChildElement("calaos:output");
                 while(!node_in.isNull())
