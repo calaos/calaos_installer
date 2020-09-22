@@ -25,6 +25,7 @@
 #include <QFrame>
 #include <QPushButton>
 #include <QPainter>
+#include <QPainterPath>
 #include <QPropertyAnimation>
 
 #include <QStyle>
