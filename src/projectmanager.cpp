@@ -1045,6 +1045,9 @@ bool ProjectManager::loadRulesFromFile(QString &file)
 
                 string tact = node_action.attribute("action").toUtf8().data();
                 action->setTouchscreenAction(tact);
+
+                if (action->getTouchscreenAction() == "view_camera")
+                    action->setTouchscreenCamera(node_action.attribute("camera").toUtf8().data());
             }
             else if (action_type == "push")
             {
