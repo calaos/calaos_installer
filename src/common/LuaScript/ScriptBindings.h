@@ -67,6 +67,8 @@ public:
     int requestUrl(lua_State *L);
 
     int getEnv(lua_State *L);
+
+    int sendPushNotif(lua_State *L);
 };
 }
 

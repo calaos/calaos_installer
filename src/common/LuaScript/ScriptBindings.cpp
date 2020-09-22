@@ -118,6 +118,7 @@ Lunar<Lua_Calaos>::RegType Lua_Calaos::methods[] =
     { "setIOParam", &Lua_Calaos::setIOParam },
     { "waitForIO", &Lua_Calaos::waitForIO },
     { "requestUrl", &Lua_Calaos::requestUrl },
+    { "sendPushNotif", &Lua_Calaos::sendPushNotif },
     { "getEnv", &Lua_Calaos::getEnv },
     { 0, 0 }
 };
@@ -274,6 +275,29 @@ int Lua_Calaos::requestUrl(lua_State *L)
     else
     {
         string err = "requestUrl(): invalid argument. Requires a string (URL to call).";
+        lua_pushstring(L, err.c_str());
+        lua_error(L);
+    }
+
+    return 0;
+}
+
+int Lua_Calaos::sendPushNotif(lua_State *L)
+{
+    int nb = lua_gettop(L);
+
+    if (nb == 1 && lua_isstring(L, 1))
+    {
+        string msg = lua_tostring(L, 1);
+    }
+    else if (nb == 2 && lua_isstring(L, 1) && lua_isstring(L, 2))
+    {
+        string msg = lua_tostring(L, 1);
+        string attch = lua_tostring(L, 2);
+    }
+    else
+    {
+        string err = "sendPushNotif(): invalid arguments. Requires a string (message) and optional attachment (string).";
         lua_pushstring(L, err.c_str());
         lua_error(L);
     }
