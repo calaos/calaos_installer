@@ -9,10 +9,10 @@
 #include "detectip.h"
 #include "DialogWagoFirmwareUpdate.h"
 
-#define WAGO_FW_VESION_842          "1.9"
-#define WAGO_FW_VESION_841          "2.3"
-#define WAGO_FW_VESION_849          "2.3"
-#define WAGO_FW_VESION_881          "2.3"
+#define WAGO_FW_VERSION_842          "1.9"
+#define WAGO_FW_VERSION_841          "2.3"
+#define WAGO_FW_VERSION_849          "2.3"
+#define WAGO_FW_VERSION_881          "2.3"
 
 enum { WAGO_CONNECTED, WAGO_DISCONNECTED };
 enum { WERROR_NOERROR, WERROR_CONNECT_FAILED, WERROR_NOTCONNECTED, WERROR_TIMEOUT };
