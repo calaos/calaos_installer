@@ -2815,7 +2815,7 @@ HTTP error: </translation>
     <message>
         <location filename="../src/DialogScriptEditor.cpp" line="235"/>
         <source>The script was successfully executed.</source>
-        <translation>Le script a été exécuter avec succès.</translation>
+        <translation>Le script a été exécuté avec succès.</translation>
     </message>
     <message>
         <location filename="../src/DialogScriptEditor.cpp" line="271"/>
@@ -4485,7 +4485,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/formrules.cpp" line="1848"/>
         <source>Convert to normal shutter</source>
-        <translation>Convertir en interrupteur normal</translation>
+        <translation>Convertir en volet normal</translation>
     </message>
     <message>
         <location filename="../src/formrules.cpp" line="1854"/>
