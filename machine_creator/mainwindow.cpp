@@ -8,12 +8,10 @@
 
 #include "DiskWriter_unix.h"
 
-#define CALAOS_UPDATE_VERSION_URL "http://calaos.fr/update?versions=all"
-//#define CALAOS_UPDATE_VERSION_URL "http://127.0.0.1:8428?versions=all"
-
 MainWindow::MainWindow(QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::MainWindow)
+    ui(new Ui::MainWindow),
+    calaosApi(new CalaosApi(nullptr, this))
 {
     ui->setupUi(this);
     ui->stackedWidget->setCurrentIndex(0);
@@ -76,12 +74,8 @@ MainWindow::MainWindow(QWidget *parent) :
     }
     ui->targetCombo->setCurrentIndex(ui->targetCombo->count() - 1);
 
-    QNetworkAccessManager *manager = new QNetworkAccessManager(this);
-    connect(manager, &QNetworkAccessManager::finished,[=](QNetworkReply* reply)
+    calaosApi->loadImages([=](bool success, const QJsonArray &jarr)
     {
-        QJsonDocument j = QJsonDocument::fromJson(reply->readAll());
-        QJsonArray jarr = j.array();
-
         qDebug() << jarr.size();
 
         foreach (const QJsonValue & value, jarr)
@@ -100,8 +94,6 @@ MainWindow::MainWindow(QWidget *parent) :
             ui->machineCombo->addItem(e, e);
         }
         ui->machineCombo->setCurrentIndex(ui->machineCombo->count() - 1);
-
-
     });
 
     diskWriter = new DiskWriter_unix();
@@ -115,10 +107,6 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(diskWriter, SIGNAL(finished()), this, SLOT(writingFinished()));
     connect(diskWriter, SIGNAL(error(QString)), this, SLOT(writingError(QString)));
     diskWriterThread->start();
-
-    manager->get(QNetworkRequest(QUrl(CALAOS_UPDATE_VERSION_URL)));
-
-
 }
 
 MainWindow::~MainWindow()

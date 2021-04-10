@@ -15,14 +15,18 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
+    CalaosApi.cpp \
+    NetworkRequest.cpp \
            mainwindow.cpp \
            DiskWriter.cpp \
            DiskWriter_unix.cpp \
     LzmaLoader.cpp
 
 HEADERS  += mainwindow.h \
+    CalaosApi.h \
             DiskWriter.h \
             DiskWriter_unix.h \
-    LzmaLoader.h
+    LzmaLoader.h \
+    NetworkRequest.h
 
 FORMS    += mainwindow.ui

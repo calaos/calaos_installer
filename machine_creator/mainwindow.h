@@ -26,6 +26,8 @@
 
 #include "DiskWriter.h"
 
+#include "CalaosApi.h"
+
 /* read/write buffer sizes */
 #define IN_BUF_MAX  409600
 #define OUT_BUF_MAX 409600
@@ -107,6 +109,8 @@ private:
     QString m_decompressedFile;
     Ui::MainWindow *ui;
     QStringList getUserFriendlyNames(const QStringList &devices) const;
+
+    CalaosApi *calaosApi = nullptr;
 };
 
 #endif // MAINWINDOW_H
