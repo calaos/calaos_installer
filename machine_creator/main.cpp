@@ -17,7 +17,7 @@ int main(int argc, char *argv[])
         box.setText(QObject::tr("Missing component!"));
         box.setInformativeText(QObject::tr("liblzma is not found on the system. Please install a copy of lzma"));
         box.setStandardButtons(QMessageBox::Ok);
-        return box.exec();
+        //return box.exec();
     }
 
     MainWindow w;

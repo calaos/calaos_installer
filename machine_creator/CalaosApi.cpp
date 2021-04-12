@@ -1,7 +1,7 @@
 #include "CalaosApi.h"
 #include <QStringBuilder>
 
-#define CALAOS_API_ADDR      "https://calaos.fr/update"
+#define CALAOS_API_ADDR      "https://calaos.fr/download/api"
 
 CalaosApi::CalaosApi(QNetworkAccessManager *nm, QObject *parent):
     QObject(parent),

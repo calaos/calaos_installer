@@ -75,6 +75,7 @@ private slots:
     void nmFinished();
     void nmReadyRead();
     void nmSslErrors(const QList<QSslError> &errors);
+    void nmRedirected(const QUrl &url);
 
 private:
     QNetworkAccessManager *netmanager = nullptr;

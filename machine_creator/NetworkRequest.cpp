@@ -90,6 +90,7 @@ bool NetworkRequest::start()
     }
 
     connect(reply, &QNetworkReply::sslErrors, this, &NetworkRequest::nmSslErrors);
+    connect(reply, &QNetworkReply::redirected, this, &NetworkRequest::nmRedirected);
 
     if (resType == TypeJson)
     {
@@ -247,4 +248,9 @@ void NetworkRequest::nmSslErrors(const QList<QSslError> &errors)
 
     QNetworkReply *reply = qobject_cast<QNetworkReply *>(sender());
     reply->ignoreSslErrors();
+}
+
+void NetworkRequest::nmRedirected(const QUrl &url)
+{
+    qDebug() << "Redirected to " << url;
 }

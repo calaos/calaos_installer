@@ -43,6 +43,8 @@ public:
     QString url;
     QString version;
     QString type;
+    QString machine;
+    QDateTime releaseDate;
 };
 
 

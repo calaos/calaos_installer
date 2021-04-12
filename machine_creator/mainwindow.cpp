@@ -82,9 +82,11 @@ MainWindow::MainWindow(QWidget *parent) :
         {
             QJsonObject obj = value.toObject();
             CalaosImage *im = new CalaosImage();
-            im->type = obj["type"].toString();
+            im->type = obj["release_type"].toString();
+            im->machine = obj["machine"].toString();
             im->url = obj["url"].toString();
             im->version = obj["version"].toString();
+            im->releaseDate = QDateTime::fromString(obj["release_date"].toString(), Qt::ISODate);
             images[obj["machine"].toString()].append(im);
         }
 
