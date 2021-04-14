@@ -3,3 +3,5 @@ ui_*
 moc_*
 *.o
 lang/calaos_installer_*.qm
+.pro.user
+calaos_installer.pro.user*

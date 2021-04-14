@@ -68,6 +68,7 @@ signals:
     void finishedJson(int status, const QJsonDocument &doc);
     void finishedData(int status, const QByteArray &data);
     void finished(int status);
+    void downloadProgress(qint64 bytesRead, qint64 totalBytes);
 
 private slots:
     void nmFinishedJson();

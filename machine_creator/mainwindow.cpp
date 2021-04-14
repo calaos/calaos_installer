@@ -14,9 +14,21 @@ MainWindow::MainWindow(QWidget *parent) :
     calaosApi(new CalaosApi(nullptr, this))
 {
     ui->setupUi(this);
+    setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
+
+    connect(calaosApi, &CalaosApi::downloadProgress, this, &MainWindow::downloadProgress);
+
     ui->stackedWidget->setCurrentIndex(0);
+
+    imageModel = new CalaosImageModel(this);
+    filterImageModel = new FilterImageModel(this);
+    filterImageModel->setSourceModel(imageModel);
+
+    ui->versionCombo->setModel(filterImageModel);
+
     QStringList names;
     QStringList friendlyNames;
+
 #if defined Q_OS_MAC
     QProcess lsblk;
     lsblk.start("diskutil list", QIODevice::ReadOnly);
@@ -76,26 +88,17 @@ MainWindow::MainWindow(QWidget *parent) :
 
     calaosApi->loadImages([=](bool success, const QJsonArray &jarr)
     {
-        qDebug() << jarr.size();
-
-        foreach (const QJsonValue & value, jarr)
+        if (!success)
         {
-            QJsonObject obj = value.toObject();
-            CalaosImage *im = new CalaosImage();
-            im->type = obj["release_type"].toString();
-            im->machine = obj["machine"].toString();
-            im->url = obj["url"].toString();
-            im->version = obj["version"].toString();
-            im->releaseDate = QDateTime::fromString(obj["release_date"].toString(), Qt::ISODate);
-            images[obj["machine"].toString()].append(im);
+            QMessageBox::warning(this, tr("Error"), tr("Failed to download image list from calaos server"));
+            return;
         }
 
+        imageModel->loadJson(jarr);
         ui->machineCombo->clear();
-        for(auto e : images.keys())
-        {
-            ui->machineCombo->addItem(e, e);
-        }
-        ui->machineCombo->setCurrentIndex(ui->machineCombo->count() - 1);
+        ui->machineCombo->addItems(imageModel->getMachines());
+        ui->machineCombo->setCurrentIndex(0);
+        filterImageModel->sort(0);
     });
 
     diskWriter = new DiskWriter_unix();
@@ -116,33 +119,22 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::updateVersions(const QString &arg1)
+void MainWindow::on_machineCombo_currentIndexChanged(const QString &)
 {
-    ui->versionCombo->clear();
-    for(auto it : images[arg1])
-    {
-        if (ui->radioButton_2->isChecked() && it->type == "stable")
-            ui->versionCombo->addItem(it->version, it->version);
-        else if (ui->radioButton->isChecked())
-            ui->versionCombo->addItem(it->version, it->version);
-    }
-    ui->versionCombo->setCurrentIndex(ui->versionCombo->count() - 1);
+    filterImageModel->setFilterMachine(ui->machineCombo->currentText());
+    ui->versionCombo->setCurrentIndex(0);
 }
 
-void MainWindow::on_machineCombo_currentIndexChanged(const QString &arg1)
+void MainWindow::on_radioButtonStable_clicked()
 {
-    updateVersions(arg1);
+    filterImageModel->setFilterType(true);
+    ui->versionCombo->setCurrentIndex(0);
 }
 
-
-void MainWindow::on_radioButton_2_clicked()
+void MainWindow::on_radioButtonAll_clicked()
 {
-    updateVersions(ui->machineCombo->currentText());
-}
-
-void MainWindow::on_radioButton_clicked()
-{
-    updateVersions(ui->machineCombo->currentText());
+    filterImageModel->setFilterType(false);
+    ui->versionCombo->setCurrentIndex(0);
 }
 
 void MainWindow::on_continueButton_clicked()
@@ -150,10 +142,47 @@ void MainWindow::on_continueButton_clicked()
     if (ui->stackedWidget->currentIndex() == MainWindow::Page_Start)
     {
         // File is not present on disk => donwload it
-        if (!m_bFileOnDisk)
+        if (!m_bFileFromDisk)
         {
             ui->stackedWidget->setCurrentIndex(MainWindow::Page_Download);
-            for (auto it : images[ui->machineCombo->currentText()])
+
+            auto im = imageModel->itemAt(filterImageModel->indexToSource(
+                                             filterImageModel->index(ui->versionCombo->currentIndex(), 0)).row()
+                                         );
+
+            qDebug() << "Downloading " << im->get_url();
+            startDownloadTime = QDateTime::currentDateTime();
+            downloadTime.start();
+
+            ui->downloadProgress->setMinimum(0);
+            ui->downloadProgress->setMaximum(0);
+            ui->downloadProgress->setValue(0);
+            ui->timeDlLabel->setText(tr(""));
+            ui->speedDlLabel->setText(tr(""));
+            ui->downloadLabel->setText(tr("Checking download..."));
+
+            calaosApi->downloadImage(im->get_url(), im->get_checksum(), [=](bool success, QString filename)
+            {
+                if (!success)
+                {
+                    QMessageBox::warning(this, tr("Error"), tr("Failed to download image file"));
+
+                    ui->downloadProgress->setMinimum(0);
+                    ui->downloadProgress->setMaximum(0);
+                    ui->downloadProgress->setValue(-1);
+                    ui->timeDlLabel->setText(tr(""));
+                    ui->speedDlLabel->setText(tr(""));
+                    ui->downloadLabel->setText(tr("Download failed!"));
+
+                    return;
+                }
+
+                qDebug() << "File downloaded to " << filename;
+                ui->stackedWidget->setCurrentIndex(MainWindow::Page_Partition);
+            });
+
+
+            /*for (auto it : images[ui->machineCombo->currentText()])
             {
                 if (it->version == ui->versionCombo->currentText())
                 {
@@ -203,7 +232,7 @@ void MainWindow::on_continueButton_clicked()
                         connect(manager, SIGNAL(finished(QNetworkReply*)), this, SLOT(downloadFinished(QNetworkReply*)));
                     }
                 }
-            }
+            }*/
         }
         // File is present on disk => flash it
         else
@@ -224,7 +253,7 @@ void MainWindow::on_continueButton_clicked()
         ui->writeProgress->setValue(0);
         ui->writeProgress->setMaximum(f.size());
         emit proceedToWriteImageToDevice(m_decompressedFile, ui->targetCombo->currentData().toString());
-        ui->stackedWidget->setCurrentIndex(MainWindow::Page_Writting);
+        ui->stackedWidget->setCurrentIndex(MainWindow::Page_Writing);
     }
     else if(ui->stackedWidget->currentIndex() == MainWindow::Page_Final)
     {
@@ -240,9 +269,8 @@ void MainWindow::on_selectImageButton_clicked()
     QString fileName = QFileDialog::getOpenFileName(this, tr("Open Calaos Image"), downloadsFolder);
     ui->imageFilenameLabel->setText(fileName);
     m_decompressedFile = fileName;
-    m_bFileOnDisk = true;
+    m_bFileFromDisk = true;
 }
-
 
 QStringList MainWindow::getUserFriendlyNames(const QStringList &devices) const
 {
@@ -281,7 +309,9 @@ QStringList MainWindow::getUserFriendlyNames(const QStringList &devices) const
         returnList.append(s);
 #else
         QProcess lsblk;
-        lsblk.start(QString("diskutil info %1").arg(s), QIODevice::ReadOnly);
+        lsblk.start(QString("diskutil"),
+                    QStringList() << "info" << s,
+                    QIODevice::ReadOnly);
         lsblk.waitForStarted();
         lsblk.waitForFinished();
 
@@ -323,41 +353,65 @@ QStringList MainWindow::getUserFriendlyNames(const QStringList &devices) const
     return returnList;
 }
 
-void MainWindow::downloadNewData(qint64 bytesReceived, qint64 bytesTotal)
+void MainWindow::downloadProgress(qint64 bytesReceived, qint64 bytesTotal)
 {
-    Q_UNUSED(bytesReceived);
-    Q_UNUSED(bytesTotal);
+    if (bytesTotal > 0)
+    {
+        ui->downloadProgress->setMinimum (0);
+        ui->downloadProgress->setMaximum (100);
+        ui->downloadProgress->setValue((bytesReceived * 100) / bytesTotal);
 
-    if(reply->error() != QNetworkReply::NoError)
-    {//TODO: handle error here
-        QFile(path).remove();
-        QFile(path + ".tmp").rename(path);
-        return;
+        ui->downloadLabel->setText(tr("Downloading %1 of %2")
+                                   .arg(Utils::sizeHuman(bytesReceived), Utils::sizeHuman(bytesTotal)));
+
+        //calculate remaining time
+        QString remain = Utils::calculateTimeRemaining(startDownloadTime, bytesReceived, bytesTotal);
+        ui->timeDlLabel->setText(tr("Time remaining: %1").arg(remain));
+        double speed = bytesReceived * 1000.0 / downloadTime.elapsed();
+        ui->speedDlLabel->setText(tr("Speed: %1/s").arg(Utils::sizeHuman(speed)));
+    }
+    else
+    {
+        ui->downloadProgress->setMinimum(0);
+        ui->downloadProgress->setMaximum(0);
+        ui->downloadProgress->setValue(-1);
+        ui->timeDlLabel->setText(tr("Time remaining: Unknown"));
+        ui->speedDlLabel->setText(tr("Speed: Unknown"));
     }
 
-    total_upd_size -= reply->bytesAvailable();
-    QByteArray data = reply->readAll();
-    in_len = data.size();
-    in_buf = (uint8_t*)data.data();
-    strm.next_in = in_buf;
-    strm.avail_in = in_len;
 
-    do {
-        strm.next_out = out_buf;
-        strm.avail_out = OUT_BUF_MAX;
-        (void)LZMA.lzma_code (&strm, LZMA_RUN);
-        out_len = OUT_BUF_MAX - strm.avail_out;
+//    Q_UNUSED(bytesReceived);
+//    Q_UNUSED(bytesTotal);
 
-        QFile file(path);
-        if(file.open(QIODevice::WriteOnly | QIODevice::Append))
-        {
-            file.write(QByteArray((char*)out_buf, (int)out_len));
-            file.close();
-        }
-        out_buf[0] = 0;
-    } while (strm.avail_out == 0);
+//    if(reply->error() != QNetworkReply::NoError)
+//    {//TODO: handle error here
+//        QFile(path).remove();
+//        QFile(path + ".tmp").rename(path);
+//        return;
+//    }
+
+//    total_upd_size -= reply->bytesAvailable();
+//    QByteArray data = reply->readAll();
+//    in_len = data.size();
+//    in_buf = (uint8_t*)data.data();
+//    strm.next_in = in_buf;
+//    strm.avail_in = in_len;
+
+//    do {
+//        strm.next_out = out_buf;
+//        strm.avail_out = OUT_BUF_MAX;
+//        (void)LZMA.lzma_code (&strm, LZMA_RUN);
+//        out_len = OUT_BUF_MAX - strm.avail_out;
+
+//        QFile file(path);
+//        if(file.open(QIODevice::WriteOnly | QIODevice::Append))
+//        {
+//            file.write(QByteArray((char*)out_buf, (int)out_len));
+//            file.close();
+//        }
+//        out_buf[0] = 0;
+//    } while (strm.avail_out == 0);
 }
-
 
 void MainWindow::downloadFinished(QNetworkReply* repl)
 {

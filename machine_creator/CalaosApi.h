@@ -12,6 +12,15 @@ public:
     ~CalaosApi();
 
     void loadImages(std::function<void(bool success, const QJsonArray &imagelist)> callback);
+    void downloadImage(QString url, QString checksum, std::function<void(bool success, QString localFile)> callback);
+
+    void calcHash(QString filename, std::function<void(QString hash)> callback);
+
+    //this is the static blocking function
+    static QString calcBlake2bHash(QString filename);
+
+signals:
+    void downloadProgress(qint64 bytesRead, qint64 totalBytes);
 
 private:
     QNetworkAccessManager *netManager;

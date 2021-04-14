@@ -31,11 +31,8 @@ void NetworkRequest::setCustomHeader(QString header, QString value)
 
 void NetworkRequest::setCertificate(QString path)
 {
-    cacerts = QSslCertificate::fromPath(path, QSsl::Pem, QRegExp::Wildcard);
-    for (const QSslCertificate &cert : cacerts)
-    {
-        QSslSocket::addDefaultCaCertificate(cert);
-    }
+    cacerts = QSslCertificate::fromPath(path, QSsl::Pem, QSslCertificate::PatternSyntax::RegularExpression);
+    QSslConfiguration::defaultConfiguration().addCaCertificates(cacerts);
 }
 
 bool NetworkRequest::start()
@@ -91,6 +88,7 @@ bool NetworkRequest::start()
 
     connect(reply, &QNetworkReply::sslErrors, this, &NetworkRequest::nmSslErrors);
     connect(reply, &QNetworkReply::redirected, this, &NetworkRequest::nmRedirected);
+    connect(reply, &QNetworkReply::downloadProgress, this, &NetworkRequest::downloadProgress);
 
     if (resType == TypeJson)
     {
