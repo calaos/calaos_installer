@@ -5,3 +5,4 @@ moc_*
 lang/calaos_installer_*.qm
 .pro.user
 calaos_installer.pro.user*
+machine_creator/machine_creator.pro.user*

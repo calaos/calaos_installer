@@ -5,34 +5,53 @@
 #include <QString>
 #include <QStringList>
 #include <QByteArray>
+#include <QFile>
 
-class DiskWriter : public QObject
+#include "UsbDisk.h"
+
+#if defined(Q_OS_WIN)
+#include <qt_windows.h>
+#endif
+
+class PhysicalDevice : public QFile
+{
+    Q_OBJECT
+public:
+    PhysicalDevice(const QString &name);
+
+    // Opens the selected device in WriteOnly mode, flags is ignored
+    virtual bool open(OpenMode flags) override;
+
+    void syncToDisk();
+
+protected:
+#if defined(Q_OS_WIN)
+    HANDLE m_fileHandle;
+#endif
+};
+
+class DiskWriter: public QObject
 {
     Q_OBJECT
 
 public:
-    DiskWriter(QObject *parent = 0) : QObject(parent) {}
-    virtual ~DiskWriter() {}
+    DiskWriter(QObject *parent = 0);
+    virtual ~DiskWriter();
 
 public slots:
+    void writeToRemovableDevice(const QString &filename, UsbDisk *disk);
     void cancelWrite();
-    void writeCompressedImageToRemovableDevice(const QString &filename, const QString& device);
 
 signals:
-    void bytesWritten(int);
+    void progress(QString status, qint64 bytesWritten, qint64 bytesTotal, qint64 elapsedMs);
     void syncing();
     void finished();
-    void error(const QString& message);
+    void error(const QString &message);
 
 protected:
     volatile bool isCancelled;
 
-    virtual bool open(const QString& device) = 0;
-    virtual void close() = 0;
-    virtual void sync() = 0;
-    virtual bool isOpen() = 0;
-    virtual qint64 write(const QByteArray &data) = 0;
-    virtual QString errorString() = 0;
+    QIODevice *createSourceDevice(QString filename);
 };
 
 #endif // DISKWRITER_H

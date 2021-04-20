@@ -12,7 +12,7 @@ public:
     ~CalaosApi();
 
     void loadImages(std::function<void(bool success, const QJsonArray &imagelist)> callback);
-    void downloadImage(QString url, QString checksum, std::function<void(bool success, QString localFile)> callback);
+    NetworkRequest *downloadImage(QString url, QString checksum, std::function<void(bool success, QString localFile)> callback);
 
     void calcHash(QString filename, std::function<void(QString hash)> callback);
 

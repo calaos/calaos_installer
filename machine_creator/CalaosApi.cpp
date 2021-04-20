@@ -53,7 +53,7 @@ void CalaosApi::loadImages(std::function<void (bool, const QJsonArray &)> callba
     }
 }
 
-void CalaosApi::downloadImage(QString url, QString checksum, std::function<void (bool, QString)> callback)
+NetworkRequest *CalaosApi::downloadImage(QString url, QString checksum, std::function<void (bool, QString)> callback)
 {
     NetworkRequest *n = new NetworkRequest(url, NetworkRequest::HttpGet, this);
     n->setNetManager(netManager);
@@ -112,6 +112,8 @@ void CalaosApi::downloadImage(QString url, QString checksum, std::function<void 
             callback(false, {});
         }
     });
+
+    return n;
 }
 
 void CalaosApi::calcHash(QString filename, std::function<void (QString)> callback)

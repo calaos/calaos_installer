@@ -9,7 +9,7 @@ class TwoLineItemDelegate : public QStyledItemDelegate
 public:
     TwoLineItemDelegate();
 
-    enum datarole { headerTextRole = Qt::UserRole + 100, subHeaderTextRole = Qt::UserRole + 101};
+    enum datarole { headerTextRole = Qt::UserRole + 100, subHeaderTextRole = Qt::UserRole + 101 };
 
     void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
 

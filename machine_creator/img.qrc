@@ -1,0 +1,10 @@
+<RCC>
+    <qresource prefix="/">
+        <file>img/ic_sd_storage_40px.svg</file>
+        <file>img/ic_storage_40px.svg</file>
+        <file>img/ic_usb_40px.svg</file>
+        <file>img/dialog-ok.png</file>
+        <file>img/dialog-cancel.png</file>
+        <file>img/calaos.png</file>
+    </qresource>
+</RCC>

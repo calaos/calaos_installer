@@ -609,13 +609,19 @@ void MainWindow::on_btAutodetect_clicked()
 
 void MainWindow::on_actionCreateNewImage_triggered()
 {
-    QProcess *createImageProcess = new QProcess();
-    qDebug () << "Executing " << QCoreApplication::applicationFilePath() << "/calaos_machinecreator.sh";
-    createImageProcess->start(QCoreApplication::applicationFilePath() + "/calaos_machinecreator.sh");
-    createImageProcess->waitForFinished();
-    delete createImageProcess;
+#if defined (Q_OS_LINUX)
+    QString program;
+    QStringList args;
+    args.append(QCoreApplication::applicationDirPath() + "/calaos_machinecreator");
+    program = "pkexec";
+    QProcess::startDetached(program, args);
+#elif defined(Q_OS_WIN)
+    QDesktopServices::openUrl(QUrl::fromLocalFile(QCoreApplication::applicationDirPath() + "/calaos_machinecreator.exe"));
+#elif defined(Q_OS_MAC)
+    //Untested... does it work?
+    QDesktopServices::openUrl(QUrl::fromLocalFile(QCoreApplication::applicationDirPath() + "/calaos_machinecreator"));
+#endif
 }
-
 
 void MainWindow::on_actionSet_DMX4ALL_IP_Address_triggered()
 {

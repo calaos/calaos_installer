@@ -1,12 +1,15 @@
+#include <QThread>
+#include <QFileDialog>
+#include <QMessageBox>
+#include <QtConcurrent/QtConcurrentRun>
+
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include <QThread>
+#include "StorageDelegate.h"
 
 #if defined Q_OS_WIN
 #include <windows.h>
 #endif
-
-#include "DiskWriter_unix.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QDialog(parent),
@@ -26,65 +29,11 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->versionCombo->setModel(filterImageModel);
 
-    QStringList names;
-    QStringList friendlyNames;
+    platform = new Platform(this);
 
-#if defined Q_OS_MAC
-    QProcess lsblk;
-    lsblk.start("diskutil list", QIODevice::ReadOnly);
-    lsblk.waitForStarted();
-    lsblk.waitForFinished();
-
-    QString device = lsblk.readLine();
-    while (!lsblk.atEnd()) {
-        device = device.trimmed(); // Odd trailing whitespace
-
-        if (device.startsWith("/dev/disk")) {
-            QString name = device.split(QRegExp("\\s+")).first();
-            names << name;
-        }
-        device = lsblk.readLine();
-
-    }
-#elif defined Q_OS_UNIX
-
-    QDir currentDir("/sys/block");
-    currentDir.setFilter(QDir::Dirs);
-
-    QStringList entries = currentDir.entryList();
-    foreach (QString device, entries) {
-        // Skip "." and ".." dir entries
-        if (device == "." || device == "..") {
-            continue;
-        }
-
-        if (device.startsWith("mmcblk") || device.startsWith("sd")) {
-            names << device;
-        }
-    }
-
-#elif defined Q_OS_WIN
-    WCHAR *szDriveLetters;
-    WCHAR szDriveInformation[1024];
-
-    GetLogicalDriveStrings(1024, szDriveInformation);
-
-    szDriveLetters = szDriveInformation;
-    while (*szDriveLetters != '\0') {
-        if (GetDriveType(szDriveLetters) == DRIVE_REMOVABLE) {
-            names << QString::fromWCharArray(szDriveLetters);
-        }
-        szDriveLetters = &szDriveLetters[wcslen(szDriveLetters) + 1];
-    }
-#endif
-
-    friendlyNames = getUserFriendlyNames(names);
-    ui->targetCombo->clear();
-    for (int i = 0; i < names.size(); ++i)
-    {
-        ui->targetCombo->addItem(friendlyNames[i] + " " + names[i], names[i]);
-    }
-    ui->targetCombo->setCurrentIndex(ui->targetCombo->count() - 1);
+    ui->listViewStorage->setModel(platform->getDiskModel());
+    ui->listViewStorage->setItemDelegate(new StorageDelegate(ui->listViewStorage));
+    ui->listViewStorage->setCurrentIndex(platform->getDiskModel()->lastIndex());
 
     calaosApi->loadImages([=](bool success, const QJsonArray &jarr)
     {
@@ -101,17 +50,11 @@ MainWindow::MainWindow(QWidget *parent) :
         filterImageModel->sort(0);
     });
 
-    diskWriter = new DiskWriter_unix();
-
-    diskWriterThread = new QThread(this);
-    diskWriter->moveToThread(diskWriterThread);
-    connect(diskWriterThread, SIGNAL(finished()), diskWriter, SLOT(deleteLater()));
-    connect(this, SIGNAL(proceedToWriteImageToDevice(QString,QString)),
-            diskWriter, SLOT(writeCompressedImageToRemovableDevice(QString,QString)));
-    connect(diskWriter, SIGNAL(bytesWritten(int)), ui->writeProgress, SLOT(setValue(int)));
-    connect(diskWriter, SIGNAL(finished()), this, SLOT(writingFinished()));
-    connect(diskWriter, SIGNAL(error(QString)), this, SLOT(writingError(QString)));
-    diskWriterThread->start();
+    diskWriter = new DiskWriter(this);
+    connect(diskWriter, &DiskWriter::progress, this, &MainWindow::writeProgress);
+    connect(diskWriter, &DiskWriter::error, this, &MainWindow::writeError);
+    connect(diskWriter, &DiskWriter::finished, this, &MainWindow::writeFinished);
+    connect(diskWriter, &DiskWriter::syncing, this, &MainWindow::writeSync);
 }
 
 MainWindow::~MainWindow()
@@ -161,7 +104,8 @@ void MainWindow::on_continueButton_clicked()
             ui->speedDlLabel->setText(tr(""));
             ui->downloadLabel->setText(tr("Checking download..."));
 
-            calaosApi->downloadImage(im->get_url(), im->get_checksum(), [=](bool success, QString filename)
+            ui->continueButton->hide();
+            downloadReq = calaosApi->downloadImage(im->get_url(), im->get_checksum(), [=](bool success, QString filename)
             {
                 if (!success)
                 {
@@ -178,61 +122,10 @@ void MainWindow::on_continueButton_clicked()
                 }
 
                 qDebug() << "File downloaded to " << filename;
+                m_decompressedFile = filename;
                 ui->stackedWidget->setCurrentIndex(MainWindow::Page_Partition);
+                ui->continueButton->show();
             });
-
-
-            /*for (auto it : images[ui->machineCombo->currentText()])
-            {
-                if (it->version == ui->versionCombo->currentText())
-                {
-                    manager = new QNetworkAccessManager(this);
-                    QUrl url = it->url;
-                    qDebug() << "Downloading url " << it->url;
-                    QFileInfo fileInfo(url.path());
-
-                    QString downloadsFolder = QStandardPaths::writableLocation(QStandardPaths::DownloadLocation);
-                    if (downloadsFolder.isEmpty())
-                        downloadsFolder = QDir::homePath();
-
-                    QString fileName = downloadsFolder + "/" + fileInfo.fileName();
-                    fileName.remove(".xz");
-                    if (QFile::exists(fileName))
-                    {
-                        if (QMessageBox::question(this, tr("Image download"),
-                                                  tr("There already exists a file called %1 in "
-                                                     "the current directory. Overwrite?").arg(fileName),
-                                                  QMessageBox::Yes|QMessageBox::No, QMessageBox::No)
-                                == QMessageBox::No)
-                            return;
-                        QFile::remove(fileName);
-                    }
-                    path = fileName;
-                    qDebug() << "Downloading to " << fileName;
-                    //ui->statusLabel->setText(tr("Downloading %1.").arg(fileName));
-                    ui->continueButton->setEnabled(false);
-                    m_decompressedFile = fileName;
-
-                    reply = manager->get(QNetworkRequest(url));
-                    connect(reply, &QNetworkReply::downloadProgress, [=](qint64 bytesRead, qint64 totalBytes){
-                        ui->downloadProgress->setMaximum(totalBytes);
-                        ui->downloadProgress->setValue(bytesRead);
-                    });
-
-                    connect(reply, &QNetworkReply::finished, [=]{
-                        ui->imageFilenameLabel->setText(fileName);
-                        ui->continueButton->setEnabled(true);
-                    });
-
-                    memset(&strm, 0, sizeof(strm));
-                    int ret_xz = LZMA.lzma_stream_decoder (&strm, UINT64_MAX, LZMA_TELL_UNSUPPORTED_CHECK | LZMA_CONCATENATED);
-                    if (ret_xz == LZMA_OK)
-                    {
-                        connect(reply, SIGNAL(downloadProgress(qint64,qint64)), this, SLOT(downloadNewData(qint64,qint64)));
-                        connect(manager, SIGNAL(finished(QNetworkReply*)), this, SLOT(downloadFinished(QNetworkReply*)));
-                    }
-                }
-            }*/
         }
         // File is present on disk => flash it
         else
@@ -247,13 +140,16 @@ void MainWindow::on_continueButton_clicked()
     }
     else if(ui->stackedWidget->currentIndex() == MainWindow::Page_Partition)
     {
-        QFileInfo f(m_decompressedFile);
+        m_disk = platform->getDiskModel()->itemAt(ui->listViewStorage->currentIndex().row());
+        if (!m_disk)
+        {
+            QMessageBox::warning(this, "Calaos", tr("No disk selected"));
+            return;
+        }
 
-        qDebug() << "Write Image " << m_decompressedFile << " on " << ui->targetCombo->currentData().toString();
-        ui->writeProgress->setValue(0);
-        ui->writeProgress->setMaximum(f.size());
-        emit proceedToWriteImageToDevice(m_decompressedFile, ui->targetCombo->currentData().toString());
         ui->stackedWidget->setCurrentIndex(MainWindow::Page_Writing);
+        ui->continueButton->hide();
+        startWriteProcess();
     }
     else if(ui->stackedWidget->currentIndex() == MainWindow::Page_Final)
     {
@@ -266,91 +162,14 @@ void MainWindow::on_selectImageButton_clicked()
     QString downloadsFolder = QStandardPaths::writableLocation(QStandardPaths::DownloadLocation);
     if (downloadsFolder.isEmpty())
         downloadsFolder = QDir::homePath();
-    QString fileName = QFileDialog::getOpenFileName(this, tr("Open Calaos Image"), downloadsFolder);
+
+    QString fileName = QFileDialog::getOpenFileName(this,
+                                                    tr("Open Calaos Image"),
+                                                    downloadsFolder);
+
     ui->imageFilenameLabel->setText(fileName);
     m_decompressedFile = fileName;
     m_bFileFromDisk = true;
-}
-
-QStringList MainWindow::getUserFriendlyNames(const QStringList &devices) const
-{
-    QStringList returnList;
-
-    foreach (QString s, devices) {
-#ifdef Q_OS_LINUX
-        bool ok;
-        QFile file("/sys/block/" + s +"/size");
-        file.open(QIODevice::ReadOnly);
-        QString str = file.readAll();
-        quint64 size = str.toULongLong(&ok, 10);
-
-        QDir sysDir("/sys/block/" + s);
-        sysDir.setFilter(QDir::Dirs);
-        QString partitions;
-        QStringList entries = sysDir.entryList();
-        foreach (QString device, entries) {
-            if (device.startsWith(s)) {
-                partitions += device + ", ";
-            }
-        }
-        partitions.chop(2);
-
-        QTextStream friendlyName(&s);
-        friendlyName.setRealNumberNotation(QTextStream::FixedNotation);
-        friendlyName.setRealNumberPrecision(2);
-        friendlyName << " (";
-        friendlyName << size/(1024*1024*1024.0) << " GB";
-
-        if (partitions.length() > 0)
-            friendlyName << ",  partitions: " << partitions;
-
-        friendlyName << ")";
-
-        returnList.append(s);
-#else
-        QProcess lsblk;
-        lsblk.start(QString("diskutil"),
-                    QStringList() << "info" << s,
-                    QIODevice::ReadOnly);
-        lsblk.waitForStarted();
-        lsblk.waitForFinished();
-
-        QString output = lsblk.readLine();
-        QStringList iddata;
-        QString item = "";
-        while (!lsblk.atEnd())
-        {
-            output = output.trimmed(); // Odd trailing whitespace
-            if (output.contains("Device / Media Name:"))
-            { // We want the volume name of this device
-                output.replace("Device / Media Name:      ","");
-                iddata.append(output);
-            }
-            else if (output.contains("Device Identifier:"))
-            { // We want the volume name of this device
-                output.replace("Device Identifier:        ","");
-                iddata.append(output);
-            }
-            else if (output.contains("Total Size:"))
-            { // We want the volume name of this device
-                output.replace("Total Size:               ","");
-                QStringList tokens = output.split(" ");
-                iddata.append( "("+tokens[0]+tokens[1]+")");
-            }
-
-            output = lsblk.readLine();
-        }
-
-        foreach(QString each,iddata)
-        {
-            item += each+": ";
-        }
-
-        returnList.append(item);
-#endif
-    }
-
-    return returnList;
 }
 
 void MainWindow::downloadProgress(qint64 bytesReceived, qint64 bytesTotal)
@@ -378,59 +197,95 @@ void MainWindow::downloadProgress(qint64 bytesReceived, qint64 bytesTotal)
         ui->timeDlLabel->setText(tr("Time remaining: Unknown"));
         ui->speedDlLabel->setText(tr("Speed: Unknown"));
     }
-
-
-//    Q_UNUSED(bytesReceived);
-//    Q_UNUSED(bytesTotal);
-
-//    if(reply->error() != QNetworkReply::NoError)
-//    {//TODO: handle error here
-//        QFile(path).remove();
-//        QFile(path + ".tmp").rename(path);
-//        return;
-//    }
-
-//    total_upd_size -= reply->bytesAvailable();
-//    QByteArray data = reply->readAll();
-//    in_len = data.size();
-//    in_buf = (uint8_t*)data.data();
-//    strm.next_in = in_buf;
-//    strm.avail_in = in_len;
-
-//    do {
-//        strm.next_out = out_buf;
-//        strm.avail_out = OUT_BUF_MAX;
-//        (void)LZMA.lzma_code (&strm, LZMA_RUN);
-//        out_len = OUT_BUF_MAX - strm.avail_out;
-
-//        QFile file(path);
-//        if(file.open(QIODevice::WriteOnly | QIODevice::Append))
-//        {
-//            file.write(QByteArray((char*)out_buf, (int)out_len));
-//            file.close();
-//        }
-//        out_buf[0] = 0;
-//    } while (strm.avail_out == 0);
 }
 
-void MainWindow::downloadFinished(QNetworkReply* repl)
-{
-    Q_UNUSED(repl)
-    ui->stackedWidget->setCurrentIndex(MainWindow::Page_Partition);
-}
-
-void MainWindow::writingFinished()
+void MainWindow::writeFinished()
 {
     ui->stackedWidget->setCurrentIndex(MainWindow::Page_Final);
+    ui->finalLabelIcon->setPixmap(QPixmap(":/img/dialog-ok.png"));
+
+    ui->continueButton->show();
+    ui->cancelButton->hide();
+    ui->continueButton->setText(tr("Close"));
 }
 
-void MainWindow::writingError(QString error)
+void MainWindow::writeSync()
+{
+    ui->writeProgress->setMinimum (0);
+    ui->writeProgress->setMaximum (0);
+    ui->writeProgress->setValue(-1);
+    ui->writeLabel->setText(tr("Syncing..."));
+    ui->timeWriteLabel->setText(tr("Time remaining: Unknown"));
+    ui->speedWriteLabel->setText(tr("Speed: Unknown"));
+}
+
+void MainWindow::writeError(QString error)
 {
     ui->stackedWidget->setCurrentIndex(MainWindow::Page_Final);
+    ui->finalLabelTitle->setText(tr("Failed to write image !"));
     ui->finalLabel->setText(error);
+    ui->finalLabelIcon->setPixmap(QPixmap(":/img/dialog-cancel.png"));
+
+    ui->continueButton->show();
+    ui->cancelButton->hide();
+    ui->continueButton->setText(tr("Close"));
+}
+
+void MainWindow::writeProgress(QString status, qint64 bytesReceived, qint64 bytesTotal, qint64 elapsedMs)
+{
+    if (bytesTotal > 0)
+    {
+        ui->writeProgress->setMinimum (0);
+        ui->writeProgress->setMaximum (100);
+        ui->writeProgress->setValue((bytesReceived * 100) / bytesTotal);
+
+        ui->writeLabel->setText(tr("%1 %2 of %3")
+                                   .arg(status, Utils::sizeHuman(bytesReceived), Utils::sizeHuman(bytesTotal)));
+
+        //calculate remaining time
+        QString remain = Utils::calculateTimeRemaining(startDownloadTime, bytesReceived, bytesTotal);
+        ui->timeWriteLabel->setText(tr("Time remaining: %1").arg(remain));
+        double speed = bytesReceived * 1000.0 / elapsedMs;
+        ui->speedWriteLabel->setText(tr("Speed: %1/s").arg(Utils::sizeHuman(speed)));
+    }
+    else
+    {
+        ui->writeProgress->setMinimum(0);
+        ui->writeProgress->setMaximum(0);
+        ui->writeProgress->setValue(-1);
+        ui->writeLabel->setText(status);
+        ui->timeWriteLabel->setText(tr("Time remaining: Unknown"));
+        ui->speedWriteLabel->setText(tr("Speed: Unknown"));
+    }
+}
+
+void MainWindow::startWriteProcess()
+{
+    startDownloadTime = QDateTime::currentDateTime();
+
+    QtConcurrent::run([=]()
+    {
+        diskWriter->writeToRemovableDevice(m_decompressedFile, m_disk);
+    });
 }
 
 void MainWindow::on_cancelButton_clicked()
 {
+    if (ui->stackedWidget->currentIndex() == MainWindow::Page_Download && downloadReq)
+    {
+        if (downloadReq && QMessageBox::question(this, "Calaos", tr("Cancel download ?")) == QMessageBox::Yes)
+        {
+            downloadReq->cancel();
+            downloadReq = nullptr;
+        }
+        return;
+    }
+    else if (ui->stackedWidget->currentIndex() == MainWindow::Page_Writing)
+    {
+        if (QMessageBox::question(this, "Calaos", tr("Cancel write ?")) == QMessageBox::Yes)
+            diskWriter->cancelWrite();
+        return;
+    }
+
     reject();
 }

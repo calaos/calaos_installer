@@ -19,7 +19,10 @@ QString Utils::sizeHuman(qint64 sz)
 
 QString Utils::calculateTimeRemaining(QDateTime startTime, qint64 received, qint64 total)
 {
-    uint difference = QDateTime::currentDateTime().toTime_t() - startTime.toTime_t();
+    uint difference = QDateTime::currentDateTimeUtc().toTime_t() - startTime.toTime_t();
+
+    if (received == 0)
+        return QObject::tr("Unknown");
 
     if (difference > 0)
     {
@@ -61,3 +64,32 @@ QString Utils::calculateTimeRemaining(QDateTime startTime, qint64 received, qint
 
     return QObject::tr("Unknown");
 }
+
+#if defined(Q_OS_WIN)
+QString Utils::errorMessageFromCode(DWORD errorCode)
+{
+    LPTSTR msgBuffer;
+    DWORD res = FormatMessage(
+        FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
+        NULL,
+        errorCode,
+        0,
+        reinterpret_cast<LPTSTR>(&msgBuffer),
+        0,
+        NULL
+    );
+    if (res)
+    {
+        QString ret = QString::fromWCharArray(msgBuffer);
+        LocalFree(msgBuffer);
+        return ret;
+    }
+    else
+        return QStringLiteral("Error code: %1").arg(errorCode);
+}
+
+QString Utils::formatErrorMessageFromCode(QString prefixMessage, DWORD errorCode)
+{
+    return prefixMessage + "\n" + errorMessageFromCode(errorCode);
+}
+#endif
