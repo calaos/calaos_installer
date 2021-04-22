@@ -28,6 +28,13 @@ protected:
 #if defined(Q_OS_WIN)
     HANDLE m_fileHandle;
 #endif
+
+#if defined(Q_OS_MAC)
+    /* Prevent that Qt thinks /dev/rdisk does not permit seeks because it does not report size */
+    virtual bool isSequential() const override { return true; }
+
+    bool authOpen(const QByteArray &filename);
+#endif
 };
 
 class DiskWriter: public QObject
