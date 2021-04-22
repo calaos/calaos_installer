@@ -612,8 +612,8 @@ void MainWindow::on_actionCreateNewImage_triggered()
 #if defined (Q_OS_LINUX)
     QString program;
     QStringList args;
-    args.append(QCoreApplication::applicationDirPath() + "/calaos_machinecreator");
-    program = "pkexec";
+    args << QCoreApplication::applicationDirPath();
+    program = QCoreApplication::applicationDirPath() + "/pkexec_calaos_machinecreator.sh";
     QProcess::startDetached(program, args);
 #elif defined(Q_OS_WIN)
     QDesktopServices::openUrl(QUrl::fromLocalFile(QCoreApplication::applicationDirPath() + "/calaos_machinecreator.exe"));

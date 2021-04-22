@@ -76,7 +76,7 @@ QVector<UsbDisk *> Platform::enumUsbDisk()
         // Write to RAW device, this is MUCH faster
         QString rawdev(QString::fromStdString(i.device));
         if (!rawdev.startsWith("/dev/r"))
-            rawdev.replace("/dev/", "/dev/r");
+            rawdev.replace("/dev/disk", "/dev/rdisk");
         d->set_physicalDevice(rawdev);
 #else
         d->set_physicalDevice(QString::fromStdString(i.device));

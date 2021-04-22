@@ -15,6 +15,8 @@
 #include <fcntl.h>
 #include <unistd.h>
 
+#include <KF5/karchive_version.h>
+
 PhysicalDevice::PhysicalDevice(const QString &name):
     QFile(name)
 {
@@ -23,7 +25,7 @@ PhysicalDevice::PhysicalDevice(const QString &name):
 // Opens the selected device in WriteOnly mode
 bool PhysicalDevice::open(OpenMode flags)
 {
-    flags = QIODevice::WriteOnly | QIODevice::Unbuffered;
+    flags = QIODevice::ReadWrite | QIODevice::Unbuffered;
 
 #if defined(Q_OS_WIN)
     DWORD bret;
@@ -63,13 +65,22 @@ bool PhysicalDevice::open(OpenMode flags)
         return false;
     }
 #elif defined(Q_OS_LINUX)
+
+#ifdef DOES_NOT_WORK
+    //This code does not work: when writing it stops with error: Invalid Arguments
+    //Using fsync after every write() call instead
     auto ba = fileName().toLocal8Bit();
 
     //Open with O_DIRECT to disable kernel caching
-    int fd = open(ba.constData(), O_WRONLY | O_DIRECT, S_IRWXU);
+    int fd;
+
+    do {
+        fd = ::open(ba.constData(), O_WRONLY | O_DIRECT | O_LARGEFILE, 0666);
+    } while (fd == -1 && errno == EINTR);
+
     if (fd == -1)
     {
-        setErrorString(QString::fromLocal8Bit(strerror(errorCode)));
+        setErrorString(QString::fromLocal8Bit(strerror(errno)));
         return false;
     }
 
@@ -81,6 +92,10 @@ bool PhysicalDevice::open(OpenMode flags)
         ::close(fd);
         return false;
     }
+#endif
+
+    return QFile::open(flags);
+
 #elif defined(Q_OS_MAC)
     auto ret = QFile::open(flags);
     if (fcntl(handle(), F_NOCACHE, 1) != 0) //equivalent to Linux's O_DIRECT flag
@@ -131,25 +146,30 @@ void DiskWriter::writeToRemovableDevice(const QString &filename, UsbDisk *d)
     qDebug() << "QIODevice created";
 
     //Unmount disk if needed
-    if (!disk->get_volumes().isEmpty())
-    {
-        emit progress("Unmounting volumes...", 0, 0, 0);
+    emit progress("Unmounting volumes...", 0, 0, 0);
 
-        qDebug() << "Unmounting device...";
+    //TODO: rescan disk if mount points have changed
+
+    qDebug() << "Unmounting device...";
 #if defined(Q_OS_MAC)
+    for (QString vol: disk->get_volumes())
+    {
         QProcess unmount;
         unmount.start("diskutil", QStringList() << "unmountDisk" << disk->get_physicalDevice());
         unmount.waitForStarted();
         unmount.waitForFinished();
         qDebug() << unmount.readAll();
+    }
 #elif defined(Q_OS_LINUX)
+    for (QString vol: disk->get_volumes())
+    {
         QProcess unmount;
-        unmount.start("/bin/umount", QStringList() << disk->get_physicalDevice());
+        unmount.start("/bin/umount", QStringList() << vol);
         unmount.waitForStarted();
         unmount.waitForFinished();
         qDebug() << unmount.readAll();
-#endif
     }
+#endif
 
 #if defined(Q_OS_WIN)
     /*
@@ -237,7 +257,7 @@ void DiskWriter::writeToRemovableDevice(const QString &filename, UsbDisk *d)
 #if defined(Q_OS_WIN)
             VirtualFree(b->buffer, BLOCK_SIZE, MEM_DECOMMIT | MEM_RELEASE);
 #elif defined(Q_OS_LINUX) || defined(Q_OS_MAC)
-            free(b->buffer);
+            qFreeAligned(b->buffer);
 #endif
             delete b;
         }
@@ -256,7 +276,7 @@ void DiskWriter::writeToRemovableDevice(const QString &filename, UsbDisk *d)
         return;
     }
 #elif defined(Q_OS_LINUX) || defined(Q_OS_MAC)
-    buffer->buffer = malloc(BLOCK_SIZE);
+    buffer->buffer = qMallocAligned(BLOCK_SIZE, 4096);
     if (buffer->buffer == nullptr)
     {
         emit error("Failed to allocate memory for buffer.");
@@ -295,6 +315,7 @@ void DiskWriter::writeToRemovableDevice(const QString &filename, UsbDisk *d)
 //        qDebug() << n << " bytes written out of " << r << " bytes";
         if (r != n)
         {
+            qDebug() << "Failed to write " << r << "bytes, got " << n << ": " << phyDev.errorString();
             emit error("Failed to write to " + disk->get_physicalDevice() + ": " + phyDev.errorString());
             return;
         }
@@ -302,6 +323,10 @@ void DiskWriter::writeToRemovableDevice(const QString &filename, UsbDisk *d)
         writtenBytes += n;
 
         emit progress("Writing", writtenBytes, totalBytes, timer.elapsed());
+
+#ifdef Q_OS_LINUX
+        phyDev.syncToDisk();
+#endif
     }
 
     if (writtenBytes != totalBytes)
@@ -313,6 +338,8 @@ void DiskWriter::writeToRemovableDevice(const QString &filename, UsbDisk *d)
     qDebug() << "Sync...";
     emit syncing();
     phyDev.syncToDisk();
+
+    //TODO: Add verification step that reads back data from disk and compare hash
 
     emit finished();
 }
@@ -403,11 +430,14 @@ QIODevice *DiskWriter::createSourceDevice(QString filename)
         else if (mime.inherits(QStringLiteral("application/x-xz")) ||
                  mime.inherits(QStringLiteral("application/x-lzma")))
             comp = KCompressionDevice::Xz;
+
+#if KARCHIVE_VERSION_MINOR > 81
         else if (mime.inherits(QStringLiteral("application/x-zstd")) ||
                  mime.inherits(QStringLiteral("application/zstd")) ||
                  filename.endsWith(".zst") ||
                  filename.endsWith(".zstd"))
             comp = KCompressionDevice::Zstd;
+#endif
 
         //non tar file, only compressed
         auto compDevice = new KCompressionDevice(filename, comp);
