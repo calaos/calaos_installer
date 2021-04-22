@@ -145,13 +145,13 @@ bool PhysicalDevice::authOpen(const QByteArray &filename)
             kAuthorizationFlagPreAuthorize;
     AuthorizationRef authRef;
     if (AuthorizationCreate(&rights, nullptr, flags, &authRef) != 0)
-        return authOpenCancelled;
+        return false;
 
     AuthorizationExternalForm externalForm;
     if (AuthorizationMakeExternalForm(authRef, &externalForm) != 0)
     {
         AuthorizationFree(authRef, 0);
-        return authOpenError;
+        return false;
     }
 
     const char *cmd = "/usr/libexec/authopen";
