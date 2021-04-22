@@ -166,10 +166,12 @@ void MainWindow::on_selectImageButton_clicked()
     QString fileName = QFileDialog::getOpenFileName(this,
                                                     tr("Open Calaos Image"),
                                                     downloadsFolder);
-
-    ui->imageFilenameLabel->setText(fileName);
-    m_decompressedFile = fileName;
-    m_bFileFromDisk = true;
+    if (!fileName.isEmpty())
+    {
+        ui->imageFilenameLabel->setText(fileName);
+        m_decompressedFile = fileName;
+        m_bFileFromDisk = true;
+    }
 }
 
 void MainWindow::downloadProgress(qint64 bytesReceived, qint64 bytesTotal)
