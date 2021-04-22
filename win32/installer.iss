@@ -21,14 +21,14 @@ DefaultGroupName=Calaos
 DisableProgramGroupPage=no
 OutputDir=build
 OutputBaseFilename=calaos_installer_setup_{#MyAppVersion}
-Compression=lzma
+Compression=lzma2/ultra64
 SolidCompression=no
 AppCopyright=Copyright (c) Calaos Team
 WizardImageFile=calaos.bmp
 WizardSmallImageFile=WizModernSmallImage-IS.bmp
 SetupIconFile=Setup.ico
 UninstallDisplayIcon={app}\calaos_installer.exe
-MinVersion=0,5.01sp3
+MinVersion=0,6
 PrivilegesRequired=admin
 
 [Languages]
@@ -63,6 +63,13 @@ Name: "calaosinstaller"; Description: "Calaos Installer"; Types: Full
 ;Filename: "msiexec.exe"; Parameters: "/i ""{app}\redist\Bonjour.msi"" /qn"; WorkingDir: "{app}\redist"; StatusMsg: "Installing Bonjour32..."; Components: calaosinstaller; Check: not IsWin64
 ;Filename: "msiexec.exe"; Parameters: "/i ""{app}\redist\Bonjour64.msi"" /qn"; WorkingDir: "{app}\redist"; StatusMsg: "Installing Bonjour64..."; Components: calaosinstaller; Check: IsWin64
 Filename: "{app}\calaos_installer.exe"; WorkingDir: "{app}"; Description: "Start Calaos Installer"; Flags: postinstall nowait skipifsilent runascurrentuser  
+
+;Uninstall first all fw rules
+Filename: "{sys}\netsh.exe"; Parameters: "advfirewall firewall delete rule name=""Calaos Installer"" "; StatusMsg: "Removing Firewall Exception"; Flags: runhidden; Components: calaosinstaller
+Filename: "{sys}\netsh.exe"; Parameters: "advfirewall firewall delete rule name=""Calaos Machine Creator"" "; StatusMsg: "Removing Firewall Exception"; Flags: runhidden; Components: calaosinstaller
+
+Filename: "{sys}\netsh.exe"; Parameters: "advfirewall firewall add rule name=""Calaos Installer"" dir=in action=allow program=""{app}\calaos_installer.exe"" "; StatusMsg: "Adding Firewall Exception"; Flags: runhidden; Components: calaosinstaller
+Filename: "{sys}\netsh.exe"; Parameters: "advfirewall firewall add rule name=""Calaos Machine Creator"" dir=in action=allow program=""{app}\calaos_machinecreator.exe"" "; StatusMsg: "Adding Firewall Exception"; Flags: runhidden; Components: calaosinstaller
 
 [Code]
 // function IsModuleLoaded to call at install time
