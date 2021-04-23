@@ -9,6 +9,8 @@
 
 #include "UsbDisk.h"
 
+#include "BLAKE2/ref/blake2.h"
+
 #if defined(Q_OS_WIN)
 #include <qt_windows.h>
 #endif
@@ -21,12 +23,17 @@ public:
 
     // Opens the selected device in WriteOnly mode, flags is ignored
     virtual bool open(OpenMode flags) override;
+    void close() override;
 
     void syncToDisk();
 
 protected:
 #if defined(Q_OS_WIN)
     HANDLE m_fileHandle;
+    bool handleLocked = false;
+
+    void lockVolume();
+    void unlockVolume();
 #endif
 
 #if defined(Q_OS_MAC)

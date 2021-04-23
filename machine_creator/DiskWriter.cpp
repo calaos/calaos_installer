@@ -1,5 +1,6 @@
 #include "DiskWriter.h"
 #include "Utils.h"
+#include "Platform.h"
 
 #include <QDebug>
 #include <QCoreApplication>
@@ -39,7 +40,7 @@ bool PhysicalDevice::open(OpenMode flags)
     // requires OPEN_EXISTING for physical devices. Therefore we have to use native API.
     m_fileHandle = CreateFile(
         reinterpret_cast<const wchar_t*>(fileName().utf16()),
-        GENERIC_WRITE,
+        GENERIC_READ | GENERIC_WRITE,
         FILE_SHARE_READ | FILE_SHARE_WRITE,
         NULL,
         OPEN_EXISTING,
@@ -63,7 +64,10 @@ bool PhysicalDevice::open(OpenMode flags)
 
     // Construct QFile around the device handle; close() will now close the handle automatically
     if (QFile::open(_open_osfhandle(reinterpret_cast<intptr_t>(m_fileHandle), 0), flags, AutoCloseHandle))
+    {
+        lockVolume();
         return true;
+    }
     else
     {
         CloseHandle(m_fileHandle);
@@ -119,6 +123,15 @@ bool PhysicalDevice::open(OpenMode flags)
 #endif
 }
 
+void PhysicalDevice::close()
+{
+#ifdef Q_OS_WIN
+    unlockVolume();
+#endif
+
+    QFile::close();
+}
+
 void PhysicalDevice::syncToDisk()
 {
     if (isOpen())
@@ -130,6 +143,66 @@ void PhysicalDevice::syncToDisk()
 #endif
     }
 }
+
+#if defined(Q_OS_WIN)
+void PhysicalDevice::lockVolume()
+{
+    DWORD bytesRet;
+    DeviceIoControl(m_fileHandle,
+                    FSCTL_ALLOW_EXTENDED_DASD_IO,
+                    NULL,
+                    0,
+                    NULL,
+                    0,
+                    &bytesRet,
+                    NULL);
+    for (int attempt = 0; attempt < 20; attempt++)
+    {
+        qDebug() << "Locking volume" << fileName();
+
+        if (DeviceIoControl(m_fileHandle, FSCTL_LOCK_VOLUME, NULL, 0, NULL, 0, &bytesRet, NULL))
+        {
+            handleLocked = true;
+            qDebug() << "Locked volume";
+            return;
+        }
+
+        qDebug() << Utils::formatErrorMessageFromCode("Could not lock volume:", GetLastError());
+
+        qDebug() << "FSCTL_LOCK_VOLUME failed. Retrying in 0.1 sec";
+        QThread::msleep(100);
+    }
+
+    qDebug() << "Giving up locking volume";
+    return;
+}
+
+void PhysicalDevice::unlockVolume()
+{
+    if (!handleLocked)
+        return;
+
+    DWORD bytesRet;
+    if (DeviceIoControl(m_fileHandle,
+                        FSCTL_UNLOCK_VOLUME,
+                        NULL,
+                        0,
+                        NULL,
+                        0,
+                        &bytesRet,
+                        NULL))
+    {
+        handleLocked = false;
+        qDebug() << "Unlocked volume";
+        return;
+    }
+    else
+    {
+        qDebug() << "FSCTL_UNLOCK_VOLUME failed";
+        return;
+    }
+}
+#endif
 
 #if defined(Q_OS_MAC)
 //Code from https://github.com/raspberrypi/rpi-imager/blob/qml/mac/macfile.cpp
@@ -266,7 +339,16 @@ void DiskWriter::writeToRemovableDevice(const QString &filename, UsbDisk *d)
     //Unmount disk if needed
     emit progress("Unmounting volumes...", 0, 0, 0);
 
-    //TODO: rescan disk if mount points have changed
+    //Rescan disks in case mount point changes when opening archives
+    {
+        auto disks = Platform::enumUsbDisk();
+        for (UsbDisk *udisk: disks)
+        {
+            if (udisk->get_physicalDevice() == disk->get_physicalDevice())
+                disk.reset(new UsbDisk(udisk));
+        }
+        qDeleteAll(disks);
+    }
 
     qDebug() << "Unmounting device...";
 #if defined(Q_OS_MAC)
@@ -419,15 +501,26 @@ void DiskWriter::writeToRemovableDevice(const QString &filename, UsbDisk *d)
     qint64 totalBytes = srcDevice->size();
     qint64 writtenBytes = 0;
 
+    //BLAKE2b checksum of source
+    QString checksumSrc;
+
+    const auto hashLen = 256 / 8; //Blake2b256
+    blake2b_state blake2bContext;
+
+    new (&blake2bContext) blake2b_state;
+    blake2b_init(&blake2bContext, hashLen);
+
     emit progress("Writing", writtenBytes, totalBytes, timer.elapsed());
 
     qDebug() << "Write...";
 
     while (!srcDevice->atEnd() && !isCancelled)
     {
-        auto r = srcDevice->read(static_cast<char*>(buffer->buffer), BLOCK_SIZE);
+        auto r = srcDevice->read(static_cast<char *>(buffer->buffer), BLOCK_SIZE);
         if (r <= 0)
             break;
+
+        blake2b_update(&blake2bContext, reinterpret_cast<const uint8_t *>(buffer->buffer), r);
 
         auto n = phyDev.write(static_cast<char*>(buffer->buffer), r);
 //        qDebug() << n << " bytes written out of " << r << " bytes";
@@ -457,7 +550,66 @@ void DiskWriter::writeToRemovableDevice(const QString &filename, UsbDisk *d)
     emit syncing();
     phyDev.syncToDisk();
 
-    //TODO: Add verification step that reads back data from disk and compare hash
+    //Compute Blake2b checksum from source
+    QByteArray result;
+    result.resize(hashLen);
+    blake2b_final(&blake2bContext, reinterpret_cast<uint8_t *>(result.data()), hashLen);
+    checksumSrc = result.toHex();
+
+    //Verification step
+
+    qDebug() << "Verify...";
+    writtenBytes = 0;
+    timer.restart();
+    new (&blake2bContext) blake2b_state;
+    blake2b_init(&blake2bContext, hashLen);
+
+    emit progress("Verify", writtenBytes, totalBytes, timer.elapsed());
+
+#ifdef Q_OS_LINUX
+    /* Make sure we are reading from the drive and not from cache */
+    //fcntl(phyDev.handle(), F_SETFL, O_DIRECT | fcntl(phyDev.handle(), F_GETFL));
+    posix_fadvise(phyDev.handle(), 0, 0, POSIX_FADV_DONTNEED);
+#endif
+
+    if (!phyDev.seek(0))
+    {
+        qDebug() << "seek failed " << phyDev.errorString();
+        emit error("Failed to seek to begining of drive: " + phyDev.errorString());
+        return;
+    }
+
+    while (writtenBytes < totalBytes && !isCancelled)
+    {
+        qint64 lenRead = phyDev.read(static_cast<char *>(buffer->buffer),
+                                     qMin((qint64) BLOCK_SIZE, (qint64) (totalBytes - writtenBytes) ));
+        if (lenRead == -1)
+        {
+            qDebug() << "Read failed " << phyDev.errorString();
+            emit error("Failed to read physical drive (Broken device?). " + phyDev.errorString());
+            return;
+        }
+
+        blake2b_update(&blake2bContext, reinterpret_cast<const uint8_t *>(buffer->buffer), lenRead);
+
+        writtenBytes += lenRead;
+
+        emit progress("Verify", writtenBytes, totalBytes, timer.elapsed());
+    }
+
+    //Compute Blake2b checksum from device
+    result = QByteArray();
+    result.resize(hashLen);
+    blake2b_final(&blake2bContext, reinterpret_cast<uint8_t *>(result.data()), hashLen);
+
+    qDebug() << "Checksums: src(" << checksumSrc << ") drive(" << result.toHex() << ")";
+
+    if (checksumSrc != result.toHex())
+    {
+        qDebug() << "Cheksum does not match!";
+        emit error("Written data verification failed. Is your USB drive broken?");
+        return;
+    }
 
     emit finished();
 }

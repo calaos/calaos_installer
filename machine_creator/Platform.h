@@ -14,12 +14,12 @@ public:
 
     UsbDiskModel *getDiskModel();
 
+    static QVector<UsbDisk *> enumUsbDisk();
+
 private slots:
     void usbChanged();
 
 private:
-    QVector<UsbDisk *> enumUsbDisk();
-
     UsbDiskModel *model = nullptr;
 };
 
