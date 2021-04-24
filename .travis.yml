@@ -9,6 +9,7 @@ osx_image: xcode12.2
 language: cpp
 
 before_install:
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
   - git fetch --tags && git fetch
   - ./scripts/ci/$TRAVIS_OS_NAME/before_install.sh
 
