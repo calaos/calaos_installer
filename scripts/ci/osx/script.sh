@@ -4,7 +4,7 @@ set -ev
 SCRIPTDIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 source $SCRIPTDIR/../funcs.sh
 
-mkdir -p build
+rm -fr build && mkdir -p build
 pushd build
 
 QTDIR="/usr/local/opt/qt5"

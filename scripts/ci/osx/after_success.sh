@@ -48,7 +48,9 @@ cp macos/main.scpt build/$APP.app/Contents/MacOS/
 #echo "Calling macdeployqt and code signing application"
 #$QTDIR/bin/macdeployqt ./$APP.app -codesign="$DEVELOPER_NAME"
 echo "Calling macdeployqt"
-$QTDIR/bin/macdeployqt build/$APP.app
+$QTDIR/bin/macdeployqt build/$APP.app \
+    -executable=build/$APP.app/Contents/MacOS/calaos_installer \
+    -executable=build/$APP.app/Contents/MacOS/calaos_machinecreator
 if [ "$?" -ne "0" ]; then
     echo "Failed to run macdeployqt"
     # remove keys

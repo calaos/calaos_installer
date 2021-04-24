@@ -618,8 +618,11 @@ void MainWindow::on_actionCreateNewImage_triggered()
 #elif defined(Q_OS_WIN)
     QDesktopServices::openUrl(QUrl::fromLocalFile(QCoreApplication::applicationDirPath() + "/calaos_machinecreator.exe"));
 #elif defined(Q_OS_MAC)
-    //Untested... does it work?
-    QDesktopServices::openUrl(QUrl::fromLocalFile(QCoreApplication::applicationDirPath() + "/calaos_machinecreator"));
+    QString program;
+    QStringList args;
+    args << QCoreApplication::applicationDirPath();
+    program = QCoreApplication::applicationDirPath() + "/calaos_machinecreator";
+    QProcess::startDetached(program, args);
 #endif
 }
 
