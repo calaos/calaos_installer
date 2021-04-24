@@ -38,7 +38,7 @@ protected:
 
 #if defined(Q_OS_MAC)
     /* Prevent that Qt thinks /dev/rdisk does not permit seeks because it does not report size */
-    virtual bool isSequential() const override { return true; }
+    virtual bool isSequential() const override { return false; }
 
     bool authOpen(const QByteArray &filename);
 #endif
