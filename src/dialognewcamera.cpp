@@ -95,6 +95,14 @@ void DialogNewCamera::on_buttonBox_accepted()
             p.Add("camera_id", item->text(0).toUtf8().constData());
         }
     }
+    else if (ui->tab_camera_model->currentIndex() == 5) //Foscam
+    {
+        p.Add("type", "foscam");
+        p.Add("port", ui->foscam_port->text().toUtf8().constData());
+        p.Add("host", ui->foscam_ip->text().toUtf8().constData());
+        p.Add("username", ui->foscam_username->text().toUtf8().constData());
+        p.Add("password", ui->foscam_password->text().toUtf8().constData());
+    }
     else
     {
         QMessageBox::warning(this, tr("Calaos Installer"), QString::fromUtf8("Type de caméra inconnu!"));
