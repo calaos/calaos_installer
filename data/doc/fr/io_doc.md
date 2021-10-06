@@ -1277,7 +1277,7 @@ Utile pour contrôler les périphériques de sortie analogique connectés à cal
 ##Parameters of MqttOutputAnalog
 Name | Type | Mandatory | Description
 ---- | ---- | --------- | -----------
-data | string | yes | The data sent when publishing to topic. The __##VALUE##__ contained in data is substituted with with the state (float value) to be sent.
+data | string | yes | The data sent when publishing to topic. The __##VALUE##__ contained in data is substituted with the state (float value) to be sent.
 path | string | yes | The path where to found the value in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. for example weather[0]/description, try to read the description value of the 1 element of the array of the weather object. if payload is somple json, just try to use the key of the value you want to read, for example : {"temperature":14.23} use "temperature" as path
 
 topic_sub | string | yes | Topic on witch to subscribe.
@@ -1377,7 +1377,7 @@ Lumière avec variateur. La luminosité peut-être modifiée pour cette lumière
 ##Parameters of MqttOutputLightDimmer
 Name | Type | Mandatory | Description
 ---- | ---- | --------- | -----------
-data | string | yes | The data sent when publishing to topic. The __##VALUE##__ contained in data is substituted with with the state (integer value) to be sent.
+data | string | yes | The data sent when publishing to topic. The __##VALUE##__ contained in data is substituted with the state (integer value) to be sent.
 io_type | string | yes | Type d'entrée/sortie (input, output, inout)
 enabled | bool | no | Activez l'entrée/sortie. Vrai par défaut. Ce paramètre est ajouté s'il n'est pas trouvé dans la configuration.
 visible | bool | no | Affichez l'entrée/sortie sur toutes les interfaces utilisateur. Vrai par défaut

@@ -4902,7 +4902,7 @@
         "alias": [],
         "parameters": [
             {
-                "description": "The data sent when publishing to topic. The __##VALUE##__ contained in data is substituted with with the state (float value) to be sent.",
+                "description": "The data sent when publishing to topic. The __##VALUE##__ contained in data is substituted with the state (float value) to be sent.",
                 "mandatory": "true",
                 "name": "data",
                 "readonly": "false",
@@ -5325,7 +5325,7 @@
         "alias": [],
         "parameters": [
             {
-                "description": "The data sent when publishing to topic. The __##VALUE##__ contained in data is substituted with with the state (integer value) to be sent.",
+                "description": "The data sent when publishing to topic. The __##VALUE##__ contained in data is substituted with the state (integer value) to be sent.",
                 "mandatory": "true",
                 "name": "data",
                 "readonly": "false",
