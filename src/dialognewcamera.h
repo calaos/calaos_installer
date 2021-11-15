@@ -39,7 +39,7 @@ private:
     QString apiSid;
     QString listUrl;
 
-    QJsonObject parseResult(const QString &data, bool &error);
+    QJsonObject parseResult(const QString &data, bool &error, QString &errStr);
     void getApiInfo(const QString &api, const QString &method, const QString &version,
                     std::function<void(const QString &url)> cb);
     void login(std::function<void(const QString &sid)> cb);

@@ -127,7 +127,7 @@ void DialogNewCamera::on_pushButtonConnectDsm_clicked()
     {
         apiSid.clear();
         listUrl.clear();
-        getApiInfo("SYNO.API.Auth", "Login", "2", [=](const QString &api)
+        getApiInfo("SYNO.API.Auth", "Login", "6", [=](const QString &api)
         {
             if (api.isEmpty())
             {
@@ -178,7 +178,7 @@ void DialogNewCamera::tryGetList()
 {
     if (listUrl.isEmpty())
     {
-        getApiInfo("SYNO.SurveillanceStation.Camera", "List", "1", [=](const QString &api)
+        getApiInfo("SYNO.SurveillanceStation.Camera", "List", "9", [=](const QString &api)
         {
             if (api.isEmpty())
             {
@@ -217,7 +217,9 @@ void DialogNewCamera::doGetList()
             {
                 auto *item = new QTreeWidgetItem(ui->treeWidgetDsmCam);
                 item->setText(0, QString::number(o["id"].toInt()));
-                item->setText(1, o["name"].toString());
+                QString name = o["name"].toString();
+                if (name.isEmpty()) name = o["newName"].toString();
+                item->setText(1, name);
                 if (!selected)
                 {
                     item->setSelected(true);
@@ -250,10 +252,11 @@ void DialogNewCamera::listCameras(std::function<void(const QJsonArray &arr)> dat
 
         QByteArray bytes = reply->readAll();
         bool err;
-        QJsonObject jdata = parseResult(bytes, err);
+        QString errStr;
+        QJsonObject jdata = parseResult(bytes, err, errStr);
 
         if (err)
-            QMessageBox::warning(this, tr("Calaos Installer"), tr("Failed to list cameras"));
+            QMessageBox::warning(this, tr("Calaos Installer"), tr("Failed to list cameras\nDetails: %1").arg(errStr));
 
         if (err || !jdata["cameras"].isArray())
         {
@@ -268,7 +271,7 @@ void DialogNewCamera::listCameras(std::function<void(const QJsonArray &arr)> dat
 void DialogNewCamera::login(std::function<void(const QString &sid)> cb)
 {
     QString url = authUrl;
-    url += QStringLiteral("&format=2&account=%1&passwd=%2").arg(ui->dsm_username->text()).arg(ui->dsm_password->text());
+    url += QStringLiteral("&format=sid&account=%1&passwd=%2").arg(ui->dsm_username->text()).arg(ui->dsm_password->text());
 
     QUrl u(url);
     QNetworkRequest request(u);
@@ -287,7 +290,8 @@ void DialogNewCamera::login(std::function<void(const QString &sid)> cb)
 
         QByteArray bytes = reply->readAll();
         bool err;
-        QJsonObject jdata = parseResult(bytes, err);
+        QString errStr;
+        QJsonObject jdata = parseResult(bytes, err, errStr);
 
         if (err || !jdata["sid"].isString())
         {
@@ -323,7 +327,8 @@ void DialogNewCamera::getApiInfo(const QString &api, const QString &method, cons
 
         QByteArray bytes = reply->readAll();
         bool err;
-        QJsonObject jdata = parseResult(bytes, err);
+        QString errStr;
+        QJsonObject jdata = parseResult(bytes, err, errStr);
 
         if (err || !jdata[api].isObject())
         {
@@ -343,25 +348,37 @@ void DialogNewCamera::getApiInfo(const QString &api, const QString &method, cons
     });
 }
 
-QJsonObject DialogNewCamera::parseResult(const QString &data, bool &error)
+QJsonObject DialogNewCamera::parseResult(const QString &data, bool &error, QString &errStr)
 {
     QJsonParseError jerr;
     QJsonDocument jdoc = QJsonDocument::fromJson(data.toLocal8Bit(), &jerr);
     error = true;
 
     if (jerr.error != QJsonParseError::NoError)
+    {
+        errStr = jerr.errorString();
         return {};
+    }
 
     if (!jdoc.isObject())
+    {
+        errStr = "JSON is not an object";
         return {};
+    }
 
     QJsonObject o = jdoc.object();
 
     if (!o["success"].toBool())
+    {
+        errStr = "API returned error";
         return {};
+    }
 
     if (!o["data"].isObject())
+    {
+        errStr = "JSON data is not an object";
         return {};
+    }
 
     error = false;
     return o["data"].toObject();
