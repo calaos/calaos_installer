@@ -114,10 +114,15 @@ Foscam IP Camera/Encoder. Camera can be viewed directly inside calaos and used i
 ##Parameters of Foscam
 Name | Type | Mandatory | Description
 ---- | ---- | --------- | -----------
+port | string | yes | Port number
+host | string | yes | IP Address
+password | string | yes | Password for user
 ptz | bool | no | Set to true if camera has PTZ support
 logged | bool | no | If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO
 log_history | bool | no | If enabled, write an entry in the history event log for this IO
+zoom_step | string | no | 
 name | string | yes | Name of Input/Output.
+username | string | yes | Username for accessing the camera
 gui_type | string | no | Internal graphical type for all calaos objects. Set automatically, read-only parameter.
 id | string | yes | Unique ID identifying the Input/Output in calaos-server
 visible | bool | no | Display the Input/Output on all user interfaces if set. Default to true

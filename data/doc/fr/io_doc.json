@@ -397,6 +397,28 @@
         "alias": [],
         "parameters": [
             {
+                "default": "88",
+                "description": "Port number",
+                "mandatory": "true",
+                "name": "port",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "IP Address",
+                "mandatory": "true",
+                "name": "host",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "Mot de passe pour l'utilisateur",
+                "mandatory": "true",
+                "name": "password",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
                 "default": "false",
                 "description": "Activer si la caméra supporte le PTZ",
                 "mandatory": "false",
@@ -421,9 +443,24 @@
                 "type": "bool"
             },
             {
+                "default": "1",
+                "description": "",
+                "mandatory": "false",
+                "name": "zoom_step",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
                 "description": "Nom de l'entrée/sortie.",
                 "mandatory": "true",
                 "name": "name",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "Nom d'utilisateur pour accéder à la caméra",
+                "mandatory": "true",
+                "name": "username",
                 "readonly": "false",
                 "type": "string"
             },
