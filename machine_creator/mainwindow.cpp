@@ -21,7 +21,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(calaosApi, &CalaosApi::downloadProgress, this, &MainWindow::downloadProgress);
 
-    ui->stackedWidget->setCurrentIndex(0);
+    ui->stackedWidget->setCurrentIndex(MainWindow::Page_Start);
 
     imageModel = new CalaosImageModel(this);
     filterImageModel = new FilterImageModel(this);
@@ -55,6 +55,8 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(diskWriter, &DiskWriter::error, this, &MainWindow::writeError);
     connect(diskWriter, &DiskWriter::finished, this, &MainWindow::writeFinished);
     connect(diskWriter, &DiskWriter::syncing, this, &MainWindow::writeSync);
+
+    ui->restartButton->hide();
 }
 
 MainWindow::~MainWindow()
@@ -208,6 +210,7 @@ void MainWindow::writeFinished()
 
     ui->continueButton->show();
     ui->cancelButton->hide();
+    ui->restartButton->show();
     ui->continueButton->setText(tr("Close"));
 }
 
@@ -230,6 +233,7 @@ void MainWindow::writeError(QString error)
 
     ui->continueButton->show();
     ui->cancelButton->hide();
+    ui->restartButton->show();
     ui->continueButton->setText(tr("Close"));
 }
 
@@ -291,3 +295,13 @@ void MainWindow::on_cancelButton_clicked()
 
     reject();
 }
+
+void MainWindow::on_restartButton_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(MainWindow::Page_Start);
+    ui->continueButton->show();
+    ui->cancelButton->show();
+    ui->restartButton->hide();
+    ui->continueButton->setText(tr("Continue"));
+}
+
