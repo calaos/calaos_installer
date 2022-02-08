@@ -207,6 +207,8 @@ void MainWindow::writeFinished()
 {
     ui->stackedWidget->setCurrentIndex(MainWindow::Page_Final);
     ui->finalLabelIcon->setPixmap(QPixmap(":/img/dialog-ok.png"));
+    ui->finalLabelTitle->setText(tr("Image succesfully written on disk."));
+    ui->finalLabel->setText(tr("You can now remove the SDCard or USBDisk and insert on your Machine."));
 
     ui->continueButton->show();
     ui->cancelButton->hide();
