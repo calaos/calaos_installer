@@ -641,6 +641,7 @@ QIODevice *DiskWriter::createSourceDevice(QString filename)
         if (!tarFile->open(QIODevice::ReadOnly))
         {
             emit error("Failed to open image archive " + filename);
+            qDebug() << "Error: " << tarFile->errorString();
             return nullptr;
         }
 
@@ -716,6 +717,7 @@ QIODevice *DiskWriter::createSourceDevice(QString filename)
         if (!compDevice->open(QIODevice::ReadOnly))
         {
             emit error("Failed to open image archive " + filename);
+            qDebug() << "Failed:" << compDevice->errorString();
             return nullptr;
         }
 
@@ -730,6 +732,7 @@ QIODevice *DiskWriter::createSourceDevice(QString filename)
         if (!stdFile->open(QIODevice::ReadOnly))
         {
             emit error("Failed to open image file " + filename);
+            qDebug() << "Failed:" << stdFile->errorString();
             return nullptr;
         }
 

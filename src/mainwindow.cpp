@@ -403,7 +403,6 @@ void MainWindow::wagoConnected(QString &, bool)
     ui->actionDALI->setEnabled(true);
     ui->actionMise_jour_Automate->setEnabled(true);
     ui->actionSet_DMX4ALL_IP_Address->setEnabled(true);
-    ui->actionUploadDaliMasterCSV->setEnabled(true);
 
     statusConnectText->setText(QString(tr("Connected (%1)")).arg(WagoConnect::Instance().getWagoVersion()));
     statusConnectIcon->setPixmap(QPixmap(":/img/user-online_16x16.png"));
@@ -417,7 +416,6 @@ void MainWindow::wagoDisconnected()
     ui->actionDALI->setEnabled(false);
     ui->actionMise_jour_Automate->setEnabled(false);
     ui->actionSet_DMX4ALL_IP_Address->setEnabled(false);
-    ui->actionUploadDaliMasterCSV->setEnabled(false);
 
     statusConnectText->setText(tr("Disconnected."));
     statusConnectIcon->setPixmap(QPixmap(":/img/user-invisible_16x16.png"));
@@ -676,13 +674,62 @@ void MainWindow::on_actionSet_DMX4ALL_IP_Address_triggered()
 
 void MainWindow::on_actionUploadDaliMasterCSV_triggered()
 {
-    if (WagoConnect::Instance().getConnectionStatus() == WAGO_CONNECTED)
+    //Ask for PLC IP address only and do not connect
+    DialogConnect dConnect(true, this);
+    dConnect.exec();
+
+    ShowPage(PAGE_DALIMASTER);
+}
+
+void MainWindow::on_actionUpgrade_PLC_with_custom_firmware_triggered()
+{
+    //Ask for PLC IP address only and do not connect
+    DialogConnect dConnect(true, this);
+    dConnect.exec();
+
+    QFileDialog dFiles(this);
+    dFiles.setDirectory(QDir::homePath());
+    dFiles.setFileMode(QFileDialog::ExistingFiles);
+    dFiles.setNameFilter(trUtf8("Wago Codesys Boot Files (*.PRG *.CHK)"));
+    QStringList fileNames;
+    if (dFiles.exec())
+        fileNames = dFiles.selectedFiles();
+
+    bool prgSelected = false;
+    bool chkSelected = false;
+    bool tooManyFilesSelected = false;
+    QString prgFile, chkFile;
+
+    for (const auto &f: fileNames)
     {
-        if (WagoConnect::Instance().getWagoType() != "750-842")
+        if (f.endsWith(".prg", Qt::CaseInsensitive))
         {
-            ShowPage(PAGE_DALIMASTER);
+            if (prgSelected)
+                tooManyFilesSelected = true;
+            prgSelected = true;
+            prgFile = f;
         }
-        else
-            QMessageBox::critical(this, tr("Calaos Installer"), tr("DALI configuration tool is not available on your PLC!"));
+
+        if (f.endsWith(".chk", Qt::CaseInsensitive))
+        {
+            if (chkSelected)
+                tooManyFilesSelected = true;
+            chkSelected = true;
+            chkFile = f;
+        }
     }
+
+    if (tooManyFilesSelected)
+    {
+        QMessageBox::critical(this, tr("Calaos Installer"), tr("Too many files selected, please select only one .PRG and one .CHK file"));
+        return;
+    }
+
+    if (!prgSelected || !chkSelected)
+    {
+        QMessageBox::critical(this, tr("Calaos Installer"), tr("Not all required files selected, please select one .PRG and one .CHK file"));
+        return;
+    }
+
+    WagoConnect::Instance().updateWago(prgFile, chkFile);
 }

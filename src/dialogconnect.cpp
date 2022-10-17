@@ -3,8 +3,10 @@
 
 #include "ConfigOptions.h"
 
-DialogConnect::DialogConnect(QWidget *parent): QDialog(parent),
-    ui(new Ui::DialogConnect)
+DialogConnect::DialogConnect(bool ipOnly, QWidget *parent):
+    QDialog(parent),
+    ui(new Ui::DialogConnect),
+    iponly(ipOnly)
 {
     setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
     ui->setupUi(this);
@@ -43,5 +45,6 @@ void DialogConnect::on_buttonBox_accepted()
 
     //        WagoConnect::Instance().setUsername(ui->username->text());
     //        WagoConnect::Instance().setPassword(ui->password->text());
-    WagoConnect::Instance().Connect(ui->ip_address->text(), false);
+    if (!iponly)
+        WagoConnect::Instance().Connect(ui->ip_address->text(), false);
 }

@@ -152,6 +152,13 @@ void FormDaliMaster::on_pushButtonLoad_clicked()
 {
     if (ftp) return;
 
+    progress = new QProgressDialog(this);
+    progress->setCancelButton(nullptr);
+    progress->setWindowModality(Qt::WindowModal);
+    progress->setAutoClose(false);
+    progress->setAutoReset(false);
+    progress->show();
+
     /* Start the FTP upload process */
     ftp = new QFtp(this);
 
@@ -173,13 +180,6 @@ void FormDaliMaster::on_pushButtonLoad_clicked()
     csvIoBuffer.open(QBuffer::ReadWrite);
 
     cmd_file_get = ftp->get(CALAOS_CSV_FILE, &csvIoBuffer);
-
-    progress = new QProgressDialog(this);
-    progress->setCancelButton(nullptr);
-    progress->setWindowModality(Qt::WindowModal);
-    progress->setAutoClose(false);
-    progress->setAutoReset(false);
-    progress->show();
 }
 
 void FormDaliMaster::on_pushButtonSend_clicked()
@@ -188,6 +188,13 @@ void FormDaliMaster::on_pushButtonSend_clicked()
 
     /* Start the FTP upload process */
     ftp = new QFtp(this);
+
+    progress = new QProgressDialog(this);
+    progress->setCancelButton(nullptr);
+    progress->setWindowModality(Qt::WindowModal);
+    progress->setAutoClose(false);
+    progress->setAutoReset(false);
+    progress->show();
 
     connect(ftp, SIGNAL(dataTransferProgress(qint64,qint64)),
             this, SLOT(updateDataTransferProgress(qint64,qint64)));
@@ -210,23 +217,20 @@ void FormDaliMaster::on_pushButtonSend_clicked()
     csvIoBuffer.close();
 
     cmd_file_set = ftp->put(csvData, CALAOS_CSV_FILE);
-
-    progress = new QProgressDialog(this);
-    progress->setCancelButton(nullptr);
-    progress->setWindowModality(Qt::WindowModal);
-    progress->setAutoClose(false);
-    progress->setAutoReset(false);
-    progress->show();
 }
 
 void FormDaliMaster::updateDataTransferProgress(qint64 done, qint64 total)
 {
+    if (!progress) return;
+
     if (total <= 0) total = 1;
     progress->setValue(done * 100 / total);
 }
 
 void FormDaliMaster::onCommandStarted(int id)
 {
+    if (!progress) return;
+
     if (id == cmd_connect)
         progress->setLabelText(tr("Connecting to PLC..."));
     else if (id == cmd_login)
@@ -252,6 +256,7 @@ void FormDaliMaster::onCommandFinished(int id, bool error)
             ftp = nullptr;
             progress->hide();
             progress->deleteLater();
+            progress = nullptr;
         }
         qDebug() << "FTP connect ok";
     }
@@ -266,6 +271,7 @@ void FormDaliMaster::onCommandFinished(int id, bool error)
             ftp = nullptr;
             progress->hide();
             progress->deleteLater();
+            progress = nullptr;
         }
         qDebug() << "FTP login ok";
     }
@@ -280,6 +286,7 @@ void FormDaliMaster::onCommandFinished(int id, bool error)
             ftp = nullptr;
             progress->hide();
             progress->deleteLater();
+            progress = nullptr;
         }
         qDebug() << "FTP cd ok";
     }
@@ -287,15 +294,14 @@ void FormDaliMaster::onCommandFinished(int id, bool error)
     {
         if (!error)
         {
-            csvTempFile->reset();
+            csvIoBuffer.reset();
             QStringList csv;
-            while (!csvTempFile->atEnd())
+            while (!csvIoBuffer.atEnd())
             {
-                QByteArray line = csvTempFile->readLine();
+                QByteArray line = csvIoBuffer.readLine();
                 QString fline(line);
                 csv << fline;
             }
-            csvTempFile->close();
             loadCsv(csv);
         }
 
@@ -306,6 +312,7 @@ void FormDaliMaster::onCommandFinished(int id, bool error)
         ftp = nullptr;
         progress->hide();
         progress->deleteLater();
+        progress = nullptr;
     }
     else if (id == cmd_file_set)
     {
@@ -318,6 +325,7 @@ void FormDaliMaster::onCommandFinished(int id, bool error)
             ftp = nullptr;
             progress->hide();
             progress->deleteLater();
+            progress = nullptr;
         }
         else
         {
@@ -339,6 +347,7 @@ void FormDaliMaster::resetDone()
     ftp = nullptr;
     progress->hide();
     progress->deleteLater();
+    progress = nullptr;
 }
 
 void FormDaliMaster::on_pushButtonLoadFile_clicked()

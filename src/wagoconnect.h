@@ -132,7 +132,7 @@ public:
     /*
                  * Start the update process, upload via FTP the last calaos fw. (Not for 842)
                  */
-    void updateWago();
+    void updateWago(QString prgFile = {}, QString chkFile = {});
 
     //Do a reset of the PLC, must disconnect first
     void ResetWago();

@@ -37,7 +37,7 @@ class DialogWagoFirmwareUpdate : public QDialog
     Q_OBJECT
 
 public:
-    explicit DialogWagoFirmwareUpdate(QString whost, QString wtype, QString wversion,QWidget *parent = 0);
+    explicit DialogWagoFirmwareUpdate(QString whost, QString wtype, QString wversion, QString prgFile, QString chkFile, QWidget *parent = 0);
     ~DialogWagoFirmwareUpdate();
 
     static const QString wago_ftp_login;
@@ -76,6 +76,10 @@ private:
     int cmd_file_chk;
     int cmd_file_prg;
     int cmd_del;
+
+    //For custom fw files
+    QString prgFile;
+    QString chkFile;
 
 signals:
     void updateFirmwareDone();

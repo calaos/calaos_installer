@@ -102,6 +102,7 @@ private slots:
     void on_actionCreateNewImage_triggered();
     void on_actionSet_DMX4ALL_IP_Address_triggered();
     void on_actionUploadDaliMasterCSV_triggered();
+    void on_actionUpgrade_PLC_with_custom_firmware_triggered();
 };
 
 #endif // MAINWINDOW_H

@@ -44,7 +44,6 @@ private:
 
     QFtp *ftp = nullptr;
 
-    QTemporaryFile *csvTempFile = nullptr;
     QByteArray csvData;
     QBuffer csvIoBuffer;
 

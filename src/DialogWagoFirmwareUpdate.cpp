@@ -27,13 +27,15 @@
 const QString DialogWagoFirmwareUpdate::wago_ftp_login = "admin";
 const QString DialogWagoFirmwareUpdate::wago_ftp_password = "wago";
 
-DialogWagoFirmwareUpdate::DialogWagoFirmwareUpdate(QString whost, QString wtype, QString wversion, QWidget *parent) :
+DialogWagoFirmwareUpdate::DialogWagoFirmwareUpdate(QString whost, QString wtype, QString wversion, QString _prgFile, QString _chkFile, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::DialogWagoFirmwareUpdate),
     ftp(NULL),
     wago_host(whost),
     wago_type(wtype),
-    wago_version(wversion)
+    wago_version(wversion),
+    prgFile(_prgFile),
+    chkFile(_chkFile)
 {
     setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
     ui->setupUi(this);
@@ -83,20 +85,28 @@ void DialogWagoFirmwareUpdate::on_buttonStart_clicked()
     QString dir = "PLC";
     cmd_cd = ftp->cd(dir);
 
-    if (wago_type == "750-841")
+    if (prgFile.isEmpty())
     {
-        file_chk = new QFile(":/wago_firmwares/750-841/DEFAULT.CHK");
-        file_prg = new QFile(":/wago_firmwares/750-841/DEFAULT.PRG");
+        if (wago_type == "750-841")
+        {
+            file_chk = new QFile(":/wago_firmwares/750-841/DEFAULT.CHK");
+            file_prg = new QFile(":/wago_firmwares/750-841/DEFAULT.PRG");
+        }
+        else if (wago_type == "750-849")
+        {
+            file_chk = new QFile(":/wago_firmwares/750-849/DEFAULT.CHK");
+            file_prg = new QFile(":/wago_firmwares/750-849/DEFAULT.PRG");
+        }
+        else if (wago_type == "750-881")
+        {
+            file_chk = new QFile(":/wago_firmwares/750-881/DEFAULT.CHK");
+            file_prg = new QFile(":/wago_firmwares/750-881/DEFAULT.PRG");
+        }
     }
-    else if (wago_type == "750-849")
+    else
     {
-        file_chk = new QFile(":/wago_firmwares/750-849/DEFAULT.CHK");
-        file_prg = new QFile(":/wago_firmwares/750-849/DEFAULT.PRG");
-    }
-    else if (wago_type == "750-881")
-    {
-        file_chk = new QFile(":/wago_firmwares/750-881/DEFAULT.CHK");
-        file_prg = new QFile(":/wago_firmwares/750-881/DEFAULT.PRG");
+        file_chk = new QFile(chkFile);
+        file_prg = new QFile(prgFile);
     }
 
     QString fname_chk = "DEFAULT.CHK";

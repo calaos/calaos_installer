@@ -292,13 +292,19 @@ void WagoConnect::getWagoTypeModbus()
     modbus->sendRequest(cmd);
 }
 
-void WagoConnect::updateWago()
+void WagoConnect::updateWago(QString prgFile, QString chkFile)
 {
     QString host = wago_ip, type = wago_type, version = wago_fwversion;
 
+    if (host.isEmpty())
+    {
+        wago_ip = ConfigOptions::Instance().getWagoHost();
+        host = wago_ip;
+    }
+
     Disconnect();
 
-    dialogUpdate = new DialogWagoFirmwareUpdate(host, type, version);
+    dialogUpdate = new DialogWagoFirmwareUpdate(host, type, version, prgFile, chkFile);
     connect(dialogUpdate, SIGNAL(updateFirmwareDone()), this, SLOT(updateWagoDone()));
     dialogUpdate->exec();
 

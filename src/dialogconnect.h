@@ -15,7 +15,7 @@ class DialogConnect : public QDialog
     Q_OBJECT
     Q_DISABLE_COPY(DialogConnect)
 public:
-    explicit DialogConnect(QWidget *parent = 0);
+    explicit DialogConnect(bool ipOnly = false, QWidget *parent = 0);
     virtual ~DialogConnect();
 
 protected:
@@ -23,6 +23,7 @@ protected:
 
 private:
     Ui::DialogConnect *ui;
+    bool iponly;
 
 private slots:
     void on_buttonBox_accepted();
