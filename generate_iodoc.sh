@@ -1,4 +1,4 @@
-#!/bin/env bash
+#!/bin/bash
 
 rm -fr docpath
 mkdir -p docpath/fr

@@ -41,6 +41,8 @@ private slots:
 
     void writeProgress(QString status, qint64 bytesReceived, qint64 bytesTotal, qint64 elapsedMs);
 
+    void on_restartButton_clicked();
+
 signals:
     void finished(QString filename);
     void proceedToWriteImageToDevice(const QString &image, UsbDisk *device);
