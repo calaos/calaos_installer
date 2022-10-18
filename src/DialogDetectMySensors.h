@@ -1,7 +1,6 @@
 #ifndef DIALOGDETECTMYSENSORS_H
 #define DIALOGDETECTMYSENSORS_H
 
-#include <QtWidgets>
 #include <QDialog>
 #include <QtNetwork>
 #include "qanimationlabel.h"
@@ -44,7 +43,7 @@ private:
     const Params &parentParams;
 
     std::list<QStringList> listSensor;
-  
+
     void addSensorToList(QStringList fields);
     void sendPrensentationRequest(QString nodeId);
     void enableUI();

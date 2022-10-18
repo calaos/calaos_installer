@@ -3,7 +3,6 @@
 
 #include <QObject>
 #include <QtNetwork>
-#include <QtWidgets>
 #include "WagoModbus.h"
 
 #include "detectip.h"

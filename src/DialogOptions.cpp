@@ -2,6 +2,7 @@
 #include "ui_DialogOptions.h"
 #include <QMessageBox>
 #include "ConfigOptions.h"
+#include <QDirIterator>
 
 DialogOptions::DialogOptions(QWidget *parent) :
     QDialog(parent),

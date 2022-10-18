@@ -98,7 +98,7 @@ DialogCreateNewImage::DialogCreateNewImage(QWidget *parent) :
 
         qDebug() << jarr.size();
 
-        foreach (const QJsonValue & value, jarr)
+        for (const QJsonValue & value: jarr)
         {
             QJsonObject obj = value.toObject();
             CalaosImage *im = new CalaosImage();
@@ -240,7 +240,7 @@ QStringList DialogCreateNewImage::getUserFriendlyNames(const QStringList &device
         file.open(QIODevice::ReadOnly);
         QString str = file.readAll();
         quint64 size = str.toULongLong(&ok, 10);
-        
+
         QDir sysDir("/sys/block/" + s);
         sysDir.setFilter(QDir::Dirs);
         QString partitions;
@@ -257,16 +257,16 @@ QStringList DialogCreateNewImage::getUserFriendlyNames(const QStringList &device
         friendlyName.setRealNumberPrecision(2);
         friendlyName << " (";
         friendlyName << size/(1024*1024*1024.0) << " GB";
-        
+
         if (partitions.length() > 0)
             friendlyName << ",  partitions: " << partitions;
-            
+
         friendlyName << ")";
 
         returnList.append(s);
 #else
         QProcess lsblk;
-        lsblk.start(QString("diskutil info %1").arg(s), QIODevice::ReadOnly);
+        lsblk.start(QString("diskutil info %1").arg(s), {}, QIODevice::ReadOnly);
         lsblk.waitForStarted();
         lsblk.waitForFinished();
 

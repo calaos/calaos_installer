@@ -1,8 +1,10 @@
 #ifndef DIALOGEDITTIMERANGE_H
 #define DIALOGEDITTIMERANGE_H
 
-#include <QtWidgets>
+#include <QDialog>
 #include "IOBase.h"
+#include <QTreeWidgetItem>
+#include <QCheckBox>
 
 using namespace Calaos;
 

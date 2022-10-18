@@ -1,7 +1,6 @@
 #ifndef DIALOGNEWANALOG_H
 #define DIALOGNEWANALOG_H
 
-#include <QtWidgets>
 #include <QDialog>
 #include <iostream>
 #include <ListeRoom.h>

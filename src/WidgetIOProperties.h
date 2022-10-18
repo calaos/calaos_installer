@@ -1,10 +1,12 @@
 #ifndef WIDGETIOPROPERTIES_H
 #define WIDGETIOPROPERTIES_H
 
-#include <QtWidgets>
 #include <QDialog>
 #include <QInputDialog>
 #include <QMessageBox>
+#include <QSpinBox>
+#include <QDoubleSpinBox>
+#include <QComboBox>
 
 #include <Params.h>
 #include <ListeRoom.h>

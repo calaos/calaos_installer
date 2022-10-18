@@ -1,7 +1,6 @@
 #ifndef DIALOGLISTPROPERTIES_H
 #define DIALOGLISTPROPERTIES_H
 
-#include <QtWidgets>
 #include <QDialog>
 #include <QInputDialog>
 #include <QTreeWidgetItem>

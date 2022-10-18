@@ -49,7 +49,11 @@ void QAnimationLabel::init(const QString& animationPath,
     QVBoxLayout* layout = new QVBoxLayout(this);
     /* Remove the all the extra space. */
     layout->setSpacing(0);
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     layout->setMargin(0);
+#else
+    layout->setContentsMargins(0, 0, 0, 0);
+#endif
     /* Add the movie container to the layout */
     layout->addWidget(_container);
     /* Set the layout as our layout */

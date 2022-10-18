@@ -62,7 +62,7 @@ void DialogCameraView::DownloadPicture()
     qDebug() << u.c_str();
 
     QNetworkAccessManager *netmanager = new QNetworkAccessManager(this);
-    connect(netmanager, &QNetworkAccessManager::finished, [=](QNetworkReply *reply) {
+    connect(netmanager, &QNetworkAccessManager::finished, this, [=](QNetworkReply *reply) {
 
         if (reply->error() != QNetworkReply::NoError)
         {
@@ -74,7 +74,7 @@ void DialogCameraView::DownloadPicture()
         qDebug() << QImageReader::supportedImageFormats();
 
         QByteArray res = reply->readAll();
-        QImage img = QImage::fromData(res);
+        QImage img = QImage::fromData(res, "JPG");
         reply->deleteLater();
         netmanager->deleteLater();
 

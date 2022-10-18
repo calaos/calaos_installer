@@ -65,6 +65,7 @@
 #include <QCloseEvent>
 #include <QMessageBox>
 #include <QPrintPreviewDialog>
+#include <QActionGroup>
 
 using namespace Calaos;
 
@@ -83,10 +84,10 @@ TextEdit::TextEdit(QWidget *parent)
     setupTextActions();
 
     textEdit = new QTextEdit(this);
-    connect(textEdit, SIGNAL(currentCharFormatChanged(QTextCharFormat)),
-            this, SLOT(currentCharFormatChanged(QTextCharFormat)));
-    connect(textEdit, SIGNAL(cursorPositionChanged()),
-            this, SLOT(cursorPositionChanged()));
+    connect(textEdit, &QTextEdit::currentCharFormatChanged,
+            this, &TextEdit::currentCharFormatChanged);
+    connect(textEdit, &QTextEdit::cursorPositionChanged,
+            this, &TextEdit::cursorPositionChanged);
 
     setCentralWidget(textEdit);
     textEdit->setFocus();
@@ -96,32 +97,32 @@ TextEdit::TextEdit(QWidget *parent)
     colorChanged(textEdit->textColor());
     alignmentChanged(textEdit->alignment());
 
-    connect(textEdit->document(), SIGNAL(modificationChanged(bool)),
-            this, SLOT(setWindowModified(bool)));
-    connect(textEdit->document(), SIGNAL(undoAvailable(bool)),
-            actionUndo, SLOT(setEnabled(bool)));
-    connect(textEdit->document(), SIGNAL(redoAvailable(bool)),
-            actionRedo, SLOT(setEnabled(bool)));
+    connect(textEdit->document(), &QTextDocument::modificationChanged,
+            this, &TextEdit::setWindowModified);
+    connect(textEdit->document(), &QTextDocument::undoAvailable,
+            actionUndo, &QAction::setEnabled);
+    connect(textEdit->document(), &QTextDocument::redoAvailable,
+            actionRedo, &QAction::setEnabled);
 
     setWindowModified(textEdit->document()->isModified());
     actionUndo->setEnabled(textEdit->document()->isUndoAvailable());
     actionRedo->setEnabled(textEdit->document()->isRedoAvailable());
 
-    connect(actionUndo, SIGNAL(triggered()), textEdit, SLOT(undo()));
-    connect(actionRedo, SIGNAL(triggered()), textEdit, SLOT(redo()));
+    connect(actionUndo, &QAction::triggered, textEdit, &QTextEdit::undo);
+    connect(actionRedo, &QAction::triggered, textEdit, &QTextEdit::redo);
 
     actionCut->setEnabled(false);
     actionCopy->setEnabled(false);
 
-    connect(actionCut, SIGNAL(triggered()), textEdit, SLOT(cut()));
-    connect(actionCopy, SIGNAL(triggered()), textEdit, SLOT(copy()));
-    connect(actionPaste, SIGNAL(triggered()), textEdit, SLOT(paste()));
+    connect(actionCut, &QAction::triggered, textEdit, &QTextEdit::cut);
+    connect(actionCopy, &QAction::triggered, textEdit, &QTextEdit::copy);
+    connect(actionPaste, &QAction::triggered, textEdit, &QTextEdit::paste);
 
-    connect(textEdit, SIGNAL(copyAvailable(bool)), actionCut, SLOT(setEnabled(bool)));
-    connect(textEdit, SIGNAL(copyAvailable(bool)), actionCopy, SLOT(setEnabled(bool)));
+    connect(textEdit, &QTextEdit::copyAvailable, actionCut, &QAction::setEnabled);
+    connect(textEdit, &QTextEdit::copyAvailable, actionCopy, &QAction::setEnabled);
 
 #ifndef QT_NO_CLIPBOARD
-    connect(QApplication::clipboard(), SIGNAL(dataChanged()), this, SLOT(clipboardDataChanged()));
+    connect(QApplication::clipboard(), &QClipboard::dataChanged, this, &TextEdit::clipboardDataChanged);
 #endif
 }
 
@@ -138,7 +139,7 @@ void TextEdit::setupFileActions()
 
     a = new QAction(tr("Save as..."), this);
     a->setPriority(QAction::LowPriority);
-    connect(a, SIGNAL(triggered()), this, SLOT(fileSaveAs()));
+    connect(a, &QAction::triggered, this, &TextEdit::fileSaveAs);
     menu->addAction(a);
     menu->addSeparator();
 
@@ -147,20 +148,20 @@ void TextEdit::setupFileActions()
                     tr("&Print..."), this);
     a->setPriority(QAction::LowPriority);
     a->setShortcut(QKeySequence::Print);
-    connect(a, SIGNAL(triggered()), this, SLOT(filePrint()));
+    connect(a, &QAction::triggered, this, &TextEdit::filePrint);
     tb->addAction(a);
     menu->addAction(a);
 
     a = new QAction(QIcon::fromTheme("fileprint", QIcon(rsrcPath + "/fileprint.png")),
                     tr("Print preview..."), this);
-    connect(a, SIGNAL(triggered()), this, SLOT(filePrintPreview()));
+    connect(a, &QAction::triggered, this, &TextEdit::filePrintPreview);
     menu->addAction(a);
 
     a = new QAction(QIcon::fromTheme("exportpdf", QIcon(rsrcPath + "/exportpdf.png")),
                     tr("&Export in PDF..."), this);
     a->setPriority(QAction::LowPriority);
-    a->setShortcut(Qt::CTRL + Qt::Key_D);
-    connect(a, SIGNAL(triggered()), this, SLOT(filePrintPdf()));
+    a->setShortcut(Qt::CTRL | Qt::Key_D);
+    connect(a, &QAction::triggered, this, &TextEdit::filePrintPdf);
     tb->addAction(a);
     menu->addAction(a);
 
@@ -168,8 +169,8 @@ void TextEdit::setupFileActions()
 #endif
 
     a = new QAction(tr("&Close"), this);
-    a->setShortcut(Qt::CTRL + Qt::Key_Q);
-    connect(a, SIGNAL(triggered()), this, SLOT(close()));
+    a->setShortcut(Qt::CTRL | Qt::Key_Q);
+    connect(a, &QAction::triggered, this, &TextEdit::close);
     menu->addAction(a);
 }
 
@@ -228,12 +229,12 @@ void TextEdit::setupTextActions()
 
     actionTextBold = new QAction(QIcon::fromTheme("format-text-bold", QIcon(rsrcPath + "/textbold.png")),
                                  tr("&Bold"), this);
-    actionTextBold->setShortcut(Qt::CTRL + Qt::Key_B);
+    actionTextBold->setShortcut(Qt::CTRL | Qt::Key_B);
     actionTextBold->setPriority(QAction::LowPriority);
     QFont bold;
     bold.setBold(true);
     actionTextBold->setFont(bold);
-    connect(actionTextBold, SIGNAL(triggered()), this, SLOT(textBold()));
+    connect(actionTextBold, &QAction::triggered, this, &TextEdit::textBold);
     tb->addAction(actionTextBold);
     menu->addAction(actionTextBold);
     actionTextBold->setCheckable(true);
@@ -241,23 +242,23 @@ void TextEdit::setupTextActions()
     actionTextItalic = new QAction(QIcon::fromTheme("format-text-italic", QIcon(rsrcPath + "/textitalic.png")),
                                    tr("&Italic"), this);
     actionTextItalic->setPriority(QAction::LowPriority);
-    actionTextItalic->setShortcut(Qt::CTRL + Qt::Key_I);
+    actionTextItalic->setShortcut(Qt::CTRL | Qt::Key_I);
     QFont italic;
     italic.setItalic(true);
     actionTextItalic->setFont(italic);
-    connect(actionTextItalic, SIGNAL(triggered()), this, SLOT(textItalic()));
+    connect(actionTextItalic, &QAction::triggered, this, &TextEdit::textItalic);
     tb->addAction(actionTextItalic);
     menu->addAction(actionTextItalic);
     actionTextItalic->setCheckable(true);
 
     actionTextUnderline = new QAction(QIcon::fromTheme("format-text-underline", QIcon(rsrcPath + "/textunder.png")),
                                       tr("&Underline"), this);
-    actionTextUnderline->setShortcut(Qt::CTRL + Qt::Key_U);
+    actionTextUnderline->setShortcut(Qt::CTRL | Qt::Key_U);
     actionTextUnderline->setPriority(QAction::LowPriority);
     QFont underline;
     underline.setUnderline(true);
     actionTextUnderline->setFont(underline);
-    connect(actionTextUnderline, SIGNAL(triggered()), this, SLOT(textUnderline()));
+    connect(actionTextUnderline, &QAction::triggered, this, &TextEdit::textUnderline);
     tb->addAction(actionTextUnderline);
     menu->addAction(actionTextUnderline);
     actionTextUnderline->setCheckable(true);
@@ -265,7 +266,7 @@ void TextEdit::setupTextActions()
     menu->addSeparator();
 
     QActionGroup *grp = new QActionGroup(this);
-    connect(grp, SIGNAL(triggered(QAction*)), this, SLOT(textAlign(QAction*)));
+    connect(grp, &QActionGroup::triggered, this, &TextEdit::textAlign);
 
     // Make sure the alignLeft  is always left of the alignRight
     if (QApplication::isLeftToRight()) {
@@ -280,16 +281,16 @@ void TextEdit::setupTextActions()
     }
     actionAlignJustify = new QAction(QIcon::fromTheme("format-justify-fill", QIcon(rsrcPath + "/textjustify.png")), tr("Justify"), grp);
 
-    actionAlignLeft->setShortcut(Qt::CTRL + Qt::Key_L);
+    actionAlignLeft->setShortcut(Qt::CTRL | Qt::Key_L);
     actionAlignLeft->setCheckable(true);
     actionAlignLeft->setPriority(QAction::LowPriority);
-    actionAlignCenter->setShortcut(Qt::CTRL + Qt::Key_E);
+    actionAlignCenter->setShortcut(Qt::CTRL | Qt::Key_E);
     actionAlignCenter->setCheckable(true);
     actionAlignCenter->setPriority(QAction::LowPriority);
-    actionAlignRight->setShortcut(Qt::CTRL + Qt::Key_R);
+    actionAlignRight->setShortcut(Qt::CTRL | Qt::Key_R);
     actionAlignRight->setCheckable(true);
     actionAlignRight->setPriority(QAction::LowPriority);
-    actionAlignJustify->setShortcut(Qt::CTRL + Qt::Key_J);
+    actionAlignJustify->setShortcut(Qt::CTRL | Qt::Key_J);
     actionAlignJustify->setCheckable(true);
     actionAlignJustify->setPriority(QAction::LowPriority);
 
@@ -301,7 +302,7 @@ void TextEdit::setupTextActions()
     QPixmap pix(16, 16);
     pix.fill(Qt::black);
     actionTextColor = new QAction(pix, tr("Color..."), this);
-    connect(actionTextColor, SIGNAL(triggered()), this, SLOT(textColor()));
+    connect(actionTextColor, &QAction::triggered, this, &TextEdit::textColor);
     tb->addAction(actionTextColor);
     menu->addAction(actionTextColor);
 
@@ -323,25 +324,28 @@ void TextEdit::setupTextActions()
     comboStyle->addItem("Ordered List (Alpha upper)");
     comboStyle->addItem("Ordered List (Roman lower)");
     comboStyle->addItem("Ordered List (Roman upper)");
+
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    connect(comboStyle, &QComboBox::activated,
+            this, &TextEdit::textStyle);
+#else
     connect(comboStyle, SIGNAL(activated(int)),
-            this, SLOT(textStyle(int)));
+                this, SLOT(textStyle(int)));
+#endif
 
     comboFont = new QFontComboBox(tb);
     tb->addWidget(comboFont);
-    connect(comboFont, SIGNAL(activated(QString)),
-            this, SLOT(textFamily(QString)));
+    connect(comboFont, &QFontComboBox::textActivated, this, &TextEdit::textFamily);
 
     comboSize = new QComboBox(tb);
     comboSize->setObjectName("comboSize");
     tb->addWidget(comboSize);
     comboSize->setEditable(true);
 
-    QFontDatabase db;
-    foreach(int size, db.standardSizes())
+    foreach(int size, QFontDatabase::standardSizes())
         comboSize->addItem(QString::number(size));
 
-    connect(comboSize, SIGNAL(activated(QString)),
-            this, SLOT(textSize(QString)));
+    connect(comboSize, &QComboBox::textActivated, this, &TextEdit::textSize);
     comboSize->setCurrentIndex(comboSize->findText(QString::number(QApplication::font()
                                                                    .pointSize())));
 }
@@ -423,7 +427,7 @@ void TextEdit::filePrint()
     QPrinter printer(QPrinter::HighResolution);
     QPrintDialog *dlg = new QPrintDialog(&printer, this);
     if (textEdit->textCursor().hasSelection())
-        dlg->addEnabledOption(QAbstractPrintDialog::PrintSelection);
+        dlg->setOption(QAbstractPrintDialog::PrintSelection, true);
     dlg->setWindowTitle(tr("Print the document"));
     if (dlg->exec() == QDialog::Accepted) {
         textEdit->print(&printer);
@@ -437,7 +441,7 @@ void TextEdit::filePrintPreview()
 #ifndef QT_NO_PRINTER
     QPrinter printer(QPrinter::HighResolution);
     QPrintPreviewDialog preview(&printer, this);
-    connect(&preview, SIGNAL(paintRequested(QPrinter*)), SLOT(printPreview(QPrinter*)));
+    connect(&preview, &QPrintPreviewDialog::paintRequested, this, &TextEdit::printPreview);
     preview.exec();
 #endif
 }

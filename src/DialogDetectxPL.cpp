@@ -1,5 +1,6 @@
 #include "DialogDetectxPL.h"
 #include "ui_DialogDetectxPL.h"
+#include <QRegularExpression>
 
 using namespace std;
 
@@ -75,11 +76,11 @@ void DialogDetectxPL::SearchDevices()
 
     udpSocket = new QUdpSocket(this);
     BindxPLPort();
-    connect(udpSocket, SIGNAL(readyRead()), this, SLOT(onReadyRead()));
+    connect(udpSocket, &QUdpSocket::readyRead, this, &DialogDetectxPL::onReadyRead);
     SendxPLSensorRequest();
 
     timer = new QTimer(this);
-    connect(timer, SIGNAL(timeout()), this, SLOT(timerDone()));
+    connect(timer, &QTimer::timeout, this, &DialogDetectxPL::timerDone);
     timer->start(2000);
 }
 
@@ -175,7 +176,7 @@ void DialogDetectxPL::SendxPLMessage(xPLTypeMessage type, QString target, QStrin
     else
         typeStr = "xpl-stat";
 
-    data.append(message.arg(typeStr, target, body));
+    data.append(message.arg(typeStr, target, body).toLocal8Bit());
     udpSocket->writeDatagram(data, QHostAddress::Broadcast, 3865);
 }
 
@@ -189,7 +190,7 @@ void DialogDetectxPL::onReadyRead()
         udpSocket->readDatagram(data.data(), dataSize);
 
         QString str(data);
-        QStringList lines = str.split(QRegExp("\n|\r\n|\r"));
+        QStringList lines = str.split(QRegularExpression("\n|\r\n|\r"));
         QStringList values;
         QString source;
         QString device;

@@ -1,7 +1,6 @@
 #ifndef DIALOGNEWRULE_H
 #define DIALOGNEWRULE_H
 
-#include <QtWidgets>
 #include <QDialog>
 #include <iostream>
 

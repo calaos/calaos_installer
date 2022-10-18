@@ -1,4 +1,5 @@
 #include "formpost.h"
+#include <QRandomGenerator>
 
 FormPost::FormPost(): QWidget(0)
 {
@@ -100,9 +101,10 @@ QNetworkReply *FormPost::postData(QString url)
     host = host.left(host.indexOf("/"));
 
     QString crlf = "\r\n";
-    qsrand(QDateTime::currentDateTime().toTime_t());
 
-    QString b = QVariant(qrand()).toString() + QVariant(qrand()).toString() + QVariant(qrand()).toString();
+    QString b = QVariant(QRandomGenerator::global()->generate()).toString() +
+            QVariant(QRandomGenerator::global()->generate()).toString() +
+            QVariant(QRandomGenerator::global()->generate()).toString();
     QString boundary = "---------------------------" + b;
     QString endBoundary = crlf + "--" + boundary + "--" + crlf;
     QString contentType = "multipart/form-data; boundary=" + boundary;
@@ -148,10 +150,10 @@ QNetworkReply *FormPost::postData(QString url)
     files.clear();
 
     QNetworkAccessManager *http = new QNetworkAccessManager(this);
-    connect(http, SIGNAL(finished(QNetworkReply *)),
-            this, SLOT(readData(QNetworkReply *)));
-    connect(http, SIGNAL(sslErrors(QNetworkReply *, const QList<QSslError> &)),
-            this, SLOT(sslErrors(QNetworkReply *, const QList<QSslError> &)));
+    connect(http, &QNetworkAccessManager::finished,
+            this, &FormPost::readData);
+    connect(http, &QNetworkAccessManager::sslErrors,
+            this, &FormPost::sslErrors);
 
     QNetworkRequest request;
     request.setRawHeader("Host", host.toLocal8Bit());

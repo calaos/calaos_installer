@@ -2,6 +2,7 @@
 #include "mainwindow.h"
 #include "TwoLineItemDelegate.h"
 #include <ListeRoom.h>
+#include <QApplication>
 
 ActionTreeWidget::ActionTreeWidget(QWidget *parent):
     QTreeWidget(parent)

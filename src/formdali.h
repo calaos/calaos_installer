@@ -1,7 +1,8 @@
 #ifndef FORMDALI_H
 #define FORMDALI_H
 
-#include <QtWidgets>
+#include <QWidget>
+#include <QListWidgetItem>
 #include "qanimationlabel.h"
 
 namespace Ui

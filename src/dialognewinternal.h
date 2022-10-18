@@ -1,7 +1,6 @@
 #ifndef DIALOGNEWINTERNAL_H
 #define DIALOGNEWINTERNAL_H
 
-#include <QtWidgets>
 #include <QDialog>
 #include <iostream>
 

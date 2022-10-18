@@ -6,7 +6,7 @@ IOEditorSelection::IOEditorSelection(QWidget *parent): QFrame(parent)
     combobox = new QComboBox(this);
     button = new QPushButton("...", this);
 
-    box->setMargin(0);
+    box->setContentsMargins(0, 0, 0, 0);
 
     //        QSizePolicy sizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
     //        sizePolicy.setHorizontalStretch(0);

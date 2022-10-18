@@ -393,7 +393,7 @@ void FormConditionStd::addActionMenu(QString action, QString help, QString cmd)
     QString h = RuleActionTpl.arg(help);
     RuleActionMenu *ac = new RuleActionMenu(NULL, action, h, cmd);
     actionMenu->addAction(ac);
-    connect(ac, SIGNAL(triggered(RuleActionMenu*)), this, SLOT(menuAction(RuleActionMenu*)));
+    connect(ac, &RuleActionMenu::triggered, this, &FormConditionStd::menuAction);
 }
 
 void FormConditionStd::on_buttonMore_clicked()

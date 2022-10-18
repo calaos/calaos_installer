@@ -1,7 +1,8 @@
 #ifndef RULEACTIONMENU_H
 #define RULEACTIONMENU_H
 
-#include <QtWidgets>
+#include <QWidgetAction>
+#include <QLabel>
 
 const QString RuleActionTpl = "<span style=\"font-style:italic; color: rgb(150, 150, 150);\">%1</span>";
 

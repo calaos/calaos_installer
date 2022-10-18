@@ -1,4 +1,8 @@
 #include "WidgetIPAddr.h"
+#include <QHBoxLayout>
+#include <QLabel>
+#include <QEvent>
+#include <QKeyEvent>
 
 WidgetIPAddr::WidgetIPAddr(QWidget *parent) : baseClass(parent)
 {
@@ -42,8 +46,8 @@ WidgetIPAddr::WidgetIPAddr(QWidget *parent) : baseClass(parent)
 
     setMaximumWidth( 30 * QTUTL_IP_SIZE );
 
-    connect( this, SIGNAL(signalTextChanged(QLineEdit*)),
-             this, SLOT(slotTextChanged(QLineEdit*)),
+    connect( this, &WidgetIPAddr::signalTextChanged,
+             this, &WidgetIPAddr::slotTextChanged,
              Qt::QueuedConnection );
 }
 

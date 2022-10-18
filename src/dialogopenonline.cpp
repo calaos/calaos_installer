@@ -4,6 +4,7 @@
 #include "ConfigOptions.h"
 #include <Utils.h>
 #include <QJsonDocument>
+#include <QMessageBox>
 
 DialogOpenOnline::DialogOpenOnline(QString temp, QWidget *parent):
     QDialog(parent), ui(new Ui::DialogOpenOnline),
@@ -12,8 +13,8 @@ DialogOpenOnline::DialogOpenOnline(QString temp, QWidget *parent):
     setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
     ui->setupUi(this);
 
-    connect(&networkAccess, SIGNAL(sslErrors(QNetworkReply*, const QList<QSslError> &)),
-            this, SLOT(sslErrors(QNetworkReply*, const QList<QSslError> &)));
+    connect(&networkAccess, &QNetworkAccessManager::sslErrors,
+            this, &DialogOpenOnline::sslErrors);
 
     ui->comboIP->lineEdit()->setText(ConfigOptions::Instance().getHost());
     ui->calaosfrCheck->setChecked(ConfigOptions::Instance().useCalaosFr());
@@ -74,8 +75,8 @@ void DialogOpenOnline::loadFromNetwork()
         jroot["action"] = QStringLiteral("get_ip");
         QJsonDocument jdoc(jroot);
 
-        connect(&networkAccess, SIGNAL(finished(QNetworkReply*)),
-                this, SLOT(downloadFinishedCalaosFr(QNetworkReply*)));
+        connect(&networkAccess, &QNetworkAccessManager::finished,
+                this, &DialogOpenOnline::downloadFinishedCalaosFr);
 
         networkAccess.post(QNetworkRequest(url), jdoc.toJson());
     }
@@ -120,8 +121,8 @@ void DialogOpenOnline::downloadFinishedCalaosFr(QNetworkReply *reply)
         delete spinner;
     }
 
-    disconnect(&networkAccess, SIGNAL(finished(QNetworkReply*)),
-               this, SLOT(downloadFinishedCalaosFr(QNetworkReply*)));
+    disconnect(&networkAccess, &QNetworkAccessManager::finished,
+               this, &DialogOpenOnline::downloadFinishedCalaosFr);
 
     reply->deleteLater();
 }
@@ -141,8 +142,8 @@ void DialogOpenOnline::loadXmlFiles(QString ip)
     jroot["type"] = QStringLiteral("get");
     QJsonDocument jdoc(jroot);
 
-    connect(&networkAccess, SIGNAL(finished(QNetworkReply*)),
-            this, SLOT(downloadFinishedFiles(QNetworkReply*)));
+    connect(&networkAccess, &QNetworkAccessManager::finished,
+            this, &DialogOpenOnline::downloadFinishedFiles);
 
     networkAccess.post(QNetworkRequest(url), jdoc.toJson());
 }
@@ -154,7 +155,6 @@ void DialogOpenOnline::saveXMLFile(QString filename, QString data)
     if (xml.open(QIODevice::WriteOnly | QIODevice::Text))
     {
         QTextStream stream(&xml);
-        stream.setCodec("UTF-8");
         stream << data;
     }
     xml.close();
@@ -202,8 +202,8 @@ void DialogOpenOnline::downloadFinishedFiles(QNetworkReply *reply)
         delete spinner;
     }
 
-    disconnect(&networkAccess, SIGNAL(finished(QNetworkReply*)),
-               this, SLOT(downloadFinishedFiles(QNetworkReply*)));
+    disconnect(&networkAccess, &QNetworkAccessManager::finished,
+               this, &DialogOpenOnline::downloadFinishedFiles);
 
     reply->deleteLater();
 }

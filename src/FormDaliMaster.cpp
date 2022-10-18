@@ -5,6 +5,7 @@
 #include "DialogWagoFirmwareUpdate.h"
 #include "wagoconnect.h"
 #include <QDebug>
+#include <QFileDialog>
 
 #define CALAOS_CSV_FILE     "calaos_dali_master.csv"
 
@@ -15,7 +16,7 @@ FormDaliMaster::FormDaliMaster(QWidget *parent) :
     setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
     ui->setupUi(this);
 
-    connect(ui->pushButtonQuit, SIGNAL(clicked(bool)), this, SIGNAL(closeDaliForm()));
+    connect(ui->pushButtonQuit, &QPushButton::clicked, this, &FormDaliMaster::closeDaliForm);
 
     ui->treeWidget->setHeaderLabels(QStringList() <<
                                     tr("Device Type") <<
@@ -162,12 +163,12 @@ void FormDaliMaster::on_pushButtonLoad_clicked()
     /* Start the FTP upload process */
     ftp = new QFtp(this);
 
-    connect(ftp, SIGNAL(dataTransferProgress(qint64,qint64)),
-            this, SLOT(updateDataTransferProgress(qint64,qint64)));
-    connect(ftp, SIGNAL(commandFinished(int,bool)),
-            this, SLOT(onCommandFinished(int,bool)));
-    connect(ftp, SIGNAL(commandStarted(int)),
-            this, SLOT(onCommandStarted(int)));
+    connect(ftp, &QFtp::dataTransferProgress,
+            this, &FormDaliMaster::updateDataTransferProgress);
+    connect(ftp, &QFtp::commandFinished,
+            this, &FormDaliMaster::onCommandFinished);
+    connect(ftp, &QFtp::commandStarted,
+            this, &FormDaliMaster::onCommandStarted);
 
     cmd_connect = ftp->connectToHost(ConfigOptions::Instance().getWagoHost());
     cmd_login = ftp->login(DialogWagoFirmwareUpdate::wago_ftp_login, DialogWagoFirmwareUpdate::wago_ftp_password);
@@ -196,12 +197,12 @@ void FormDaliMaster::on_pushButtonSend_clicked()
     progress->setAutoReset(false);
     progress->show();
 
-    connect(ftp, SIGNAL(dataTransferProgress(qint64,qint64)),
-            this, SLOT(updateDataTransferProgress(qint64,qint64)));
-    connect(ftp, SIGNAL(commandFinished(int,bool)),
-            this, SLOT(onCommandFinished(int,bool)));
-    connect(ftp, SIGNAL(commandStarted(int)),
-            this, SLOT(onCommandStarted(int)));
+    connect(ftp, &QFtp::dataTransferProgress,
+            this, &FormDaliMaster::updateDataTransferProgress);
+    connect(ftp, &QFtp::commandFinished,
+            this, &FormDaliMaster::onCommandFinished);
+    connect(ftp, &QFtp::commandStarted,
+            this, &FormDaliMaster::onCommandStarted);
 
     cmd_connect = ftp->connectToHost(ConfigOptions::Instance().getWagoHost());
     cmd_login = ftp->login(DialogWagoFirmwareUpdate::wago_ftp_login, DialogWagoFirmwareUpdate::wago_ftp_password);

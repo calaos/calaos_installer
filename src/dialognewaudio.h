@@ -1,7 +1,6 @@
 #ifndef DIALOGNEWAUDIO_H
 #define DIALOGNEWAUDIO_H
 
-#include <QtWidgets>
 #include <QDialog>
 #include <iostream>
 

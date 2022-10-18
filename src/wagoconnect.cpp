@@ -29,7 +29,7 @@ void WagoConnect::Connect(QString ip, bool proxy)
 
     udpSocket = new QUdpSocket(this);
     udpSocket->bind(WAGO_LISTEN_PORT);
-    connect(udpSocket, SIGNAL(readyRead()), this, SLOT(readPendingDatagrams()));
+    connect(udpSocket, &QUdpSocket::readyRead, this, &WagoConnect::readPendingDatagrams);
 
     wago_ip = ip;
     use_proxy = proxy;
@@ -38,8 +38,8 @@ void WagoConnect::Connect(QString ip, bool proxy)
     heartbeatTimer = new QTimer(this);
     mainTimer = new QTimer(this);
 
-    connect(heartbeatTimer, SIGNAL(timeout()), this, SLOT(heartbeatTick()));
-    connect(mainTimer, SIGNAL(timeout()), this, SLOT(mainTick()));
+    connect(heartbeatTimer, &QTimer::timeout, this, &WagoConnect::heartbeatTick);
+    connect(mainTimer, &QTimer::timeout, this, &WagoConnect::mainTick);
 
     heartbeatTimer->start(4000);
     heartbeatTick();
@@ -233,7 +233,7 @@ void WagoConnect::ResetWago()
                                     0x2040,
                                     0x55AA);
 
-    modbus->connect(modbus, SIGNAL(requestDone(bool,Modbus&)), this, SLOT(modbusResetDone(bool,Modbus&)));
+    modbus->connect(modbus, &WagoModbus::requestDone, this, &WagoConnect::modbusResetDone);
 
     modbus->sendRequest(cmd);
 }
@@ -242,12 +242,12 @@ void WagoConnect::modbusResetDone(bool success, Modbus &result)
 {
     Q_UNUSED(result);
     Q_UNUSED(success);
-    modbus->disconnect(modbus, SIGNAL(requestDone(bool,Modbus&)), this, SLOT(modbusResetDone(bool,Modbus&)));
+    modbus->disconnect(modbus, &WagoModbus::requestDone, this, &WagoConnect::modbusResetDone);
 }
 
 void WagoConnect::modbusTypeDone(bool success, Modbus &result)
 {
-    modbus->disconnect(modbus, SIGNAL(requestDone(bool,Modbus&)), this, SLOT(modbusTypeDone(bool,Modbus&)));
+    modbus->disconnect(modbus, &WagoModbus::requestDone, this, &WagoConnect::modbusTypeDone);
 
     if (!success) return;
 
@@ -287,7 +287,7 @@ void WagoConnect::getWagoTypeModbus()
                                     0x2012,
                                     0x01);
 
-    modbus->connect(modbus, SIGNAL(requestDone(bool,Modbus&)), this, SLOT(modbusTypeDone(bool,Modbus&)));
+    modbus->connect(modbus, &WagoModbus::requestDone, this, &WagoConnect::modbusTypeDone);
 
     modbus->sendRequest(cmd);
 }
@@ -305,7 +305,7 @@ void WagoConnect::updateWago(QString prgFile, QString chkFile)
     Disconnect();
 
     dialogUpdate = new DialogWagoFirmwareUpdate(host, type, version, prgFile, chkFile);
-    connect(dialogUpdate, SIGNAL(updateFirmwareDone()), this, SLOT(updateWagoDone()));
+    connect(dialogUpdate, &DialogWagoFirmwareUpdate::updateFirmwareDone, this, &WagoConnect::updateWagoDone);
     dialogUpdate->exec();
 
     delete dialogUpdate;

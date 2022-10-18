@@ -21,11 +21,11 @@ WizardHue::WizardHue(Room *room, QWidget *parent) :
     ui->setupUi(this);
     udpSocket = new QUdpSocket(this);
     timer = new QTimer(this);
-    connect(timer, SIGNAL(timeout()), this, SLOT(timeout()));
+    connect(timer, &QTimer::timeout, this, &WizardHue::timeout);
     hueBridgeDiscover();
     timer->start(DISCOVER_TIMEOUT);
-    connect(udpSocket, SIGNAL(readyRead()),
-               this, SLOT(readPendingDatagrams()));
+    connect(udpSocket, &QUdpSocket::readyRead,
+               this, &WizardHue::readPendingDatagrams);
     ui->stackedWidget->setCurrentWidget(ui->bridgeDetectionPage);
 
     QHostAddress h1;
@@ -34,8 +34,8 @@ WizardHue::WizardHue(Room *room, QWidget *parent) :
     ui->buttonBox->setVisible(false);
     qDebug() << h1.toString();
 
-    connect(this, SIGNAL(accepted()), this, SLOT(on_accepted()));
-    connect(ui->treeSelectedHue, SIGNAL(itemDoubleClicked(QTreeWidgetItem *, int)), this, SLOT(on_treeWidgetItemDoubleClicked(QTreeWidgetItem *, int)));
+    connect(this, &WizardHue::accepted, this, &WizardHue::on_accepted);
+    connect(ui->treeSelectedHue, &QTreeWidget::itemDoubleClicked, this, &WizardHue::on_treeWidgetItemDoubleClicked);
 }
 
 WizardHue::~WizardHue()
@@ -110,7 +110,7 @@ void WizardHue::askForApiKey()
     QJsonDocument jsonDoc = QJsonDocument::fromVariant(params);
     request.setUrl(QUrl("http://" + bridgeAddress.toString() + "/api"));
     QNetworkReply *reply = networkAccessManager->post(request, jsonDoc.toJson());
-    connect(reply, SIGNAL(finished()), this, SLOT(apiKeyReceived()));
+    connect(reply, &QNetworkReply::finished, this, &WizardHue::apiKeyReceived);
 }
 
 void WizardHue::apiKeyReceived()
@@ -156,8 +156,7 @@ void WizardHue::askForConfig()
     QNetworkRequest request;
     request.setUrl(QUrl("http://" + bridgeAddress.toString() + "/api/" + apiKey));
     QNetworkReply *reply = networkAccessManager->get(request);
-    connect(reply, SIGNAL(finished()), this, SLOT(configReceived()));
-
+    connect(reply, &QNetworkReply::finished, this, &WizardHue::configReceived);
 }
 
 void WizardHue::configReceived()
@@ -207,7 +206,7 @@ void WizardHue::configReceived()
 }
 
 void WizardHue::on_buttonAdd_clicked()
-{       
+{
     QTreeWidgetItem *it = reinterpret_cast<QTreeWidgetItem *>(ui->treeAllHue->currentItem());
     if (it)
     {

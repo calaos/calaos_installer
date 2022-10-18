@@ -1,7 +1,6 @@
 #ifndef DIALOGDETECTSQUEEZEBOX_H
 #define DIALOGDETECTSQUEEZEBOX_H
 
-#include <QtWidgets>
 #include <QDialog>
 #include <QtNetwork>
 #include "qanimationlabel.h"

@@ -4,6 +4,7 @@
 #include "ConfigOptions.h"
 #include <Utils.h>
 #include <QJsonDocument>
+#include <QMessageBox>
 
 DialogSaveOnline::DialogSaveOnline(QString temp, QWidget *parent):
     QDialog(parent), ui(new Ui::DialogSaveOnline),
@@ -12,8 +13,8 @@ DialogSaveOnline::DialogSaveOnline(QString temp, QWidget *parent):
     setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
     ui->setupUi(this);
 
-    connect(&networkAccess, SIGNAL(sslErrors(QNetworkReply*, const QList<QSslError> &)),
-            this, SLOT(sslErrors(QNetworkReply*, const QList<QSslError> &)));
+    connect(&networkAccess, &QNetworkAccessManager::sslErrors,
+            this, &DialogSaveOnline::sslErrors);
 
     ui->comboIP->lineEdit()->setText(ConfigOptions::Instance().getHost());
     ui->calaosfrCheck->setChecked(ConfigOptions::Instance().useCalaosFr());
@@ -74,8 +75,8 @@ void DialogSaveOnline::loadFromNetwork()
         jroot["action"] = QStringLiteral("get_ip");
         QJsonDocument jdoc(jroot);
 
-        connect(&networkAccess, SIGNAL(finished(QNetworkReply*)),
-                this, SLOT(downloadFinishedCalaosFr(QNetworkReply*)));
+        connect(&networkAccess, &QNetworkAccessManager::finished,
+                this, &DialogSaveOnline::downloadFinishedCalaosFr);
 
         networkAccess.post(QNetworkRequest(url), jdoc.toJson());
     }
@@ -120,8 +121,8 @@ void DialogSaveOnline::downloadFinishedCalaosFr(QNetworkReply *reply)
         delete spinner;
     }
 
-    disconnect(&networkAccess, SIGNAL(finished(QNetworkReply*)),
-               this, SLOT(downloadFinishedCalaosFr(QNetworkReply*)));
+    disconnect(&networkAccess, &QNetworkAccessManager::finished,
+               this, &DialogSaveOnline::downloadFinishedCalaosFr);
 
     reply->deleteLater();
 }
@@ -166,8 +167,8 @@ void DialogSaveOnline::uploadXmlFiles(QString ip)
 
         QJsonDocument jdoc(jroot);
 
-        connect(&networkAccess, SIGNAL(finished(QNetworkReply*)),
-                this, SLOT(uploadFinished(QNetworkReply*)));
+        connect(&networkAccess, &QNetworkAccessManager::finished,
+                this, &DialogSaveOnline::uploadFinished);
 
         networkAccess.post(QNetworkRequest(url), jdoc.toJson());
     }
@@ -210,8 +211,8 @@ void DialogSaveOnline::uploadFinished(QNetworkReply *reply)
         delete spinner;
     }
 
-    disconnect(&networkAccess, SIGNAL(finished(QNetworkReply*)),
-               this, SLOT(uploadFinished(QNetworkReply*)));
+    disconnect(&networkAccess, &QNetworkAccessManager::finished,
+               this, &DialogSaveOnline::uploadFinished);
 
     reply->deleteLater();
 }

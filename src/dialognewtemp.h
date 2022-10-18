@@ -1,7 +1,6 @@
 #ifndef DIALOGNEWTEMP_H
 #define DIALOGNEWTEMP_H
 
-#include <QtWidgets>
 #include <QDialog>
 #include <iostream>
 

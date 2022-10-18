@@ -1,8 +1,8 @@
 #ifndef TEMPWIZARD_H
 #define TEMPWIZARD_H
 
-#include <QtWidgets>
 #include <QWizard>
+#include <QLineEdit>
 
 class TempWizard : public QWizard
 {

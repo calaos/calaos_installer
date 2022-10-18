@@ -6,7 +6,6 @@
 #include <QXmlStreamReader>
 #include <QXmlStreamWriter>
 #include <QDomDocument>
-#include <QtWidgets>
 #include <vector>
 #include <QMessageBox>
 

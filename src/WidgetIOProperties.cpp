@@ -1,5 +1,6 @@
 #include "WidgetIOProperties.h"
 #include "ui_WidgetIOProperties.h"
+#include <QCheckBox>
 
 WidgetIOProperties::WidgetIOProperties(const Params &p, bool _editable, QWidget *parent) :
     QWidget(parent),
@@ -145,12 +146,12 @@ void WidgetIOProperties::createIOProperties()
             uiObject.lineEdit = w;
             uiObjectMap[prop] = uiObject;
 
-            connect(w, &QLineEdit::textChanged, [=]()
+            connect(w, &QLineEdit::textChanged, this, [=]()
             {
                 updateChangedParam(prop, w->text(), pvalue, title, revert);
             });
 
-            connect(revert, &QPushButton::clicked, [=]()
+            connect(revert, &QPushButton::clicked, this, [=]()
             {
                 w->setText(pvalue);
             });
@@ -167,12 +168,12 @@ void WidgetIOProperties::createIOProperties()
             uiObject.checkBox = w;
             uiObjectMap[prop] = uiObject;
 
-            connect(w, &QCheckBox::stateChanged, [=]()
+            connect(w, &QCheckBox::stateChanged, this, [=]()
             {
                 updateChangedParam(prop, w->isChecked()?"true":"false", pvalue, title, revert);
             });
 
-            connect(revert, &QPushButton::clicked, [=]()
+            connect(revert, &QPushButton::clicked, this, [=]()
             {
                 w->setChecked(pvalue == "true");
             });
@@ -197,12 +198,12 @@ void WidgetIOProperties::createIOProperties()
             uiObject.spinBox = w;
             uiObjectMap[prop] = uiObject;
 
-            connect(w, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), [=]()
+            connect(w, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, [=]()
             {
                 updateChangedParam(prop, QString("%1").arg(w->value()), pvalue.isEmpty()?"0":pvalue, title, revert);
             });
 
-            connect(revert, &QPushButton::clicked, [=]()
+            connect(revert, &QPushButton::clicked, this, [=]()
             {
                 w->setValue(pvalue.toInt());
             });
@@ -233,7 +234,7 @@ void WidgetIOProperties::createIOProperties()
                 updateChangedParam(prop, QString("%1").arg(w->value()), pvalue.isEmpty()?"0":pvalue, title, revert);
             });
 
-            connect(revert, &QPushButton::clicked, [=]()
+            connect(revert, &QPushButton::clicked, this, [=]()
             {
                 w->setValue(pvalue.toDouble());
             });
@@ -271,20 +272,20 @@ void WidgetIOProperties::createIOProperties()
 
             if (w->isEditable())
             {
-                connect(w, &QComboBox::currentTextChanged, [=]()
+                connect(w, &QComboBox::currentTextChanged, this, [=]()
                 {
                     updateChangedParam(prop, w->currentText(), pvalue, title, revert);
                 });
             }
             else
             {
-                connect(w, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), [=]()
+                connect(w, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, [=]()
                 {
                     updateChangedParam(prop, w->currentData().toString(), pvalue, title, revert);
                 });
             }
 
-            connect(revert, &QPushButton::clicked, [=]()
+            connect(revert, &QPushButton::clicked, this, [=]()
             {
                 if (w->isEditable())
                     w->setEditText(pvalue);
@@ -304,7 +305,7 @@ void WidgetIOProperties::createIOProperties()
             entryHelperButton->setIcon(QIcon(":/img/icon_entry_helper.png"));
             entryHelperButton->setFlat(true);
             layout->addWidget(entryHelperButton, row, 4);
-            connect(entryHelperButton, &QPushButton::clicked,  [=]()
+            connect(entryHelperButton, &QPushButton::clicked, this, [=]()
             {
                 if (entryHelper->exec() == QDialog::Accepted)
                     setValues(entryHelper->getParams());
@@ -314,7 +315,7 @@ void WidgetIOProperties::createIOProperties()
         //avoid copy the QJsonObject in the lambda
         QString helpInfo = jparam["description"].toString();
 
-        connect(help, &QPushButton::clicked, [=]()
+        connect(help, &QPushButton::clicked, this, [=]()
         {
             if (balloonTip)
                 delete balloonTip;

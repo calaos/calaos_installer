@@ -6,6 +6,10 @@
 #include "dialogautodetect.h"
 #include "DialogCreateNewImage.h"
 #include "WidgetIPAddr.h"
+#include <QCloseEvent>
+#include <QFileDialog>
+#include <QDesktopServices>
+#include <QDialogButtonBox>
 
 MainWindow::MainWindow(QWidget *parent):
     QMainWindow(parent),
@@ -28,17 +32,17 @@ MainWindow::MainWindow(QWidget *parent):
     ui->btWago->setMenu(ui->menuWago);
     ui->btServer->setMenu(ui->menuCentrale);
 
-    connect(ui->btHelp, SIGNAL(pressed()), this, SLOT(actionAbout_triggered()));
-    connect(ui->btQuit, SIGNAL(pressed()), this, SLOT(actionQuit_triggered()));
-    connect(ui->btAboutQt, SIGNAL(pressed()), this, SLOT(actionAboutQt_triggered()));
+    connect(ui->btHelp, &QPushButton::pressed, this, &MainWindow::actionAbout_triggered);
+    connect(ui->btQuit, &QPushButton::pressed, this, &MainWindow::actionQuit_triggered);
+    connect(ui->btAboutQt, &QPushButton::pressed, this, &MainWindow::actionAboutQt_triggered);
 
-    connect(ui->widgetRules, SIGNAL(projectModified(bool)), this, SLOT(projectChanged(bool)));
+    connect(ui->widgetRules, &FormRules::projectModified, this, &MainWindow::projectChanged);
 
     //WagoConnect
-    connect(&WagoConnect::Instance(), SIGNAL(connected(QString&,bool)), this, SLOT(wagoConnected(QString&,bool)));
-    connect(&WagoConnect::Instance(), SIGNAL(disconnected()), this, SLOT(wagoDisconnected()));
-    connect(&WagoConnect::Instance(), SIGNAL(updateNeeded(QString,QString)), this, SLOT(wagoUpdateNeeded(QString,QString)));
-    connect(&WagoConnect::Instance(), SIGNAL(error(int)), this, SLOT(wagoError(int)));
+    connect(&WagoConnect::Instance(), &WagoConnect::connected, this, &MainWindow::wagoConnected);
+    connect(&WagoConnect::Instance(), &WagoConnect::disconnected, this, &MainWindow::wagoDisconnected);
+    connect(&WagoConnect::Instance(), &WagoConnect::updateNeeded, this, &MainWindow::wagoUpdateNeeded);
+    connect(&WagoConnect::Instance(), &WagoConnect::error, this, &MainWindow::wagoError);
 
     buttonStopProcess = new QPushButton(QIcon(":/img/process-stop_16x16.png"), "", this);
     statusBar()->addPermanentWidget(buttonStopProcess);
@@ -55,11 +59,11 @@ MainWindow::MainWindow(QWidget *parent):
     statusConnectIcon->setPixmap(QPixmap(":/img/user-invisible_16x16.png"));
     statusBar()->addPermanentWidget(statusConnectIcon);
 
-    connect(&wuploader, SIGNAL(progressUpdate(int)), progressBar, SLOT(setValue(int)));
-    connect(&wuploader, SIGNAL(statusUpdate(int)), this, SLOT(wagoStatusProgress(int)));
+    connect(&wuploader, &WagoUploader::progressUpdate, progressBar, &QProgressBar::setValue);
+    connect(&wuploader, &WagoUploader::statusUpdate, this, &MainWindow::wagoStatusProgress);
 
-    connect(ui->widgetDali, SIGNAL(closeDaliForm()), this, SLOT(closeDaliForm_clicked()));
-    connect(ui->widgetDaliMaster, SIGNAL(closeDaliForm()), this, SLOT(closeDaliForm_clicked()));
+    connect(ui->widgetDali, &FormDali::closeDaliForm, this, &MainWindow::closeDaliForm_clicked);
+    connect(ui->widgetDaliMaster, &FormDaliMaster::closeDaliForm, this, &MainWindow::closeDaliForm_clicked);
 
     project_path = tr("New");
 
@@ -339,7 +343,7 @@ void MainWindow::on_actionProgrammer_l_automate_triggered()
     ui->actionProgrammer_l_automate->setEnabled(false);
     buttonStopProcess->show();
     progressBar->show();
-    connect(buttonStopProcess, SIGNAL(clicked()), this, SLOT(button_wagostop_clicked()));
+    connect(buttonStopProcess, &QPushButton::clicked, this, &MainWindow::button_wagostop_clicked);
 
     wuploader.startUpload(WagoConnect::Instance().getWagoIP());
 }
@@ -351,7 +355,7 @@ void MainWindow::button_wagostop_clicked()
     buttonStopProcess->hide();
     progressBar->hide();
 
-    disconnect(buttonStopProcess, SIGNAL(clicked()), this, SLOT(button_wagostop_clicked()));
+    disconnect(buttonStopProcess, &QPushButton::clicked, this, &MainWindow::button_wagostop_clicked);
 }
 
 void MainWindow::wagoStatusProgress(int status)
@@ -648,8 +652,8 @@ void MainWindow::on_actionSet_DMX4ALL_IP_Address_triggered()
             QDialogButtonBox *bbox = new QDialogButtonBox(0);
             bbox->setStandardButtons(QDialogButtonBox::Cancel|QDialogButtonBox::Ok);
             vLayout->addWidget(bbox);
-            connect(bbox, SIGNAL(rejected()), d, SLOT(reject()));
-            connect(bbox, SIGNAL(accepted()), d, SLOT(accept()));
+            connect(bbox, &QDialogButtonBox::rejected, d, &QDialog::reject);
+            connect(bbox, &QDialogButtonBox::accepted, d, &QDialog::accept);
 
             d->layout()->setSizeConstraint(QLayout::SetFixedSize);
 
@@ -690,7 +694,7 @@ void MainWindow::on_actionUpgrade_PLC_with_custom_firmware_triggered()
     QFileDialog dFiles(this);
     dFiles.setDirectory(QDir::homePath());
     dFiles.setFileMode(QFileDialog::ExistingFiles);
-    dFiles.setNameFilter(trUtf8("Wago Codesys Boot Files (*.PRG *.CHK)"));
+    dFiles.setNameFilter(tr("Wago Codesys Boot Files (*.PRG *.CHK)"));
     QStringList fileNames;
     if (dFiles.exec())
         fileNames = dFiles.selectedFiles();

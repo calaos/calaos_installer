@@ -479,12 +479,12 @@ bool IOXmlReader::readFile(QIODevice *device)
 
         if (isStartElement())
         {
-            if (name() == "ioconfig")
+            if (name() == QStringLiteral("ioconfig"))
             {
                 file_ok = true;
                 continue;
             }
-            else if (name() == "home" && file_ok)
+            else if (name() == QStringLiteral("home") && file_ok)
             {
                 readHome();
             }
@@ -507,7 +507,7 @@ void IOXmlReader::readHome()
 
         if (isStartElement())
         {
-            if (name() == "room")
+            if (name() == QStringLiteral("room"))
             {
                 readRoom();
             }
@@ -535,17 +535,17 @@ void IOXmlReader::readRoom()
 
         if (isStartElement())
         {
-            if (name() == "input")
+            if (name() == QStringLiteral("input"))
                 readInput(room);
-            else if (name() == "output")
+            else if (name() == QStringLiteral("output"))
                 readOutput(room);
-            else if (name() == "camera")
+            else if (name() == QStringLiteral("camera"))
                 readCamera(room);
-            else if (name() == "internal")
+            else if (name() == QStringLiteral("internal"))
                 readInput(room);
-            else if (name() == "audio")
+            else if (name() == QStringLiteral("audio"))
                 readAudio(room);
-            else if (name() == "avr")
+            else if (name() == QStringLiteral("avr"))
                 readAVR(room);
             else
             {
@@ -614,19 +614,19 @@ void IOXmlReader::readInput(Room *room)
 
         if (isStartElement())
         {
-            if (p["type"] == "InPlageHoraire" && name() == "lundi")
+            if (p["type"] == "InPlageHoraire" && name() == QStringLiteral("lundi"))
                 readPlageDay(in->range_monday);
-            else if (p["type"] == "InPlageHoraire" && name() == "mardi")
+            else if (p["type"] == "InPlageHoraire" && name() == QStringLiteral("mardi"))
                 readPlageDay(in->range_tuesday);
-            else if (p["type"] == "InPlageHoraire" && name() == "mercredi")
+            else if (p["type"] == "InPlageHoraire" && name() == QStringLiteral("mercredi"))
                 readPlageDay(in->range_wednesday);
-            else if (p["type"] == "InPlageHoraire" && name() == "jeudi")
+            else if (p["type"] == "InPlageHoraire" && name() == QStringLiteral("jeudi"))
                 readPlageDay(in->range_thursday);
-            else if (p["type"] == "InPlageHoraire" && name() == "vendredi")
+            else if (p["type"] == "InPlageHoraire" && name() == QStringLiteral("vendredi"))
                 readPlageDay(in->range_friday);
-            else if (p["type"] == "InPlageHoraire" && name() == "samedi")
+            else if (p["type"] == "InPlageHoraire" && name() == QStringLiteral("samedi"))
                 readPlageDay(in->range_saturday);
-            else if (p["type"] == "InPlageHoraire" && name() == "dimanche")
+            else if (p["type"] == "InPlageHoraire" && name() == QStringLiteral("dimanche"))
                 readPlageDay(in->range_sunday);
         }
     }
@@ -643,7 +643,7 @@ void IOXmlReader::readPlageDay(vector<TimeRange> &day)
 
         if (isStartElement())
         {
-            if (name() == "plage")
+            if (name() == QStringLiteral("plage"))
             {
                 TimeRange h;
                 readPlage(h);
@@ -658,26 +658,26 @@ void IOXmlReader::readPlage(TimeRange &horaire)
     for (int i = 0;i < attributes().size();i++)
     {
         QXmlStreamAttribute attr = attributes().at(i);
-        if (attr.name() == "start_hour")
+        if (attr.name() == QStringLiteral("start_hour"))
             horaire.shour = attr.value().toString().toUtf8().data();
-        if (attr.name() == "start_min")
+        if (attr.name() == QStringLiteral("start_min"))
             horaire.smin = attr.value().toString().toUtf8().data();
-        if (attr.name() == "start_sec")
+        if (attr.name() == QStringLiteral("start_sec"))
             horaire.ssec = attr.value().toString().toUtf8().data();
-        if (attr.name() == "start_type")
+        if (attr.name() == QStringLiteral("start_type"))
             horaire.start_type = attr.value().toString().toInt();
-        if (attr.name() == "start_offset")
+        if (attr.name() == QStringLiteral("start_offset"))
             horaire.start_offset = attr.value().toString().toInt();
 
-        if (attr.name() == "end_hour")
+        if (attr.name() == QStringLiteral("end_hour"))
             horaire.ehour = attr.value().toString().toUtf8().data();
-        if (attr.name() == "end_min")
+        if (attr.name() == QStringLiteral("end_min"))
             horaire.emin = attr.value().toString().toUtf8().data();
-        if (attr.name() == "end_sec")
+        if (attr.name() == QStringLiteral("end_sec"))
             horaire.esec = attr.value().toString().toUtf8().data();
-        if (attr.name() == "end_type")
+        if (attr.name() == QStringLiteral("end_type"))
             horaire.end_type = attr.value().toString().toInt();
-        if (attr.name() == "end_offset")
+        if (attr.name() == QStringLiteral("end_offset"))
             horaire.end_offset = attr.value().toString().toInt();
     }
 
@@ -914,7 +914,7 @@ bool ProjectManager::loadRulesFromFile(QString &file)
             else if (cond_type == "output")
             {
                 cond = new Condition(COND_OUTPUT);
-	        string cond_trig = node_cond.attribute("trigger").toUtf8().data();
+            string cond_trig = node_cond.attribute("trigger").toUtf8().data();
 
                 if (cond_trig == "false")
                     cond->setTrigger(false);

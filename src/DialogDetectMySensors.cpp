@@ -2,6 +2,7 @@
 #include "ui_DialogDetectMySensors.h"
 #include "MySensors.h"
 #include <algorithm>
+#include <QMessageBox>
 
 #define SEARCH_TIMEOUT    500
 
@@ -123,10 +124,9 @@ int DialogDetectMySensors::searchSensors()
     if (ui->comboBoxGateway->currentText() == "TCP")
     {
         tcpSocket->connectToHost(ui->lineEditHost->text(), ui->lineEditPort->text().toInt());
-        connect(tcpSocket, SIGNAL(readyRead()), this, SLOT(socketReadyRead()));
-        connect(tcpSocket, SIGNAL(connected()), this, SLOT(socketConnected()));
-        connect(tcpSocket, SIGNAL(error(QAbstractSocket::SocketError)),
-            this, SLOT(socketdisplayError(QAbstractSocket::SocketError)));
+        connect(tcpSocket, &QTcpSocket::readyRead, this, &DialogDetectMySensors::socketReadyRead);
+        connect(tcpSocket, &QTcpSocket::connected, this, &DialogDetectMySensors::socketConnected);
+        connect(tcpSocket, &QTcpSocket::errorOccurred, this, &DialogDetectMySensors::socketdisplayError);
     }
 
     return 0;
@@ -160,14 +160,14 @@ void DialogDetectMySensors::socketConnected()
     int nodeId;
 
     /* Send presentation request frame */
-    for (nodeId = 0; nodeId < 255; nodeId++) { 
+    for (nodeId = 0; nodeId < 255; nodeId++) {
         QString requestPres = QString::number(nodeId) + ";0;3;0;19;0\n";
         tcpSocket->write(requestPres.toLocal8Bit());
     }
 
     /* Let start a timer to end the discovery as soon as we are connected */
     timer = new QTimer(this);
-    connect(timer, SIGNAL(timeout()), this, SLOT(timerDone()));
+    connect(timer, &QTimer::timeout, this, &DialogDetectMySensors::timerDone);
     timer->start(SEARCH_TIMEOUT);
 }
 
@@ -175,13 +175,13 @@ void DialogDetectMySensors::socketConnected()
 void DialogDetectMySensors::addSensorToList(QStringList fields)
 {
     bool found;
-    
+
     /* Check invalid messages */
     if (fields[4].toInt() == MySensors::S_ARDUINO_NODE ||
         fields[4].toInt() == MySensors::S_ARDUINO_REPEATER_NODE ||
-        fields[0].toInt() == 255 || 
+        fields[0].toInt() == 255 ||
         fields[1].toInt() == 255) {
-	    return;
+        return;
     }
 
     found = (std::find(listSensor.begin(), listSensor.end(), fields) != listSensor.end());
@@ -201,7 +201,7 @@ void DialogDetectMySensors::socketReadyRead()
         if (fields.count() != 6)
             continue;
 
-        /* This is a presentation */ 
+        /* This is a presentation */
         if (fields[2].toInt() == (int) MySensors::C_PRESENTATION)
             addSensorToList(fields);
     }

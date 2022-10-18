@@ -1,7 +1,8 @@
 #ifndef FORMACTIONTOUCHSCREEN_H
 #define FORMACTIONTOUCHSCREEN_H
 
-#include <QtWidgets>
+#include <QWidget>
+#include <QTreeWidgetItem>
 #include <ListeRule.h>
 #include <ListeRoom.h>
 

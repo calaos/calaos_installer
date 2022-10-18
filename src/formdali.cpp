@@ -29,11 +29,11 @@ FormDali::FormDali(QWidget *parent) :
 
     action = menu_addressing->addAction(QString::fromUtf8("Adressage complet"));
     action->setIcon(QIcon(":/img/system-software-update.png"));
-    connect(action, SIGNAL(triggered()), this, SLOT(newAddressing()));
+    connect(action, &QAction::triggered, this, &FormDali::newAddressing);
 
     action = menu_addressing->addAction(QString::fromUtf8("Adressage des nouveaux équipements"));
     action->setIcon(QIcon(":/img/system-software-update.png"));
-    connect(action, SIGNAL(triggered()), this, SLOT(expansionAddressing()));
+    connect(action, &QAction::triggered, this, &FormDali::expansionAddressing);
 
 }
 
@@ -167,7 +167,7 @@ void FormDali::newAddressing()
         DisableControls();
 
         timer_addressing = new QTimer(this);
-        connect(timer_addressing, SIGNAL(timeout()), this, SLOT(addressingInProgress_cb()));
+        connect(timer_addressing, &QTimer::timeout, this, &FormDali::addressingInProgress_cb);
         timer_addressing->start(500);
     }
 }
@@ -178,7 +178,7 @@ void FormDali::expansionAddressing()
     DisableControls();
 
     timer_addressing = new QTimer(this);
-    connect(timer_addressing, SIGNAL(timeout()), this, SLOT(addressingInProgress_cb()));
+    connect(timer_addressing, &QTimer::timeout, this, &FormDali::addressingInProgress_cb);
     timer_addressing->start(500);
 }
 
@@ -272,7 +272,7 @@ void FormDali::advancedInfo_cb(QString cmd, QString res)
     d->setSystemFailureLevel(list[5].toInt());
     d->setPowerOnLevel(list[6].toInt());
 
-    connect(d, &DialogDaliDeviceConfig::accepted, [=]()
+    connect(d, &DialogDaliDeviceConfig::accepted, this, [=]()
     {
         WagoConnect::Instance().SendCommand(
                     QString("WAGO_DALI_SET_DEVICE_INFO 1 %1 %2 %3 %4 %5 %6 %7")
@@ -387,24 +387,24 @@ void FormDali::on_listLights_customContextMenuRequested(QPoint point)
         {
             action = menu->addAction(QString::fromUtf8("Ajouter au groupe #%1").arg(ui->comboGroups->currentIndex()));
             action->setIcon(QIcon(":/img/go-last.png"));
-            connect(action, SIGNAL(triggered()), this, SLOT(addToGroup()));
+            connect(action, &QAction::triggered, this, &FormDali::addToGroup);
 
             menu->addSeparator();
         }
 
         action = menu->addAction(QString::fromUtf8("Allumer").arg(ui->comboGroups->currentIndex()));
         action->setIcon(QIcon(":/img/icon_light_on.png"));
-        connect(action, SIGNAL(triggered()), this, SLOT(on_buttonOn_clicked()));
+        connect(action, &QAction::triggered, this, &FormDali::on_buttonOn_clicked);
 
         action = menu->addAction(QString::fromUtf8("Eteindre").arg(ui->comboGroups->currentIndex()));
         action->setIcon(QIcon(":/img/icon_light_off.png"));
-        connect(action, SIGNAL(triggered()), this, SLOT(on_buttonOff_clicked()));
+        connect(action, &QAction::triggered, this, &FormDali::on_buttonOff_clicked);
 
         menu->addSeparator();
 
         action = menu->addAction(QString::fromUtf8("Supprimer l'adresse").arg(ui->comboGroups->currentIndex()));
         action->setIcon(QIcon(":/img/user-trash.png"));
-        connect(action, SIGNAL(triggered()), this, SLOT(deleteAddress()));
+        connect(action, &QAction::triggered, this, &FormDali::deleteAddress);
 
         QMenu *submenu = menu->addMenu(QString::fromUtf8("Changer l'addresse"));
 
@@ -418,13 +418,13 @@ void FormDali::on_listLights_customContextMenuRequested(QPoint point)
             connect(action, SIGNAL(triggered()), sig, SLOT(map()));
         }
 
-        connect(sig, SIGNAL(mapped(int)), this, SLOT(changeAddress(int)));
+        connect(sig, &QSignalMapper::mappedInt, this, &FormDali::changeAddress);
 
         menu->addSeparator();
 
         action = menu->addAction(QString::fromUtf8("Propriétés..."));
         action->setIcon(QIcon(":/img/edit-rename.png"));
-        connect(action, SIGNAL(triggered()), this, SLOT(on_buttonAdvanced_clicked()));
+        connect(action, &QAction::triggered, this, &FormDali::on_buttonAdvanced_clicked);
 
         menu->exec(QCursor::pos());
     }
@@ -462,7 +462,7 @@ void FormDali::deleteAddress()
     DisableControls();
 
     timer_addressing = new QTimer(this);
-    connect(timer_addressing, SIGNAL(timeout()), this, SLOT(addressingInProgress_cb()));
+    connect(timer_addressing, &QTimer::timeout, this, &FormDali::addressingInProgress_cb);
     timer_addressing->start(500);
 }
 
@@ -475,7 +475,7 @@ void FormDali::changeAddress(int new_address)
     DisableControls();
 
     timer_addressing = new QTimer(this);
-    connect(timer_addressing, SIGNAL(timeout()), this, SLOT(addressingInProgress_cb()));
+    connect(timer_addressing, &QTimer::timeout, this, &FormDali::addressingInProgress_cb);
     timer_addressing->start(500);
 }
 
@@ -490,7 +490,7 @@ void FormDali::on_listGroups_customContextMenuRequested(QPoint point)
 
         action = menu->addAction(QString::fromUtf8("Supprimer du groupe #%1").arg(ui->comboGroups->currentIndex()));
         action->setIcon(QIcon(":/img/user-trash.png"));
-        connect(action, SIGNAL(triggered()), this, SLOT(delFromGroup()));
+        connect(action, &QAction::triggered, this, &FormDali::delFromGroup);
 
         menu->exec(QCursor::pos());
     }

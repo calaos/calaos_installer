@@ -1,4 +1,6 @@
 #include "TwoLineItemDelegate.h"
+#include <QApplication>
+#include <QPainter>
 
 TwoLineItemDelegate::TwoLineItemDelegate():
     QStyledItemDelegate()
@@ -24,8 +26,8 @@ QSize TwoLineItemDelegate::sizeHint(const QStyleOptionViewItem &option, const QM
     QString headerText = qvariant_cast<QString>(index.data(headerTextRole));
     QString subText = qvariant_cast<QString>(index.data(subHeaderTextRole));
 
-    int textWidth = fm.width(headerText);
-    int subWidth = subfm.width(subText);
+    int textWidth = fm.horizontalAdvance(headerText);
+    int subWidth = subfm.horizontalAdvance(subText);
     if (textWidth < subWidth) textWidth = subWidth;
 
     QSize sz(iconsize.width() + textWidth + 10, fm.height() + subfm.height() + 8);
@@ -44,7 +46,7 @@ void TwoLineItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &o
 
     painter->save();
 
-    QStyleOptionViewItemV4 opt = option;
+    QStyleOptionViewItem opt = option;
     initStyleOption(&opt, index);
 
     QString headerText = qvariant_cast<QString>(index.data(headerTextRole));

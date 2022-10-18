@@ -1,7 +1,7 @@
 #ifndef DIALOGIOPROPERTIES_H
 #define DIALOGIOPROPERTIES_H
 
-#include <QtWidgets>
+#include <QDialog>
 #include "WidgetIOProperties.h"
 
 namespace Ui

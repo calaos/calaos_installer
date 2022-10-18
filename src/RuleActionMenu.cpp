@@ -1,4 +1,5 @@
 #include "RuleActionMenu.h"
+#include <QVBoxLayout>
 
 RuleActionMenu::RuleActionMenu(QWidget *parent, QString &title, QString &help, QString &cmd) :
     QWidgetAction(parent),
@@ -22,7 +23,7 @@ RuleActionMenu::RuleActionMenu(QWidget *parent, QString &title, QString &help, Q
     pWidget->setLayout (pLayout);
     setDefaultWidget(pWidget);
 
-    connect(this, SIGNAL(triggered()), this, SLOT(emitSignal()));
+    connect(this, &RuleActionMenu::triggered, this, &RuleActionMenu::emitSignal);
 }
 
 void RuleActionMenu::emitSignal()

@@ -9,10 +9,10 @@ SqueezeServer::SqueezeServer(QObject *parent):
     QObject(parent)
 {
     cliSocket = new QTcpSocket(this);
-    connect(cliSocket, SIGNAL(readyRead()), this, SLOT(readTCPPacket()));
-    connect(cliSocket, SIGNAL(connected()), this, SLOT(tcpConnected()));
-    connect(cliSocket, SIGNAL(error (QAbstractSocket::SocketError)),
-            this, SLOT(tcpError(QAbstractSocket::SocketError)));
+    connect(cliSocket, &QTcpSocket::readyRead, this, &SqueezeServer::readTCPPacket);
+    connect(cliSocket, &QTcpSocket::connected, this, &SqueezeServer::tcpConnected);
+    connect(cliSocket, &QTcpSocket::errorOccurred,
+            this, &SqueezeServer::tcpError);
 }
 
 SqueezeServer::~SqueezeServer()
@@ -127,12 +127,12 @@ void DialogDetectSqueezebox::SearchDevices()
     spinner->start();
 
     timer = new QTimer(this);
-    connect(timer, SIGNAL(timeout()), this, SLOT(timerDoneAndDiscoverPlayers()));
+    connect(timer, &QTimer::timeout, this, &DialogDetectSqueezebox::timerDoneAndDiscoverPlayers);
     timer->start(2000);
 
     socket = new QUdpSocket(this);
     socket->bind(3483);
-    connect(socket, SIGNAL(readyRead()), this, SLOT(readUDPDatagrams()));
+    connect(socket, &QUdpSocket::readyRead, this, &DialogDetectSqueezebox::readUDPDatagrams);
     socket->writeDatagram((char *)&discoverPacket, sizeof(discoverPacket), QHostAddress(QHostAddress::Broadcast), 3483);
 }
 
@@ -212,9 +212,9 @@ void DialogDetectSqueezebox::scanSqueezeserver()
     if (squeeze)
         delete squeeze;
     squeeze = new SqueezeServer(this);
-    connect(squeeze, SIGNAL(connected()), this, SLOT(squeezeConnected()));
-    connect(squeeze, SIGNAL(error()), this, SLOT(squeezeError()));
-    connect(squeeze, SIGNAL(connectError()), this, SLOT(squeezeError()));
+    connect(squeeze, &SqueezeServer::connected, this, &DialogDetectSqueezebox::squeezeConnected);
+    connect(squeeze, &SqueezeServer::error, this, &DialogDetectSqueezebox::squeezeError);
+    connect(squeeze, &SqueezeServer::connectError, this, &DialogDetectSqueezebox::squeezeError);
     squeeze->Connect(addr);
 
     sq.id = "";

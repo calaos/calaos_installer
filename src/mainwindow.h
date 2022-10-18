@@ -1,10 +1,10 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <QtWidgets>
 #include <QSignalMapper>
 #include <QMessageBox>
 #include <QTreeWidgetItem>
+#include <QProgressBar>
 
 #include "textedit.h"
 

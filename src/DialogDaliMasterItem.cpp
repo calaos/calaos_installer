@@ -16,7 +16,11 @@ DialogDaliMasterItem::DialogDaliMasterItem(QTreeWidget *w, QTreeWidgetItem *item
     ui->comboBox->addItem(tr("Multi Sensor Type 2"), "MultiSensorType2");
     ui->comboBox->addItem(tr("Push Button Sensor Type 2"), "PushbuttonSensorType2");
 
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    connect(ui->comboBox, &QComboBox::currentIndexChanged, ui->stackedWidget, &QStackedWidget::setCurrentIndex);
+#else
     connect(ui->comboBox, SIGNAL(currentIndexChanged(int)), ui->stackedWidget, SLOT(setCurrentIndex(int)));
+#endif
 
     ui->stackedWidget->setCurrentIndex(0);
 

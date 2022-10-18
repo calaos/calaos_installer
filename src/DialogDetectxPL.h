@@ -1,7 +1,6 @@
 #ifndef DIALOGDETECTXPL_H
 #define DIALOGDETECTXPL_H
 
-#include <QtWidgets>
 #include <QDialog>
 #include <QtNetwork>
 #include "qanimationlabel.h"

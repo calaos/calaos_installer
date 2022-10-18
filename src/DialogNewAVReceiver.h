@@ -1,7 +1,7 @@
 #ifndef DIALOGNEWAVRECEIVER_H
 #define DIALOGNEWAVRECEIVER_H
 
-#include <QtWidgets>
+#include <QDialog>
 #include <ListeRoom.h>
 
 using namespace Calaos;

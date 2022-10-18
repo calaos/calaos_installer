@@ -150,8 +150,8 @@ QSize StorageDelegate::sizeHint(const QStyleOptionViewItem &option, const QModel
     QString headerText = qvariant_cast<QString>(index.data(headerTextRole));
     QString subText = qvariant_cast<QString>(index.data(subHeaderTextRole));
 
-    int textWidth = fm.width(headerText);
-    int subWidth = subfm.width(subText);
+    int textWidth = fm.horizontalAdvance(headerText);
+    int subWidth = subfm.horizontalAdvance(subText);
     if (textWidth < subWidth) textWidth = subWidth;
 
     QSize sz(iconsize.width() + textWidth + 10, fm.height() + subfm.height() + 8);

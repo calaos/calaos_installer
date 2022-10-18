@@ -51,6 +51,7 @@
 #include "qtcpsocket.h"
 #include "qurlinfo.h"
 #include "qstringlist.h"
+#include "qregularexpression.h"
 #include "qregexp.h"
 #include "qtimer.h"
 #include "qfileinfo.h"
@@ -942,9 +943,10 @@ void QFtpPI::readyRead()
             }
         }
         QString endOfMultiLine;
-        endOfMultiLine[0] = '0' + replyCode[0];
-        endOfMultiLine[1] = '0' + replyCode[1];
-        endOfMultiLine[2] = '0' + replyCode[2];
+        endOfMultiLine.resize(4);
+        endOfMultiLine[0] = QChar('0' + replyCode[0]);
+        endOfMultiLine[1] = QChar('0' + replyCode[1]);
+        endOfMultiLine[2] = QChar('0' + replyCode[2]);
         endOfMultiLine[3] = QLatin1Char(' ');
         QString lineCont(endOfMultiLine);
         lineCont[3] = QLatin1Char('-');
@@ -1114,6 +1116,7 @@ bool QFtpPI::processReply()
         case Success:
             // success handling
             state = Idle;
+            [[fallthrough]];
             // no break!
         case Idle:
             if (dtp.hasError()) {

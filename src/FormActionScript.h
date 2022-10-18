@@ -1,7 +1,8 @@
 #ifndef FORMACTIONSCRIPT_H
 #define FORMACTIONSCRIPT_H
 
-#include <QtWidgets>
+#include <QWidget>
+#include <QTreeWidgetItem>
 #include <ListeRule.h>
 #include <ListeRoom.h>
 

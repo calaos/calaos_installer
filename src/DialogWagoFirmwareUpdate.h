@@ -22,10 +22,10 @@
 #ifndef DIALOGWAGOFIRMWAREUPDATE_H
 #define DIALOGWAGOFIRMWAREUPDATE_H
 
-#include <QtWidgets>
 #include <QDialog>
 #include <qanimationlabel.h>
 #include "ftp/qftp.h"
+#include <QFile>
 
 namespace Ui
 {

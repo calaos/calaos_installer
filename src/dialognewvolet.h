@@ -1,7 +1,6 @@
 #ifndef DIALOGNEWVOLET_H
 #define DIALOGNEWVOLET_H
 
-#include <QtWidgets>
 #include <iostream>
 #include <QDialog>
 #include <ListeRoom.h>

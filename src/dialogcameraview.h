@@ -2,7 +2,6 @@
 #define DIALOGCAMERAVIEW_H
 
 #include <QBuffer>
-#include <QtWidgets>
 #include <iostream>
 #include <IOBase.h>
 #include <QDialog>

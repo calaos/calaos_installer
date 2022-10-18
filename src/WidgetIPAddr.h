@@ -1,7 +1,9 @@
 #ifndef WIDGETIPADDR_H
 #define WIDGETIPADDR_H
 
-#include <QtWidgets>
+#include <QFrame>
+#include <QLineEdit>
+#include <QIntValidator>
 
 class WidgetIPAddr : public QFrame
 {
@@ -26,7 +28,7 @@ signals:
     void signalTextChanged( QLineEdit* pEdit );
 
 private:
-    QLineEdit *(m_pLineEdit[QTUTL_IP_SIZE]);
+    QLineEdit *m_pLineEdit[QTUTL_IP_SIZE];
 
     static QString getIPItemStr( unsigned char item );
 };

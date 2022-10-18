@@ -23,6 +23,7 @@
 #include "ui_DialogWagoFirmwareUpdate.h"
 #include <QCloseEvent>
 #include <QMessageBox>
+#include <QTimer>
 
 const QString DialogWagoFirmwareUpdate::wago_ftp_login = "admin";
 const QString DialogWagoFirmwareUpdate::wago_ftp_password = "wago";
@@ -73,12 +74,12 @@ void DialogWagoFirmwareUpdate::on_buttonStart_clicked()
     /* Start the FTP upload process */
     ftp = new QFtp(this);
 
-    connect(ftp, SIGNAL(dataTransferProgress(qint64,qint64)),
-            this, SLOT(updateDataTransferProgress(qint64,qint64)));
-    connect(ftp, SIGNAL(commandFinished(int,bool)),
-            this, SLOT(onCommandFinished(int,bool)));
-    connect(ftp, SIGNAL(commandStarted(int)),
-            this, SLOT(onCommandStarted(int)));
+    connect(ftp, &QFtp::dataTransferProgress,
+            this, &DialogWagoFirmwareUpdate::updateDataTransferProgress);
+    connect(ftp, &QFtp::commandFinished,
+            this, &DialogWagoFirmwareUpdate::onCommandFinished);
+    connect(ftp, &QFtp::commandStarted,
+            this, &DialogWagoFirmwareUpdate::onCommandStarted);
 
     cmd_connect = ftp->connectToHost(wago_host);
     cmd_login = ftp->login(wago_ftp_login, wago_ftp_password);

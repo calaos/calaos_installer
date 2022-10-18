@@ -1,7 +1,8 @@
 #ifndef FORMACTIONPUSH_H
 #define FORMACTIONPUSH_H
 
-#include <QtWidgets>
+#include <QWidget>
+#include <QTreeWidgetItem>
 #include <ListeRule.h>
 #include <ListeRoom.h>
 

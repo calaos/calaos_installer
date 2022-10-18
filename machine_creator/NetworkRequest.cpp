@@ -67,7 +67,11 @@ bool NetworkRequest::start()
         ++it;
     }
 
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    request.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::ManualRedirectPolicy);
+#else
     request.setAttribute(QNetworkRequest::FollowRedirectsAttribute, true);
+#endif
 
     if (type == HttpGet)
         reply = netmanager->get(request);

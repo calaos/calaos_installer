@@ -19,7 +19,7 @@ QString Utils::sizeHuman(qint64 sz)
 
 QString Utils::calculateTimeRemaining(QDateTime startTime, qint64 received, qint64 total)
 {
-    uint difference = QDateTime::currentDateTimeUtc().toTime_t() - startTime.toTime_t();
+    uint difference = startTime.secsTo(QDateTime::currentDateTimeUtc());
 
     if (received == 0)
         return QObject::tr("Unknown");

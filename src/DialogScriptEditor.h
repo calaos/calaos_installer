@@ -1,7 +1,6 @@
 #ifndef DIALOGSCRIPTEDITOR_H
 #define DIALOGSCRIPTEDITOR_H
 
-#include <QtWidgets>
 #include <QDialog>
 #include "CodeEditor.h"
 #include <ScriptManager.h>

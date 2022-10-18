@@ -1,7 +1,6 @@
 #ifndef WAGOUPLOADER_H
 #define WAGOUPLOADER_H
 
-#include <QtWidgets>
 #include <wagoconnect.h>
 #include <ListeRoom.h>
 #include <ListeRule.h>

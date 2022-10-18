@@ -12,11 +12,11 @@ DialogAutoDetect::DialogAutoDetect(QWidget *parent) :
     ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
     udpSocket = new QUdpSocket(this);
     timer = new QTimer(this);
-    connect(timer, SIGNAL(timeout()), this, SLOT(timeout()));
+    connect(timer, &QTimer::timeout, this, &DialogAutoDetect::timeout);
     calaosDiscover();
     timer->start(10000);
-    connect(udpSocket, SIGNAL(readyRead()),
-               this, SLOT(readPendingDatagrams()));
+    connect(udpSocket, &QUdpSocket::readyRead,
+               this, &DialogAutoDetect::readPendingDatagrams);
 
 }
 

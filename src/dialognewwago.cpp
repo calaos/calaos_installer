@@ -130,7 +130,7 @@ void DialogNewWago::on_button_detect_clicked()
 
         QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
 
-        connect(&WagoConnect::Instance(), SIGNAL(responseReceived(QString&, QString)), this, SLOT(processUDPRequest(QString&, QString)));
+        connect(&WagoConnect::Instance(), &WagoConnect::responseReceived, this, &DialogNewWago::processUDPRequest);
     }
     else
     {
@@ -146,7 +146,7 @@ void DialogNewWago::on_button_detect_clicked()
 
         QApplication::restoreOverrideCursor();
 
-        disconnect(&WagoConnect::Instance(), SIGNAL(responseReceived(QString&, QString)), this, SLOT(processUDPRequest(QString&, QString)));
+        disconnect(&WagoConnect::Instance(), &WagoConnect::responseReceived, this, &DialogNewWago::processUDPRequest);
     }
 }
 

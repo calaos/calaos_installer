@@ -1,7 +1,8 @@
 #ifndef FORMCONDITIONSTD_H
 #define FORMCONDITIONSTD_H
 
-#include <QtWidgets>
+#include <QWidget>
+#include <QTreeWidgetItem>
 #include <ListeRule.h>
 #include <ListeRoom.h>
 #include <dialogiolist.h>

@@ -1,7 +1,7 @@
 #ifndef FORMRULES_H
 #define FORMRULES_H
 
-#include <QtWidgets>
+#include <QMenu>
 
 #include <dialognewroom.h>
 #include <dialognewwago.h>

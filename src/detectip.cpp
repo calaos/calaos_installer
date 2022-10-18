@@ -9,8 +9,8 @@ void DetectIP::startDetectIP(QString wagohost)
 {
     //Detect our own ip address
     tcpSocket = new QTcpSocket();
-    connect(tcpSocket, SIGNAL(connected()), SLOT(sock_connected()));
-    connect(tcpSocket, SIGNAL(error(QAbstractSocket::SocketError)), SLOT(sock_error(QAbstractSocket::SocketError)));
+    connect(tcpSocket, &QTcpSocket::connected, this, &DetectIP::sock_connected);
+    connect(tcpSocket, &QTcpSocket::errorOccurred, this, &DetectIP::sock_error);
 
     tcpSocket->connectToHost(wagohost, 502);
 }

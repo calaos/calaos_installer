@@ -2,6 +2,7 @@
 #include "ui_DialogScriptEditor.h"
 #include "ListeRoom.h"
 #include "dialogioproperties.h"
+#include <QMenu>
 
 using namespace Calaos;
 
@@ -21,7 +22,7 @@ DialogScriptEditor::DialogScriptEditor(QString script, QWidget *parent) :
     ui->splitter->setStretchFactor(0, 2);
     ui->splitter->setStretchFactor(1, 1);
 
-    connect(&LuaPrinter::Instance(), SIGNAL(print(QString)), this, SLOT(print_message(QString)));
+    connect(&LuaPrinter::Instance(), &LuaPrinter::print, this, &DialogScriptEditor::print_message);
 
     QStringList headers;
     headers << tr("Home") << "id";
@@ -330,7 +331,7 @@ void DialogScriptEditor::on_homeTree_customContextMenuRequested(const QPoint &po
 
     action = item_menu.addAction(tr("Properties"));
     action->setIcon(QIcon(":/img/document-properties.png"));
-    connect(action, &QAction::triggered, [=]()
+    connect(action, &QAction::triggered, this, [=]()
     {
         on_homeTree_itemDoubleClicked(item, 0);
     });

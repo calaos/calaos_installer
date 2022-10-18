@@ -1,7 +1,8 @@
 #ifndef FORMCONDITIONSTART_H
 #define FORMCONDITIONSTART_H
 
-#include <QtWidgets>
+#include <QWidget>
+#include <QTreeWidgetItem>
 #include <ListeRule.h>
 
 using namespace Calaos;

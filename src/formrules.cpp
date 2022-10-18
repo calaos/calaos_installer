@@ -31,7 +31,7 @@ FormRules::FormRules(QWidget *parent) :
 
     action = add_menu->addAction(tr("Room"));
     action->setIcon(QIcon(":/img/rooms/various_small.png"));
-    connect(action, &QAction::triggered, [=]() { addCalaosItem(HW_NONE, ITEM_ROOM); });
+    connect(action, &QAction::triggered, this, [=]() { addCalaosItem(HW_NONE, ITEM_ROOM); });
 
     add_menu->addSeparator();
 
@@ -39,37 +39,37 @@ FormRules::FormRules(QWidget *parent) :
 
     action = wago_menu->addAction(tr("Switch"));
     action->setIcon(QIcon(":/img/icon_inter.png"));
-    connect(action, &QAction::triggered, [=]() { addCalaosItem(HW_WAGO, ITEM_INPUT_SWITCH); });
+    connect(action, &QAction::triggered, this, [=]() { addCalaosItem(HW_WAGO, ITEM_INPUT_SWITCH); });
 
     action = wago_menu->addAction(tr("Light"));
     action->setIcon(QIcon(":/img/icon_light_on.png"));
-    connect(action, &QAction::triggered, [=]() { addCalaosItem(HW_WAGO, ITEM_LIGHT); });
+    connect(action, &QAction::triggered, this, [=]() { addCalaosItem(HW_WAGO, ITEM_LIGHT); });
 
     action = wago_menu->addAction(tr("Shutter"));
     action->setIcon(QIcon(":/img/icon_shutter.png"));
-    connect(action, &QAction::triggered, [=]() { addCalaosItem(HW_WAGO, ITEM_SHUTTER); });
+    connect(action, &QAction::triggered, this, [=]() { addCalaosItem(HW_WAGO, ITEM_SHUTTER); });
 
     action = wago_menu->addAction(tr("DALI/DMX"));
     action->setIcon(QIcon(":/img/icon_light_on.png"));
-    connect(action, &QAction::triggered, [=]() { addCalaosItem(HW_WAGO, ITEM_DALI); });
+    connect(action, &QAction::triggered, this, [=]() { addCalaosItem(HW_WAGO, ITEM_DALI); });
 
     action = wago_menu->addAction(tr("DALI/DMX RGB"));
     action->setIcon(QIcon(":/img/icon_light_on.png"));
-    connect(action, &QAction::triggered, [=]() { addCalaosItem(HW_WAGO, ITEM_LIGHT_RGB); });
+    connect(action, &QAction::triggered, this, [=]() { addCalaosItem(HW_WAGO, ITEM_LIGHT_RGB); });
 
     action = wago_menu->addAction(tr("Temperature sensor"));
     action->setIcon(QIcon(":/img/temp.png"));
-    connect(action, &QAction::triggered, [=]() { addCalaosItem(HW_WAGO, ITEM_TEMP); });
+    connect(action, &QAction::triggered, this, [=]() { addCalaosItem(HW_WAGO, ITEM_TEMP); });
 
     action = wago_menu->addAction(tr("Analog Input/Output"));
     action->setIcon(QIcon(":/img/icon_analog.png"));
-    connect(action, &QAction::triggered, [=]() { addCalaosItem(HW_WAGO, ITEM_ANALOG); });
+    connect(action, &QAction::triggered, this, [=]() { addCalaosItem(HW_WAGO, ITEM_ANALOG); });
 
     QMenu *owire_menu = add_menu->addMenu(QIcon("://img/chip.png"), "OneWire");
 
     action = owire_menu->addAction(tr("Temperature sensor"));
     action->setIcon(QIcon(":/img/temp.png"));
-    connect(action, &QAction::triggered, [=]()
+    connect(action, &QAction::triggered, this, [=]()
     {
         Params p = {{ "type", "OWTemp" },
                     { "io_type", "input" }};
@@ -80,7 +80,7 @@ FormRules::FormRules(QWidget *parent) :
 
     action = x10_menu->addAction(tr("Light Dimmer"));
     action->setIcon(QIcon(":/img/icon_light_on.png"));
-    connect(action, &QAction::triggered, [=]()
+    connect(action, &QAction::triggered, this, [=]()
     {
         Params p = {{ "type", "X10Output" },
                     { "io_type", "output" }};
@@ -91,7 +91,7 @@ FormRules::FormRules(QWidget *parent) :
 
     action = zibase_menu->addAction(tr("Temperature sensor"));
     action->setIcon(QIcon(":/img/temp.png"));
-    connect(action, &QAction::triggered, [=]()
+    connect(action, &QAction::triggered, this, [=]()
     {
         Params p = {{ "type", "ZibaseTemp" },
                     { "io_type", "input" }};
@@ -100,7 +100,7 @@ FormRules::FormRules(QWidget *parent) :
 
     action = zibase_menu->addAction(tr("Switch input"));
     action->setIcon(QIcon(":/img/icon_inter.png"));
-    connect(action, &QAction::triggered, [=]()
+    connect(action, &QAction::triggered, this, [=]()
     {
         Params p = {{ "type", "ZibaseDigitalIn" },
                     { "io_type", "input" }};
@@ -109,7 +109,7 @@ FormRules::FormRules(QWidget *parent) :
 
     action = zibase_menu->addAction(tr("Analog input"));
     action->setIcon(QIcon(":/img/icon_analog.png"));
-    connect(action, &QAction::triggered, [=]()
+    connect(action, &QAction::triggered, this, [=]()
     {
         Params p = {{ "type", "ZibaseAnalogIn" },
                     { "io_type", "input" }};
@@ -118,7 +118,7 @@ FormRules::FormRules(QWidget *parent) :
 
     action = zibase_menu->addAction(tr("Digital output"));
     action->setIcon(QIcon(":/img/icon_light_on.png"));
-    connect(action, &QAction::triggered, [=]()
+    connect(action, &QAction::triggered, this, [=]()
     {
         Params p = {{ "type", "ZibaseDigitalOut" },
                     { "io_type", "output" }};
@@ -129,7 +129,7 @@ FormRules::FormRules(QWidget *parent) :
 
     action = mysensors_menu->addAction(tr("Switch"));
     action->setIcon(QIcon(":/img/icon_inter.png"));
-    connect(action, &QAction::triggered, [=]()
+    connect(action, &QAction::triggered, this, [=]()
     {
         Params p = {{ "type", "MySensorsInputSwitch" },
                     { "io_type", "input" }};
@@ -138,7 +138,7 @@ FormRules::FormRules(QWidget *parent) :
 
     action = mysensors_menu->addAction(tr("Switch triple"));
     action->setIcon(QIcon(":/img/icon_inter.png"));
-    connect(action, &QAction::triggered, [=]()
+    connect(action, &QAction::triggered, this, [=]()
     {
         Params p = {{ "type", "MySensorsInputSwitchTriple" },
                     { "io_type", "input" }};
@@ -147,7 +147,7 @@ FormRules::FormRules(QWidget *parent) :
 
     action = mysensors_menu->addAction(tr("Switch Long press"));
     action->setIcon(QIcon(":/img/icon_inter.png"));
-    connect(action, &QAction::triggered, [=]()
+    connect(action, &QAction::triggered, this, [=]()
     {
         Params p = {{ "type", "MySensorsInputSwitchLongPress" },
                     { "io_type", "input" }};
@@ -156,7 +156,7 @@ FormRules::FormRules(QWidget *parent) :
 
     action = mysensors_menu->addAction(tr("Light"));
     action->setIcon(QIcon(":/img/icon_light_on.png"));
-    connect(action, &QAction::triggered, [=]()
+    connect(action, &QAction::triggered, this, [=]()
     {
         Params p = {{ "type", "MySensorsOutputLight" },
                     { "io_type", "output" }};
@@ -165,7 +165,7 @@ FormRules::FormRules(QWidget *parent) :
 
     action = mysensors_menu->addAction(tr("Shutter"));
     action->setIcon(QIcon(":/img/icon_shutter.png"));
-    connect(action, &QAction::triggered, [=]()
+    connect(action, &QAction::triggered, this, [=]()
     {
         Params p = {{ "type", "MySensorsOutputShutter" },
                     { "io_type", "output" }};
@@ -174,7 +174,7 @@ FormRules::FormRules(QWidget *parent) :
 
     action = mysensors_menu->addAction(tr("Smart Shutter"));
     action->setIcon(QIcon(":/img/icon_shutter.png"));
-    connect(action, &QAction::triggered, [=]()
+    connect(action, &QAction::triggered, this, [=]()
     {
         Params p = {{ "type", "MySensorsOutputShutterSmart" },
                     { "io_type", "output" }};
@@ -183,7 +183,7 @@ FormRules::FormRules(QWidget *parent) :
 
     action = mysensors_menu->addAction(tr("Dimmer"));
     action->setIcon(QIcon(":/img/icon_light_on.png"));
-    connect(action, &QAction::triggered, [=]()
+    connect(action, &QAction::triggered, this, [=]()
     {
         Params p = {{ "type", "MySensorsOutputDimmer" },
                     { "io_type", "output" }};
@@ -192,7 +192,7 @@ FormRules::FormRules(QWidget *parent) :
 
     action = mysensors_menu->addAction(tr("RGB Light"));
     action->setIcon(QIcon(":/img/icon_light_on.png"));
-    connect(action, &QAction::triggered, [=]()
+    connect(action, &QAction::triggered, this, [=]()
     {
         Params p = {{ "type", "MySensorsOutputLightRGB" },
                     { "io_type", "output" }};
@@ -201,7 +201,7 @@ FormRules::FormRules(QWidget *parent) :
 
     action = mysensors_menu->addAction(tr("Temperature sensor"));
     action->setIcon(QIcon(":/img/temp.png"));
-    connect(action, &QAction::triggered, [=]()
+    connect(action, &QAction::triggered, this, [=]()
     {
         Params p = {{ "type", "MySensorsInputTemp" },
                     { "io_type", "input" }};
@@ -210,7 +210,7 @@ FormRules::FormRules(QWidget *parent) :
 
     action = mysensors_menu->addAction(tr("Analog Input"));
     action->setIcon(QIcon(":/img/icon_analog.png"));
-    connect(action, &QAction::triggered, [=]()
+    connect(action, &QAction::triggered, this, [=]()
     {
         Params p = {{ "type", "MySensorsInputAnalog" },
                     { "io_type", "input" }};
@@ -219,7 +219,7 @@ FormRules::FormRules(QWidget *parent) :
 
     action = mysensors_menu->addAction(tr("Analog Output"));
     action->setIcon(QIcon(":/img/icon_analog.png"));
-    connect(action, &QAction::triggered, [=]()
+    connect(action, &QAction::triggered, this, [=]()
     {
         Params p = {{ "type", "MySensorsOutputAnalog" },
                     { "io_type", "output" }};
@@ -228,7 +228,7 @@ FormRules::FormRules(QWidget *parent) :
 
     action = mysensors_menu->addAction(tr("String Input"));
     action->setIcon(QIcon(":/img/text.png"));
-    connect(action, &QAction::triggered, [=]()
+    connect(action, &QAction::triggered, this, [=]()
     {
         Params p = {{ "type", "MySensorsInputString" },
                     { "io_type", "input" }};
@@ -237,7 +237,7 @@ FormRules::FormRules(QWidget *parent) :
 
     action = mysensors_menu->addAction(tr("String Output"));
     action->setIcon(QIcon(":/img/text.png"));
-    connect(action, &QAction::triggered, [=]()
+    connect(action, &QAction::triggered, this, [=]()
     {
         Params p = {{ "type", "MySensorsOutputString" },
                     { "io_type", "output" }};
@@ -248,45 +248,45 @@ FormRules::FormRules(QWidget *parent) :
 
     action = web_menu->addAction(tr("Switch Input"));
     action->setIcon(QIcon(":/img/icon_inter.png"));
-    connect(action, &QAction::triggered, [=]() { addCalaosItem(HW_WEB, ITEM_INPUT_SWITCH); });
+    connect(action, &QAction::triggered, this, [=]() { addCalaosItem(HW_WEB, ITEM_INPUT_SWITCH); });
 
     action = web_menu->addAction(tr("Light"));
     action->setIcon(QIcon(":/img/icon_light_on.png"));
-    connect(action, &QAction::triggered, [=]() { addCalaosItem(HW_WEB, ITEM_LIGHT); });
+    connect(action, &QAction::triggered, this, [=]() { addCalaosItem(HW_WEB, ITEM_LIGHT); });
 
     action = web_menu->addAction(tr("RGB Light"));
     action->setIcon(QIcon(":/img/icon_light_on.png"));
-    connect(action, &QAction::triggered, [=]() { addCalaosItem(HW_WEB, ITEM_LIGHT_RGB); });
+    connect(action, &QAction::triggered, this, [=]() { addCalaosItem(HW_WEB, ITEM_LIGHT_RGB); });
 
     action = web_menu->addAction(tr("Shutter"));
     action->setIcon(QIcon(":/img/icon_shutter.png"));
-    connect(action, &QAction::triggered, [=]() { addCalaosItem(HW_WEB, ITEM_SHUTTER); });
+    connect(action, &QAction::triggered, this, [=]() { addCalaosItem(HW_WEB, ITEM_SHUTTER); });
 
     action = web_menu->addAction(tr("Temperature sensor"));
     action->setIcon(QIcon(":/img/temp.png"));
-    connect(action, &QAction::triggered, [=]() { addCalaosItem(HW_WEB, ITEM_TEMP); });
+    connect(action, &QAction::triggered, this, [=]() { addCalaosItem(HW_WEB, ITEM_TEMP); });
 
     action = web_menu->addAction(tr("Analog Input"));
     action->setIcon(QIcon(":/img/icon_analog.png"));
-    connect(action, &QAction::triggered, [=]() { addCalaosItem(HW_WEB, ITEM_ANALOG_IN); });
+    connect(action, &QAction::triggered, this, [=]() { addCalaosItem(HW_WEB, ITEM_ANALOG_IN); });
 
     action = web_menu->addAction(tr("Analog Output"));
     action->setIcon(QIcon(":/img/icon_analog.png"));
-    connect(action, &QAction::triggered, [=]() { addCalaosItem(HW_WEB, ITEM_ANALOG_OUT); });
+    connect(action, &QAction::triggered, this, [=]() { addCalaosItem(HW_WEB, ITEM_ANALOG_OUT); });
 
     action = web_menu->addAction(tr("String Input"));
     action->setIcon(QIcon(":/img/text.png"));
-    connect(action, &QAction::triggered, [=]() { addCalaosItem(HW_WEB, ITEM_STRINGIN); });
+    connect(action, &QAction::triggered, this, [=]() { addCalaosItem(HW_WEB, ITEM_STRINGIN); });
 
     action = web_menu->addAction(tr("String Output"));
     action->setIcon(QIcon(":/img/text.png"));
-    connect(action, &QAction::triggered, [=]() { addCalaosItem(HW_WEB, ITEM_STRINGOUT); });
+    connect(action, &QAction::triggered, this, [=]() { addCalaosItem(HW_WEB, ITEM_STRINGOUT); });
 
     QMenu *gpio_menu = add_menu->addMenu(QIcon("://img/chip.png"), "GPIO");
 
     action = gpio_menu->addAction(tr("Switch input"));
     action->setIcon(QIcon(":/img/icon_inter.png"));
-    connect(action, &QAction::triggered, [=]()
+    connect(action, &QAction::triggered, this, [=]()
     {
         Params p = {{ "type", "GpioInputSwitch" },
                     { "io_type", "input" }};
@@ -295,7 +295,7 @@ FormRules::FormRules(QWidget *parent) :
 
     action = gpio_menu->addAction(tr("Switch triple click"));
     action->setIcon(QIcon(":/img/icon_inter.png"));
-    connect(action, &QAction::triggered, [=]()
+    connect(action, &QAction::triggered, this, [=]()
     {
         Params p = {{ "type", "GpioInputSwitchTriple" },
                     { "io_type", "input" }};
@@ -304,7 +304,7 @@ FormRules::FormRules(QWidget *parent) :
 
     action = gpio_menu->addAction(tr("Switch long press"));
     action->setIcon(QIcon(":/img/icon_inter.png"));
-    connect(action, &QAction::triggered, [=]()
+    connect(action, &QAction::triggered, this, [=]()
     {
         Params p = {{ "type", "GpioInputSwitchLongPress" },
                     { "io_type", "input" }};
@@ -313,7 +313,7 @@ FormRules::FormRules(QWidget *parent) :
 
     action = gpio_menu->addAction(tr("Light"));
     action->setIcon(QIcon(":/img/icon_light_on.png"));
-    connect(action, &QAction::triggered, [=]()
+    connect(action, &QAction::triggered, this, [=]()
     {
         Params p = {{ "type", "GpioOutputSwitch" },
                     { "io_type", "output" }};
@@ -322,7 +322,7 @@ FormRules::FormRules(QWidget *parent) :
 
     action = gpio_menu->addAction(tr("Shutter"));
     action->setIcon(QIcon(":/img/icon_shutter.png"));
-    connect(action, &QAction::triggered, [=]()
+    connect(action, &QAction::triggered, this, [=]()
     {
         Params p = {{ "type", "GpioOutputShutter" },
                     { "io_type", "output" }};
@@ -331,7 +331,7 @@ FormRules::FormRules(QWidget *parent) :
 
     action = gpio_menu->addAction(tr("Smart Shutter"));
     action->setIcon(QIcon(":/img/icon_shutter.png"));
-    connect(action, &QAction::triggered, [=]()
+    connect(action, &QAction::triggered, this, [=]()
     {
         Params p = {{ "type", "GpioOutputShutterSmart" },
                     { "io_type", "output" }};
@@ -342,7 +342,7 @@ FormRules::FormRules(QWidget *parent) :
 
     action = ola_menu->addAction(tr("Light dimmer"));
     action->setIcon(QIcon(":/img/icon_light_on.png"));
-    connect(action, &QAction::triggered, [=]()
+    connect(action, &QAction::triggered, this, [=]()
     {
         Params p = {{ "type", "OLAOutputLightDimmer" },
                     { "io_type", "output" }};
@@ -351,7 +351,7 @@ FormRules::FormRules(QWidget *parent) :
 
     action = ola_menu->addAction(tr("Light RGB"));
     action->setIcon(QIcon(":/img/icon_light_on.png"));
-    connect(action, &QAction::triggered, [=]()
+    connect(action, &QAction::triggered, this, [=]()
     {
         Params p = {{ "type", "OLAOutputLightRGB" },
                     { "io_type", "output" }};
@@ -362,7 +362,7 @@ FormRules::FormRules(QWidget *parent) :
 
     action = lan_menu->addAction(tr("Ping Switch"));
     action->setIcon(QIcon(":/img/icon_inter.png"));
-    connect(action, &QAction::triggered, [=]()
+    connect(action, &QAction::triggered, this, [=]()
     {
         Params p = {{ "type", "PingInputSwitch" },
                     { "io_type", "input" }};
@@ -371,7 +371,7 @@ FormRules::FormRules(QWidget *parent) :
 
     action = lan_menu->addAction(tr("Wake On Lan Output"));
     action->setIcon(QIcon(":/img/icon_tor_on.png"));
-    connect(action, &QAction::triggered, [=]()
+    connect(action, &QAction::triggered, this, [=]()
     {
         Params p = {{ "type", "WOLOutputBool" },
                     { "io_type", "output" }};
@@ -382,7 +382,7 @@ FormRules::FormRules(QWidget *parent) :
 
     action = knx_menu->addAction(tr("Normal Switch"));
     action->setIcon(QIcon(":/img/icon_inter.png"));
-    connect(action, &QAction::triggered, [=]()
+    connect(action, &QAction::triggered, this, [=]()
     {
         Params p = {{ "type", "KNXInputSwitch" },
                     { "io_type", "input" }};
@@ -391,7 +391,7 @@ FormRules::FormRules(QWidget *parent) :
 
     action = knx_menu->addAction(tr("Switch triple"));
     action->setIcon(QIcon(":/img/icon_inter.png"));
-    connect(action, &QAction::triggered, [=]()
+    connect(action, &QAction::triggered, this, [=]()
     {
         Params p = {{ "type", "KNXInputSwitchTriple" },
                     { "io_type", "input" }};
@@ -400,7 +400,7 @@ FormRules::FormRules(QWidget *parent) :
 
     action = knx_menu->addAction(tr("Switch Long press"));
     action->setIcon(QIcon(":/img/icon_inter.png"));
-    connect(action, &QAction::triggered, [=]()
+    connect(action, &QAction::triggered, this, [=]()
     {
         Params p = {{ "type", "KNXInputSwitchLongPress" },
                     { "io_type", "input" }};
@@ -409,7 +409,7 @@ FormRules::FormRules(QWidget *parent) :
 
     action = knx_menu->addAction(tr("Analog input"));
     action->setIcon(QIcon(":/img/icon_analog.png"));
-    connect(action, &QAction::triggered, [=]()
+    connect(action, &QAction::triggered, this, [=]()
     {
         Params p = {{ "type", "KNXInputAnalog" },
                     { "io_type", "input" }};
@@ -418,7 +418,7 @@ FormRules::FormRules(QWidget *parent) :
 
     action = knx_menu->addAction(tr("Temperature sensor"));
     action->setIcon(QIcon(":/img/temp.png"));
-    connect(action, &QAction::triggered, [=]()
+    connect(action, &QAction::triggered, this, [=]()
     {
         Params p = {{ "type", "KNXInputTemp" },
                     { "io_type", "input" }};
@@ -427,7 +427,7 @@ FormRules::FormRules(QWidget *parent) :
 
     action = knx_menu->addAction(tr("Analog output"));
     action->setIcon(QIcon(":/img/icon_analog.png"));
-    connect(action, &QAction::triggered, [=]()
+    connect(action, &QAction::triggered, this, [=]()
     {
         Params p = {{ "type", "KNXOutputAnalog" },
                     { "io_type", "output" }};
@@ -436,7 +436,7 @@ FormRules::FormRules(QWidget *parent) :
 
     action = knx_menu->addAction(tr("Light"));
     action->setIcon(QIcon(":/img/icon_light_on.png"));
-    connect(action, &QAction::triggered, [=]()
+    connect(action, &QAction::triggered, this, [=]()
     {
         Params p = {{ "type", "KNXOutputLight" },
                     { "io_type", "output" }};
@@ -445,7 +445,7 @@ FormRules::FormRules(QWidget *parent) :
 
     action = knx_menu->addAction(tr("Light dimmer"));
     action->setIcon(QIcon(":/img/icon_light_on.png"));
-    connect(action, &QAction::triggered, [=]()
+    connect(action, &QAction::triggered, this, [=]()
     {
         Params p = {{ "type", "KNXOutputLightDimmer" },
                     { "io_type", "output" }};
@@ -454,7 +454,7 @@ FormRules::FormRules(QWidget *parent) :
 
     action = knx_menu->addAction(tr("Light RGB"));
     action->setIcon(QIcon(":/img/icon_light_on.png"));
-    connect(action, &QAction::triggered, [=]()
+    connect(action, &QAction::triggered, this, [=]()
     {
         Params p = {{ "type", "KNXOutputLightRGB" },
                     { "io_type", "output" }};
@@ -463,7 +463,7 @@ FormRules::FormRules(QWidget *parent) :
 
     action = knx_menu->addAction(tr("Shutter"));
     action->setIcon(QIcon(":/img/icon_shutter.png"));
-    connect(action, &QAction::triggered, [=]()
+    connect(action, &QAction::triggered, this, [=]()
     {
         Params p = {{ "type", "KNXOutputShutter" },
                     { "io_type", "output" }};
@@ -472,7 +472,7 @@ FormRules::FormRules(QWidget *parent) :
 
     action = knx_menu->addAction(tr("Smart Shutter"));
     action->setIcon(QIcon(":/img/icon_shutter.png"));
-    connect(action, &QAction::triggered, [=]()
+    connect(action, &QAction::triggered, this, [=]()
     {
         Params p = {{ "type", "KNXOutputShutterSmart" },
                     { "io_type", "output" }};
@@ -483,7 +483,7 @@ FormRules::FormRules(QWidget *parent) :
 
     action = milight_menu->addAction(tr("MI-Light RGB bulb"));
     action->setIcon(QIcon(":/img/icon_light_on.png"));
-    connect(action, &QAction::triggered, [=]()
+    connect(action, &QAction::triggered, this, [=]()
     {
         Params p = {{ "type", "MilightOutputLightRGB" },
                     { "io_type", "output" }};
@@ -494,7 +494,7 @@ FormRules::FormRules(QWidget *parent) :
 
     action = blink_menu->addAction(tr("Blinkstick RGB USB stick"));
     action->setIcon(QIcon(":/img/icon_light_on.png"));
-    connect(action, &QAction::triggered, [=]()
+    connect(action, &QAction::triggered, this, [=]()
     {
         Params p = {{ "type", "BlinkstickOutputLightRGB" },
                     { "io_type", "output" }};
@@ -509,7 +509,7 @@ FormRules::FormRules(QWidget *parent) :
 
     action = hue_menu->addAction(tr("Hue Wizard"));
     action->setIcon(QIcon(":/img/icon_light_on.png"));
-    connect(action, &QAction::triggered, [=]()
+    connect(action, &QAction::triggered, this, [=]()
     {
         WizardHue dialog(NULL, NULL);
         if (dialog.exec() == QDialog::Accepted)
@@ -525,19 +525,19 @@ FormRules::FormRules(QWidget *parent) :
 
      action = hue_menu->addAction(tr("Philips Hue"));
      action->setIcon(QIcon(":/img/icon_light_on.png"));
-     connect(action, &QAction::triggered, [=]()
+     connect(action, &QAction::triggered, this, [=]()
      {
          Params p = {{ "type", "HueOutputLightRGB" },
                      { "io_type", "output" }};
          addCalaosIO(p);
      });
-    
+
      QMenu *telinfo_menu = add_menu->addMenu(QIcon("://img/teleinfo.png"), "Teleinfo");
 
      action = telinfo_menu->addAction(tr("TeleinfoInputAnalog"));
      action->setIcon(QIcon(":/img/icon_analog.png"));
 
-     connect(action, &QAction::triggered, [=]()
+     connect(action, &QAction::triggered, this, [=]()
      {
          Params p = {{ "type", "TeleinfoInputAnalog" },
                      { "io_type", "input" }};
@@ -548,7 +548,7 @@ FormRules::FormRules(QWidget *parent) :
 
      action = xplsensors_menu->addAction(tr("Temperature sensor"));
      action->setIcon(QIcon(":/img/temp.png"));
-     connect(action, &QAction::triggered, [=]()
+     connect(action, &QAction::triggered, this, [=]()
      {
          Params p = {{ "type", "xPLInputTemp" },
                      { "io_type", "input" }};
@@ -557,7 +557,7 @@ FormRules::FormRules(QWidget *parent) :
 
      action = xplsensors_menu->addAction(tr("Switch"));
      action->setIcon(QIcon(":/img/icon_inter.png"));
-     connect(action, &QAction::triggered, [=]()
+     connect(action, &QAction::triggered, this, [=]()
      {
          Params p = {{ "type", "xPLInputSwitch" },
                      { "io_type", "input" }};
@@ -566,7 +566,7 @@ FormRules::FormRules(QWidget *parent) :
 
      action = xplsensors_menu->addAction(tr("Analog Input"));
      action->setIcon(QIcon(":/img/icon_analog.png"));
-     connect(action, &QAction::triggered, [=]()
+     connect(action, &QAction::triggered, this, [=]()
      {
          Params p = {{ "type", "xPLInputAnalog" },
                      { "io_type", "input" }};
@@ -575,7 +575,7 @@ FormRules::FormRules(QWidget *parent) :
 
      action = xplsensors_menu->addAction(tr("String Input"));
      action->setIcon(QIcon(":/img/text.png"));
-     connect(action, &QAction::triggered, [=]()
+     connect(action, &QAction::triggered, this, [=]()
      {
          Params p = {{ "type", "xPLInputString" },
                      { "io_type", "input" }};
@@ -584,7 +584,7 @@ FormRules::FormRules(QWidget *parent) :
 
      action = xplsensors_menu->addAction(tr("Light"));
      action->setIcon(QIcon(":/img/icon_light_on.png"));
-     connect(action, &QAction::triggered, [=]()
+     connect(action, &QAction::triggered, this, [=]()
      {
          Params p = {{ "type", "xPLOutputSwitch" },
                      { "io_type", "output" }};
@@ -593,7 +593,7 @@ FormRules::FormRules(QWidget *parent) :
 
      action = xplsensors_menu->addAction(tr("Analog Output"));
      action->setIcon(QIcon(":/img/icon_analog.png"));
-     connect(action, &QAction::triggered, [=]()
+     connect(action, &QAction::triggered, this, [=]()
      {
          Params p = {{ "type", "xPLOutputAnalog" },
                      { "io_type", "output" }};
@@ -602,7 +602,7 @@ FormRules::FormRules(QWidget *parent) :
 
      action = xplsensors_menu->addAction(tr("String Output"));
      action->setIcon(QIcon(":/img/text.png"));
-     connect(action, &QAction::triggered, [=]()
+     connect(action, &QAction::triggered, this, [=]()
      {
          Params p = {{ "type", "xPLOutputString" },
                      { "io_type", "output" }};
@@ -613,7 +613,7 @@ FormRules::FormRules(QWidget *parent) :
 
      action = mqtt_menu->addAction(tr("Temperature sensor"));
      action->setIcon(QIcon(":/img/temp.png"));
-     connect(action, &QAction::triggered, [=]()
+     connect(action, &QAction::triggered, this, [=]()
      {
          Params p = {{ "type", "MqttInputTemp" },
                      { "io_type", "input" }};
@@ -622,7 +622,7 @@ FormRules::FormRules(QWidget *parent) :
 
      action = mqtt_menu->addAction(tr("Switch"));
      action->setIcon(QIcon(":/img/icon_inter.png"));
-     connect(action, &QAction::triggered, [=]()
+     connect(action, &QAction::triggered, this, [=]()
      {
          Params p = {{ "type", "MqttInputSwitch" },
                      { "io_type", "input" }};
@@ -631,7 +631,7 @@ FormRules::FormRules(QWidget *parent) :
 
      action = mqtt_menu->addAction(tr("Analog Input"));
      action->setIcon(QIcon(":/img/icon_analog.png"));
-     connect(action, &QAction::triggered, [=]()
+     connect(action, &QAction::triggered, this, [=]()
      {
          Params p = {{ "type", "MqttInputAnalog" },
                      { "io_type", "input" }};
@@ -640,7 +640,7 @@ FormRules::FormRules(QWidget *parent) :
 
      action = mqtt_menu->addAction(tr("String Input"));
      action->setIcon(QIcon(":/img/text.png"));
-     connect(action, &QAction::triggered, [=]()
+     connect(action, &QAction::triggered, this, [=]()
      {
          Params p = {{ "type", "MqttInputString" },
                      { "io_type", "input" }};
@@ -649,7 +649,7 @@ FormRules::FormRules(QWidget *parent) :
 
      action = mqtt_menu->addAction(tr("Light"));
      action->setIcon(QIcon(":/img/icon_light_on.png"));
-     connect(action, &QAction::triggered, [=]()
+     connect(action, &QAction::triggered, this, [=]()
      {
          Params p = {{ "type", "MqttOutputLight" },
                      { "io_type", "output" }};
@@ -658,86 +658,86 @@ FormRules::FormRules(QWidget *parent) :
 
      action = mqtt_menu->addAction(tr("Analog Output"));
      action->setIcon(QIcon(":/img/icon_analog.png"));
-     connect(action, &QAction::triggered, [=]()
+     connect(action, &QAction::triggered, this, [=]()
      {
          Params p = {{ "type", "MqttOutputAnalog" },
                      { "io_type", "output" }};
          addCalaosIO(p);
      });
-  
+
     add_menu->addSeparator();
 
     action = add_menu->addAction(tr("Camera"));
     action->setIcon(QIcon(":/img/icon_camera_on.png"));
-    connect(action, &QAction::triggered, [=]() { addCalaosItem(HW_NONE, ITEM_CAMERA); });
+    connect(action, &QAction::triggered, this, [=]() { addCalaosItem(HW_NONE, ITEM_CAMERA); });
 
     action = add_menu->addAction(tr("Music zone"));
     action->setIcon(QIcon(":/img/icon_sound.png"));
-    connect(action, &QAction::triggered, [=]() { addCalaosItem(HW_NONE, ITEM_MUSIC); });
+    connect(action, &QAction::triggered, this, [=]() { addCalaosItem(HW_NONE, ITEM_MUSIC); });
 
     action = add_menu->addAction(tr("Audio amplifier"));
     action->setIcon(QIcon(":/img/icon_sound.png"));
-    connect(action, &QAction::triggered, [=]() { addCalaosItem(HW_NONE, ITEM_AVR); });
+    connect(action, &QAction::triggered, this, [=]() { addCalaosItem(HW_NONE, ITEM_AVR); });
 
     add_menu->addSeparator();
     action = add_menu->addAction(tr("Internal Variable"));
     action->setIcon(QIcon(":/img/text.png"));
-    connect(action, &QAction::triggered, [=]() { addCalaosItem(HW_NONE, ITEM_INTERN); });
+    connect(action, &QAction::triggered, this, [=]() { addCalaosItem(HW_NONE, ITEM_INTERN); });
 
     action = add_menu->addAction(tr("Scenario variable"));
     action->setIcon(QIcon(":/img/icon_scenario.png"));
-    connect(action, &QAction::triggered, [=]() { addCalaosItem(HW_NONE, ITEM_SCENARIO); });
+    connect(action, &QAction::triggered, this, [=]() { addCalaosItem(HW_NONE, ITEM_SCENARIO); });
 
     action = add_menu->addAction(tr("Time/Scheduling Variable"));
     action->setIcon(QIcon(":/img/icon_clock.png"));
-    connect(action, &QAction::triggered, [=]() { addCalaosItem(HW_NONE, ITEM_TIME); });
+    connect(action, &QAction::triggered, this, [=]() { addCalaosItem(HW_NONE, ITEM_TIME); });
 
     addConditionMenu = new QMenu(parent);
     ui->bt_condition_add->setMenu(addConditionMenu);
 
     action = addConditionMenu->addAction(tr("Normal Condition"));
     action->setIcon(QIcon(":/img/icon_rule.png"));
-    connect(action, &QAction::triggered, [=]() { addCondition(COND_STD); });
+    connect(action, &QAction::triggered, this, [=]() { addCondition(COND_STD); });
 
     action = addConditionMenu->addAction(tr("Condition on output event"));
     action->setIcon(QIcon(":/img/icon_rule_out.png"));
-    connect(action, &QAction::triggered, [=]() { addCondition(COND_OUTPUT); });
+    connect(action, &QAction::triggered, this, [=]() { addCondition(COND_OUTPUT); });
 
     action = addConditionMenu->addAction(tr("Condition at start"));
     action->setIcon(QIcon(":/img/icon_rule_start.png"));
-    connect(action, &QAction::triggered, [=]() { addCondition(COND_START); });
+    connect(action, &QAction::triggered, this, [=]() { addCondition(COND_START); });
 
     action = addConditionMenu->addAction(tr("Script Condition"));
     action->setIcon(QIcon(":/img/icon_rule_script.png"));
-    connect(action, &QAction::triggered, [=]() { addCondition(COND_SCRIPT); });
+    connect(action, &QAction::triggered, this, [=]() { addCondition(COND_SCRIPT); });
 
     addActionMenu = new QMenu(parent);
     ui->bt_action_add->setMenu(addActionMenu);
 
     action = addActionMenu->addAction(tr("Normal Action"));
     action->setIcon(QIcon(":/img/icon_rule.png"));
-    connect(action, &QAction::triggered, [=]() { addAction(ACTION_STD); });
+    connect(action, &QAction::triggered, this, [=]() { addAction(ACTION_STD); });
 
     action = addActionMenu->addAction(tr("E-Mail Action"));
     action->setIcon(QIcon(":/img/icon_rule_mail.png"));
-    connect(action, &QAction::triggered, [=]() { addAction(ACTION_MAIL); });
+    connect(action, &QAction::triggered, this, [=]() { addAction(ACTION_MAIL); });
 
     action = addActionMenu->addAction(tr("Script Action"));
     action->setIcon(QIcon(":/img/icon_rule_script.png"));
-    connect(action, &QAction::triggered, [=]() { addAction(ACTION_SCRIPT); });
+    connect(action, &QAction::triggered, this, [=]() { addAction(ACTION_SCRIPT); });
 
     action = addActionMenu->addAction(tr("Touchscreen Action"));
     action->setIcon(QIcon(":/img/icon_rule.png"));
-    connect(action, &QAction::triggered, [=]() { addAction(ACTION_TOUCHSCREEN); });
+    connect(action, &QAction::triggered, this, [=]() { addAction(ACTION_TOUCHSCREEN); });
 
     action = addActionMenu->addAction(tr("Push Notification Action"));
     action->setIcon(QIcon(":/img/icon_rule_mail.png"));
-    connect(action, &QAction::triggered, [=]() { addAction(ACTION_PUSH); });
+    connect(action, &QAction::triggered, this, [=]() { addAction(ACTION_PUSH); });
 
-    connect(ui->tree_home, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(showPopup_tree(QPoint)));
-    connect(ui->tree_condition, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(showPopup_condition(QPoint)));
-    connect(ui->tree_action, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(showPopup_action(QPoint)));
-    connect(ui->tree_rules, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(showPopup_rule(QPoint)));
+    connect(ui->tree_home, &HomeTreeWidget::customContextMenuRequested, this, &FormRules::showPopup_tree);
+    connect(ui->tree_condition, &ConditionTreeWidget::customContextMenuRequested, this, &FormRules::showPopup_condition);
+    connect(ui->tree_action, &ActionTreeWidget::customContextMenuRequested, this, &FormRules::showPopup_action);
+    connect(ui->tree_rules, &QTreeWidget::customContextMenuRequested, this, &FormRules::showPopup_rule);
 }
 
 FormRules::~FormRules()
@@ -1828,7 +1828,7 @@ void FormRules::showPopup_tree(const QPoint point)
 
         action = item_menu.addAction(tr("Display the associated rules"));
         action->setIcon(QIcon(":/img/go-last.png"));
-        connect(action, SIGNAL(triggered()), this, SLOT(goSelectRule()));
+        connect(action, &QAction::triggered, this, &FormRules::goSelectRule);
 
         QTreeWidgetItemOutput *itoutput = dynamic_cast<QTreeWidgetItemOutput *>(treeItem);
         QTreeWidgetItemInput *itinput = dynamic_cast<QTreeWidgetItemInput *>(treeItem);
@@ -1851,13 +1851,13 @@ void FormRules::showPopup_tree(const QPoint point)
                 action->setIcon(QIcon(getIconFromRoom(room)));
                 action->setData(QVariant::fromValue<void *>(room));
 
-                connect(action, SIGNAL(triggered()), this, SLOT(moveIOToRoom()));
+                connect(action, &QAction::triggered, this, &FormRules::moveIOToRoom);
             }
         }
 
         action = item_menu.addAction(tr("Delete"));
         action->setIcon(QIcon(":/img/user-trash.png"));
-        connect(action, SIGNAL(triggered()), this, SLOT(deleteItem()));
+        connect(action, &QAction::triggered, this, &FormRules::deleteItem);
 
         item_menu.addSeparator();
 
@@ -1870,11 +1870,11 @@ void FormRules::showPopup_tree(const QPoint point)
             {
                 action = item_menu.addAction(tr("Switch on"));
                 action->setIcon(QIcon(":/img/icon_light_on.png"));
-                connect(action, SIGNAL(triggered()), this, SLOT(itemLightOn()));
+                connect(action, &QAction::triggered, this, &FormRules::itemLightOn);
 
                 action = item_menu.addAction(tr("Switch off"));
                 action->setIcon(QIcon(":/img/icon_light_on.png"));
-                connect(action, SIGNAL(triggered()), this, SLOT(itemLightOff()));
+                connect(action, &QAction::triggered, this, &FormRules::itemLightOff);
 
                 item_menu.addSeparator();
             }
@@ -1883,7 +1883,7 @@ void FormRules::showPopup_tree(const QPoint point)
             {
                 action = item_menu.addAction(tr("Display the camera view"));
                 action->setIcon(QIcon(":/img/icon_camera_on.png"));
-                connect(action, SIGNAL(triggered()), this, SLOT(itemShowCamera()));
+                connect(action, &QAction::triggered, this, &FormRules::itemShowCamera);
 
                 item_menu.addSeparator();
             }
@@ -1895,13 +1895,13 @@ void FormRules::showPopup_tree(const QPoint point)
                 {
                     action = item_menu.addAction(tr("Convert to normal shutter"));
                     action->setIcon(QIcon(":/img/icon_shutter.png"));
-                    connect(action, SIGNAL(triggered()), this, SLOT(itemConvertShutterStandard()));
+                    connect(action, &QAction::triggered, this, &FormRules::itemConvertShutterStandard);
                 }
                 else
                 {
                     action = item_menu.addAction(tr("Convert to smart shutter"));
                     action->setIcon(QIcon(":/img/icon_shutter.png"));
-                    connect(action, SIGNAL(triggered()), this, SLOT(itemConvertShutterSmart()));
+                    connect(action, &QAction::triggered, this, &FormRules::itemConvertShutterSmart);
                 }
 
                 item_menu.addSeparator();
@@ -1910,15 +1910,15 @@ void FormRules::showPopup_tree(const QPoint point)
                 {
                     action = item_menu.addAction(tr("Up"));
                     action->setIcon(QIcon(":/img/icon_shutter.png"));
-                    connect(action, SIGNAL(triggered()), this, SLOT(itemVoletUp()));
+                    connect(action, &QAction::triggered, this, &FormRules::itemVoletUp);
 
                     action = item_menu.addAction(tr("Down"));
                     action->setIcon(QIcon(":/img/icon_shutter.png"));
-                    connect(action, SIGNAL(triggered()), this, SLOT(itemVoletDown()));
+                    connect(action, &QAction::triggered, this, &FormRules::itemVoletDown);
 
                     action = item_menu.addAction(tr("Stop"));
                     action->setIcon(QIcon(":/img/icon_shutter.png"));
-                    connect(action, SIGNAL(triggered()), this, SLOT(itemVoletStop()));
+                    connect(action, &QAction::triggered, this, &FormRules::itemVoletStop);
 
                     item_menu.addSeparator();
                 }
@@ -1933,7 +1933,7 @@ void FormRules::showPopup_tree(const QPoint point)
             {
                 action = item_menu.addAction(tr("Edit the time ranges..."));
                 action->setIcon(QIcon(":/img/icon_clock.png"));
-                connect(action, SIGNAL(triggered()), this, SLOT(itemPlagesHoraires()));
+                connect(action, &QAction::triggered, this, &FormRules::itemPlagesHoraires);
 
                 item_menu.addSeparator();
             }
@@ -1942,11 +1942,11 @@ void FormRules::showPopup_tree(const QPoint point)
             {
                 action = item_menu.addAction(tr("Convert in triple switch..."));
                 action->setIcon(QIcon(":/img/icon_inter.png"));
-                connect(action, SIGNAL(triggered()), this, SLOT(itemConvertInterTriple()));
+                connect(action, &QAction::triggered, this, &FormRules::itemConvertInterTriple);
 
                 action = item_menu.addAction(tr("Convert in long press switch..."));
                 action->setIcon(QIcon(":/img/icon_inter.png"));
-                connect(action, SIGNAL(triggered()), this, SLOT(itemConvertInterLong()));
+                connect(action, &QAction::triggered, this, &FormRules::itemConvertInterLong);
 
                 item_menu.addSeparator();
             }
@@ -1955,11 +1955,11 @@ void FormRules::showPopup_tree(const QPoint point)
             {
                 action = item_menu.addAction(tr("Convert in normal switch..."));
                 action->setIcon(QIcon(":/img/icon_inter.png"));
-                connect(action, SIGNAL(triggered()), this, SLOT(itemConvertInterBP()));
+                connect(action, &QAction::triggered, this, &FormRules::itemConvertInterBP);
 
                 action = item_menu.addAction(tr("Convert in long press switch..."));
                 action->setIcon(QIcon(":/img/icon_inter.png"));
-                connect(action, SIGNAL(triggered()), this, SLOT(itemConvertInterLong()));
+                connect(action, &QAction::triggered, this, &FormRules::itemConvertInterLong);
 
                 item_menu.addSeparator();
             }
@@ -1968,11 +1968,11 @@ void FormRules::showPopup_tree(const QPoint point)
             {
                 action = item_menu.addAction(tr("Convert in normal switch..."));
                 action->setIcon(QIcon(":/img/icon_inter.png"));
-                connect(action, SIGNAL(triggered()), this, SLOT(itemConvertInterBP()));
+                connect(action, &QAction::triggered, this, &FormRules::itemConvertInterBP);
 
                 action = item_menu.addAction(tr("Convert in triple switch..."));
                 action->setIcon(QIcon(":/img/icon_inter.png"));
-                connect(action, SIGNAL(triggered()), this, SLOT(itemConvertInterTriple()));
+                connect(action, &QAction::triggered, this, &FormRules::itemConvertInterTriple);
 
                 item_menu.addSeparator();
             }
@@ -1981,7 +1981,7 @@ void FormRules::showPopup_tree(const QPoint point)
             {
                 action = item_menu.addAction(tr("Link a setpoint..."));
                 action->setIcon(QIcon(":/img/icon_temp.png"));
-                connect(action, SIGNAL(triggered()), this, SLOT(itemTempWizard()));
+                connect(action, &QAction::triggered, this, &FormRules::itemTempWizard);
 
                 item_menu.addSeparator();
             }
@@ -1989,7 +1989,7 @@ void FormRules::showPopup_tree(const QPoint point)
 
         action = item_menu.addAction(tr("Properties"));
         action->setIcon(QIcon(":/img/document-properties.png"));
-        connect(action, SIGNAL(triggered()), this, SLOT(showPropertiesItem()));
+        connect(action, &QAction::triggered, this, &FormRules::showPropertiesItem);
 
         item_menu.exec(QCursor::pos());
     }
@@ -2070,7 +2070,7 @@ void FormRules::showPopup_condition(const QPoint point)
 
     action = item_menu.addAction(tr("Delete"));
     action->setIcon(QIcon(":/img/user-trash.png"));
-    connect(action, SIGNAL(triggered()), this, SLOT(deleteItemCondition()));
+    connect(action, &QAction::triggered, this, &FormRules::deleteItemCondition);
 
     item_menu.exec(QCursor::pos());
 }
@@ -2091,7 +2091,7 @@ void FormRules::showPopup_action(const QPoint point)
 
     action = item_menu.addAction(tr("Delete"));
     action->setIcon(QIcon(":/img/user-trash.png"));
-    connect(action, SIGNAL(triggered()), this, SLOT(deleteItemAction()));
+    connect(action, &QAction::triggered, this, &FormRules::deleteItemAction);
 
     item_menu.exec(QCursor::pos());
 }
@@ -3391,14 +3391,14 @@ void FormRules::showPopup_rule(const QPoint point)
 
     action = item_menu.addAction(tr("Clone rule"));
     action->setIcon(QIcon(":/img/clone.png"));
-    connect(action, SIGNAL(triggered()), this, SLOT(cloneRule()));
+    connect(action, &QAction::triggered, this, &FormRules::cloneRule);
     action = item_menu.addAction(tr("Properties"));
     action->setIcon(QIcon(":/img/document-properties.png"));
-    connect(action, SIGNAL(triggered()), this, SLOT(showPropertiesItem()));
+    connect(action, &QAction::triggered, this, &FormRules::showPropertiesItem);
     item_menu.addSeparator();
     action = item_menu.addAction(tr("Delete"));
     action->setIcon(QIcon(":/img/user-trash.png"));
-    connect(action, SIGNAL(triggered()), this, SLOT(on_bt_rules_del_clicked()));
+    connect(action, &QAction::triggered, this, &FormRules::on_bt_rules_del_clicked);
 
     item_menu.exec(QCursor::pos());
 }

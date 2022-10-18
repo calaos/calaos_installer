@@ -1,10 +1,13 @@
 #ifndef CODEEDITOR_H
 #define CODEEDITOR_H
 
-#include <QtWidgets>
+#include <QPlainTextEdit>
 #include <QSyntaxHighlighter>
 #include <QHash>
 #include <QTextCharFormat>
+#include <QRegExp>
+#include <QCompleter>
+#include <QStandardItemModel>
 
 QT_BEGIN_NAMESPACE
 class QPaintEvent;

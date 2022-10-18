@@ -1,7 +1,6 @@
 #ifndef DIALOGNEWWAGO_H
 #define DIALOGNEWWAGO_H
 
-#include <QtWidgets>
 #include <QDialog>
 #include <qanimationlabel.h>
 #include <wagoconnect.h>

@@ -2,6 +2,8 @@
 #include "mainwindow.h"
 #include "formrules.h"
 #include <ListeRoom.h>
+#include <QApplication>
+#include <QDrag>
 
 HomeTreeWidget::HomeTreeWidget(QWidget *parent):
     QTreeWidget(parent)

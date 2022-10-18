@@ -1,7 +1,6 @@
 #ifndef DIALOGNEWDALI_H
 #define DIALOGNEWDALI_H
 
-#include <QtWidgets>
 #include <QDialog>
 #include <wagoconnect.h>
 #include <iostream>

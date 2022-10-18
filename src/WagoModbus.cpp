@@ -24,11 +24,10 @@ WagoModbus::WagoModbus(QObject *parent):
     QObject(parent),
     modbusSocket(new QTcpSocket(this))
 {
-    connect(modbusSocket, SIGNAL(readyRead()), this, SLOT(modbusReadTCPPacket()));
-    connect(modbusSocket, SIGNAL(connected()), this, SLOT(modbusTcpConnected()));
-    connect(modbusSocket, SIGNAL(error (QAbstractSocket::SocketError)),
-            this, SLOT(modbusTcpError(QAbstractSocket::SocketError)));
-    connect(modbusSocket, SIGNAL(disconnected()), this, SLOT(modbusTcpDisconnected()));
+    connect(modbusSocket, &QTcpSocket::readyRead, this, &WagoModbus::modbusReadTCPPacket);
+    connect(modbusSocket, &QTcpSocket::connected, this, &WagoModbus::modbusTcpConnected);
+    connect(modbusSocket, &QTcpSocket::disconnected, this, &WagoModbus::modbusTcpDisconnected);
+    connect(modbusSocket, &QTcpSocket::errorOccurred, this, &WagoModbus::modbusTcpError);
 }
 
 WagoModbus::~WagoModbus()

@@ -15,7 +15,7 @@ DialogNewCamera::DialogNewCamera(Room *r, QWidget *parent) :
     ui->label_error_empty->hide();
 
     nm = new QNetworkAccessManager(this);
-    connect(nm, &QNetworkAccessManager::sslErrors, [](QNetworkReply *reply, const QList<QSslError> &)
+    connect(nm, &QNetworkAccessManager::sslErrors, this, [](QNetworkReply *reply, const QList<QSslError> &)
     {
         reply->ignoreSslErrors();
     });
@@ -248,7 +248,7 @@ void DialogNewCamera::listCameras(std::function<void(const QJsonArray &arr)> dat
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
 
     auto reply = nm->get(request);
-    connect(reply, &QNetworkReply::finished, [=]()
+    connect(reply, &QNetworkReply::finished, this, [=]()
     {
         reply->deleteLater();
         if (reply->error() != QNetworkReply::NoError)
@@ -286,7 +286,7 @@ void DialogNewCamera::login(std::function<void(const QString &sid)> cb)
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
 
     auto reply = nm->get(request);
-    connect(reply, &QNetworkReply::finished, [=]()
+    connect(reply, &QNetworkReply::finished, this, [=]()
     {
         reply->deleteLater();
         if (reply->error() != QNetworkReply::NoError)
@@ -323,7 +323,7 @@ void DialogNewCamera::getApiInfo(const QString &api, const QString &method, cons
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
 
     auto reply = nm->get(request);
-    connect(reply, &QNetworkReply::finished, [=]()
+    connect(reply, &QNetworkReply::finished, this, [=]()
     {
         reply->deleteLater();
         if (reply->error() != QNetworkReply::NoError)

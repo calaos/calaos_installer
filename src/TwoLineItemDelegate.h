@@ -1,7 +1,6 @@
 #ifndef CONDITIONITEMDELEGATE_H
 #define CONDITIONITEMDELEGATE_H
 
-#include <QtWidgets>
 #include <QStyledItemDelegate>
 
 class TwoLineItemDelegate : public QStyledItemDelegate

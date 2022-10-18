@@ -1,7 +1,7 @@
 #ifndef DIALOGOPTIONS_H
 #define DIALOGOPTIONS_H
 
-#include <QtWidgets>
+#include <QDialog>
 
 namespace Ui {
 class DialogOptions;

@@ -3,6 +3,10 @@
 # -------------------------------------------------
 QT += core gui network widgets xml printsupport
 
+equals(QT_MAJOR_VERSION, 6) {
+   QT += core5compat
+}
+
 isEmpty(REVISION) {
 REVISION = $$system(git --git-dir $$PWD/.git --work-tree $$PWD describe --long --tags --always master)
 }

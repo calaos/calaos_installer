@@ -23,13 +23,17 @@
 
 #include <QFontMetrics>
 #include <QApplication>
-#include <QDesktopWidget>
+#include <QEvent>
 #include <QDebug>
 #include <QPushButton>
 #include <QTimer>
 #include <QCloseEvent>
 #include <QStyle>
 #include <QIcon>
+
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+#include <QDesktopWidget>
+#endif
 
 BalloonTip::BalloonTip( QStyle::StandardPixmap icon, QString title, QString text, int duration, QWidget* parent ) :
   QWidget( parent ) {
@@ -70,7 +74,7 @@ void BalloonTip::init() {
 
   setArrowPosition( my_arrowPos );
   setFixedSize( my_popupRect.width() + 60, my_popupRect.height() + 60 );
-  connect( my_closeButton, SIGNAL(clicked()), this, SLOT(close()) );
+  connect(my_closeButton, &TipButton::clicked, this, &BalloonTip::close);
 
   if ( parentWidget() != 0 ) {
     parentWidget()->installEventFilter( this );
@@ -90,7 +94,7 @@ void BalloonTip::createAnimation() {
   my_animation->setEndValue( 0.0 );
   my_animation->setDuration( my_duration );
   my_animation->setEasingCurve( QEasingCurve::InCubic );
-  connect( my_animation, SIGNAL(finished()), this, SLOT(close()) );
+  connect( my_animation, &QPropertyAnimation::finished, this, &BalloonTip::close );
 }
 
 void BalloonTip::createRects() {
@@ -116,7 +120,12 @@ void BalloonTip::createRects() {
 }
 
 void BalloonTip::defineArrowPosition() {
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+  auto screen = QApplication::screenAt(QCursor::pos());
+  QSize desktopSize = screen->availableSize();
+#else
   QSize desktopSize = QApplication::desktop()->size();
+#endif
   QPoint pos = mapToGlobal( my_pos );
   if ( pos.x() < desktopSize.width() / 2 ) {
     if ( pos.y() < desktopSize.height() / 2 ) {
@@ -220,7 +229,11 @@ QRect BalloonTip::relativeTextRect() {
   return rect;
 }
 
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+void BalloonTip::enterEvent( QEnterEvent* ev ) {
+#else
 void BalloonTip::enterEvent( QEvent* ev ) {
+#endif
 //  setWindowOpacity( 0.9 );
 //  my_animation->stop();
   QWidget::enterEvent( ev );
@@ -281,11 +294,13 @@ void BalloonTip::move( QPoint pos ) {
   switch( my_arrowPos ) {
   case BottomLeft :
     pos.setY( pos.y() - my_popupRect.height() - 60 );
+    [[fallthrough]];
   case TopLeft :
     pos.setX( pos.x() - 30 );
   break;
   case BottomRight :
     pos.setY( pos.y() - my_popupRect.height() - 60 );
+    [[fallthrough]];
   case TopRight :
     pos.setX( pos.x() - my_popupRect.width() + 30 );
   break;

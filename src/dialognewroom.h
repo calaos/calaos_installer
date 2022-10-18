@@ -1,7 +1,6 @@
 #ifndef DIALOGNEWROOM_H
 #define DIALOGNEWROOM_H
 
-#include <QtWidgets>
 #include <iostream>
 #include <QDialog>
 

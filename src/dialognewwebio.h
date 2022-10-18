@@ -2,8 +2,6 @@
 #define DialogNewWebIO_H
 
 #include <QDialog>
-
-#include <QtWidgets>
 #include <QDialog>
 #include <iostream>
 

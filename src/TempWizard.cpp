@@ -1,4 +1,7 @@
 #include "TempWizard.h"
+#include <QGridLayout>
+#include <QLabel>
+#include <QCheckBox>
 
 TempWizard::TempWizard(QWidget *parent) :
     QWizard(parent)

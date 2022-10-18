@@ -2,7 +2,6 @@
 #define DIALOGSAVEONLINE_H
 
 #include <QtNetwork>
-#include <QtWidgets>
 #include <QDialog>
 #include <qanimationlabel.h>
 

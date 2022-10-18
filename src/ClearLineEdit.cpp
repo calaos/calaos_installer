@@ -18,8 +18,8 @@ ClearLineEdit::ClearLineEdit(QWidget *parent) :
     label->resize(size());
     label->setStyleSheet("QLabel { font-style: italic; color: #aaa; margin-left: 5px; }");
 
-    connect(clearButton, SIGNAL(clicked()), this, SLOT(clear()));
-    connect(this, SIGNAL(textChanged(const QString&)), this, SLOT(updateCloseButton(const QString&)));
+    connect(clearButton, &QToolButton::clicked, this, &ClearLineEdit::clear);
+    connect(this, &ClearLineEdit::textChanged, this, &ClearLineEdit::updateCloseButton);
 
     int frameWidth = style()->pixelMetric(QStyle::PM_DefaultFrameWidth);
 

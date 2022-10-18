@@ -2,6 +2,7 @@
 #include "TwoLineItemDelegate.h"
 #include "mainwindow.h"
 #include <ListeRoom.h>
+#include <QApplication>
 
 ConditionTreeWidget::ConditionTreeWidget(QWidget *parent):
     QTreeWidget(parent)

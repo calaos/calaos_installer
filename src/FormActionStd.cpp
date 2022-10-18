@@ -225,7 +225,7 @@ void FormActionStd::setAction(QTreeWidgetItem *item, Rule *_rule, Action *_actio
                 QString action = QString("source %1").arg(src.first);
                 RuleActionMenu *ac = new RuleActionMenu(NULL, action, h, action);
                 submenu->addAction(ac);
-                connect(ac, SIGNAL(triggered(RuleActionMenu*)), this, SLOT(menuAction(RuleActionMenu*)));
+                connect(ac, &RuleActionMenu::triggered, this, &FormActionStd::menuAction);
             }
         }
 
@@ -264,7 +264,7 @@ RuleActionMenu *FormActionStd::addActionMenu(QString action, QString help, QStri
     QString h = RuleActionTpl.arg(help);
     RuleActionMenu *ac = new RuleActionMenu(NULL, action, h, cmd);
     actionMenu->addAction(ac);
-    connect(ac, SIGNAL(triggered(RuleActionMenu*)), this, SLOT(menuAction(RuleActionMenu*)));
+    connect(ac, &RuleActionMenu::triggered, this, &FormActionStd::menuAction);
     return ac;
 }
 

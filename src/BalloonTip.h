@@ -27,7 +27,7 @@
 #include <QPainter>
 #include <QPainterPath>
 #include <QPropertyAnimation>
-
+#include <QEnterEvent>
 #include <QStyle>
 
 
@@ -118,18 +118,22 @@ protected:
   TipButton* my_closeButton;
   TipButton* my_configButton;
 
-  void   paintEvent( QPaintEvent* ev);
+  void   paintEvent( QPaintEvent* ev) override;
 
   QRect  relativePopupRect();
   QRect  relativeTextRect();
 
-  void   enterEvent( QEvent* ev );
-  void   leaveEvent( QEvent* ev );
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+  void   enterEvent( QEnterEvent* ev ) override;
+#else
+  void   enterEvent( QEvent* ev ) override;
+#endif
+  void   leaveEvent( QEvent* ev ) override;
   void   init();
   void   createAnimation();
   void   defineArrowPosition();
   void   createRects();
-  bool   eventFilter(QObject *, QEvent *);
+  bool   eventFilter(QObject *, QEvent *) override;
 
 public:
   explicit BalloonTip( QString title, QString text,

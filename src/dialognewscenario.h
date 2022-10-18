@@ -1,7 +1,6 @@
 #ifndef DIALOGNEWSCENARIO_H
 #define DIALOGNEWSCENARIO_H
 
-#include <QtWidgets>
 #include <QDialog>
 #include <iostream>
 

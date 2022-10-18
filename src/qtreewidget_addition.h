@@ -1,7 +1,7 @@
 #ifndef QTREEWIDGET_ADDITION_H
 #define QTREEWIDGET_ADDITION_H
 
-#include <QtWidgets>
+#include <QTreeWidgetItem>
 #include "Room.h"
 #include "Rule.h"
 #include "IOBase.h"
