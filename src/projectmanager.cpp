@@ -897,10 +897,10 @@ bool ProjectManager::loadRulesFromFile(QString &file)
                     string val_var = node_in.attribute("val_var").toUtf8().data();
 
                     IOBase *input = ListeRoom::Instance().get_input(id);
-                    id = input->get_param("id"); //set id back to "id" parameter if old iid/oid where used
 
                     if (input)
                     {
+                        id = input->get_param("id"); //set id back to "id" parameter if old iid/oid where used
                         cond->Add(input);
                         cond->get_params().Add(id, val);
                         cond->get_operator().Add(id, oper);
@@ -928,10 +928,10 @@ bool ProjectManager::loadRulesFromFile(QString &file)
                     string val_var = node_in.attribute("val_var").toUtf8().data();
 
                     IOBase *output = ListeRoom::Instance().get_output(id);
-                    id = output->get_param("id"); //set id back to "id" parameter if old iid/oid where used
 
                     if (output)
                     {
+                        id = output->get_param("id"); //set id back to "id" parameter if old iid/oid where used
                         cond->setOutput(output);
                         cond->setOutputOper(oper);
                         cond->setOutputParam(val);
@@ -957,9 +957,11 @@ bool ProjectManager::loadRulesFromFile(QString &file)
                     {
                         string id = node_in.attribute("id").toUtf8().data();
                         IOBase *input = ListeRoom::Instance().get_input(id);
-                        id = input->get_param("id"); //set id back to "id" parameter if old iid/oid where used
                         if (input)
+                        {
+                            id = input->get_param("id"); //set id back to "id" parameter if old iid/oid where used
                             cond->addScriptInput(input);
+                        }
                     }
                     else if (node_in.tagName() == "calaos:script")
                     {
@@ -997,10 +999,10 @@ bool ProjectManager::loadRulesFromFile(QString &file)
                     string val_var = node_out.attribute("val_var").toUtf8().data();
 
                     IOBase *output = ListeRoom::Instance().get_output(id);
-                    id = output->get_param("id"); //set id back to "id" parameter if old iid/oid where used
 
                     if (output)
                     {
+                        id = output->get_param("id"); //set id back to "id" parameter if old iid/oid where used
                         action->Add(output);
                         action->get_params().Add(id, val);
                         if (val_var != "")
