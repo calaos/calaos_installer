@@ -16,7 +16,7 @@ AppPublisher={#MyAppPublisher}
 AppPublisherURL={#MyAppURL}
 AppSupportURL={#MyAppURL}
 AppUpdatesURL={#MyAppURL}
-DefaultDirName={pf}\{#MyAppName}
+DefaultDirName={commonpf}\{#MyAppName}
 DefaultGroupName=Calaos
 DisableProgramGroupPage=no
 OutputDir=build
@@ -28,8 +28,10 @@ WizardImageFile=calaos.bmp
 WizardSmallImageFile=WizModernSmallImage-IS.bmp
 SetupIconFile=Setup.ico
 UninstallDisplayIcon={app}\calaos_installer.exe
-MinVersion=0,6
 PrivilegesRequired=admin
+
+; Try prevent out of memory error from isc
+LZMAUseSeparateProcess=yes
 
 [Languages]
 Name: "english"; MessagesFile: "compiler:Default.isl"
