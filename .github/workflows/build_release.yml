@@ -8,11 +8,14 @@ jobs:
         runs-on: ubuntu-latest
         steps:
           - name: Check out the repo
-            uses: actions/checkout@v2
-            
-          - name: Run the build process with Docker
+            uses: actions/checkout@v3
+           
+          - name: Run the Windows build process with Docker
             uses: addnab/docker-run-action@v3
             with:
                 image: calaos/winbuilder:latest
                 options: -v ${{ github.workspace }}:/calaos_installer
-                run: /scripts/build_installer.sh
+                run: |
+                    /scripts/build_installer.sh
+                    /scripts/package_installer.sh
+                    /scripts/deploy_installer.sh ${{ secrets.UPLOAD_TOKEN }}
