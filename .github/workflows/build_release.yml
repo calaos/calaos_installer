@@ -1,7 +1,7 @@
 name: Build Calaos Installer release
 
 on:
-  	workflow_dispatch:
+  	workflow_dispatch
 
 jobs:
     compile:
