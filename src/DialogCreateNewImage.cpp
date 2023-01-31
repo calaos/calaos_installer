@@ -35,7 +35,7 @@ DialogCreateNewImage::DialogCreateNewImage(QWidget *parent) :
     QStringList friendlyNames;
 #if defined Q_OS_MAC
     QProcess lsblk;
-    lsblk.start("diskutil list", QIODevice::ReadOnly);
+    lsblk.start("diskutil list", {}, QIODevice::ReadOnly);
     lsblk.waitForStarted();
     lsblk.waitForFinished();
 
@@ -44,7 +44,7 @@ DialogCreateNewImage::DialogCreateNewImage(QWidget *parent) :
         device = device.trimmed(); // Odd trailing whitespace
 
         if (device.startsWith("/dev/disk")) {
-            QString name = device.split(QRegExp("\\s+")).first();
+            QString name = device.split(QRegularExpression("\\s+")).first();
             names << name;
         }
         device = lsblk.readLine();

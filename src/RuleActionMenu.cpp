@@ -28,5 +28,5 @@ RuleActionMenu::RuleActionMenu(QWidget *parent, QString &title, QString &help, Q
 
 void RuleActionMenu::emitSignal()
 {
-    emit triggered(this);
+    emit actionTriggered(this);
 }
