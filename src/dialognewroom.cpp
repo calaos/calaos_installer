@@ -11,6 +11,8 @@ DialogNewRoom::DialogNewRoom(QWidget *parent) :
     //hide error labels by default.
     m_ui->label_error_exists->hide();
     m_ui->label_error_empty->hide();
+
+    m_ui->edit_name->setFocus();
 }
 
 DialogNewRoom::~DialogNewRoom()

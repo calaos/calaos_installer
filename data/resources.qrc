@@ -118,5 +118,6 @@
         <file>img/xpl.png</file>
         <file>img/icon_entry_helper.png</file>
         <file>img/mqtt.png</file>   
+		<file>img/zigbee2mqtt.png</file>
     </qresource>
 </RCC>

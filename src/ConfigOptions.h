@@ -31,6 +31,15 @@ public:
     bool useCalaosServer() { return use_wago_calaosd; }
     void setUseCalaosServer(bool s) { use_wago_calaosd = s; settings.setValue("calaos/use_wago_calaosd", use_wago_calaosd); }
 
+    QString getMqttBrokerHost() { return settings.value("calaos/mqtt_broker_host", "192.168.0.10").toString(); }
+    void setMqttBrokerHost(QString s) { settings.setValue("calaos/mqtt_broker_host", s); }
+    int getMqttBrokerPort() { return settings.value("calaos/mqtt_broker_port", 1883).toInt(); }
+    void setMqttBrokerPort(int s) { settings.setValue("calaos/mqtt_broker_port", s); }
+    QString getMqttBrokerUser() { return settings.value("calaos/mqtt_broker_user", "").toString(); }
+    void setMqttBrokerUser(QString s) { settings.setValue("calaos/mqtt_broker_user", s); }
+    QString getMqttBrokerPass() { return settings.value("calaos/mqtt_broker_pass", "").toString(); }
+    void setMqttBrokerPass(QString s) { settings.setValue("calaos/mqtt_broker_pass", s); }
+
     void saveConfig() { settings.sync(); }
 
     void setOption(const QString &key, const QVariant &value);

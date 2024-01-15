@@ -1,7 +1,4 @@
-# -------------------------------------------------
-# Project created by QtCreator 2009-04-27T17:51:09
-# -------------------------------------------------
-QT += core gui network widgets xml printsupport
+QT += core gui network widgets xml printsupport mqtt
 
 equals(QT_MAJOR_VERSION, 6) {
    QT += core5compat
@@ -22,6 +19,7 @@ CONFIG += c++11
 TARGET = calaos_installer
 TEMPLATE = app
 SOURCES += src/main.cpp \
+    src/DialogZigbee2mqtt.cpp \
     src/mainwindow.cpp \
     src/common/base64.c \
     src/common/Params.cpp \
@@ -112,6 +110,7 @@ SOURCES += src/main.cpp \
     src/FormActionPush.cpp
 
 HEADERS += src/mainwindow.h \
+    src/DialogZigbee2mqtt.h \
     src/common/Utils.h \
     src/common/base64.h \
     src/common/Params.h \
@@ -257,6 +256,7 @@ FORMS += \
     data/DialogCreateNewImage.ui \
     data/DialogListProperties.ui \
     data/WidgetIOProperties.ui \
+    src/DialogZigbee2mqtt.ui \
     src/wizards/hue/wizardhue.ui \
     data/FormDaliMaster.ui \
     data/DialogDaliMasterItem.ui \

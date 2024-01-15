@@ -28,9 +28,17 @@ void QAnimationLabel::init(const QString& animationPath,
     /* If the size is empty we'll try to detect it.*/
     if(s.isEmpty()) {
         /* Go to the first frame.*/
-        _animation->jumpToNextFrame();
+        if (_animation->jumpToNextFrame())
+        {
+            qDebug() << "QMovie: failed to jump to next frame";
+            qDebug() << "Supported formats:";
+            for (const QByteArray &format : _animation->supportedFormats())
+                qDebug() << "\tFormat: " << format;
+        }
         /* Take the size from there. */
         s = _animation->currentPixmap().size();
+        if (s.isEmpty())
+            qDebug() << "QMovie: failed to determine size of first frame";
         /* Go back to the beginning. */
         _animation->jumpToFrame(0);
     }

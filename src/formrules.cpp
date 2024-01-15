@@ -7,6 +7,7 @@
 #include "DialogNewAVReceiver.h"
 #include "dialognewwebioshutter.h"
 #include "wizards/hue/wizardhue.h"
+#include "DialogZigbee2mqtt.h"
 
 FormRules::FormRules(QWidget *parent) :
     QWidget(parent),
@@ -510,160 +511,181 @@ FormRules::FormRules(QWidget *parent) :
     action = hue_menu->addAction(tr("Hue Wizard"));
     action->setIcon(QIcon(":/img/icon_light_on.png"));
     connect(action, &QAction::triggered, this, [=]()
-    {
-        WizardHue dialog(NULL, NULL);
-        if (dialog.exec() == QDialog::Accepted)
-        {
-            for (Params p: dialog.paramsGet())
             {
-                p.Add("id", ListeRoom::get_new_id("output_"));
-                IOBase *io = ListeRoom::Instance().createOutput(p, current_room);
-                addItemOutput(io, current_room, true);
-            }
+                WizardHue dialog(NULL, NULL);
+                if (dialog.exec() == QDialog::Accepted)
+                {
+                    for (Params p: dialog.paramsGet())
+                    {
+                        p.Add("id", ListeRoom::get_new_id("output_"));
+                        IOBase *io = ListeRoom::Instance().createOutput(p, current_room);
+                        addItemOutput(io, current_room, true);
+                    }
+                }
+            });
+
+    action = hue_menu->addAction(tr("Philips Hue"));
+    action->setIcon(QIcon(":/img/icon_light_on.png"));
+    connect(action, &QAction::triggered, this, [=]()
+            {
+                Params p = {{ "type", "HueOutputLightRGB" },
+                            { "io_type", "output" }};
+                addCalaosIO(p);
+            });
+
+    QMenu *telinfo_menu = add_menu->addMenu(QIcon("://img/teleinfo.png"), "Teleinfo");
+
+    action = telinfo_menu->addAction(tr("TeleinfoInputAnalog"));
+    action->setIcon(QIcon(":/img/icon_analog.png"));
+
+    connect(action, &QAction::triggered, this, [=]()
+            {
+                Params p = {{ "type", "TeleinfoInputAnalog" },
+                            { "io_type", "input" }};
+                addCalaosIO(p);
+            });
+
+    QMenu *xplsensors_menu = add_menu->addMenu(QIcon("://img/xpl.png"), "xPL");
+
+    action = xplsensors_menu->addAction(tr("Temperature sensor"));
+    action->setIcon(QIcon(":/img/temp.png"));
+    connect(action, &QAction::triggered, this, [=]()
+            {
+                Params p = {{ "type", "xPLInputTemp" },
+                            { "io_type", "input" }};
+                addCalaosIO(p);
+            });
+
+    action = xplsensors_menu->addAction(tr("Switch"));
+    action->setIcon(QIcon(":/img/icon_inter.png"));
+    connect(action, &QAction::triggered, this, [=]()
+            {
+                Params p = {{ "type", "xPLInputSwitch" },
+                            { "io_type", "input" }};
+                addCalaosIO(p);
+            });
+
+    action = xplsensors_menu->addAction(tr("Analog Input"));
+    action->setIcon(QIcon(":/img/icon_analog.png"));
+    connect(action, &QAction::triggered, this, [=]()
+            {
+                Params p = {{ "type", "xPLInputAnalog" },
+                            { "io_type", "input" }};
+                addCalaosIO(p);
+            });
+
+    action = xplsensors_menu->addAction(tr("String Input"));
+    action->setIcon(QIcon(":/img/text.png"));
+    connect(action, &QAction::triggered, this, [=]()
+            {
+                Params p = {{ "type", "xPLInputString" },
+                            { "io_type", "input" }};
+                addCalaosIO(p);
+            });
+
+    action = xplsensors_menu->addAction(tr("Light"));
+    action->setIcon(QIcon(":/img/icon_light_on.png"));
+    connect(action, &QAction::triggered, this, [=]()
+            {
+                Params p = {{ "type", "xPLOutputSwitch" },
+                            { "io_type", "output" }};
+                addCalaosIO(p);
+            });
+
+    action = xplsensors_menu->addAction(tr("Analog Output"));
+    action->setIcon(QIcon(":/img/icon_analog.png"));
+    connect(action, &QAction::triggered, this, [=]()
+            {
+                Params p = {{ "type", "xPLOutputAnalog" },
+                            { "io_type", "output" }};
+                addCalaosIO(p);
+            });
+
+    action = xplsensors_menu->addAction(tr("String Output"));
+    action->setIcon(QIcon(":/img/text.png"));
+    connect(action, &QAction::triggered, this, [=]()
+            {
+                Params p = {{ "type", "xPLOutputString" },
+                            { "io_type", "output" }};
+                addCalaosIO(p);
+            });
+
+    QMenu *mqtt_menu = add_menu->addMenu(QIcon("://img/mqtt.png"), "Mqtt");
+
+    action = mqtt_menu->addAction(tr("Temperature sensor"));
+    action->setIcon(QIcon(":/img/temp.png"));
+    connect(action, &QAction::triggered, this, [=]()
+            {
+                Params p = {{ "type", "MqttInputTemp" },
+                            { "io_type", "input" }};
+                addCalaosIO(p);
+            });
+
+    action = mqtt_menu->addAction(tr("Switch"));
+    action->setIcon(QIcon(":/img/icon_inter.png"));
+    connect(action, &QAction::triggered, this, [=]()
+            {
+                Params p = {{ "type", "MqttInputSwitch" },
+                            { "io_type", "input" }};
+                addCalaosIO(p);
+            });
+
+    action = mqtt_menu->addAction(tr("Analog Input"));
+    action->setIcon(QIcon(":/img/icon_analog.png"));
+    connect(action, &QAction::triggered, this, [=]()
+            {
+                Params p = {{ "type", "MqttInputAnalog" },
+                            { "io_type", "input" }};
+                addCalaosIO(p);
+            });
+
+    action = mqtt_menu->addAction(tr("String Input"));
+    action->setIcon(QIcon(":/img/text.png"));
+    connect(action, &QAction::triggered, this, [=]()
+            {
+                Params p = {{ "type", "MqttInputString" },
+                            { "io_type", "input" }};
+                addCalaosIO(p);
+            });
+
+    action = mqtt_menu->addAction(tr("Light"));
+    action->setIcon(QIcon(":/img/icon_light_on.png"));
+    connect(action, &QAction::triggered, this, [=]()
+            {
+                Params p = {{ "type", "MqttOutputLight" },
+                            { "io_type", "output" }};
+                addCalaosIO(p);
+            });
+
+    action = mqtt_menu->addAction(tr("Analog Output"));
+    action->setIcon(QIcon(":/img/icon_analog.png"));
+    connect(action, &QAction::triggered, this, [=]()
+            {
+                Params p = {{ "type", "MqttOutputAnalog" },
+                            { "io_type", "output" }};
+                addCalaosIO(p);
+            });
+
+    action = add_menu->addAction(tr("Zigbee2mqtt device"));
+    action->setIcon(QIcon(":/img/zigbee2mqtt.png"));
+    connect(action, &QAction::triggered, this, [=]()
+    {
+        if (!current_room)
+        {
+            if (ListeRoom::Instance().size() <= 0)
+                QMessageBox::warning(this, tr("Calaos Installer"), tr("You need to add one room at least!"));
+            else
+                QMessageBox::warning(this, tr("Calaos Installer"), tr("You must select a room prior adding elements!"));
+            return;
         }
-     });
 
-     action = hue_menu->addAction(tr("Philips Hue"));
-     action->setIcon(QIcon(":/img/icon_light_on.png"));
-     connect(action, &QAction::triggered, this, [=]()
-     {
-         Params p = {{ "type", "HueOutputLightRGB" },
-                     { "io_type", "output" }};
-         addCalaosIO(p);
-     });
-
-     QMenu *telinfo_menu = add_menu->addMenu(QIcon("://img/teleinfo.png"), "Teleinfo");
-
-     action = telinfo_menu->addAction(tr("TeleinfoInputAnalog"));
-     action->setIcon(QIcon(":/img/icon_analog.png"));
-
-     connect(action, &QAction::triggered, this, [=]()
-     {
-         Params p = {{ "type", "TeleinfoInputAnalog" },
-                     { "io_type", "input" }};
-         addCalaosIO(p);
-     });
-
-     QMenu *xplsensors_menu = add_menu->addMenu(QIcon("://img/xpl.png"), "xPL");
-
-     action = xplsensors_menu->addAction(tr("Temperature sensor"));
-     action->setIcon(QIcon(":/img/temp.png"));
-     connect(action, &QAction::triggered, this, [=]()
-     {
-         Params p = {{ "type", "xPLInputTemp" },
-                     { "io_type", "input" }};
-         addCalaosIO(p);
-     });
-
-     action = xplsensors_menu->addAction(tr("Switch"));
-     action->setIcon(QIcon(":/img/icon_inter.png"));
-     connect(action, &QAction::triggered, this, [=]()
-     {
-         Params p = {{ "type", "xPLInputSwitch" },
-                     { "io_type", "input" }};
-         addCalaosIO(p);
-     });
-
-     action = xplsensors_menu->addAction(tr("Analog Input"));
-     action->setIcon(QIcon(":/img/icon_analog.png"));
-     connect(action, &QAction::triggered, this, [=]()
-     {
-         Params p = {{ "type", "xPLInputAnalog" },
-                     { "io_type", "input" }};
-         addCalaosIO(p);
-     });
-
-     action = xplsensors_menu->addAction(tr("String Input"));
-     action->setIcon(QIcon(":/img/text.png"));
-     connect(action, &QAction::triggered, this, [=]()
-     {
-         Params p = {{ "type", "xPLInputString" },
-                     { "io_type", "input" }};
-         addCalaosIO(p);
-     });
-
-     action = xplsensors_menu->addAction(tr("Light"));
-     action->setIcon(QIcon(":/img/icon_light_on.png"));
-     connect(action, &QAction::triggered, this, [=]()
-     {
-         Params p = {{ "type", "xPLOutputSwitch" },
-                     { "io_type", "output" }};
-         addCalaosIO(p);
-     });
-
-     action = xplsensors_menu->addAction(tr("Analog Output"));
-     action->setIcon(QIcon(":/img/icon_analog.png"));
-     connect(action, &QAction::triggered, this, [=]()
-     {
-         Params p = {{ "type", "xPLOutputAnalog" },
-                     { "io_type", "output" }};
-         addCalaosIO(p);
-     });
-
-     action = xplsensors_menu->addAction(tr("String Output"));
-     action->setIcon(QIcon(":/img/text.png"));
-     connect(action, &QAction::triggered, this, [=]()
-     {
-         Params p = {{ "type", "xPLOutputString" },
-                     { "io_type", "output" }};
-         addCalaosIO(p);
-     });
-
-     QMenu *mqtt_menu = add_menu->addMenu(QIcon("://img/mqtt.png"), "Mqtt");
-
-     action = mqtt_menu->addAction(tr("Temperature sensor"));
-     action->setIcon(QIcon(":/img/temp.png"));
-     connect(action, &QAction::triggered, this, [=]()
-     {
-         Params p = {{ "type", "MqttInputTemp" },
-                     { "io_type", "input" }};
-         addCalaosIO(p);
-     });
-
-     action = mqtt_menu->addAction(tr("Switch"));
-     action->setIcon(QIcon(":/img/icon_inter.png"));
-     connect(action, &QAction::triggered, this, [=]()
-     {
-         Params p = {{ "type", "MqttInputSwitch" },
-                     { "io_type", "input" }};
-         addCalaosIO(p);
-     });
-
-     action = mqtt_menu->addAction(tr("Analog Input"));
-     action->setIcon(QIcon(":/img/icon_analog.png"));
-     connect(action, &QAction::triggered, this, [=]()
-     {
-         Params p = {{ "type", "MqttInputAnalog" },
-                     { "io_type", "input" }};
-         addCalaosIO(p);
-     });
-
-     action = mqtt_menu->addAction(tr("String Input"));
-     action->setIcon(QIcon(":/img/text.png"));
-     connect(action, &QAction::triggered, this, [=]()
-     {
-         Params p = {{ "type", "MqttInputString" },
-                     { "io_type", "input" }};
-         addCalaosIO(p);
-     });
-
-     action = mqtt_menu->addAction(tr("Light"));
-     action->setIcon(QIcon(":/img/icon_light_on.png"));
-     connect(action, &QAction::triggered, this, [=]()
-     {
-         Params p = {{ "type", "MqttOutputLight" },
-                     { "io_type", "output" }};
-         addCalaosIO(p);
-     });
-
-     action = mqtt_menu->addAction(tr("Analog Output"));
-     action->setIcon(QIcon(":/img/icon_analog.png"));
-     connect(action, &QAction::triggered, this, [=]()
-     {
-         Params p = {{ "type", "MqttOutputAnalog" },
-                     { "io_type", "output" }};
-         addCalaosIO(p);
-     });
+        DialogZigbee2mqtt d;
+        if (d.exec() == QDialog::Accepted)
+        {
+            auto p = d.getIOParam();
+            addCalaosIO(p);
+        }
+    });
 
     add_menu->addSeparator();
 
@@ -1220,7 +1242,8 @@ void FormRules::addCalaosIO(Params &params)
         return;
     }
 
-    params.Add("name", "New IO");
+    if (!params.Exists("name"))
+        params.Add("name", "New IO");
     params.Add("id", ListeRoom::get_new_id("io_"));
 
     DialogIOProperties d(params);
