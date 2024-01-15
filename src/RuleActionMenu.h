@@ -23,7 +23,7 @@ private:
     QString command;
 
 signals:
-    void triggered(RuleActionMenu *action);
+    void actionTriggered(RuleActionMenu *action);
 
 private slots:
     void emitSignal();

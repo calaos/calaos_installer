@@ -689,7 +689,8 @@ void MainWindow::on_actionUpgrade_PLC_with_custom_firmware_triggered()
 {
     //Ask for PLC IP address only and do not connect
     DialogConnect dConnect(true, this);
-    dConnect.exec();
+    if (dConnect.exec() != QDialog::Accepted)
+	return;
 
     QFileDialog dFiles(this);
     dFiles.setDirectory(QDir::homePath());
@@ -697,7 +698,13 @@ void MainWindow::on_actionUpgrade_PLC_with_custom_firmware_triggered()
     dFiles.setNameFilter(tr("Wago Codesys Boot Files (*.PRG *.CHK)"));
     QStringList fileNames;
     if (dFiles.exec())
+    {
         fileNames = dFiles.selectedFiles();
+    }
+    else
+    {
+	return;
+    }
 
     bool prgSelected = false;
     bool chkSelected = false;

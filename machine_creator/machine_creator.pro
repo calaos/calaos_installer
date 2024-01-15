@@ -98,7 +98,8 @@ win32 {
 
     #KArchive
     INCLUDEPATH += C:/kderoot/include/KF5/KArchive \
-        /mxe/usr/i686-w64-mingw32.shared.posix/include/KF5/KArchive
+        /mxe/usr/i686-w64-mingw32.shared.posix/include/KF5/KArchive \
+        /mxe/usr/i686-w64-mingw32.shared.posix/include/KF6/KArchive
     LIBS += -LC:/kderoot/lib \
         -LC:/kderoot/bin \
         -L/mxe/usr/i686-w64-mingw32.shared.posix/lib

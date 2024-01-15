@@ -21,7 +21,7 @@
 #include <security/Authorization.h>
 #endif
 
-#include <../karchive_version.h>
+#include <karchive_version.h>
 
 PhysicalDevice::PhysicalDevice(const QString &name):
     QFile(name)
