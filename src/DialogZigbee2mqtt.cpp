@@ -3,6 +3,8 @@
 #include <QMessageBox>
 #include "ConfigOptions.h"
 #include <QInputDialog>
+#include <QFile>
+#include <QFileDialog>
 
 const char *DialogZigbee2mqtt::kDevicesTopic = "zigbee2mqtt/bridge/devices";
 
@@ -36,6 +38,10 @@ DialogZigbee2mqtt::DialogZigbee2mqtt(QWidget *parent)
 
     ui->treeDevices->setModel(&devModel);
     ui->treeDevices->setSelectionBehavior(QAbstractItemView::SelectRows);
+
+#ifndef QT_DEBUG
+    ui->pushButtonLoadDemo->hide();
+#endif
 }
 
 DialogZigbee2mqtt::~DialogZigbee2mqtt()
@@ -100,9 +106,12 @@ void DialogZigbee2mqtt::on_buttonBox_accepted()
     auto dev = parent->data(Qt::UserRole + 2).toJsonObject();
     auto expose = item->data(Qt::UserRole + 1).toJsonObject();
 
+    QString exposeLabel = expose["label"].toString();
+    if (exposeLabel.isEmpty())
+        exposeLabel = expose["name"].toString();
+
     QString name = QStringLiteral("%1 - %2")
-                       .arg(dev["friendly_name"].toString(),
-                            expose["label"].toString());
+                       .arg(dev["friendly_name"].toString(), exposeLabel);
     if (expose["label"].toString().isEmpty() && !expose["features"].toArray().isEmpty())
         name = QStringLiteral("%1 - %2")
                    .arg(dev["friendly_name"].toString(),
@@ -123,7 +132,8 @@ void DialogZigbee2mqtt::on_buttonBox_accepted()
         paramDevice.Add("path", expose["property"].toString().toStdString());
 
         QStringList items;
-        for (const auto &val: expose["values"].toArray())
+        auto arr = expose["values"].toArray();
+        for (const auto &val: arr)
             items << val.toString();
 
         bool ok;
@@ -187,6 +197,46 @@ void DialogZigbee2mqtt::on_buttonBox_accepted()
 
         paramDevice.Add("data", data.toStdString());
         paramDevice.Add("path", feature["property"].toString().toStdString());
+    }
+    else if (expose["type"].toString() == "light")
+    {
+        paramDevice.Add("io_type", "output");
+        paramDevice.Add("topic_sub", "zigbee2mqtt/" + dev["friendly_name"].toString().toStdString());
+        paramDevice.Add("topic_pub", "zigbee2mqtt/" + dev["friendly_name"].toString().toStdString() + "/set");
+
+        //check if dimmer or RGB
+        if (hasFeature(expose["features"].toArray(), "color_xy"))
+        {
+            paramDevice.Add("type", "MqttOutputLightRGB");
+
+            QJsonObject feature = getFeature(expose["features"].toArray(), "brightness");
+
+            QString data;
+
+            if (hasFeature(expose["features"].toArray(), "color_xy"))
+                data = QStringLiteral("{\"color\":{\"x\":__##VALUE_X##__,\"y\":__##VALUE_Y##__},\"%1\":__##VALUE_BRIGHTNESS##__}")
+                           .arg(feature["property"].toString());
+            else
+                data = QStringLiteral("{\"color\":{\"hex\":\"__##VALUE_HEX##__\"},\"%1\":__##VALUE_BRIGHTNESS##__}")
+                           .arg(feature["property"].toString());
+
+            paramDevice.Add("data", data.toStdString());
+            paramDevice.Add("path_brightness", feature["property"].toString().toStdString());
+            paramDevice.Add("path_x", "color/y");
+            paramDevice.Add("path_y", "color/x");
+        }
+        else
+        {
+            paramDevice.Add("type", "MqttOutputLightDimmer");
+
+            QJsonObject feature = getFeature(expose["features"].toArray(), "brightness");
+
+            QString data = QStringLiteral("{\"%1\": \"__##VALUE##__\"}")
+                               .arg(feature["property"].toString());
+
+            paramDevice.Add("data", data.toStdString());
+            paramDevice.Add("path", feature["property"].toString().toStdString());
+        }
     }
 
     accept();
@@ -300,11 +350,18 @@ void DialogZigbee2mqtt::addDevice(const QJsonObject &device)
         QList<QStandardItem *> rowItems;
         QJsonObject obj = expose.toObject();
 
-        QString desc = obj["label"].toString();
+        QString desc = obj["name"].toString();
+        if (obj.contains("label"))
+            desc = obj["label"].toString();
+
         if (desc.isEmpty() && obj.contains("features") &&
             !obj["features"].toArray().isEmpty())
         {
-            desc = obj["features"].toArray().at(0).toObject()["label"].toString();
+            auto o = obj["features"].toArray().at(0).toObject();
+            if (o.contains("label"))
+                desc = o["label"].toString();
+            else
+                desc = o["name"].toString();
         }
 
         auto itemChild = new QStandardItem(desc);
@@ -319,6 +376,18 @@ void DialogZigbee2mqtt::addDevice(const QJsonObject &device)
         else if (obj["type"].toString() == "switch" ||
                  obj["type"].toString() == "lock")
             itemChild = new QStandardItem("Light output");
+        else if (obj["type"].toString() == "light") //most likely a Dimmer or RGB
+        {
+            //check if it has required features
+            if (hasFeature(obj["features"].toArray(), "state") &&
+                hasFeature(obj["features"].toArray(), "brightness"))
+            {
+                if (hasFeature(obj["features"].toArray(), "color_xy"))
+                    itemChild = new QStandardItem("RGB");
+                else
+                    itemChild = new QStandardItem("Dimmer");
+            }
+        }
         else
             itemChild = new QStandardItem("");
 
@@ -350,3 +419,37 @@ void DialogZigbee2mqtt::addDevice(const QJsonObject &device)
     ui->treeDevices->setFirstColumnSpanned(devModel.rowCount() - 1, ui->treeDevices->rootIndex(), true);
 }
 
+bool DialogZigbee2mqtt::hasFeature(const QJsonArray &l, const QString &feature)
+{
+    for (const auto &obj: l)
+    {
+        if (obj.toObject()["name"].toString() == feature)
+            return true;
+    }
+
+    return false;
+}
+
+QJsonObject DialogZigbee2mqtt::getFeature(const QJsonArray &l, const QString &feature)
+{
+    for (const auto &obj: l)
+    {
+        if (obj.toObject()["name"].toString() == feature)
+            return obj.toObject();
+    }
+
+    return QJsonObject();
+}
+
+void DialogZigbee2mqtt::on_pushButtonLoadDemo_clicked()
+{
+    QFile file(QFileDialog::getOpenFileName(this, tr("Open zigbee2mqtt json file"), QString(), tr("JSON files (*.*)")));
+    if (!file.open(QIODevice::ReadOnly))
+    {
+        QMessageBox::critical(this, tr("Error"), tr("Could not open json file"));
+        return;
+    }
+
+    QByteArray data = file.readAll();
+    messageReceived(data);
+}
