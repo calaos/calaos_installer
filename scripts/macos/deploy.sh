@@ -14,13 +14,14 @@ VERSION="$(get_version .)"
 #Only build if the commit we are building is for the last tag
 if [ "$(git rev-list -n 1 $VERSION)" != "$(cat .git/HEAD)"  ]; then
     echo "Not uploading package"
-    return 0
+    #exit 0
 fi
 
 QTDIR="$(brew --prefix qt6)"
 APP=calaos_installer
 
 # copy icon
+mkdir -p build/$APP.app/Contents/Resources/
 cp macos/icon.icns build/$APP.app/Contents/Resources/
 
 # copy Info.plist
@@ -50,10 +51,10 @@ if [ "$?" -ne "0" ]; then
 fi
 
 #Call fix to change all rpath
-#wget_retry https://raw.githubusercontent.com/aurelien-rainone/macdeployqtfix/master/macdeployqtfix.py
+wget_retry https://raw.githubusercontent.com/aurelien-rainone/macdeployqtfix/master/macdeployqtfix.py
 
-#python macdeployqtfix.py build/$APP.app/Contents/MacOS/calaos_installer /usr/local/Cellar/qt5/5.*/
-#python macdeployqtfix.py build/$APP.app/Contents/MacOS/calaos_machinecreator /usr/local/Cellar/qt5/5.*/
+python macdeployqtfix.py build/$APP.app/Contents/MacOS/calaos_installer /usr/local/Cellar/qt5/5.*/
+python macdeployqtfix.py build/$APP.app/Contents/MacOS/calaos_machinecreator /usr/local/Cellar/qt5/5.*/
 
 #install appdmg https://github.com/LinusU/node-appdmg a tool to create awesome dmg !
 npm install -g appdmg
