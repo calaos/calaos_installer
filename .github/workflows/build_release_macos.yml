@@ -11,22 +11,12 @@ jobs:
             uses: actions/checkout@v3
             with:
                 fetch-depth: 0
-
-          - name: Install Qt
-            uses: jurplel/install-qt-action@v3
-            with:
-                version: 6.6.1
            
           - name: Install deps
-            run: |
-                 brew update
-                 brew install kde-karchive
+            run: scripts/macos/install_deps.sh
 
           - name: Compile
-            run: |
-                 mkdir build && cd build
-                 qmake ../calaos_installer.pro CONFIG+=release
-                 make -j8
-                 qmake ../../machine_creator/machine_creator.pro CONFIG+=release
-                 make -j8
-        
+            run: scripts/macos/build.sh
+
+          - name: Deploy
+            run: scripts/macos/deploy.sh
