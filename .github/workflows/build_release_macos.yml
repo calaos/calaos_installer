@@ -20,3 +20,5 @@ jobs:
 
           - name: Deploy
             run: bash scripts/macos/deploy.sh
+            env:
+              UPLOAD_KEY: ${{ secrets.UPLOAD_KEY }}

@@ -51,13 +51,12 @@ if [ "$?" -ne "0" ]; then
 fi
 
 #Call fix to change all rpath
-wget_retry https://raw.githubusercontent.com/aurelien-rainone/macdeployqtfix/master/macdeployqtfix.py
 
-python macdeployqtfix.py build/$APP.app/Contents/MacOS/calaos_installer /usr/local/Cellar/qt5/5.*/
-python macdeployqtfix.py build/$APP.app/Contents/MacOS/calaos_machinecreator /usr/local/Cellar/qt5/5.*/
+python3 ./scripts/macos/macdeployqtfix.py build/$APP.app/Contents/MacOS/calaos_installer /usr/local/Cellar/qt5/5.*/
+python3 ./scripts/macos/macdeployqtfix.py build/$APP.app/Contents/MacOS/calaos_machinecreator /usr/local/Cellar/qt5/5.*/
 
 #install appdmg https://github.com/LinusU/node-appdmg a tool to create awesome dmg !
 npm install -g appdmg
 appdmg macos/appdmg.json build/$APP-$VERSION.dmg
 
-#upload_file build/$APP-$VERSION.dmg $(shasum -a 256 build/$APP-$VERSION.dmg | cut -d' ' -f1) "experimental/calaos_installer/osx"
+upload_file build/$APP-$VERSION.dmg $(shasum -a 256 build/$APP-$VERSION.dmg | cut -d' ' -f1) "experimental/calaos_installer/osx"

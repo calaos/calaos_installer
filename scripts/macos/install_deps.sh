@@ -4,7 +4,7 @@ set -ev
 echo "install.sh"
 
 brew update > /dev/null
-brew install qt6 cmake pkg-config xz zstd 
+brew install qt6 cmake pkg-config xz zstd
 
 #get extra-cmake-modules and build it
 git clone https://invent.kde.org/frameworks/extra-cmake-modules.git
