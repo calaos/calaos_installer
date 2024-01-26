@@ -13,10 +13,10 @@ jobs:
                 fetch-depth: 0
            
           - name: Install deps
-            run: scripts/macos/install_deps.sh
+            run: bash scripts/macos/install_deps.sh
 
           - name: Compile
-            run: scripts/macos/build.sh
+            run: bash scripts/macos/build.sh
 
           - name: Deploy
-            run: scripts/macos/deploy.sh
+            run: bash scripts/macos/deploy.sh
