@@ -1,4 +1,4 @@
-name: Build Calaos Installer release
+name: Build Calaos Installer Windows release
 
 on: workflow_dispatch
 

@@ -1,4 +1,4 @@
-name: Build Calaos Installer release
+name: Build Calaos Installer MacOS release
 
 on: workflow_dispatch
 
