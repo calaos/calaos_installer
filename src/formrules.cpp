@@ -666,6 +666,24 @@ FormRules::FormRules(QWidget *parent) :
                 addCalaosIO(p);
             });
 
+    action = mqtt_menu->addAction(tr("Light Dimmer"));
+    action->setIcon(QIcon(":/img/icon_light_on.png"));
+    connect(action, &QAction::triggered, this, [=]()
+            {
+                Params p = {{ "type", "MqttOutputLightDimmer" },
+                            { "io_type", "output" }};
+                addCalaosIO(p);
+            });
+
+    action = mqtt_menu->addAction(tr("Light Dimmer RGB"));
+    action->setIcon(QIcon(":/img/icon_light_on.png"));
+    connect(action, &QAction::triggered, this, [=]()
+            {
+                Params p = {{ "type", "MqttOutputLightRGB" },
+                            { "io_type", "output" }};
+                addCalaosIO(p);
+            });
+
     action = add_menu->addAction(tr("Zigbee2mqtt device"));
     action->setIcon(QIcon(":/img/zigbee2mqtt.png"));
     connect(action, &QAction::triggered, this, [=]()

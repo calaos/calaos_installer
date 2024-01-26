@@ -8,6 +8,7 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonArray>
+#include <QJsonObject>
 #include <QStandardItemModel>
 
 namespace Ui {
@@ -27,6 +28,7 @@ public:
 private slots:
     void on_pushButtonConnect_clicked();
     void on_buttonBox_accepted();
+    void on_pushButtonLoadDemo_clicked();
 
     void brokerDisconnected();
     void stateChanged(QMqttClient::ClientState state);
@@ -44,6 +46,8 @@ private:
     static const char *kDevicesTopic;
 
     void addDevice(const QJsonObject &device);
+    bool hasFeature(const QJsonArray &l, const QString &feature);
+    QJsonObject getFeature(const QJsonArray &l, const QString &feature);
 };
 
 #endif // DIALOGZIGBEE2MQTT_H
