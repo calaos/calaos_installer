@@ -5,7 +5,7 @@ echo "install.sh"
 
 brew update > /dev/null
 brew install qt6
-brew install --HEAD kde-karchive
+brew install --HEAD extra-cmake-modules kde-karchive
 
 #get qtmqtt and build it
 git clone https://github.com/qt/qtmqtt.git
