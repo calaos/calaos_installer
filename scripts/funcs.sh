@@ -2,13 +2,9 @@
 
 set -e
 
-#Workaround to fix erratic build failure in travis
-python -c "import fcntl; fcntl.fcntl(1, fcntl.F_SETFL, 0)"
-
 export PROJECT_NAME=calaos_installer
 export TRAVIS_BUILD_DIR=$(pwd)
 export BUILD_TAG=$(git tag --points-at=HEAD --sort version:refname | head -n 1)
-
 
 #Usage: get_version /path/to/repo
 function get_version()
