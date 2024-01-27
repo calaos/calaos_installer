@@ -40,7 +40,7 @@ cp macos/main.scpt build/$APP.app/Contents/MacOS/
 #echo "Calling macdeployqt and code signing application"
 #$QTDIR/bin/macdeployqt ./$APP.app -codesign="$DEVELOPER_NAME"
 echo "Calling macdeployqt"
-$QTDIR/bin/macdeployqt build/$APP.app \
+$QTDIR/bin/macdeployqt build/$APP.app -verbose=3 \
     -executable=build/$APP.app/Contents/MacOS/calaos_installer \
     -executable=build/$APP.app/Contents/MacOS/calaos_machinecreator
 if [ "$?" -ne "0" ]; then
@@ -49,9 +49,6 @@ if [ "$?" -ne "0" ]; then
  #   security delete-keychain osx-build.keychain 
     exit 1
 fi
-
-#QtDBUS is missing and not copied by macdeployqt
-cp -RH $QTDIR/lib/QtDBus.framework build/$APP.app/Contents/Frameworks/
 
 #Call fix to change all rpath
 python3 ./scripts/macos/macdeployqtfix.py build/$APP.app/Contents/MacOS/calaos_installer /usr/local/Cellar/qt5/5.*/

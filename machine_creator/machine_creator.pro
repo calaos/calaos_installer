@@ -81,6 +81,9 @@ mac {
 
     LIBS += -framework IOKit -framework Cocoa -framework Security
 
+    #To fix macdeployqt that is not copying QtDBUS, add dbus as a dependency
+    QT += dbus
+
     #KArchive
     INCLUDEPATH += /usr/local/opt/karchive/include/KF5/KArchive
     INCLUDEPATH += /opt/homebrew/opt/qt/include/KF6/KArchive
