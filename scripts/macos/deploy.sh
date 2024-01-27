@@ -50,8 +50,10 @@ if [ "$?" -ne "0" ]; then
     exit 1
 fi
 
-#Call fix to change all rpath
+#QtDBUS is missing and not copied by macdeployqt
+cp -RH $QTDIR/lib/QtDBus.framework build/$APP.app/Contents/Frameworks/
 
+#Call fix to change all rpath
 python3 ./scripts/macos/macdeployqtfix.py build/$APP.app/Contents/MacOS/calaos_installer /usr/local/Cellar/qt5/5.*/
 python3 ./scripts/macos/macdeployqtfix.py build/$APP.app/Contents/MacOS/calaos_machinecreator /usr/local/Cellar/qt5/5.*/
 
