@@ -70,7 +70,9 @@ bool PhysicalDevice::open(OpenMode flags)
     }
     else
     {
+        qWarning() << "Closing handle :(";
         CloseHandle(m_fileHandle);
+        m_fileHandle = INVALID_HANDLE_VALUE;
         return false;
     }
 #elif defined(Q_OS_LINUX)
@@ -160,7 +162,8 @@ void PhysicalDevice::lockVolume()
     {
         qDebug() << "Locking volume" << fileName();
 
-        if (DeviceIoControl(m_fileHandle, FSCTL_LOCK_VOLUME, NULL, 0, NULL, 0, &bytesRet, NULL))
+        auto ret = DeviceIoControl(m_fileHandle, FSCTL_LOCK_VOLUME, NULL, 0, NULL, 0, &bytesRet, NULL);
+        if (ret)
         {
             handleLocked = true;
             qDebug() << "Locked volume";
@@ -540,7 +543,10 @@ void DiskWriter::writeToRemovableDevice(const QString &filename, UsbDisk *d)
 #endif
     }
 
-    if (writtenBytes != totalBytes)
+    if (writtenBytes != totalBytes &&
+        totalBytes > 0) //when totalBytes is 0, it can be because the
+                        // source is compressed and KArchive can't know the final size.
+                        // Do not fail with error in that case
     {
         emit error("Writing failed");
         return;
@@ -559,6 +565,8 @@ void DiskWriter::writeToRemovableDevice(const QString &filename, UsbDisk *d)
     //Verification step
 
     qDebug() << "Verify...";
+    if (totalBytes == 0)
+        totalBytes = writtenBytes;
     writtenBytes = 0;
     timer.restart();
     new (&blake2bContext) blake2b_state;

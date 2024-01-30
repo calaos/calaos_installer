@@ -241,6 +241,8 @@ void MainWindow::writeError(QString error)
 
 void MainWindow::writeProgress(QString status, qint64 bytesReceived, qint64 bytesTotal, qint64 elapsedMs)
 {
+    //qDebug() << "writeProgress: " << status << bytesReceived << bytesTotal << elapsedMs;
+
     if (bytesTotal > 0)
     {
         ui->writeProgress->setMinimum (0);
@@ -253,6 +255,13 @@ void MainWindow::writeProgress(QString status, qint64 bytesReceived, qint64 byte
         //calculate remaining time
         QString remain = Utils::calculateTimeRemaining(startDownloadTime, bytesReceived, bytesTotal);
         ui->timeWriteLabel->setText(tr("Time remaining: %1").arg(remain));
+        double speed = bytesReceived * 1000.0 / elapsedMs;
+        ui->speedWriteLabel->setText(tr("Speed: %1/s").arg(Utils::sizeHuman(speed)));
+    }
+    else if (bytesTotal == 0 && bytesReceived > 0)
+    {
+        ui->writeLabel->setText(tr("%1 %2")
+                                    .arg(status, Utils::sizeHuman(bytesReceived)));
         double speed = bytesReceived * 1000.0 / elapsedMs;
         ui->speedWriteLabel->setText(tr("Speed: %1/s").arg(Utils::sizeHuman(speed)));
     }
@@ -271,7 +280,7 @@ void MainWindow::startWriteProcess()
 {
     startDownloadTime = QDateTime::currentDateTime();
 
-    QtConcurrent::run([=]()
+    auto f = QtConcurrent::run([=]()
     {
         diskWriter->writeToRemovableDevice(m_decompressedFile, m_disk);
     });

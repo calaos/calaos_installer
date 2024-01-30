@@ -62,11 +62,7 @@ void StorageDelegate::paint(QPainter *painter, const QStyleOptionViewItem &optio
     painter->setFont(subFont);
 
     if (!(opt.state & QStyle::State_Selected))
-    {
-        QColor penColor = painter->pen().color();
-        penColor.setNamedColor("#A0A0A0");
-        painter->setPen(penColor);
-    }
+        painter->setPen(QColor::fromString("#A0A0A0"));
 
     painter->drawText(QRect(rect.left() + iconsize.width() + 8, rect.top()+rect.height()/2, rect.width() - iconsize.width() - 8, rect.height()/2),
                       opt.displayAlignment, subText);

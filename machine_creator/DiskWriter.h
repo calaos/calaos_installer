@@ -29,7 +29,7 @@ public:
 
 protected:
 #if defined(Q_OS_WIN)
-    HANDLE m_fileHandle;
+    HANDLE m_fileHandle = INVALID_HANDLE_VALUE;
     bool handleLocked = false;
 
     void lockVolume();

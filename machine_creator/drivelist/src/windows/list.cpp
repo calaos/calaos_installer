@@ -397,7 +397,7 @@ bool GetPartitionTableType(HANDLE hPhysical, DeviceDescriptor *device) {
     &diskLayoutSize,
     NULL);
   if (!hasDiskLayout) {
-    free(diskLayout);
+    delete(diskLayout);
     return hasDiskLayout;
   }
   /*
@@ -442,7 +442,7 @@ bool GetPartitionTableType(HANDLE hPhysical, DeviceDescriptor *device) {
   } else if (diskLayout->PartitionStyle == PARTITION_STYLE_GPT) {
     device->partitionTableType = "gpt";
   }
-  free(diskLayout);
+  delete(diskLayout);
   return hasDiskLayout;
 }
 

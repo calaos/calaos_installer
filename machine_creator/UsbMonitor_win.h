@@ -44,7 +44,7 @@ private:
 
     HDEVNOTIFY notifyHandle = nullptr;
 
-    virtual bool nativeEvent(const QByteArray &eventType, void *message, long *result);
+    virtual bool nativeEvent(const QByteArray &eventType, void *message, qintptr *result) override;
 };
 
 #endif // USBMONITOR_WIN_H
