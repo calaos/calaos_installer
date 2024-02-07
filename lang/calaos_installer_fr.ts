@@ -4283,11 +4283,6 @@ p, li { white-space: pre-wrap; }
         <translation>Ampoule MI-Light RVB</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="494"/>
-        <source>Blinkstick RGB USB stick</source>
-        <translation>Blinkstick stick RVB USB</translation>
-    </message>
-    <message>
         <location filename="../src/formrules.cpp" line="509"/>
         <source>Hue Wizard</source>
         <translation>Hue Wizard</translation>

@@ -491,20 +491,7 @@ FormRules::FormRules(QWidget *parent) :
         addCalaosIO(p);
     });
 
-    QMenu *blink_menu = add_menu->addMenu(QIcon("://img/blinkstick.png"), "Blinkstick");
-
-    action = blink_menu->addAction(tr("Blinkstick RGB USB stick"));
-    action->setIcon(QIcon(":/img/icon_light_on.png"));
-    connect(action, &QAction::triggered, this, [=]()
-    {
-        Params p = {{ "type", "BlinkstickOutputLightRGB" },
-                    { "io_type", "output" }};
-        addCalaosIO(p);
-    });
-
     // QMenu *hue_menu = add_menu->addMenu(QIcon("://img/hue.png"), "Philips Hue");
-
-
 
     QMenu *hue_menu = add_menu->addMenu(QIcon("://img/hue.png"), "Hue");
 

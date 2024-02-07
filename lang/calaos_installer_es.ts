@@ -3896,11 +3896,6 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="494"/>
-        <source>Blinkstick RGB USB stick</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../src/formrules.cpp" line="509"/>
         <source>Hue Wizard</source>
         <translation type="unfinished"></translation>
