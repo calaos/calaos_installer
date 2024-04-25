@@ -18,6 +18,7 @@ DialogNewAVReceiver::DialogNewAVReceiver(Room *r, QWidget *parent) :
     ui->comboBoxType->addItem("Onkyo", QString("onkyo"));
     ui->comboBoxType->addItem("Marantz", QString("marantz"));
     ui->comboBoxType->addItem("Yamaha", QString("yamaha"));
+    ui->comboBoxType->addItem("HifiRose (RS520)", QString("hifirose"));
 }
 
 DialogNewAVReceiver::~DialogNewAVReceiver()
