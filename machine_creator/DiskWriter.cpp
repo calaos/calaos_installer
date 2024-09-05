@@ -34,8 +34,6 @@ bool PhysicalDevice::open(OpenMode flags)
     flags = QIODevice::ReadWrite | QIODevice::Unbuffered;
 
 #if defined(Q_OS_WIN)
-    DWORD bret;
-
     // In Windows QFile with write mode uses disposition OPEN_ALWAYS, but WinAPI
     // requires OPEN_EXISTING for physical devices. Therefore we have to use native API.
     m_fileHandle = CreateFile(
@@ -55,17 +53,26 @@ bool PhysicalDevice::open(OpenMode flags)
         return false;
     }
 
-    // Lock the opened device
-    if (!DeviceIoControl(m_fileHandle, FSCTL_LOCK_VOLUME, NULL, 0, NULL, 0, &bret, NULL))
-    {
-        setErrorString(Utils::formatErrorMessageFromCode("Could not acquire lock:", GetLastError()));
-        return false;
-    }
-
     // Construct QFile around the device handle; close() will now close the handle automatically
     if (QFile::open(_open_osfhandle(reinterpret_cast<intptr_t>(m_fileHandle), 0), flags, AutoCloseHandle))
     {
-        lockVolume();
+        if (!lockVolume())
+        {
+            qWarning() << "Failed to lock device. Closing handle :(";
+            CloseHandle(m_fileHandle);
+            m_fileHandle = INVALID_HANDLE_VALUE;
+            return false;
+        }
+
+        //Also umount all volumes on the device
+        if (!umountVolume())
+        {
+            qWarning() << "Failed to umount volumes on device. Closing handle :(";
+            CloseHandle(m_fileHandle);
+            m_fileHandle = INVALID_HANDLE_VALUE;
+            return false;
+        }
+
         return true;
     }
     else
@@ -134,20 +141,22 @@ void PhysicalDevice::close()
     QFile::close();
 }
 
-void PhysicalDevice::syncToDisk()
+bool PhysicalDevice::syncToDisk()
 {
     if (isOpen())
     {
 #if defined(Q_OS_WIN)
-        FlushFileBuffers(m_fileHandle);
+        return FlushFileBuffers(m_fileHandle);
 #elif defined(Q_OS_LINUX) || defined(Q_OS_MAC)
-        fsync(handle());
+        return fsync(handle()) == 0;
 #endif
     }
+
+    return false;
 }
 
 #if defined(Q_OS_WIN)
-void PhysicalDevice::lockVolume()
+bool PhysicalDevice::lockVolume()
 {
     DWORD bytesRet;
     DeviceIoControl(m_fileHandle,
@@ -163,11 +172,16 @@ void PhysicalDevice::lockVolume()
         qDebug() << "Locking volume" << fileName();
 
         auto ret = DeviceIoControl(m_fileHandle, FSCTL_LOCK_VOLUME, NULL, 0, NULL, 0, &bytesRet, NULL);
-        if (ret)
+        DWORD errorCode = GetLastError();
+
+        if (ret || errorCode == ERROR_SUCCESS)
         {
             handleLocked = true;
-            qDebug() << "Locked volume";
-            return;
+            if (!ret && errorCode == ERROR_SUCCESS)
+                qDebug() << "Already locked volume";
+            else
+                qDebug() << "Locked volume";
+            return true;
         }
 
         qDebug() << Utils::formatErrorMessageFromCode("Could not lock volume:", GetLastError());
@@ -177,7 +191,7 @@ void PhysicalDevice::lockVolume()
     }
 
     qDebug() << "Giving up locking volume";
-    return;
+    return false;
 }
 
 void PhysicalDevice::unlockVolume()
@@ -205,6 +219,93 @@ void PhysicalDevice::unlockVolume()
         return;
     }
 }
+
+bool PhysicalDevice::umountVolume()
+{
+    DWORD bytesRet;
+    for (int attempt = 0; attempt < 20; attempt++)
+    {
+        qDebug() << "Dismount volume" << fileName();
+
+        auto ret = DeviceIoControl(m_fileHandle, FSCTL_DISMOUNT_VOLUME, NULL, 0, NULL, 0, &bytesRet, NULL);
+        DWORD errorCode = GetLastError();
+
+        if (ret || errorCode == ERROR_SUCCESS)
+        {
+            if (!ret && errorCode == ERROR_SUCCESS)
+                qDebug() << "Already unmounted volume";
+            else
+                qDebug() << "Unmounted volume";
+            return true;
+        }
+
+        qDebug() << Utils::formatErrorMessageFromCode("Could not dismount volume:", GetLastError());
+
+        qDebug() << "FSCTL_DISMOUNT_VOLUME failed. Retrying in 0.1 sec";
+        QThread::msleep(100);
+    }
+
+    qDebug() << "Giving up dismounting volume";
+    return false;
+}
+
+qint64 PhysicalDevice::writeData(const char *data, qint64 len)
+{
+    if (m_fileHandle == INVALID_HANDLE_VALUE)
+    {
+        qWarning() << "Invalid file handle";
+        return -1;
+    }
+
+    const char* dataPtr = data;
+    qint64 totalBytesWritten = 0;
+    qint64 bytesLeft = len;
+    DWORD bytesWritten = 0;
+    BOOL result;
+    int retryCount = 0;
+    const int maxRetries = 3;
+    const DWORD retryDelay = 100;  // 100 ms
+
+    while (bytesLeft > 0 && retryCount < maxRetries)
+    {
+        result = WriteFile(m_fileHandle, dataPtr, static_cast<DWORD>(bytesLeft), &bytesWritten, NULL);
+        if (result)
+        {
+            // Write successful
+            totalBytesWritten += bytesWritten;
+            dataPtr += bytesWritten;
+            bytesLeft -= bytesWritten;
+            retryCount = 0; // Reset retry count after a successful write
+        }
+        else
+        {
+            DWORD errorCode = GetLastError();
+            qWarning() << "WriteFile failed with error code:" << errorCode << Utils::errorMessageFromCode(errorCode);
+
+            // Check if the error is recoverable
+            if (errorCode == ERROR_IO_PENDING || errorCode == ERROR_LOCK_VIOLATION || errorCode == ERROR_WRITE_PROTECT)
+            {
+                retryCount++;
+                qWarning() << "Retrying write (" << retryCount << "/" << maxRetries << ")";
+                QThread::msleep(retryDelay);
+            }
+            else
+            {
+                // Unrecoverable error
+                return -1;
+            }
+        }
+    }
+
+    if (bytesLeft > 0)
+    {
+        qWarning() << "Failed to write all data after" << maxRetries << "retries";
+        return -1;
+    }
+
+    return totalBytesWritten;
+}
+
 #endif
 
 #if defined(Q_OS_MAC)
@@ -445,8 +546,8 @@ void DiskWriter::writeToRemovableDevice(const QString &filename, UsbDisk *d)
     }
 
     //Windows needs some time to reflect the changes after diskpart has run.
-    //2s seems enough
-    QThread::sleep(2);
+    //6s seems enough
+    QThread::sleep(6);
 #endif
 
     const qint64 BLOCK_SIZE = 1 * 1024 * 1024;
@@ -525,12 +626,24 @@ void DiskWriter::writeToRemovableDevice(const QString &filename, UsbDisk *d)
 
         blake2b_update(&blake2bContext, reinterpret_cast<const uint8_t *>(buffer->buffer), r);
 
-        auto n = phyDev.write(static_cast<char*>(buffer->buffer), r);
+#ifdef Q_OS_WIN
+        // Align the size of the read buffer to a multiple of 4096
+        qint64 alignedSize = (r + 4095) & ~4095;
+
+        // Zero out the buffer beyond the read size
+        if (alignedSize != r)
+            memset(static_cast<char *>(buffer->buffer) + r, 0, alignedSize - r);
+#else
+        qint64 alignedSize = r;
+#endif
+
+        auto n = phyDev.write(static_cast<char*>(buffer->buffer), alignedSize);
 //        qDebug() << n << " bytes written out of " << r << " bytes";
-        if (r != n)
+        if (n != alignedSize)
         {
-            qDebug() << "Failed to write " << r << "bytes, got " << n << ": " << phyDev.errorString();
-            emit error("Failed to write to " + disk->get_physicalDevice() + ": " + phyDev.errorString());
+            qDebug() << "Failed to write " << alignedSize << "bytes, got " << n << ": " << phyDev.errorString() << ": " << Utils::errorMessageFromCode(GetLastError());
+            qDebug() << "writtenBytes = " << writtenBytes << ", totalBytes = " << totalBytes << ", timer = " << timer.elapsed();
+            emit error("Failed to write to " + disk->get_physicalDevice() + ": " + phyDev.errorString() + ": " + Utils::errorMessageFromCode(GetLastError()));
             return;
         }
 
@@ -538,8 +651,19 @@ void DiskWriter::writeToRemovableDevice(const QString &filename, UsbDisk *d)
 
         emit progress("Writing", writtenBytes, totalBytes, timer.elapsed());
 
-#ifdef Q_OS_LINUX
-        phyDev.syncToDisk();
+#if defined(Q_OS_LINUX) || defined(Q_OS_WIN)
+        if (!phyDev.syncToDisk())
+        {
+            QString err;
+#ifdef Q_OS_WIN
+            err = Utils::errorMessageFromCode(GetLastError());
+#else
+            err = strerror(errno);
+#endif
+            qDebug() << "Failed to flush the disk: " << err;
+            emit error("Failed to flush the disk: " + err);
+            return;
+        }
 #endif
     }
 

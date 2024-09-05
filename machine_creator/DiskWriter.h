@@ -25,15 +25,18 @@ public:
     virtual bool open(OpenMode flags) override;
     void close() override;
 
-    void syncToDisk();
+    bool syncToDisk();
 
 protected:
 #if defined(Q_OS_WIN)
     HANDLE m_fileHandle = INVALID_HANDLE_VALUE;
     bool handleLocked = false;
 
-    void lockVolume();
+    bool lockVolume();
     void unlockVolume();
+    bool umountVolume();
+
+    virtual qint64 writeData(const char *data, qint64 len) override;
 #endif
 
 #if defined(Q_OS_MAC)

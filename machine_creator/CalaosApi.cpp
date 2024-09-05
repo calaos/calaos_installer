@@ -74,6 +74,7 @@ NetworkRequest *CalaosApi::downloadImage(QString url, QString checksum, std::fun
             hash == checksum)
         {
             //No need to download the file again
+            qDebug() << "File already downloaded and checksum matches!";
             callback(true, fileName);
             return;
         }

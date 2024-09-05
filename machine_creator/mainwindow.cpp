@@ -214,6 +214,8 @@ void MainWindow::writeFinished()
     ui->cancelButton->hide();
     ui->restartButton->show();
     ui->continueButton->setText(tr("Close"));
+
+    platform->setReloadEnabled(true);
 }
 
 void MainWindow::writeSync()
@@ -237,6 +239,8 @@ void MainWindow::writeError(QString error)
     ui->cancelButton->hide();
     ui->restartButton->show();
     ui->continueButton->setText(tr("Close"));
+
+    platform->setReloadEnabled(true);
 }
 
 void MainWindow::writeProgress(QString status, qint64 bytesReceived, qint64 bytesTotal, qint64 elapsedMs)
@@ -279,6 +283,9 @@ void MainWindow::writeProgress(QString status, qint64 bytesReceived, qint64 byte
 void MainWindow::startWriteProcess()
 {
     startDownloadTime = QDateTime::currentDateTime();
+
+    //disable USB model reloading while writing
+    platform->setReloadEnabled(false);
 
     auto f = QtConcurrent::run([=]()
     {

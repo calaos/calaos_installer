@@ -16,11 +16,15 @@ public:
 
     static QVector<UsbDisk *> enumUsbDisk();
 
+    void setReloadEnabled(bool en);
+
 private slots:
     void usbChanged();
 
 private:
     UsbDiskModel *model = nullptr;
+
+    bool reloadEnabled = true;
 };
 
 #endif // PLATFORM_H

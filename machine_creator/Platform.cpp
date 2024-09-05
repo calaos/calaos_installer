@@ -39,6 +39,12 @@ UsbDiskModel *Platform::getDiskModel()
 
 void Platform::usbChanged()
 {
+    if (!reloadEnabled)
+    {
+        qDebug() << "USB Changed: ignored, reload disabled";
+        return;
+    }
+
     qDebug() << "USB Changed: reloading disks";
     model->loadModel(enumUsbDisk());
 }
@@ -94,4 +100,12 @@ QVector<UsbDisk *> Platform::enumUsbDisk()
     }
 
     return disks;
+}
+
+void Platform::setReloadEnabled(bool en)
+{
+    reloadEnabled = en;
+
+    if (reloadEnabled)
+        usbChanged(); //force reload when enabling again
 }

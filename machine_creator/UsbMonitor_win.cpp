@@ -55,7 +55,6 @@ bool UsbMonitor_win::nativeEvent(const QByteArray &eventType, void *message, qin
             msg->wParam == DBT_DEVNODES_CHANGED)
         {
             *result = TRUE; //Mark the winapi message as processed
-            qDebug() << "USB Device changed";
             emit usbDeviceChanged();
         }
     }
