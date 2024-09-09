@@ -641,9 +641,14 @@ void DiskWriter::writeToRemovableDevice(const QString &filename, UsbDisk *d)
 //        qDebug() << n << " bytes written out of " << r << " bytes";
         if (n != alignedSize)
         {
-            qDebug() << "Failed to write " << alignedSize << "bytes, got " << n << ": " << phyDev.errorString() << ": " << Utils::errorMessageFromCode(GetLastError());
+#ifdef Q_OS_WIN
+            QString err = phyDev.errorString() + ": " + Utils::errorMessageFromCode(GetLastError());
+#else
+            QString err = phyDev.errorString();
+#endif
+            qDebug() << "Failed to write " << alignedSize << "bytes, got " << n << ": " << err;
             qDebug() << "writtenBytes = " << writtenBytes << ", totalBytes = " << totalBytes << ", timer = " << timer.elapsed();
-            emit error("Failed to write to " + disk->get_physicalDevice() + ": " + phyDev.errorString() + ": " + Utils::errorMessageFromCode(GetLastError()));
+            emit error("Failed to write to " + disk->get_physicalDevice() + ": " + err);
             return;
         }
 
