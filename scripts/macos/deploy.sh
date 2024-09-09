@@ -51,8 +51,8 @@ if [ "$?" -ne "0" ]; then
 fi
 
 #Call fix to change all rpath
-python3 ./scripts/macos/macdeployqtfix.py build/$APP.app/Contents/MacOS/calaos_installer /usr/local/Cellar/qt5/5.*/
-python3 ./scripts/macos/macdeployqtfix.py build/$APP.app/Contents/MacOS/calaos_machinecreator /usr/local/Cellar/qt5/5.*/
+python3 ./scripts/macos/macdeployqtfix.py build/$APP.app/Contents/MacOS/calaos_installer /usr/local/Cellar/qt6/6.*/
+python3 ./scripts/macos/macdeployqtfix.py build/$APP.app/Contents/MacOS/calaos_machinecreator /usr/local/Cellar/qt6/6.*/
 
 #install appdmg https://github.com/LinusU/node-appdmg a tool to create awesome dmg !
 npm install -g appdmg
