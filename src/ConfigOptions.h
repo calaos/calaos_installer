@@ -3,6 +3,14 @@
 
 #include <QString>
 #include <QSettings>
+#include "SimpleCrypt.h"
+
+struct CalaosAuth
+{
+    QString username;
+    QString password;
+    QString host;
+};
 
 class ConfigOptions
 {
@@ -25,12 +33,6 @@ public:
     QString getWagoHost() { return wago_host; }
     void setWagoHost(QString s) { wago_host = s; settings.setValue("calaos/wago_host", wago_host); }
 
-    bool useCalaosFr() { return use_calaosfr; }
-    void setUseCalaosFr(bool s) { use_calaosfr = s; settings.setValue("calaos/use_calaos_fr", use_calaosfr); }
-
-    bool useCalaosServer() { return use_wago_calaosd; }
-    void setUseCalaosServer(bool s) { use_wago_calaosd = s; settings.setValue("calaos/use_wago_calaosd", use_wago_calaosd); }
-
     QString getMqttBrokerHost() { return settings.value("calaos/mqtt_broker_host", "192.168.0.10").toString(); }
     void setMqttBrokerHost(QString s) { settings.setValue("calaos/mqtt_broker_host", s); }
     int getMqttBrokerPort() { return settings.value("calaos/mqtt_broker_port", 1883).toInt(); }
@@ -46,6 +48,12 @@ public:
     QVariant getOption(const QString &key);
     bool optionExists(const QString &key) { return settings.contains(key); }
 
+    QVector<CalaosAuth> getAuthList();
+    void addAuth(const CalaosAuth &auth);
+    void deleteAuth(const QString &host);
+    int getCurrentAuthIndex() { return settings.value("calaos/current_auth", 0).toInt(); }
+    void setCurrentAuthIndex(int index) { settings.setValue("calaos/current_auth", index); }
+
 private:
     ConfigOptions();
 
@@ -57,6 +65,7 @@ private:
     bool use_wago_calaosd;
 
     QSettings settings;
+    SimpleCrypt crypt;
 
 };
 

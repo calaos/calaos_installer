@@ -16,10 +16,19 @@ DialogSaveOnline::DialogSaveOnline(QString temp, QWidget *parent):
     connect(&networkAccess, &QNetworkAccessManager::sslErrors,
             this, &DialogSaveOnline::sslErrors);
 
-    ui->comboIP->lineEdit()->setText(ConfigOptions::Instance().getHost());
-    ui->calaosfrCheck->setChecked(ConfigOptions::Instance().useCalaosFr());
-    ui->editUsername->setText(ConfigOptions::Instance().getUsername());
-    ui->editPass->setText(ConfigOptions::Instance().getPassword());
+    auths = ConfigOptions::Instance().getAuthList();
+    int curr = ConfigOptions::Instance().getCurrentAuthIndex();
+    ui->comboIP->clear();
+    for (int i = 0;i < auths.size();i++)
+    {
+        ui->comboIP->addItem(auths[i].host);
+        if (i == curr)
+        {
+            ui->comboIP->setCurrentIndex(i);
+            ui->editUsername->setText(auths[i].username);
+            ui->editPass->setText(auths[i].password);
+        }
+    }
 }
 
 DialogSaveOnline::~DialogSaveOnline()
@@ -48,83 +57,23 @@ void DialogSaveOnline::on_buttonBox_accepted()
     ui->spinnerLayout->addWidget(spinner, 0, Qt::AlignCenter);
     spinner->start();
 
-    ConfigOptions::Instance().setHost(ui->comboIP->lineEdit()->text());
-    ConfigOptions::Instance().setUseCalaosFr(ui->calaosfrCheck->isChecked());
-    ConfigOptions::Instance().setUsername(ui->editUsername->text());
-    ConfigOptions::Instance().setPassword(ui->editPass->text());
+    //save the current auth
+    CalaosAuth auth;
+    auth.username = ui->editUsername->text();
+    auth.password = ui->editPass->text();
+    auth.host = ui->comboIP->currentText();
+    ConfigOptions::Instance().addAuth(auth);
 
-    loadFromNetwork();
-}
-
-void DialogSaveOnline::on_calaosfrCheck_stateChanged(int)
-{
-    ui->comboIP->setEnabled(!ui->calaosfrCheck->isChecked());
-}
-
-void DialogSaveOnline::loadFromNetwork()
-{
-    if (ui->calaosfrCheck->isChecked())
+    auths = ConfigOptions::Instance().getAuthList();
+    if (auths.size() != ui->comboIP->count())
     {
-        //Search IP address from calaos network
-        QString cn = CALAOS_NETWORK_URL "/api.php";
-        QUrl url(cn);
-
-        QJsonObject jroot;
-        jroot["cn_user"] = ui->editUsername->text();
-        jroot["cn_pass"] = ui->editPass->text();
-        jroot["action"] = QStringLiteral("get_ip");
-        QJsonDocument jdoc(jroot);
-
-        connect(&networkAccess, &QNetworkAccessManager::finished,
-                this, &DialogSaveOnline::downloadFinishedCalaosFr);
-
-        networkAccess.post(QNetworkRequest(url), jdoc.toJson());
-    }
-    else
-    {
-        uploadXmlFiles(ui->comboIP->currentText());
-    }
-}
-
-void DialogSaveOnline::downloadFinishedCalaosFr(QNetworkReply *reply)
-{
-    if (reply->error() == QNetworkReply::NoError)
-    {
-        QByteArray bytes = reply->readAll();
-        QJsonParseError err;
-        QJsonDocument jdoc = QJsonDocument::fromJson(bytes, &err);
-        QVariantMap result = jdoc.object().toVariantMap();
-
-        if (err.error == QJsonParseError::NoError &&
-            result.contains("public_ip") &&
-            result.contains("private_ip"))
-        {
-            if (result.contains("at_home") && result["at_home"].toBool())
-                uploadXmlFiles(result["private_ip"].toString());
-            else
-                uploadXmlFiles(result["public_ip"].toString());
-        }
-        else
-        {
-            QMessageBox::critical(this, tr("Calaos Installer"),
-                                  tr("Failed to connect!\nPlease check your credentials."));
-
-            this->setEnabled(true);
-            delete spinner;
-        }
-    }
-    else
-    {
-        QMessageBox::critical(this, tr("Calaos Installer"), tr("Failed to connect!\nPlease check your credentials.\nHTTP error: ") + reply->errorString());
-
-        this->setEnabled(true);
-        delete spinner;
+        ui->comboIP->addItem(auth.host);
+        ui->comboIP->setCurrentIndex(ui->comboIP->count() - 1);
     }
 
-    disconnect(&networkAccess, &QNetworkAccessManager::finished,
-               this, &DialogSaveOnline::downloadFinishedCalaosFr);
+    ConfigOptions::Instance().setCurrentAuthIndex(ui->comboIP->currentIndex());
 
-    reply->deleteLater();
+    uploadXmlFiles(ui->comboIP->currentText());
 }
 
 QString DialogSaveOnline::readFileContent(QString fileName)
@@ -233,4 +182,26 @@ void DialogSaveOnline::on_checkShowPass_toggled(bool checked)
         ui->editPass->setEchoMode(QLineEdit::Normal);
     else
         ui->editPass->setEchoMode(QLineEdit::Password);
+}
+
+void DialogSaveOnline::on_pushButtonDelPref_clicked()
+{
+    QString host = auths[ui->comboIP->currentIndex()].host;
+    int ret = QMessageBox::question(this, tr("Calaos Installer"),
+                                    tr("Are you sure you want to delete this saved host (%1) ?").arg(host),
+                                    QMessageBox::Yes | QMessageBox::No, QMessageBox::No);
+    if (ret == QMessageBox::Yes)
+    {
+        ConfigOptions::Instance().deleteAuth(host);
+        ui->comboIP->removeItem(ui->comboIP->currentIndex());
+        auths = ConfigOptions::Instance().getAuthList();
+    }
+}
+
+void DialogSaveOnline::on_comboIP_currentIndexChanged(int index)
+{
+    if (index < 0 || index >= auths.size())
+        return;
+    ui->editUsername->setText(auths[index].username);
+    ui->editPass->setText(auths[index].password);
 }

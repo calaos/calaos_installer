@@ -4,6 +4,7 @@
 #include <QtNetwork>
 #include <QDialog>
 #include <qanimationlabel.h>
+#include "ConfigOptions.h"
 
 #include <iostream>
 using namespace std;
@@ -32,19 +33,20 @@ private:
 
     QString currentDir, currentIP;
 
-    void loadFromNetwork();
+    QVector<CalaosAuth> auths;
+
     void uploadXmlFiles(QString ip);
     QString readFileContent(QString fileName);
 
 private slots:
     void on_checkShowPass_toggled(bool checked);
     void on_buttonBox_rejected();
-    void on_calaosfrCheck_stateChanged(int);
     void on_buttonBox_accepted();
 
     void uploadFinished(QNetworkReply *reply);
-    void downloadFinishedCalaosFr(QNetworkReply *reply);
     void sslErrors(QNetworkReply *reply, const QList<QSslError> &errors);
+    void on_pushButtonDelPref_clicked();
+    void on_comboIP_currentIndexChanged(int index);
 };
 
 #endif // DIALOGSAVEONLINE_H

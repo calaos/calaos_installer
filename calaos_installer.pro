@@ -20,6 +20,7 @@ TARGET = calaos_installer
 TEMPLATE = app
 SOURCES += src/main.cpp \
     src/DialogZigbee2mqtt.cpp \
+    src/SimpleCrypt.cpp \
     src/mainwindow.cpp \
     src/common/base64.c \
     src/common/Params.cpp \
@@ -111,6 +112,7 @@ SOURCES += src/main.cpp \
 
 HEADERS += src/mainwindow.h \
     src/DialogZigbee2mqtt.h \
+    src/SimpleCrypt.h \
     src/common/Utils.h \
     src/common/base64.h \
     src/common/Params.h \

@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>421</width>
+    <width>445</width>
     <height>274</height>
    </rect>
   </property>
@@ -23,7 +23,7 @@
      <item>
       <widget class="QLabel" name="label">
        <property name="sizePolicy">
-        <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+        <sizepolicy hsizetype="MinimumExpanding" vsizetype="Maximum">
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
@@ -35,6 +35,12 @@
      </item>
      <item>
       <widget class="QComboBox" name="comboIP">
+       <property name="minimumSize">
+        <size>
+         <width>250</width>
+         <height>0</height>
+        </size>
+       </property>
        <property name="editable">
         <bool>true</bool>
        </property>
@@ -63,6 +69,14 @@
          <string>10.0.0.101</string>
         </property>
        </item>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushButtonDelPref">
+       <property name="icon">
+        <iconset resource="resources.qrc">
+         <normaloff>:/img/edit_remove.png</normaloff>:/img/edit_remove.png</iconset>
+       </property>
       </widget>
      </item>
     </layout>
