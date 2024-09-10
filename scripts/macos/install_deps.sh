@@ -9,7 +9,7 @@ brew install qt6 cmake pkg-config xz zstd
 #get extra-cmake-modules and build it
 git clone https://invent.kde.org/frameworks/extra-cmake-modules.git
 cd extra-cmake-modules
-git checkout v5.114.0
+git checkout v6.5.0
 cmake -B build -S . \
         -DCMAKE_INSTALL_PREFIX="$(brew --prefix qt6)" \
 	-DCMAKE_INSTALL_LIBDIR="$(brew --prefix qt6)" \
@@ -24,7 +24,7 @@ cd ..
 #get karchive and build it
 git clone https://invent.kde.org/frameworks/karchive.git
 cd karchive
-git checkout v5.114.0
+git checkout v6.5.0
 cmake -B build -S . \
         -DCMAKE_INSTALL_PREFIX="$(brew --prefix qt6)" \
 	-DCMAKE_INSTALL_LIBDIR="$(brew --prefix qt6)" \
@@ -41,7 +41,7 @@ cd ..
 #get qtmqtt and build it
 git clone https://github.com/qt/qtmqtt.git
 cd qtmqtt
-git checkout 6.6.1
+git checkout 6.7.3
 cmake -B build -S . \
         -DCMAKE_INSTALL_PREFIX="$(brew --prefix qt6)" \
 	-DCMAKE_INSTALL_LIBDIR="$(brew --prefix qt6)" \
