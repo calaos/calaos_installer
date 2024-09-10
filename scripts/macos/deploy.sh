@@ -17,64 +17,13 @@ if [ "$(git rev-list -n 1 $VERSION)" != "$(cat .git/HEAD)"  ]; then
     #exit 0
 fi
 
-QTDIR="$(brew --prefix qt6)"
 APP=calaos_installer
 
-# copy icon
-mkdir -p build/$APP.app/Contents/Resources/
-cp macos/icon.icns build/$APP.app/Contents/Resources/
-
-# copy Info.plist
-cp macos/Info.plist build/$APP.app/Contents/Info.plist
-
-# removing backup plist
-rm -f build/$APP.app/Contents/Info.plist-e
-
-# Copy machine_creator to bundle
-cp build/machine_creator/calaos_machinecreator.app/Contents/MacOS/calaos_machinecreator build/$APP.app/Contents/MacOS/
-
-cp macos/calaos_machinecreator.sh build/$APP.app/Contents/MacOS/
-cp macos/main.scpt build/$APP.app/Contents/MacOS/
-
-# use macdeployqt to deploy the application
-#echo "Calling macdeployqt and code signing application"
-#$QTDIR/bin/macdeployqt ./$APP.app -codesign="$DEVELOPER_NAME"
-echo "Calling macdeployqt"
-$QTDIR/bin/macdeployqt build/$APP.app -verbose=3 \
-    -executable=build/$APP.app/Contents/MacOS/calaos_installer \
-    -executable=build/$APP.app/Contents/MacOS/calaos_machinecreator
-if [ "$?" -ne "0" ]; then
-    echo "Failed to run macdeployqt"
-    # remove keys
- #   security delete-keychain osx-build.keychain 
-    exit 1
-fi
-
-#Call fix to change all rpath
-#python3 ./scripts/macos/macdeployqtfix.py build/$APP.app/Contents/MacOS/calaos_installer /usr/local/Cellar/qt6/6.*/
-#python3 ./scripts/macos/macdeployqtfix.py build/$APP.app/Contents/MacOS/calaos_machinecreator /usr/local/Cellar/qt6/6.*/
-
-KEYCHAIN="build.keychain"
-
-# Use first ID
-security find-identity -v $KEYCHAIN
-export ID=$(security find-identity -v $KEYCHAIN | grep "1)" | sed "s/^ *1) *\([^ ]*\).*/\1/")
-echo "Using ID: $ID"
-
-#Sign binaries!
-codesign --deep --force --options runtime --verbose --sign $ID --keychain $KEYCHAIN build/$APP.app
-
-echo "Verifying code signed app"
-codesign --verify --verbose=4 build/$APP.app
-spctl --assess --verbose=4 --raw build/$APP.app
-
-#install appdmg https://github.com/LinusU/node-appdmg a tool to create awesome dmg !
-echo "Creating .dmg"
-npm install -g appdmg
-appdmg macos/appdmg.json build/$APP-$VERSION.dmg
-
-#sign dmg
-echo "Sign dmg"
-codesign --force --verify --verbose --sign "$ID" build/$APP-$VERSION.dmg
+echo "Staple notarized app"
+xcrun altool --notarize-app \
+    --primary-bundle-id "com.calaos.calaos_installer" \
+    --username "$MACOS_NOTARIZATION_USERNAME" \
+    --password "$MACOS_NOTARIZATION_PASSWORD" \
+    --file build/$APP-$VERSION.dmg
 
 upload_file build/$APP-$VERSION.dmg $(shasum -a 256 build/$APP-$VERSION.dmg | cut -d' ' -f1) "experimental/calaos_installer/osx"

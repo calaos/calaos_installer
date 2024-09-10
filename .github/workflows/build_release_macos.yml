@@ -26,7 +26,20 @@ jobs:
           - name: Compile
             run: bash scripts/macos/build.sh
 
+          - name: Notarize Release Build
+            uses: lando/notarize-action@v2
+            with:
+              product-path: "build/MyApp.app"
+              appstore-connect-username: ${{ secrets.MACOS_NOTARIZATION_USERNAME }}
+              appstore-connect-password: ${{ secrets.MACOS_NOTARIZATION_PASSWORD }}
+              appstore-connect-team-id: ${{ secrets.MACOS_TEAM_ID }}
+              tool: "altool"
+              verbose: true
+
           - name: Deploy
             run: bash scripts/macos/deploy.sh
             env:
               UPLOAD_KEY: ${{ secrets.UPLOAD_KEY }}
+              MACOS_NOTARIZATION_USERNAME: ${{ secrets.MACOS_NOTARIZATION_USERNAME }}
+              MACOS_NOTARIZATION_PASSWORD: ${{ secrets.MACOS_NOTARIZATION_PASSWORD }}
+
