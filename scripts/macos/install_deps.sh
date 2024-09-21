@@ -41,7 +41,7 @@ cd ..
 #get qtmqtt and build it
 git clone https://github.com/qt/qtmqtt.git
 cd qtmqtt
-git checkout 6.7.3
+git checkout 6.7.2
 cmake -B build -S . \
         -DCMAKE_INSTALL_PREFIX="$(brew --prefix qt6)" \
 	-DCMAKE_INSTALL_LIBDIR="$(brew --prefix qt6)" \
