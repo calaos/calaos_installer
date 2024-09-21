@@ -17,7 +17,7 @@ jobs:
             with:
               p12-file-base64: ${{ secrets.MACOS_CERT_P12 }}
               p12-password: ${{ secrets.MACOS_CERT_PASS }}
-              keychain: "build.keychain"
+              keychain: "build"
               keychain-password: ${{ secrets.MACOS_KEYCHAIN_PASS }}
            
           - name: Install deps
