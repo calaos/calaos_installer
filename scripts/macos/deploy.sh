@@ -20,10 +20,10 @@ fi
 APP=calaos_installer
 
 echo "Staple notarized app"
-xcrun altool --notarize-app \
-    --primary-bundle-id "com.calaos.calaos_installer" \
-    --username "$MACOS_NOTARIZATION_USERNAME" \
+xcrun notarytool submit build/$APP-$VERSION.dmg \
+    --apple-id "$MACOS_NOTARIZATION_USERNAME" \
     --password "$MACOS_NOTARIZATION_PASSWORD" \
-    --file build/$APP-$VERSION.dmg
+    --team-id "$MACOS_NOTARIZATION_TEAMID" \
+    --wait
 
 upload_file build/$APP-$VERSION.dmg $(shasum -a 256 build/$APP-$VERSION.dmg | cut -d' ' -f1) "experimental/calaos_installer/osx"
