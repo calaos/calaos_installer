@@ -35,7 +35,8 @@ jobs:
               product-path: "${{ env.PACKAGE_FILE_NAME }}"
               appstore-connect-username: ${{ secrets.MACOS_NOTARIZATION_USERNAME }}
               appstore-connect-password: ${{ secrets.MACOS_NOTARIZATION_PASSWORD }}
-              tool: "altool"
+              appstore-connect-team-id: ${{ secrets.MACOS_NOTARIZATION_TEAMID }}
+              tool: "notarytool"
               verbose: true
 
           - name: Deploy
