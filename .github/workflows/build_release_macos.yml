@@ -26,10 +26,13 @@ jobs:
           - name: Compile
             run: bash scripts/macos/build.sh
 
+          - name: Package
+            run: bash scripts/macos/package.sh
+
           - name: Notarize Release Build
             uses: lando/notarize-action@v2
             with:
-              product-path: "build/MyApp.app"
+              product-path: "build/calaos_installer-*.app"
               appstore-connect-username: ${{ secrets.MACOS_NOTARIZATION_USERNAME }}
               appstore-connect-password: ${{ secrets.MACOS_NOTARIZATION_PASSWORD }}
               tool: "altool"
