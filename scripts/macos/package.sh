@@ -70,3 +70,6 @@ appdmg macos/appdmg.json build/$APP-$VERSION.dmg
 #sign dmg
 echo "Sign dmg"
 codesign --force --verify --verbose --sign "$ID" build/$APP-$VERSION.dmg
+
+# export filename
+echo "PACKAGE_FILE_NAME=build/$APP-$VERSION.dmg" >> $GITHUB_ENV
