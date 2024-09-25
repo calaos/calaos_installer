@@ -31,7 +31,7 @@ int main(int argc, char *argv[])
     QCoreApplication::setOrganizationDomain("calaos.fr");
     QCoreApplication::setApplicationName("CalaosInstaller");
 
-    QStringList p;
+    QStringList p = QCoreApplication::libraryPaths();
     p << QCoreApplication::applicationDirPath();
     QCoreApplication::setLibraryPaths(p);
 
