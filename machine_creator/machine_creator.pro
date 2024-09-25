@@ -43,7 +43,7 @@ FORMS    += mainwindow.ui
 RESOURCES += \
     img.qrc
 
-LIBS += -lKF5Archive
+LIBS += -lKF6Archive
 
 linux {
     QT_CONFIG -= no-pkg-config
