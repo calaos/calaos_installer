@@ -7,7 +7,10 @@
 #include "DialogNewAVReceiver.h"
 #include "dialognewwebioshutter.h"
 #include "wizards/hue/wizardhue.h"
+
+#ifdef QT_MQTT_AVAILABLE
 #include "DialogZigbee2mqtt.h"
+#endif
 
 FormRules::FormRules(QWidget *parent) :
     QWidget(parent),
@@ -671,6 +674,7 @@ FormRules::FormRules(QWidget *parent) :
                 addCalaosIO(p);
             });
 
+#ifdef QT_MQTT_AVAILABLE
     action = add_menu->addAction(tr("Zigbee2mqtt device"));
     action->setIcon(QIcon(":/img/zigbee2mqtt.png"));
     connect(action, &QAction::triggered, this, [=]()
@@ -691,6 +695,7 @@ FormRules::FormRules(QWidget *parent) :
             addCalaosIO(p);
         }
     });
+#endif
 
     add_menu->addSeparator();
 
