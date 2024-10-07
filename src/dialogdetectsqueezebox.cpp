@@ -17,6 +17,9 @@ SqueezeServer::SqueezeServer(QObject *parent):
 
 SqueezeServer::~SqueezeServer()
 {
+    disconnect(cliSocket, &QTcpSocket::readyRead, this, &SqueezeServer::readTCPPacket);
+    disconnect(cliSocket, &QTcpSocket::connected, this, &SqueezeServer::tcpConnected);
+    disconnect(cliSocket, &QTcpSocket::errorOccurred, this, &SqueezeServer::tcpError);
 }
 
 void SqueezeServer::Connect(QHostAddress &addr)
@@ -43,7 +46,7 @@ void SqueezeServer::readTCPPacket()
     {
         QMetaObject::invokeMethod(cmd.obj,
                                   cmd.slot.toUtf8().constData(),
-                                  Qt::DirectConnection,
+                                  Qt::QueuedConnection,
                                   Q_ARG(QString, cmd.cmd),
                                   Q_ARG(QString, cmd.res));
     }
@@ -219,7 +222,11 @@ void DialogDetectSqueezebox::scanSqueezeserver()
 
     sq.id = "";
     sq.name = "";
-    sq.server = addr.toString();
+    if (addr.protocol() == QAbstractSocket::IPv6Protocol &&
+        addr.toString().startsWith("::ffff:"))
+        sq.server = addr.toString().mid(7);
+    else
+        sq.server = addr.toString();
 }
 
 void DialogDetectSqueezebox::squeezeError()
