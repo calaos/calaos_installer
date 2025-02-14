@@ -540,6 +540,7 @@ IOBase *ListeRoom::createAVR(Params param, Room *room)
     if (!param.Exists("type")) param.Add("type", "AVReceiver");
     if (!param.Exists("model")) param.Add("model", "pioneer");
     if (!param.Exists("host")) param.Add("host", "192.168.1.10");
+    if (!param.Exists("id")) param.Add("id", ListeRoom::get_new_id("avr_"));
 
     IOBase *output = IOFactory::Instance().CreateIO("AVReceiver", param, IOBase::IO_BOTH);
     if (output) room->AddOutput(output);
