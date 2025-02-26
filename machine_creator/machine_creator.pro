@@ -43,8 +43,6 @@ FORMS    += mainwindow.ui
 RESOURCES += \
     img.qrc
 
-LIBS += -lKF6Archive
-
 linux {
     QT_CONFIG -= no-pkg-config
     CONFIG += link_pkgconfig
@@ -70,6 +68,8 @@ linux {
     policy.commands = mkdir -p /usr/share/polkit-1/actions
     policy.path = /usr/share/polkit-1/actions
     INSTALLS += policy
+
+    LIBS += -lKF6Archive
 }
 
 mac {
@@ -92,6 +92,8 @@ mac {
     LIBS += -L/usr/local/opt/karchive/lib
     LIBS += -L/opt/homebrew/opt/qt
     LIBS += -L/usr/local/opt/qt/
+
+    LIBS += -lKF6Archive
 }
 
 win32 {
@@ -112,5 +114,7 @@ win32 {
     LIBS += -LC:/kderoot/lib \
         -LC:/kderoot/bin \
         -L/mxe/usr/i686-w64-mingw32.shared.posix/lib
+
+    LIBS += -lKF5Archive
 }
 

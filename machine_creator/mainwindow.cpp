@@ -23,6 +23,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->stackedWidget->setCurrentIndex(MainWindow::Page_Start);
 
+    connect(ui->machineCombo, &QComboBox::currentIndexChanged, this, &MainWindow::machineCurrentIndexChanged);
+
     imageModel = new CalaosImageModel(this);
     filterImageModel = new FilterImageModel(this);
     filterImageModel->setSourceModel(imageModel);
@@ -46,8 +48,10 @@ MainWindow::MainWindow(QWidget *parent) :
         imageModel->loadJson(jarr);
         ui->machineCombo->clear();
         ui->machineCombo->addItems(imageModel->getMachines());
-        ui->machineCombo->setCurrentIndex(0);
         filterImageModel->sort(0);
+        ui->machineCombo->setCurrentIndex(0);
+        filterImageModel->setFilterType(true);
+        ui->versionCombo->setCurrentIndex(0);
     });
 
     diskWriter = new DiskWriter(this);
@@ -64,7 +68,7 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::on_machineCombo_currentIndexChanged(const QString &)
+void MainWindow::machineCurrentIndexChanged(int index)
 {
     filterImageModel->setFilterMachine(ui->machineCombo->currentText());
     ui->versionCombo->setCurrentIndex(0);

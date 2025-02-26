@@ -25,7 +25,7 @@ public:
     ~MainWindow();
 
 private slots:
-    void on_machineCombo_currentIndexChanged(const QString &);
+    void machineCurrentIndexChanged(int index);
     void on_radioButtonStable_clicked();
     void on_radioButtonAll_clicked();
 
