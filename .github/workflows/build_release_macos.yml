@@ -19,7 +19,7 @@ jobs:
               p12-password: ${{ secrets.MACOS_CERT_PASS }}
               keychain: "build"
               keychain-password: ${{ secrets.MACOS_KEYCHAIN_PASS }}
-           
+
           - name: Install deps
             run: bash scripts/macos/install_deps.sh
 
@@ -46,4 +46,5 @@ jobs:
               MACOS_NOTARIZATION_USERNAME: ${{ secrets.MACOS_NOTARIZATION_USERNAME }}
               MACOS_NOTARIZATION_PASSWORD: ${{ secrets.MACOS_NOTARIZATION_PASSWORD }}
               MACOS_NOTARIZATION_TEAMID: ${{ secrets.MACOS_NOTARIZATION_TEAMID }}
+              REL_TYPE: "stable"
 

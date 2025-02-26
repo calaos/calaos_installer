@@ -26,4 +26,8 @@ xcrun notarytool submit build/$APP-$VERSION.dmg \
     --team-id "$MACOS_NOTARIZATION_TEAMID" \
     --wait
 
-upload_file build/$APP-$VERSION.dmg $(shasum -a 256 build/$APP-$VERSION.dmg | cut -d' ' -f1) "experimental/calaos_installer/osx"
+if [ -z "$REL_TYPE" ]; then
+    REL_TYPE="experimental"
+fi
+
+upload_file build/$APP-$VERSION.dmg $(shasum -a 256 build/$APP-$VERSION.dmg | cut -d' ' -f1) "$REL_TYPE/calaos_installer/osx"
