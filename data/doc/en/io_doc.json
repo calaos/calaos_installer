@@ -247,165 +247,6 @@
         "conditions": [],
         "actions": []
     },
-    "BlinkstickOutputLightRGB": {
-        "description": "RGB Light dimmer using a Blinkstick RGB light. Choose a color to be set for this light.",
-        "alias": [],
-        "parameters": [
-            {
-                "default": "1",
-                "description": "Number of LEDs to control with the blinkstick",
-                "mandatory": "true",
-                "max": "9999",
-                "min": "0",
-                "name": "nb_leds",
-                "readonly": "false",
-                "type": "int"
-            },
-            {
-                "default": "false",
-                "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
-                "mandatory": "false",
-                "name": "logged",
-                "readonly": "false",
-                "type": "bool"
-            },
-            {
-                "description": "IO type, can be \"input\", \"output\", \"inout\"",
-                "mandatory": "true",
-                "name": "io_type",
-                "readonly": "true",
-                "type": "string"
-            },
-            {
-                "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
-                "mandatory": "false",
-                "name": "gui_type",
-                "readonly": "true",
-                "type": "string"
-            },
-            {
-                "default": "true",
-                "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
-                "mandatory": "false",
-                "name": "enabled",
-                "readonly": "false",
-                "type": "bool"
-            },
-            {
-                "default": "true",
-                "description": "Display the Input/Output on all user interfaces if set. Default to true",
-                "mandatory": "false",
-                "name": "visible",
-                "readonly": "false",
-                "type": "bool"
-            },
-            {
-                "default": "false",
-                "description": "If enabled, write an entry in the history event log for this IO",
-                "mandatory": "false",
-                "name": "log_history",
-                "readonly": "false",
-                "type": "bool"
-            },
-            {
-                "description": "Name of Input/Output.",
-                "mandatory": "true",
-                "name": "name",
-                "readonly": "false",
-                "type": "string"
-            },
-            {
-                "description": "Blinkstick serial to control",
-                "mandatory": "true",
-                "name": "serial",
-                "readonly": "false",
-                "type": "string"
-            },
-            {
-                "description": "Unique ID identifying the Input/Output in calaos-server",
-                "mandatory": "true",
-                "name": "id",
-                "readonly": "true",
-                "type": "string"
-            }
-        ],
-        "conditions": [
-            {
-                "description": "Event when light is at this value",
-                "name": "value"
-            },
-            {
-                "description": "Event on any change of value",
-                "name": "changed"
-            }
-        ],
-        "actions": [
-            {
-                "description": "Decrease intensity by X percent of red channel",
-                "name": "down_red 5"
-            },
-            {
-                "description": "Switch the light on",
-                "name": "true"
-            },
-            {
-                "description": "Switch the light off",
-                "name": "false"
-            },
-            {
-                "description": "Update internal light state without starting real action. This is useful when having updating the light state from an external source.",
-                "name": "set_state false"
-            },
-            {
-                "description": "Decrease intensity by X percent of green channel",
-                "name": "down_green 5"
-            },
-            {
-                "description": "Invert the light state (ON/OFF)",
-                "name": "toggle"
-            },
-            {
-                "description": "Update internal light state without starting real action. This is useful when having updating the light state from an external source.",
-                "name": "set_state true"
-            },
-            {
-                "description": "Decrease intensity by X percent of blue channel",
-                "name": "down_blue 5"
-            },
-            {
-                "description": "Update internal light state without starting real action. This is useful when having updating the light state from an external source.",
-                "name": "set_state #AA1294"
-            },
-            {
-                "description": "Increase intensity by X percent of red channel",
-                "name": "up_red 5"
-            },
-            {
-                "description": "Set red channel to X percent",
-                "name": "set_red 50"
-            },
-            {
-                "description": "Set blue channel to X percent",
-                "name": "set_blue 50"
-            },
-            {
-                "description": "Increase intensity by X percent of green channel",
-                "name": "up_green 5"
-            },
-            {
-                "description": "Set green channel to X percent",
-                "name": "set_green 50"
-            },
-            {
-                "description": "Set color. Color can be represented by using HTML notation: #AABBCC, rgb(50, 10, 30), hsl(11, 22, 33)",
-                "name": "set #AA1294"
-            },
-            {
-                "description": "Increase intensity by X percent of blue channel",
-                "name": "up_blue 5"
-            }
-        ]
-    },
     "Foscam": {
         "description": " Foscam IP Camera/Encoder. Camera can be viewed directly inside calaos and used in rules.",
         "alias": [],
@@ -5661,6 +5502,13 @@
                 "type": "string"
             },
             {
+                "description": "The path where to found the value in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. for example weather[0]/description, try to read the description value of the 1 element of the array of the weather object. if payload is somple json, just try to use the key of the value you want to read, for example : {\"temperature\":14.23} use \"temperature\" as path\n",
+                "mandatory": "true",
+                "name": "path",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
                 "default": "false",
                 "description": "If enabled, write an entry in the history event log for this IO",
                 "mandatory": "false",
@@ -8756,6 +8604,153 @@
         ],
         "conditions": [],
         "actions": []
+    },
+    "Roon": {
+        "description": "Roon audio player allows control of a Roon player from Calaos",
+        "alias": [],
+        "parameters": [
+            {
+                "description": "Static Roon server IP address, empty to autodetect on network",
+                "mandatory": "false",
+                "name": "host",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "Roon zone ID",
+                "mandatory": "true",
+                "name": "zone_id",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "default": "false",
+                "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "mandatory": "false",
+                "name": "logged",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "description": "IO type, can be \"input\", \"output\", \"inout\"",
+                "mandatory": "true",
+                "name": "io_type",
+                "readonly": "true",
+                "type": "string"
+            },
+            {
+                "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
+                "mandatory": "false",
+                "name": "gui_type",
+                "readonly": "true",
+                "type": "string"
+            },
+            {
+                "default": "true",
+                "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
+                "mandatory": "false",
+                "name": "enabled",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "default": "false",
+                "description": "Audio players are not displayed in rooms",
+                "mandatory": "true",
+                "name": "visible",
+                "readonly": "true",
+                "type": "bool"
+            },
+            {
+                "description": "Static Roon server port, empty to autodetect on network",
+                "mandatory": "true",
+                "name": "port",
+                "readonly": "false",
+                "type": "int"
+            },
+            {
+                "default": "false",
+                "description": "If enabled, write an entry in the history event log for this IO",
+                "mandatory": "false",
+                "name": "log_history",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "description": "Name of Input/Output.",
+                "mandatory": "true",
+                "name": "name",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "Unique ID identifying the Input/Output in calaos-server",
+                "mandatory": "true",
+                "name": "id",
+                "readonly": "true",
+                "type": "string"
+            }
+        ],
+        "conditions": [
+            {
+                "description": "Event when a change in the current playlist happens",
+                "name": "onplaylistchange"
+            },
+            {
+                "description": "Event when a change of volume happens",
+                "name": "onvolumechange"
+            },
+            {
+                "description": "Event when stopping player",
+                "name": "onstop"
+            },
+            {
+                "description": "Event when a new song is being played",
+                "name": "onsongchange"
+            },
+            {
+                "description": "Event when pausing player",
+                "name": "onpause"
+            },
+            {
+                "description": "Event when play is started",
+                "name": "onplay"
+            }
+        ],
+        "actions": [
+            {
+                "description": "Decrease volume by a value",
+                "name": "volume down 1"
+            },
+            {
+                "description": "Increase volume by a value",
+                "name": "volume up 1"
+            },
+            {
+                "description": "Play previous song in playlist",
+                "name": "previous"
+            },
+            {
+                "description": "Stop player",
+                "name": "stop"
+            },
+            {
+                "description": "Pause player",
+                "name": "pause"
+            },
+            {
+                "description": "Set current volume",
+                "name": "volume set 50"
+            },
+            {
+                "description": "Play next song in playlist",
+                "name": "next"
+            },
+            {
+                "description": "Start playing",
+                "name": "play"
+            }
+        ]
     },
     "Scenario": {
         "description": "A scenario variable. Use this like a virtual button to start a scenario (list of actions)",

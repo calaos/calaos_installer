@@ -55,56 +55,6 @@ ptz | bool | no | Set to true if camera has PTZ support
 enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
 zoom_step | string | no | 
 
-
-# BlinkstickOutputLightRGB
-RGB Light dimmer using a Blinkstick
-
-
-RGB light. Choose a color to be set for this light.
-
-## Parameters of BlinkstickOutputLightRGB
-Name | Type | Mandatory | Description
----- | ---- | --------- | -----------
-nb_leds | int | yes | Number of LEDs to control with the blinkstick
-logged | bool | no | If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO
-io_type | string | yes | IO type, can be "input", "output", "inout"
-gui_type | string | no | Internal graphical type for all calaos objects. Set automatically, read-only parameter.
-enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
-visible | bool | no | Display the Input/Output on all user interfaces if set. Default to true
-log_history | bool | no | If enabled, write an entry in the history event log for this IO
-name | string | yes | Name of Input/Output.
-serial | string | yes | Blinkstick serial to control
-id | string | yes | Unique ID identifying the Input/Output in calaos-server
-
-## Conditions of BlinkstickOutputLightRGB
-Name | Description
----- | -----------
-value | Event when light is at this value 
- changed | Event on any change of value 
- 
-## Actions of BlinkstickOutputLightRGB
-Name | Description
----- | -----------
-down_red 5 | Decrease intensity by X percent of red channel 
- true | Switch the light on 
- false | Switch the light off 
- set_state false | Update internal light state without starting real action. This is useful when having updating the light state from an external source. 
- down_green 5 | Decrease intensity by X percent of green channel 
- toggle | Invert the light state (ON/OFF) 
- set_state true | Update internal light state without starting real action. This is useful when having updating the light state from an external source. 
- down_blue 5 | Decrease intensity by X percent of blue channel 
- set_state #AA1294 | Update internal light state without starting real action. This is useful when having updating the light state from an external source. 
- up_red 5 | Increase intensity by X percent of red channel 
- set_red 50 | Set red channel to X percent 
- set_blue 50 | Set blue channel to X percent 
- up_green 5 | Increase intensity by X percent of green channel 
- set_green 50 | Set green channel to X percent 
- set #AA1294 | Set color. Color can be represented by using HTML notation: #AABBCC, rgb(50, 10, 30), hsl(11, 22, 33) 
- up_blue 5 | Increase intensity by X percent of blue channel 
- 
-## More Infos
-* OLA: http://www.blinkstick.com
-
 # Foscam - UNDOCUMENTED IO
 SPANK SPANK SPANK : naughty programmer ! You did not add documentation for this IO, that's BAD :'(
 Go document it in your code or you will burn in hell!
@@ -1449,6 +1399,8 @@ topic_sub | string | yes | Topic on witch to subscribe.
 topic_pub | string | yes | Topic on witch to publish.
 keepalive | int | no | keepalive timeout in seconds. Time between two mqtt PING.
 name | string | yes | Name of Input/Output.
+path | string | yes | The path where to found the value in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. for example weather[0]/description, try to read the description value of the 1 element of the array of the weather object. if payload is somple json, just try to use the key of the value you want to read, for example : {"temperature":14.23} use "temperature" as path
+
 log_history | bool | no | If enabled, write an entry in the history event log for this IO
 port | int | no | TCP port of the mqtt broker. Default value is 1883
 enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
@@ -2244,6 +2196,47 @@ log_history | bool | no | If enabled, write an entry in the history event log fo
 name | string | yes | Name of Input/Output.
 id | string | yes | Unique ID identifying the Input/Output in calaos-server
 
+
+# Roon
+Roon audio player allows control of a Roon player from Calaos
+
+## Parameters of Roon
+Name | Type | Mandatory | Description
+---- | ---- | --------- | -----------
+host | string | no | Static Roon server IP address, empty to autodetect on network
+zone_id | string | yes | Roon zone ID
+logged | bool | no | If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO
+io_type | string | yes | IO type, can be "input", "output", "inout"
+gui_type | string | no | Internal graphical type for all calaos objects. Set automatically, read-only parameter.
+enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
+visible | bool | yes | Audio players are not displayed in rooms
+port | int | yes | Static Roon server port, empty to autodetect on network
+log_history | bool | no | If enabled, write an entry in the history event log for this IO
+name | string | yes | Name of Input/Output.
+id | string | yes | Unique ID identifying the Input/Output in calaos-server
+
+## Conditions of Roon
+Name | Description
+---- | -----------
+onplaylistchange | Event when a change in the current playlist happens 
+ onvolumechange | Event when a change of volume happens 
+ onstop | Event when stopping player 
+ onsongchange | Event when a new song is being played 
+ onpause | Event when pausing player 
+ onplay | Event when play is started 
+ 
+## Actions of Roon
+Name | Description
+---- | -----------
+volume down 1 | Decrease volume by a value 
+ volume up 1 | Increase volume by a value 
+ previous | Play previous song in playlist 
+ stop | Stop player 
+ pause | Pause player 
+ volume set 50 | Set current volume 
+ next | Play next song in playlist 
+ play | Start playing 
+ 
 
 # Scenario
 A scenario variable. Use this like a virtual button to start a scenario (list of actions)

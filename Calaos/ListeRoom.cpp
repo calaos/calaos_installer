@@ -522,8 +522,6 @@ IOBase *ListeRoom::createAudio(Params param, Room *room)
 {
     if (!param.Exists("name")) param.Add("name", "Lecteur Audio");
     if (!param.Exists("type")) param.Add("type", "slim");
-    if (!param.Exists("host")) param.Add("host", "192.168.1.10");
-    if (!param.Exists("port")) param.Add("port", "9090");
     if (!param.Exists("oid")) param.Add("oid", ListeRoom::get_new_id("output_"));
     if (!param.Exists("iid")) param.Add("iid", ListeRoom::get_new_id("input_"));
 

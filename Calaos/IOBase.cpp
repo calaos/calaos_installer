@@ -130,6 +130,7 @@ REGISTER_INOUT(AVReceiver, "avreceiver", TSTRING, "Test")
 /* register music zones as Audio class */
 REGISTER_INOUT(slim, "audio", TSTRING, "Test")
 REGISTER_INOUT(Squeezebox, "audio", TSTRING, "Test")
+REGISTER_INOUT(roon, "audio", TSTRING, "Test")
 
 /* register cameras as Camera class */
 REGISTER_INOUT(Axis, "camera", TSTRING, "0")
