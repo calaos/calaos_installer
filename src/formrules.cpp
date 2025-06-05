@@ -80,55 +80,6 @@ FormRules::FormRules(QWidget *parent) :
         addCalaosIO(p);
     });
 
-    QMenu *x10_menu = add_menu->addMenu(QIcon("://img/x10.png"), "X10");
-
-    action = x10_menu->addAction(tr("Light Dimmer"));
-    action->setIcon(QIcon(":/img/icon_light_on.png"));
-    connect(action, &QAction::triggered, this, [=]()
-    {
-        Params p = {{ "type", "X10Output" },
-                    { "io_type", "output" }};
-        addCalaosIO(p);
-    });
-
-    QMenu *zibase_menu = add_menu->addMenu(QIcon("://img/zibase.png"), "Zibase");
-
-    action = zibase_menu->addAction(tr("Temperature sensor"));
-    action->setIcon(QIcon(":/img/temp.png"));
-    connect(action, &QAction::triggered, this, [=]()
-    {
-        Params p = {{ "type", "ZibaseTemp" },
-                    { "io_type", "input" }};
-        addCalaosIO(p);
-    });
-
-    action = zibase_menu->addAction(tr("Switch input"));
-    action->setIcon(QIcon(":/img/icon_inter.png"));
-    connect(action, &QAction::triggered, this, [=]()
-    {
-        Params p = {{ "type", "ZibaseDigitalIn" },
-                    { "io_type", "input" }};
-        addCalaosIO(p);
-    });
-
-    action = zibase_menu->addAction(tr("Analog input"));
-    action->setIcon(QIcon(":/img/icon_analog.png"));
-    connect(action, &QAction::triggered, this, [=]()
-    {
-        Params p = {{ "type", "ZibaseAnalogIn" },
-                    { "io_type", "input" }};
-        addCalaosIO(p);
-    });
-
-    action = zibase_menu->addAction(tr("Digital output"));
-    action->setIcon(QIcon(":/img/icon_light_on.png"));
-    connect(action, &QAction::triggered, this, [=]()
-    {
-        Params p = {{ "type", "ZibaseDigitalOut" },
-                    { "io_type", "output" }};
-        addCalaosIO(p);
-    });
-
     QMenu *mysensors_menu = add_menu->addMenu(QIcon("://img/mysensors.png"), "MySensors");
 
     action = mysensors_menu->addAction(tr("Switch"));
@@ -483,17 +434,6 @@ FormRules::FormRules(QWidget *parent) :
         addCalaosIO(p);
     });
 
-    QMenu *milight_menu = add_menu->addMenu(QIcon("://img/milight.png"), "MiLight / LimitlessLed");
-
-    action = milight_menu->addAction(tr("MI-Light RGB bulb"));
-    action->setIcon(QIcon(":/img/icon_light_on.png"));
-    connect(action, &QAction::triggered, this, [=]()
-    {
-        Params p = {{ "type", "MilightOutputLightRGB" },
-                    { "io_type", "output" }};
-        addCalaosIO(p);
-    });
-
     // QMenu *hue_menu = add_menu->addMenu(QIcon("://img/hue.png"), "Philips Hue");
 
     QMenu *hue_menu = add_menu->addMenu(QIcon("://img/hue.png"), "Hue");
@@ -519,83 +459,6 @@ FormRules::FormRules(QWidget *parent) :
     connect(action, &QAction::triggered, this, [=]()
             {
                 Params p = {{ "type", "HueOutputLightRGB" },
-                            { "io_type", "output" }};
-                addCalaosIO(p);
-            });
-
-    QMenu *telinfo_menu = add_menu->addMenu(QIcon("://img/teleinfo.png"), "Teleinfo");
-
-    action = telinfo_menu->addAction(tr("TeleinfoInputAnalog"));
-    action->setIcon(QIcon(":/img/icon_analog.png"));
-
-    connect(action, &QAction::triggered, this, [=]()
-            {
-                Params p = {{ "type", "TeleinfoInputAnalog" },
-                            { "io_type", "input" }};
-                addCalaosIO(p);
-            });
-
-    QMenu *xplsensors_menu = add_menu->addMenu(QIcon("://img/xpl.png"), "xPL");
-
-    action = xplsensors_menu->addAction(tr("Temperature sensor"));
-    action->setIcon(QIcon(":/img/temp.png"));
-    connect(action, &QAction::triggered, this, [=]()
-            {
-                Params p = {{ "type", "xPLInputTemp" },
-                            { "io_type", "input" }};
-                addCalaosIO(p);
-            });
-
-    action = xplsensors_menu->addAction(tr("Switch"));
-    action->setIcon(QIcon(":/img/icon_inter.png"));
-    connect(action, &QAction::triggered, this, [=]()
-            {
-                Params p = {{ "type", "xPLInputSwitch" },
-                            { "io_type", "input" }};
-                addCalaosIO(p);
-            });
-
-    action = xplsensors_menu->addAction(tr("Analog Input"));
-    action->setIcon(QIcon(":/img/icon_analog.png"));
-    connect(action, &QAction::triggered, this, [=]()
-            {
-                Params p = {{ "type", "xPLInputAnalog" },
-                            { "io_type", "input" }};
-                addCalaosIO(p);
-            });
-
-    action = xplsensors_menu->addAction(tr("String Input"));
-    action->setIcon(QIcon(":/img/text.png"));
-    connect(action, &QAction::triggered, this, [=]()
-            {
-                Params p = {{ "type", "xPLInputString" },
-                            { "io_type", "input" }};
-                addCalaosIO(p);
-            });
-
-    action = xplsensors_menu->addAction(tr("Light"));
-    action->setIcon(QIcon(":/img/icon_light_on.png"));
-    connect(action, &QAction::triggered, this, [=]()
-            {
-                Params p = {{ "type", "xPLOutputSwitch" },
-                            { "io_type", "output" }};
-                addCalaosIO(p);
-            });
-
-    action = xplsensors_menu->addAction(tr("Analog Output"));
-    action->setIcon(QIcon(":/img/icon_analog.png"));
-    connect(action, &QAction::triggered, this, [=]()
-            {
-                Params p = {{ "type", "xPLOutputAnalog" },
-                            { "io_type", "output" }};
-                addCalaosIO(p);
-            });
-
-    action = xplsensors_menu->addAction(tr("String Output"));
-    action->setIcon(QIcon(":/img/text.png"));
-    connect(action, &QAction::triggered, this, [=]()
-            {
-                Params p = {{ "type", "xPLOutputString" },
                             { "io_type", "output" }};
                 addCalaosIO(p);
             });
