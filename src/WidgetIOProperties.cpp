@@ -111,9 +111,27 @@ void WidgetIOProperties::createIOProperties()
     int rowMain = 0, rowOption = 0;
 
     QJsonArray jparams = jioobj["parameters"].toArray();
-    for (int i = 0;i < jparams.size();i++)
+
+    //convert to vector for sorting
+    QVector<QJsonValue> vec;
+    for (const QJsonValue &value : jparams)
+        vec.append(value);
+
+    std::sort(vec.begin(), vec.end(), [](const QJsonValue &a, const QJsonValue &b)
     {
-        QJsonObject jparam = jparams[i].toObject();
+        QString keyA = a.toObject().value("name").toString();
+        QString keyB = b.toObject().value("name").toString();
+        return keyA < keyB; // Case-sensitive comparison
+    });
+
+    // Convert back to QJsonArray
+    QJsonArray jparamsSorted;
+    for (const QJsonValue &value : vec)
+        jparamsSorted.append(value);
+
+    for (int i = 0;i < jparamsSorted.size();i++)
+    {
+        QJsonObject jparam = jparamsSorted[i].toObject();
 
         QGridLayout *layout = jparam["mandatory"].toString() == "true"?ui->mainLayout:ui->optionLayout;
         int row = jparam["mandatory"].toBool()?rowMain:rowOption;
@@ -229,7 +247,7 @@ void WidgetIOProperties::createIOProperties()
             uiObject.doubleSpinBox = w;
             uiObjectMap[prop] = uiObject;
 
-            connect(w, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), [=]()
+            connect(w, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), this, [=]()
             {
                 updateChangedParam(prop, QString("%1").arg(w->value()), pvalue.isEmpty()?"0":pvalue, title, revert);
             });
