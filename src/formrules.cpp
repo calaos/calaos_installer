@@ -560,6 +560,18 @@ FormRules::FormRules(QWidget *parent) :
     });
 #endif
 
+    //Reolink Events from camera
+    QMenu *reolink_menu = add_menu->addMenu(QIcon("://img/reolink.png"), "Reolink");
+
+    action = reolink_menu->addAction(tr("Switch"));
+    action->setIcon(QIcon(":/img/icon_inter.png"));
+    connect(action, &QAction::triggered, this, [=]()
+            {
+                Params p = {{ "type", "ReolinkInputSwitch" },
+                            { "io_type", "input" }};
+                addCalaosIO(p);
+            });
+
     add_menu->addSeparator();
 
     action = add_menu->addAction(tr("Camera"));

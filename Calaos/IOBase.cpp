@@ -69,6 +69,7 @@ REGISTER_INPUT(MqttInputTemp, "temp", TINT, "19")
 REGISTER_INPUT(MqttInputAnalog, "analog_in", TINT, "19")
 REGISTER_INPUT(MqttInputString, "string_in", TSTRING, "Test")
 REGISTER_INPUT(MqttInputSwitch, "switch", TBOOL, "true")
+REGISTER_INPUT(ReolinkInputSwitch, "switch", TBOOL, "true")
 
 
 /* Declare output class/type */
