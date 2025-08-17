@@ -502,10 +502,10 @@
             },
             {
                 "default": "false",
-                "description": "A switch can't be visible. Always false.",
+                "description": "Display the Input/Output on all user interfaces if set. Default to false for switches",
                 "mandatory": "false",
                 "name": "visible",
-                "readonly": "true",
+                "readonly": "false",
                 "type": "bool"
             },
             {
@@ -530,6 +530,29 @@
                 "name": "active_low",
                 "readonly": "false",
                 "type": "bool"
+            },
+            {
+                "default": "switch",
+                "description": "GUI style display. This will control the icon displayed on the UI",
+                "mandatory": "true",
+                "name": "io_style",
+                "readonly": "false",
+                "type": "list",
+                "list_value": {
+                    "carbon_monoxide": "Carbon monoxide sensor",
+                    "door": "Door/Window sensor",
+                    "garage_door": "Garage door sensor",
+                    "gas": "Gas leak sensor",
+                    "lock": "Lock sensor",
+                    "momentary": "Momentary",
+                    "motion": "Motion sensor",
+                    "occupancy": "Occupancy sensor",
+                    "smoke": "Smoke detector",
+                    "sound": "Sound sensor",
+                    "switch": "Switch",
+                    "vibration": "Vibration sensor",
+                    "water": "Water leak sensor"
+                }
             },
             {
                 "description": "Unique ID identifying the Input/Output in calaos-server",
@@ -2296,25 +2319,81 @@
                 "type": "string"
             },
             {
-                "default": "false",
-                "description": "Send a read request at start to get the current value. Default is false",
+                "description": "Name of Input/Output.",
                 "mandatory": "true",
-                "name": "read_at_start",
-                "readonly": "false",
-                "type": "bool"
-            },
-            {
-                "description": "KNX Group address for listening status, Ex: x/y/z",
-                "mandatory": "false",
-                "name": "listen_knx_group",
+                "name": "name",
                 "readonly": "false",
                 "type": "string"
             },
             {
-                "description": "KNX Group address, Ex: x/y/z",
+                "default": "switch",
+                "description": "GUI style display. This will control the icon displayed on the UI",
                 "mandatory": "true",
-                "name": "knx_group",
+                "name": "io_style",
                 "readonly": "false",
+                "type": "list",
+                "list_value": {
+                    "carbon_monoxide": "Carbon monoxide sensor",
+                    "door": "Door/Window sensor",
+                    "garage_door": "Garage door sensor",
+                    "gas": "Gas leak sensor",
+                    "lock": "Lock sensor",
+                    "momentary": "Momentary",
+                    "motion": "Motion sensor",
+                    "occupancy": "Occupancy sensor",
+                    "smoke": "Smoke detector",
+                    "sound": "Sound sensor",
+                    "switch": "Switch",
+                    "vibration": "Vibration sensor",
+                    "water": "Water leak sensor"
+                }
+            },
+            {
+                "default": "false",
+                "description": "If enabled, write an entry in the history event log for this IO",
+                "mandatory": "false",
+                "name": "log_history",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "default": "false",
+                "description": "Display the Input/Output on all user interfaces if set. Default to false for switches",
+                "mandatory": "false",
+                "name": "visible",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "default": "6",
+                "description": "KNX EIS (Data type)",
+                "mandatory": "false",
+                "max": "15",
+                "min": "0",
+                "name": "eis",
+                "readonly": "false",
+                "type": "int"
+            },
+            {
+                "default": "true",
+                "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
+                "mandatory": "false",
+                "name": "enabled",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "description": "Unique ID identifying the Input/Output in calaos-server",
+                "mandatory": "true",
+                "name": "id",
+                "readonly": "true",
+                "type": "string"
+            },
+            {
+                "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
+                "mandatory": "false",
+                "name": "gui_type",
+                "readonly": "true",
                 "type": "string"
             },
             {
@@ -2333,59 +2412,26 @@
                 "type": "string"
             },
             {
-                "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
-                "mandatory": "false",
-                "name": "gui_type",
-                "readonly": "true",
+                "description": "KNX Group address, Ex: x/y/z",
+                "mandatory": "true",
+                "name": "knx_group",
+                "readonly": "false",
                 "type": "string"
             },
             {
-                "default": "true",
-                "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
+                "description": "KNX Group address for listening status, Ex: x/y/z",
                 "mandatory": "false",
-                "name": "enabled",
+                "name": "listen_knx_group",
                 "readonly": "false",
-                "type": "bool"
-            },
-            {
-                "default": "6",
-                "description": "KNX EIS (Data type)",
-                "mandatory": "false",
-                "max": "15",
-                "min": "0",
-                "name": "eis",
-                "readonly": "false",
-                "type": "int"
+                "type": "string"
             },
             {
                 "default": "false",
-                "description": "A switch can't be visible. Always false.",
-                "mandatory": "false",
-                "name": "visible",
-                "readonly": "true",
-                "type": "bool"
-            },
-            {
-                "default": "false",
-                "description": "If enabled, write an entry in the history event log for this IO",
-                "mandatory": "false",
-                "name": "log_history",
+                "description": "Send a read request at start to get the current value. Default is false",
+                "mandatory": "true",
+                "name": "read_at_start",
                 "readonly": "false",
                 "type": "bool"
-            },
-            {
-                "description": "Name of Input/Output.",
-                "mandatory": "true",
-                "name": "name",
-                "readonly": "false",
-                "type": "string"
-            },
-            {
-                "description": "Unique ID identifying the Input/Output in calaos-server",
-                "mandatory": "true",
-                "name": "id",
-                "readonly": "true",
-                "type": "string"
             }
         ],
         "conditions": [
@@ -4633,6 +4679,13 @@
                 "type": "string"
             },
             {
+                "description": "The topic on witch to publish the IP address of the sensor. If not set, no IP address will be reported.",
+                "mandatory": "false",
+                "name": "ip_address_topic",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
                 "description": "The path where to find the IP address of the sensor in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. for example weather[0]/description, try to read the description value of the 1 element of the array of the weather object. If payload is simple json, just try to use the key of the value you want to read, for example : {\"ip_address\": \"192.168.1.156\"} use \"ip_address\" as path. The value should be a string with the IP address.",
                 "mandatory": "false",
                 "name": "ip_address_path",
@@ -4648,10 +4701,10 @@
             },
             {
                 "default": "false",
-                "description": "A switch can't be visible. Always false.",
+                "description": "Display the Input/Output on all user interfaces if set. Default to false for switches",
                 "mandatory": "false",
                 "name": "visible",
-                "readonly": "true",
+                "readonly": "false",
                 "type": "bool"
             },
             {
@@ -4676,21 +4729,6 @@
                 "name": "logged",
                 "readonly": "false",
                 "type": "bool"
-            },
-            {
-                "default": "false",
-                "description": "If set, a notification will be sent when the connected status changes. This is only used if the connected_status_topic is set.",
-                "mandatory": "false",
-                "name": "notif_connected",
-                "readonly": "false",
-                "type": "bool"
-            },
-            {
-                "description": "User to use for authentication with mqtt broker. Password must be defined in that case.",
-                "mandatory": "false",
-                "name": "user",
-                "readonly": "false",
-                "type": "string"
             },
             {
                 "description": "The path where to find the wireless signal strength in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. for example weather[0]/description, try to read the description value of the 1 element of the array of the weather object. If payload is simple json, just try to use the key of the value you want to read, for example : {\"signal\": 70} use \"signal\" as path. The value should be a number in percent. Use `wireless_signal_expr` to adjust if required.",
@@ -4720,13 +4758,6 @@
                 "name": "enabled",
                 "readonly": "false",
                 "type": "bool"
-            },
-            {
-                "description": "The topic on witch to publish the IP address of the sensor. If not set, no IP address will be reported.",
-                "mandatory": "false",
-                "name": "ip_address_topic",
-                "readonly": "false",
-                "type": "string"
             },
             {
                 "default": "1883",
@@ -4759,6 +4790,29 @@
                 "type": "bool"
             },
             {
+                "default": "switch",
+                "description": "GUI style display. This will control the icon displayed on the UI",
+                "mandatory": "true",
+                "name": "io_style",
+                "readonly": "false",
+                "type": "list",
+                "list_value": {
+                    "carbon_monoxide": "Carbon monoxide sensor",
+                    "door": "Door/Window sensor",
+                    "garage_door": "Garage door sensor",
+                    "gas": "Gas leak sensor",
+                    "lock": "Lock sensor",
+                    "momentary": "Momentary",
+                    "motion": "Motion sensor",
+                    "occupancy": "Occupancy sensor",
+                    "smoke": "Smoke detector",
+                    "sound": "Sound sensor",
+                    "switch": "Switch",
+                    "vibration": "Vibration sensor",
+                    "water": "Water leak sensor"
+                }
+            },
+            {
                 "description": "The path where to find the value in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. for example weather[0]/description, try to read the description value of the 1 element of the array of the weather object. if payload is simple json, just try to use the key of the value you want to read, for example : {\"temperature\":14.23} use \"temperature\" as path",
                 "mandatory": "true",
                 "name": "path",
@@ -4779,6 +4833,21 @@
                 "name": "keepalive",
                 "readonly": "false",
                 "type": "int"
+            },
+            {
+                "default": "false",
+                "description": "If set, a notification will be sent when the connected status changes. This is only used if the connected_status_topic is set.",
+                "mandatory": "false",
+                "name": "notif_connected",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "description": "User to use for authentication with mqtt broker. Password must be defined in that case.",
+                "mandatory": "false",
+                "name": "user",
+                "readonly": "false",
+                "type": "string"
             },
             {
                 "description": "Topic on witch to publish.",
@@ -6948,48 +7017,58 @@
                 "type": "string"
             },
             {
-                "description": "IP address of the tcp gateway if relevant",
+                "description": "Name of Input/Output.",
                 "mandatory": "true",
-                "name": "host",
+                "name": "name",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "default": "switch",
+                "description": "GUI style display. This will control the icon displayed on the UI",
+                "mandatory": "true",
+                "name": "io_style",
+                "readonly": "false",
+                "type": "list",
+                "list_value": {
+                    "carbon_monoxide": "Carbon monoxide sensor",
+                    "door": "Door/Window sensor",
+                    "garage_door": "Garage door sensor",
+                    "gas": "Gas leak sensor",
+                    "lock": "Lock sensor",
+                    "momentary": "Momentary",
+                    "motion": "Motion sensor",
+                    "occupancy": "Occupancy sensor",
+                    "smoke": "Smoke detector",
+                    "sound": "Sound sensor",
+                    "switch": "Switch",
+                    "vibration": "Vibration sensor",
+                    "water": "Water leak sensor"
+                }
+            },
+            {
+                "default": "false",
+                "description": "If enabled, write an entry in the history event log for this IO",
+                "mandatory": "false",
+                "name": "log_history",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "default": "/dev/ttyUSB0",
+                "description": "If using serial gateway, port is the serial port (/dev/ttyUSB0 for ex.). If using tcp gateway port is TCP port of the gateway.",
+                "mandatory": "true",
+                "name": "port",
                 "readonly": "false",
                 "type": "string"
             },
             {
                 "default": "false",
-                "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "description": "Display the Input/Output on all user interfaces if set. Default to false for switches",
                 "mandatory": "false",
-                "name": "logged",
+                "name": "visible",
                 "readonly": "false",
                 "type": "bool"
-            },
-            {
-                "description": "IO type, can be \"input\", \"output\", \"inout\"",
-                "mandatory": "true",
-                "name": "io_type",
-                "readonly": "true",
-                "type": "string"
-            },
-            {
-                "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
-                "mandatory": "false",
-                "name": "gui_type",
-                "readonly": "true",
-                "type": "string"
-            },
-            {
-                "default": "true",
-                "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
-                "mandatory": "false",
-                "name": "enabled",
-                "readonly": "false",
-                "type": "bool"
-            },
-            {
-                "description": "Node ID as set in your network",
-                "mandatory": "true",
-                "name": "node_id",
-                "readonly": "false",
-                "type": "string"
             },
             {
                 "default": "serial",
@@ -7004,41 +7083,54 @@
                 }
             },
             {
-                "default": "false",
-                "description": "A switch can't be visible. Always false.",
-                "mandatory": "false",
-                "name": "visible",
-                "readonly": "true",
-                "type": "bool"
-            },
-            {
-                "default": "/dev/ttyUSB0",
-                "description": "If using serial gateway, port is the serial port (/dev/ttyUSB0 for ex.). If using tcp gateway port is TCP port of the gateway.",
+                "description": "Node ID as set in your network",
                 "mandatory": "true",
-                "name": "port",
+                "name": "node_id",
                 "readonly": "false",
                 "type": "string"
             },
             {
-                "default": "false",
-                "description": "If enabled, write an entry in the history event log for this IO",
+                "default": "true",
+                "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
                 "mandatory": "false",
-                "name": "log_history",
+                "name": "enabled",
                 "readonly": "false",
                 "type": "bool"
-            },
-            {
-                "description": "Name of Input/Output.",
-                "mandatory": "true",
-                "name": "name",
-                "readonly": "false",
-                "type": "string"
             },
             {
                 "description": "Unique ID identifying the Input/Output in calaos-server",
                 "mandatory": "true",
                 "name": "id",
                 "readonly": "true",
+                "type": "string"
+            },
+            {
+                "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
+                "mandatory": "false",
+                "name": "gui_type",
+                "readonly": "true",
+                "type": "string"
+            },
+            {
+                "description": "IO type, can be \"input\", \"output\", \"inout\"",
+                "mandatory": "true",
+                "name": "io_type",
+                "readonly": "true",
+                "type": "string"
+            },
+            {
+                "default": "false",
+                "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "mandatory": "false",
+                "name": "logged",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "description": "IP address of the tcp gateway if relevant",
+                "mandatory": "true",
+                "name": "host",
+                "readonly": "false",
                 "type": "string"
             }
         ],
@@ -9490,10 +9582,10 @@
             },
             {
                 "default": "false",
-                "description": "A switch can't be visible. Always false.",
+                "description": "Display the Input/Output on all user interfaces if set. Default to false for switches",
                 "mandatory": "false",
                 "name": "visible",
-                "readonly": "true",
+                "readonly": "false",
                 "type": "bool"
             },
             {
@@ -9510,6 +9602,29 @@
                 "name": "name",
                 "readonly": "false",
                 "type": "string"
+            },
+            {
+                "default": "switch",
+                "description": "GUI style display. This will control the icon displayed on the UI",
+                "mandatory": "true",
+                "name": "io_style",
+                "readonly": "false",
+                "type": "list",
+                "list_value": {
+                    "carbon_monoxide": "Carbon monoxide sensor",
+                    "door": "Door/Window sensor",
+                    "garage_door": "Garage door sensor",
+                    "gas": "Gas leak sensor",
+                    "lock": "Lock sensor",
+                    "momentary": "Momentary",
+                    "motion": "Motion sensor",
+                    "occupancy": "Occupancy sensor",
+                    "smoke": "Smoke detector",
+                    "sound": "Sound sensor",
+                    "switch": "Switch",
+                    "vibration": "Vibration sensor",
+                    "water": "Water leak sensor"
+                }
             },
             {
                 "description": "Unique ID identifying the Input/Output in calaos-server",
@@ -9713,10 +9828,10 @@
             },
             {
                 "default": "false",
-                "description": "A switch can't be visible. Always false.",
+                "description": "Display the Input/Output on all user interfaces if set. Default to false for switches",
                 "mandatory": "false",
                 "name": "visible",
-                "readonly": "true",
+                "readonly": "false",
                 "type": "bool"
             },
             {
@@ -9733,6 +9848,29 @@
                 "name": "name",
                 "readonly": "false",
                 "type": "string"
+            },
+            {
+                "default": "switch",
+                "description": "GUI style display. This will control the icon displayed on the UI",
+                "mandatory": "true",
+                "name": "io_style",
+                "readonly": "false",
+                "type": "list",
+                "list_value": {
+                    "carbon_monoxide": "Carbon monoxide sensor",
+                    "door": "Door/Window sensor",
+                    "garage_door": "Garage door sensor",
+                    "gas": "Gas leak sensor",
+                    "lock": "Lock sensor",
+                    "momentary": "Momentary",
+                    "motion": "Motion sensor",
+                    "occupancy": "Occupancy sensor",
+                    "smoke": "Smoke detector",
+                    "sound": "Sound sensor",
+                    "switch": "Switch",
+                    "vibration": "Vibration sensor",
+                    "water": "Water leak sensor"
+                }
             },
             {
                 "description": "Unique ID identifying the Input/Output in calaos-server",
@@ -11895,10 +12033,10 @@
             },
             {
                 "default": "false",
-                "description": "A switch can't be visible. Always false.",
+                "description": "Display the Input/Output on all user interfaces if set. Default to false for switches",
                 "mandatory": "false",
                 "name": "visible",
-                "readonly": "true",
+                "readonly": "false",
                 "type": "bool"
             },
             {
@@ -11935,6 +12073,29 @@
                 "name": "var",
                 "readonly": "false",
                 "type": "int"
+            },
+            {
+                "default": "switch",
+                "description": "GUI style display. This will control the icon displayed on the UI",
+                "mandatory": "true",
+                "name": "io_style",
+                "readonly": "false",
+                "type": "list",
+                "list_value": {
+                    "carbon_monoxide": "Carbon monoxide sensor",
+                    "door": "Door/Window sensor",
+                    "garage_door": "Garage door sensor",
+                    "gas": "Gas leak sensor",
+                    "lock": "Lock sensor",
+                    "momentary": "Momentary",
+                    "motion": "Motion sensor",
+                    "occupancy": "Occupancy sensor",
+                    "smoke": "Smoke detector",
+                    "sound": "Sound sensor",
+                    "switch": "Switch",
+                    "vibration": "Vibration sensor",
+                    "water": "Water leak sensor"
+                }
             },
             {
                 "description": "Unique ID identifying the Input/Output in calaos-server",
