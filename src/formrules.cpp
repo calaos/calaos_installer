@@ -7,6 +7,7 @@
 #include "DialogNewAVReceiver.h"
 #include "dialognewwebioshutter.h"
 #include "wizards/hue/wizardhue.h"
+#include "DialogRemoteUI.h"
 
 #ifdef QT_MQTT_AVAILABLE
 #include "DialogZigbee2mqtt.h"
@@ -586,6 +587,10 @@ FormRules::FormRules(QWidget *parent) :
     action->setIcon(QIcon(":/img/icon_sound.png"));
     connect(action, &QAction::triggered, this, [=]() { addCalaosItem(HW_NONE, ITEM_AVR); });
 
+    action = add_menu->addAction(tr("Remote UI"));
+    action->setIcon(QIcon(":/img/logo_header.png"));
+    connect(action, &QAction::triggered, this, [=]() { addCalaosItem(HW_NONE, ITEM_REMOTE_UI); });
+
     add_menu->addSeparator();
     action = add_menu->addAction(tr("Internal Variable"));
     action->setIcon(QIcon(":/img/text.png"));
@@ -957,6 +962,19 @@ IOBase *FormRules::addCalaosItemAVR(int item, int hw_type)
     return io;
 }
 
+IOBase *FormRules::addCalaosItemRemoteUI(int item, int hw_type)
+{
+    Q_UNUSED(item);
+    Q_UNUSED(hw_type);
+    IOBase *io = nullptr;
+
+    DialogRemoteUI dialog(current_room);
+    if (dialog.exec() == QDialog::Accepted)
+        io = dialog.getOutput();
+
+    return io;
+}
+
 IOBase *FormRules::addCalaosItemInternal(int item, int hw_type)
 {
     Q_UNUSED(hw_type);
@@ -1098,6 +1116,9 @@ void FormRules::addCalaosItem(int hw_type, int item)
     case ITEM_STRINGIN:
     case ITEM_STRINGOUT:
         res = addCalaosItemString(item, hw_type);
+        break;
+    case ITEM_REMOTE_UI:
+        res = addCalaosItemRemoteUI(item, hw_type);
         break;
     default:
         QMessageBox::warning(this, tr("Calaos Installer"), QString(tr("Unknown type (%1)")).arg(item));

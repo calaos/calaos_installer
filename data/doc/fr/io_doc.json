@@ -502,10 +502,10 @@
             },
             {
                 "default": "false",
-                "description": "Display the Input/Output on all user interfaces if set. Default to false for switches",
+                "description": "Un interrupteur ne peut pas être visible. Toujours faux.",
                 "mandatory": "false",
                 "name": "visible",
-                "readonly": "false",
+                "readonly": "true",
                 "type": "bool"
             },
             {
@@ -530,28 +530,6 @@
                 "name": "active_low",
                 "readonly": "false",
                 "type": "bool"
-            },
-            {
-                "default": "switch",
-                "description": "Affichage de style GUI. Ceci contrôlera l'ìcône affichée sur l'interface utilisateurStyle d'affichage. Contrôle l'icône affichée sur l'interface utilisateur",
-                "mandatory": "true",
-                "name": "io_style",
-                "readonly": "false",
-                "type": "list",
-                "list_value": {
-                    "carbon_monoxide": "Carbon monoxide sensor",
-                    "door": "Door/Window sensor",
-                    "garage_door": "Garage door sensor",
-                    "gas": "Gas leak sensor",
-                    "lock": "Lock sensor",
-                    "motion": "Motion sensor",
-                    "occupancy": "Occupancy sensor",
-                    "smoke": "Smoke detector",
-                    "sound": "Sound sensor",
-                    "switch": "Switch",
-                    "vibration": "Vibration sensor",
-                    "water": "Water leak sensor"
-                }
             },
             {
                 "description": "Identifiant unique de l'entrée/sortie dans calaos-server",
@@ -2318,80 +2296,25 @@
                 "type": "string"
             },
             {
-                "description": "Nom de l'entrée/sortie.",
+                "default": "false",
+                "description": "Envoyer une demande de lecture au démarrage pour obtenir la valeur actuelle. Faux par défautEnvoier une demande de lecture au démarrage pour obtenir la valeur. Faux par défaut",
                 "mandatory": "true",
-                "name": "name",
+                "name": "read_at_start",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "description": "Adresse de groupe KNX pour l'écoute de l'état, Ex: x/y/z",
+                "mandatory": "false",
+                "name": "listen_knx_group",
                 "readonly": "false",
                 "type": "string"
             },
             {
-                "default": "switch",
-                "description": "Affichage de style GUI. Ceci contrôlera l'ìcône affichée sur l'interface utilisateurStyle d'affichage. Contrôle l'icône affichée sur l'interface utilisateur",
+                "description": "Adresse de groupe KNX, Ex: x/y/z",
                 "mandatory": "true",
-                "name": "io_style",
+                "name": "knx_group",
                 "readonly": "false",
-                "type": "list",
-                "list_value": {
-                    "carbon_monoxide": "Carbon monoxide sensor",
-                    "door": "Door/Window sensor",
-                    "garage_door": "Garage door sensor",
-                    "gas": "Gas leak sensor",
-                    "lock": "Lock sensor",
-                    "motion": "Motion sensor",
-                    "occupancy": "Occupancy sensor",
-                    "smoke": "Smoke detector",
-                    "sound": "Sound sensor",
-                    "switch": "Switch",
-                    "vibration": "Vibration sensor",
-                    "water": "Water leak sensor"
-                }
-            },
-            {
-                "default": "false",
-                "description": "Si activé, écrit une entrée dans l'historique pour cet IO",
-                "mandatory": "false",
-                "name": "log_history",
-                "readonly": "false",
-                "type": "bool"
-            },
-            {
-                "default": "false",
-                "description": "Display the Input/Output on all user interfaces if set. Default to false for switches",
-                "mandatory": "false",
-                "name": "visible",
-                "readonly": "false",
-                "type": "bool"
-            },
-            {
-                "default": "6",
-                "description": "KNX EIS (type de données)",
-                "mandatory": "false",
-                "max": "15",
-                "min": "0",
-                "name": "eis",
-                "readonly": "false",
-                "type": "int"
-            },
-            {
-                "default": "true",
-                "description": "Activez l'entrée/sortie. Vrai par défaut. Ce paramètre est ajouté s'il n'est pas trouvé dans la configuration.",
-                "mandatory": "false",
-                "name": "enabled",
-                "readonly": "false",
-                "type": "bool"
-            },
-            {
-                "description": "Identifiant unique de l'entrée/sortie dans calaos-server",
-                "mandatory": "true",
-                "name": "id",
-                "readonly": "true",
-                "type": "string"
-            },
-            {
-                "description": "Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement",
-                "mandatory": "false",
-                "name": "gui_type",
-                "readonly": "true",
                 "type": "string"
             },
             {
@@ -2410,26 +2333,59 @@
                 "type": "string"
             },
             {
-                "description": "Adresse de groupe KNX, Ex: x/y/z",
-                "mandatory": "true",
-                "name": "knx_group",
-                "readonly": "false",
+                "description": "Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement",
+                "mandatory": "false",
+                "name": "gui_type",
+                "readonly": "true",
                 "type": "string"
             },
             {
-                "description": "Adresse de groupe KNX pour l'écoute de l'état, Ex: x/y/z",
+                "default": "true",
+                "description": "Activez l'entrée/sortie. Vrai par défaut. Ce paramètre est ajouté s'il n'est pas trouvé dans la configuration.",
                 "mandatory": "false",
-                "name": "listen_knx_group",
+                "name": "enabled",
                 "readonly": "false",
-                "type": "string"
+                "type": "bool"
+            },
+            {
+                "default": "6",
+                "description": "KNX EIS (type de données)",
+                "mandatory": "false",
+                "max": "15",
+                "min": "0",
+                "name": "eis",
+                "readonly": "false",
+                "type": "int"
             },
             {
                 "default": "false",
-                "description": "Envoyer une demande de lecture au démarrage pour obtenir la valeur actuelle. Faux par défautEnvoier une demande de lecture au démarrage pour obtenir la valeur. Faux par défaut",
-                "mandatory": "true",
-                "name": "read_at_start",
+                "description": "Un interrupteur ne peut pas être visible. Toujours faux.",
+                "mandatory": "false",
+                "name": "visible",
+                "readonly": "true",
+                "type": "bool"
+            },
+            {
+                "default": "false",
+                "description": "Si activé, écrit une entrée dans l'historique pour cet IO",
+                "mandatory": "false",
+                "name": "log_history",
                 "readonly": "false",
                 "type": "bool"
+            },
+            {
+                "description": "Nom de l'entrée/sortie.",
+                "mandatory": "true",
+                "name": "name",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "Identifiant unique de l'entrée/sortie dans calaos-server",
+                "mandatory": "true",
+                "name": "id",
+                "readonly": "true",
+                "type": "string"
             }
         ],
         "conditions": [
@@ -4677,13 +4633,6 @@
                 "type": "string"
             },
             {
-                "description": "The topic on witch to publish the IP address of the sensor. If not set, no IP address will be reported.",
-                "mandatory": "false",
-                "name": "ip_address_topic",
-                "readonly": "false",
-                "type": "string"
-            },
-            {
                 "description": "The path where to find the IP address of the sensor in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. for example weather[0]/description, try to read the description value of the 1 element of the array of the weather object. If payload is simple json, just try to use the key of the value you want to read, for example : {\"ip_address\": \"192.168.1.156\"} use \"ip_address\" as path. The value should be a string with the IP address.",
                 "mandatory": "false",
                 "name": "ip_address_path",
@@ -4699,10 +4648,10 @@
             },
             {
                 "default": "false",
-                "description": "Display the Input/Output on all user interfaces if set. Default to false for switches",
+                "description": "Un interrupteur ne peut pas être visible. Toujours faux.",
                 "mandatory": "false",
                 "name": "visible",
-                "readonly": "false",
+                "readonly": "true",
                 "type": "bool"
             },
             {
@@ -4727,6 +4676,21 @@
                 "name": "logged",
                 "readonly": "false",
                 "type": "bool"
+            },
+            {
+                "default": "false",
+                "description": "If set, a notification will be sent when the connected status changes. This is only used if the connected_status_topic is set.",
+                "mandatory": "false",
+                "name": "notif_connected",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "description": "Utilisateur à utiliser pour l'authentification avec le broker MQTT. Le mot de passe doit être défini dans ce cas.",
+                "mandatory": "false",
+                "name": "user",
+                "readonly": "false",
+                "type": "string"
             },
             {
                 "description": "The path where to find the wireless signal strength in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. for example weather[0]/description, try to read the description value of the 1 element of the array of the weather object. If payload is simple json, just try to use the key of the value you want to read, for example : {\"signal\": 70} use \"signal\" as path. The value should be a number in percent. Use `wireless_signal_expr` to adjust if required.",
@@ -4756,6 +4720,13 @@
                 "name": "enabled",
                 "readonly": "false",
                 "type": "bool"
+            },
+            {
+                "description": "The topic on witch to publish the IP address of the sensor. If not set, no IP address will be reported.",
+                "mandatory": "false",
+                "name": "ip_address_topic",
+                "readonly": "false",
+                "type": "string"
             },
             {
                 "default": "1883",
@@ -4788,28 +4759,6 @@
                 "type": "bool"
             },
             {
-                "default": "switch",
-                "description": "Affichage de style GUI. Ceci contrôlera l'ìcône affichée sur l'interface utilisateurStyle d'affichage. Contrôle l'icône affichée sur l'interface utilisateur",
-                "mandatory": "true",
-                "name": "io_style",
-                "readonly": "false",
-                "type": "list",
-                "list_value": {
-                    "carbon_monoxide": "Carbon monoxide sensor",
-                    "door": "Door/Window sensor",
-                    "garage_door": "Garage door sensor",
-                    "gas": "Gas leak sensor",
-                    "lock": "Lock sensor",
-                    "motion": "Motion sensor",
-                    "occupancy": "Occupancy sensor",
-                    "smoke": "Smoke detector",
-                    "sound": "Sound sensor",
-                    "switch": "Switch",
-                    "vibration": "Vibration sensor",
-                    "water": "Water leak sensor"
-                }
-            },
-            {
                 "description": "The path where to find the value in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. for example weather[0]/description, try to read the description value of the 1 element of the array of the weather object. if payload is simple json, just try to use the key of the value you want to read, for example : {\"temperature\":14.23} use \"temperature\" as path",
                 "mandatory": "true",
                 "name": "path",
@@ -4830,21 +4779,6 @@
                 "name": "keepalive",
                 "readonly": "false",
                 "type": "int"
-            },
-            {
-                "default": "false",
-                "description": "If set, a notification will be sent when the connected status changes. This is only used if the connected_status_topic is set.",
-                "mandatory": "false",
-                "name": "notif_connected",
-                "readonly": "false",
-                "type": "bool"
-            },
-            {
-                "description": "Utilisateur à utiliser pour l'authentification avec le broker MQTT. Le mot de passe doit être défini dans ce cas.",
-                "mandatory": "false",
-                "name": "user",
-                "readonly": "false",
-                "type": "string"
             },
             {
                 "description": "Sujet sur lequel publier.",
@@ -7014,57 +6948,48 @@
                 "type": "string"
             },
             {
-                "description": "Nom de l'entrée/sortie.",
+                "description": "Adresse IP de la passerelle tcp si pertinent",
                 "mandatory": "true",
-                "name": "name",
-                "readonly": "false",
-                "type": "string"
-            },
-            {
-                "default": "switch",
-                "description": "Affichage de style GUI. Ceci contrôlera l'ìcône affichée sur l'interface utilisateurStyle d'affichage. Contrôle l'icône affichée sur l'interface utilisateur",
-                "mandatory": "true",
-                "name": "io_style",
-                "readonly": "false",
-                "type": "list",
-                "list_value": {
-                    "carbon_monoxide": "Carbon monoxide sensor",
-                    "door": "Door/Window sensor",
-                    "garage_door": "Garage door sensor",
-                    "gas": "Gas leak sensor",
-                    "lock": "Lock sensor",
-                    "motion": "Motion sensor",
-                    "occupancy": "Occupancy sensor",
-                    "smoke": "Smoke detector",
-                    "sound": "Sound sensor",
-                    "switch": "Switch",
-                    "vibration": "Vibration sensor",
-                    "water": "Water leak sensor"
-                }
-            },
-            {
-                "default": "false",
-                "description": "Si activé, écrit une entrée dans l'historique pour cet IO",
-                "mandatory": "false",
-                "name": "log_history",
-                "readonly": "false",
-                "type": "bool"
-            },
-            {
-                "default": "/dev/ttyUSB0",
-                "description": "Si vous utilisez la passerelle sèrie, le port est le port sèrie (/dev/ttyUSB0 par ex.). Si vous utilisez la passerelle tcp, c'est le port TCP de la passerelle.",
-                "mandatory": "true",
-                "name": "port",
+                "name": "host",
                 "readonly": "false",
                 "type": "string"
             },
             {
                 "default": "false",
-                "description": "Display the Input/Output on all user interfaces if set. Default to false for switches",
+                "description": "Si activé, et si influxdb est activé dans local_config, envoie la valeur à influxdb pour cet IO",
                 "mandatory": "false",
-                "name": "visible",
+                "name": "logged",
                 "readonly": "false",
                 "type": "bool"
+            },
+            {
+                "description": "Type d'entrée/sortie (input, output, inout)",
+                "mandatory": "true",
+                "name": "io_type",
+                "readonly": "true",
+                "type": "string"
+            },
+            {
+                "description": "Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement",
+                "mandatory": "false",
+                "name": "gui_type",
+                "readonly": "true",
+                "type": "string"
+            },
+            {
+                "default": "true",
+                "description": "Activez l'entrée/sortie. Vrai par défaut. Ce paramètre est ajouté s'il n'est pas trouvé dans la configuration.",
+                "mandatory": "false",
+                "name": "enabled",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "description": "ID du noeud sur le réseau MySensors",
+                "mandatory": "true",
+                "name": "node_id",
+                "readonly": "false",
+                "type": "string"
             },
             {
                 "default": "serial",
@@ -7079,54 +7004,41 @@
                 }
             },
             {
-                "description": "ID du noeud sur le réseau MySensors",
+                "default": "false",
+                "description": "Un interrupteur ne peut pas être visible. Toujours faux.",
+                "mandatory": "false",
+                "name": "visible",
+                "readonly": "true",
+                "type": "bool"
+            },
+            {
+                "default": "/dev/ttyUSB0",
+                "description": "Si vous utilisez la passerelle sèrie, le port est le port sèrie (/dev/ttyUSB0 par ex.). Si vous utilisez la passerelle tcp, c'est le port TCP de la passerelle.",
                 "mandatory": "true",
-                "name": "node_id",
+                "name": "port",
                 "readonly": "false",
                 "type": "string"
             },
             {
-                "default": "true",
-                "description": "Activez l'entrée/sortie. Vrai par défaut. Ce paramètre est ajouté s'il n'est pas trouvé dans la configuration.",
+                "default": "false",
+                "description": "Si activé, écrit une entrée dans l'historique pour cet IO",
                 "mandatory": "false",
-                "name": "enabled",
+                "name": "log_history",
                 "readonly": "false",
                 "type": "bool"
+            },
+            {
+                "description": "Nom de l'entrée/sortie.",
+                "mandatory": "true",
+                "name": "name",
+                "readonly": "false",
+                "type": "string"
             },
             {
                 "description": "Identifiant unique de l'entrée/sortie dans calaos-server",
                 "mandatory": "true",
                 "name": "id",
                 "readonly": "true",
-                "type": "string"
-            },
-            {
-                "description": "Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement",
-                "mandatory": "false",
-                "name": "gui_type",
-                "readonly": "true",
-                "type": "string"
-            },
-            {
-                "description": "Type d'entrée/sortie (input, output, inout)",
-                "mandatory": "true",
-                "name": "io_type",
-                "readonly": "true",
-                "type": "string"
-            },
-            {
-                "default": "false",
-                "description": "Si activé, et si influxdb est activé dans local_config, envoie la valeur à influxdb pour cet IO",
-                "mandatory": "false",
-                "name": "logged",
-                "readonly": "false",
-                "type": "bool"
-            },
-            {
-                "description": "Adresse IP de la passerelle tcp si pertinent",
-                "mandatory": "true",
-                "name": "host",
-                "readonly": "false",
                 "type": "string"
             }
         ],
@@ -9578,10 +9490,10 @@
             },
             {
                 "default": "false",
-                "description": "Display the Input/Output on all user interfaces if set. Default to false for switches",
+                "description": "Un interrupteur ne peut pas être visible. Toujours faux.",
                 "mandatory": "false",
                 "name": "visible",
-                "readonly": "false",
+                "readonly": "true",
                 "type": "bool"
             },
             {
@@ -9598,28 +9510,6 @@
                 "name": "name",
                 "readonly": "false",
                 "type": "string"
-            },
-            {
-                "default": "switch",
-                "description": "Affichage de style GUI. Ceci contrôlera l'ìcône affichée sur l'interface utilisateurStyle d'affichage. Contrôle l'icône affichée sur l'interface utilisateur",
-                "mandatory": "true",
-                "name": "io_style",
-                "readonly": "false",
-                "type": "list",
-                "list_value": {
-                    "carbon_monoxide": "Carbon monoxide sensor",
-                    "door": "Door/Window sensor",
-                    "garage_door": "Garage door sensor",
-                    "gas": "Gas leak sensor",
-                    "lock": "Lock sensor",
-                    "motion": "Motion sensor",
-                    "occupancy": "Occupancy sensor",
-                    "smoke": "Smoke detector",
-                    "sound": "Sound sensor",
-                    "switch": "Switch",
-                    "vibration": "Vibration sensor",
-                    "water": "Water leak sensor"
-                }
             },
             {
                 "description": "Identifiant unique de l'entrée/sortie dans calaos-server",
@@ -9691,6 +9581,93 @@
                 "name": "width",
                 "readonly": "false",
                 "type": "int"
+            },
+            {
+                "description": "Type d'entrée/sortie (input, output, inout)",
+                "mandatory": "true",
+                "name": "io_type",
+                "readonly": "true",
+                "type": "string"
+            },
+            {
+                "description": "Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement",
+                "mandatory": "false",
+                "name": "gui_type",
+                "readonly": "true",
+                "type": "string"
+            },
+            {
+                "default": "true",
+                "description": "Activez l'entrée/sortie. Vrai par défaut. Ce paramètre est ajouté s'il n'est pas trouvé dans la configuration.",
+                "mandatory": "false",
+                "name": "enabled",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "default": "true",
+                "description": "Afficher l'entrée/sortie sur toutes les interfaces utilisateur si activé. Vrai par défautAffichez l'entrée/sortie sur toutes les interfaces utilisateur. Vrai par défaut",
+                "mandatory": "false",
+                "name": "visible",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "default": "false",
+                "description": "Si activé, écrit une entrée dans l'historique pour cet IO",
+                "mandatory": "false",
+                "name": "log_history",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "description": "Nom de l'entrée/sortie.",
+                "mandatory": "true",
+                "name": "name",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "Identifiant unique de l'entrée/sortie dans calaos-server",
+                "mandatory": "true",
+                "name": "id",
+                "readonly": "true",
+                "type": "string"
+            }
+        ],
+        "conditions": [],
+        "actions": []
+    },
+    "RemoteUI": {
+        "description": " Remote UI device. Represents a remote user interface device. Some actions are available to control the device from rules.",
+        "alias": [],
+        "parameters": [
+            {
+                "description": "Provisioning code for first time setup",
+                "mandatory": "true",
+                "name": "provisioning_code",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "default": "waveshare-esp32-p4-86-panel",
+                "description": "Device model",
+                "mandatory": "true",
+                "name": "device_type",
+                "readonly": "false",
+                "type": "list",
+                "list_value": {
+                    "luckfox-pico-86-panel": "Luckfox Luckfox-Pico-86-Panel",
+                    "waveshare-esp32-p4-86-panel": "Waveshare ESP32-P4-86-Panel"
+                }
+            },
+            {
+                "default": "false",
+                "description": "Si activé, et si influxdb est activé dans local_config, envoie la valeur à influxdb pour cet IO",
+                "mandatory": "false",
+                "name": "logged",
+                "readonly": "false",
+                "type": "bool"
             },
             {
                 "description": "Type d'entrée/sortie (input, output, inout)",
@@ -9823,10 +9800,10 @@
             },
             {
                 "default": "false",
-                "description": "Display the Input/Output on all user interfaces if set. Default to false for switches",
+                "description": "Un interrupteur ne peut pas être visible. Toujours faux.",
                 "mandatory": "false",
                 "name": "visible",
-                "readonly": "false",
+                "readonly": "true",
                 "type": "bool"
             },
             {
@@ -9843,28 +9820,6 @@
                 "name": "name",
                 "readonly": "false",
                 "type": "string"
-            },
-            {
-                "default": "switch",
-                "description": "Affichage de style GUI. Ceci contrôlera l'ìcône affichée sur l'interface utilisateurStyle d'affichage. Contrôle l'icône affichée sur l'interface utilisateur",
-                "mandatory": "true",
-                "name": "io_style",
-                "readonly": "false",
-                "type": "list",
-                "list_value": {
-                    "carbon_monoxide": "Carbon monoxide sensor",
-                    "door": "Door/Window sensor",
-                    "garage_door": "Garage door sensor",
-                    "gas": "Gas leak sensor",
-                    "lock": "Lock sensor",
-                    "motion": "Motion sensor",
-                    "occupancy": "Occupancy sensor",
-                    "smoke": "Smoke detector",
-                    "sound": "Sound sensor",
-                    "switch": "Switch",
-                    "vibration": "Vibration sensor",
-                    "water": "Water leak sensor"
-                }
             },
             {
                 "description": "Identifiant unique de l'entrée/sortie dans calaos-server",
@@ -12027,10 +11982,10 @@
             },
             {
                 "default": "false",
-                "description": "Display the Input/Output on all user interfaces if set. Default to false for switches",
+                "description": "Un interrupteur ne peut pas être visible. Toujours faux.",
                 "mandatory": "false",
                 "name": "visible",
-                "readonly": "false",
+                "readonly": "true",
                 "type": "bool"
             },
             {
@@ -12067,28 +12022,6 @@
                 "name": "var",
                 "readonly": "false",
                 "type": "int"
-            },
-            {
-                "default": "switch",
-                "description": "Affichage de style GUI. Ceci contrôlera l'ìcône affichée sur l'interface utilisateurStyle d'affichage. Contrôle l'icône affichée sur l'interface utilisateur",
-                "mandatory": "true",
-                "name": "io_style",
-                "readonly": "false",
-                "type": "list",
-                "list_value": {
-                    "carbon_monoxide": "Carbon monoxide sensor",
-                    "door": "Door/Window sensor",
-                    "garage_door": "Garage door sensor",
-                    "gas": "Gas leak sensor",
-                    "lock": "Lock sensor",
-                    "motion": "Motion sensor",
-                    "occupancy": "Occupancy sensor",
-                    "smoke": "Smoke detector",
-                    "sound": "Sound sensor",
-                    "switch": "Switch",
-                    "vibration": "Vibration sensor",
-                    "water": "Water leak sensor"
-                }
             },
             {
                 "description": "Identifiant unique de l'entrée/sortie dans calaos-server",

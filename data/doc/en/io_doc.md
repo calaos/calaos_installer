@@ -120,11 +120,10 @@ logged | bool | no | If enabled, and if influxdb is enabled in local_config send
 io_type | string | yes | IO type, can be "input", "output", "inout"
 gui_type | string | no | Internal graphical type for all calaos objects. Set automatically, read-only parameter.
 enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
-visible | bool | no | Display the Input/Output on all user interfaces if set. Default to false for switches
+visible | bool | no | A switch can't be visible. Always false.
 log_history | bool | no | If enabled, write an entry in the history event log for this IO
 name | string | yes | Name of Input/Output.
 active_low | bool | no | Set this if your GPIO has an inverted level
-io_style | list | yes | GUI style display. This will control the icon displayed on the UI
 id | string | yes | Unique ID identifying the Input/Output in calaos-server
 
 ## Conditions of GpioInputSwitch
@@ -594,19 +593,18 @@ Basic switch with press/release states.
 Name | Type | Mandatory | Description
 ---- | ---- | --------- | -----------
 host | string | yes | Hostname of knxd, default to localhost
-name | string | yes | Name of Input/Output.
-io_style | list | yes | GUI style display. This will control the icon displayed on the UI
-log_history | bool | no | If enabled, write an entry in the history event log for this IO
-visible | bool | no | Display the Input/Output on all user interfaces if set. Default to false for switches
-eis | int | no | KNX EIS (Data type)
-enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
-id | string | yes | Unique ID identifying the Input/Output in calaos-server
-gui_type | string | no | Internal graphical type for all calaos objects. Set automatically, read-only parameter.
+read_at_start | bool | yes | Send a read request at start to get the current value. Default is false
+listen_knx_group | string | no | KNX Group address for listening status, Ex: x/y/z
+knx_group | string | yes | KNX Group address, Ex: x/y/z
 logged | bool | no | If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO
 io_type | string | yes | IO type, can be "input", "output", "inout"
-knx_group | string | yes | KNX Group address, Ex: x/y/z
-listen_knx_group | string | no | KNX Group address for listening status, Ex: x/y/z
-read_at_start | bool | yes | Send a read request at start to get the current value. Default is false
+gui_type | string | no | Internal graphical type for all calaos objects. Set automatically, read-only parameter.
+enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
+eis | int | no | KNX EIS (Data type)
+visible | bool | no | A switch can't be visible. Always false.
+log_history | bool | no | If enabled, write an entry in the history event log for this IO
+name | string | yes | Name of Input/Output.
+id | string | yes | Unique ID identifying the Input/Output in calaos-server
 
 ## Conditions of KNXInputSwitch
 Name | Description
@@ -1153,27 +1151,26 @@ Name | Type | Mandatory | Description
 ---- | ---- | --------- | -----------
 off_value | string | yes | Value to interpret as OFF value
 wifi_ssid_path | string | no | The path where to find the WiFi SSID where the sensor is connected in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. for example weather[0]/description, try to read the description value of the 1 element of the array of the weather object. If payload is simple json, just try to use the key of the value you want to read, for example : {"wifi_ssid": "MyWifi"} use "wifi_ssid" as path. The value should be a string with the WiFi SSID.
-ip_address_topic | string | no | The topic on witch to publish the IP address of the sensor. If not set, no IP address will be reported.
 ip_address_path | string | no | The path where to find the IP address of the sensor in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. for example weather[0]/description, try to read the description value of the 1 element of the array of the weather object. If payload is simple json, just try to use the key of the value you want to read, for example : {"ip_address": "192.168.1.156"} use "ip_address" as path. The value should be a string with the IP address.
 password | string | no | Password to use for authentication with mqtt broker. User must be defined in that case.
-visible | bool | no | Display the Input/Output on all user interfaces if set. Default to false for switches
+visible | bool | no | A switch can't be visible. Always false.
 uptime_expr | string | no | If the uptime value is not directly available in the payload, you can use this parameter to calculate the uptime value from the payload. The value will be calculated as any valid mathematic expression. In the expression, the variable x is replaced with the raw value from path. If not set, the uptime value will be read directly from the path. Example: "x * 100 / 255"
 host | string | no | IP address of the mqtt broker to connect to. Default value is 127.0.0.1.
 logged | bool | no | If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO
+notif_connected | bool | no | If set, a notification will be sent when the connected status changes. This is only used if the connected_status_topic is set.
+user | string | no | User to use for authentication with mqtt broker. Password must be defined in that case.
 wireless_signal_path | string | no | The path where to find the wireless signal strength in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. for example weather[0]/description, try to read the description value of the 1 element of the array of the weather object. If payload is simple json, just try to use the key of the value you want to read, for example : {"signal": 70} use "signal" as path. The value should be a number in percent. Use `wireless_signal_expr` to adjust if required.
 io_type | string | yes | IO type, can be "input", "output", "inout"
 id | string | yes | Unique ID identifying the Input/Output in calaos-server
 enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
+ip_address_topic | string | no | The topic on witch to publish the IP address of the sensor. If not set, no IP address will be reported.
 port | int | no | TCP port of the mqtt broker. Default value is 1883
 wireless_signal_topic | string | no | The topic on witch to publish the wireless signal strength of the sensor. If not set, no wireless signal strength will be reported.
 wifi_ssid_topic | string | no | The topic on witch to publish the WiFi SSID of the sensor. If not set, no WiFi SSID will be reported.
 log_history | bool | no | If enabled, write an entry in the history event log for this IO
-io_style | list | yes | GUI style display. This will control the icon displayed on the UI
 path | string | yes | The path where to find the value in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. for example weather[0]/description, try to read the description value of the 1 element of the array of the weather object. if payload is simple json, just try to use the key of the value you want to read, for example : {"temperature":14.23} use "temperature" as path
 name | string | yes | Name of Input/Output.
 keepalive | int | no | keepalive timeout in seconds. Time between two mqtt PING.
-notif_connected | bool | no | If set, a notification will be sent when the connected status changes. This is only used if the connected_status_topic is set.
-user | string | no | User to use for authentication with mqtt broker. Password must be defined in that case.
 topic_pub | string | yes | Topic on witch to publish.
 topic_sub | string | yes | Topic on witch to subscribe.
 battery_topic | string | no | The topic on witch to publish the battery status of the sensor. If not set, no battery status will be reported.
@@ -1615,19 +1612,18 @@ Basic switch with press/release states.
 Name | Type | Mandatory | Description
 ---- | ---- | --------- | -----------
 sensor_id | string | yes | Sensor ID, as set in your node
-name | string | yes | Name of Input/Output.
-io_style | list | yes | GUI style display. This will control the icon displayed on the UI
-log_history | bool | no | If enabled, write an entry in the history event log for this IO
-port | string | yes | If using serial gateway, port is the serial port (/dev/ttyUSB0 for ex.). If using tcp gateway port is TCP port of the gateway.
-visible | bool | no | Display the Input/Output on all user interfaces if set. Default to false for switches
-gateway | list | yes | Gateway type used, tcp or serial are supported
-node_id | string | yes | Node ID as set in your network
-enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
-id | string | yes | Unique ID identifying the Input/Output in calaos-server
-gui_type | string | no | Internal graphical type for all calaos objects. Set automatically, read-only parameter.
-io_type | string | yes | IO type, can be "input", "output", "inout"
-logged | bool | no | If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO
 host | string | yes | IP address of the tcp gateway if relevant
+logged | bool | no | If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO
+io_type | string | yes | IO type, can be "input", "output", "inout"
+gui_type | string | no | Internal graphical type for all calaos objects. Set automatically, read-only parameter.
+enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
+node_id | string | yes | Node ID as set in your network
+gateway | list | yes | Gateway type used, tcp or serial are supported
+visible | bool | no | A switch can't be visible. Always false.
+port | string | yes | If using serial gateway, port is the serial port (/dev/ttyUSB0 for ex.). If using tcp gateway port is TCP port of the gateway.
+log_history | bool | no | If enabled, write an entry in the history event log for this IO
+name | string | yes | Name of Input/Output.
+id | string | yes | Unique ID identifying the Input/Output in calaos-server
 
 ## Conditions of MySensorsInputSwitch
 Name | Description
@@ -2266,10 +2262,9 @@ logged | bool | no | If enabled, and if influxdb is enabled in local_config send
 io_type | string | yes | IO type, can be "input", "output", "inout"
 gui_type | string | no | Internal graphical type for all calaos objects. Set automatically, read-only parameter.
 enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
-visible | bool | no | Display the Input/Output on all user interfaces if set. Default to false for switches
+visible | bool | no | A switch can't be visible. Always false.
 log_history | bool | no | If enabled, write an entry in the history event log for this IO
 name | string | yes | Name of Input/Output.
-io_style | list | yes | GUI style display. This will control the icon displayed on the UI
 id | string | yes | Unique ID identifying the Input/Output in calaos-server
 
 ## Conditions of PingInputSwitch
@@ -2305,6 +2300,26 @@ name | string | yes | Name of Input/Output.
 id | string | yes | Unique ID identifying the Input/Output in calaos-server
 
 
+# RemoteUI
+
+
+Remote UI device. Represents a remote user interface device. Some actions are available to control the device from rules.
+
+## Parameters of RemoteUI
+Name | Type | Mandatory | Description
+---- | ---- | --------- | -----------
+provisioning_code | string | yes | Provisioning code for first time setup
+device_type | list | yes | Device model
+logged | bool | no | If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO
+io_type | string | yes | IO type, can be "input", "output", "inout"
+gui_type | string | no | Internal graphical type for all calaos objects. Set automatically, read-only parameter.
+enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
+visible | bool | no | Display the Input/Output on all user interfaces if set. Default to true
+log_history | bool | no | If enabled, write an entry in the history event log for this IO
+name | string | yes | Name of Input/Output.
+id | string | yes | Unique ID identifying the Input/Output in calaos-server
+
+
 # ReolinkInputSwitch
 Switch activated by events from a Reolink camera
 
@@ -2322,10 +2337,9 @@ io_type | string | yes | IO type, can be "input", "output", "inout"
 event_type | list | yes | Type of event to listen for from the Reolink camera
 gui_type | string | no | Internal graphical type for all calaos objects. Set automatically, read-only parameter.
 enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
-visible | bool | no | Display the Input/Output on all user interfaces if set. Default to false for switches
+visible | bool | no | A switch can't be visible. Always false.
 log_history | bool | no | If enabled, write an entry in the history event log for this IO
 name | string | yes | Name of Input/Output.
-io_style | list | yes | GUI style display. This will control the icon displayed on the UI
 id | string | yes | Unique ID identifying the Input/Output in calaos-server
 
 ## Conditions of ReolinkInputSwitch
@@ -2901,12 +2915,11 @@ logged | bool | no | If enabled, and if influxdb is enabled in local_config send
 io_type | string | yes | IO type, can be "input", "output", "inout"
 gui_type | string | no | Internal graphical type for all calaos objects. Set automatically, read-only parameter.
 enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
-visible | bool | no | Display the Input/Output on all user interfaces if set. Default to false for switches
+visible | bool | no | A switch can't be visible. Always false.
 port | int | no | Wago ethernet port, default to 502
 log_history | bool | no | If enabled, write an entry in the history event log for this IO
 name | string | yes | Name of Input/Output.
 var | int | yes | PLC address of the digital input
-io_style | list | yes | GUI style display. This will control the icon displayed on the UI
 id | string | yes | Unique ID identifying the Input/Output in calaos-server
 
 ## Conditions of WIDigitalBP

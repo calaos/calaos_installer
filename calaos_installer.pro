@@ -26,6 +26,7 @@ CONFIG += c++11
 TARGET = calaos_installer
 TEMPLATE = app
 SOURCES += src/main.cpp \
+    src/DialogRemoteUI.cpp \
     src/SimpleCrypt.cpp \
     src/mainwindow.cpp \
     src/common/base64.c \
@@ -117,6 +118,7 @@ SOURCES += src/main.cpp \
     src/FormActionPush.cpp
 
 HEADERS += src/mainwindow.h \
+    src/DialogRemoteUI.h \
     src/SimpleCrypt.h \
     src/common/Utils.h \
     src/common/base64.h \
@@ -263,6 +265,7 @@ FORMS += \
     data/DialogCreateNewImage.ui \
     data/DialogListProperties.ui \
     data/WidgetIOProperties.ui \
+    src/DialogRemoteUI.ui \
     src/DialogZigbee2mqtt.ui \
     src/wizards/hue/wizardhue.ui \
     data/FormDaliMaster.ui \

@@ -119,6 +119,7 @@ REGISTER_OUTPUT(MqttOutputLight, "light", TBOOL, "true")
 REGISTER_OUTPUT(MqttOutputLightDimmer, "light_dimmer", TSTRING, "42")
 REGISTER_OUTPUT(MqttOutputLightRGB, "light_rgb", TSTRING, "#FF00FF")
 REGISTER_OUTPUT(MqttOutputAnalog, "analog_out", TINT, "42")
+REGISTER_OUTPUT(RemoteUi, "remote_ui", TSTRING, "Test")
 
 /* Declare InOut class/type */
 REGISTER_INOUT(InputTimer, "timer", TSTRING, "true")
