@@ -163,6 +163,8 @@ public slots:
     void itemConvertShutterSmart();
     void itemTempWizard();
 
+    void openRemoteUIEditor();
+
     void ClearProject();
     void setProjectModified(bool modified);
 

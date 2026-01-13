@@ -1,4 +1,4 @@
-QT += core gui network widgets xml printsupport
+QT += core gui network widgets xml printsupport quick qml quickwidgets quickcontrols2
 
 qtHaveModule(mqtt) {
     QT += mqtt
@@ -27,6 +27,7 @@ TARGET = calaos_installer
 TEMPLATE = app
 SOURCES += src/main.cpp \
     src/DialogRemoteUI.cpp \
+    src/DialogRemoteUIEditor.cpp \
     src/SimpleCrypt.cpp \
     src/mainwindow.cpp \
     src/common/base64.c \
@@ -119,6 +120,7 @@ SOURCES += src/main.cpp \
 
 HEADERS += src/mainwindow.h \
     src/DialogRemoteUI.h \
+    src/DialogRemoteUIEditor.h \
     src/SimpleCrypt.h \
     src/common/Utils.h \
     src/common/base64.h \
@@ -278,7 +280,8 @@ RESOURCES += data/resources.qrc \
     data/textedit.qrc \
     data/wago_firmwares.qrc \
     lang/lang_ressources.qrc \
-    data/iodoc.qrc
+    data/iodoc.qrc \
+    qml/qml.qrc
 
 win32 {
 #on windows to deploy we need to add Qt own language files

@@ -120,10 +120,11 @@ logged | bool | no | Si activé, et si influxdb est activé dans local_config, e
 io_type | string | yes | Type d'entrée/sortie (input, output, inout)
 gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
 enabled | bool | no | Activez l'entrée/sortie. Vrai par défaut. Ce paramètre est ajouté s'il n'est pas trouvé dans la configuration.
-visible | bool | no | Un interrupteur ne peut pas être visible. Toujours faux.
+visible | bool | no | Display the Input/Output on all user interfaces if set. Default to false for switches
 log_history | bool | no | Si activé, écrit une entrée dans l'historique pour cet IO
 name | string | yes | Nom de l'entrée/sortie.
 active_low | bool | no | Mettre à vrai pour inverser le GPIO
+io_style | list | yes | Affichage de style GUI. Ceci contrôlera l'ìcône affichée sur l'interface utilisateurStyle d'affichage. Contrôle l'icône affichée sur l'interface utilisateur
 id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
 
 ## Conditions of GpioInputSwitch
@@ -593,18 +594,19 @@ Interrupteur de base avec états de appuyé/relâché.
 Name | Type | Mandatory | Description
 ---- | ---- | --------- | -----------
 host | string | yes | Nom d'hète de knxd, localhost par défaut
-read_at_start | bool | yes | Envoyer une demande de lecture au démarrage pour obtenir la valeur actuelle. Faux par défautEnvoier une demande de lecture au démarrage pour obtenir la valeur. Faux par défaut
-listen_knx_group | string | no | Adresse de groupe KNX pour l'écoute de l'état, Ex: x/y/z
-knx_group | string | yes | Adresse de groupe KNX, Ex: x/y/z
+name | string | yes | Nom de l'entrée/sortie.
+io_style | list | yes | Affichage de style GUI. Ceci contrôlera l'ìcône affichée sur l'interface utilisateurStyle d'affichage. Contrôle l'icône affichée sur l'interface utilisateur
+log_history | bool | no | Si activé, écrit une entrée dans l'historique pour cet IO
+visible | bool | no | Display the Input/Output on all user interfaces if set. Default to false for switches
+eis | int | no | KNX EIS (type de données)
+enabled | bool | no | Activez l'entrée/sortie. Vrai par défaut. Ce paramètre est ajouté s'il n'est pas trouvé dans la configuration.
+id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
+gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
 logged | bool | no | Si activé, et si influxdb est activé dans local_config, envoie la valeur à influxdb pour cet IO
 io_type | string | yes | Type d'entrée/sortie (input, output, inout)
-gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
-enabled | bool | no | Activez l'entrée/sortie. Vrai par défaut. Ce paramètre est ajouté s'il n'est pas trouvé dans la configuration.
-eis | int | no | KNX EIS (type de données)
-visible | bool | no | Un interrupteur ne peut pas être visible. Toujours faux.
-log_history | bool | no | Si activé, écrit une entrée dans l'historique pour cet IO
-name | string | yes | Nom de l'entrée/sortie.
-id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
+knx_group | string | yes | Adresse de groupe KNX, Ex: x/y/z
+listen_knx_group | string | no | Adresse de groupe KNX pour l'écoute de l'état, Ex: x/y/z
+read_at_start | bool | yes | Envoyer une demande de lecture au démarrage pour obtenir la valeur actuelle. Faux par défautEnvoier une demande de lecture au démarrage pour obtenir la valeur. Faux par défaut
 
 ## Conditions of KNXInputSwitch
 Name | Description
@@ -1151,26 +1153,27 @@ Name | Type | Mandatory | Description
 ---- | ---- | --------- | -----------
 off_value | string | yes | Valeur à interpréter comme valeur OFF
 wifi_ssid_path | string | no | The path where to find the WiFi SSID where the sensor is connected in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. for example weather[0]/description, try to read the description value of the 1 element of the array of the weather object. If payload is simple json, just try to use the key of the value you want to read, for example : {"wifi_ssid": "MyWifi"} use "wifi_ssid" as path. The value should be a string with the WiFi SSID.
+ip_address_topic | string | no | The topic on witch to publish the IP address of the sensor. If not set, no IP address will be reported.
 ip_address_path | string | no | The path where to find the IP address of the sensor in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. for example weather[0]/description, try to read the description value of the 1 element of the array of the weather object. If payload is simple json, just try to use the key of the value you want to read, for example : {"ip_address": "192.168.1.156"} use "ip_address" as path. The value should be a string with the IP address.
 password | string | no | Mot de passe à utiliser pour l'authentification avec le broker MQTT. L'utilisateur doit être défini dans ce cas.
-visible | bool | no | Un interrupteur ne peut pas être visible. Toujours faux.
+visible | bool | no | Display the Input/Output on all user interfaces if set. Default to false for switches
 uptime_expr | string | no | If the uptime value is not directly available in the payload, you can use this parameter to calculate the uptime value from the payload. The value will be calculated as any valid mathematic expression. In the expression, the variable x is replaced with the raw value from path. If not set, the uptime value will be read directly from the path. Example: "x * 100 / 255"
 host | string | no | Adresse IP du broker MQTT auquel se connecter. La valeur par défaut est 127.0.0.1.
 logged | bool | no | Si activé, et si influxdb est activé dans local_config, envoie la valeur à influxdb pour cet IO
-notif_connected | bool | no | If set, a notification will be sent when the connected status changes. This is only used if the connected_status_topic is set.
-user | string | no | Utilisateur à utiliser pour l'authentification avec le broker MQTT. Le mot de passe doit être défini dans ce cas.
 wireless_signal_path | string | no | The path where to find the wireless signal strength in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. for example weather[0]/description, try to read the description value of the 1 element of the array of the weather object. If payload is simple json, just try to use the key of the value you want to read, for example : {"signal": 70} use "signal" as path. The value should be a number in percent. Use `wireless_signal_expr` to adjust if required.
 io_type | string | yes | Type d'entrée/sortie (input, output, inout)
 id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
 enabled | bool | no | Activez l'entrée/sortie. Vrai par défaut. Ce paramètre est ajouté s'il n'est pas trouvé dans la configuration.
-ip_address_topic | string | no | The topic on witch to publish the IP address of the sensor. If not set, no IP address will be reported.
 port | int | no | Port TCP du broker MQTT. La valeur par défaut est 1883
 wireless_signal_topic | string | no | The topic on witch to publish the wireless signal strength of the sensor. If not set, no wireless signal strength will be reported.
 wifi_ssid_topic | string | no | The topic on witch to publish the WiFi SSID of the sensor. If not set, no WiFi SSID will be reported.
 log_history | bool | no | Si activé, écrit une entrée dans l'historique pour cet IO
+io_style | list | yes | Affichage de style GUI. Ceci contrôlera l'ìcône affichée sur l'interface utilisateurStyle d'affichage. Contrôle l'icône affichée sur l'interface utilisateur
 path | string | yes | The path where to find the value in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. for example weather[0]/description, try to read the description value of the 1 element of the array of the weather object. if payload is simple json, just try to use the key of the value you want to read, for example : {"temperature":14.23} use "temperature" as path
 name | string | yes | Nom de l'entrée/sortie.
 keepalive | int | no | Délai de keepalive en secondes. Temps entre deux PING MQTT.
+notif_connected | bool | no | If set, a notification will be sent when the connected status changes. This is only used if the connected_status_topic is set.
+user | string | no | Utilisateur à utiliser pour l'authentification avec le broker MQTT. Le mot de passe doit être défini dans ce cas.
 topic_pub | string | yes | Sujet sur lequel publier.
 topic_sub | string | yes | Sujet auquel s'abonner.
 battery_topic | string | no | The topic on witch to publish the battery status of the sensor. If not set, no battery status will be reported.
@@ -1399,6 +1402,8 @@ Lumière avec variateur. La luminositè peut-être modifièe pour cette lumière
 ## Parameters of MqttOutputLightDimmer
 Name | Type | Mandatory | Description
 ---- | ---- | --------- | -----------
+out_expr | string | no | Use a mathematical expression to convert the value of the percentage into a raw value. The variable `x` is replaced with the percent value. For example, if you want to convert a percent value of 0-100 to a brightness of 0-254, you can use `x * 2.54`.
+in_expr | string | no | Use a mathematical expression to convert the raw value into a percent between 0 and 100. The variable `x` is replaced with the raw value. For example, if you want to convert a brightness of 0-254 to a percentage, you can use `x / 2.54`.
 wifi_ssid_path | string | no | The path where to find the WiFi SSID where the sensor is connected in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. for example weather[0]/description, try to read the description value of the 1 element of the array of the weather object. If payload is simple json, just try to use the key of the value you want to read, for example : {"wifi_ssid": "MyWifi"} use "wifi_ssid" as path. The value should be a string with the WiFi SSID.
 ip_address_path | string | no | The path where to find the IP address of the sensor in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. for example weather[0]/description, try to read the description value of the 1 element of the array of the weather object. If payload is simple json, just try to use the key of the value you want to read, for example : {"ip_address": "192.168.1.156"} use "ip_address" as path. The value should be a string with the IP address.
 password | string | no | Mot de passe à utiliser pour l'authentification avec le broker MQTT. L'utilisateur doit être défini dans ce cas.
@@ -1535,6 +1540,78 @@ down_red 5 | Diminuer l'intensitè de X pourcent le canal rouge
  up_blue 5 | Augmenter l'intensitè de X pourcent le canal bleu 
  
 
+# MqttOutputShutter
+Control shutters through mqtt broker
+
+
+Volet simple. Ce volet prend en charge les états ouvert/fermer, ainsi que les volets è impulsions.
+
+## Parameters of MqttOutputShutter
+Name | Type | Mandatory | Description
+---- | ---- | --------- | -----------
+wifi_ssid_path | string | no | The path where to find the WiFi SSID where the sensor is connected in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. for example weather[0]/description, try to read the description value of the 1 element of the array of the weather object. If payload is simple json, just try to use the key of the value you want to read, for example : {"wifi_ssid": "MyWifi"} use "wifi_ssid" as path. The value should be a string with the WiFi SSID.
+ip_address_topic | string | no | The topic on witch to publish the IP address of the sensor. If not set, no IP address will be reported.
+uptime_expr | string | no | If the uptime value is not directly available in the payload, you can use this parameter to calculate the uptime value from the payload. The value will be calculated as any valid mathematic expression. In the expression, the variable x is replaced with the raw value from path. If not set, the uptime value will be read directly from the path. Example: "x * 100 / 255"
+host | string | no | Adresse IP du broker MQTT auquel se connecter. La valeur par défaut est 127.0.0.1.
+payload_close | string | yes | Payload to send when closing
+time | int | yes | Temps en sec pour ouvrir ou fermer le volet
+stop_both | bool | no | En mode impulsion, certains volets doivent activer les deux relais haut et bas lors de l'arrèt du volet
+port | int | no | Port TCP du broker MQTT. La valeur par défaut est 1883
+wireless_signal_topic | string | no | The topic on witch to publish the wireless signal strength of the sensor. If not set, no wireless signal strength will be reported.
+logged | bool | no | Si activé, et si influxdb est activé dans local_config, envoie la valeur à influxdb pour cet IO
+wireless_signal_path | string | no | The path where to find the wireless signal strength in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. for example weather[0]/description, try to read the description value of the 1 element of the array of the weather object. If payload is simple json, just try to use the key of the value you want to read, for example : {"signal": 70} use "signal" as path. The value should be a number in percent. Use `wireless_signal_expr` to adjust if required.
+io_type | string | yes | Type d'entrée/sortie (input, output, inout)
+id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
+enabled | bool | no | Activez l'entrée/sortie. Vrai par défaut. Ce paramètre est ajouté s'il n'est pas trouvé dans la configuration.
+visible | bool | no | Afficher l'entrée/sortie sur toutes les interfaces utilisateur si activé. Vrai par défautAffichez l'entrée/sortie sur toutes les interfaces utilisateur. Vrai par défaut
+ip_address_path | string | no | The path where to find the IP address of the sensor in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. for example weather[0]/description, try to read the description value of the 1 element of the array of the weather object. If payload is simple json, just try to use the key of the value you want to read, for example : {"ip_address": "192.168.1.156"} use "ip_address" as path. The value should be a string with the IP address.
+password | string | no | Mot de passe à utiliser pour l'authentification avec le broker MQTT. L'utilisateur doit être défini dans ce cas.
+wifi_ssid_topic | string | no | The topic on witch to publish the WiFi SSID of the sensor. If not set, no WiFi SSID will be reported.
+log_history | bool | no | Si activé, écrit une entrée dans l'historique pour cet IO
+state_close | string | no | Value received for closed state (when topic_sub is set)
+path | string | yes | The path where to find the value in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. for example weather[0]/description, try to read the description value of the 1 element of the array of the weather object. if payload is simple json, just try to use the key of the value you want to read, for example : {"temperature":14.23} use "temperature" as path
+name | string | yes | Nom de l'entrée/sortie.
+uptime_path | string | no | The path where to find the uptime of the sensor in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. for example weather[0]/description, try to read the description value of the 1 element of the array of the weather object. If payload is simple json, just try to use the key of the value you want to read, for example : {"uptime": 3600} use "uptime" as path. The value should be a number in seconds. Use `uptime_expr` to adjust if required.
+connected_status_topic | string | no | The topic on witch to publish the connected status of the sensor. If not set, no connected status will be reported.
+keepalive | int | no | Délai de keepalive en secondes. Temps entre deux PING MQTT.
+payload_open | string | yes | Payload to send when opening
+notif_connected | bool | no | If set, a notification will be sent when the connected status changes. This is only used if the connected_status_topic is set.
+user | string | no | Utilisateur à utiliser pour l'authentification avec le broker MQTT. Le mot de passe doit être défini dans ce cas.
+topic_pub | string | yes | Topic to publish commands (open/close/stop)
+impulse_time | int | no | Temps d'impulsion en ms pour les volets è impulsion. Si 0, le dèclencheur d'impulsion est dèsactivé. 0 par défaut.
+topic_sub | string | no | Topic to subscribe to get shutter status (optional). If not set, state is managed by Calaos timing logic.
+battery_topic | string | no | The topic on witch to publish the battery status of the sensor. If not set, no battery status will be reported.
+gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
+battery_expr | string | no | If the battery value is not directly available in the payload, you can use this parameter to calculate the battery value from the payload. The value will be calculated as any valid mathematic expression. In the expression, the variable x is replaced with the raw value from path. If not set, the battery value will be read directly from the path. Example: "x * 100 / 255"
+payload_stop | string | yes | Payload to send when stopping
+notif_battery | bool | no | If set, a notification will be sent when the battery level drops below 30%. This is only used if the battery_topic is set.
+wireless_signal_expr | string | no | If the wireless signal value is not directly available in the payload, you can use this parameter to calculate the wireless signal value from the payload. The value will be calculated as any valid mathematic expression. In the expression, the variable x is replaced with the raw value from path. If not set, the wireless signal value will be read directly from the path. Example: "x * 100 / 255"
+battery_path | string | no | The path where to find the battery status in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. for example weather[0]/description, try to read the description value of the 1 element of the array of the weather object. If payload is simple json object, just try to use the key of the value you want to read, for example : {"battery":90} use "battery" as path. When this path is set, and the level drops below 30%. The battery reported should be in percent. Use `battery_expr` to adjust if required.
+connected_status_path | string | no | The path where to find the connected status in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. for example weather[0]/description, try to read the description value of the 1 element of the array of the weather object. If payload is simple json, just try to use the key of the value you want to read, for example : {"connected":true} use "connected" as path. The value should be a boolean. Use connected_status_expr to convert to a boolean
+state_open | string | no | Value received for open state (when topic_sub is set)
+uptime_topic | string | no | The topic on witch to publish the uptime of the sensor. If not set, no uptime will be reported.
+connected_status_expr | string | no | If the connected status value is not directly available in the payload, you can use this parameter to convert the value from the path to a boolean. The value will be calculated as any valid mathematic expression. In the expression, the variable `value` is replaced with the raw value from path. If not set, the connected status will be read directly from the path. Example: "value == 'connected'" or "value > 30 and value < 150"
+
+## Conditions of MqttOutputShutter
+Name | Description
+---- | -----------
+false | Événement lorsque le volet est fermè 
+ true | Événement lorsque le volet est ouvert 
+ changed | Événement sur toute modification de l'état du volet 
+ 
+## Actions of MqttOutputShutter
+Name | Description
+---- | -----------
+impulse up 200 | Ouvrir le volet pendant X ms 
+ set_state true | Met è jour l'état du volet en interne sans démarrer d'action rèelle. Ceci est utile lorsque vous avez mis è jour l'état du volet è partir d'une source externe. 
+ impulse down 200 | Fermer le volet pendant X ms 
+ toggle | Inverser l'état du volet 
+ set_state false | Met è jour l'état du volet en interne sans démarrer d'action rèelle. Ceci est utile lorsque vous avez mis è jour l'état du volet è partir d'une source externe. 
+ stop | Arrêter le volet 
+ down | Fermer le volet 
+ up | Ouvrir le volet 
+ 
+
 # MySensorsInputAnalog
 Mesure analogique depuis un noeud MySensors
 
@@ -1612,18 +1689,19 @@ Interrupteur de base avec états de appuyé/relâché.
 Name | Type | Mandatory | Description
 ---- | ---- | --------- | -----------
 sensor_id | string | yes | ID du capteur, tel que dèfini dans votre noeud
-host | string | yes | Adresse IP de la passerelle tcp si pertinent
-logged | bool | no | Si activé, et si influxdb est activé dans local_config, envoie la valeur à influxdb pour cet IO
-io_type | string | yes | Type d'entrée/sortie (input, output, inout)
-gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
-enabled | bool | no | Activez l'entrée/sortie. Vrai par défaut. Ce paramètre est ajouté s'il n'est pas trouvé dans la configuration.
-node_id | string | yes | ID du noeud sur le réseau MySensors
-gateway | list | yes | Passerelle utilisée, tcp ou sèrie
-visible | bool | no | Un interrupteur ne peut pas être visible. Toujours faux.
-port | string | yes | Si vous utilisez la passerelle sèrie, le port est le port sèrie (/dev/ttyUSB0 par ex.). Si vous utilisez la passerelle tcp, c'est le port TCP de la passerelle.
-log_history | bool | no | Si activé, écrit une entrée dans l'historique pour cet IO
 name | string | yes | Nom de l'entrée/sortie.
+io_style | list | yes | Affichage de style GUI. Ceci contrôlera l'ìcône affichée sur l'interface utilisateurStyle d'affichage. Contrôle l'icône affichée sur l'interface utilisateur
+log_history | bool | no | Si activé, écrit une entrée dans l'historique pour cet IO
+port | string | yes | Si vous utilisez la passerelle sèrie, le port est le port sèrie (/dev/ttyUSB0 par ex.). Si vous utilisez la passerelle tcp, c'est le port TCP de la passerelle.
+visible | bool | no | Display the Input/Output on all user interfaces if set. Default to false for switches
+gateway | list | yes | Passerelle utilisée, tcp ou sèrie
+node_id | string | yes | ID du noeud sur le réseau MySensors
+enabled | bool | no | Activez l'entrée/sortie. Vrai par défaut. Ce paramètre est ajouté s'il n'est pas trouvé dans la configuration.
 id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
+gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
+io_type | string | yes | Type d'entrée/sortie (input, output, inout)
+logged | bool | no | Si activé, et si influxdb est activé dans local_config, envoie la valeur à influxdb pour cet IO
+host | string | yes | Adresse IP de la passerelle tcp si pertinent
 
 ## Conditions of MySensorsInputSwitch
 Name | Description
@@ -2262,9 +2340,10 @@ logged | bool | no | Si activé, et si influxdb est activé dans local_config, e
 io_type | string | yes | Type d'entrée/sortie (input, output, inout)
 gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
 enabled | bool | no | Activez l'entrée/sortie. Vrai par défaut. Ce paramètre est ajouté s'il n'est pas trouvé dans la configuration.
-visible | bool | no | Un interrupteur ne peut pas être visible. Toujours faux.
+visible | bool | no | Display the Input/Output on all user interfaces if set. Default to false for switches
 log_history | bool | no | Si activé, écrit une entrée dans l'historique pour cet IO
 name | string | yes | Nom de l'entrée/sortie.
+io_style | list | yes | Affichage de style GUI. Ceci contrôlera l'ìcône affichée sur l'interface utilisateurStyle d'affichage. Contrôle l'icône affichée sur l'interface utilisateur
 id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
 
 ## Conditions of PingInputSwitch
@@ -2308,16 +2387,23 @@ Remote UI device. Represents a remote user interface device. Some actions are av
 ## Parameters of RemoteUI
 Name | Type | Mandatory | Description
 ---- | ---- | --------- | -----------
-provisioning_code | string | yes | Provisioning code for first time setup
-device_type | list | yes | Device model
-logged | bool | no | Si activé, et si influxdb est activé dans local_config, envoie la valeur à influxdb pour cet IO
-io_type | string | yes | Type d'entrée/sortie (input, output, inout)
-gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
-enabled | bool | no | Activez l'entrée/sortie. Vrai par défaut. Ce paramètre est ajouté s'il n'est pas trouvé dans la configuration.
-visible | bool | no | Afficher l'entrée/sortie sur toutes les interfaces utilisateur si activé. Vrai par défautAffichez l'entrée/sortie sur toutes les interfaces utilisateur. Vrai par défaut
-log_history | bool | no | Si activé, écrit une entrée dans l'historique pour cet IO
+mac_address | string | no | Device MAC address
+grid_w | int | yes | Grid vertical size
+device_version | string | no | Device version
 name | string | yes | Nom de l'entrée/sortie.
+log_history | bool | no | Si activé, écrit une entrée dans l'historique pour cet IO
+enabled | bool | no | Activez l'entrée/sortie. Vrai par défaut. Ce paramètre est ajouté s'il n'est pas trouvé dans la configuration.
 id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
+gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
+device_manufacturer | string | no | Device manufacturer
+io_type | string | yes | Type d'entrée/sortie (input, output, inout)
+logged | bool | no | Si activé, et si influxdb est activé dans local_config, envoie la valeur à influxdb pour cet IO
+device_type | list | yes | Device model
+provisioning_code | string | yes | Provisioning code for first time setup
+visible | bool | no | Afficher l'entrée/sortie sur toutes les interfaces utilisateur si activé. Vrai par défautAffichez l'entrée/sortie sur toutes les interfaces utilisateur. Vrai par défaut
+auth_token | string | no | Authentication token
+grid_h | int | yes | Grid horizontal size
+device_secret | string | no | Device secret for HMAC validation
 
 
 # ReolinkInputSwitch
@@ -2337,9 +2423,10 @@ io_type | string | yes | Type d'entrée/sortie (input, output, inout)
 event_type | list | yes | Type d'événement à écouter depuis la caméra Reolink
 gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
 enabled | bool | no | Activez l'entrée/sortie. Vrai par défaut. Ce paramètre est ajouté s'il n'est pas trouvé dans la configuration.
-visible | bool | no | Un interrupteur ne peut pas être visible. Toujours faux.
+visible | bool | no | Display the Input/Output on all user interfaces if set. Default to false for switches
 log_history | bool | no | Si activé, écrit une entrée dans l'historique pour cet IO
 name | string | yes | Nom de l'entrée/sortie.
+io_style | list | yes | Affichage de style GUI. Ceci contrôlera l'ìcône affichée sur l'interface utilisateurStyle d'affichage. Contrôle l'icône affichée sur l'interface utilisateur
 id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
 
 ## Conditions of ReolinkInputSwitch
@@ -2915,11 +3002,12 @@ logged | bool | no | Si activé, et si influxdb est activé dans local_config, e
 io_type | string | yes | Type d'entrée/sortie (input, output, inout)
 gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
 enabled | bool | no | Activez l'entrée/sortie. Vrai par défaut. Ce paramètre est ajouté s'il n'est pas trouvé dans la configuration.
-visible | bool | no | Un interrupteur ne peut pas être visible. Toujours faux.
+visible | bool | no | Display the Input/Output on all user interfaces if set. Default to false for switches
 port | int | no | Port de l'automate Wage, 502 par défaut
 log_history | bool | no | Si activé, écrit une entrée dans l'historique pour cet IO
 name | string | yes | Nom de l'entrée/sortie.
 var | int | yes | Adresse PLC de l'entrée numérique
+io_style | list | yes | Affichage de style GUI. Ceci contrôlera l'ìcône affichée sur l'interface utilisateurStyle d'affichage. Contrôle l'icône affichée sur l'interface utilisateur
 id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
 
 ## Conditions of WIDigitalBP

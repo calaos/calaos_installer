@@ -8,6 +8,7 @@
 #include "dialognewwebioshutter.h"
 #include "wizards/hue/wizardhue.h"
 #include "DialogRemoteUI.h"
+#include "DialogRemoteUIEditor.h"
 
 #ifdef QT_MQTT_AVAILABLE
 #include "DialogZigbee2mqtt.h"
@@ -534,6 +535,15 @@ FormRules::FormRules(QWidget *parent) :
     connect(action, &QAction::triggered, this, [=]()
             {
                 Params p = {{ "type", "MqttOutputLightRGB" },
+                            { "io_type", "output" }};
+                addCalaosIO(p);
+            });
+
+    action = mqtt_menu->addAction(tr("Shutter"));
+    action->setIcon(QIcon(":/img/icon_shutter.png"));
+    connect(action, &QAction::triggered, this, [=]()
+            {
+                Params p = {{ "type", "MqttOutputShutter" },
                             { "io_type", "output" }};
                 addCalaosIO(p);
             });
@@ -1347,6 +1357,8 @@ void FormRules::updateItemInfos(QTreeWidgetItemOutput *item)
         item->setData(0, Qt::DecorationRole, QIcon(":/img/icon_camera_on.png"));
     else if (type == "analog_out")
         item->setData(0, Qt::DecorationRole, QIcon(":/img/icon_analog.png"));
+    else if (type == "remote_ui")
+        item->setData(0, Qt::DecorationRole, QIcon(":/img/logo_header.png"));
     else
         item->setData(0, Qt::DecorationRole, QIcon(":/img/icon_unknown.png"));
 
@@ -1851,6 +1863,15 @@ void FormRules::showPopup_tree(const QPoint point)
 
                     item_menu.addSeparator();
                 }
+            }
+
+            if (o->get_gui_type() == "remote_ui")
+            {
+                action = item_menu.addAction(tr("Edit Remote UI"));
+                action->setIcon(QIcon(":/img/logo_header.png"));
+                connect(action, &QAction::triggered, this, &FormRules::openRemoteUIEditor);
+
+                item_menu.addSeparator();
             }
         }
 
@@ -3676,4 +3697,19 @@ void FormRules::on_bt_action_down_clicked()
     on_tree_rules_currentItemChanged(ui->tree_rules->currentItem(), NULL);
 
     setProjectModified(true);
+}
+
+void FormRules::openRemoteUIEditor()
+{
+    if (!treeItem) return;
+
+    QTreeWidgetItemOutput *itoutput = dynamic_cast<QTreeWidgetItemOutput *>(treeItem);
+    if (itoutput)
+    {
+        if (itoutput->getOutput()->get_gui_type() == "remote_ui")
+        {
+            DialogRemoteUIEditor d(itoutput->getOutput());
+            d.exec();
+        }
+    }
 }
