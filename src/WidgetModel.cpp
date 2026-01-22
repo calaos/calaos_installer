@@ -124,8 +124,56 @@ QStringList WidgetModel::availableWidgetTypes()
 {
     return QStringList{
         "LightSwitch",
-        "Dimmer",
         "Temperature",
         "Scenario",
     };
+}
+
+QString WidgetModel::widgetTypeForGuiType(const QString &guiType)
+{
+    // Mapping from IO gui_type to widget type
+    static const QMap<QString, QString> mapping = {
+        // Lights and switches
+        {"light", "LightSwitch"},
+        {"switch", "LightSwitch"},
+        {"switch_long", "LightSwitch"},
+        {"switch3", "LightSwitch"},
+        {"var_bool", "LightSwitch"},
+
+        // Dimmers
+        {"light_dimmer", "LightSwitch"},
+        {"light_rgb", "LightSwitch"},
+
+        // Temperature
+        {"temp", "Temperature"},
+
+        // Scenarios
+        {"scenario", "Scenario"},
+
+        // Shutters (future)
+        {"shutter", "Shutter"},
+        {"shutter_smart", "Shutter"},
+
+        // Analog (future)
+        {"analog_in", "Gauge"},
+        {"analog_out", "Gauge"},
+        {"var_int", "Gauge"},
+
+        // Time (future)
+        {"time", "Timer"},
+        {"timer", "Timer"},
+        {"time_range", "TimeRange"},
+
+        // Text/String (future)
+        {"string_in", "Text"},
+        {"string_out", "Text"},
+        {"var_string", "Text"},
+
+        // Media (future)
+        {"audio", "Audio"},
+        {"camera", "Camera"},
+        {"avreceiver", "AVReceiver"},
+    };
+
+    return mapping.value(guiType, "Generic");
 }

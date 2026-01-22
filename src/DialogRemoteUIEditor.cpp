@@ -1,4 +1,7 @@
 #include "DialogRemoteUIEditor.h"
+#include "DialogIOSelector.h"
+#include "WidgetModel.h"
+#include "ListeRoom.h"
 #include <QVBoxLayout>
 #include <QQuickWidget>
 #include <QDialogButtonBox>
@@ -46,6 +49,9 @@ DialogRemoteUIEditor::DialogRemoteUIEditor(Calaos::IOBase *io, QWidget *parent):
     // Expose available widget types
     m_quickWidget->rootContext()->setContextProperty("availableWidgetTypes", WidgetModel::availableWidgetTypes());
 
+    // Expose the editor itself for IO selection dialog
+    m_quickWidget->rootContext()->setContextProperty("remoteUIEditor", this);
+
     // Also expose the IOBase name for the title
     QString ioName = QString::fromStdString(ioBase->get_param("name"));
     m_quickWidget->rootContext()->setContextProperty("remoteUIName", ioName);
@@ -78,6 +84,70 @@ DialogRemoteUIEditor::DialogRemoteUIEditor(Calaos::IOBase *io, QWidget *parent):
 
 DialogRemoteUIEditor::~DialogRemoteUIEditor()
 {
+}
+
+void DialogRemoteUIEditor::openIOSelector(const QString &currentIoId)
+{
+    DialogIOSelector dialog(currentIoId, this);
+
+    if (dialog.exec() == QDialog::Accepted)
+    {
+        Calaos::IOBase *io = dialog.getSelectedIO();
+        Calaos::Room *room = dialog.getSelectedRoom();
+
+        if (io && room)
+        {
+            QString ioId = QString::fromStdString(io->get_param("id"));
+            QString ioName = QString::fromStdString(io->get_param("name"));
+            QString roomName = QString::fromStdString(room->get_name());
+            QString guiType = QString::fromStdString(io->get_gui_type());
+            QString widgetType = WidgetModel::widgetTypeForGuiType(guiType);
+
+            emit ioSelected(ioId, ioName, roomName, widgetType);
+        }
+    }
+}
+
+QVariantMap DialogRemoteUIEditor::validateIO(const QString &ioId)
+{
+    QVariantMap result;
+    result["exists"] = false;
+    result["ioId"] = ioId;
+    result["ioName"] = QString();
+    result["roomName"] = QString();
+    result["guiType"] = QString();
+    result["widgetType"] = QString();
+
+    if (ioId.isEmpty())
+        return result;
+
+    std::string idStr = ioId.toStdString();
+
+    // Search in inputs
+    Calaos::IOBase *io = Calaos::ListeRoom::Instance().get_input(idStr);
+    if (!io)
+    {
+        // Search in outputs
+        io = Calaos::ListeRoom::Instance().get_output(idStr);
+    }
+
+    if (io)
+    {
+        // Find the room containing this IO
+        int roomIndex = Calaos::ListeRoom::Instance().searchIO(io);
+        if (roomIndex >= 0)
+        {
+            Calaos::Room *room = Calaos::ListeRoom::Instance().get_room(roomIndex);
+
+            result["exists"] = true;
+            result["ioName"] = QString::fromStdString(io->get_param("name"));
+            result["roomName"] = QString::fromStdString(room->get_name());
+            result["guiType"] = QString::fromStdString(io->get_gui_type());
+            result["widgetType"] = WidgetModel::widgetTypeForGuiType(result["guiType"].toString());
+        }
+    }
+
+    return result;
 }
 
 void DialogRemoteUIEditor::acceptChanges()

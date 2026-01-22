@@ -196,9 +196,9 @@ Item {
         // Right panel - Properties
         PropertiesPanel {
             id: propertiesPanel
-            SplitView.minimumWidth: 200
-            SplitView.preferredWidth: 250
-            SplitView.maximumWidth: 350
+            SplitView.minimumWidth: minimumContentWidth
+            SplitView.preferredWidth: Math.max(260, minimumContentWidth)
+            SplitView.maximumWidth: 600
             gridWidth: root.gridColumns
             gridHeight: root.gridRows
 
@@ -230,6 +230,35 @@ Item {
                 console.log("Clear grid requested from PropertiesPanel")
                 pageEditor.gridContainer.clearGrid()
             }
+
+            onIoChanged: function(newIoId, newWidgetType) {
+                console.log("IO changed:", newIoId, "widget type:", newWidgetType)
+                // Update the selected widget with new IO
+                if (propertiesPanel.selectedWidget) {
+                    propertiesPanel.selectedWidget.ioId = newIoId
+                    propertiesPanel.selectedWidget.itemType = newWidgetType
+
+                    // Update the model
+                    if (remoteUIModel && propertiesPanel.selectedItemData) {
+                        var page = remoteUIModel.currentPage()
+                        if (page) {
+                            // Find the widget in the model and update it
+                            var data = propertiesPanel.selectedItemData
+                            updateWidgetIO(data.startCol, data.startRow, newIoId, newWidgetType)
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    // Connect remoteUIEditor signals for IO selection
+    Connections {
+        target: remoteUIEditor
+
+        function onIoSelected(ioId, ioName, roomName, widgetType) {
+            console.log("IO selected from dialog:", ioId, ioName, "in", roomName)
+            propertiesPanel.onIOSelected(ioId, ioName, roomName, widgetType)
         }
     }
 
@@ -323,6 +352,21 @@ Item {
             var widget = page.widgetAt(i)
             if (widget && widget.x === x && widget.y === y) {
                 page.removeWidget(i)
+                break
+            }
+        }
+    }
+
+    function updateWidgetIO(x, y, newIoId, newWidgetType) {
+        if (!remoteUIModel || !remoteUIModel.currentPage()) return
+
+        var page = remoteUIModel.currentPage()
+        for (var i = 0; i < page.widgetCount; i++) {
+            var widget = page.widgetAt(i)
+            if (widget && widget.x === x && widget.y === y) {
+                widget.ioId = newIoId
+                widget.type = newWidgetType
+                console.log("Updated widget IO at", x, y, "to", newIoId, newWidgetType)
                 break
             }
         }

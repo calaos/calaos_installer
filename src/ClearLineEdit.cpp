@@ -14,9 +14,7 @@ ClearLineEdit::ClearLineEdit(QWidget *parent) :
     clearButton->setToolTip(tr("Clear text"));
     clearButton->hide();
 
-    label = new QLabel(tr("Filter..."), this);
-    label->resize(size());
-    label->setStyleSheet("QLabel { font-style: italic; color: #aaa; margin-left: 5px; }");
+    setPlaceholderText(tr("Filter..."));
 
     connect(clearButton, &QToolButton::clicked, this, &ClearLineEdit::clear);
     connect(this, &ClearLineEdit::textChanged, this, &ClearLineEdit::updateCloseButton);
@@ -43,5 +41,4 @@ void ClearLineEdit::resizeEvent(QResizeEvent *)
 void ClearLineEdit::updateCloseButton(const QString& text)
 {
     clearButton->setVisible(!text.isEmpty());
-    label->setVisible(text.isEmpty());
 }

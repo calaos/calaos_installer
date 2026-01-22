@@ -28,10 +28,6 @@ bool RemoteUIModel::loadFromXml(const QString &xml)
         return true;
     }
 
-    // Parse XML
-    QString errorMsg;
-    int errorLine, errorColumn;
-
     // Wrap in root element if needed for parsing
     QString wrappedXml = xml;
     if (!xml.trimmed().startsWith("<?xml"))
@@ -40,10 +36,11 @@ bool RemoteUIModel::loadFromXml(const QString &xml)
                              "<root xmlns:calaos=\"http://www.calaos.fr\">%1</root>").arg(xml);
     }
 
-    if (!m_originalDoc.setContent(wrappedXml, true, &errorMsg, &errorLine, &errorColumn))
+    QDomDocument::ParseResult result = m_originalDoc.setContent(QAnyStringView(wrappedXml), QDomDocument::ParseOption::UseNamespaceProcessing);
+    if (!result)
     {
-        qWarning() << "RemoteUIModel: Failed to parse XML:" << errorMsg
-                   << "at line" << errorLine << "column" << errorColumn;
+        qWarning() << "RemoteUIModel: Failed to parse XML:" << result.errorMessage
+                   << "at line" << result.errorLine << "column" << result.errorColumn;
         return false;
     }
 

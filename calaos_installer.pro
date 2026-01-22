@@ -28,6 +28,7 @@ TEMPLATE = app
 SOURCES += src/main.cpp \
     src/DialogRemoteUI.cpp \
     src/DialogRemoteUIEditor.cpp \
+    src/DialogIOSelector.cpp \
     src/RemoteUIModel.cpp \
     src/PageModel.cpp \
     src/WidgetModel.cpp \
@@ -124,6 +125,7 @@ SOURCES += src/main.cpp \
 HEADERS += src/mainwindow.h \
     src/DialogRemoteUI.h \
     src/DialogRemoteUIEditor.h \
+    src/DialogIOSelector.h \
     src/RemoteUIModel.h \
     src/PageModel.h \
     src/WidgetModel.h \

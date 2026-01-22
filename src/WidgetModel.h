@@ -45,6 +45,9 @@ public:
     // Get list of available widget types
     Q_INVOKABLE static QStringList availableWidgetTypes();
 
+    // Get widget type for a given gui_type
+    Q_INVOKABLE static QString widgetTypeForGuiType(const QString &guiType);
+
     // Access to unknown attributes for preservation
     QMap<QString, QString> unknownAttributes() const { return m_unknownAttrs; }
     void setUnknownAttribute(const QString &key, const QString &value);

@@ -20,7 +20,6 @@ private slots:
 
 private:
     QToolButton *clearButton;
-    QLabel *label;
 };
 
 #endif // CLEARLINEEDIT_H
