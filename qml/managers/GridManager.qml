@@ -14,9 +14,10 @@ Item {
     signal itemPlaced(var coords, var itemData)
     signal itemMoved(var fromCoords, var toCoords, var itemData)
     signal itemDeleted(var coords, var itemData)
+    signal itemResized(var widget, var itemData)
 
-    function occupyCells(startRow, startCol, itemWidth, itemHeight, itemType, itemColor, itemText, itemName) {
-        createMultiItem(startRow, startCol, itemWidth, itemHeight, itemType, itemColor, itemText, itemName)
+    function occupyCells(startRow, startCol, itemWidth, itemHeight, itemType, itemColor, itemText, itemName, ioId) {
+        createMultiItem(startRow, startCol, itemWidth, itemHeight, itemType, itemColor, itemText, itemName, ioId || "")
 
     // Mark all cells as occupied
         for (var row = startRow; row < startRow + itemHeight; row++) {
@@ -30,7 +31,7 @@ Item {
         }
     }
 
-    function createMultiItem(startRow, startCol, itemWidth, itemHeight, itemType, itemColor, itemText, itemName) {
+    function createMultiItem(startRow, startCol, itemWidth, itemHeight, itemType, itemColor, itemText, itemName, ioId) {
         if (!multiItemComponent || !multiItemContainer) {
             console.error("MultiItem component or container not available")
             return null
@@ -49,7 +50,8 @@ Item {
             item.cellSize = cellSize
             item.gridColumns = gridColumns
             item.gridRows = gridRows
-            console.log("GridManager createMultiItem - type:", itemType, "name:", item.itemName, "size:", itemWidth + "×" + itemHeight)
+            item.ioId = ioId || ""
+            console.log("GridManager createMultiItem - type:", itemType, "name:", item.itemName, "size:", itemWidth + "×" + itemHeight, "ioId:", item.ioId)
 
             // Calculate position and size
             var firstCellIndex = GridUtils.cellCoordsToIndex(startRow, startCol, gridColumns)
@@ -92,9 +94,9 @@ Item {
         }
     }
 
-    function moveItem(fromRow, fromCol, toRow, toCol, itemWidth, itemHeight, itemType, itemColor, itemText, itemName) {
+    function moveItem(fromRow, fromCol, toRow, toCol, itemWidth, itemHeight, itemType, itemColor, itemText, itemName, ioId) {
         freeCells(fromRow, fromCol, itemWidth, itemHeight)
-        occupyCells(toRow, toCol, itemWidth, itemHeight, itemType, itemColor, itemText, itemName)
+        occupyCells(toRow, toCol, itemWidth, itemHeight, itemType, itemColor, itemText, itemName, ioId || "")
     }
 
     function canPlaceItem(startRow, startCol, itemWidth, itemHeight) {
@@ -267,6 +269,23 @@ Item {
         markCellsForItem(targetItem)
 
         console.log("tryResizeItem: Success")
+
+        // Emit signal with updated item data for PropertiesPanel
+        var itemData = {
+            itemType: targetItem.itemType,
+            itemName: targetItem.itemName,
+            itemColor: targetItem.itemColor,
+            itemText: newWidth + "×" + newHeight,
+            itemWidth: newWidth,
+            itemHeight: newHeight,
+            ioId: targetItem.ioId || "",
+            startRow: startRow,
+            startCol: startCol,
+            sourceType: "grid",
+            sourceCellIndex: startRow * gridColumns + startCol
+        }
+        itemResized(targetItem, itemData)
+
         return true
     }
 }

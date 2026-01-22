@@ -281,6 +281,13 @@ Item {
         function onItemDeselected() {
             propertiesPanel.clearSelectedItem()
         }
+
+        function onItemResized(widget, itemData) {
+            // Update properties panel if the resized widget is currently selected
+            if (propertiesPanel.selectedWidget === widget) {
+                propertiesPanel.updateSelectedItem(widget, itemData)
+            }
+        }
     }
 
     DraggedItem {
@@ -316,13 +323,14 @@ Item {
                     var itemText = widget.w + "\u00d7" + widget.h
                     var itemName = widget.ioId || ("Widget_" + i)
 
-                    console.log("Placing widget:", itemName, "at", widget.x, widget.y, "size:", widget.w, widget.h)
+                    console.log("Placing widget:", itemName, "at", widget.x, widget.y, "size:", widget.w, widget.h, "ioId:", widget.ioId)
 
                     pageEditor.gridContainer.placePredefinedItem(
                         widget.y, widget.x,
                         "RectWidget", color,
                         itemText,
-                        widget.w, widget.h
+                        widget.w, widget.h,
+                        widget.ioId || ""
                     )
                 }
             }

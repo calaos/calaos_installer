@@ -28,6 +28,7 @@ Rectangle {
     signal itemDeleted(var coords, var itemData)
     signal itemSelected(var widget, var itemData)
     signal itemDeselected()
+    signal itemResized(var widget, var itemData)
 
     width: gridColumns * cellSize + 20
     height: gridRows * cellSize + 20
@@ -208,6 +209,10 @@ Rectangle {
         onItemDeleted: function(coords, itemData) {
             gridContainer.itemDeleted(coords, itemData)
         }
+
+        onItemResized: function(widget, itemData) {
+            gridContainer.itemResized(widget, itemData)
+        }
     }
 
     DragDropManager {
@@ -221,7 +226,7 @@ Rectangle {
         onItemPlaced: function(coords, itemData) {
             gridManager.occupyCells(coords.row, coords.col, itemData.itemWidth,
                                   itemData.itemHeight, itemData.itemType,
-                                  itemData.itemColor, itemData.itemText, itemData.itemName)
+                                  itemData.itemColor, itemData.itemText, itemData.itemName, itemData.ioId || "")
             // Propagate to parent (PageEditor -> main.qml) to update the model
             gridContainer.itemPlaced(coords, itemData)
         }
@@ -229,7 +234,7 @@ Rectangle {
         onItemMoved: function(fromCoords, toCoords, itemData) {
             gridManager.moveItem(fromCoords.row, fromCoords.col, toCoords.row, toCoords.col,
                                itemData.itemWidth, itemData.itemHeight, itemData.itemType,
-                               itemData.itemColor, itemData.itemText, itemData.itemName)
+                               itemData.itemColor, itemData.itemText, itemData.itemName, itemData.ioId || "")
             // Propagate to parent to update the model
             gridContainer.itemMoved(fromCoords, toCoords, itemData)
         }
@@ -320,6 +325,7 @@ Rectangle {
                     itemText: itemText,
                     itemWidth: itemWidth,
                     itemHeight: itemHeight,
+                    ioId: ioId,
                     startRow: startRow,
                     startCol: startCol,
                     sourceType: "grid",
@@ -359,10 +365,10 @@ Rectangle {
         })
     }
 
-    function placePredefinedItem(row, col, itemType, itemColor, itemText, itemWidth, itemHeight) {
-        console.log("placePredefinedItem:", row, col, itemType, itemWidth + "×" + itemHeight)
+    function placePredefinedItem(row, col, itemType, itemColor, itemText, itemWidth, itemHeight, ioId) {
+        console.log("placePredefinedItem:", row, col, itemType, itemWidth + "×" + itemHeight, "ioId:", ioId || "none")
         if (gridManager.canPlaceItem(row, col, itemWidth, itemHeight)) {
-            gridManager.occupyCells(row, col, itemWidth, itemHeight, itemType, itemColor, itemText, itemText)
+            gridManager.occupyCells(row, col, itemWidth, itemHeight, itemType, itemColor, itemText, itemText, ioId || "")
             return true
         }
         console.log("placePredefinedItem: Cannot place item at", row, col)
