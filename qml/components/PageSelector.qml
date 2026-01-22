@@ -254,69 +254,41 @@ Rectangle {
     }
 
     function addPage() {
-        var newPages = pages.slice()
-        var newPageName = "Page " + (newPages.length + 1)
-        newPages.push({ name: newPageName, type: "Default" })
-        pages = newPages
-        currentPageIndex = newPages.length - 1
-        pageAdded(currentPageIndex)
-        pageSelected(currentPageIndex)
-        console.log("Added page:", newPageName)
+        // Just emit signal - the actual page creation is handled by the model in main.qml
+        // The pages list will be updated from the model after creation
+        pageAdded(pages.length)  // Pass the expected index of the new page
+        console.log("Requested to add new page")
     }
 
     function renamePage(index, newName) {
         if (index >= 0 && index < pages.length) {
-            var newPages = pages.slice()
-            newPages[index].name = newName
-            pages = newPages
+            // Just emit signal - the actual rename is handled by the model in main.qml
             pageRenamed(index, newName)
-            console.log("Renamed page", index, "to:", newName)
+            console.log("Requested to rename page", index, "to:", newName)
         }
     }
 
     function deletePage(index) {
         if (index >= 0 && index < pages.length && pages.length > 1) {
-            var newPages = pages.slice()
-            newPages.splice(index, 1)
-            pages = newPages
-
-            // Adjust current page index if necessary
-            if (currentPageIndex >= pages.length) {
-                currentPageIndex = pages.length - 1
-            } else if (currentPageIndex > index) {
-                currentPageIndex--
-            }
-
+            // Just emit signal - the actual deletion is handled by the model in main.qml
             pageDeleted(index)
-            pageSelected(currentPageIndex)
-            console.log("Deleted page at index:", index)
+            console.log("Requested to delete page at index:", index)
         }
     }
 
     function duplicatePage(index) {
         if (index >= 0 && index < pages.length) {
-            var newPages = pages.slice()
-            var originalPage = newPages[index]
-            var duplicatedPage = {
-                name: originalPage.name + " Copy",
-                type: originalPage.type
-            }
-            newPages.splice(index + 1, 0, duplicatedPage)
-            pages = newPages
-            currentPageIndex = index + 1
+            // Just emit signal - the actual duplication is handled by the model in main.qml
             pageDuplicated(index)
-            pageSelected(currentPageIndex)
-            console.log("Duplicated page:", originalPage.name)
+            console.log("Requested to duplicate page:", pages[index].name)
         }
     }
 
     function changePageType(index, newType) {
         if (index >= 0 && index < pages.length) {
-            var newPages = pages.slice()
-            newPages[index].type = newType
-            pages = newPages
+            // Just emit signal - the actual type change is handled by the model in main.qml
             pageTypeChanged(index, newType)
-            console.log("Changed page", index, "type to:", newType)
+            console.log("Requested to change page", index, "type to:", newType)
         }
     }
 }

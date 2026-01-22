@@ -43,6 +43,9 @@ DialogRemoteUIEditor::DialogRemoteUIEditor(Calaos::IOBase *io, QWidget *parent):
     // Expose the model to QML
     m_quickWidget->rootContext()->setContextProperty("remoteUIModel", m_model);
 
+    // Expose available widget types
+    m_quickWidget->rootContext()->setContextProperty("availableWidgetTypes", WidgetModel::availableWidgetTypes());
+
     // Also expose the IOBase name for the title
     QString ioName = QString::fromStdString(ioBase->get_param("name"));
     m_quickWidget->rootContext()->setContextProperty("remoteUIName", ioName);

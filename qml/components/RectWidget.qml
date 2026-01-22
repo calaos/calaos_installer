@@ -10,6 +10,7 @@ Rectangle {
     property int itemWidth: 1    // Width in cells
     property int itemHeight: 1   // Height in cells
     property string itemText: itemWidth + "×" + itemHeight
+    property string ioId: ""     // IO identifier from model
 
     // Auto-calculated color based on size
     property color itemColor: WidgetColors.getColorForSize(itemWidth, itemHeight)
@@ -28,14 +29,29 @@ Rectangle {
     property int startRow: 0     // Position in grid
     property int startCol: 0     // Position in grid
 
+    // Selection state
+    property bool isSelected: false
+    property color selectionColor: "#4A90D9"
+
     // Resize properties
     property bool isResizable: !isPaletteItem
     property bool isHovered: false
     property bool isResizing: false
     property int resizeHandleSize: 12
 
+    // Resize preview properties
+    property int previewWidth: itemWidth
+    property int previewHeight: itemHeight
+
+    // Long-press drag properties
+    property bool isLongPressing: false
+    property real longPressProgress: 0
+    readonly property int longPressDuration: 350  // ms
+
     // Signals
     signal resizeRequested(int newWidth, int newHeight)
+    signal clicked(var itemData)       // Single click - selection
+    signal rightClicked(var itemData)  // Right click - selection only
 
     // Expose MouseArea for external connections
     property alias mouseArea: mainMouseArea
@@ -44,11 +60,57 @@ Rectangle {
     width: isPaletteItem ? Math.min(120, 30 + itemWidth * 20) : (cellSize + 2) * itemWidth - 2
     height: isPaletteItem ? Math.min(100, 30 + itemHeight * 20) : (cellSize + 2) * itemHeight - 2
 
-    // Appearance
+    // Appearance - selection takes priority over hover
     color: itemColor
-    border.color: isHovered ? Qt.lighter(borderColor, 1.3) : borderColor
-    border.width: borderWidth
+    border.color: isSelected ? selectionColor : (isHovered ? Qt.lighter(borderColor, 1.3) : borderColor)
+    border.width: isSelected ? 3 : borderWidth
     radius: itemRadius
+
+    // Selection halo effect
+    Rectangle {
+        id: selectionHalo
+        visible: isSelected && !isPaletteItem
+        anchors.centerIn: parent
+        width: parent.width + 8
+        height: parent.height + 8
+        color: "transparent"
+        border.color: selectionColor
+        border.width: 2
+        radius: itemRadius + 4
+        opacity: 0.6
+        z: -1
+    }
+
+    // Stable hover detection using HoverHandler (avoids flickering)
+    HoverHandler {
+        id: widgetHoverHandler
+        enabled: !isPaletteItem
+    }
+
+    // Timer to delay hiding hover state (prevents flickering during transitions)
+    Timer {
+        id: hoverDelayTimer
+        interval: 100
+        onTriggered: {
+            if (!widgetHoverHandler.hovered) {
+                rectWidget.isHovered = false
+            }
+        }
+    }
+
+    // Stable hover state management
+    Connections {
+        target: widgetHoverHandler
+        function onHoveredChanged() {
+            if (widgetHoverHandler.hovered) {
+                hoverDelayTimer.stop()
+                rectWidget.isHovered = true
+            } else {
+                // Delay before hiding to allow transition to resize handles
+                hoverDelayTimer.restart()
+            }
+        }
+    }
 
     // Update color when size changes
     onItemWidthChanged: updateColor()
@@ -87,30 +149,37 @@ Rectangle {
         }
     }
 
-    // Main MouseArea for drag
+    // Main MouseArea for selection and drag
     MouseArea {
         id: mainMouseArea
         anchors.fill: parent
-        anchors.rightMargin: isResizable && isHovered ? resizeHandleSize : 0
-        anchors.bottomMargin: isResizable && isHovered ? resizeHandleSize : 0
-        hoverEnabled: true
+        // No dynamic margins - resize handles use higher z-index to intercept events
+        hoverEnabled: false  // Hover is handled by HoverHandler
+        acceptedButtons: Qt.LeftButton | Qt.RightButton
         z: 1
 
         property bool dragActive: false
+        property point pressPos: Qt.point(0, 0)
 
         // Signals for drag operations
         signal dragPressed(var mouse)
         signal dragMoved(var mouse)
         signal dragReleased(var mouse)
 
-        onEntered: rectWidget.isHovered = true
-        onExited: if (!resizeRight.containsMouse && !resizeBottom.containsMouse && !resizeCorner.containsMouse) rectWidget.isHovered = false
-
         onPressed: function(mouse) {
-            if (!rectWidget.isResizing) {
-                console.log("RectWidget MouseArea pressed - size:", rectWidget.itemWidth + "×" + rectWidget.itemHeight)
-                dragActive = true
-                dragPressed(mouse)
+            if (rectWidget.isResizing) return
+
+            pressPos = Qt.point(mouse.x, mouse.y)
+
+            if (mouse.button === Qt.RightButton) {
+                // Right click - select only (no drag)
+                rectWidget.rightClicked(rectWidget.getItemData())
+            } else if (mouse.button === Qt.LeftButton) {
+                // Start long-press timer for drag
+                rectWidget.isLongPressing = true
+                rectWidget.longPressProgress = 0
+                longPressTimer.start()
+                longPressAnimation.start()
             }
         }
 
@@ -121,8 +190,104 @@ Rectangle {
         }
 
         onReleased: function(mouse) {
+            if (mouse.button === Qt.LeftButton) {
+                longPressTimer.stop()
+                longPressAnimation.stop()
+
+                if (!dragActive && rectWidget.isLongPressing) {
+                    // Short click - select the item
+                    rectWidget.clicked(rectWidget.getItemData())
+                }
+
+                rectWidget.isLongPressing = false
+                rectWidget.longPressProgress = 0
+            }
+
+            if (dragActive) {
+                dragActive = false
+                dragReleased(mouse)
+            }
+        }
+
+        onCanceled: {
+            longPressTimer.stop()
+            longPressAnimation.stop()
+            rectWidget.isLongPressing = false
+            rectWidget.longPressProgress = 0
             dragActive = false
-            dragReleased(mouse)
+        }
+
+        // Long-press timer to start drag
+        Timer {
+            id: longPressTimer
+            interval: rectWidget.longPressDuration
+            repeat: false
+            onTriggered: {
+                if (mainMouseArea.pressed && !rectWidget.isResizing) {
+                    console.log("RectWidget long-press triggered - starting drag")
+                    rectWidget.isLongPressing = false
+                    mainMouseArea.dragActive = true
+                    mainMouseArea.dragPressed({ x: mainMouseArea.pressPos.x, y: mainMouseArea.pressPos.y })
+                }
+            }
+        }
+
+        // Animation for long-press progress feedback
+        NumberAnimation {
+            id: longPressAnimation
+            target: rectWidget
+            property: "longPressProgress"
+            from: 0
+            to: 1
+            duration: rectWidget.longPressDuration
+            easing.type: Easing.Linear
+        }
+    }
+
+    // Visual feedback for long-press (progress indicator)
+    Rectangle {
+        id: longPressIndicator
+        visible: rectWidget.isLongPressing && !isPaletteItem
+        anchors.bottom: parent.bottom
+        anchors.left: parent.left
+        anchors.margins: 4
+        width: (parent.width - 8) * rectWidget.longPressProgress
+        height: 3
+        radius: 1.5
+        color: selectionColor
+        opacity: 0.8
+    }
+
+    // Resize preview overlay
+    Rectangle {
+        id: resizePreview
+        visible: rectWidget.isResizing && !isPaletteItem
+        x: 0
+        y: 0
+        width: (cellSize + 2) * previewWidth - 2
+        height: (cellSize + 2) * previewHeight - 2
+        color: Qt.rgba(itemColor.r, itemColor.g, itemColor.b, 0.3)
+        border.color: selectionColor
+        border.width: 2
+        radius: itemRadius
+        z: 10
+
+        // Preview size label
+        Rectangle {
+            anchors.centerIn: parent
+            width: previewSizeText.width + 16
+            height: previewSizeText.height + 8
+            color: Qt.rgba(0, 0, 0, 0.7)
+            radius: 4
+
+            Text {
+                id: previewSizeText
+                anchors.centerIn: parent
+                text: previewWidth + "×" + previewHeight
+                color: "white"
+                font.bold: true
+                font.pixelSize: 14
+            }
         }
     }
 
@@ -134,10 +299,9 @@ Rectangle {
         height: parent.height - resizeHandleSize
         anchors.right: parent.right
         anchors.top: parent.top
-        color: containsMouse || rightDrag.active ? Qt.rgba(1,1,1,0.4) : Qt.rgba(1,1,1,0.2)
+        color: rightDrag.active ? Qt.rgba(1,1,1,0.5) : Qt.rgba(1,1,1,0.3)
         radius: 2
-
-        property bool containsMouse: rightMouseArea.containsMouse
+        z: 10  // Higher than mainMouseArea to intercept events
 
         Rectangle {
             anchors.centerIn: parent
@@ -153,7 +317,7 @@ Rectangle {
             anchors.fill: parent
             hoverEnabled: true
             cursorShape: Qt.SizeHorCursor
-            onEntered: rectWidget.isHovered = true
+            // No hover handling here - managed by HoverHandler
         }
 
         DragHandler {
@@ -162,14 +326,24 @@ Rectangle {
             onActiveChanged: {
                 if (active) {
                     rectWidget.isResizing = true
+                    rectWidget.previewWidth = rectWidget.itemWidth
+                    rectWidget.previewHeight = rectWidget.itemHeight
                 } else {
                     rectWidget.isResizing = false
-                    // Calculate new width based on drag
+                    // Apply the resize
+                    if (previewWidth !== rectWidget.itemWidth) {
+                        resizeRequested(previewWidth, rectWidget.itemHeight)
+                    }
+                    // Reset preview
+                    rectWidget.previewWidth = rectWidget.itemWidth
+                    rectWidget.previewHeight = rectWidget.itemHeight
+                }
+            }
+            onCentroidChanged: {
+                if (active) {
                     var newWidth = Math.max(1, Math.min(gridColumns - startCol,
                         Math.round((rectWidget.width + centroid.position.x) / (cellSize + 2))))
-                    if (newWidth !== rectWidget.itemWidth) {
-                        resizeRequested(newWidth, rectWidget.itemHeight)
-                    }
+                    rectWidget.previewWidth = newWidth
                 }
             }
         }
@@ -183,10 +357,9 @@ Rectangle {
         height: resizeHandleSize
         anchors.bottom: parent.bottom
         anchors.left: parent.left
-        color: containsMouse || bottomDrag.active ? Qt.rgba(1,1,1,0.4) : Qt.rgba(1,1,1,0.2)
+        color: bottomDrag.active ? Qt.rgba(1,1,1,0.5) : Qt.rgba(1,1,1,0.3)
         radius: 2
-
-        property bool containsMouse: bottomMouseArea.containsMouse
+        z: 10  // Higher than mainMouseArea to intercept events
 
         Rectangle {
             anchors.centerIn: parent
@@ -202,7 +375,7 @@ Rectangle {
             anchors.fill: parent
             hoverEnabled: true
             cursorShape: Qt.SizeVerCursor
-            onEntered: rectWidget.isHovered = true
+            // No hover handling here - managed by HoverHandler
         }
 
         DragHandler {
@@ -211,13 +384,24 @@ Rectangle {
             onActiveChanged: {
                 if (active) {
                     rectWidget.isResizing = true
+                    rectWidget.previewWidth = rectWidget.itemWidth
+                    rectWidget.previewHeight = rectWidget.itemHeight
                 } else {
                     rectWidget.isResizing = false
+                    // Apply the resize
+                    if (previewHeight !== rectWidget.itemHeight) {
+                        resizeRequested(rectWidget.itemWidth, previewHeight)
+                    }
+                    // Reset preview
+                    rectWidget.previewWidth = rectWidget.itemWidth
+                    rectWidget.previewHeight = rectWidget.itemHeight
+                }
+            }
+            onCentroidChanged: {
+                if (active) {
                     var newHeight = Math.max(1, Math.min(gridRows - startRow,
                         Math.round((rectWidget.height + centroid.position.y) / (cellSize + 2))))
-                    if (newHeight !== rectWidget.itemHeight) {
-                        resizeRequested(rectWidget.itemWidth, newHeight)
-                    }
+                    rectWidget.previewHeight = newHeight
                 }
             }
         }
@@ -231,10 +415,9 @@ Rectangle {
         height: resizeHandleSize
         anchors.right: parent.right
         anchors.bottom: parent.bottom
-        color: containsMouse || cornerDrag.active ? Qt.rgba(1,1,1,0.5) : Qt.rgba(1,1,1,0.3)
+        color: cornerDrag.active ? Qt.rgba(1,1,1,0.6) : Qt.rgba(1,1,1,0.4)
         radius: 2
-
-        property bool containsMouse: cornerMouseArea.containsMouse
+        z: 11  // Highest z to be above other handles
 
         // Corner grip dots
         Grid {
@@ -258,7 +441,7 @@ Rectangle {
             anchors.fill: parent
             hoverEnabled: true
             cursorShape: Qt.SizeFDiagCursor
-            onEntered: rectWidget.isHovered = true
+            // No hover handling here - managed by HoverHandler
         }
 
         DragHandler {
@@ -267,21 +450,33 @@ Rectangle {
             onActiveChanged: {
                 if (active) {
                     rectWidget.isResizing = true
+                    rectWidget.previewWidth = rectWidget.itemWidth
+                    rectWidget.previewHeight = rectWidget.itemHeight
                 } else {
                     rectWidget.isResizing = false
+                    // Apply the resize
+                    if (previewWidth !== rectWidget.itemWidth || previewHeight !== rectWidget.itemHeight) {
+                        resizeRequested(previewWidth, previewHeight)
+                    }
+                    // Reset preview
+                    rectWidget.previewWidth = rectWidget.itemWidth
+                    rectWidget.previewHeight = rectWidget.itemHeight
+                }
+            }
+            onCentroidChanged: {
+                if (active) {
                     var newWidth = Math.max(1, Math.min(gridColumns - startCol,
                         Math.round((rectWidget.width + centroid.position.x) / (cellSize + 2))))
                     var newHeight = Math.max(1, Math.min(gridRows - startRow,
                         Math.round((rectWidget.height + centroid.position.y) / (cellSize + 2))))
-                    if (newWidth !== rectWidget.itemWidth || newHeight !== rectWidget.itemHeight) {
-                        resizeRequested(newWidth, newHeight)
-                    }
+                    rectWidget.previewWidth = newWidth
+                    rectWidget.previewHeight = newHeight
                 }
             }
         }
     }
 
-    // Get item data for drag operations
+    // Get item data for drag operations and selection
     function getItemData() {
         return {
             itemName: itemName,
@@ -289,7 +484,10 @@ Rectangle {
             itemColor: itemColor,
             itemText: itemText,
             itemWidth: itemWidth,
-            itemHeight: itemHeight
+            itemHeight: itemHeight,
+            ioId: ioId,
+            startRow: startRow,
+            startCol: startCol
         }
     }
 }

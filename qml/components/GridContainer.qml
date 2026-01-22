@@ -15,6 +15,10 @@ Rectangle {
     property color backgroundColor: "#171717"
     property color borderColor: "#888888"
 
+    // Selection management
+    property var selectedWidget: null
+    property int selectedCellIndex: -1
+
     property alias gridManager: gridManager
     property alias dragDropManager: dragDropManager
     property alias gridRepeater: gridRepeater
@@ -22,6 +26,8 @@ Rectangle {
     signal itemPlaced(var coords, var itemData)
     signal itemMoved(var fromCoords, var toCoords, var itemData)
     signal itemDeleted(var coords, var itemData)
+    signal itemSelected(var widget, var itemData)
+    signal itemDeselected()
 
     width: gridColumns * cellSize + 20
     height: gridRows * cellSize + 20
@@ -29,6 +35,15 @@ Rectangle {
     border.color: borderColor
     border.width: 2
     radius: 2
+
+    // Click on background to deselect
+    MouseArea {
+        anchors.fill: parent
+        z: -1
+        onClicked: {
+            gridContainer.clearSelection()
+        }
+    }
 
     Grid {
         id: mainGrid
@@ -128,6 +143,15 @@ Rectangle {
                     resetColor()
                 }
 
+                // Click on empty cell to deselect
+                MouseArea {
+                    anchors.fill: parent
+                    enabled: !parent.isOccupied
+                    z: -1
+                    onClicked: {
+                        gridContainer.clearSelection()
+                    }
+                }
 
             }
         }
@@ -152,8 +176,14 @@ Rectangle {
                 dragDropManager.endDragFromGrid(mouse, multiItem, itemData)
             })
 
-            multiItem.rightClicked.connect(function(itemData) {
-                dragDropManager.handleRightClick(itemData)
+            // Click selects the item (no deletion on right-click anymore)
+            multiItem.itemClicked.connect(function(itemData) {
+                gridContainer.selectItem(multiItem, itemData)
+            })
+
+            multiItem.itemRightClicked.connect(function(itemData) {
+                // Right-click also selects (no deletion)
+                gridContainer.selectItem(multiItem, itemData)
             })
         }
     }
@@ -192,16 +222,22 @@ Rectangle {
             gridManager.occupyCells(coords.row, coords.col, itemData.itemWidth,
                                   itemData.itemHeight, itemData.itemType,
                                   itemData.itemColor, itemData.itemText, itemData.itemName)
+            // Propagate to parent (PageEditor -> main.qml) to update the model
+            gridContainer.itemPlaced(coords, itemData)
         }
 
         onItemMoved: function(fromCoords, toCoords, itemData) {
             gridManager.moveItem(fromCoords.row, fromCoords.col, toCoords.row, toCoords.col,
                                itemData.itemWidth, itemData.itemHeight, itemData.itemType,
                                itemData.itemColor, itemData.itemText, itemData.itemName)
+            // Propagate to parent to update the model
+            gridContainer.itemMoved(fromCoords, toCoords, itemData)
         }
 
         onItemDeleted: function(coords, itemData) {
             gridManager.freeCells(coords.row, coords.col, itemData.itemWidth, itemData.itemHeight)
+            // Propagate to parent to update the model
+            gridContainer.itemDeleted(coords, itemData)
         }
     }
 
@@ -219,7 +255,8 @@ Rectangle {
             signal dragStarted(var mouse, var itemData)
             signal dragMoved(var mouse, var itemData)
             signal dragEnded(var mouse, var itemData)
-            signal rightClicked(var itemData)
+            signal itemClicked(var itemData)
+            signal itemRightClicked(var itemData)
 
             isPaletteItem: false
             isResizable: true
@@ -234,24 +271,23 @@ Rectangle {
                 }
             }
 
-            // Override mouseArea to handle right-click and emit proper signals
-            mouseArea.acceptedButtons: Qt.LeftButton | Qt.RightButton
+            // Connect RectWidget's click signals to multiItem signals
+            onClicked: function(itemData) {
+                var data = multiItem.createItemData()
+                multiItem.itemClicked(data)
+            }
+
+            onRightClicked: function(itemData) {
+                var data = multiItem.createItemData()
+                multiItem.itemRightClicked(data)
+            }
 
             Connections {
                 target: multiItem.mouseArea
 
-                function onPressed(mouse) {
-                    if (mouse.button === Qt.RightButton) {
-                        console.log("Right click - deleting multi-item:", multiItem.itemName)
-                        var itemData = multiItem.createItemData()
-                        multiItem.rightClicked(itemData)
-                        return
-                    }
-                }
-
                 function onDragPressed(mouse) {
                     if (!multiItem.isResizing) {
-                        console.log("Pressed multi-item:", multiItem.itemName)
+                        console.log("Drag started on multi-item:", multiItem.itemName)
                         multiItem.dragActive = true
                         multiItem.opacity = 0.3
                         var itemData = multiItem.createItemData()
@@ -334,6 +370,7 @@ Rectangle {
     }
 
     function clearGrid() {
+        clearSelection()
         for (var i = 0; i < gridRepeater.count; i++) {
             var cell = gridRepeater.itemAt(i)
             if (cell) {
@@ -347,6 +384,53 @@ Rectangle {
             if (child) {
                 child.destroy()
             }
+        }
+    }
+
+    // Selection management functions
+    function selectItem(widget, itemData) {
+        // Deselect previous item
+        if (selectedWidget && selectedWidget !== widget) {
+            selectedWidget.isSelected = false
+        }
+
+        // Select new item
+        selectedWidget = widget
+        selectedCellIndex = itemData.sourceCellIndex || (itemData.startRow * gridColumns + itemData.startCol)
+        widget.isSelected = true
+
+        console.log("Item selected:", itemData.itemName, "at cell", selectedCellIndex)
+        itemSelected(widget, itemData)
+    }
+
+    function clearSelection() {
+        if (selectedWidget) {
+            selectedWidget.isSelected = false
+            selectedWidget = null
+            selectedCellIndex = -1
+            console.log("Selection cleared")
+            itemDeselected()
+        }
+    }
+
+    function deleteSelectedItem() {
+        if (selectedWidget) {
+            var itemData = selectedWidget.createItemData()
+            var coords = {
+                row: selectedWidget.startRow,
+                col: selectedWidget.startCol
+            }
+
+            console.log("Deleting selected item:", itemData.itemName)
+
+            // Free the cells and destroy the widget
+            gridManager.freeCells(coords.row, coords.col, itemData.itemWidth, itemData.itemHeight)
+
+            // Emit deletion signal
+            itemDeleted(coords, itemData)
+
+            // Clear selection
+            clearSelection()
         }
     }
 }

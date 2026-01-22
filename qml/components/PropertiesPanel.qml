@@ -10,6 +10,16 @@ Rectangle {
     property int gridWidth: 4
     property int gridHeight: 4
 
+    // Selected item properties
+    property var selectedWidget: null
+    property var selectedItemData: null
+
+    // Widget types available from C++ context (set in DialogRemoteUIEditor.cpp)
+    property var widgetTypes: availableWidgetTypes
+
+    signal deleteItemRequested()
+    signal clearGridRequested()
+
     color: "#f0f0f0"
     border.color: "#ccc"
     border.width: 1
@@ -125,10 +135,122 @@ Rectangle {
                     anchors.fill: parent
                     spacing: 8
 
+                    // No selection message
                     Label {
                         text: "No item selected"
                         color: "#999"
                         font.italic: true
+                        visible: selectedWidget === null
+                    }
+
+                    // Item properties (visible when item is selected)
+                    GridLayout {
+                        visible: selectedWidget !== null
+                        Layout.fillWidth: true
+                        columns: 2
+                        columnSpacing: 10
+                        rowSpacing: 8
+
+                        Label {
+                            text: "Type:"
+                            Layout.alignment: Qt.AlignVCenter
+                        }
+
+                        ComboBox {
+                            id: itemTypeCombo
+                            model: widgetTypes
+                            Layout.fillWidth: true
+                            currentIndex: selectedItemData ? Math.max(0, model.indexOf(selectedItemData.itemType)) : 0
+                            onActivated: {
+                                if (selectedWidget && currentText !== selectedWidget.itemType) {
+                                    selectedWidget.itemType = currentText
+                                    console.log("Item type changed to:", currentText)
+                                }
+                            }
+                        }
+
+                        Label {
+                            text: "IO ID:"
+                            Layout.alignment: Qt.AlignVCenter
+                        }
+
+                        TextField {
+                            id: itemIoIdField
+                            text: selectedItemData ? (selectedItemData.ioId || "") : ""
+                            Layout.fillWidth: true
+                            selectByMouse: true
+                            placeholderText: "e.g., input_0"
+                            onEditingFinished: {
+                                if (selectedWidget) {
+                                    selectedWidget.ioId = text
+                                    console.log("Item ioId changed to:", text)
+                                }
+                            }
+                        }
+
+                        Label {
+                            text: "Position:"
+                            Layout.alignment: Qt.AlignVCenter
+                        }
+
+                        Row {
+                            spacing: 5
+                            Layout.fillWidth: true
+
+                            Label { text: "X:"; anchors.verticalCenter: parent.verticalCenter }
+                            SpinBox {
+                                id: itemPosX
+                                from: 0
+                                to: gridWidth - 1
+                                value: selectedItemData ? selectedItemData.startCol : 0
+                                width: 60
+                                editable: true
+                                enabled: false  // Position is read-only (use drag to move)
+                            }
+
+                            Label { text: "Y:"; anchors.verticalCenter: parent.verticalCenter }
+                            SpinBox {
+                                id: itemPosY
+                                from: 0
+                                to: gridHeight - 1
+                                value: selectedItemData ? selectedItemData.startRow : 0
+                                width: 60
+                                editable: true
+                                enabled: false  // Position is read-only (use drag to move)
+                            }
+                        }
+
+                        Label {
+                            text: "Size:"
+                            Layout.alignment: Qt.AlignVCenter
+                        }
+
+                        Row {
+                            spacing: 5
+                            Layout.fillWidth: true
+
+                            Label { text: "W:"; anchors.verticalCenter: parent.verticalCenter }
+                            SpinBox {
+                                id: itemSizeW
+                                from: 1
+                                to: gridWidth
+                                value: selectedItemData ? selectedItemData.itemWidth : 1
+                                width: 60
+                                editable: true
+                                enabled: false  // Size is read-only (use resize handles)
+                            }
+
+                            Label { text: "H:"; anchors.verticalCenter: parent.verticalCenter }
+                            SpinBox {
+                                id: itemSizeH
+                                from: 1
+                                to: gridHeight
+                                value: selectedItemData ? selectedItemData.itemHeight : 1
+                                width: 60
+                                editable: true
+                                enabled: false  // Size is read-only (use resize handles)
+                            }
+                        }
                     }
                 }
             }
@@ -143,20 +265,23 @@ Rectangle {
                     spacing: 8
 
                     Button {
-                        text: "Clear Grid"
+                        text: "Delete Item"
                         Layout.fillWidth: true
+                        visible: selectedWidget !== null
+                        enabled: selectedWidget !== null
+
                         onClicked: {
-                            console.log("Clear Grid button clicked")
+                            console.log("Delete Item button clicked")
+                            deleteItemRequested()
                         }
                     }
 
                     Button {
-                        text: "Reset Properties"
+                        text: "Clear Grid"
                         Layout.fillWidth: true
                         onClicked: {
-                            gridWidth = 4
-                            gridHeight = 4
-                            console.log("Properties reset to defaults")
+                            console.log("Clear Grid button clicked")
+                            clearGridRequested()
                         }
                     }
                 }
@@ -174,5 +299,19 @@ Rectangle {
         currentPageType = pageType
         pageNameField.text = pageName
         pageTypeCombo.currentIndex = pageTypeCombo.model.indexOf(pageType)
+    }
+
+    function updateSelectedItem(widget, itemData) {
+        selectedWidget = widget
+        selectedItemData = itemData
+        if (itemData) {
+            console.log("PropertiesPanel: Item selected -", itemData.itemType, "at", itemData.startCol, itemData.startRow)
+        }
+    }
+
+    function clearSelectedItem() {
+        selectedWidget = null
+        selectedItemData = null
+        console.log("PropertiesPanel: Selection cleared")
     }
 }

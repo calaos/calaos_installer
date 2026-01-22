@@ -21,6 +21,11 @@ Rectangle {
     signal itemMoved(var fromCoords, var toCoords, var itemData)
     signal itemDeleted(var coords, var itemData)
     signal pageChanged(int pageIndex)
+    signal pageAddRequested()  // Request to add a new page
+    signal pageDeleteRequested(int pageIndex)  // Request to delete a page
+    signal pageDuplicateRequested(int pageIndex)  // Request to duplicate a page
+    signal pageRenameRequested(int pageIndex, string newName)  // Request to rename a page
+    signal pageTypeChangeRequested(int pageIndex, string newType)  // Request to change page type
 
     color: "#f8f8f8"
     border.color: "#ddd"
@@ -119,22 +124,28 @@ Rectangle {
 
             onPageAdded: function(index) {
                 console.log("Page added at index:", index)
+                // Propagate to main.qml to create page in model
+                pageEditor.pageAddRequested()
             }
 
             onPageRenamed: function(index, newName) {
                 console.log("Page", index, "renamed to:", newName)
+                pageEditor.pageRenameRequested(index, newName)
             }
 
             onPageDeleted: function(index) {
                 console.log("Page", index, "deleted")
+                pageEditor.pageDeleteRequested(index)
             }
 
             onPageDuplicated: function(index) {
                 console.log("Page", index, "duplicated")
+                pageEditor.pageDuplicateRequested(index)
             }
 
             onPageTypeChanged: function(index, newType) {
                 console.log("Page", index, "type changed to:", newType)
+                pageEditor.pageTypeChangeRequested(index, newType)
             }
         }
 

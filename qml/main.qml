@@ -79,11 +79,18 @@ Item {
             onItemPlaced: function(coords, itemData) {
                 console.log("Item placed:", itemData.itemText, "at", coords.row, coords.col)
                 // Update the model when an item is placed
-                if (remoteUIModel && remoteUIModel.currentPage()) {
+                if (remoteUIModel) {
+                    console.log("Current page index in model:", remoteUIModel.currentPageIndex)
                     var page = remoteUIModel.currentPage()
-                    page.createWidget(itemData.ioId || "", itemData.itemType || "Unknown",
-                                     coords.col, coords.row,
-                                     itemData.itemWidth || 1, itemData.itemHeight || 1)
+                    if (page) {
+                        console.log("Creating widget on page:", page.name, "widgetCount before:", page.widgetCount)
+                        page.createWidget(itemData.ioId || "", itemData.itemType || "Unknown",
+                                         coords.col, coords.row,
+                                         itemData.itemWidth || 1, itemData.itemHeight || 1)
+                        console.log("Widget created, widgetCount after:", page.widgetCount)
+                    } else {
+                        console.log("ERROR: currentPage() returned null!")
+                    }
                 }
             }
 
@@ -104,10 +111,84 @@ Item {
                 propertiesPanel.updatePageInfo(pageInfo.name, pageInfo.type)
                 console.log("Switched to page:", pageInfo.name)
 
+                // Clear selection when changing pages
+                pageEditor.gridContainer.clearSelection()
+
                 // Update the model's current page and load widgets
                 if (remoteUIModel) {
                     remoteUIModel.currentPageIndex = pageIndex
                     loadPageWidgets(pageIndex)
+                }
+            }
+
+            // Page management - sync with model
+            onPageAddRequested: {
+                if (remoteUIModel) {
+                    var newPage = remoteUIModel.addPage()
+                    if (newPage) {
+                        newPage.name = "Page " + remoteUIModel.pageCount
+                        newPage.pageType = "Default"
+                        console.log("Created new page:", newPage.name, "at index", remoteUIModel.pageCount - 1)
+                        // Rebuild pages list from model
+                        root.pagesList = buildPagesList()
+                        // Set the current page to the new one
+                        var newIndex = remoteUIModel.pageCount - 1
+                        remoteUIModel.currentPageIndex = newIndex
+                        pageEditor.pageSelector.currentPageIndex = newIndex
+                        console.log("Set currentPageIndex to", newIndex)
+                        // Load the new empty page (clear the grid)
+                        loadPageWidgets(newIndex)
+                    }
+                }
+            }
+
+            onPageDeleteRequested: function(pageIndex) {
+                if (remoteUIModel && remoteUIModel.pageCount > 1) {
+                    remoteUIModel.removePage(pageIndex)
+                    root.pagesList = buildPagesList()
+                    // Adjust current page index
+                    var newIndex = remoteUIModel.currentPageIndex
+                    pageEditor.pageSelector.currentPageIndex = newIndex
+                    // Load current page after deletion
+                    loadPageWidgets(newIndex)
+                }
+            }
+
+            onPageDuplicateRequested: function(pageIndex) {
+                if (remoteUIModel) {
+                    // TODO: Implement full page duplication with widgets in model
+                    // For now, just add a new page with same name/type
+                    var newPage = remoteUIModel.addPage()
+                    if (newPage) {
+                        var srcPage = remoteUIModel.pageAt(pageIndex)
+                        newPage.name = srcPage ? (srcPage.name + " Copy") : "Page Copy"
+                        newPage.pageType = srcPage ? srcPage.pageType : "Default"
+                        root.pagesList = buildPagesList()
+                        var newIndex = remoteUIModel.pageCount - 1
+                        remoteUIModel.currentPageIndex = newIndex
+                        pageEditor.pageSelector.currentPageIndex = newIndex
+                        loadPageWidgets(newIndex)
+                    }
+                }
+            }
+
+            onPageRenameRequested: function(pageIndex, newName) {
+                if (remoteUIModel) {
+                    var page = remoteUIModel.pageAt(pageIndex)
+                    if (page) {
+                        page.name = newName
+                        root.pagesList = buildPagesList()
+                    }
+                }
+            }
+
+            onPageTypeChangeRequested: function(pageIndex, newType) {
+                if (remoteUIModel) {
+                    var page = remoteUIModel.pageAt(pageIndex)
+                    if (page) {
+                        page.pageType = newType
+                        root.pagesList = buildPagesList()
+                    }
                 }
             }
         }
@@ -139,6 +220,37 @@ Item {
                 }
                 root.gridRows = gridHeight
             }
+
+            onDeleteItemRequested: {
+                console.log("Delete item requested from PropertiesPanel")
+                pageEditor.gridContainer.deleteSelectedItem()
+            }
+
+            onClearGridRequested: {
+                console.log("Clear grid requested from PropertiesPanel")
+                pageEditor.gridContainer.clearGrid()
+            }
+        }
+    }
+
+    // Keyboard handling for Escape to deselect
+    Keys.onEscapePressed: {
+        pageEditor.gridContainer.clearSelection()
+    }
+
+    // Make sure root can receive keyboard focus
+    focus: true
+
+    // Connect grid container selection signals to properties panel
+    Connections {
+        target: pageEditor.gridContainer
+
+        function onItemSelected(widget, itemData) {
+            propertiesPanel.updateSelectedItem(widget, itemData)
+        }
+
+        function onItemDeselected() {
+            propertiesPanel.clearSelectedItem()
         }
     }
 
@@ -154,9 +266,12 @@ Item {
         if (!remoteUIModel) return
 
         var page = remoteUIModel.pageAt(pageIndex)
-        if (!page) return
+        if (!page) {
+            console.log("loadPageWidgets: No page at index", pageIndex)
+            return
+        }
 
-        console.log("loadPageWidgets: Loading page", pageIndex, "with", page.widgetCount, "widgets")
+        console.log("loadPageWidgets: Loading page", pageIndex, "(", page.name, ") with", page.widgetCount, "widgets")
 
         // Clear the grid first
         pageEditor.gridContainer.clearGrid()

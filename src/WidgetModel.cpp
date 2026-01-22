@@ -119,3 +119,13 @@ void WidgetModel::setUnknownAttribute(const QString &key, const QString &value)
     m_unknownAttrs.insert(key, value);
     emit modelChanged();
 }
+
+QStringList WidgetModel::availableWidgetTypes()
+{
+    return QStringList{
+        "LightSwitch",
+        "Dimmer",
+        "Temperature",
+        "Scenario",
+    };
+}

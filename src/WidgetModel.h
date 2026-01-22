@@ -42,6 +42,9 @@ public:
     void setW(int w);
     void setH(int h);
 
+    // Get list of available widget types
+    Q_INVOKABLE static QStringList availableWidgetTypes();
+
     // Access to unknown attributes for preservation
     QMap<QString, QString> unknownAttributes() const { return m_unknownAttrs; }
     void setUnknownAttribute(const QString &key, const QString &value);
