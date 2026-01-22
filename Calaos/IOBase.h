@@ -24,6 +24,7 @@
 
 #include <Utils.h>
 #include "TimeRange.h"
+#include <QString>
 
 using namespace std;
 using namespace Utils;
@@ -36,6 +37,9 @@ class IOBase
 private:
     //we store all params here
     Params param;
+
+    // For RemoteUI: store the raw XML content of <calaos:pages> for roundtrip preservation
+    QString remoteUIPagesXml;
 
     double dvalue = 1.234;
     bool bvalue = true;
@@ -85,6 +89,9 @@ public:
     bool is_output() { return io_type == IO_OUTPUT || io_type == IO_BOTH; }
     bool is_inout() { return io_type == IO_BOTH; }
 
+    // RemoteUI pages XML content
+    QString getRemoteUIPagesXml() const { return remoteUIPagesXml; }
+    void setRemoteUIPagesXml(const QString &xml) { remoteUIPagesXml = xml; }
 
     //For time ranges
     vector<TimeRange> range_monday;

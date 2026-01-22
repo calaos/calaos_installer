@@ -4,7 +4,10 @@ import QtQuick.Controls
 Rectangle {
     id: pageEditor
 
-    property int gridSize: 4
+    // Support for non-square grids
+    property int gridColumns: 4  // Width (number of columns)
+    property int gridRows: 4     // Height (number of rows)
+    property int gridSize: gridColumns  // Deprecated: for backward compatibility
     property int cellSize: 80
     property string uiTitle: "Remote UI Title"
     property string originalTitle: uiTitle
@@ -12,6 +15,7 @@ Rectangle {
     property alias pageSelector: pageSelector
     property var draggedItem: null
     property alias flickable: gridFlickable
+    property var pages: []  // List of pages from model
 
     signal itemPlaced(var coords, var itemData)
     signal itemMoved(var fromCoords, var toCoords, var itemData)
@@ -106,6 +110,7 @@ Rectangle {
         PageSelector {
             id: pageSelector
             width: parent.width
+            pages: pageEditor.pages.length > 0 ? pageEditor.pages : [{ name: "Page 1", type: "Default" }]
 
             onPageSelected: function(index) {
                 console.log("Page selected:", index)
@@ -169,7 +174,8 @@ Rectangle {
 
                 GridContainer {
                     id: gridContainer
-                    gridSize: pageEditor.gridSize
+                    gridColumns: pageEditor.gridColumns
+                    gridRows: pageEditor.gridRows
                     cellSize: pageEditor.cellSize
 
                     onItemPlaced: function(coords, itemData) {

@@ -2,27 +2,31 @@
 
 /**
  * Convertit les coordonnées de cellule en index
+ * @param {int} gridColumns - nombre de colonnes (largeur)
  */
-function cellCoordsToIndex(row, col, gridSize) {
-    return row * gridSize + col;
+function cellCoordsToIndex(row, col, gridColumns) {
+    return row * gridColumns + col;
 }
 
 /**
  * Convertit un index en coordonnées de cellule
+ * @param {int} gridColumns - nombre de colonnes (largeur)
  */
-function indexToCellCoords(index, gridSize) {
+function indexToCellCoords(index, gridColumns) {
     return {
-        row: Math.floor(index / gridSize),
-        col: index % gridSize
+        row: Math.floor(index / gridColumns),
+        col: index % gridColumns
     };
 }
 
 /**
  * Vérifie si un item peut être placé à une position donnée
+ * @param {int} gridColumns - nombre de colonnes (largeur)
+ * @param {int} gridRows - nombre de lignes (hauteur)
  */
-function canPlaceItem(startRow, startCol, itemWidth, itemHeight, gridSize, gridRepeater, ignoreSourceCoords) {
+function canPlaceItem(startRow, startCol, itemWidth, itemHeight, gridColumns, gridRows, gridRepeater, ignoreSourceCoords) {
     // Vérifier les limites de la grille
-    if (startRow + itemHeight > gridSize || startCol + itemWidth > gridSize) {
+    if (startRow + itemHeight > gridRows || startCol + itemWidth > gridColumns) {
         return false;
     }
     if (startRow < 0 || startCol < 0) {
@@ -32,10 +36,15 @@ function canPlaceItem(startRow, startCol, itemWidth, itemHeight, gridSize, gridR
     // Vérifier que toutes les cellules nécessaires sont libres
     for (var row = startRow; row < startRow + itemHeight; row++) {
         for (var col = startCol; col < startCol + itemWidth; col++) {
-            var index = cellCoordsToIndex(row, col, gridSize);
+            var index = cellCoordsToIndex(row, col, gridColumns);
             var cell = gridRepeater.itemAt(index);
 
-            if (cell && (cell.hasItem || cell.isOccupied)) {
+            // Si la cellule n'existe pas, on ne peut pas placer l'item
+            if (!cell) {
+                return false;
+            }
+
+            if (cell.hasItem || cell.isOccupied) {
                 // Si on a des coordonnées source à ignorer, vérifier si cette cellule en fait partie
                 if (ignoreSourceCoords) {
                     var shouldIgnore = false;
@@ -79,8 +88,10 @@ function findCellAtPosition(globalX, globalY, gridRepeater) {
 
 /**
  * Met à jour le highlight des cellules pendant le drag
+ * @param {int} gridColumns - nombre de colonnes (largeur)
+ * @param {int} gridRows - nombre de lignes (hauteur)
  */
-function updateHighlight(globalX, globalY, gridRepeater, gridSize, draggedItem) {
+function updateHighlight(globalX, globalY, gridRepeater, gridColumns, gridRows, draggedItem) {
     // D'abord remettre toutes les cellules à leur couleur normale
     clearAllHighlights(gridRepeater);
 
@@ -90,12 +101,12 @@ function updateHighlight(globalX, globalY, gridRepeater, gridSize, draggedItem) 
     var startCell = findCellAtPosition(globalX, globalY, gridRepeater);
 
     if (startCell) {
-        var coords = indexToCellCoords(startCell.cellIndex, gridSize);
+        var coords = indexToCellCoords(startCell.cellIndex, gridColumns);
 
         // Si c'est un déplacement depuis la grille, calculer les coordonnées source à ignorer
         var ignoreSourceCoords = null;
         if (draggedItem.sourceType === "grid" && draggedItem.sourceCellIndex >= 0) {
-            var sourceCoords = indexToCellCoords(draggedItem.sourceCellIndex, gridSize);
+            var sourceCoords = indexToCellCoords(draggedItem.sourceCellIndex, gridColumns);
             ignoreSourceCoords = {
                 row: sourceCoords.row,
                 col: sourceCoords.col,
@@ -105,12 +116,12 @@ function updateHighlight(globalX, globalY, gridRepeater, gridSize, draggedItem) 
         }
 
         var canPlace = canPlaceItem(coords.row, coords.col, draggedItem.itemWidth,
-                                  draggedItem.itemHeight, gridSize, gridRepeater, ignoreSourceCoords);
+                                  draggedItem.itemHeight, gridColumns, gridRows, gridRepeater, ignoreSourceCoords);
 
         // Surligner toutes les cellules que l'item occuperait
-        for (var row = coords.row; row < coords.row + draggedItem.itemHeight && row < gridSize; row++) {
-            for (var col = coords.col; col < coords.col + draggedItem.itemWidth && col < gridSize; col++) {
-                var index = cellCoordsToIndex(row, col, gridSize);
+        for (var row = coords.row; row < coords.row + draggedItem.itemHeight && row < gridRows; row++) {
+            for (var col = coords.col; col < coords.col + draggedItem.itemWidth && col < gridColumns; col++) {
+                var index = cellCoordsToIndex(row, col, gridColumns);
                 var cell = gridRepeater.itemAt(index);
                 if (cell) {
                     // Vert si placement valide, rouge si invalide

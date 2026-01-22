@@ -183,6 +183,10 @@ void IOXmlWriter::writeOutput(IOBase *io)
     {
         writeStartElement("http://www.calaos.fr", "avr");
     }
+    else if (io->get_gui_type() == "remote_ui")
+    {
+        writeStartElement("http://www.calaos.fr", "remote_ui");
+    }
     else
     {
         writeStartElement("http://www.calaos.fr", "output");
@@ -200,7 +204,47 @@ void IOXmlWriter::writeOutput(IOBase *io)
     }
     writeAttributes(attr);
 
+    // Special case: RemoteUI - write the pages XML content
+    if (type == "RemoteUI")
+    {
+        QString pagesXml = io->getRemoteUIPagesXml();
+        if (!pagesXml.isEmpty())
+        {
+            // Parse the pages XML and write it as child elements
+            QXmlStreamReader reader(pagesXml);
+            writeRemoteUIPagesContent(reader);
+        }
+    }
+
     writeEndElement();
+}
+
+void IOXmlWriter::writeRemoteUIPagesContent(QXmlStreamReader &reader)
+{
+    // Copy the XML content from reader to this writer
+    while (!reader.atEnd())
+    {
+        reader.readNext();
+
+        if (reader.isStartElement())
+        {
+            writeStartElement(reader.namespaceUri().toString(), reader.name().toString());
+
+            // Write all attributes
+            for (const QXmlStreamAttribute &attr : reader.attributes())
+            {
+                writeAttribute(attr);
+            }
+        }
+        else if (reader.isEndElement())
+        {
+            writeEndElement();
+        }
+        else if (reader.isCharacters() && !reader.isWhitespace())
+        {
+            writeCharacters(reader.text().toString());
+        }
+    }
 }
 
 RuleXmlWriter::RuleXmlWriter()
@@ -547,6 +591,8 @@ void IOXmlReader::readRoom()
                 readAudio(room);
             else if (name() == QStringLiteral("avr"))
                 readAVR(room);
+            else if (name() == QStringLiteral("remote_ui"))
+                readOutput(room); // RemoteUI is treated as an output
             else
             {
                 //read dummy
@@ -722,6 +768,38 @@ void IOXmlReader::readOutput(Room *room)
             ProjectManager::wagoTypeCache[output->get_param("host")] = true;
     }
 
+    // Special case: RemoteUI - capture the pages XML content
+    if (p["type"] == "RemoteUI")
+    {
+        QString pagesXml;
+        int depth = 1; // We're inside the remote_ui element
+
+        while (!atEnd() && depth > 0)
+        {
+            readNext();
+
+            if (isStartElement())
+            {
+                if (name() == QStringLiteral("pages"))
+                {
+                    // Capture the entire <calaos:pages> element as raw XML
+                    pagesXml = readRemoteUIPagesElement();
+                }
+                else
+                {
+                    depth++;
+                }
+            }
+            else if (isEndElement())
+            {
+                depth--;
+            }
+        }
+
+        output->setRemoteUIPagesXml(pagesXml);
+        return;
+    }
+
     while (!atEnd())
     {
         readNext();
@@ -729,6 +807,50 @@ void IOXmlReader::readOutput(Room *room)
         if (isEndElement())
             break;
     }
+}
+
+QString IOXmlReader::readRemoteUIPagesElement()
+{
+    // Reads the content of <calaos:pages> element and returns it as a raw XML string
+    QString xml;
+    QXmlStreamWriter writer(&xml);
+    writer.setAutoFormatting(true);
+
+    writer.writeStartElement("http://www.calaos.fr", "pages");
+
+    int depth = 1;
+    while (!atEnd() && depth > 0)
+    {
+        readNext();
+
+        if (isStartElement())
+        {
+            depth++;
+            writer.writeStartElement(namespaceUri().toString(), name().toString());
+
+            // Write all attributes
+            for (const QXmlStreamAttribute &attr : attributes())
+            {
+                writer.writeAttribute(attr);
+            }
+        }
+        else if (isEndElement())
+        {
+            depth--;
+            if (depth > 0)
+            {
+                writer.writeEndElement();
+            }
+        }
+        else if (isCharacters() && !isWhitespace())
+        {
+            writer.writeCharacters(text().toString());
+        }
+    }
+
+    writer.writeEndElement(); // close pages
+
+    return xml;
 }
 
 void IOXmlReader::readCamera(Room *room)

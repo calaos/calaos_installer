@@ -65,7 +65,7 @@ Rectangle {
     MouseArea {
         id: gridCellMouseArea
         anchors.fill: parent
-    enabled: placedItem.visible  // Only active if there is an item
+        enabled: placedItem.visible  // Only active if there is an item
         acceptedButtons: Qt.LeftButton | Qt.RightButton
         property bool dragActive: false
 

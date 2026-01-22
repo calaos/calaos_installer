@@ -1,27 +1,17 @@
 <RCC>
     <qresource prefix="/qml">
         <file>main.qml</file>
-        <file>components/BaseGridItem.qml</file>
-        <file>components/CustomItemLoader.qml</file>
         <file>components/DraggedItem.qml</file>
         <file>components/GridCell.qml</file>
         <file>components/GridContainer.qml</file>
         <file>components/IOPalette.qml</file>
-        <file>components/MultiItem.qml</file>
         <file>components/PageEditor.qml</file>
         <file>components/PageSelector.qml</file>
-        <file>components/PaletteItem.qml</file>
         <file>components/PropertiesPanel.qml</file>
+        <file>components/RectWidget.qml</file>
         <file>managers/DragDropManager.qml</file>
         <file>managers/GridManager.qml</file>
         <file>utils/GridUtils.js</file>
-        <file>widgets/LightBig.qml</file>
-        <file>widgets/LightMedium.qml</file>
-        <file>widgets/LightSmall.qml</file>
-        <file>widgets/RectangleFull.qml</file>
-        <file>widgets/RectangleLarge.qml</file>
-        <file>widgets/RectangleSmall.qml</file>
-        <file>widgets/RectangleSquare.qml</file>
-        <file>widgets/RectangleWide.qml</file>
+        <file>utils/WidgetColors.js</file>
     </qresource>
 </RCC>

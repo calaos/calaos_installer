@@ -4,8 +4,14 @@ import "../managers"
 Rectangle {
     id: gridContainer
 
-    property int gridSize: 4
+    // Support for non-square grids
+    property int gridColumns: 4  // Width (number of columns)
+    property int gridRows: 4     // Height (number of rows)
+    property int gridSize: gridColumns  // Deprecated: for backward compatibility
     property int cellSize: 80
+
+    // Computed cell count - triggers Repeater rebuild when dimensions change
+    readonly property int cellCount: gridColumns * gridRows
     property color backgroundColor: "#171717"
     property color borderColor: "#888888"
 
@@ -17,8 +23,8 @@ Rectangle {
     signal itemMoved(var fromCoords, var toCoords, var itemData)
     signal itemDeleted(var coords, var itemData)
 
-    width: gridSize * cellSize + 20
-    height: gridSize * cellSize + 20
+    width: gridColumns * cellSize + 20
+    height: gridRows * cellSize + 20
     color: backgroundColor
     border.color: borderColor
     border.width: 2
@@ -28,20 +34,20 @@ Rectangle {
         id: mainGrid
         anchors.centerIn: parent
         //anchors.verticalCenterOffset: 15
-        rows: gridSize
-        columns: gridSize
+        rows: gridRows
+        columns: gridColumns
         spacing: 2
 
         Repeater {
             id: gridRepeater
-            model: gridSize * gridSize
+            model: gridContainer.cellCount
 
             Rectangle {
                 id: gridCell
 
                 property int cellIndex: index
-                property int gridRows: gridSize
-                property int gridColumns: gridSize
+                property int gridRowCount: gridRows
+                property int gridColumnCount: gridColumns
                 property alias hasItem: placedItem.visible
                 property alias itemType: placedItem.itemType
                 property alias itemColor: placedItem.itemColor
@@ -58,8 +64,8 @@ Rectangle {
                 border.color: Qt.lighter(color, 1.8)
                 border.width: 1
 
-                readonly property int cellRow: Math.floor(cellIndex / gridSize)
-                readonly property int cellColumn: cellIndex % gridSize
+                readonly property int cellRow: Math.floor(cellIndex / gridColumns)
+                readonly property int cellColumn: cellIndex % gridColumns
 
                 Rectangle {
                     id: placedItem
@@ -114,7 +120,7 @@ Rectangle {
                 function deleteItem() {
                     if (!isMainCell || !isOccupied) return
                     console.log("Deleting item", itemWidth + "×" + itemHeight, "from cell", cellIndex)
-                    gridManager.freeCells(Math.floor(cellIndex / gridSize), cellIndex % gridSize, itemWidth, itemHeight)
+                    gridManager.freeCells(Math.floor(cellIndex / gridColumns), cellIndex % gridColumns, itemWidth, itemHeight)
                 }
 
                 function restoreItem() {
@@ -157,7 +163,8 @@ Rectangle {
         gridRepeater: gridRepeater
         multiItemContainer: multiItemContainer
         multiItemComponent: multiItemComponent
-        gridSize: gridContainer.gridSize
+        gridColumns: gridContainer.gridColumns
+        gridRows: gridContainer.gridRows
         cellSize: gridContainer.cellSize
 
         onItemPlaced: function(coords, itemData) {
@@ -177,7 +184,8 @@ Rectangle {
         id: dragDropManager
         gridRepeater: gridRepeater
         multiItemContainer: multiItemContainer
-        gridSize: gridContainer.gridSize
+        gridColumns: gridContainer.gridColumns
+        gridRows: gridContainer.gridRows
         cellSize: gridContainer.cellSize
 
         onItemPlaced: function(coords, itemData) {
@@ -199,147 +207,87 @@ Rectangle {
 
     Component {
         id: multiItemComponent
-        Rectangle {
+
+        RectWidget {
             id: multiItem
 
-            property string itemType: "rectangle"
-            property string itemName: ""
-            property color itemColor: "#ff0000"
-            property string itemText: "Item"
-            property int itemWidth: 1
-            property int itemHeight: 1
             property int startRow: 0
             property int startCol: 0
             property var gridManager: null
-            property int cellSize: 80
+            property bool dragActive: false
+
             signal dragStarted(var mouse, var itemData)
             signal dragMoved(var mouse, var itemData)
             signal dragEnded(var mouse, var itemData)
             signal rightClicked(var itemData)
 
-            color: "transparent"
-            border.color: "transparent"
-            border.width: 0
-            radius: 0
+            isPaletteItem: false
+            isResizable: true
+            gridColumns: gridContainer.gridColumns
+            gridRows: gridContainer.gridRows
 
+            // Handle resize request
+            onResizeRequested: function(newWidth, newHeight) {
+                console.log("Resize requested:", itemWidth + "×" + itemHeight, "->", newWidth + "×" + newHeight)
+                if (gridManager) {
+                    gridManager.tryResizeItem(startRow, startCol, itemWidth, itemHeight, newWidth, newHeight)
+                }
+            }
 
-            Loader {
-                id: customItemLoader
-                anchors.fill: parent
+            // Override mouseArea to handle right-click and emit proper signals
+            mouseArea.acceptedButtons: Qt.LeftButton | Qt.RightButton
 
-                source: {
-                    console.log("MultiItem customLoader - itemType:", multiItem.itemType, "itemName:", multiItem.itemName)
-                    // Use itemName to identify specific component
-                    switch(multiItem.itemName) {
-                        case "RectangleSmall": return "../widgets/RectangleSmall.qml"
-                        case "RectangleWide": return "../widgets/RectangleWide.qml"
-                        case "RectangleFull": return "../widgets/RectangleFull.qml"
-                        case "RectangleSquare": return "../widgets/RectangleSquare.qml"
-                        case "RectangleLarge": return "../widgets/RectangleLarge.qml"
-                        case "LightSmall": return "../widgets/LightSmall.qml"
-                        case "LightMedium": return "../widgets/LightMedium.qml"
-                        case "LightBig": return "../widgets/LightBig.qml"
-                        default: return ""
+            Connections {
+                target: multiItem.mouseArea
+
+                function onPressed(mouse) {
+                    if (mouse.button === Qt.RightButton) {
+                        console.log("Right click - deleting multi-item:", multiItem.itemName)
+                        var itemData = multiItem.createItemData()
+                        multiItem.rightClicked(itemData)
+                        return
                     }
                 }
 
-                onLoaded: {
-                    if (item) {
-                        item.itemWidth = multiItem.itemWidth
-                        item.itemHeight = multiItem.itemHeight
-                        item.isPaletteItem = false
+                function onDragPressed(mouse) {
+                    if (!multiItem.isResizing) {
+                        console.log("Pressed multi-item:", multiItem.itemName)
+                        multiItem.dragActive = true
+                        multiItem.opacity = 0.3
+                        var itemData = multiItem.createItemData()
+                        multiItem.dragStarted(mouse, itemData)
+                    }
+                }
+
+                function onDragMoved(mouse) {
+                    if (multiItem.dragActive && !multiItem.isResizing) {
+                        var itemData = multiItem.createItemData()
+                        multiItem.dragMoved(mouse, itemData)
+                    }
+                }
+
+                function onDragReleased(mouse) {
+                    if (multiItem.dragActive) {
+                        console.log("Released multi-item")
+                        multiItem.dragActive = false
+                        var itemData = multiItem.createItemData()
+                        multiItem.dragEnded(mouse, itemData)
                     }
                 }
             }
 
-
-            MouseArea {
-                anchors.fill: parent
-                acceptedButtons: Qt.LeftButton | Qt.RightButton
-                property bool dragActive: false
-
-                onPressed: function(mouse) {
-                    if (mouse.button === Qt.RightButton) {
-                        console.log("Right click - deleting multi-item:", multiItem.itemText)
-
-                        var itemData = {
-                            itemType: multiItem.itemType,
-                            itemName: multiItem.itemName,
-                            itemColor: multiItem.itemColor,
-                            itemText: multiItem.itemText,
-                            itemWidth: multiItem.itemWidth,
-                            itemHeight: multiItem.itemHeight,
-                            startRow: multiItem.startRow,
-                            startCol: multiItem.startCol,
-                            sourceType: "grid",
-                            sourceCellIndex: multiItem.startRow * gridSize + multiItem.startCol,
-                        }
-
-                        rightClicked(itemData)
-                        return
-                    }
-
-                    if (mouse.button === Qt.LeftButton) {
-                        console.log("Pressed multi-item:", multiItem.itemText)
-                        dragActive = true
-                        multiItem.opacity = 0.3
-
-                        var itemData = {
-                            itemType: multiItem.itemType,
-                            itemName: multiItem.itemName,
-                            itemColor: multiItem.itemColor,
-                            itemText: multiItem.itemText,
-                            itemWidth: multiItem.itemWidth,
-                            itemHeight: multiItem.itemHeight,
-                            startRow: multiItem.startRow,
-                            startCol: multiItem.startCol,
-                            sourceType: "grid",
-                            sourceCellIndex: multiItem.startRow * gridSize + multiItem.startCol,
-                        }
-
-                        dragStarted(mouse, itemData)
-                    }
-                }
-
-                onPositionChanged: function(mouse) {
-                    if (dragActive && pressed && pressedButtons & Qt.LeftButton) {
-                        var itemData = {
-                            itemType: multiItem.itemType,
-                            itemName: multiItem.itemName,
-                            itemColor: multiItem.itemColor,
-                            itemText: multiItem.itemText,
-                            itemWidth: multiItem.itemWidth,
-                            itemHeight: multiItem.itemHeight,
-                            startRow: multiItem.startRow,
-                            startCol: multiItem.startCol,
-                            sourceType: "grid",
-                            sourceCellIndex: multiItem.startRow * gridSize + multiItem.startCol,
-                        }
-
-                        dragMoved(mouse, itemData)
-                    }
-                }
-
-                onReleased: function(mouse) {
-                    if (mouse.button !== Qt.LeftButton) return
-
-                    console.log("Released multi-item")
-                    dragActive = false
-
-                    var itemData = {
-                        itemType: multiItem.itemType,
-                        itemName: multiItem.itemName,
-                        itemColor: multiItem.itemColor,
-                        itemText: multiItem.itemText,
-                        itemWidth: multiItem.itemWidth,
-                        itemHeight: multiItem.itemHeight,
-                        startRow: multiItem.startRow,
-                        startCol: multiItem.startCol,
-                        sourceType: "grid",
-                        sourceCellIndex: multiItem.startRow * gridSize + multiItem.startCol,
-                    }
-
-                    dragEnded(mouse, itemData)
+            function createItemData() {
+                return {
+                    itemType: itemType,
+                    itemName: itemName,
+                    itemColor: itemColor,
+                    itemText: itemText,
+                    itemWidth: itemWidth,
+                    itemHeight: itemHeight,
+                    startRow: startRow,
+                    startCol: startCol,
+                    sourceType: "grid",
+                    sourceCellIndex: startRow * gridContainer.gridColumns + startCol,
                 }
             }
 
@@ -354,13 +302,34 @@ Rectangle {
     }
 
     Component.onCompleted: {
-        gridManager.initializeCells()
+        // Use Qt.callLater to ensure all property bindings have propagated
+        // This fixes the bug where Repeater creates cells with default values (4x4)
+        // before the actual grid dimensions are set from the parent
+        Qt.callLater(function() {
+            gridManager.initializeCells()
+        })
     }
+
+    // Handle grid dimension changes - preserve valid widgets
+    onGridColumnsChanged: {
+        Qt.callLater(function() {
+            gridManager.validateItemsOnGridResize(gridColumns, gridRows)
+        })
+    }
+
+    onGridRowsChanged: {
+        Qt.callLater(function() {
+            gridManager.validateItemsOnGridResize(gridColumns, gridRows)
+        })
+    }
+
     function placePredefinedItem(row, col, itemType, itemColor, itemText, itemWidth, itemHeight) {
+        console.log("placePredefinedItem:", row, col, itemType, itemWidth + "×" + itemHeight)
         if (gridManager.canPlaceItem(row, col, itemWidth, itemHeight)) {
-            gridManager.occupyCells(row, col, itemWidth, itemHeight, itemType, itemColor, itemText, itemType)
+            gridManager.occupyCells(row, col, itemWidth, itemHeight, itemType, itemColor, itemText, itemText)
             return true
         }
+        console.log("placePredefinedItem: Cannot place item at", row, col)
         return false
     }
 

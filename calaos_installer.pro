@@ -28,6 +28,9 @@ TEMPLATE = app
 SOURCES += src/main.cpp \
     src/DialogRemoteUI.cpp \
     src/DialogRemoteUIEditor.cpp \
+    src/RemoteUIModel.cpp \
+    src/PageModel.cpp \
+    src/WidgetModel.cpp \
     src/SimpleCrypt.cpp \
     src/mainwindow.cpp \
     src/common/base64.c \
@@ -121,6 +124,9 @@ SOURCES += src/main.cpp \
 HEADERS += src/mainwindow.h \
     src/DialogRemoteUI.h \
     src/DialogRemoteUIEditor.h \
+    src/RemoteUIModel.h \
+    src/PageModel.h \
+    src/WidgetModel.h \
     src/SimpleCrypt.h \
     src/common/Utils.h \
     src/common/base64.h \

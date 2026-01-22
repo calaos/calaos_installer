@@ -9,7 +9,8 @@ Item {
     property var gridRepeater: null
     property var multiItemContainer: null
     property var flickable: null
-    property int gridSize: 4
+    property int gridColumns: 4  // Width (number of columns)
+    property int gridRows: 4     // Height (number of rows)
     property int cellSize: 80
 
     // Signals
@@ -63,7 +64,7 @@ Item {
         draggedItem.updatePosition(globalPos.x, globalPos.y)
 
         // Update highlight
-        GridUtils.updateHighlight(globalPos.x, globalPos.y, gridRepeater, gridSize, draggedItem)
+        GridUtils.updateHighlight(globalPos.x, globalPos.y, gridRepeater, gridColumns, gridRows, draggedItem)
     }
 
     // End drag from palette
@@ -74,9 +75,9 @@ Item {
         var targetCell = GridUtils.findCellAtPosition(globalPos.x, globalPos.y, gridRepeater)
 
         if (targetCell) {
-            var coords = GridUtils.indexToCellCoords(targetCell.cellIndex, gridSize)
+            var coords = GridUtils.indexToCellCoords(targetCell.cellIndex, gridColumns)
             if (GridUtils.canPlaceItem(coords.row, coords.col, itemData.itemWidth,
-                                     itemData.itemHeight, gridSize, gridRepeater)) {
+                                     itemData.itemHeight, gridColumns, gridRows, gridRepeater)) {
                 // Signal item placement
                 itemPlaced(coords, itemData)
                 console.log("Item", itemData.itemWidth + "×" + itemData.itemHeight, "placé à la cellule", targetCell.cellIndex)
@@ -99,8 +100,8 @@ Item {
         var moved = false
 
         if (targetCell) {
-            var coords = GridUtils.indexToCellCoords(targetCell.cellIndex, gridSize)
-            var sourceCoords = GridUtils.indexToCellCoords(itemData.sourceCellIndex, gridSize)
+            var coords = GridUtils.indexToCellCoords(targetCell.cellIndex, gridColumns)
+            var sourceCoords = GridUtils.indexToCellCoords(itemData.sourceCellIndex, gridColumns)
 
             // Check if moving to a new position
             if (coords.row !== sourceCoords.row || coords.col !== sourceCoords.col) {
@@ -113,7 +114,7 @@ Item {
                 }
 
                 if (GridUtils.canPlaceItem(coords.row, coords.col, itemData.itemWidth,
-                                         itemData.itemHeight, gridSize, gridRepeater, ignoreSourceCoords)) {
+                                         itemData.itemHeight, gridColumns, gridRows, gridRepeater, ignoreSourceCoords)) {
                     // Signal item movement
                     itemMoved(sourceCoords, coords, itemData)
                     console.log("Item", itemData.itemWidth + "×" + itemData.itemHeight, "déplacé vers cellule", targetCell.cellIndex)
@@ -135,7 +136,7 @@ Item {
 
     // Handle right click (delete)
     function handleRightClick(itemData) {
-        var coords = GridUtils.indexToCellCoords(itemData.sourceCellIndex, gridSize)
+        var coords = GridUtils.indexToCellCoords(itemData.sourceCellIndex, gridColumns)
         itemDeleted(coords, itemData)
     }
 
