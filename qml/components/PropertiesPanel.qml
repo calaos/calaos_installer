@@ -370,7 +370,7 @@ Rectangle {
 
                         onClicked: {
                             console.log("Delete Item button clicked")
-                            deleteItemRequested()
+                            deleteItemConfirmDialog.open()
                         }
                     }
 
@@ -455,5 +455,23 @@ Rectangle {
 
         // Emit signal to update the widget and model
         ioChanged(newIoId, newWidgetType)
+    }
+
+    // Delete item confirmation dialog
+    Dialog {
+        id: deleteItemConfirmDialog
+        title: "Delete Widget"
+        modal: true
+        anchors.centerIn: Overlay.overlay
+        standardButtons: Dialog.Yes | Dialog.No
+
+        Label {
+            text: "Are you sure you want to delete this widget?"
+            wrapMode: Text.WordWrap
+        }
+
+        onAccepted: {
+            deleteItemRequested()
+        }
     }
 }

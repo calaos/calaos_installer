@@ -1,4 +1,5 @@
 import QtQuick
+import QtQuick.Controls
 import "../utils/WidgetColors.js" as WidgetColors
 
 Rectangle {
@@ -54,7 +55,9 @@ Rectangle {
     // Signals
     signal resizeRequested(int newWidth, int newHeight)
     signal clicked(var itemData)       // Single click - selection
-    signal rightClicked(var itemData)  // Right click - selection only
+    signal rightClicked(var itemData)  // Right click - context menu
+    signal linkIORequested(var itemData)  // Link IO from context menu
+    signal deleteRequested(var itemData)  // Delete from context menu
 
     // Expose MouseArea for external connections
     property alias mouseArea: mainMouseArea
@@ -227,8 +230,11 @@ Rectangle {
             pressPos = Qt.point(mouse.x, mouse.y)
 
             if (mouse.button === Qt.RightButton) {
-                // Right click - select only (no drag)
+                // Right click - select and show context menu
                 rectWidget.rightClicked(rectWidget.getItemData())
+                if (!isPaletteItem) {
+                    contextMenu.popup()
+                }
             } else if (mouse.button === Qt.LeftButton) {
                 // Start long-press timer for drag
                 rectWidget.isLongPressing = true
@@ -543,6 +549,47 @@ Rectangle {
             ioId: ioId,
             startRow: startRow,
             startCol: startCol
+        }
+    }
+
+    // Context menu for right-click
+    Menu {
+        id: contextMenu
+
+        MenuItem {
+            text: "Link IO..."
+            icon.source: "qrc:/img/icon_io.png"
+            onTriggered: {
+                rectWidget.linkIORequested(rectWidget.getItemData())
+            }
+        }
+
+        MenuSeparator {}
+
+        MenuItem {
+            text: "Delete"
+            icon.source: "qrc:/img/icon_delete.png"
+            onTriggered: {
+                deleteConfirmDialog.open()
+            }
+        }
+    }
+
+    // Delete confirmation dialog
+    Dialog {
+        id: deleteConfirmDialog
+        title: "Delete Widget"
+        modal: true
+        anchors.centerIn: Overlay.overlay
+        standardButtons: Dialog.Yes | Dialog.No
+
+        Label {
+            text: "Are you sure you want to delete this widget?"
+            wrapMode: Text.WordWrap
+        }
+
+        onAccepted: {
+            rectWidget.deleteRequested(rectWidget.getItemData())
         }
     }
 }

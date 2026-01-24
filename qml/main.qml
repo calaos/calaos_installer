@@ -265,7 +265,31 @@ Item {
 
         function onIoSelected(ioId, ioName, roomName, widgetType) {
             console.log("IO selected from dialog:", ioId, ioName, "in", roomName)
-            propertiesPanel.onIOSelected(ioId, ioName, roomName, widgetType)
+
+            // Check if this is from context menu Link IO
+            if (root.pendingLinkWidget && root.pendingLinkItemData) {
+                var widget = root.pendingLinkWidget
+                var itemData = root.pendingLinkItemData
+
+                // Update the widget visually
+                widget.ioId = ioId
+                widget.itemType = widgetType
+
+                // Update the model
+                updateWidgetIO(itemData.startCol, itemData.startRow, ioId, widgetType)
+
+                // Update properties panel if this widget is selected
+                if (propertiesPanel.selectedWidget === widget) {
+                    propertiesPanel.onIOSelected(ioId, ioName, roomName, widgetType)
+                }
+
+                // Clear pending
+                root.pendingLinkWidget = null
+                root.pendingLinkItemData = null
+            } else {
+                // Normal flow from properties panel
+                propertiesPanel.onIOSelected(ioId, ioName, roomName, widgetType)
+            }
         }
     }
 
@@ -298,7 +322,20 @@ Item {
                 propertiesPanel.updateSelectedItem(widget, itemData)
             }
         }
+
+        function onLinkIORequested(widget, itemData) {
+            // Store the widget for later update when IO is selected
+            root.pendingLinkWidget = widget
+            root.pendingLinkItemData = itemData
+            // Open the IO selector dialog
+            var currentIoId = itemData.ioId || ""
+            remoteUIEditor.openIOSelector(currentIoId)
+        }
     }
+
+    // Pending widget for Link IO from context menu
+    property var pendingLinkWidget: null
+    property var pendingLinkItemData: null
 
     DraggedItem {
         id: draggedItem

@@ -28,6 +28,7 @@ Rectangle {
     signal itemDeleted(var coords, var itemData)
     signal itemSelected(var widget, var itemData)
     signal itemDeselected()
+    signal linkIORequested(var widget, var itemData)
     signal itemResized(var widget, var itemData)
 
     width: gridColumns * cellSize + 20
@@ -186,6 +187,19 @@ Rectangle {
                 // Right-click also selects (no deletion)
                 gridContainer.selectItem(multiItem, itemData)
             })
+
+            multiItem.itemLinkIORequested.connect(function(itemData) {
+                gridContainer.selectItem(multiItem, itemData)
+                gridContainer.linkIORequested(multiItem, itemData)
+            })
+
+            multiItem.itemDeleteRequested.connect(function(itemData) {
+                // Delete the widget
+                var coords = { row: itemData.startRow, col: itemData.startCol }
+                gridManager.freeCells(coords.row, coords.col, itemData.itemWidth, itemData.itemHeight)
+                gridContainer.itemDeleted(coords, itemData)
+                gridContainer.clearSelection()
+            })
         }
     }
 
@@ -262,6 +276,8 @@ Rectangle {
             signal dragEnded(var mouse, var itemData)
             signal itemClicked(var itemData)
             signal itemRightClicked(var itemData)
+            signal itemLinkIORequested(var itemData)
+            signal itemDeleteRequested(var itemData)
 
             isPaletteItem: false
             isResizable: true
@@ -285,6 +301,16 @@ Rectangle {
             onRightClicked: function(itemData) {
                 var data = multiItem.createItemData()
                 multiItem.itemRightClicked(data)
+            }
+
+            onLinkIORequested: function(itemData) {
+                var data = multiItem.createItemData()
+                multiItem.itemLinkIORequested(data)
+            }
+
+            onDeleteRequested: function(itemData) {
+                var data = multiItem.createItemData()
+                multiItem.itemDeleteRequested(data)
             }
 
             Connections {
