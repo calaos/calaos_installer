@@ -18,6 +18,7 @@ class RemoteUIModel : public QObject
     Q_PROPERTY(int gridH READ gridH WRITE setGridH NOTIFY gridHChanged)
     Q_PROPERTY(bool modified READ isModified NOTIFY modifiedChanged)
     Q_PROPERTY(int currentPageIndex READ currentPageIndex WRITE setCurrentPageIndex NOTIFY currentPageIndexChanged)
+    Q_PROPERTY(QString title READ title WRITE setTitle NOTIFY titleChanged)
 
 public:
     explicit RemoteUIModel(QObject *parent = nullptr);
@@ -41,11 +42,17 @@ public:
     int gridH() const { return m_gridH; }
     bool isModified() const { return m_modified; }
     int currentPageIndex() const { return m_currentPageIndex; }
+    QString title() const { return m_title; }
 
     // Property setters
     void setGridW(int w);
     void setGridH(int h);
     void setCurrentPageIndex(int index);
+    void setTitle(const QString &title);
+
+    // Validation - returns true if all widgets have ioId, false otherwise
+    // If invalid, outPageIndex, outWidgetX, outWidgetY contain first invalid widget info
+    Q_INVOKABLE bool validateWidgets(int &outPageIndex, int &outWidgetX, int &outWidgetY) const;
 
     // Page management (callable from QML)
     Q_INVOKABLE PageModel* pageAt(int index) const;
@@ -69,6 +76,7 @@ signals:
     void modifiedChanged();
     void currentPageIndexChanged();
     void modelChanged();
+    void titleChanged();
 
 private slots:
     void onPageModelChanged();
@@ -85,6 +93,7 @@ private:
     int m_gridH = 3;
     bool m_modified = false;
     int m_currentPageIndex = 0;
+    QString m_title;
 
     // Store the original document structure for preservation
     QDomDocument m_originalDoc;

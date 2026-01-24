@@ -409,6 +409,14 @@ Rectangle {
         itemSelected(widget, itemData)
     }
 
+    // Select a widget by reference (used by highlightInvalidWidget)
+    function selectWidget(widget) {
+        if (widget && widget.createItemData) {
+            var itemData = widget.createItemData()
+            selectItem(widget, itemData)
+        }
+    }
+
     function clearSelection() {
         if (selectedWidget) {
             selectedWidget.isSelected = false

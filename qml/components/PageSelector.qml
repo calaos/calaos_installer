@@ -193,26 +193,8 @@ Rectangle {
             }
 
             RadioButton {
-                text: "Default"
-                checked: typeDialog.currentType === "Default"
-                ButtonGroup.group: typeGroup
-            }
-
-            RadioButton {
-                text: "Dashboard"
-                checked: typeDialog.currentType === "Dashboard"
-                ButtonGroup.group: typeGroup
-            }
-
-            RadioButton {
-                text: "Settings"
-                checked: typeDialog.currentType === "Settings"
-                ButtonGroup.group: typeGroup
-            }
-
-            RadioButton {
-                text: "Custom"
-                checked: typeDialog.currentType === "Custom"
+                text: "default"
+                checked: true
                 ButtonGroup.group: typeGroup
             }
         }
@@ -220,14 +202,7 @@ Rectangle {
         standardButtons: Dialog.Ok | Dialog.Cancel
 
         onAccepted: {
-            var selectedType = "Default"
-            for (var i = 0; i < typeGroup.buttons.length; i++) {
-                if (typeGroup.buttons[i].checked) {
-                    selectedType = typeGroup.buttons[i].text
-                    break
-                }
-            }
-            changePageType(typeDialog.pageIndex, selectedType)
+            changePageType(typeDialog.pageIndex, "default")
         }
     }
 

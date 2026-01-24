@@ -9,6 +9,7 @@
 #include <QQuickItem>
 #include <QQmlContext>
 #include <QQmlEngine>
+#include <QMessageBox>
 
 DialogRemoteUIEditor::DialogRemoteUIEditor(Calaos::IOBase *io, QWidget *parent):
     QDialog(parent),
@@ -52,9 +53,9 @@ DialogRemoteUIEditor::DialogRemoteUIEditor(Calaos::IOBase *io, QWidget *parent):
     // Expose the editor itself for IO selection dialog
     m_quickWidget->rootContext()->setContextProperty("remoteUIEditor", this);
 
-    // Also expose the IOBase name for the title
+    // Initialize the title in the model
     QString ioName = QString::fromStdString(ioBase->get_param("name"));
-    m_quickWidget->rootContext()->setContextProperty("remoteUIName", ioName);
+    m_model->setTitle(ioName);
 
     m_quickWidget->setSource(QUrl("qrc:/qml/main.qml"));
 
@@ -152,6 +153,28 @@ QVariantMap DialogRemoteUIEditor::validateIO(const QString &ioId)
 
 void DialogRemoteUIEditor::acceptChanges()
 {
+    // Validate all widgets have an IO linked
+    int pageIndex = 0, widgetX = 0, widgetY = 0;
+    if (!m_model->validateWidgets(pageIndex, widgetX, widgetY))
+    {
+        QMessageBox::warning(this, tr("Validation Error"),
+            tr("All widgets must have an IO linked.\n\n"
+               "Page %1 contains a widget at position (%2, %3) without an IO.\n\n"
+               "Please link an IO to all widgets before saving.")
+            .arg(pageIndex + 1).arg(widgetX).arg(widgetY));
+
+        // Highlight the invalid widget in QML
+        QQuickItem *root = m_quickWidget->rootObject();
+        if (root)
+        {
+            QMetaObject::invokeMethod(root, "highlightInvalidWidget",
+                Q_ARG(QVariant, pageIndex),
+                Q_ARG(QVariant, widgetX),
+                Q_ARG(QVariant, widgetY));
+        }
+        return;
+    }
+
     // Save the model back to IOBase
     QString pagesXml = m_model->toXml();
     ioBase->setRemoteUIPagesXml(pagesXml);
@@ -159,6 +182,9 @@ void DialogRemoteUIEditor::acceptChanges()
     // Update grid dimensions in IOBase params
     ioBase->set_param("grid_w", std::to_string(m_model->gridW()));
     ioBase->set_param("grid_h", std::to_string(m_model->gridH()));
+
+    // Save the title
+    ioBase->set_param("name", m_model->title().toStdString());
 
     accept();
 }

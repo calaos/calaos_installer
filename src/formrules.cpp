@@ -3709,7 +3709,12 @@ void FormRules::openRemoteUIEditor()
         if (itoutput->getOutput()->get_gui_type() == "remote_ui")
         {
             DialogRemoteUIEditor d(itoutput->getOutput());
-            d.exec();
+            if (d.exec() == QDialog::Accepted)
+            {
+                // Update the tree item to reflect any changes (e.g., name)
+                updateItemInfos(itoutput);
+                setProjectModified(true);
+            }
         }
     }
 }

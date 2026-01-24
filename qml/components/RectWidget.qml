@@ -33,6 +33,9 @@ Rectangle {
     property bool isSelected: false
     property color selectionColor: "#4A90D9"
 
+    // Error state - widget has no IO linked
+    property bool hasError: !isPaletteItem && ioId === ""
+
     // Resize properties
     property bool isResizable: !isPaletteItem
     property bool isHovered: false
@@ -79,6 +82,58 @@ Rectangle {
         radius: itemRadius + 4
         opacity: 0.6
         z: -1
+    }
+
+    // Error indicator - red border for widgets without IO
+    Rectangle {
+        id: errorIndicator
+        visible: hasError
+        anchors.centerIn: parent
+        width: parent.width + 4
+        height: parent.height + 4
+        color: "transparent"
+        border.color: "#ff4444"
+        border.width: 2
+        radius: itemRadius + 2
+        opacity: errorPulseAnimation.running ? 0.4 + 0.6 * errorPulse : 0.8
+        z: -1
+
+        property real errorPulse: 0
+
+        // Subtle pulse animation for error state
+        SequentialAnimation {
+            id: errorPulseAnimation
+            running: errorIndicator.visible
+            loops: Animation.Infinite
+            NumberAnimation {
+                target: errorIndicator
+                property: "errorPulse"
+                from: 0
+                to: 1
+                duration: 800
+                easing.type: Easing.InOutSine
+            }
+            NumberAnimation {
+                target: errorIndicator
+                property: "errorPulse"
+                from: 1
+                to: 0
+                duration: 800
+                easing.type: Easing.InOutSine
+            }
+        }
+    }
+
+    // Warning icon for error state
+    Text {
+        visible: hasError
+        anchors.right: parent.right
+        anchors.top: parent.top
+        anchors.margins: 4
+        text: "⚠"
+        font.pixelSize: 14
+        color: "#ff4444"
+        z: 10
     }
 
     // Stable hover detection using HoverHandler (avoids flickering)

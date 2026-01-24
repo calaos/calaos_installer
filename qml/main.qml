@@ -61,8 +61,15 @@ Item {
             gridRows: root.gridRows
             cellSize: root.cellSize
             draggedItem: draggedItem
-            uiTitle: remoteUIName ? remoteUIName : "Remote UI"
+            uiTitle: remoteUIModel ? remoteUIModel.title : "Remote UI"
             pages: root.pagesList
+
+            // Sync title changes back to model
+            onUiTitleChanged: {
+                if (remoteUIModel && remoteUIModel.title !== uiTitle) {
+                    remoteUIModel.title = uiTitle
+                }
+            }
 
             Component.onCompleted: {
                 console.log("Setting draggedItem:", draggedItem)
@@ -127,7 +134,7 @@ Item {
                     var newPage = remoteUIModel.addPage()
                     if (newPage) {
                         newPage.name = "Page " + remoteUIModel.pageCount
-                        newPage.pageType = "Default"
+                        newPage.pageType = "default"
                         console.log("Created new page:", newPage.name, "at index", remoteUIModel.pageCount - 1)
                         // Rebuild pages list from model
                         root.pagesList = buildPagesList()
@@ -162,7 +169,7 @@ Item {
                     if (newPage) {
                         var srcPage = remoteUIModel.pageAt(pageIndex)
                         newPage.name = srcPage ? (srcPage.name + " Copy") : "Page Copy"
-                        newPage.pageType = srcPage ? srcPage.pageType : "Default"
+                        newPage.pageType = srcPage ? srcPage.pageType : "default"
                         root.pagesList = buildPagesList()
                         var newIndex = remoteUIModel.pageCount - 1
                         remoteUIModel.currentPageIndex = newIndex
@@ -283,6 +290,9 @@ Item {
         }
 
         function onItemResized(widget, itemData) {
+            // Update the underlying model with new size
+            updateWidgetSize(itemData, itemData.itemWidth, itemData.itemHeight)
+
             // Update properties panel if the resized widget is currently selected
             if (propertiesPanel.selectedWidget === widget) {
                 propertiesPanel.updateSelectedItem(widget, itemData)
@@ -341,12 +351,49 @@ Item {
         if (!remoteUIModel || !remoteUIModel.currentPage()) return
 
         var page = remoteUIModel.currentPage()
-        // Find the widget by its old position or ioId
+        var oldX = itemData.startCol
+        var oldY = itemData.startRow
+        var itemW = itemData.itemWidth || 1
+        var itemH = itemData.itemHeight || 1
+
+        // Validate new coordinates are within grid bounds
+        if (newX < 0 || newY < 0 || newX + itemW > root.gridColumns || newY + itemH > root.gridRows) {
+            console.log("updateWidgetPosition: Invalid coordinates", newX, newY, "for widget size", itemW, "x", itemH)
+            return
+        }
+
+        // Find the widget by its original position
         for (var i = 0; i < page.widgetCount; i++) {
             var widget = page.widgetAt(i)
-            if (widget && widget.ioId === itemData.ioId) {
+            if (widget && widget.x === oldX && widget.y === oldY) {
                 widget.x = newX
                 widget.y = newY
+                console.log("Updated widget position from", oldX, oldY, "to", newX, newY)
+                break
+            }
+        }
+    }
+
+    function updateWidgetSize(itemData, newWidth, newHeight) {
+        if (!remoteUIModel || !remoteUIModel.currentPage()) return
+
+        var page = remoteUIModel.currentPage()
+        // Use position to find the widget (position doesn't change during resize)
+        var x = itemData.startCol
+        var y = itemData.startRow
+
+        // Validate new size is within grid bounds
+        if (newWidth < 1 || newHeight < 1 || x + newWidth > root.gridColumns || y + newHeight > root.gridRows) {
+            console.log("updateWidgetSize: Invalid size", newWidth, "x", newHeight, "for widget at", x, y)
+            return
+        }
+
+        for (var i = 0; i < page.widgetCount; i++) {
+            var widget = page.widgetAt(i)
+            if (widget && widget.x === x && widget.y === y) {
+                widget.w = newWidth
+                widget.h = newHeight
+                console.log("Updated widget size at", x, y, "to", newWidth, "x", newHeight)
                 break
             }
         }
@@ -394,14 +441,14 @@ Item {
                 if (page) {
                     list.push({
                         name: page.name || ("Page " + (i + 1)),
-                        type: page.pageType || "Default"
+                        type: page.pageType || "default"
                     })
                 }
             }
         }
         // Return default if no pages
         if (list.length === 0) {
-            list.push({ name: "Page 1", type: "Default" })
+            list.push({ name: "Page 1", type: "default" })
         }
         return list
     }
@@ -412,5 +459,30 @@ Item {
         function onPagesChanged() {
             root.pagesList = buildPagesList()
         }
+    }
+
+    // Function to highlight an invalid widget (called from C++ after validation fails)
+    function highlightInvalidWidget(pageIndex, widgetX, widgetY) {
+        console.log("Highlighting invalid widget at page", pageIndex, "position", widgetX, widgetY)
+
+        // Switch to the page containing the invalid widget
+        if (remoteUIModel && pageIndex !== remoteUIModel.currentPageIndex) {
+            remoteUIModel.currentPageIndex = pageIndex
+            pageEditor.pageSelector.currentPageIndex = pageIndex
+            loadPageWidgets(pageIndex)
+        }
+
+        // Find and select the widget at the specified position
+        Qt.callLater(function() {
+            var widgets = pageEditor.gridContainer.multiItemContainer.children
+            for (var i = 0; i < widgets.length; i++) {
+                var w = widgets[i]
+                if (w && w.startCol === widgetX && w.startRow === widgetY) {
+                    // Select this widget
+                    pageEditor.gridContainer.selectWidget(w)
+                    break
+                }
+            }
+        })
     }
 }

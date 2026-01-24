@@ -128,15 +128,10 @@ Rectangle {
 
                     ComboBox {
                         id: pageTypeCombo
-                        model: ["Default", "Dashboard", "Settings", "Custom"]
-                        currentIndex: model.indexOf(currentPageType)
+                        model: ["default"]
+                        currentIndex: 0
                         Layout.fillWidth: true
-                        onCurrentTextChanged: {
-                            if (currentText !== currentPageType) {
-                                currentPageType = currentText
-                                console.log("Page type changed to:", currentPageType)
-                            }
-                        }
+                        enabled: false  // Disabled for now, only default type supported
                     }
                 }
             }

@@ -178,6 +178,39 @@ void RemoteUIModel::setCurrentPageIndex(int index)
     }
 }
 
+void RemoteUIModel::setTitle(const QString &title)
+{
+    if (m_title != title)
+    {
+        m_title = title;
+        emit titleChanged();
+        setModified(true);
+    }
+}
+
+bool RemoteUIModel::validateWidgets(int &outPageIndex, int &outWidgetX, int &outWidgetY) const
+{
+    for (int p = 0; p < m_pages.count(); ++p)
+    {
+        PageModel *page = m_pages.at(p);
+        if (!page) continue;
+
+        const auto &widgets = page->widgetList();
+        for (int w = 0; w < widgets.count(); ++w)
+        {
+            WidgetModel *widget = widgets.at(w);
+            if (widget && widget->ioId().isEmpty())
+            {
+                outPageIndex = p;
+                outWidgetX = widget->x();
+                outWidgetY = widget->y();
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
 PageModel* RemoteUIModel::pageAt(int index) const
 {
     if (index >= 0 && index < m_pages.count())

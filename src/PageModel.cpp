@@ -7,7 +7,7 @@ const QStringList PageModel::s_knownAttributes = {
 PageModel::PageModel(QObject *parent)
     : QObject(parent)
     , m_name("Page")
-    , m_pageType("Default")
+    , m_pageType("default")
 {
 }
 
@@ -25,7 +25,7 @@ void PageModel::loadFromXmlElement(const QDomElement &element)
 
     // Read known attributes
     m_name = element.attribute("name", "Page");
-    m_pageType = element.attribute("type", "Default");
+    m_pageType = element.attribute("type", "default");
 
     // Store unknown attributes for preservation
     m_unknownAttrs.clear();
