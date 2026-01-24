@@ -292,6 +292,16 @@ Rectangle {
                 }
             }
 
+            // Handle resize validation (real-time preview feedback)
+            onValidateResize: function(newWidth, newHeight) {
+                console.log("onValidateResize: validating", newWidth + "×" + newHeight, "for item at", startRow, startCol, "current size:", itemWidth + "×" + itemHeight)
+                if (gridManager) {
+                    var isValid = gridManager.canResizeItem(startRow, startCol, itemWidth, itemHeight, newWidth, newHeight)
+                    console.log("onValidateResize: result =", isValid)
+                    multiItem.isResizeValid = isValid
+                }
+            }
+
             // Connect RectWidget's click signals to multiItem signals
             onClicked: function(itemData) {
                 var data = multiItem.createItemData()

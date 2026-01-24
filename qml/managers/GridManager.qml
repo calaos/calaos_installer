@@ -205,6 +205,47 @@ Item {
         }
     }
 
+    // Check if resize is valid without actually applying it (for preview validation)
+    function canResizeItem(startRow, startCol, oldWidth, oldHeight, newWidth, newHeight) {
+        console.log("canResizeItem: checking resize from", oldWidth + "×" + oldHeight, "to", newWidth + "×" + newHeight, "at", startRow, startCol)
+
+        // Check boundaries
+        if (startRow + newHeight > gridRows || startCol + newWidth > gridColumns) {
+            console.log("canResizeItem: Would exceed grid boundaries")
+            return false
+        }
+
+        // Check for collisions with other MultiItem widgets (more reliable than grid cell state)
+        for (var i = 0; i < multiItemContainer.children.length; i++) {
+            var otherItem = multiItemContainer.children[i]
+            if (!otherItem || otherItem.startRow === undefined) continue
+
+            // Skip the item being resized (same position)
+            if (otherItem.startRow === startRow && otherItem.startCol === startCol) {
+                continue
+            }
+
+            // Check if the new size would overlap with this other item
+            var otherEndRow = otherItem.startRow + otherItem.itemHeight
+            var otherEndCol = otherItem.startCol + otherItem.itemWidth
+            var newEndRow = startRow + newHeight
+            var newEndCol = startCol + newWidth
+
+            // Check for rectangle overlap
+            var overlapsRow = (startRow < otherEndRow) && (newEndRow > otherItem.startRow)
+            var overlapsCol = (startCol < otherEndCol) && (newEndCol > otherItem.startCol)
+
+            if (overlapsRow && overlapsCol) {
+                console.log("canResizeItem: Would overlap with item at", otherItem.startRow, otherItem.startCol,
+                            "size:", otherItem.itemWidth + "×" + otherItem.itemHeight, "- INVALID")
+                return false
+            }
+        }
+
+        console.log("canResizeItem: No collisions - VALID")
+        return true
+    }
+
     // Try to resize an item - check for collisions and boundaries
     function tryResizeItem(startRow, startCol, oldWidth, oldHeight, newWidth, newHeight) {
         console.log("tryResizeItem: from", oldWidth + "×" + oldHeight, "to", newWidth + "×" + newHeight, "at", startRow, startCol)
@@ -224,28 +265,10 @@ Item {
             return false
         }
 
-        // Check boundaries
-        if (startRow + newHeight > gridRows || startCol + newWidth > gridColumns) {
-            console.log("tryResizeItem: Would exceed grid boundaries")
+        // Use canResizeItem for consistent validation
+        if (!canResizeItem(startRow, startCol, oldWidth, oldHeight, newWidth, newHeight)) {
+            console.log("tryResizeItem: Validation failed")
             return false
-        }
-
-        // Check for collisions with other items (ignoring cells occupied by this item)
-        for (var row = startRow; row < startRow + newHeight; row++) {
-            for (var col = startCol; col < startCol + newWidth; col++) {
-                // Skip cells that are already part of this item
-                if (row < startRow + oldHeight && col < startCol + oldWidth) {
-                    continue
-                }
-
-                var index = GridUtils.cellCoordsToIndex(row, col, gridColumns)
-                var cell = gridRepeater.itemAt(index)
-
-                if (cell && (cell.hasItem || cell.isOccupied)) {
-                    console.log("tryResizeItem: Cell", row, col, "is occupied")
-                    return false
-                }
-            }
         }
 
         // Clear old cells

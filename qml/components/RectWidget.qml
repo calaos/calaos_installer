@@ -46,6 +46,10 @@ Rectangle {
     // Resize preview properties
     property int previewWidth: itemWidth
     property int previewHeight: itemHeight
+    property bool isResizeValid: true  // Whether current resize preview is valid (no collisions)
+
+    // Signal to request resize validation from parent
+    signal validateResize(int newWidth, int newHeight)
 
     // Long-press drag properties
     property bool isLongPressing: false
@@ -327,8 +331,8 @@ Rectangle {
         y: 0
         width: (cellSize + 2) * previewWidth - 2
         height: (cellSize + 2) * previewHeight - 2
-        color: Qt.rgba(itemColor.r, itemColor.g, itemColor.b, 0.3)
-        border.color: selectionColor
+        color: isResizeValid ? Qt.rgba(itemColor.r, itemColor.g, itemColor.b, 0.3) : Qt.rgba(1, 0, 0, 0.3)
+        border.color: isResizeValid ? selectionColor : "#ff4444"
         border.width: 2
         radius: itemRadius
         z: 10
@@ -387,15 +391,20 @@ Rectangle {
                     rectWidget.isResizing = true
                     rectWidget.previewWidth = rectWidget.itemWidth
                     rectWidget.previewHeight = rectWidget.itemHeight
+                    rectWidget.isResizeValid = true
                 } else {
                     rectWidget.isResizing = false
-                    // Apply the resize
-                    if (previewWidth !== rectWidget.itemWidth) {
+                    console.log("Right resize released: isResizeValid =", rectWidget.isResizeValid, "preview:", previewWidth + "×" + rectWidget.itemHeight)
+                    // Apply the resize only if valid
+                    if (rectWidget.isResizeValid && previewWidth !== rectWidget.itemWidth) {
                         resizeRequested(previewWidth, rectWidget.itemHeight)
+                    } else if (!rectWidget.isResizeValid) {
+                        console.log("Resize BLOCKED due to collision")
                     }
                     // Reset preview
                     rectWidget.previewWidth = rectWidget.itemWidth
                     rectWidget.previewHeight = rectWidget.itemHeight
+                    rectWidget.isResizeValid = true
                 }
             }
             onCentroidChanged: {
@@ -403,6 +412,7 @@ Rectangle {
                     var newWidth = Math.max(1, Math.min(gridColumns - startCol,
                         Math.round((rectWidget.width + centroid.position.x) / (cellSize + 2))))
                     rectWidget.previewWidth = newWidth
+                    rectWidget.validateResize(newWidth, rectWidget.itemHeight)
                 }
             }
         }
@@ -443,15 +453,20 @@ Rectangle {
                     rectWidget.isResizing = true
                     rectWidget.previewWidth = rectWidget.itemWidth
                     rectWidget.previewHeight = rectWidget.itemHeight
+                    rectWidget.isResizeValid = true
                 } else {
                     rectWidget.isResizing = false
-                    // Apply the resize
-                    if (previewHeight !== rectWidget.itemHeight) {
+                    console.log("Bottom resize released: isResizeValid =", rectWidget.isResizeValid, "preview:", rectWidget.itemWidth + "×" + previewHeight)
+                    // Apply the resize only if valid
+                    if (rectWidget.isResizeValid && previewHeight !== rectWidget.itemHeight) {
                         resizeRequested(rectWidget.itemWidth, previewHeight)
+                    } else if (!rectWidget.isResizeValid) {
+                        console.log("Resize BLOCKED due to collision")
                     }
                     // Reset preview
                     rectWidget.previewWidth = rectWidget.itemWidth
                     rectWidget.previewHeight = rectWidget.itemHeight
+                    rectWidget.isResizeValid = true
                 }
             }
             onCentroidChanged: {
@@ -459,6 +474,7 @@ Rectangle {
                     var newHeight = Math.max(1, Math.min(gridRows - startRow,
                         Math.round((rectWidget.height + centroid.position.y) / (cellSize + 2))))
                     rectWidget.previewHeight = newHeight
+                    rectWidget.validateResize(rectWidget.itemWidth, newHeight)
                 }
             }
         }
@@ -507,15 +523,20 @@ Rectangle {
                     rectWidget.isResizing = true
                     rectWidget.previewWidth = rectWidget.itemWidth
                     rectWidget.previewHeight = rectWidget.itemHeight
+                    rectWidget.isResizeValid = true
                 } else {
                     rectWidget.isResizing = false
-                    // Apply the resize
-                    if (previewWidth !== rectWidget.itemWidth || previewHeight !== rectWidget.itemHeight) {
+                    console.log("Corner resize released: isResizeValid =", rectWidget.isResizeValid, "preview:", previewWidth + "×" + previewHeight)
+                    // Apply the resize only if valid
+                    if (rectWidget.isResizeValid && (previewWidth !== rectWidget.itemWidth || previewHeight !== rectWidget.itemHeight)) {
                         resizeRequested(previewWidth, previewHeight)
+                    } else if (!rectWidget.isResizeValid) {
+                        console.log("Resize BLOCKED due to collision")
                     }
                     // Reset preview
                     rectWidget.previewWidth = rectWidget.itemWidth
                     rectWidget.previewHeight = rectWidget.itemHeight
+                    rectWidget.isResizeValid = true
                 }
             }
             onCentroidChanged: {
@@ -526,6 +547,7 @@ Rectangle {
                         Math.round((rectWidget.height + centroid.position.y) / (cellSize + 2))))
                     rectWidget.previewWidth = newWidth
                     rectWidget.previewHeight = newHeight
+                    rectWidget.validateResize(newWidth, newHeight)
                 }
             }
         }
