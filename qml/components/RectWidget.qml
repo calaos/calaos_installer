@@ -373,17 +373,15 @@ Rectangle {
             opacity: 0.6
         }
 
-        MouseArea {
-            id: rightMouseArea
-            anchors.fill: parent
-            hoverEnabled: true
+        HoverHandler {
+            id: rightHover
             cursorShape: Qt.SizeHorCursor
-            // No hover handling here - managed by HoverHandler
         }
 
         DragHandler {
             id: rightDrag
             target: null
+            grabPermissions: PointerHandler.CanTakeOverFromAnything
             onActiveChanged: {
                 if (active) {
                     rectWidget.isResizing = true
@@ -431,17 +429,15 @@ Rectangle {
             opacity: 0.6
         }
 
-        MouseArea {
-            id: bottomMouseArea
-            anchors.fill: parent
-            hoverEnabled: true
+        HoverHandler {
+            id: bottomHover
             cursorShape: Qt.SizeVerCursor
-            // No hover handling here - managed by HoverHandler
         }
 
         DragHandler {
             id: bottomDrag
             target: null
+            grabPermissions: PointerHandler.CanTakeOverFromAnything
             onActiveChanged: {
                 if (active) {
                     rectWidget.isResizing = true
@@ -497,17 +493,15 @@ Rectangle {
             }
         }
 
-        MouseArea {
-            id: cornerMouseArea
-            anchors.fill: parent
-            hoverEnabled: true
+        HoverHandler {
+            id: cornerHover
             cursorShape: Qt.SizeFDiagCursor
-            // No hover handling here - managed by HoverHandler
         }
 
         DragHandler {
             id: cornerDrag
             target: null
+            grabPermissions: PointerHandler.CanTakeOverFromAnything
             onActiveChanged: {
                 if (active) {
                     rectWidget.isResizing = true
