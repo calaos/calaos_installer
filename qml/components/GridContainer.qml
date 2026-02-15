@@ -240,7 +240,7 @@ Rectangle {
         onItemPlaced: function(coords, itemData) {
             gridManager.occupyCells(coords.row, coords.col, itemData.itemWidth,
                                   itemData.itemHeight, itemData.itemType,
-                                  itemData.itemColor, itemData.itemText, itemData.itemName, itemData.ioId || "")
+                                  itemData.itemColor, itemData.itemText, itemData.itemName, itemData.ioId || "", itemData.nameOverride || "", itemData.ioName || "")
             // Propagate to parent (PageEditor -> main.qml) to update the model
             gridContainer.itemPlaced(coords, itemData)
         }
@@ -248,7 +248,7 @@ Rectangle {
         onItemMoved: function(fromCoords, toCoords, itemData) {
             gridManager.moveItem(fromCoords.row, fromCoords.col, toCoords.row, toCoords.col,
                                itemData.itemWidth, itemData.itemHeight, itemData.itemType,
-                               itemData.itemColor, itemData.itemText, itemData.itemName, itemData.ioId || "")
+                               itemData.itemColor, itemData.itemText, itemData.itemName, itemData.ioId || "", itemData.nameOverride || "", itemData.ioName || "")
             // Propagate to parent to update the model
             gridContainer.itemMoved(fromCoords, toCoords, itemData)
         }
@@ -362,6 +362,8 @@ Rectangle {
                     itemWidth: itemWidth,
                     itemHeight: itemHeight,
                     ioId: ioId,
+                    nameOverride: nameOverride,
+                    ioName: ioName,
                     startRow: startRow,
                     startCol: startCol,
                     sourceType: "grid",
@@ -401,10 +403,10 @@ Rectangle {
         })
     }
 
-    function placePredefinedItem(row, col, itemType, itemColor, itemText, itemWidth, itemHeight, ioId) {
-        console.log("placePredefinedItem:", row, col, itemType, itemWidth + "×" + itemHeight, "ioId:", ioId || "none")
+    function placePredefinedItem(row, col, itemType, itemColor, itemText, itemWidth, itemHeight, ioId, nameOverride, ioName) {
+        console.log("placePredefinedItem:", row, col, itemType, itemWidth + "×" + itemHeight, "ioId:", ioId || "none", "nameOverride:", nameOverride || "none", "ioName:", ioName || "none")
         if (gridManager.canPlaceItem(row, col, itemWidth, itemHeight)) {
-            gridManager.occupyCells(row, col, itemWidth, itemHeight, itemType, itemColor, itemText, itemText, ioId || "")
+            gridManager.occupyCells(row, col, itemWidth, itemHeight, itemType, itemColor, itemText, itemText, ioId || "", nameOverride || "", ioName || "")
             return true
         }
         console.log("placePredefinedItem: Cannot place item at", row, col)

@@ -12,6 +12,8 @@ Rectangle {
     property int itemHeight: 1   // Height in cells
     property string itemText: itemWidth + "×" + itemHeight
     property string ioId: ""     // IO identifier from model
+    property string nameOverride: ""  // Optional display name override
+    property string ioName: ""    // IO display name (resolved from model)
 
     // Auto-calculated color based on size
     property color itemColor: WidgetColors.getColorForSize(itemWidth, itemHeight)
@@ -203,9 +205,10 @@ Rectangle {
             anchors.bottom: parent.bottom
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.bottomMargin: 2
-            text: rectWidget.itemName !== "RectWidget" ? rectWidget.itemName : ""
+            text: rectWidget.nameOverride !== "" ? rectWidget.nameOverride : (rectWidget.ioName !== "" ? rectWidget.ioName : "")
             color: rectWidget.textColor
             font.pixelSize: 9
+            font.bold: rectWidget.nameOverride !== ""
             opacity: 0.8
             visible: !isPaletteItem && text !== ""
         }
@@ -563,6 +566,8 @@ Rectangle {
             itemWidth: itemWidth,
             itemHeight: itemHeight,
             ioId: ioId,
+            nameOverride: nameOverride,
+            ioName: ioName,
             startRow: startRow,
             startCol: startCol
         }

@@ -11,6 +11,7 @@ class WidgetModel : public QObject
 
     Q_PROPERTY(QString ioId READ ioId WRITE setIoId NOTIFY ioIdChanged)
     Q_PROPERTY(QString type READ type WRITE setType NOTIFY typeChanged)
+    Q_PROPERTY(QString name READ name WRITE setName NOTIFY nameChanged)
     Q_PROPERTY(int x READ x WRITE setX NOTIFY xChanged)
     Q_PROPERTY(int y READ y WRITE setY NOTIFY yChanged)
     Q_PROPERTY(int w READ w WRITE setW NOTIFY wChanged)
@@ -29,6 +30,7 @@ public:
     // Property getters
     QString ioId() const { return m_ioId; }
     QString type() const { return m_type; }
+    QString name() const { return m_name; }
     int x() const { return m_x; }
     int y() const { return m_y; }
     int w() const { return m_w; }
@@ -37,6 +39,7 @@ public:
     // Property setters
     void setIoId(const QString &ioId);
     void setType(const QString &type);
+    void setName(const QString &name);
     void setX(int x);
     void setY(int y);
     void setW(int w);
@@ -55,6 +58,7 @@ public:
 signals:
     void ioIdChanged();
     void typeChanged();
+    void nameChanged();
     void xChanged();
     void yChanged();
     void wChanged();
@@ -64,6 +68,7 @@ signals:
 private:
     QString m_ioId;
     QString m_type;
+    QString m_name;
     int m_x = 0;
     int m_y = 0;
     int m_w = 1;

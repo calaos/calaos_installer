@@ -16,8 +16,8 @@ Item {
     signal itemDeleted(var coords, var itemData)
     signal itemResized(var widget, var itemData)
 
-    function occupyCells(startRow, startCol, itemWidth, itemHeight, itemType, itemColor, itemText, itemName, ioId) {
-        createMultiItem(startRow, startCol, itemWidth, itemHeight, itemType, itemColor, itemText, itemName, ioId || "")
+    function occupyCells(startRow, startCol, itemWidth, itemHeight, itemType, itemColor, itemText, itemName, ioId, nameOverride, ioName) {
+        createMultiItem(startRow, startCol, itemWidth, itemHeight, itemType, itemColor, itemText, itemName, ioId || "", nameOverride || "", ioName || "")
 
     // Mark all cells as occupied
         for (var row = startRow; row < startRow + itemHeight; row++) {
@@ -31,7 +31,7 @@ Item {
         }
     }
 
-    function createMultiItem(startRow, startCol, itemWidth, itemHeight, itemType, itemColor, itemText, itemName, ioId) {
+    function createMultiItem(startRow, startCol, itemWidth, itemHeight, itemType, itemColor, itemText, itemName, ioId, nameOverride, ioName) {
         if (!multiItemComponent || !multiItemContainer) {
             console.error("MultiItem component or container not available")
             return null
@@ -51,7 +51,9 @@ Item {
             item.gridColumns = gridColumns
             item.gridRows = gridRows
             item.ioId = ioId || ""
-            console.log("GridManager createMultiItem - type:", itemType, "name:", item.itemName, "size:", itemWidth + "×" + itemHeight, "ioId:", item.ioId)
+            item.nameOverride = nameOverride || ""
+            item.ioName = ioName || ""
+            console.log("GridManager createMultiItem - type:", itemType, "name:", item.itemName, "size:", itemWidth + "×" + itemHeight, "ioId:", item.ioId, "nameOverride:", item.nameOverride)
 
             // Calculate position and size
             var firstCellIndex = GridUtils.cellCoordsToIndex(startRow, startCol, gridColumns)
@@ -94,9 +96,9 @@ Item {
         }
     }
 
-    function moveItem(fromRow, fromCol, toRow, toCol, itemWidth, itemHeight, itemType, itemColor, itemText, itemName, ioId) {
+    function moveItem(fromRow, fromCol, toRow, toCol, itemWidth, itemHeight, itemType, itemColor, itemText, itemName, ioId, nameOverride, ioName) {
         freeCells(fromRow, fromCol, itemWidth, itemHeight)
-        occupyCells(toRow, toCol, itemWidth, itemHeight, itemType, itemColor, itemText, itemName, ioId || "")
+        occupyCells(toRow, toCol, itemWidth, itemHeight, itemType, itemColor, itemText, itemName, ioId || "", nameOverride || "", ioName || "")
     }
 
     function canPlaceItem(startRow, startCol, itemWidth, itemHeight) {
@@ -302,6 +304,8 @@ Item {
             itemWidth: newWidth,
             itemHeight: newHeight,
             ioId: targetItem.ioId || "",
+            nameOverride: targetItem.nameOverride || "",
+            ioName: targetItem.ioName || "",
             startRow: startRow,
             startCol: startCol,
             sourceType: "grid",

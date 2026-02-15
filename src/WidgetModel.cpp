@@ -1,7 +1,7 @@
 #include "WidgetModel.h"
 
 const QStringList WidgetModel::s_knownAttributes = {
-    "io_id", "type", "x", "y", "w", "h"
+    "io_id", "type", "name", "x", "y", "w", "h"
 };
 
 WidgetModel::WidgetModel(QObject *parent)
@@ -14,6 +14,7 @@ void WidgetModel::loadFromXmlElement(const QDomElement &element)
     // Load known attributes
     m_ioId = element.attribute("io_id");
     m_type = element.attribute("type");
+    m_name = element.attribute("name");
     m_x = element.attribute("x", "0").toInt();
     m_y = element.attribute("y", "0").toInt();
     m_w = element.attribute("w", "1").toInt();
@@ -40,6 +41,8 @@ QDomElement WidgetModel::toXmlElement(QDomDocument &doc) const
     // Write known attributes
     element.setAttribute("io_id", m_ioId);
     element.setAttribute("type", m_type);
+    if (!m_name.isEmpty())
+        element.setAttribute("name", m_name);
     element.setAttribute("x", m_x);
     element.setAttribute("y", m_y);
     element.setAttribute("w", m_w);
@@ -70,6 +73,16 @@ void WidgetModel::setType(const QString &type)
     {
         m_type = type;
         emit typeChanged();
+        emit modelChanged();
+    }
+}
+
+void WidgetModel::setName(const QString &name)
+{
+    if (m_name != name)
+    {
+        m_name = name;
+        emit nameChanged();
         emit modelChanged();
     }
 }

@@ -20,6 +20,7 @@ Rectangle {
     property string ioName: ""
     property string roomName: ""
     property string widgetType: ""
+    property string widgetNameOverride: ""
 
     // Widget types available from C++ context (set in DialogRemoteUIEditor.cpp)
     property var widgetTypes: availableWidgetTypes
@@ -27,6 +28,7 @@ Rectangle {
     signal deleteItemRequested()
     signal clearGridRequested()
     signal ioChanged(string newIoId, string newWidgetType)
+    signal nameOverrideChanged(string newName)
 
     color: "#f0f0f0"
     border.color: "#ccc"
@@ -272,6 +274,62 @@ Rectangle {
                             }
                         }
 
+                        // Display Name Override
+                        ColumnLayout {
+                            Layout.fillWidth: true
+                            spacing: 4
+
+                            Label {
+                                text: "Display Name:"
+                            }
+
+                            Label {
+                                text: "Optional — overrides the IO name on the remote UI"
+                                color: "#888"
+                                font.pixelSize: 11
+                                font.italic: true
+                                wrapMode: Text.WordWrap
+                                Layout.fillWidth: true
+                            }
+
+                            RowLayout {
+                                Layout.fillWidth: true
+                                spacing: 4
+
+                                TextField {
+                                    id: nameOverrideField
+                                    text: widgetNameOverride
+                                    Layout.fillWidth: true
+                                    selectByMouse: true
+                                    placeholderText: ioName ? ioName : "Use IO name"
+                                    onTextEdited: {
+                                        var newVal = text.trim()
+                                        if (newVal !== widgetNameOverride) {
+                                            widgetNameOverride = newVal
+                                            nameOverrideChanged(newVal)
+                                        }
+                                    }
+                                    Keys.onReturnPressed: function(event) { event.accepted = true; focus = false }
+                                    Keys.onEnterPressed: function(event) { event.accepted = true; focus = false }
+                                }
+
+                                Button {
+                                    text: "\u2715"
+                                    implicitWidth: 32
+                                    implicitHeight: 32
+                                    visible: widgetNameOverride !== ""
+                                    ToolTip.text: "Clear name override (use IO name)"
+                                    ToolTip.visible: hovered
+                                    onClicked: {
+                                        widgetNameOverride = ""
+                                        nameOverrideField.text = ""
+                                        nameOverrideChanged("")
+                                        console.log("Name override cleared")
+                                    }
+                                }
+                            }
+                        }
+
                         // Position
                         ColumnLayout {
                             Layout.fillWidth: true
@@ -408,6 +466,8 @@ Rectangle {
 
             // Validate the IO and update display
             var currentIoId = itemData.ioId || ""
+            widgetNameOverride = itemData.nameOverride || ""
+            nameOverrideField.text = widgetNameOverride
             if (currentIoId) {
                 var ioInfo = remoteUIEditor.validateIO(currentIoId)
                 ioId = currentIoId
@@ -441,6 +501,7 @@ Rectangle {
         ioName = ""
         roomName = ""
         widgetType = ""
+        widgetNameOverride = ""
     }
 
     // Called when an IO is selected from the dialog

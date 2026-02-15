@@ -244,6 +244,8 @@ Item {
                 if (propertiesPanel.selectedWidget) {
                     propertiesPanel.selectedWidget.ioId = newIoId
                     propertiesPanel.selectedWidget.itemType = newWidgetType
+                    // Update displayed IO name on the widget
+                    propertiesPanel.selectedWidget.ioName = propertiesPanel.ioName || ""
 
                     // Update the model
                     if (remoteUIModel && propertiesPanel.selectedItemData) {
@@ -253,6 +255,18 @@ Item {
                             var data = propertiesPanel.selectedItemData
                             updateWidgetIO(data.startCol, data.startRow, newIoId, newWidgetType)
                         }
+                    }
+                }
+            }
+
+            onNameOverrideChanged: function(newName) {
+                console.log("Name override changed:", newName)
+                if (propertiesPanel.selectedWidget) {
+                    propertiesPanel.selectedWidget.nameOverride = newName
+
+                    if (remoteUIModel && propertiesPanel.selectedItemData) {
+                        var data = propertiesPanel.selectedItemData
+                        updateWidgetName(data.startCol, data.startRow, newName)
                     }
                 }
             }
@@ -274,6 +288,7 @@ Item {
                 // Update the widget visually
                 widget.ioId = ioId
                 widget.itemType = widgetType
+                widget.ioName = ioName
 
                 // Update the model
                 updateWidgetIO(itemData.startCol, itemData.startRow, ioId, widgetType)
@@ -370,14 +385,25 @@ Item {
                     var itemText = widget.w + "\u00d7" + widget.h
                     var itemName = widget.ioId || ("Widget_" + i)
 
-                    console.log("Placing widget:", itemName, "at", widget.x, widget.y, "size:", widget.w, widget.h, "ioId:", widget.ioId)
+                    // Resolve IO name for display
+                    var resolvedIoName = ""
+                    if (widget.ioId) {
+                        var ioInfo = remoteUIEditor.validateIO(widget.ioId)
+                        if (ioInfo.exists) {
+                            resolvedIoName = ioInfo.ioName || ""
+                        }
+                    }
+
+                    console.log("Placing widget:", itemName, "at", widget.x, widget.y, "size:", widget.w, widget.h, "ioId:", widget.ioId, "name:", widget.name)
 
                     pageEditor.gridContainer.placePredefinedItem(
                         widget.y, widget.x,
                         "RectWidget", color,
                         itemText,
                         widget.w, widget.h,
-                        widget.ioId || ""
+                        widget.ioId || "",
+                        widget.name || "",
+                        resolvedIoName
                     )
                 }
             }
@@ -459,6 +485,20 @@ Item {
                 widget.ioId = newIoId
                 widget.type = newWidgetType
                 console.log("Updated widget IO at", x, y, "to", newIoId, newWidgetType)
+                break
+            }
+        }
+    }
+
+    function updateWidgetName(x, y, newName) {
+        if (!remoteUIModel || !remoteUIModel.currentPage()) return
+
+        var page = remoteUIModel.currentPage()
+        for (var i = 0; i < page.widgetCount; i++) {
+            var widget = page.widgetAt(i)
+            if (widget && widget.x === x && widget.y === y) {
+                widget.name = newName
+                console.log("Updated widget name at", x, y, "to", newName || "(cleared)")
                 break
             }
         }
