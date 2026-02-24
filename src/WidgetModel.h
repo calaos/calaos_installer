@@ -17,6 +17,16 @@ class WidgetModel : public QObject
     Q_PROPERTY(int w READ w WRITE setW NOTIFY wChanged)
     Q_PROPERTY(int h READ h WRITE setH NOTIFY hChanged)
 
+    // Category is derived from type — not stored in XML
+    Q_PROPERTY(QString category READ category NOTIFY typeChanged)
+
+    // Clock-specific properties (stored as clock_* XML attributes)
+    Q_PROPERTY(QString clockTimezone READ clockTimezone WRITE setClockTimezone NOTIFY clockTimezoneChanged)
+    Q_PROPERTY(QString clockFormat READ clockFormat WRITE setClockFormat NOTIFY clockFormatChanged)
+    Q_PROPERTY(bool clockShowDate READ clockShowDate WRITE setClockShowDate NOTIFY clockShowDateChanged)
+    Q_PROPERTY(QString clockDateFormat READ clockDateFormat WRITE setClockDateFormat NOTIFY clockDateFormatChanged)
+    Q_PROPERTY(bool clockSeconds READ clockSeconds WRITE setClockSeconds NOTIFY clockSecondsChanged)
+
 public:
     explicit WidgetModel(QObject *parent = nullptr);
     ~WidgetModel() override = default;
@@ -36,6 +46,16 @@ public:
     int w() const { return m_w; }
     int h() const { return m_h; }
 
+    // Category derived from type
+    QString category() const { return categoryForType(m_type); }
+
+    // Clock property getters
+    QString clockTimezone() const { return m_clockTimezone; }
+    QString clockFormat() const { return m_clockFormat; }
+    bool clockShowDate() const { return m_clockShowDate; }
+    QString clockDateFormat() const { return m_clockDateFormat; }
+    bool clockSeconds() const { return m_clockSeconds; }
+
     // Property setters
     void setIoId(const QString &ioId);
     void setType(const QString &type);
@@ -45,11 +65,28 @@ public:
     void setW(int w);
     void setH(int h);
 
-    // Get list of available widget types
+    // Clock property setters
+    void setClockTimezone(const QString &tz);
+    void setClockFormat(const QString &format);
+    void setClockShowDate(bool show);
+    void setClockDateFormat(const QString &format);
+    void setClockSeconds(bool seconds);
+
+    // Get list of available IO widget types
     Q_INVOKABLE static QStringList availableWidgetTypes();
 
     // Get widget type for a given gui_type
     Q_INVOKABLE static QString widgetTypeForGuiType(const QString &guiType);
+
+    // Category system — derives category from type
+    Q_INVOKABLE static QString categoryForType(const QString &type);
+    Q_INVOKABLE static QStringList availableCategories();
+    Q_INVOKABLE static QStringList typesForCategory(const QString &category);
+    Q_INVOKABLE static bool categoryRequiresIO(const QString &category);
+
+    // Clock utilities
+    Q_INVOKABLE static QStringList availableTimezones();
+    Q_INVOKABLE static QStringList availableDateFormats();
 
     // Access to unknown attributes for preservation
     QMap<QString, QString> unknownAttributes() const { return m_unknownAttrs; }
@@ -64,6 +101,11 @@ signals:
     void wChanged();
     void hChanged();
     void modelChanged();
+    void clockTimezoneChanged();
+    void clockFormatChanged();
+    void clockShowDateChanged();
+    void clockDateFormatChanged();
+    void clockSecondsChanged();
 
 private:
     QString m_ioId;
@@ -73,6 +115,13 @@ private:
     int m_y = 0;
     int m_w = 1;
     int m_h = 1;
+
+    // Clock-specific properties
+    QString m_clockTimezone = QStringLiteral("UTC");
+    QString m_clockFormat = QStringLiteral("24");
+    bool m_clockShowDate = true;
+    QString m_clockDateFormat = QStringLiteral("DD/MM/YYYY");
+    bool m_clockSeconds = false;
 
     // Store unknown/future attributes to preserve them during roundtrip
     QMap<QString, QString> m_unknownAttrs;

@@ -270,6 +270,37 @@ Item {
                     }
                 }
             }
+
+            onCategoryChanged: function(newCategory) {
+                console.log("Category changed to:", newCategory)
+                if (propertiesPanel.selectedWidget && propertiesPanel.selectedItemData) {
+                    var widget = propertiesPanel.selectedWidget
+                    var data = propertiesPanel.selectedItemData
+
+                    if (newCategory === "Clock") {
+                        // Switch to Clock: set type to "Clock", clear IO
+                        widget.itemType = "Clock"
+                        widget.widgetCategory = "Clock"
+                        widget.ioId = ""
+                        widget.ioName = ""
+                        widget.nameOverride = ""
+                        updateWidgetCategory(data.startCol, data.startRow, "Clock")
+                    } else {
+                        // Switch to IO: clear type, set category
+                        widget.itemType = "Unknown"
+                        widget.widgetCategory = "IO"
+                        updateWidgetCategory(data.startCol, data.startRow, "IO")
+                    }
+                }
+            }
+
+            onClockPropertyChanged: function(key, value) {
+                console.log("Clock property changed:", key, "=", value)
+                if (remoteUIModel && propertiesPanel.selectedItemData) {
+                    var data = propertiesPanel.selectedItemData
+                    updateWidgetClockProperty(data.startCol, data.startRow, key, value)
+                }
+            }
         }
     }
 
@@ -384,17 +415,22 @@ Item {
                     var color = WidgetColors.getColorForSize(widget.w, widget.h)
                     var itemText = widget.w + "\u00d7" + widget.h
                     var itemName = widget.ioId || ("Widget_" + i)
+                    var cat = widget.category  // Derived from type in C++
 
-                    // Resolve IO name for display
+                    // Resolve IO name for display (only for IO widgets)
                     var resolvedIoName = ""
-                    if (widget.ioId) {
+                    if (cat === "IO" && widget.ioId) {
                         var ioInfo = remoteUIEditor.validateIO(widget.ioId)
                         if (ioInfo.exists) {
                             resolvedIoName = ioInfo.ioName || ""
                         }
                     }
 
-                    console.log("Placing widget:", itemName, "at", widget.x, widget.y, "size:", widget.w, widget.h, "ioId:", widget.ioId, "name:", widget.name)
+                    if (cat === "Clock") {
+                        itemName = "Clock"
+                    }
+
+                    console.log("Placing widget:", itemName, "category:", cat, "at", widget.x, widget.y, "size:", widget.w, widget.h, "ioId:", widget.ioId, "name:", widget.name)
 
                     pageEditor.gridContainer.placePredefinedItem(
                         widget.y, widget.x,
@@ -403,8 +439,14 @@ Item {
                         widget.w, widget.h,
                         widget.ioId || "",
                         widget.name || "",
-                        resolvedIoName
+                        resolvedIoName,
+                        cat
                     )
+
+                    // For Clock widgets, set clock properties on the RectWidget after placement
+                    if (cat === "Clock") {
+                        setClockPropertiesOnWidget(widget.x, widget.y, widget)
+                    }
                 }
             }
         })
@@ -499,6 +541,73 @@ Item {
             if (widget && widget.x === x && widget.y === y) {
                 widget.name = newName
                 console.log("Updated widget name at", x, y, "to", newName || "(cleared)")
+                break
+            }
+        }
+    }
+
+    function updateWidgetCategory(x, y, newCategory) {
+        if (!remoteUIModel || !remoteUIModel.currentPage()) return
+
+        var page = remoteUIModel.currentPage()
+        for (var i = 0; i < page.widgetCount; i++) {
+            var widget = page.widgetAt(i)
+            if (widget && widget.x === x && widget.y === y) {
+                if (newCategory === "Clock") {
+                    widget.type = "Clock"
+                    widget.ioId = ""
+                    widget.name = ""
+                } else {
+                    // Switching to IO: reset type, keep ioId empty until user selects
+                    widget.type = "Unknown"
+                }
+                console.log("Updated widget category at", x, y, "to", newCategory, "type:", widget.type)
+                break
+            }
+        }
+    }
+
+    function updateWidgetClockProperty(x, y, key, value) {
+        if (!remoteUIModel || !remoteUIModel.currentPage()) return
+
+        var page = remoteUIModel.currentPage()
+        for (var i = 0; i < page.widgetCount; i++) {
+            var widget = page.widgetAt(i)
+            if (widget && widget.x === x && widget.y === y) {
+                switch (key) {
+                    case "clock_timezone":
+                        widget.clockTimezone = value
+                        break
+                    case "clock_format":
+                        widget.clockFormat = value
+                        break
+                    case "clock_show_date":
+                        widget.clockShowDate = (value === "true")
+                        break
+                    case "clock_date_format":
+                        widget.clockDateFormat = value
+                        break
+                    case "clock_seconds":
+                        widget.clockSeconds = (value === "true")
+                        break
+                }
+                console.log("Updated clock property at", x, y, key, "=", value)
+                break
+            }
+        }
+    }
+
+    function setClockPropertiesOnWidget(x, y, modelWidget) {
+        // Find the visual RectWidget at position x,y and set clock-specific properties
+        var widgets = pageEditor.gridContainer.multiItemContainer.children
+        for (var i = 0; i < widgets.length; i++) {
+            var w = widgets[i]
+            if (w && w.startCol === x && w.startRow === y) {
+                w.clockTimezone = modelWidget.clockTimezone || "UTC"
+                w.clockFormat = modelWidget.clockFormat || "24"
+                w.clockShowDate = modelWidget.clockShowDate !== undefined ? modelWidget.clockShowDate : true
+                w.clockDateFormat = modelWidget.clockDateFormat || "DD/MM/YYYY"
+                w.clockSeconds = modelWidget.clockSeconds !== undefined ? modelWidget.clockSeconds : false
                 break
             }
         }

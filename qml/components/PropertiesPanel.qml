@@ -22,6 +22,16 @@ Rectangle {
     property string widgetType: ""
     property string widgetNameOverride: ""
 
+    // Widget category for the selected item: "IO" or "Clock"
+    property string widgetCategory: "IO"
+
+    // Clock properties for the selected item
+    property string clockTimezone: "UTC"
+    property string clockFormat: "24"
+    property bool clockShowDate: true
+    property string clockDateFormat: "DD/MM/YYYY"
+    property bool clockSeconds: false
+
     // Widget types available from C++ context (set in DialogRemoteUIEditor.cpp)
     property var widgetTypes: availableWidgetTypes
 
@@ -29,6 +39,8 @@ Rectangle {
     signal clearGridRequested()
     signal ioChanged(string newIoId, string newWidgetType)
     signal nameOverrideChanged(string newName)
+    signal categoryChanged(string newCategory)
+    signal clockPropertyChanged(string key, string value)
 
     color: "#f0f0f0"
     border.color: "#ccc"
@@ -162,169 +174,341 @@ Rectangle {
                         Layout.fillWidth: true
                         spacing: 12
 
-                        // Widget Type (readonly, auto-detected from IO)
+                        // Widget Category selector
                         ColumnLayout {
                             Layout.fillWidth: true
                             spacing: 4
 
                             Label {
-                                text: "Widget Type:"
+                                text: "Widget Category:"
                             }
 
-                            TextField {
-                                id: itemTypeField
-                                text: widgetType || "Not linked"
+                            ComboBox {
+                                id: categoryCombo
+                                model: availableCategories
                                 Layout.fillWidth: true
-                                readOnly: true
-                                color: widgetType ? "black" : "#999"
-                                font.italic: !widgetType
-                            }
-                        }
-
-                        // IO Selection
-                        ColumnLayout {
-                            Layout.fillWidth: true
-                            spacing: 4
-
-                            Label {
-                                text: "Linked IO:"
-                            }
-
-                            // IO info or warning
-                            Rectangle {
-                                Layout.fillWidth: true
-                                implicitHeight: ioDisplayColumn.implicitHeight + 8
-                                Layout.minimumHeight: 40
-                                color: !ioId ? "#f5f5f5" : (ioExists ? "#e8f5e9" : "#ffebee")
-                                border.color: !ioId ? "#ccc" : (ioExists ? "#81c784" : "#e57373")
-                                border.width: 1
-                                radius: 4
-
-                                ColumnLayout {
-                                    id: ioDisplayColumn
-                                    anchors.left: parent.left
-                                    anchors.right: parent.right
-                                    anchors.verticalCenter: parent.verticalCenter
-                                    anchors.margins: 4
-                                    spacing: 2
-
-                                    // Not linked state
-                                    Label {
-                                        visible: !ioId
-                                        text: "Not linked to any IO"
-                                        color: "#999"
-                                        font.italic: true
-                                        Layout.fillWidth: true
-                                        wrapMode: Text.WordWrap
-                                    }
-
-                                    // IO exists state
-                                    Label {
-                                        visible: ioId && ioExists
-                                        text: ioName || ""
-                                        font.bold: true
-                                        elide: Text.ElideRight
-                                        Layout.fillWidth: true
-                                    }
-                                    Label {
-                                        visible: ioId && ioExists
-                                        text: roomName ? ("📍 " + roomName) : ""
-                                        color: "#666"
-                                        font.pixelSize: 11
-                                        elide: Text.ElideRight
-                                        Layout.fillWidth: true
-                                    }
-
-                                    // IO not found state (warning)
-                                    RowLayout {
-                                        visible: ioId && !ioExists
-                                        Layout.fillWidth: true
-                                        spacing: 4
-
-                                        Label {
-                                            text: "⚠️"
-                                            font.pixelSize: 14
-                                        }
-                                        ColumnLayout {
-                                            spacing: 0
-                                            Label {
-                                                text: "IO not found"
-                                                color: "#c62828"
-                                                font.bold: true
-                                            }
-                                            Label {
-                                                text: ioId
-                                                color: "#666"
-                                                font.pixelSize: 10
-                                                elide: Text.ElideRight
-                                            }
-                                        }
-                                    }
+                                currentIndex: {
+                                    var idx = availableCategories.indexOf(widgetCategory)
+                                    return idx >= 0 ? idx : 0
                                 }
-                            }
-
-                            // Select IO button
-                            Button {
-                                text: ioId ? "Change IO..." : "Select IO..."
-                                Layout.fillWidth: true
-                                onClicked: {
-                                    console.log("Opening IO selector with current:", ioId)
-                                    remoteUIEditor.openIOSelector(ioId)
+                                onActivated: function(index) {
+                                    var newCat = availableCategories[index]
+                                    if (newCat !== widgetCategory) {
+                                        console.log("Category changed to:", newCat)
+                                        widgetCategory = newCat
+                                        categoryChanged(newCat)
+                                    }
                                 }
                             }
                         }
 
-                        // Display Name Override
+                        // ============================================
+                        // IO Panel — visible only when category is IO
+                        // ============================================
                         ColumnLayout {
+                            id: ioPanelSection
+                            visible: widgetCategory === "IO"
                             Layout.fillWidth: true
-                            spacing: 4
+                            spacing: 12
 
-                            Label {
-                                text: "Display Name:"
-                            }
-
-                            Label {
-                                text: "Optional — overrides the IO name on the remote UI"
-                                color: "#888"
-                                font.pixelSize: 11
-                                font.italic: true
-                                wrapMode: Text.WordWrap
-                                Layout.fillWidth: true
-                            }
-
-                            RowLayout {
+                            // Widget Type (readonly, auto-detected from IO)
+                            ColumnLayout {
                                 Layout.fillWidth: true
                                 spacing: 4
 
-                                TextField {
-                                    id: nameOverrideField
-                                    text: widgetNameOverride
-                                    Layout.fillWidth: true
-                                    selectByMouse: true
-                                    placeholderText: ioName ? ioName : "Use IO name"
-                                    onTextEdited: {
-                                        var newVal = text.trim()
-                                        if (newVal !== widgetNameOverride) {
-                                            widgetNameOverride = newVal
-                                            nameOverrideChanged(newVal)
-                                        }
-                                    }
-                                    Keys.onReturnPressed: function(event) { event.accepted = true; focus = false }
-                                    Keys.onEnterPressed: function(event) { event.accepted = true; focus = false }
+                                Label {
+                                    text: "Widget Type:"
                                 }
 
+                                TextField {
+                                    id: itemTypeField
+                                    text: widgetType || "Not linked"
+                                    Layout.fillWidth: true
+                                    readOnly: true
+                                    color: widgetType ? "black" : "#999"
+                                    font.italic: !widgetType
+                                }
+                            }
+
+                            // IO Selection
+                            ColumnLayout {
+                                Layout.fillWidth: true
+                                spacing: 4
+
+                                Label {
+                                    text: "Linked IO:"
+                                }
+
+                                // IO info or warning
+                                Rectangle {
+                                    Layout.fillWidth: true
+                                    implicitHeight: ioDisplayColumn.implicitHeight + 8
+                                    Layout.minimumHeight: 40
+                                    color: !ioId ? "#f5f5f5" : (ioExists ? "#e8f5e9" : "#ffebee")
+                                    border.color: !ioId ? "#ccc" : (ioExists ? "#81c784" : "#e57373")
+                                    border.width: 1
+                                    radius: 4
+
+                                    ColumnLayout {
+                                        id: ioDisplayColumn
+                                        anchors.left: parent.left
+                                        anchors.right: parent.right
+                                        anchors.verticalCenter: parent.verticalCenter
+                                        anchors.margins: 4
+                                        spacing: 2
+
+                                        // Not linked state
+                                        Label {
+                                            visible: !ioId
+                                            text: "Not linked to any IO"
+                                            color: "#999"
+                                            font.italic: true
+                                            Layout.fillWidth: true
+                                            wrapMode: Text.WordWrap
+                                        }
+
+                                        // IO exists state
+                                        Label {
+                                            visible: ioId && ioExists
+                                            text: ioName || ""
+                                            font.bold: true
+                                            elide: Text.ElideRight
+                                            Layout.fillWidth: true
+                                        }
+                                        Label {
+                                            visible: ioId && ioExists
+                                            text: roomName ? ("\ud83d\udccd " + roomName) : ""
+                                            color: "#666"
+                                            font.pixelSize: 11
+                                            elide: Text.ElideRight
+                                            Layout.fillWidth: true
+                                        }
+
+                                        // IO not found state (warning)
+                                        RowLayout {
+                                            visible: ioId && !ioExists
+                                            Layout.fillWidth: true
+                                            spacing: 4
+
+                                            Label {
+                                                text: "\u26a0\ufe0f"
+                                                font.pixelSize: 14
+                                            }
+                                            ColumnLayout {
+                                                spacing: 0
+                                                Label {
+                                                    text: "IO not found"
+                                                    color: "#c62828"
+                                                    font.bold: true
+                                                }
+                                                Label {
+                                                    text: ioId
+                                                    color: "#666"
+                                                    font.pixelSize: 10
+                                                    elide: Text.ElideRight
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+
+                                // Select IO button
                                 Button {
-                                    text: "\u2715"
-                                    implicitWidth: 32
-                                    implicitHeight: 32
-                                    visible: widgetNameOverride !== ""
-                                    ToolTip.text: "Clear name override (use IO name)"
-                                    ToolTip.visible: hovered
+                                    text: ioId ? "Change IO..." : "Select IO..."
+                                    Layout.fillWidth: true
                                     onClicked: {
-                                        widgetNameOverride = ""
-                                        nameOverrideField.text = ""
-                                        nameOverrideChanged("")
-                                        console.log("Name override cleared")
+                                        console.log("Opening IO selector with current:", ioId)
+                                        remoteUIEditor.openIOSelector(ioId)
+                                    }
+                                }
+                            }
+
+                            // Display Name Override
+                            ColumnLayout {
+                                Layout.fillWidth: true
+                                spacing: 4
+
+                                Label {
+                                    text: "Display Name:"
+                                }
+
+                                Label {
+                                    text: "Optional \u2014 overrides the IO name on the remote UI"
+                                    color: "#888"
+                                    font.pixelSize: 11
+                                    font.italic: true
+                                    wrapMode: Text.WordWrap
+                                    Layout.fillWidth: true
+                                }
+
+                                RowLayout {
+                                    Layout.fillWidth: true
+                                    spacing: 4
+
+                                    TextField {
+                                        id: nameOverrideField
+                                        text: widgetNameOverride
+                                        Layout.fillWidth: true
+                                        selectByMouse: true
+                                        placeholderText: ioName ? ioName : "Use IO name"
+                                        onTextEdited: {
+                                            var newVal = text.trim()
+                                            if (newVal !== widgetNameOverride) {
+                                                widgetNameOverride = newVal
+                                                nameOverrideChanged(newVal)
+                                            }
+                                        }
+                                        Keys.onReturnPressed: function(event) { event.accepted = true; focus = false }
+                                        Keys.onEnterPressed: function(event) { event.accepted = true; focus = false }
+                                    }
+
+                                    Button {
+                                        text: "\u2715"
+                                        implicitWidth: 32
+                                        implicitHeight: 32
+                                        visible: widgetNameOverride !== ""
+                                        ToolTip.text: "Clear name override (use IO name)"
+                                        ToolTip.visible: hovered
+                                        onClicked: {
+                                            widgetNameOverride = ""
+                                            nameOverrideField.text = ""
+                                            nameOverrideChanged("")
+                                            console.log("Name override cleared")
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        // ================================================
+                        // Clock Panel — visible only when category is Clock
+                        // ================================================
+                        ColumnLayout {
+                            id: clockPanelSection
+                            visible: widgetCategory === "Clock"
+                            Layout.fillWidth: true
+                            spacing: 12
+
+                            // Timezone
+                            ColumnLayout {
+                                Layout.fillWidth: true
+                                spacing: 4
+
+                                Label {
+                                    text: "Timezone:"
+                                }
+
+                                ComboBox {
+                                    id: clockTimezoneCombo
+                                    model: availableTimezones
+                                    Layout.fillWidth: true
+                                    editable: true
+                                    currentIndex: {
+                                        var idx = availableTimezones.indexOf(clockTimezone)
+                                        return idx >= 0 ? idx : availableTimezones.indexOf("UTC")
+                                    }
+                                    onActivated: function(index) {
+                                        var tz = availableTimezones[index]
+                                        if (tz !== clockTimezone) {
+                                            clockTimezone = tz
+                                            clockPropertyChanged("clock_timezone", tz)
+                                        }
+                                    }
+                                    onAccepted: {
+                                        // When user types and presses Enter in editable mode
+                                        var tz = editText
+                                        if (availableTimezones.indexOf(tz) >= 0 && tz !== clockTimezone) {
+                                            clockTimezone = tz
+                                            clockPropertyChanged("clock_timezone", tz)
+                                        }
+                                    }
+                                }
+                            }
+
+                            // Time Format
+                            ColumnLayout {
+                                Layout.fillWidth: true
+                                spacing: 4
+
+                                Label {
+                                    text: "Time Format:"
+                                }
+
+                                ComboBox {
+                                    id: clockFormatCombo
+                                    model: ["24h", "12h"]
+                                    Layout.fillWidth: true
+                                    currentIndex: clockFormat === "12" ? 1 : 0
+                                    onActivated: function(index) {
+                                        var fmt = index === 0 ? "24" : "12"
+                                        if (fmt !== clockFormat) {
+                                            clockFormat = fmt
+                                            clockPropertyChanged("clock_format", fmt)
+                                        }
+                                    }
+                                }
+                            }
+
+                            // Show Date
+                            ColumnLayout {
+                                Layout.fillWidth: true
+                                spacing: 4
+
+                                CheckBox {
+                                    id: clockShowDateCheck
+                                    text: "Show Date"
+                                    checked: clockShowDate
+                                    onToggled: {
+                                        if (checked !== clockShowDate) {
+                                            clockShowDate = checked
+                                            clockPropertyChanged("clock_show_date", checked ? "true" : "false")
+                                        }
+                                    }
+                                }
+                            }
+
+                            // Show Seconds
+                            ColumnLayout {
+                                Layout.fillWidth: true
+                                spacing: 4
+
+                                CheckBox {
+                                    id: clockSecondsCheck
+                                    text: "Show Seconds"
+                                    checked: clockSeconds
+                                    onToggled: {
+                                        if (checked !== clockSeconds) {
+                                            clockSeconds = checked
+                                            clockPropertyChanged("clock_seconds", checked ? "true" : "false")
+                                        }
+                                    }
+                                }
+                            }
+
+                            // Date Format (visible only if Show Date is checked)
+                            ColumnLayout {
+                                Layout.fillWidth: true
+                                spacing: 4
+                                visible: clockShowDate
+
+                                Label {
+                                    text: "Date Format:"
+                                }
+
+                                ComboBox {
+                                    id: clockDateFormatCombo
+                                    model: availableDateFormats
+                                    Layout.fillWidth: true
+                                    currentIndex: {
+                                        var idx = availableDateFormats.indexOf(clockDateFormat)
+                                        return idx >= 0 ? idx : 0
+                                    }
+                                    onActivated: function(index) {
+                                        var fmt = availableDateFormats[index]
+                                        if (fmt !== clockDateFormat) {
+                                            clockDateFormat = fmt
+                                            clockPropertyChanged("clock_date_format", fmt)
+                                        }
                                     }
                                 }
                             }
@@ -462,26 +646,50 @@ Rectangle {
         selectedItemData = itemData
 
         if (itemData) {
-            console.log("PropertiesPanel: Item selected -", itemData.itemType, "at", itemData.startCol, itemData.startRow)
+            console.log("PropertiesPanel: Item selected -", itemData.itemType, "category:", itemData.widgetCategory || "IO", "at", itemData.startCol, itemData.startRow)
 
-            // Validate the IO and update display
-            var currentIoId = itemData.ioId || ""
-            widgetNameOverride = itemData.nameOverride || ""
-            nameOverrideField.text = widgetNameOverride
-            if (currentIoId) {
-                var ioInfo = remoteUIEditor.validateIO(currentIoId)
-                ioId = currentIoId
-                ioExists = ioInfo.exists
-                ioName = ioInfo.ioName || ""
-                roomName = ioInfo.roomName || ""
-                widgetType = ioInfo.widgetType || ""
-            } else {
-                // No IO linked
+            // Set the category
+            widgetCategory = itemData.widgetCategory || "IO"
+
+            if (widgetCategory === "IO") {
+                // Validate the IO and update display
+                var currentIoId = itemData.ioId || ""
+                widgetNameOverride = itemData.nameOverride || ""
+                nameOverrideField.text = widgetNameOverride
+                if (currentIoId) {
+                    var ioInfo = remoteUIEditor.validateIO(currentIoId)
+                    ioId = currentIoId
+                    ioExists = ioInfo.exists
+                    ioName = ioInfo.ioName || ""
+                    roomName = ioInfo.roomName || ""
+                    widgetType = ioInfo.widgetType || ""
+                } else {
+                    // No IO linked
+                    ioId = ""
+                    ioExists = false
+                    ioName = ""
+                    roomName = ""
+                    widgetType = ""
+                }
+                // Reset clock properties to defaults when viewing IO widget
+                clockTimezone = "UTC"
+                clockFormat = "24"
+                clockShowDate = true
+                clockDateFormat = "DD/MM/YYYY"
+            } else if (widgetCategory === "Clock") {
+                // Set clock properties from itemData
+                clockTimezone = itemData.clockTimezone || "UTC"
+                clockFormat = itemData.clockFormat || "24"
+                clockShowDate = itemData.clockShowDate !== undefined ? itemData.clockShowDate : true
+                clockDateFormat = itemData.clockDateFormat || "DD/MM/YYYY"
+                clockSeconds = itemData.clockSeconds !== undefined ? itemData.clockSeconds : false
+                // Clear IO info
                 ioId = ""
                 ioExists = false
                 ioName = ""
                 roomName = ""
-                widgetType = ""
+                widgetType = "Clock"
+                widgetNameOverride = ""
             }
         } else {
             clearIOInfo()
@@ -502,6 +710,12 @@ Rectangle {
         roomName = ""
         widgetType = ""
         widgetNameOverride = ""
+        widgetCategory = "IO"
+        clockTimezone = "UTC"
+        clockFormat = "24"
+        clockShowDate = true
+        clockDateFormat = "DD/MM/YYYY"
+        clockSeconds = false
     }
 
     // Called when an IO is selected from the dialog

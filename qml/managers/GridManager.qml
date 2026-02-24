@@ -16,8 +16,8 @@ Item {
     signal itemDeleted(var coords, var itemData)
     signal itemResized(var widget, var itemData)
 
-    function occupyCells(startRow, startCol, itemWidth, itemHeight, itemType, itemColor, itemText, itemName, ioId, nameOverride, ioName) {
-        createMultiItem(startRow, startCol, itemWidth, itemHeight, itemType, itemColor, itemText, itemName, ioId || "", nameOverride || "", ioName || "")
+    function occupyCells(startRow, startCol, itemWidth, itemHeight, itemType, itemColor, itemText, itemName, ioId, nameOverride, ioName, widgetCategory) {
+        createMultiItem(startRow, startCol, itemWidth, itemHeight, itemType, itemColor, itemText, itemName, ioId || "", nameOverride || "", ioName || "", widgetCategory || "IO")
 
     // Mark all cells as occupied
         for (var row = startRow; row < startRow + itemHeight; row++) {
@@ -31,7 +31,7 @@ Item {
         }
     }
 
-    function createMultiItem(startRow, startCol, itemWidth, itemHeight, itemType, itemColor, itemText, itemName, ioId, nameOverride, ioName) {
+    function createMultiItem(startRow, startCol, itemWidth, itemHeight, itemType, itemColor, itemText, itemName, ioId, nameOverride, ioName, widgetCategory) {
         if (!multiItemComponent || !multiItemContainer) {
             console.error("MultiItem component or container not available")
             return null
@@ -53,7 +53,8 @@ Item {
             item.ioId = ioId || ""
             item.nameOverride = nameOverride || ""
             item.ioName = ioName || ""
-            console.log("GridManager createMultiItem - type:", itemType, "name:", item.itemName, "size:", itemWidth + "×" + itemHeight, "ioId:", item.ioId, "nameOverride:", item.nameOverride)
+            item.widgetCategory = widgetCategory || "IO"
+            console.log("GridManager createMultiItem - type:", itemType, "category:", item.widgetCategory, "name:", item.itemName, "size:", itemWidth + "×" + itemHeight, "ioId:", item.ioId, "nameOverride:", item.nameOverride)
 
             // Calculate position and size
             var firstCellIndex = GridUtils.cellCoordsToIndex(startRow, startCol, gridColumns)
@@ -96,9 +97,9 @@ Item {
         }
     }
 
-    function moveItem(fromRow, fromCol, toRow, toCol, itemWidth, itemHeight, itemType, itemColor, itemText, itemName, ioId, nameOverride, ioName) {
+    function moveItem(fromRow, fromCol, toRow, toCol, itemWidth, itemHeight, itemType, itemColor, itemText, itemName, ioId, nameOverride, ioName, widgetCategory) {
         freeCells(fromRow, fromCol, itemWidth, itemHeight)
-        occupyCells(toRow, toCol, itemWidth, itemHeight, itemType, itemColor, itemText, itemName, ioId || "", nameOverride || "", ioName || "")
+        occupyCells(toRow, toCol, itemWidth, itemHeight, itemType, itemColor, itemText, itemName, ioId || "", nameOverride || "", ioName || "", widgetCategory || "IO")
     }
 
     function canPlaceItem(startRow, startCol, itemWidth, itemHeight) {

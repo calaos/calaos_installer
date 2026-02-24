@@ -14,6 +14,14 @@ Rectangle {
     property string ioId: ""     // IO identifier from model
     property string nameOverride: ""  // Optional display name override
     property string ioName: ""    // IO display name (resolved from model)
+    property string widgetCategory: "IO"  // Category derived from type: "IO" or "Clock"
+
+    // Clock-specific properties (stored on the widget for data passing)
+    property string clockTimezone: "UTC"
+    property string clockFormat: "24"
+    property bool clockShowDate: true
+    property string clockDateFormat: "DD/MM/YYYY"
+    property bool clockSeconds: false
 
     // Auto-calculated color based on size
     property color itemColor: WidgetColors.getColorForSize(itemWidth, itemHeight)
@@ -36,8 +44,8 @@ Rectangle {
     property bool isSelected: false
     property color selectionColor: "#4A90D9"
 
-    // Error state - widget has no IO linked
-    property bool hasError: !isPaletteItem && ioId === ""
+    // Error state - only IO widgets require a linked IO
+    property bool hasError: !isPaletteItem && widgetCategory === "IO" && ioId === ""
 
     // Resize properties
     property bool isResizable: !isPaletteItem
@@ -191,10 +199,20 @@ Rectangle {
         anchors.fill: parent
         anchors.margins: borderWidth + 2
 
+        // Clock icon for Clock widgets
+        Text {
+            visible: !isPaletteItem && widgetCategory === "Clock"
+            anchors.top: parent.top
+            anchors.left: parent.left
+            anchors.margins: 2
+            text: "\ud83d\udd50"
+            font.pixelSize: 14
+        }
+
         // Size label
         Text {
             anchors.centerIn: parent
-            text: rectWidget.itemText
+            text: widgetCategory === "Clock" && !isPaletteItem ? "Clock" : rectWidget.itemText
             color: rectWidget.textColor
             font.bold: true
             font.pixelSize: isPaletteItem ? 11 : 14
@@ -568,6 +586,12 @@ Rectangle {
             ioId: ioId,
             nameOverride: nameOverride,
             ioName: ioName,
+            widgetCategory: widgetCategory,
+            clockTimezone: clockTimezone,
+            clockFormat: clockFormat,
+            clockShowDate: clockShowDate,
+            clockDateFormat: clockDateFormat,
+            clockSeconds: clockSeconds,
             startRow: startRow,
             startCol: startCol
         }
@@ -580,12 +604,17 @@ Rectangle {
         MenuItem {
             text: "Link IO..."
             icon.source: "qrc:/img/icon_io.png"
+            visible: widgetCategory === "IO"
+            height: visible ? implicitHeight : 0
             onTriggered: {
                 rectWidget.linkIORequested(rectWidget.getItemData())
             }
         }
 
-        MenuSeparator {}
+        MenuSeparator {
+            visible: widgetCategory === "IO"
+            height: visible ? implicitHeight : 0
+        }
 
         MenuItem {
             text: "Delete"

@@ -50,6 +50,11 @@ DialogRemoteUIEditor::DialogRemoteUIEditor(Calaos::IOBase *io, QWidget *parent):
     // Expose available widget types
     m_quickWidget->rootContext()->setContextProperty("availableWidgetTypes", WidgetModel::availableWidgetTypes());
 
+    // Expose category system and Clock utilities to QML
+    m_quickWidget->rootContext()->setContextProperty("availableCategories", WidgetModel::availableCategories());
+    m_quickWidget->rootContext()->setContextProperty("availableTimezones", WidgetModel::availableTimezones());
+    m_quickWidget->rootContext()->setContextProperty("availableDateFormats", WidgetModel::availableDateFormats());
+
     // Expose the editor itself for IO selection dialog
     m_quickWidget->rootContext()->setContextProperty("remoteUIEditor", this);
 
@@ -153,12 +158,12 @@ QVariantMap DialogRemoteUIEditor::validateIO(const QString &ioId)
 
 void DialogRemoteUIEditor::acceptChanges()
 {
-    // Validate all widgets have an IO linked
+    // Validate all IO widgets have an IO linked
     int pageIndex = 0, widgetX = 0, widgetY = 0;
     if (!m_model->validateWidgets(pageIndex, widgetX, widgetY))
     {
         QMessageBox::warning(this, tr("Validation Error"),
-            tr("All widgets must have an IO linked.\n\n"
+            tr("All IO widgets must have an IO linked.\n\n"
                "Page %1 contains a widget at position (%2, %3) without an IO.\n\n"
                "Please link an IO to all widgets before saving.")
             .arg(pageIndex + 1).arg(widgetX).arg(widgetY));

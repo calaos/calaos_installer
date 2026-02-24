@@ -199,7 +199,10 @@ bool RemoteUIModel::validateWidgets(int &outPageIndex, int &outWidgetX, int &out
         for (int w = 0; w < widgets.count(); ++w)
         {
             WidgetModel *widget = widgets.at(w);
-            if (widget && widget->ioId().isEmpty())
+            if (!widget) continue;
+
+            // Only IO widgets require a linked IO
+            if (WidgetModel::categoryRequiresIO(widget->category()) && widget->ioId().isEmpty())
             {
                 outPageIndex = p;
                 outWidgetX = widget->x();
