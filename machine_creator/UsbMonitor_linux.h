@@ -41,8 +41,6 @@ private slots:
 private:
     UsbMonitor_linux();
 
-    void* m_udevLib;
-
     QSocketNotifier *sockMonitor = nullptr;
     struct udev* m_udev = nullptr;
     struct udev_monitor* mon = nullptr;

@@ -20,6 +20,7 @@ finish-args:
 
 modules:
   # Qt MQTT module - not included in KDE SDK, needed for Zigbee2MQTT support
+  # Installs to /app; post-install patches .pri/.prl so qmake uses /app paths.
   - name: qtmqtt
     buildsystem: cmake-ninja
     config-opts:
@@ -31,12 +32,37 @@ modules:
         url: https://github.com/qt/qtmqtt.git
         # Must match the Qt version provided by the KDE SDK runtime
         tag: v6.10.2
-    cleanup:
-      - /mkspecs
+    post-install:
+      # qmake resolves $$QT_MODULE_LIB_BASE to /usr/lib/x86_64-linux-gnu
+      # (from the SDK), then passes absolute library paths to the linker.
+      # Since qtmqtt installs to /app, we must patch the .pri to use the
+      # actual /app paths so the linker finds libQt6Mqtt.so.
+      - sed -i 's|$$QT_MODULE_LIB_BASE|/app/lib/x86_64-linux-gnu|g;
+               s|$$QT_MODULE_INCLUDE_BASE|/app/include|g;
+               s|$$QT_MODULE_BIN_BASE|/app/bin|g'
+        /app/mkspecs/modules/qt_lib_mqtt.pri
+      - sed -i 's|$$QT_MODULE_LIB_BASE|/app/lib/x86_64-linux-gnu|g;
+               s|$$QT_MODULE_INCLUDE_BASE|/app/include|g'
+        /app/mkspecs/modules/qt_lib_mqtt_private.pri
+      # NOTE: Do NOT patch the .prl file. Its $$[QT_INSTALL_LIBS] references
+      # are for SDK dependencies (WebSockets, Network, Core) which live in
+      # /usr/lib/..., and qmake resolves $$[QT_INSTALL_LIBS] correctly at
+      # build time. Patching it would break those SDK library paths.
+      #
+      # Symlink the shared library into /app/lib/ so the runtime linker
+      # finds it. Flatpak's ldconfig searches /app/lib but NOT the
+      # multiarch /app/lib/x86_64-linux-gnu/ directory.
+      - ln -s x86_64-linux-gnu/libQt6Mqtt.so.6 /app/lib/libQt6Mqtt.so.6
 
   # Main application: Calaos Installer
   - name: calaos-installer
     buildsystem: qmake
+    build-options:
+      env:
+        # qtmqtt installs .pri files to /app/mkspecs/modules/ but qmake
+        # searches /usr/mkspecs/ (QT_HOST_DATA=/usr). QMAKEPATH adds /app
+        # to the search path so qtHaveModule(mqtt) succeeds.
+        QMAKEPATH: /app
     config-opts:
       - PREFIX=/app
     sources:

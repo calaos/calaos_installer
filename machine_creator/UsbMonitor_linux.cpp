@@ -19,31 +19,14 @@
 #include "UsbMonitor_linux.h"
 #include <QSocketNotifier>
 #include <libudev.h>
-#include <dlfcn.h>
 #include <QTimer>
-
-// Declare required functions as weak so that they were not reported as missing at compile time.
-// In runtime it is required to ensure they are defined: we do it by checking that libudev is loaded.
-#pragma weak udev_device_unref
-#pragma weak udev_monitor_enable_receiving
-#pragma weak udev_monitor_filter_add_match_subsystem_devtype
-#pragma weak udev_monitor_get_fd
-#pragma weak udev_monitor_new_from_netlink
-#pragma weak udev_monitor_receive_device
-#pragma weak udev_monitor_unref
-#pragma weak udev_new
-#pragma weak udev_unref
 
 UsbMonitor_linux::UsbMonitor_linux()
 {
-    m_udevLib = dlopen("libudev.so.1", RTLD_NOW | RTLD_GLOBAL);
-    if (m_udevLib == nullptr)
-        m_udevLib = dlopen("libudev.so.0", RTLD_NOW | RTLD_GLOBAL);
-
-    if (!m_udevLib)
+    m_udev = udev_new();
+    if (!m_udev)
         return;
 
-    m_udev = udev_new();
     mon = udev_monitor_new_from_netlink(m_udev, "udev");
 
     //Filter hidraw devices
@@ -61,7 +44,6 @@ UsbMonitor_linux::~UsbMonitor_linux()
     delete sockMonitor;
     if (mon) udev_monitor_unref(mon);
     if (m_udev) udev_unref(m_udev);
-    if (m_udevLib) dlclose(m_udevLib);
 }
 
 void UsbMonitor_linux::monitorUSB(int fd)
