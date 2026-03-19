@@ -27,7 +27,7 @@ flatpak remote-add --user --if-not-exists flathub https://flathub.org/repo/flath
 
 # Install the required runtime and SDK
 echo "Installing KDE SDK and Platform runtime..."
-flatpak install --user -y --noninteractive flathub org.kde.Sdk//6.8 org.kde.Platform//6.8
+flatpak install --user -y --noninteractive flathub org.kde.Sdk//6.10 org.kde.Platform//6.10
 
 # Build the Flatpak
 echo "Building Flatpak..."
