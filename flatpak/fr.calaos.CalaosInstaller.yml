@@ -53,6 +53,7 @@ modules:
     buildsystem: qmake
     config-opts:
       - PREFIX=/app
+      - INSTALL_POLKIT=no
     sources:
       - type: dir
         path: ../machine_creator

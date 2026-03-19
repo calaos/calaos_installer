@@ -65,11 +65,13 @@ linux {
     target.path = $$PREFIX/bin
     INSTALLS += target
 
-    # install the elevation policy
-    policy.files = fr.calaos.pkexec.calaos_machinecreator.policy
-    policy.commands = mkdir -p /usr/share/polkit-1/actions
-    policy.path = /usr/share/polkit-1/actions
-    INSTALLS += policy
+    # install the elevation policy (skip in Flatpak builds with INSTALL_POLKIT=no)
+    !equals(INSTALL_POLKIT, "no") {
+        policy.files = fr.calaos.pkexec.calaos_machinecreator.policy
+        policy.commands = mkdir -p /usr/share/polkit-1/actions
+        policy.path = /usr/share/polkit-1/actions
+        INSTALLS += policy
+    }
 
     LIBS += -lKF6Archive
 }
