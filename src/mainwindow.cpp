@@ -7,6 +7,7 @@
 #include "DialogCreateNewImage.h"
 #include "WidgetIPAddr.h"
 #include <QCloseEvent>
+#include <QFile>
 #include <QFileDialog>
 #include <QDesktopServices>
 #include <QDialogButtonBox>
@@ -615,7 +616,16 @@ void MainWindow::on_actionCreateNewImage_triggered()
     QString program;
     QStringList args;
     args << QCoreApplication::applicationDirPath();
-    program = QCoreApplication::applicationDirPath() + "/pkexec_calaos_machinecreator.sh";
+    if (QFile::exists(QStringLiteral("/.flatpak-info")))
+    {
+        // In Flatpak, device access is granted by the sandbox (--device=all),
+        // no privilege escalation needed
+        program = QCoreApplication::applicationDirPath() + "/calaos_machinecreator";
+    }
+    else
+    {
+        program = QCoreApplication::applicationDirPath() + "/pkexec_calaos_machinecreator.sh";
+    }
     QProcess::startDetached(program, args);
 #elif defined(Q_OS_WIN)
     QDesktopServices::openUrl(QUrl::fromLocalFile(QCoreApplication::applicationDirPath() + "/calaos_machinecreator.exe"));
