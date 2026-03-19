@@ -1,0 +1,79 @@
+name: Build and Release Flatpak
+
+on:
+  workflow_dispatch:
+    inputs:
+      rel_type:
+        description: 'Release type (experimental or stable)'
+        required: false
+        default: 'experimental'
+
+jobs:
+  build-flatpak:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Full history needed for git describe version
+
+      - name: Generate version header
+        run: |
+          source scripts/funcs.sh
+          make_version .
+          VERSION="$(get_version .)"
+          echo "APP_VERSION=$VERSION" >> $GITHUB_ENV
+          echo "Building version: $VERSION"
+
+      - name: Install Flatpak and Flatpak Builder
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq flatpak flatpak-builder
+
+      - name: Add Flathub remote
+        run: |
+          flatpak remote-add --user --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+
+      - name: Install KDE SDK and Platform runtime
+        run: |
+          flatpak install --user -y --noninteractive flathub org.kde.Sdk//6.8 org.kde.Platform//6.8
+
+      - name: Build Flatpak
+        run: |
+          flatpak-builder \
+            --user \
+            --force-clean \
+            --install-deps-from=flathub \
+            --repo=flatpak-repo \
+            flatpak-build \
+            flatpak/fr.calaos.CalaosInstaller.yml
+
+      - name: Create Flatpak bundle
+        run: |
+          flatpak build-bundle \
+            flatpak-repo \
+            "calaos_installer-${{ env.APP_VERSION }}.flatpak" \
+            fr.calaos.CalaosInstaller
+          echo "FLATPAK_FILE=calaos_installer-${{ env.APP_VERSION }}.flatpak" >> $GITHUB_ENV
+
+      - name: Upload Flatpak artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: calaos-installer-flatpak
+          path: ${{ env.FLATPAK_FILE }}
+          retention-days: 30
+
+      - name: Upload to calaos.fr
+        env:
+          UPLOAD_KEY: ${{ secrets.UPLOAD_KEY }}
+        run: |
+          source scripts/funcs.sh
+          REL_TYPE="${{ github.event.inputs.rel_type }}"
+          if [ -z "$REL_TYPE" ]; then
+            REL_TYPE="experimental"
+          fi
+          upload_file \
+            "${{ env.FLATPAK_FILE }}" \
+            "$(sha256sum "${{ env.FLATPAK_FILE }}" | cut -d' ' -f1)" \
+            "$REL_TYPE/calaos_installer/flatpak"

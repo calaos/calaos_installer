@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>fr.calaos.CalaosInstaller</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-or-later</project_license>
+
+  <name>Calaos Installer</name>
+  <summary>Create and edit home automation configurations for the Calaos system</summary>
+
+  <description>
+    <p>
+      Calaos Installer is a desktop application for creating and editing home
+      automation configurations for the Calaos system. It provides a graphical
+      interface to manage rooms, I/O devices, rules, and automation scenarios.
+    </p>
+    <p>
+      It also includes Calaos Machine Creator, a tool for writing Calaos OS
+      images to USB drives and SD cards.
+    </p>
+    <p>Features:</p>
+    <ul>
+      <li>Create and organize rooms with input/output devices</li>
+      <li>Configure automation rules with conditions and actions</li>
+      <li>Manage Wago PLC modules, DALI lighting, and other hardware</li>
+      <li>Design touchscreen interfaces with the Remote UI Editor</li>
+      <li>Upload configurations to Calaos controllers via FTP</li>
+      <li>Write Calaos OS images to USB/SD media</li>
+      <li>Support for Zigbee2MQTT, Philips Hue, MySensors, KNX, and more</li>
+    </ul>
+  </description>
+
+  <launchable type="desktop-id">fr.calaos.CalaosInstaller.desktop</launchable>
+
+  <url type="homepage">https://www.calaos.fr</url>
+  <url type="bugtracker">https://github.com/calaos/calaos_installer/issues</url>
+  <url type="vcs-browser">https://github.com/calaos/calaos_installer</url>
+
+  <developer id="fr.calaos">
+    <name>Calaos</name>
+  </developer>
+
+  <provides>
+    <binary>calaos_installer</binary>
+    <binary>calaos_machinecreator</binary>
+  </provides>
+
+  <content_rating type="oars-1.1" />
+
+  <branding>
+    <color type="primary" scheme_preference="light">#3584e4</color>
+    <color type="primary" scheme_preference="dark">#1a5fb4</color>
+  </branding>
+</component>

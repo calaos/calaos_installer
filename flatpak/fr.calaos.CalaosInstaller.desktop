@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Application
+Name=Calaos Installer
+GenericName=Home Automation Configuration Tool
+Comment=Create and edit home automation configurations for the Calaos system
+Exec=calaos_installer
+Icon=fr.calaos.CalaosInstaller
+Terminal=false
+Categories=Utility;Settings;Building;
+Keywords=calaos;home;automation;domotics;configuration;
+StartupNotify=true
+MimeType=application/xml;

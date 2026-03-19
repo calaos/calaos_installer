@@ -364,6 +364,32 @@ unix {
     LIBS += -ldl
 }
 
+unix:!macx {
+    isEmpty(PREFIX) {
+        PREFIX = /usr/local
+    }
+
+    # install the binary
+    target.path = $$PREFIX/bin
+    INSTALLS += target
+
+    # install desktop file
+    desktop.files = flatpak/fr.calaos.CalaosInstaller.desktop
+    desktop.path = $$PREFIX/share/applications
+    INSTALLS += desktop
+
+    # install appstream metainfo
+    metainfo.files = flatpak/fr.calaos.CalaosInstaller.metainfo.xml
+    metainfo.path = $$PREFIX/share/metainfo
+    INSTALLS += metainfo
+
+    # install icon
+    icon128.files = data/img/calaos_icon.png
+    icon128.path = $$PREFIX/share/icons/hicolor/128x128/apps
+    icon128.extra = install -Dm644 $$PWD/data/img/calaos_icon.png $(INSTALL_ROOT)$$PREFIX/share/icons/hicolor/128x128/apps/fr.calaos.CalaosInstaller.png
+    INSTALLS += icon128
+}
+
 win32 {
     RC_FILE = win32/windows_res.rc
 }
