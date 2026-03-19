@@ -73,12 +73,11 @@ if [ "$QT_LIBS" != "$QT_PREFIX/lib" ] && [ ! -e "$QT_LIBS/QtMqtt.framework" ]; t
     echo "Created framework symlink $QT_LIBS/QtMqtt.framework -> $QT_PREFIX/lib/QtMqtt.framework"
 fi
 
-# Step 2: Create the inner Headers/QtMqtt -> . symlink at both paths
-for libdir in "$QT_PREFIX/lib" "$QT_LIBS"; do
-    if [ -d "$libdir/QtMqtt.framework/Headers" ]; then
-        ln -sf . "$libdir/QtMqtt.framework/Headers/QtMqtt"
-        echo "Created Headers/QtMqtt symlink at $libdir/QtMqtt.framework/"
-    fi
-done
+# Step 2: Create the inner Headers/QtMqtt -> . symlink at the real framework
+# path only (not through the symlink, which would cause "Operation not permitted")
+if [ -d "$QT_PREFIX/lib/QtMqtt.framework/Headers" ]; then
+    ln -sf . "$QT_PREFIX/lib/QtMqtt.framework/Headers/QtMqtt"
+    echo "Created Headers/QtMqtt symlink at $QT_PREFIX/lib/QtMqtt.framework/"
+fi
 
 cd ..
