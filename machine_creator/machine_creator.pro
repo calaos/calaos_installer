@@ -47,7 +47,9 @@ linux {
     QT_CONFIG -= no-pkg-config
     CONFIG += link_pkgconfig
     PKGCONFIG += libudev
-    QT += KArchive
+
+    # KF6 KArchive - KF6 dropped qmake .pri support, must link manually
+    INCLUDEPATH += /usr/include/KF6/KArchive
 
     LIBS += -ldl
 
