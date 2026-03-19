@@ -54,16 +54,30 @@ cmake --install build
 # Workaround: qtmqtt ignores -DFEATURE_framework=OFF and still installs as a
 # macOS framework.  The generated .pri file uses QT_MODULE_LIB_BASE which qmake
 # resolves to QT_INSTALL_LIBS (e.g. /opt/homebrew/lib), NOT necessarily the same
-# as $(brew --prefix qt6)/lib (e.g. /opt/homebrew/opt/qt/lib).  The -I flag in
-# the compile command points to QT_INSTALL_LIBS/QtMqtt.framework/Headers, so the
-# symlink must exist there.  We create it at both paths to be safe.
+# as $(brew --prefix qt6)/lib (e.g. /opt/homebrew/opt/qt/lib).  The compiler's
+# -I flag points to QT_INSTALL_LIBS/QtMqtt.framework/Headers, so the framework
+# must be reachable from QT_INSTALL_LIBS.
+#
+# Two symlinks are needed:
+# 1. Framework-level: QT_INSTALL_LIBS/QtMqtt.framework -> actual install location
+#    (mirrors what Homebrew does for its own Qt frameworks)
+# 2. Inner Headers:   QtMqtt.framework/Headers/QtMqtt -> .
+#    (so #include <QtMqtt/QMqttClient> resolves inside the framework)
 QT_PREFIX="$(brew --prefix qt6)"
 QT_LIBS="$(qmake -query QT_INSTALL_LIBS)"
 
+# Step 1: If QT_INSTALL_LIBS differs from the install prefix, create a
+# framework-level symlink so the compiler can find QtMqtt.framework
+if [ "$QT_LIBS" != "$QT_PREFIX/lib" ] && [ ! -e "$QT_LIBS/QtMqtt.framework" ]; then
+    ln -sf "$QT_PREFIX/lib/QtMqtt.framework" "$QT_LIBS/QtMqtt.framework"
+    echo "Created framework symlink $QT_LIBS/QtMqtt.framework -> $QT_PREFIX/lib/QtMqtt.framework"
+fi
+
+# Step 2: Create the inner Headers/QtMqtt -> . symlink at both paths
 for libdir in "$QT_PREFIX/lib" "$QT_LIBS"; do
     if [ -d "$libdir/QtMqtt.framework/Headers" ]; then
         ln -sf . "$libdir/QtMqtt.framework/Headers/QtMqtt"
-        echo "Created symlink workaround at $libdir/QtMqtt.framework/Headers/QtMqtt"
+        echo "Created Headers/QtMqtt symlink at $libdir/QtMqtt.framework/"
     fi
 done
 
