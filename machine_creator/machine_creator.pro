@@ -94,8 +94,8 @@ mac {
     INCLUDEPATH += /usr/local/opt/karchive/include/KF6/KArchive
     INCLUDEPATH += /usr/local/opt/qt/include/KF6/KArchive
     LIBS += -L/usr/local/opt/karchive/lib
-    LIBS += -L/opt/homebrew/opt/qt
-    LIBS += -L/usr/local/opt/qt/
+    LIBS += -L/opt/homebrew/opt/qt/lib
+    LIBS += -L/usr/local/opt/qt/lib
 
     LIBS += -lKF6Archive
 }
