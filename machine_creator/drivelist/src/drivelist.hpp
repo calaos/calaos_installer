@@ -18,6 +18,7 @@
 #define SRC_DRIVELIST_HPP_
 
 //#include <nan.h>
+#include <cstdint>
 #include <string>
 #include <vector>
 
