@@ -50,4 +50,15 @@ cmake -B build -S . \
         -Wno-dev
 cmake --build build
 cmake --install build
+
+# Workaround: qtmqtt ignores -DFEATURE_framework=OFF and still installs as a
+# macOS framework.  The generated .pri file adds -I.../QtMqtt.framework/Headers
+# which makes the compiler look for QtMqtt/QMqttClient as a subdirectory inside
+# Headers/.  Create a self-referencing symlink so that path resolves correctly.
+QT_PREFIX="$(brew --prefix qt6)"
+if [ -d "$QT_PREFIX/lib/QtMqtt.framework/Headers" ]; then
+    ln -sf . "$QT_PREFIX/lib/QtMqtt.framework/Headers/QtMqtt"
+    echo "Created symlink workaround for QtMqtt framework headers"
+fi
+
 cd ..
