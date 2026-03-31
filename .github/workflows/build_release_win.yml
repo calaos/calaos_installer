@@ -15,7 +15,7 @@ jobs:
           - name: Run the Windows build process with Docker
             uses: addnab/docker-run-action@v3
             with:
-                image: calaos/winbuilder:latest
+                image: ghcr.io/calaos/winbuilder:latest
                 options: -v ${{ github.workspace }}:/calaos_installer
                 run: |
                     /scripts/build_installer.sh
