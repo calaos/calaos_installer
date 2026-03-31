@@ -62,17 +62,17 @@ DialogRemoteUIEditor::DialogRemoteUIEditor(Calaos::IOBase *io, QWidget *parent):
     QString ioName = QString::fromStdString(ioBase->get_param("name"));
     m_model->setTitle(ioName);
 
-    m_quickWidget->setSource(QUrl("qrc:/qml/main.qml"));
+    // Connect BEFORE setSource: statusChanged can be emitted synchronously during setSource
+    auto showQmlErrors = [this]()
+    {
+        QStringList errors;
+        for (const QQmlError &err : m_quickWidget->errors())
+            errors << err.toString();
+        QMessageBox::critical(this, tr("QML Load Error"),
+            tr("Failed to load QML:\n\n%1").arg(errors.join("\n")));
+    };
 
-    // ButtonBox standard
-    auto *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel, this);
-    connect(buttonBox, &QDialogButtonBox::accepted, this, &DialogRemoteUIEditor::acceptChanges);
-    connect(buttonBox, &QDialogButtonBox::rejected, this, &QDialog::reject);
-
-    rootLayout->addWidget(m_quickWidget);
-    rootLayout->addWidget(buttonBox);
-
-    connect(m_quickWidget, &QQuickWidget::statusChanged, this, [this](QQuickWidget::Status status)
+    connect(m_quickWidget, &QQuickWidget::statusChanged, this, [this, showQmlErrors](QQuickWidget::Status status)
     {
         if (status == QQuickWidget::Ready)
         {
@@ -85,7 +85,25 @@ DialogRemoteUIEditor::DialogRemoteUIEditor(Calaos::IOBase *io, QWidget *parent):
                        h + 50);
             }
         }
+        else if (status == QQuickWidget::Error)
+        {
+            showQmlErrors();
+        }
     });
+
+    m_quickWidget->setSource(QUrl("qrc:/qml/main.qml"));
+
+    // Fallback: check status immediately in case signal was already emitted before connect
+    if (m_quickWidget->status() == QQuickWidget::Error)
+        showQmlErrors();
+
+    // ButtonBox standard
+    auto *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel, this);
+    connect(buttonBox, &QDialogButtonBox::accepted, this, &DialogRemoteUIEditor::acceptChanges);
+    connect(buttonBox, &QDialogButtonBox::rejected, this, &QDialog::reject);
+
+    rootLayout->addWidget(m_quickWidget);
+    rootLayout->addWidget(buttonBox);
 }
 
 DialogRemoteUIEditor::~DialogRemoteUIEditor()

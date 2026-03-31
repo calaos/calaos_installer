@@ -18,6 +18,6 @@ jobs:
                 image: ghcr.io/calaos/winbuilder:latest
                 options: -v ${{ github.workspace }}:/calaos_installer
                 run: |
-                    /scripts/build_installer.sh
-                    /scripts/package_installer.sh
-                    /scripts/deploy_installer.sh ${{ secrets.UPLOAD_TOKEN }} "stable"
+                    /calaos_installer/win32/scripts/build_installer.sh
+                    /calaos_installer/win32/scripts/package_installer.sh
+                    /calaos_installer/win32/scripts/deploy_installer.sh ${{ secrets.UPLOAD_TOKEN }} "stable"
