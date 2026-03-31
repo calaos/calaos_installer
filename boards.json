@@ -1,0 +1,35 @@
+{
+  "boards": [
+    {
+      "id": "waveshare-86-panel",
+      "name": "Waveshare ESP32-P4 Dev Board",
+      "platform": "esp32",
+      "config_partition_name": "config.bin",
+      "firmware_repo": "https://github.com/calaos/calaos_remote_ui",
+      "flash": {
+        "tool": "esptool",
+        "tool_url": "https://github.com/espressif/esptool",
+        "tool_github_release": true,
+        "requires_serial_port": true
+      }
+    },
+    {
+      "id": "luckfox-86-panel",
+      "name": "Luckfox Pico 86 Panel",
+      "platform": "linux",
+      "config_partition_name": "config_network",
+      "firmware_repo": "https://github.com/calaos/calaos_remote_ui",
+      "flash": {
+        "tool": "upgrade_tool",
+        "tool_url": {
+          "linux": "https://www.calaos.fr/download/misc/luckfox/upgrade_tool_v2.17-bfd48dcdba9fd8013872ca2abff19a8d.zip",
+          "macos": "https://www.calaos.fr/download/misc/luckfox/upgrade_tool_v2.44_for_mac-d34c9648a1c9bd0e965d598dc3183b67.zip"
+        },
+        "tool_github_release": false,
+        "requires_serial_port": false,
+        "supported_os": ["linux", "macos"],
+        "unsupported_os_doc_url": "https://docs.calaos.fr/devices/luckfox-86-panel/flash"
+      }
+    }
+  ]
+}

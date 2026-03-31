@@ -1,0 +1,499 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>DialogFlashDevice</class>
+ <widget class="QDialog" name="DialogFlashDevice">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>650</width>
+    <height>750</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Flash Remote UI Device</string>
+  </property>
+  <property name="modal">
+   <bool>true</bool>
+  </property>
+  <layout class="QVBoxLayout" name="mainLayout">
+   <item>
+    <widget class="QScrollArea" name="scrollArea">
+     <property name="widgetResizable">
+      <bool>true</bool>
+     </property>
+     <widget class="QWidget" name="scrollAreaWidgetContents">
+      <layout class="QVBoxLayout" name="scrollLayout">
+
+       <!-- 1. Board Selection -->
+       <item>
+        <widget class="QGroupBox" name="groupBoard">
+         <property name="title">
+          <string>1. Select Board</string>
+         </property>
+         <layout class="QHBoxLayout" name="boardLayout">
+          <item>
+           <widget class="QLabel" name="labelBoard">
+            <property name="text">
+             <string>Board:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QComboBox" name="comboBoard">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+              <horstretch>1</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+
+       <!-- 2. Firmware Selection -->
+       <item>
+        <widget class="QGroupBox" name="groupFirmware">
+         <property name="title">
+          <string>2. Firmware</string>
+         </property>
+         <layout class="QVBoxLayout" name="firmwareMainLayout">
+          <item>
+           <layout class="QHBoxLayout" name="firmwareRadioLayout">
+            <item>
+             <widget class="QRadioButton" name="radioDownload">
+              <property name="text">
+               <string>Download latest</string>
+              </property>
+              <property name="checked">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QComboBox" name="comboFirmwareVersion">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                <horstretch>1</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="firmwareLocalLayout">
+            <item>
+             <widget class="QRadioButton" name="radioLocalFile">
+              <property name="text">
+               <string>Use local file</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="buttonBrowseFirmware">
+              <property name="text">
+               <string>Browse...</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="labelFirmwareFile">
+              <property name="text">
+               <string>No file selected</string>
+              </property>
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+                <horstretch>1</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="firmwareInfoLayout">
+            <item>
+             <widget class="QLabel" name="labelFirmwareInfo">
+              <property name="text">
+               <string/>
+              </property>
+              <property name="styleSheet">
+               <string>color: #555;</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <widget class="QProgressBar" name="progressFirmware">
+            <property name="visible">
+             <bool>false</bool>
+            </property>
+            <property name="value">
+             <number>0</number>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+
+       <!-- 3. Network Configuration -->
+       <item>
+        <widget class="QGroupBox" name="groupNetwork">
+         <property name="title">
+          <string>3. Network Configuration</string>
+         </property>
+         <layout class="QGridLayout" name="networkGridLayout">
+          <item row="0" column="0">
+           <widget class="QLabel" name="labelNetIface">
+            <property name="text">
+             <string>Network interface:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QComboBox" name="comboNetInterface">
+            <item>
+             <property name="text">
+              <string>Ethernet</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>WiFi</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="labelWifiSsid">
+            <property name="text">
+             <string>WiFi SSID:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QLineEdit" name="editWifiSsid"/>
+          </item>
+          <item row="2" column="0">
+           <widget class="QLabel" name="labelWifiPass">
+            <property name="text">
+             <string>WiFi Password:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="1">
+           <widget class="QLineEdit" name="editWifiPassword">
+            <property name="echoMode">
+             <enum>QLineEdit::Password</enum>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="0">
+           <widget class="QLabel" name="labelIpConfig">
+            <property name="text">
+             <string>IP configuration:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="1">
+           <widget class="QComboBox" name="comboIpConfig">
+            <item>
+             <property name="text">
+              <string>DHCP</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Static</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+          <item row="4" column="0">
+           <widget class="QLabel" name="labelStaticIp">
+            <property name="text">
+             <string>IP Address:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="1">
+           <widget class="QLineEdit" name="editStaticIp">
+            <property name="placeholderText">
+             <string>192.168.1.100</string>
+            </property>
+           </widget>
+          </item>
+          <item row="5" column="0">
+           <widget class="QLabel" name="labelStaticMask">
+            <property name="text">
+             <string>Subnet Mask:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="5" column="1">
+           <widget class="QLineEdit" name="editStaticMask">
+            <property name="placeholderText">
+             <string>255.255.255.0</string>
+            </property>
+           </widget>
+          </item>
+          <item row="6" column="0">
+           <widget class="QLabel" name="labelStaticGw">
+            <property name="text">
+             <string>Gateway:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="6" column="1">
+           <widget class="QLineEdit" name="editStaticGateway">
+            <property name="placeholderText">
+             <string>192.168.1.1</string>
+            </property>
+           </widget>
+          </item>
+          <item row="7" column="0">
+           <widget class="QLabel" name="labelStaticDns">
+            <property name="text">
+             <string>DNS Server (optional):</string>
+            </property>
+           </widget>
+          </item>
+          <item row="7" column="1">
+           <widget class="QLineEdit" name="editStaticDns">
+            <property name="placeholderText">
+             <string>8.8.8.8</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+
+       <!-- 4. Server Configuration -->
+       <item>
+        <widget class="QGroupBox" name="groupServer">
+         <property name="title">
+          <string>4. Calaos Server Configuration</string>
+         </property>
+         <layout class="QGridLayout" name="serverGridLayout">
+          <item row="0" column="0" colspan="2">
+           <widget class="QCheckBox" name="checkAutoDiscovery">
+            <property name="text">
+             <string>Auto-discovery</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="labelServerHost">
+            <property name="text">
+             <string>Calaos Server host:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QLineEdit" name="editServerHost">
+            <property name="placeholderText">
+             <string>192.168.1.10 or hostname</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="0">
+           <widget class="QLabel" name="labelServerPort">
+            <property name="text">
+             <string>Calaos Server port:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="1">
+           <widget class="QSpinBox" name="spinServerPort">
+            <property name="minimum">
+             <number>1</number>
+            </property>
+            <property name="maximum">
+             <number>65535</number>
+            </property>
+            <property name="value">
+             <number>5454</number>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="0" colspan="2">
+           <widget class="QCheckBox" name="checkSsl">
+            <property name="text">
+             <string>Use SSL</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+
+       <!-- 5. Serial Port (ESP32 only) -->
+       <item>
+        <widget class="QGroupBox" name="groupSerialPort">
+         <property name="title">
+          <string>5. Serial Port</string>
+         </property>
+         <layout class="QVBoxLayout" name="serialOuterLayout">
+          <item>
+           <layout class="QHBoxLayout" name="serialLayout">
+            <item>
+             <widget class="QComboBox" name="comboSerialPort">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                <horstretch>1</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="buttonRefreshPorts">
+              <property name="text">
+               <string>Refresh</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="checkEraseFlash">
+            <property name="text">
+             <string>Erase entire flash before writing (factory reset)</string>
+            </property>
+            <property name="toolTip">
+             <string>Erases all flash memory before flashing. This removes all saved settings, calibration data, and NVS storage.</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+
+       <!-- 6. Tool Status -->
+       <item>
+        <widget class="QGroupBox" name="groupToolStatus">
+         <property name="title">
+          <string>6. Flash Tool</string>
+         </property>
+         <layout class="QHBoxLayout" name="toolLayout">
+          <item>
+           <widget class="QLabel" name="labelToolStatus">
+            <property name="text">
+             <string>No tool configured</string>
+            </property>
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+              <horstretch>1</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="buttonBrowseTool">
+            <property name="text">
+             <string>Browse...</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+
+       <!-- Unsupported OS message -->
+       <item>
+        <widget class="QLabel" name="labelUnsupportedOs">
+         <property name="text">
+          <string>Automated flashing is not available on this platform for this board. Save the config file and follow the online instructions.</string>
+         </property>
+         <property name="wordWrap">
+          <bool>true</bool>
+         </property>
+         <property name="visible">
+          <bool>false</bool>
+         </property>
+         <property name="styleSheet">
+          <string>QLabel { color: #e65100; padding: 8px; background-color: #fff3e0; border-radius: 4px; }</string>
+         </property>
+        </widget>
+       </item>
+
+       <item>
+        <spacer name="verticalSpacer">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+        </spacer>
+       </item>
+
+      </layout>
+     </widget>
+    </widget>
+   </item>
+
+   <!-- Action buttons -->
+   <item>
+    <layout class="QHBoxLayout" name="actionLayout">
+     <item>
+      <spacer name="actionSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="buttonSaveConfig">
+       <property name="text">
+        <string>Save config file</string>
+       </property>
+       <property name="visible">
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="buttonOpenInstructions">
+       <property name="text">
+        <string>Open flashing instructions</string>
+       </property>
+       <property name="visible">
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="buttonFlash">
+       <property name="text">
+        <string>Flash</string>
+       </property>
+       <property name="default">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="buttonClose">
+       <property name="text">
+        <string>Close</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

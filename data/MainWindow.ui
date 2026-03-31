@@ -54,7 +54,7 @@ QFrame .HeaderButton
 	margin-left: 5px;
 	margin-right: 5px;
 }
-QFrame .HeaderButton::menu-indicator 
+QFrame .HeaderButton::menu-indicator
 {
     subcontrol-origin: padding;
 	subcontrol-position: bottom right;
@@ -66,11 +66,11 @@ QFrame .HeaderButton::menu-indicator:pressed, QFrame .HeaderButton::menu-indicat
 	position: relative;
 	top: 1px;
 }
-QFrame .HeaderButton:hover 
+QFrame .HeaderButton:hover
 {
 	background: qradialgradient(cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4, radius: 1.35, stop: 0 #fff, stop: 1 #bbb);
 }
-QFrame .HeaderButton:pressed 
+QFrame .HeaderButton:pressed
 {
 	background: qradialgradient(cx: 0.4, cy: -0.1, fx: 0.4, fy: -0.1, radius: 1.35, stop: 0 #fff, stop: 1 #ddd);
 }</string>
@@ -204,6 +204,26 @@ QFrame .HeaderButton:pressed
             <property name="icon">
              <iconset resource="resources.qrc">
               <normaloff>:/img/logo_huge.png</normaloff>:/img/logo_huge.png</iconset>
+            </property>
+            <property name="iconSize">
+             <size>
+              <width>24</width>
+              <height>24</height>
+             </size>
+            </property>
+            <property name="class" stdset="0">
+             <string>HeaderButton</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="btTools">
+            <property name="text">
+             <string>Tools   </string>
+            </property>
+            <property name="icon">
+             <iconset resource="resources.qrc">
+              <normaloff>:/img/configure.png</normaloff>:/img/configure.png</iconset>
             </property>
             <property name="iconSize">
              <size>
@@ -530,8 +550,6 @@ hr { height: 1px; border-width: 0; }
     <addaction name="actionSaveProject"/>
     <addaction name="separator"/>
     <addaction name="menuG_n_rer_fichier_d_impression"/>
-    <addaction name="separator"/>
-    <addaction name="actionCreateNewImage"/>
    </widget>
    <widget class="QMenu" name="menuWago">
     <property name="title">
@@ -555,9 +573,18 @@ hr { height: 1px; border-width: 0; }
     <addaction name="actionOuvrir_un_projet_en_ligne"/>
     <addaction name="actionSaveProject_en_ligne"/>
    </widget>
+   <widget class="QMenu" name="menuTools">
+    <property name="title">
+     <string>Tools</string>
+    </property>
+    <addaction name="actionFlashRemoteUI"/>
+    <addaction name="separator"/>
+    <addaction name="actionCreateNewImage"/>
+   </widget>
    <addaction name="menuProjet"/>
    <addaction name="menuCentrale"/>
    <addaction name="menuWago"/>
+   <addaction name="menuTools"/>
   </widget>
   <action name="actionLoadProject">
    <property name="icon">
@@ -695,6 +722,11 @@ hr { height: 1px; border-width: 0; }
   <action name="actionCreateNewImage">
    <property name="text">
     <string>Create New Image</string>
+   </property>
+  </action>
+  <action name="actionFlashRemoteUI">
+   <property name="text">
+    <string>Flash Remote UI Device...</string>
    </property>
   </action>
   <action name="actionSet_DMX4ALL_IP_Address">

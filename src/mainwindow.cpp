@@ -5,6 +5,7 @@
 #include "DialogOptions.h"
 #include "dialogautodetect.h"
 #include "DialogCreateNewImage.h"
+#include "DialogFlashDevice.h"
 #include "WidgetIPAddr.h"
 #include <QCloseEvent>
 #include <QFile>
@@ -32,6 +33,7 @@ MainWindow::MainWindow(QWidget *parent):
     ui->btProject->setMenu(ui->menuProjet);
     ui->btWago->setMenu(ui->menuWago);
     ui->btServer->setMenu(ui->menuCentrale);
+    ui->btTools->setMenu(ui->menuTools);
 
     connect(ui->btHelp, &QPushButton::pressed, this, &MainWindow::actionAbout_triggered);
     connect(ui->btQuit, &QPushButton::pressed, this, &MainWindow::actionQuit_triggered);
@@ -753,4 +755,10 @@ void MainWindow::on_actionUpgrade_PLC_with_custom_firmware_triggered()
     }
 
     WagoConnect::Instance().updateWago(prgFile, chkFile);
+}
+
+void MainWindow::on_actionFlashRemoteUI_triggered()
+{
+    DialogFlashDevice dlg(this);
+    dlg.exec();
 }

@@ -1,4 +1,4 @@
-QT += core gui network widgets xml printsupport quick qml quickwidgets quickcontrols2
+QT += core gui network widgets xml printsupport quick qml quickwidgets quickcontrols2 serialport
 
 qtHaveModule(mqtt) {
     QT += mqtt
@@ -120,7 +120,17 @@ SOURCES += src/main.cpp \
     src/DialogDetectxPL.cpp \
     src/DialogDetectMySensors.cpp \
     src/MySensors.cpp \
-    src/FormActionPush.cpp
+    src/FormActionPush.cpp \
+    src/Crc32.cpp \
+    src/BoardProfile.cpp \
+    src/ConfigImageBuilder.cpp \
+    src/FirmwareManifest.cpp \
+    src/HttpClient.cpp \
+    src/FlashToolManager.cpp \
+    src/FirmwareManager.cpp \
+    src/DialogFlashConsole.cpp \
+    src/DialogFlashDevice.cpp \
+    src/QAnsiTextEdit.cpp
 
 HEADERS += src/mainwindow.h \
     src/DialogRemoteUI.h \
@@ -224,7 +234,17 @@ HEADERS += src/mainwindow.h \
     src/MySensors.h \
     src/EntryHelpers.h \
     src/IEntryHelper.h \
-    src/FormActionPush.h
+    src/FormActionPush.h \
+    src/Crc32.h \
+    src/BoardProfile.h \
+    src/ConfigImageBuilder.h \
+    src/FirmwareManifest.h \
+    src/HttpClient.h \
+    src/FlashToolManager.h \
+    src/FirmwareManager.h \
+    src/DialogFlashConsole.h \
+    src/DialogFlashDevice.h \
+    src/QAnsiTextEdit.h
 
 
 FORMS += \
@@ -282,7 +302,9 @@ FORMS += \
     data/DialogDaliMasterItem.ui \
     data/DialogDetectxPL.ui \
     data/DialogDetectMySensors.ui \
-    data/FormActionPush.ui
+    data/FormActionPush.ui \
+    data/DialogFlashConsole.ui \
+    data/DialogFlashDevice.ui
 
 RESOURCES += data/resources.qrc \
     data/textedit.qrc \
@@ -362,6 +384,32 @@ INCLUDEPATH += src/common/LuaScript/lua-5.1.4/src/ \
 
 unix {
     LIBS += -ldl
+}
+
+# KArchive (KF6 on Linux/macOS, KF5 on Windows cross-compile)
+unix:!macx {
+    INCLUDEPATH += /usr/include/KF6/KArchive
+    LIBS += -lKF6Archive
+}
+macx {
+    INCLUDEPATH += /usr/local/opt/karchive/include/KF5/KArchive \
+        /opt/homebrew/opt/qt/include/KF6/KArchive \
+        /usr/local/opt/karchive/include/KF6/KArchive \
+        /usr/local/opt/qt/include/KF6/KArchive
+    LIBS += -L/usr/local/opt/karchive/lib \
+        -L/opt/homebrew/opt/qt/lib \
+        -L/usr/local/opt/qt/lib
+    LIBS += -lKF6Archive
+}
+win32 {
+    INCLUDEPATH += C:/kderoot/include/KF5/ \
+        C:/kderoot/include/KF5/KArchive \
+        /mxe/usr/i686-w64-mingw32.shared.posix/include/KF5/KArchive \
+        /mxe/usr/i686-w64-mingw32.shared.posix/include/KF6/KArchive
+    LIBS += -LC:/kderoot/lib \
+        -LC:/kderoot/bin \
+        -L/mxe/usr/i686-w64-mingw32.shared.posix/lib
+    LIBS += -lKF5Archive
 }
 
 unix:!macx {
