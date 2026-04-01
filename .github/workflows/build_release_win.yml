@@ -12,10 +12,10 @@ jobs:
             with:
                 fetch-depth: 0
 
-          - name: Install Qt 6.11 (MinGW 64-bit)
+          - name: Install Qt 6.10.3 (MinGW 64-bit)
             uses: jurplel/install-qt-action@v4
             with:
-                version: '6.11'
+                version: '6.10.3'
                 host: 'windows'
                 target: 'desktop'
                 arch: 'win64_mingw'
