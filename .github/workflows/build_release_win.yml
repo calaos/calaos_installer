@@ -19,7 +19,7 @@ jobs:
                 host: 'windows'
                 target: 'desktop'
                 arch: 'win64_mingw'
-                modules: 'qt5compat qtmqtt qtserialport qtwebsockets'
+                modules: 'qt5compat qtserialport qtwebsockets'
                 tools: 'tools_mingw'
                 cache: true
 
@@ -48,6 +48,18 @@ jobs:
             if: steps.karchive-cache.outputs.cache-hit != 'true'
             shell: pwsh
             run: ./win32/scripts/build_karchive.ps1
+
+          - name: Cache QtMqtt build
+            uses: actions/cache@v4
+            id: qtmqtt-cache
+            with:
+                path: C:/qtmqtt
+                key: qtmqtt-mingw64-${{ hashFiles('win32/scripts/build_qtmqtt.ps1') }}
+
+          - name: Build QtMqtt from source
+            if: steps.qtmqtt-cache.outputs.cache-hit != 'true'
+            shell: pwsh
+            run: ./win32/scripts/build_qtmqtt.ps1
 
           - name: Compile
             shell: pwsh

@@ -18,6 +18,9 @@ Write-Host "KArchive: $env:KARCHIVE_PREFIX"
 # Add KArchive bin to PATH so DLLs are found at link time
 $env:PATH = "C:/karchive/bin;$env:PATH"
 
+# Add QtMqtt install prefix so qmake finds the Mqtt module
+$env:QT_ADDITIONAL_PACKAGES_PREFIX_PATH = "C:/qtmqtt"
+
 # --- Build calaos_installer ---
 if (Test-Path $BUILD_DIR) { Remove-Item -Recurse -Force $BUILD_DIR }
 New-Item -ItemType Directory -Force -Path $BUILD_MC_DIR | Out-Null
