@@ -16,11 +16,13 @@ AppPublisher={#MyAppPublisher}
 AppPublisherURL={#MyAppURL}
 AppSupportURL={#MyAppURL}
 AppUpdatesURL={#MyAppURL}
-DefaultDirName={commonpf}\{#MyAppName}
+DefaultDirName={autopf}\{#MyAppName}
 DefaultGroupName=Calaos
 DisableProgramGroupPage=no
 OutputDir=build
 OutputBaseFilename=calaos_installer_setup_{#MyAppVersion}
+ArchitecturesAllowed=x64compatible
+ArchitecturesInstallIn64BitMode=x64compatible
 Compression=lzma2/ultra64
 SolidCompression=no
 AppCopyright=Copyright (c) Calaos Team
@@ -43,7 +45,7 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 Source: "C:\calaos_installer_build\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs; Components: calaosinstaller;
 ;Source: "Bonjour.msi"; DestDir: "{app}\redist"; Flags: ignoreversion; Components: calaosinstaller;
 ;Source: "Bonjour64.msi"; DestDir: "{app}\redist"; Flags: ignoreversion; Components: calaosinstaller;
-Source: "psvince.dll"; DestDir: "{app}"; Flags: ignoreversion; Components: calaosinstaller;
+
 
 [Icons]
 Name: "{group}\Calaos Installer"; Filename: "{app}\calaos_installer.exe"; Components: calaosinstaller
@@ -64,7 +66,7 @@ Name: "calaosinstaller"; Description: "Calaos Installer"; Types: Full
 ;For bonjour when we need it one day
 ;Filename: "msiexec.exe"; Parameters: "/i ""{app}\redist\Bonjour.msi"" /qn"; WorkingDir: "{app}\redist"; StatusMsg: "Installing Bonjour32..."; Components: calaosinstaller; Check: not IsWin64
 ;Filename: "msiexec.exe"; Parameters: "/i ""{app}\redist\Bonjour64.msi"" /qn"; WorkingDir: "{app}\redist"; StatusMsg: "Installing Bonjour64..."; Components: calaosinstaller; Check: IsWin64
-Filename: "{app}\calaos_installer.exe"; WorkingDir: "{app}"; Description: "Start Calaos Installer"; Flags: postinstall nowait skipifsilent runascurrentuser  
+Filename: "{app}\calaos_installer.exe"; WorkingDir: "{app}"; Description: "Start Calaos Installer"; Flags: postinstall nowait skipifsilent runascurrentuser
 
 ;Uninstall first all fw rules
 Filename: "{sys}\netsh.exe"; Parameters: "advfirewall firewall delete rule name=""Calaos Installer"" "; StatusMsg: "Removing Firewall Exception"; Flags: runhidden; Components: calaosinstaller
@@ -74,16 +76,57 @@ Filename: "{sys}\netsh.exe"; Parameters: "advfirewall firewall add rule name=""C
 Filename: "{sys}\netsh.exe"; Parameters: "advfirewall firewall add rule name=""Calaos Machine Creator"" dir=in action=allow program=""{app}\calaos_machinecreator.exe"" "; StatusMsg: "Adding Firewall Exception"; Flags: runhidden; Components: calaosinstaller
 
 [Code]
-// function IsModuleLoaded to call at install time
-// added also setuponly flag
-function IsModuleLoaded(modulename: String ):  Boolean;
-external 'IsModuleLoaded@files:psvince.dll stdcall setuponly';
- 
-// function IsModuleLoadedU to call at uninstall time
-// added also uninstallonly flag
-function IsModuleLoadedU(modulename: String ):  Boolean;
-external 'IsModuleLoaded@{app}\psvince.dll stdcall uninstallonly' ;
- 
+const
+  TH32CS_SNAPPROCESS = $00000002;
+
+type
+  TPROCESSENTRY32 = record
+    dwSize: DWORD;
+    cntUsage: DWORD;
+    th32ProcessID: DWORD;
+    th32DefaultHeapID: LongInt;
+    th32ModuleID: DWORD;
+    cntThreads: DWORD;
+    th32ParentProcessID: DWORD;
+    pcPriClassBase: Integer;
+    dwFlags: DWORD;
+    szExeFile: array [0..259] of Char;
+  end;
+
+function CreateToolhelp32Snapshot(dwFlags: DWORD; th32ProcessID: DWORD): THandle;
+  external 'CreateToolhelp32Snapshot@kernel32.dll stdcall';
+function Process32First(hSnapshot: THandle; var lppe: TPROCESSENTRY32): Boolean;
+  external 'Process32First@kernel32.dll stdcall';
+function Process32Next(hSnapshot: THandle; var lppe: TPROCESSENTRY32): Boolean;
+  external 'Process32Next@kernel32.dll stdcall';
+function CloseHandle(hObject: THandle): Boolean;
+  external 'CloseHandle@kernel32.dll stdcall';
+
+function IsProcessRunning(processName: String): Boolean;
+var
+  hSnap: THandle;
+  pe: TPROCESSENTRY32;
+begin
+  Result := False;
+  hSnap := CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
+  if hSnap = -1 then Exit;
+  try
+    pe.dwSize := SizeOf(pe);
+    if Process32First(hSnap, pe) then
+    begin
+      repeat
+        if SameText(ExtractFileName(pe.szExeFile), processName) then
+        begin
+          Result := True;
+          Exit;
+        end;
+      until not Process32Next(hSnap, pe);
+    end;
+  finally
+    CloseHandle(hSnap);
+  end;
+end;
+
 function CompareVersion(str1, str2: String): Integer;
 var
   temp1, temp2: String;
@@ -99,21 +142,21 @@ begin
 	    Result := 0;
 	  end;
 end;
- 
+
 function InitializeSetup(): Boolean;
 var
   oldVersion: String;
   uninstaller: String;
   ErrorCode: Integer;
 begin
-  if IsModuleLoaded( 'calaos_installer.exe' ) then
+  if IsProcessRunning('calaos_installer.exe') then
   begin
     MsgBox( 'Calaos Installer is running, please close it and run setup again.',
              mbError, MB_OK );
     Result := False;
     Exit;
   end;
- 
+
   if RegKeyExists(HKEY_LOCAL_MACHINE,
     'SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{#MyAppID}_is1') then
   begin
@@ -157,19 +200,15 @@ begin
     Result := True;
   end;
 end;
- 
+
 function InitializeUninstall(): Boolean;
 begin
- 
-  if IsModuleLoadedU( 'calaos_installer.exe' ) then
+
+  if IsProcessRunning('calaos_installer.exe') then
   begin
     MsgBox( 'Calaos Installer is running, please close it and run again uninstall.',
              mbError, MB_OK );
     Result := false;
   end
   else Result := true;
-
-  // Unload the DLL, otherwise the dll psvince is not deleted
-  UnloadDLL(ExpandConstant('{app}\psvince.dll'));
- 
 end;

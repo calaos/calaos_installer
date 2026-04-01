@@ -111,14 +111,12 @@ win32 {
     LIBS += -lole32 -loleaut32 -luuid -lsetupapi
 
     #KArchive
-    INCLUDEPATH += C:/kderoot/include/KF5/ \
-        C:/kderoot/include/KF5/KArchive \
-        /mxe/usr/i686-w64-mingw32.shared.posix/include/KF5/KArchive \
-        /mxe/usr/i686-w64-mingw32.shared.posix/include/KF6/KArchive
-    LIBS += -LC:/kderoot/lib \
-        -LC:/kderoot/bin \
-        -L/mxe/usr/i686-w64-mingw32.shared.posix/lib
-
-    LIBS += -lKF5Archive
+    KARCHIVE_DIR = $$(KARCHIVE_PREFIX)
+    isEmpty(KARCHIVE_DIR) {
+        KARCHIVE_DIR = C:/karchive
+    }
+    INCLUDEPATH += $$KARCHIVE_DIR/include/KF6/KArchive
+    LIBS += -L$$KARCHIVE_DIR/lib -L$$KARCHIVE_DIR/bin
+    LIBS += -lKF6Archive
 }
 

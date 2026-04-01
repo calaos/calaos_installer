@@ -5,19 +5,58 @@ on: workflow_dispatch
 jobs:
     compile:
         name: Build
-        runs-on: ubuntu-latest
+        runs-on: windows-latest
         steps:
           - name: Check out the repo
-            uses: actions/checkout@v3
+            uses: actions/checkout@v4
             with:
                 fetch-depth: 0
 
-          - name: Run the Windows build process with Docker
-            uses: addnab/docker-run-action@v3
+          - name: Install Qt 6.11 (MinGW 64-bit)
+            uses: jurplel/install-qt-action@v4
             with:
-                image: ghcr.io/calaos/winbuilder:latest
-                options: -v ${{ github.workspace }}:/calaos_installer
-                run: |
-                    /calaos_installer/win32/scripts/build_installer.sh
-                    /calaos_installer/win32/scripts/package_installer.sh
-                    /calaos_installer/win32/scripts/deploy_installer.sh ${{ secrets.UPLOAD_TOKEN }} "stable"
+                version: '6.11'
+                host: 'windows'
+                target: 'desktop'
+                arch: 'win64_mingw'
+                modules: 'qt5compat qtmqtt qtserialport qtwebsockets'
+                tools: 'tools_mingw'
+                cache: true
+
+          - name: Add MinGW to PATH
+            shell: pwsh
+            run: |
+                # install-qt-action installs tools under IQTA_TOOLS
+                $mingwDir = Get-ChildItem -Path "$env:IQTA_TOOLS" -Filter "mingw*" -Directory | Select-Object -First 1
+                if ($mingwDir) {
+                    $binDir = Join-Path $mingwDir.FullName "bin"
+                    Write-Host "Adding MinGW to PATH: $binDir"
+                    echo "$binDir" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+                } else {
+                    Write-Error "MinGW toolchain not found under $env:IQTA_TOOLS"
+                    exit 1
+                }
+
+          - name: Cache KArchive build
+            uses: actions/cache@v4
+            id: karchive-cache
+            with:
+                path: C:/karchive
+                key: karchive-kf6-mingw64-${{ hashFiles('win32/scripts/build_karchive.ps1') }}
+
+          - name: Build KArchive from source
+            if: steps.karchive-cache.outputs.cache-hit != 'true'
+            shell: pwsh
+            run: ./win32/scripts/build_karchive.ps1
+
+          - name: Compile
+            shell: pwsh
+            run: ./win32/scripts/build_installer.ps1
+
+          - name: Package
+            shell: pwsh
+            run: ./win32/scripts/package_installer.ps1
+
+          - name: Deploy
+            shell: pwsh
+            run: ./win32/scripts/deploy_installer.ps1 -UploadToken "${{ secrets.UPLOAD_TOKEN }}" -RelType "stable"
