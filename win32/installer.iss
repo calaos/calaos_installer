@@ -76,55 +76,15 @@ Filename: "{sys}\netsh.exe"; Parameters: "advfirewall firewall add rule name=""C
 Filename: "{sys}\netsh.exe"; Parameters: "advfirewall firewall add rule name=""Calaos Machine Creator"" dir=in action=allow program=""{app}\calaos_machinecreator.exe"" "; StatusMsg: "Adding Firewall Exception"; Flags: runhidden; Components: calaosinstaller
 
 [Code]
-const
-  TH32CS_SNAPPROCESS = $00000002;
 
-type
-  TPROCESSENTRY32 = record
-    dwSize: DWORD;
-    cntUsage: DWORD;
-    th32ProcessID: DWORD;
-    th32DefaultHeapID: LongInt;
-    th32ModuleID: DWORD;
-    cntThreads: DWORD;
-    th32ParentProcessID: DWORD;
-    pcPriClassBase: Integer;
-    dwFlags: DWORD;
-    szExeFile: array [0..259] of Char;
-  end;
-
-function CreateToolhelp32Snapshot(dwFlags: DWORD; th32ProcessID: DWORD): THandle;
-  external 'CreateToolhelp32Snapshot@kernel32.dll stdcall';
-function Process32First(hSnapshot: THandle; var lppe: TPROCESSENTRY32): Boolean;
-  external 'Process32First@kernel32.dll stdcall';
-function Process32Next(hSnapshot: THandle; var lppe: TPROCESSENTRY32): Boolean;
-  external 'Process32Next@kernel32.dll stdcall';
-function CloseHandle(hObject: THandle): Boolean;
-  external 'CloseHandle@kernel32.dll stdcall';
-
-function IsProcessRunning(processName: String): Boolean;
+function IsProcessRunning(const ProcessName: String): Boolean;
 var
-  hSnap: THandle;
-  pe: TPROCESSENTRY32;
+  ResultCode: Integer;
 begin
-  Result := False;
-  hSnap := CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
-  if hSnap = -1 then Exit;
-  try
-    pe.dwSize := SizeOf(pe);
-    if Process32First(hSnap, pe) then
-    begin
-      repeat
-        if SameText(ExtractFileName(pe.szExeFile), processName) then
-        begin
-          Result := True;
-          Exit;
-        end;
-      until not Process32Next(hSnap, pe);
-    end;
-  finally
-    CloseHandle(hSnap);
-  end;
+  Exec(ExpandConstant('{cmd}'),
+    '/C tasklist /FI "IMAGENAME eq ' + ProcessName + '" 2>NUL | find /I /N "' + ProcessName + '" >NUL',
+    '', SW_HIDE, ewWaitUntilTerminated, ResultCode);
+  Result := (ResultCode = 0);
 end;
 
 function CompareVersion(str1, str2: String): Integer;
