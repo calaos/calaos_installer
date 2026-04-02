@@ -46,6 +46,14 @@
 
   <content_rating type="oars-1.1" />
 
+  <!-- Release history: the topmost <release> is injected by CI at build time.
+       To add a new release manually, insert a <release> element before existing ones. -->
+  <releases>
+    <release version="0.0.0" date="2024-01-01">
+      <description><p>Development build</p></description>
+    </release>
+  </releases>
+
   <branding>
     <color type="primary" scheme_preference="light">#3584e4</color>
     <color type="primary" scheme_preference="dark">#1a5fb4</color>

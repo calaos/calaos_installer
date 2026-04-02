@@ -26,6 +26,17 @@ jobs:
           echo "APP_VERSION=$VERSION" >> $GITHUB_ENV
           echo "Building version: $VERSION"
 
+      - name: Inject version into Flatpak metainfo
+        run: |
+          VERSION="${{ env.APP_VERSION }}"
+          DATE="$(date +%Y-%m-%d)"
+          # Replace the placeholder release entry with the actual version
+          sed -i "s|<release version=\"0.0.0\" date=\"2024-01-01\">|<release version=\"${VERSION}\" date=\"${DATE}\">|" \
+            flatpak/fr.calaos.CalaosInstaller.metainfo.xml
+          sed -i "s|<p>Development build</p>|<p>Calaos Installer ${VERSION}</p>|" \
+            flatpak/fr.calaos.CalaosInstaller.metainfo.xml
+          echo "Metainfo updated with version $VERSION ($DATE)"
+
       - name: Install Flatpak and Flatpak Builder
         run: |
           sudo apt-get update -qq
@@ -44,6 +55,7 @@ jobs:
           flatpak-builder \
             --user \
             --force-clean \
+            --default-branch=stable \
             --install-deps-from=flathub \
             --repo=flatpak-repo \
             flatpak-build \
@@ -54,7 +66,8 @@ jobs:
           flatpak build-bundle \
             flatpak-repo \
             "calaos_installer-${{ env.APP_VERSION }}.flatpak" \
-            fr.calaos.CalaosInstaller
+            fr.calaos.CalaosInstaller \
+            stable
           echo "FLATPAK_FILE=calaos_installer-${{ env.APP_VERSION }}.flatpak" >> $GITHUB_ENV
 
       - name: Upload Flatpak artifact
