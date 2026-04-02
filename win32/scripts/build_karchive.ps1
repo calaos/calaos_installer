@@ -19,6 +19,9 @@ Write-Host "Install prefix: $INSTALL_PREFIX"
 Write-Host "Qt directory: $QT_DIR"
 Write-Host "Build root: $BUILD_ROOT"
 
+# Add Qt bin directory to PATH so that qtpaths.exe is found by ECM
+$env:PATH = "$QT_DIR/bin;$env:PATH"
+
 New-Item -ItemType Directory -Force -Path $BUILD_ROOT | Out-Null
 
 # --- Build extra-cmake-modules (ECM) ---
