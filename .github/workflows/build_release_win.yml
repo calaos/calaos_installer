@@ -20,14 +20,18 @@ jobs:
                 target: 'desktop'
                 arch: 'win64_mingw'
                 modules: 'qt5compat qtserialport qtwebsockets'
-                tools: 'tools_mingw'
+                tools: 'tools_mingw1310'
                 cache: true
 
           - name: Add MinGW to PATH
             shell: pwsh
             run: |
                 # install-qt-action installs tools under IQTA_TOOLS
-                $mingwDir = Get-ChildItem -Path "$env:IQTA_TOOLS" -Filter "mingw*" -Directory | Select-Object -First 1
+                # Prefer 64-bit MinGW (mingw*_64) over generic entries
+                $mingwDir = Get-ChildItem -Path "$env:IQTA_TOOLS" -Filter "mingw*_64" -Directory | Select-Object -First 1
+                if (-not $mingwDir) {
+                    $mingwDir = Get-ChildItem -Path "$env:IQTA_TOOLS" -Filter "mingw*" -Directory | Select-Object -First 1
+                }
                 if ($mingwDir) {
                     $binDir = Join-Path $mingwDir.FullName "bin"
                     Write-Host "Adding MinGW to PATH: $binDir"
