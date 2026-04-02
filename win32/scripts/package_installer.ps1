@@ -87,6 +87,27 @@ if (-not $karchiveDll) { Write-Error "KArchive DLL not found in $KARCHIVE_PREFIX
 Write-Host "KArchive DLL: $karchiveDll"
 Copy-Item $karchiveDll -Destination $STAGING_DIR
 
+# --- Copy MSYS2 runtime DLLs (compression/crypto libs needed by KArchive) ---
+Write-Host "`n=== Copying MSYS2 runtime DLLs ===" -ForegroundColor Cyan
+$MSYS2_BIN = "C:/msys64/mingw64/bin"
+$msys2Dlls = @(
+    "libbz2-1.dll",
+    "zlib1.dll",
+    "liblzma-5.dll",
+    "libzstd.dll",
+    "libcrypto-3-x64.dll",
+    "libssl-3-x64.dll"
+)
+foreach ($dll in $msys2Dlls) {
+    $src = Join-Path $MSYS2_BIN $dll
+    if (Test-Path $src) {
+        Write-Host "Copying $dll"
+        Copy-Item $src -Destination $STAGING_DIR
+    } else {
+        Write-Warning "$dll not found in $MSYS2_BIN"
+    }
+}
+
 # --- Copy QtMqtt DLL ---
 Write-Host "`n=== Copying QtMqtt DLL ===" -ForegroundColor Cyan
 $QTMQTT_PREFIX = "C:/qtmqtt"
