@@ -44,11 +44,15 @@ Write-Host "`n=== Building QtMqtt ===" -ForegroundColor Cyan
 New-Item -ItemType Directory -Force -Path "$BUILD_ROOT/qtmqtt_build" | Out-Null
 Set-Location "$BUILD_ROOT/qtmqtt_build"
 
+# Normalize QT_DIR to forward slashes to avoid CMake escape issues (e.g. \a in paths)
+$QT_DIR_CMAKE = $QT_DIR -replace '\\', '/'
+
 cmake -G "MinGW Makefiles" `
     -DCMAKE_INSTALL_PREFIX="$INSTALL_PREFIX" `
-    -DCMAKE_PREFIX_PATH="$QT_DIR" `
+    -DCMAKE_PREFIX_PATH="$QT_DIR_CMAKE" `
     -DBUILD_TESTING=OFF `
     -DBUILD_EXAMPLES=OFF `
+    -DQT_GENERATE_SBOM=OFF `
     "$BUILD_ROOT/qtmqtt"
 if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
