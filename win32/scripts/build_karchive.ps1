@@ -52,9 +52,13 @@ git clone --depth 1 --branch master https://invent.kde.org/frameworks/karchive.g
 New-Item -ItemType Directory -Force -Path "$BUILD_ROOT/karchive_build" | Out-Null
 Set-Location "$BUILD_ROOT/karchive_build"
 
+# MSYS2 mingw64 prefix provides zlib, bzip2, liblzma, openssl, zstd
+$MSYS2_PREFIX = "C:/msys64/mingw64"
+
 cmake -G "MinGW Makefiles" `
     -DCMAKE_INSTALL_PREFIX="$INSTALL_PREFIX" `
-    -DCMAKE_PREFIX_PATH="$QT_DIR;$INSTALL_PREFIX" `
+    -DCMAKE_PREFIX_PATH="$QT_DIR;$INSTALL_PREFIX;$MSYS2_PREFIX" `
+    -DPKG_CONFIG_EXECUTABLE="$MSYS2_PREFIX/bin/pkg-config.exe" `
     -DBUILD_TESTING=OFF `
     -DBUILD_WITH_QT6=ON `
     "$BUILD_ROOT/karchive"

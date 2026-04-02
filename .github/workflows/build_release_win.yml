@@ -41,6 +41,11 @@ jobs:
                     exit 1
                 }
 
+          - name: Install MSYS2 dependencies
+            shell: cmd
+            run: |
+                C:\msys64\usr\bin\pacman -S --noconfirm --needed mingw-w64-x86_64-zlib mingw-w64-x86_64-bzip2 mingw-w64-x86_64-xz mingw-w64-x86_64-openssl mingw-w64-x86_64-zstd mingw-w64-x86_64-pkg-config
+
           - name: Cache KArchive build
             uses: actions/cache@v4
             id: karchive-cache
