@@ -1,5 +1,4 @@
 #include "BoardProfile.h"
-#include <QCoreApplication>
 #include <QFile>
 #include <QJsonDocument>
 #include <QJsonObject>
@@ -101,5 +100,5 @@ QList<BoardProfile> BoardProfile::loadFromFile(const QString &path)
 
 QString BoardProfile::boardsFilePath()
 {
-    return QCoreApplication::applicationDirPath() + "/boards.json";
+    return QStringLiteral(":/boards.json");
 }

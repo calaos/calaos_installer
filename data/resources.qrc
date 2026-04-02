@@ -119,5 +119,6 @@
         <file>img/mqtt.png</file>
         <file>img/zigbee2mqtt.png</file>
         <file>img/reolink.png</file>
+        <file alias="boards.json">../boards.json</file>
     </qresource>
 </RCC>
