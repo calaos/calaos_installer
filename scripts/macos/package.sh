@@ -35,12 +35,13 @@ cp macos/main.scpt build/$APP.app/Contents/MacOS/
 #$QTDIR/bin/macdeployqt ./$APP.app -codesign="$DEVELOPER_NAME"
 echo "Calling macdeployqt"
 $QTDIR/bin/macdeployqt build/$APP.app -verbose=3 \
+    -qmldir=qml \
     -executable=build/$APP.app/Contents/MacOS/calaos_installer \
     -executable=build/$APP.app/Contents/MacOS/calaos_machinecreator
 if [ "$?" -ne "0" ]; then
     echo "Failed to run macdeployqt"
     # remove keys
- #   security delete-keychain osx-build.keychain 
+ #   security delete-keychain osx-build.keychain
     exit 1
 fi
 
