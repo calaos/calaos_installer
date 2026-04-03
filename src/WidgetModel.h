@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QMap>
 #include <QDomElement>
+#include "TimezoneHelper.h"
 
 class WidgetModel : public QObject
 {

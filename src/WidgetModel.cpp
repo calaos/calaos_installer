@@ -2,7 +2,7 @@
 
 const QStringList WidgetModel::s_knownAttributes = {
     "io_id", "type", "name", "x", "y", "w", "h",
-    "clock_timezone", "clock_format", "clock_show_date", "clock_date_format", "clock_seconds"
+    "clock_timezone", "clock_timezone_iana", "clock_format", "clock_show_date", "clock_date_format", "clock_seconds"
 };
 
 WidgetModel::WidgetModel(QObject *parent)
@@ -24,7 +24,19 @@ void WidgetModel::loadFromXmlElement(const QDomElement &element)
     // Load clock-specific attributes
     if (categoryForType(m_type) == "Clock")
     {
-        m_clockTimezone = element.attribute("clock_timezone", "UTC");
+        // Prefer the IANA hint if present (lossless roundtrip),
+        // otherwise convert from POSIX TZ / legacy UTC offset
+        QString ianaHint = element.attribute("clock_timezone_iana");
+        if (!ianaHint.isEmpty())
+        {
+            m_clockTimezone = ianaHint;
+        }
+        else
+        {
+            QString storedTz = element.attribute("clock_timezone", "UTC");
+            m_clockTimezone = TimezoneHelper::posixTzToIana(
+                TimezoneHelper::convertStoredTimezone(storedTz));
+        }
         m_clockFormat = element.attribute("clock_format", "24");
         m_clockShowDate = element.attribute("clock_show_date", "true") == "true";
         m_clockDateFormat = element.attribute("clock_date_format", "DD/MM/YYYY");
@@ -64,9 +76,11 @@ QDomElement WidgetModel::toXmlElement(QDomDocument &doc) const
     element.setAttribute("h", m_h);
 
     // Write clock-specific attributes only for Clock widgets
+    // m_clockTimezone is IANA — convert to POSIX TZ for storage
     if (cat == "Clock")
     {
-        element.setAttribute("clock_timezone", m_clockTimezone);
+        element.setAttribute("clock_timezone", TimezoneHelper::ianaToPosixTz(m_clockTimezone));
+        element.setAttribute("clock_timezone_iana", m_clockTimezone);
         element.setAttribute("clock_format", m_clockFormat);
         element.setAttribute("clock_show_date", m_clockShowDate ? "true" : "false");
         element.setAttribute("clock_date_format", m_clockDateFormat);
@@ -242,46 +256,7 @@ bool WidgetModel::categoryRequiresIO(const QString &category)
 
 QStringList WidgetModel::availableTimezones()
 {
-    return QStringList{
-        "UTC-12",
-        "UTC-11",
-        "UTC-10",
-        "UTC-9:30",
-        "UTC-9",
-        "UTC-8",
-        "UTC-7",
-        "UTC-6",
-        "UTC-5",
-        "UTC-4",
-        "UTC-3:30",
-        "UTC-3",
-        "UTC-2",
-        "UTC-1",
-        "UTC",
-        "UTC+1",
-        "UTC+2",
-        "UTC+3",
-        "UTC+3:30",
-        "UTC+4",
-        "UTC+4:30",
-        "UTC+5",
-        "UTC+5:30",
-        "UTC+5:45",
-        "UTC+6",
-        "UTC+6:30",
-        "UTC+7",
-        "UTC+8",
-        "UTC+8:45",
-        "UTC+9",
-        "UTC+9:30",
-        "UTC+10",
-        "UTC+10:30",
-        "UTC+11",
-        "UTC+12",
-        "UTC+12:45",
-        "UTC+13",
-        "UTC+14",
-    };
+    return TimezoneHelper::filteredIanaTimezones();
 }
 
 QStringList WidgetModel::availableDateFormats()

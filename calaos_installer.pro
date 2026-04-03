@@ -26,6 +26,7 @@ CONFIG += c++11
 TARGET = calaos_installer
 TEMPLATE = app
 SOURCES += src/main.cpp \
+    src/TimezoneHelper.cpp \
     src/DialogRemoteUI.cpp \
     src/DialogRemoteUIEditor.cpp \
     src/DialogIOSelector.cpp \
@@ -133,6 +134,7 @@ SOURCES += src/main.cpp \
     src/QAnsiTextEdit.cpp
 
 HEADERS += src/mainwindow.h \
+    src/TimezoneHelper.h \
     src/DialogRemoteUI.h \
     src/DialogRemoteUIEditor.h \
     src/DialogIOSelector.h \
