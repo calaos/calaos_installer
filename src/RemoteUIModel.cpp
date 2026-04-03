@@ -354,3 +354,85 @@ void RemoteUIModel::clearPages(QQmlListProperty<PageModel> *list)
         model->clearPages();
     }
 }
+
+// Screen saver setters
+
+void RemoteUIModel::setScreensaverTimeout(int timeout)
+{
+    if (m_screensaverTimeout != timeout)
+    {
+        m_screensaverTimeout = timeout;
+        emit screensaverTimeoutChanged();
+        setModified(true);
+    }
+}
+
+void RemoteUIModel::setScreensaverDimming(int dimming)
+{
+    if (m_screensaverDimming != dimming)
+    {
+        m_screensaverDimming = qBound(0, dimming, 100);
+        emit screensaverDimmingChanged();
+        setModified(true);
+    }
+}
+
+void RemoteUIModel::setScreensaverMode(const QString &mode)
+{
+    if (m_screensaverMode != mode)
+    {
+        m_screensaverMode = mode;
+        emit screensaverModeChanged();
+        setModified(true);
+    }
+}
+
+void RemoteUIModel::setScreensaverClockTimezone(const QString &tz)
+{
+    if (m_screensaverClockTimezone != tz)
+    {
+        m_screensaverClockTimezone = tz;
+        emit screensaverClockTimezoneChanged();
+        setModified(true);
+    }
+}
+
+void RemoteUIModel::setScreensaverClockFormat(const QString &format)
+{
+    if (m_screensaverClockFormat != format)
+    {
+        m_screensaverClockFormat = format;
+        emit screensaverClockFormatChanged();
+        setModified(true);
+    }
+}
+
+void RemoteUIModel::setScreensaverClockShowDate(bool show)
+{
+    if (m_screensaverClockShowDate != show)
+    {
+        m_screensaverClockShowDate = show;
+        emit screensaverClockShowDateChanged();
+        setModified(true);
+    }
+}
+
+void RemoteUIModel::setScreensaverClockDateFormat(const QString &format)
+{
+    if (m_screensaverClockDateFormat != format)
+    {
+        m_screensaverClockDateFormat = format;
+        emit screensaverClockDateFormatChanged();
+        setModified(true);
+    }
+}
+
+void RemoteUIModel::setScreensaverClockSeconds(bool seconds)
+{
+    if (m_screensaverClockSeconds != seconds)
+    {
+        m_screensaverClockSeconds = seconds;
+        emit screensaverClockSecondsChanged();
+        setModified(true);
+    }
+}

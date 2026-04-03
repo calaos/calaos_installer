@@ -39,6 +39,41 @@ DialogRemoteUIEditor::DialogRemoteUIEditor(Calaos::IOBase *io, QWidget *parent):
     if (gridH <= 0) gridH = 3;
     m_model->setGridDimensions(gridW, gridH);
 
+    // Load screen saver settings from IOBase params
+    QString ssTimeout = QString::fromStdString(ioBase->get_param("screensaver_timeout"));
+    if (!ssTimeout.isEmpty())
+        m_model->setScreensaverTimeout(ssTimeout.toInt());
+    QString ssDimming = QString::fromStdString(ioBase->get_param("screensaver_dimming"));
+    if (!ssDimming.isEmpty())
+        m_model->setScreensaverDimming(ssDimming.toInt());
+    QString ssMode = QString::fromStdString(ioBase->get_param("screensaver_mode"));
+    if (!ssMode.isEmpty())
+        m_model->setScreensaverMode(ssMode);
+    QString ssClockTzIana = QString::fromStdString(ioBase->get_param("screensaver_clock_timezone_iana"));
+    if (!ssClockTzIana.isEmpty())
+    {
+        m_model->setScreensaverClockTimezone(ssClockTzIana);
+    }
+    else
+    {
+        QString ssClockTz = QString::fromStdString(ioBase->get_param("screensaver_clock_timezone"));
+        if (!ssClockTz.isEmpty())
+            m_model->setScreensaverClockTimezone(
+                TimezoneHelper::posixTzToIana(TimezoneHelper::convertStoredTimezone(ssClockTz)));
+    }
+    QString ssClockFmt = QString::fromStdString(ioBase->get_param("screensaver_clock_format"));
+    if (!ssClockFmt.isEmpty())
+        m_model->setScreensaverClockFormat(ssClockFmt);
+    QString ssClockShowDate = QString::fromStdString(ioBase->get_param("screensaver_clock_show_date"));
+    if (!ssClockShowDate.isEmpty())
+        m_model->setScreensaverClockShowDate(ssClockShowDate == "true");
+    QString ssClockDateFmt = QString::fromStdString(ioBase->get_param("screensaver_clock_date_format"));
+    if (!ssClockDateFmt.isEmpty())
+        m_model->setScreensaverClockDateFormat(ssClockDateFmt);
+    QString ssClockSeconds = QString::fromStdString(ioBase->get_param("screensaver_clock_seconds"));
+    if (!ssClockSeconds.isEmpty())
+        m_model->setScreensaverClockSeconds(ssClockSeconds == "true");
+
     // Load pages from IOBase XML content
     QString pagesXml = ioBase->getRemoteUIPagesXml();
     m_model->loadFromXml(pagesXml);
@@ -205,6 +240,18 @@ void DialogRemoteUIEditor::acceptChanges()
     // Update grid dimensions in IOBase params
     ioBase->set_param("grid_w", std::to_string(m_model->gridW()));
     ioBase->set_param("grid_h", std::to_string(m_model->gridH()));
+
+    // Save screen saver settings to IOBase params
+    ioBase->set_param("screensaver_timeout", std::to_string(m_model->screensaverTimeout()));
+    ioBase->set_param("screensaver_dimming", std::to_string(m_model->screensaverDimming()));
+    ioBase->set_param("screensaver_mode", m_model->screensaverMode().toStdString());
+    ioBase->set_param("screensaver_clock_timezone",
+                       TimezoneHelper::ianaToPosixTz(m_model->screensaverClockTimezone()).toStdString());
+    ioBase->set_param("screensaver_clock_timezone_iana", m_model->screensaverClockTimezone().toStdString());
+    ioBase->set_param("screensaver_clock_format", m_model->screensaverClockFormat().toStdString());
+    ioBase->set_param("screensaver_clock_show_date", m_model->screensaverClockShowDate() ? "true" : "false");
+    ioBase->set_param("screensaver_clock_date_format", m_model->screensaverClockDateFormat().toStdString());
+    ioBase->set_param("screensaver_clock_seconds", m_model->screensaverClockSeconds() ? "true" : "false");
 
     // Save the title
     ioBase->set_param("name", m_model->title().toStdString());

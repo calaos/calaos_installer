@@ -106,6 +106,209 @@ Rectangle {
                 }
             }
 
+            // Screen Saver Properties Box
+            GroupBox {
+                title: "Screen Saver"
+                Layout.fillWidth: true
+
+                ColumnLayout {
+                    anchors.left: parent.left
+                    anchors.right: parent.right
+                    spacing: 8
+
+                    GridLayout {
+                        columns: 2
+                        columnSpacing: 10
+                        rowSpacing: 8
+                        Layout.fillWidth: true
+
+                        Label {
+                            text: "Timeout (s):"
+                            Layout.alignment: Qt.AlignVCenter
+                        }
+
+                        RowLayout {
+                            Layout.fillWidth: true
+                            spacing: 8
+
+                            SpinBox {
+                                id: ssTimeoutSpin
+                                from: 0
+                                to: 3600
+                                stepSize: 10
+                                value: remoteUIModel.screensaverTimeout
+                                Layout.fillWidth: true
+                                Layout.minimumWidth: implicitWidth
+                                onValueModified: {
+                                    remoteUIModel.screensaverTimeout = value
+                                }
+                            }
+
+                            Label {
+                                text: ssTimeoutSpin.value === 0 ? "Disabled" : ""
+                                color: "#999"
+                                font.italic: true
+                                visible: ssTimeoutSpin.value === 0
+                            }
+                        }
+
+                        Label {
+                            text: "Dimming:"
+                            Layout.alignment: Qt.AlignVCenter
+                        }
+
+                        RowLayout {
+                            Layout.fillWidth: true
+                            spacing: 8
+
+                            Slider {
+                                id: ssDimmingSlider
+                                from: 0
+                                to: 100
+                                stepSize: 5
+                                value: remoteUIModel.screensaverDimming
+                                Layout.fillWidth: true
+                                onMoved: {
+                                    remoteUIModel.screensaverDimming = value
+                                }
+                            }
+
+                            Label {
+                                text: Math.round(ssDimmingSlider.value) + "%"
+                                Layout.minimumWidth: 35
+                            }
+                        }
+
+                        Label {
+                            text: ""
+                            Layout.alignment: Qt.AlignVCenter
+                        }
+
+                        Label {
+                            text: "0% = screen off (backlight off)"
+                            color: "#888"
+                            font.pixelSize: 11
+                            font.italic: true
+                        }
+
+                        Label {
+                            text: "Mode:"
+                            Layout.alignment: Qt.AlignVCenter
+                        }
+
+                        ComboBox {
+                            id: ssModeCombo
+                            model: ["black", "clock"]
+                            Layout.fillWidth: true
+                            currentIndex: {
+                                var idx = model.indexOf(remoteUIModel.screensaverMode)
+                                return idx >= 0 ? idx : 0
+                            }
+                            onActivated: function(index) {
+                                remoteUIModel.screensaverMode = model[index]
+                            }
+                        }
+                    }
+
+                    // Clock settings, visible only when mode is "clock"
+                    GroupBox {
+                        title: "Clock Settings"
+                        Layout.fillWidth: true
+                        visible: remoteUIModel.screensaverMode === "clock"
+
+                        GridLayout {
+                            anchors.left: parent.left
+                            anchors.right: parent.right
+                            columns: 2
+                            columnSpacing: 10
+                            rowSpacing: 8
+
+                            Label {
+                                text: "Timezone:"
+                                Layout.alignment: Qt.AlignVCenter
+                            }
+
+                            ComboBox {
+                                id: ssClockTzCombo
+                                model: availableTimezones
+                                Layout.fillWidth: true
+                                currentIndex: {
+                                    var idx = availableTimezones.indexOf(remoteUIModel.screensaverClockTimezone)
+                                    return idx >= 0 ? idx : 0
+                                }
+                                onActivated: function(index) {
+                                    remoteUIModel.screensaverClockTimezone = availableTimezones[index]
+                                }
+                            }
+
+                            Label {
+                                text: "Format:"
+                                Layout.alignment: Qt.AlignVCenter
+                            }
+
+                            ComboBox {
+                                id: ssClockFmtCombo
+                                model: ["24", "12"]
+                                Layout.fillWidth: true
+                                currentIndex: {
+                                    var idx = model.indexOf(remoteUIModel.screensaverClockFormat)
+                                    return idx >= 0 ? idx : 0
+                                }
+                                onActivated: function(index) {
+                                    remoteUIModel.screensaverClockFormat = model[index]
+                                }
+                            }
+
+                            Label {
+                                text: "Show Date:"
+                                Layout.alignment: Qt.AlignVCenter
+                            }
+
+                            CheckBox {
+                                id: ssClockShowDateCheck
+                                checked: remoteUIModel.screensaverClockShowDate
+                                onToggled: {
+                                    remoteUIModel.screensaverClockShowDate = checked
+                                }
+                            }
+
+                            Label {
+                                text: "Date Format:"
+                                Layout.alignment: Qt.AlignVCenter
+                                visible: ssClockShowDateCheck.checked
+                            }
+
+                            ComboBox {
+                                id: ssClockDateFmtCombo
+                                model: availableDateFormats
+                                Layout.fillWidth: true
+                                visible: ssClockShowDateCheck.checked
+                                currentIndex: {
+                                    var idx = availableDateFormats.indexOf(remoteUIModel.screensaverClockDateFormat)
+                                    return idx >= 0 ? idx : 0
+                                }
+                                onActivated: function(index) {
+                                    remoteUIModel.screensaverClockDateFormat = availableDateFormats[index]
+                                }
+                            }
+
+                            Label {
+                                text: "Show Seconds:"
+                                Layout.alignment: Qt.AlignVCenter
+                            }
+
+                            CheckBox {
+                                id: ssClockSecondsCheck
+                                checked: remoteUIModel.screensaverClockSeconds
+                                onToggled: {
+                                    remoteUIModel.screensaverClockSeconds = checked
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
             // Current Page Properties Box
             GroupBox {
                 title: "Current Page Properties"
