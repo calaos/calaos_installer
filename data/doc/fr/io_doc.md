@@ -2390,21 +2390,68 @@ Name | Type | Mandatory | Description
 mac_address | string | no | Device MAC address
 grid_w | int | yes | Grid vertical size
 device_version | string | no | Device version
+grid_h | int | yes | Grid horizontal size
+device_secret | string | no | Device secret for HMAC validation
 name | string | yes | Nom de l'entrée/sortie.
 log_history | bool | no | Si activé, écrit une entrée dans l'historique pour cet IO
 enabled | bool | no | Activez l'entrée/sortie. Vrai par défaut. Ce paramètre est ajouté s'il n'est pas trouvé dans la configuration.
 id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
 gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
-device_manufacturer | string | no | Device manufacturer
-io_type | string | yes | Type d'entrée/sortie (input, output, inout)
 logged | bool | no | Si activé, et si influxdb est activé dans local_config, envoie la valeur à influxdb pour cet IO
 device_type | list | yes | Device model
 provisioning_code | string | yes | Provisioning code for first time setup
 visible | bool | no | Afficher l'entrée/sortie sur toutes les interfaces utilisateur si activé. Vrai par défautAffichez l'entrée/sortie sur toutes les interfaces utilisateur. Vrai par défaut
 auth_token | string | no | Authentication token
-grid_h | int | yes | Grid horizontal size
-device_secret | string | no | Device secret for HMAC validation
+device_manufacturer | string | no | Device manufacturer
+io_type | string | yes | Type d'entrée/sortie (input, output, inout)
+device_platform | string | no | Device platform
 
+## Actions of RemoteUI
+Name | Description
+---- | -----------
+show_notif message | Show a notification on screen 
+ set_page page_id | Navigate to a specific page by id 
+ set_brightness X | Set screen brightness (0-100) 
+ 
+
+# RemoteUIOutputRelay
+
+
+Physical relay on a RemoteUI panel device. Controllable as a standard light output.
+
+## Parameters of RemoteUIOutputRelay
+Name | Type | Mandatory | Description
+---- | ---- | --------- | -----------
+remote_ui_id | string | yes | ID of the parent RemoteUI device
+relay_num | int | yes | Relay number on the device (1, 2, ...)
+logged | bool | no | Si activé, et si influxdb est activé dans local_config, envoie la valeur à influxdb pour cet IO
+io_type | string | yes | Type d'entrée/sortie (input, output, inout)
+gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
+enabled | bool | no | Activez l'entrée/sortie. Vrai par défaut. Ce paramètre est ajouté s'il n'est pas trouvé dans la configuration.
+visible | bool | no | Afficher l'entrée/sortie sur toutes les interfaces utilisateur si activé. Vrai par défautAffichez l'entrée/sortie sur toutes les interfaces utilisateur. Vrai par défaut
+log_history | bool | no | Si activé, écrit une entrée dans l'historique pour cet IO
+name | string | yes | Nom de l'entrée/sortie.
+io_style | list | yes | Affichage de style GUI. Ceci contrôlera l'ìcône affichée sur l'interface utilisateurStyle d'affichage. Contrôle l'icône affichée sur l'interface utilisateur
+id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
+
+## Conditions of RemoteUIOutputRelay
+Name | Description
+---- | -----------
+false | Événement lorsque la lumière est èteinte 
+ true | Événement lorsque la lumière est allumèe 
+ changed | Événement à chaque changement 
+ 
+## Actions of RemoteUIOutputRelay
+Name | Description
+---- | -----------
+impulse 200 | Impulsion sur la lumière. Allume pour X ms puis èteint 
+ set_state true | Mettre è jour l'état de la lumière interne sans une action rèelle. Ceci est utile lorsque vous avez mis è jour l'état de la lumière è partir d'une source externe. 
+ impulse 500 200 500 200 | Allume la lumière avec un motif.<br>Ex: 500 200 500 200 signifie: VRAI pour 500ms, FAUX pour 200ms, VRAI pour 500ms, FAUX pour 200ms<br>Ex: 500 loop 200 300 signifie: VRAI pour 500ms, puis relancer les prochaines étapes è l'infini, FAUX pour 200ms, VRAI pour 300ms<br>Ex: 100 100 200 old signifie: clignote et reprend l'ancien état (avant le clignotement) 
+ toggle | Inverser l'état de la lumière 
+ set_state false | Mettre è jour l'état de la lumière interne sans une action rèelle. Ceci est utile lorsque vous avez mis è jour l'état de la lumière è partir d'une source externe. 
+ false | Éteindre la lumière 
+ true | Allumer la lumière 
+ 
 
 # ReolinkInputSwitch
 Interrupteur activé par des événements d'une caméra Reolink

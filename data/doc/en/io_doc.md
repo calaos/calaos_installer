@@ -2390,21 +2390,68 @@ Name | Type | Mandatory | Description
 mac_address | string | no | Device MAC address
 grid_w | int | yes | Grid vertical size
 device_version | string | no | Device version
+grid_h | int | yes | Grid horizontal size
+device_secret | string | no | Device secret for HMAC validation
 name | string | yes | Name of Input/Output.
 log_history | bool | no | If enabled, write an entry in the history event log for this IO
 enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
 id | string | yes | Unique ID identifying the Input/Output in calaos-server
 gui_type | string | no | Internal graphical type for all calaos objects. Set automatically, read-only parameter.
-device_manufacturer | string | no | Device manufacturer
-io_type | string | yes | IO type, can be "input", "output", "inout"
 logged | bool | no | If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO
 device_type | list | yes | Device model
 provisioning_code | string | yes | Provisioning code for first time setup
 visible | bool | no | Display the Input/Output on all user interfaces if set. Default to true
 auth_token | string | no | Authentication token
-grid_h | int | yes | Grid horizontal size
-device_secret | string | no | Device secret for HMAC validation
+device_manufacturer | string | no | Device manufacturer
+io_type | string | yes | IO type, can be "input", "output", "inout"
+device_platform | string | no | Device platform
 
+## Actions of RemoteUI
+Name | Description
+---- | -----------
+show_notif message | Show a notification on screen 
+ set_page page_id | Navigate to a specific page by id 
+ set_brightness X | Set screen brightness (0-100) 
+ 
+
+# RemoteUIOutputRelay
+
+
+Physical relay on a RemoteUI panel device. Controllable as a standard light output.
+
+## Parameters of RemoteUIOutputRelay
+Name | Type | Mandatory | Description
+---- | ---- | --------- | -----------
+remote_ui_id | string | yes | ID of the parent RemoteUI device
+relay_num | int | yes | Relay number on the device (1, 2, ...)
+logged | bool | no | If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO
+io_type | string | yes | IO type, can be "input", "output", "inout"
+gui_type | string | no | Internal graphical type for all calaos objects. Set automatically, read-only parameter.
+enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
+visible | bool | no | Display the Input/Output on all user interfaces if set. Default to true
+log_history | bool | no | If enabled, write an entry in the history event log for this IO
+name | string | yes | Name of Input/Output.
+io_style | list | yes | GUI style display. This will control the icon displayed on the UI
+id | string | yes | Unique ID identifying the Input/Output in calaos-server
+
+## Conditions of RemoteUIOutputRelay
+Name | Description
+---- | -----------
+false | Event when light is off 
+ true | Event when light is on 
+ changed | Event on any change of value 
+ 
+## Actions of RemoteUIOutputRelay
+Name | Description
+---- | -----------
+impulse 200 | Do an impulse on light state. Set to true for X ms then reset to false 
+ set_state true | Update internal light state without starting real action. This is useful when having updating the light state from an external source. 
+ impulse 500 200 500 200 | Do an impulse on light state with a pattern.<br>Ex: 500 200 500 200 means: TRUE for 500ms, FALSE for 200ms, TRUE for 500ms, FALSE for 200ms<br>Ex: 500 loop 200 300 means: TRUE for 500ms, then loop the next steps for infinite, FALSE for 200ms, TRUE for 300ms<br>Ex: 100 100 200 old means: blinks and then set to the old start state (before impulse starts) 
+ toggle | Invert light state 
+ set_state false | Update internal light state without starting real action. This is useful when having updating the light state from an external source. 
+ false | Switch the light off 
+ true | Switch the light on 
+ 
 
 # ReolinkInputSwitch
 Switch activated by events from a Reolink camera

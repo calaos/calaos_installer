@@ -29,6 +29,7 @@ SOURCES += src/main.cpp \
     src/TimezoneHelper.cpp \
     src/DialogRemoteUI.cpp \
     src/DialogRemoteUIEditor.cpp \
+    src/DialogNewRemoteUIRelay.cpp \
     src/DialogIOSelector.cpp \
     src/RemoteUIModel.cpp \
     src/PageModel.cpp \
@@ -137,6 +138,7 @@ HEADERS += src/mainwindow.h \
     src/TimezoneHelper.h \
     src/DialogRemoteUI.h \
     src/DialogRemoteUIEditor.h \
+    src/DialogNewRemoteUIRelay.h \
     src/DialogIOSelector.h \
     src/RemoteUIModel.h \
     src/PageModel.h \
@@ -298,6 +300,7 @@ FORMS += \
     data/DialogListProperties.ui \
     data/WidgetIOProperties.ui \
     src/DialogRemoteUI.ui \
+    src/DialogNewRemoteUIRelay.ui \
     src/DialogZigbee2mqtt.ui \
     src/wizards/hue/wizardhue.ui \
     data/FormDaliMaster.ui \

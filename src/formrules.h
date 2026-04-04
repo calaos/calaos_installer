@@ -46,7 +46,8 @@ enum { ITEM_ROOM=0, ITEM_INPUT_SWITCH, ITEM_LIGHT, ITEM_SHUTTER, ITEM_DALI,
        ITEM_LIGHT_RGB, ITEM_TEMP, ITEM_CAMERA, ITEM_MUSIC, ITEM_INTERN,
        ITEM_SCENARIO, ITEM_TIME, ITEM_ANALOG, ITEM_AVR, ITEM_STRINGIN, ITEM_STRINGOUT,
        ITEM_ANALOG_IN, ITEM_ANALOG_OUT, ITEM_BOOL_OUT,
-       ITEM_REMOTE_UI
+       ITEM_REMOTE_UI,
+       ITEM_REMOTE_UI_RELAY
      };
 
 namespace Ui
@@ -101,6 +102,7 @@ public:
     IOBase *addCalaosItemInternal(int item, int hw_type);
     IOBase *addCalaosItemAnalog(int item, int hw_type);
     IOBase *addCalaosItemRemoteUI(int item, int hw_type);
+    IOBase *addCalaosItemRemoteUIRelay(int item, int hw_type);
 
     //new version
     void addCalaosIO(Params &params);

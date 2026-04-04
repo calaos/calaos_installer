@@ -121,6 +121,7 @@ REGISTER_OUTPUT(MqttOutputLightRGB, "light_rgb", TSTRING, "#FF00FF")
 REGISTER_OUTPUT(MqttOutputAnalog, "analog_out", TINT, "42")
 REGISTER_OUTPUT(MqttOutputShutter, "shutter", TSTRING, "true")
 REGISTER_OUTPUT(RemoteUi, "remote_ui", TSTRING, "Test")
+REGISTER_OUTPUT(RemoteUIOutputRelay, "light", TBOOL, "true")
 
 /* Declare InOut class/type */
 REGISTER_INOUT(InputTimer, "timer", TSTRING, "true")

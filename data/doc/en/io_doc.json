@@ -10157,6 +10157,21 @@
                 "type": "string"
             },
             {
+                "default": "3",
+                "description": "Grid horizontal size",
+                "mandatory": "true",
+                "name": "grid_h",
+                "readonly": "false",
+                "type": "int"
+            },
+            {
+                "description": "Device secret for HMAC validation",
+                "mandatory": "false",
+                "name": "device_secret",
+                "readonly": "true",
+                "type": "string"
+            },
+            {
                 "description": "Name of Input/Output.",
                 "mandatory": "true",
                 "name": "name",
@@ -10194,20 +10209,6 @@
                 "type": "string"
             },
             {
-                "description": "Device manufacturer",
-                "mandatory": "false",
-                "name": "device_manufacturer",
-                "readonly": "true",
-                "type": "string"
-            },
-            {
-                "description": "IO type, can be \"input\", \"output\", \"inout\"",
-                "mandatory": "true",
-                "name": "io_type",
-                "readonly": "true",
-                "type": "string"
-            },
-            {
                 "default": "false",
                 "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
                 "mandatory": "false",
@@ -10216,7 +10217,7 @@
                 "type": "bool"
             },
             {
-                "default": "waveshare-esp32-p4-86-panel",
+                "default": "waveshare-86-panel",
                 "description": "Device model",
                 "mandatory": "true",
                 "name": "device_type",
@@ -10224,8 +10225,8 @@
                 "type": "list",
                 "list_value": {
                     "custom": "Custom device (be sure to configure grid size correctly)",
-                    "luckfox-pico-86-panel": "Luckfox Luckfox-Pico-86-Panel",
-                    "waveshare-esp32-p4-86-panel": "Waveshare ESP32-P4-86-Panel"
+                    "luckfox-86-panel": "Luckfox Luckfox-Pico-86-Panel",
+                    "waveshare-86-panel": "Waveshare ESP32-P4-86-Panel"
                 }
             },
             {
@@ -10251,23 +10252,184 @@
                 "type": "string"
             },
             {
-                "default": "3",
-                "description": "Grid horizontal size",
-                "mandatory": "true",
-                "name": "grid_h",
-                "readonly": "false",
-                "type": "int"
+                "description": "Device manufacturer",
+                "mandatory": "false",
+                "name": "device_manufacturer",
+                "readonly": "true",
+                "type": "string"
             },
             {
-                "description": "Device secret for HMAC validation",
+                "description": "IO type, can be \"input\", \"output\", \"inout\"",
+                "mandatory": "true",
+                "name": "io_type",
+                "readonly": "true",
+                "type": "string"
+            },
+            {
+                "description": "Device platform",
                 "mandatory": "false",
-                "name": "device_secret",
+                "name": "device_platform",
                 "readonly": "true",
                 "type": "string"
             }
         ],
         "conditions": [],
-        "actions": []
+        "actions": [
+            {
+                "description": "Show a notification on screen",
+                "name": "show_notif message"
+            },
+            {
+                "description": "Navigate to a specific page by id",
+                "name": "set_page page_id"
+            },
+            {
+                "description": "Set screen brightness (0-100)",
+                "name": "set_brightness X"
+            }
+        ]
+    },
+    "RemoteUIOutputRelay": {
+        "description": " Physical relay on a RemoteUI panel device. Controllable as a standard light output.",
+        "alias": [],
+        "parameters": [
+            {
+                "description": "ID of the parent RemoteUI device",
+                "mandatory": "true",
+                "name": "remote_ui_id",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "default": "0",
+                "description": "Relay number on the device (1, 2, ...)",
+                "mandatory": "true",
+                "max": "99",
+                "min": "1",
+                "name": "relay_num",
+                "readonly": "false",
+                "type": "int"
+            },
+            {
+                "default": "false",
+                "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "mandatory": "false",
+                "name": "logged",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "description": "IO type, can be \"input\", \"output\", \"inout\"",
+                "mandatory": "true",
+                "name": "io_type",
+                "readonly": "true",
+                "type": "string"
+            },
+            {
+                "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
+                "mandatory": "false",
+                "name": "gui_type",
+                "readonly": "true",
+                "type": "string"
+            },
+            {
+                "default": "true",
+                "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
+                "mandatory": "false",
+                "name": "enabled",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "default": "true",
+                "description": "Display the Input/Output on all user interfaces if set. Default to true",
+                "mandatory": "false",
+                "name": "visible",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "default": "false",
+                "description": "If enabled, write an entry in the history event log for this IO",
+                "mandatory": "false",
+                "name": "log_history",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "description": "Name of Input/Output.",
+                "mandatory": "true",
+                "name": "name",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "default": "light",
+                "description": "GUI style display. This will control the icon displayed on the UI",
+                "mandatory": "true",
+                "name": "io_style",
+                "readonly": "false",
+                "type": "list",
+                "list_value": {
+                    "boiler": "Boiler",
+                    "heater": "Heater",
+                    "light": "Light",
+                    "outlet": "Outlet",
+                    "pump": "Pump"
+                }
+            },
+            {
+                "description": "Unique ID identifying the Input/Output in calaos-server",
+                "mandatory": "true",
+                "name": "id",
+                "readonly": "true",
+                "type": "string"
+            }
+        ],
+        "conditions": [
+            {
+                "description": "Event when light is off",
+                "name": "false"
+            },
+            {
+                "description": "Event when light is on",
+                "name": "true"
+            },
+            {
+                "description": "Event on any change of value",
+                "name": "changed"
+            }
+        ],
+        "actions": [
+            {
+                "description": "Do an impulse on light state. Set to true for X ms then reset to false",
+                "name": "impulse 200"
+            },
+            {
+                "description": "Update internal light state without starting real action. This is useful when having updating the light state from an external source.",
+                "name": "set_state true"
+            },
+            {
+                "description": "Do an impulse on light state with a pattern.<br>Ex: 500 200 500 200 means: TRUE for 500ms, FALSE for 200ms, TRUE for 500ms, FALSE for 200ms<br>Ex: 500 loop 200 300 means: TRUE for 500ms, then loop the next steps for infinite, FALSE for 200ms, TRUE for 300ms<br>Ex: 100 100 200 old means: blinks and then set to the old start state (before impulse starts)",
+                "name": "impulse 500 200 500 200"
+            },
+            {
+                "description": "Invert light state",
+                "name": "toggle"
+            },
+            {
+                "description": "Update internal light state without starting real action. This is useful when having updating the light state from an external source.",
+                "name": "set_state false"
+            },
+            {
+                "description": "Switch the light off",
+                "name": "false"
+            },
+            {
+                "description": "Switch the light on",
+                "name": "true"
+            }
+        ]
     },
     "ReolinkInputSwitch": {
         "description": "Switch activated by events from a Reolink camera Basic switch with press/release states.",
