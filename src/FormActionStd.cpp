@@ -2,6 +2,7 @@
 #include "ui_FormActionStd.h"
 
 #include "formrules.h"
+#include "IODoc.h"
 
 FormActionStd::FormActionStd(QWidget *parent) :
     QWidget(parent),
@@ -107,6 +108,26 @@ void FormActionStd::setAction(QTreeWidgetItem *item, Rule *_rule, Action *_actio
 
     actionMenu->clear();
     ui->buttonMore->setEnabled(true);
+
+    // Try to populate the action menu from io_doc.json.
+    // avreceiver keeps its hardcoded logic because it needs dynamic source names.
+    if (gtype != "avreceiver")
+    {
+        QJsonObject jioobj = IODoc::getIOObject(QString::fromStdString(type));
+        QJsonArray jactions = jioobj["actions"].toArray();
+        if (!jactions.isEmpty())
+        {
+            for (int i = 0; i < jactions.size(); i++)
+            {
+                QJsonObject jaction = jactions[i].toObject();
+                QString name = jaction["name"].toString();
+                QString description = jaction["description"].toString();
+                addActionMenu(name, description, name);
+            }
+            onStart = false;
+            return;
+        }
+    }
 
     if (gtype == "timer")
     {

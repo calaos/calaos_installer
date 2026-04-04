@@ -83,6 +83,7 @@ SOURCES += src/main.cpp \
     src/formrules.cpp \
     src/FormConditionStd.cpp \
     src/FormActionStd.cpp \
+    src/IODoc.cpp \
     src/FormConditionStart.cpp \
     src/FormActionMail.cpp \
     src/DialogMailMessage.cpp \
@@ -193,6 +194,7 @@ HEADERS += src/mainwindow.h \
     src/formrules.h \
     src/FormConditionStd.h \
     src/FormActionStd.h \
+    src/IODoc.h \
     src/FormConditionStart.h \
     src/FormActionMail.h \
     src/DialogMailMessage.h \

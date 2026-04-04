@@ -1,5 +1,6 @@
 #include "WidgetIOProperties.h"
 #include "ui_WidgetIOProperties.h"
+#include "IODoc.h"
 #include <QCheckBox>
 
 WidgetIOProperties::WidgetIOProperties(const Params &p, bool _editable, QWidget *parent) :
@@ -51,60 +52,15 @@ void WidgetIOProperties::createIOProperties()
     ui->mainLayout->setColumnMinimumWidth(0, 150);
     ui->optionLayout->setColumnMinimumWidth(0, 150);
 
-    QString lang = Utils::GetLocale();
-    QString rsc = QString(":/doc/%1/io_doc.json").arg(lang);
-
-    QFile f(rsc);
-    if (!f.open(QIODevice::ReadOnly | QIODevice::Text))
-    {
-        QMessageBox::warning(this, tr("Error"), tr("Failed to load IO documentation from %1").arg(rsc));
-        return;
-    }
-    QJsonParseError jerr;
-    QJsonDocument jdoc = QJsonDocument::fromJson(f.readAll(), &jerr);
-    if (jerr.error != QJsonParseError::NoError ||
-        !jdoc.isObject())
-    {
-        QMessageBox::warning(this, tr("Error"), tr("Failed to parse JSON IO documentation from %1").arg(rsc));
-        return;
-    }
-
     QString iotype = QString::fromUtf8(params["type"].c_str());
-    QJsonObject jobj = jdoc.object();
-    for (auto it = jobj.begin();it != jobj.end();it++)
-        jobj.insert(it.key().toLower(), it.value());
+    QJsonObject jioobj = IODoc::getIOObject(iotype);
 
-    QJsonObject jobjAlias;
-    if (!jobj.contains(iotype))
+    if (jioobj.isEmpty())
     {
-        //Search in aliases
-        bool aliasfound = false;
-        for (auto it = jobj.constBegin();it != jobj.constEnd();it++)
-        {
-            QJsonObject o = it.value().toObject();
-            QJsonArray jalias = o["alias"].toArray();
-            for (int i = 0;i < jalias.size();i++)
-            {
-                if (jalias.at(i).toString() == iotype)
-                {
-                    aliasfound = true;
-                    jobjAlias = o;
-                }
-            }
-        }
-
-        if (!aliasfound)
-        {
-            QMessageBox::warning(this, tr("Error"), tr("IO type %1 is not found in %2").arg(iotype).arg(rsc));
-            return;
-        }
+        QMessageBox::warning(this, tr("Error"), tr("IO type %1 is not found in IO documentation").arg(iotype));
+        return;
     }
 
-    QJsonObject jioobj;
-    if (jobjAlias.isEmpty())
-        jioobj = jobj[iotype].toObject();
-    else
-        jioobj = jobjAlias;
     ui->labelTitle->setText(iotype);
     ui->labelDesc->setText(jioobj["description"].toString());
 
