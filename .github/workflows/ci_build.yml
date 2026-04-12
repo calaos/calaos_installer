@@ -1,0 +1,213 @@
+name: CI Build
+
+on:
+  push:
+
+jobs:
+
+  # ──────────────────────────────────────────────
+  # Windows (MinGW 64-bit, Inno Setup installer)
+  # ──────────────────────────────────────────────
+  build-windows:
+    name: Windows
+    runs-on: windows-latest
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install Qt 6.10.3 (MinGW 64-bit)
+        uses: jurplel/install-qt-action@v4
+        with:
+          version: '6.10.3'
+          host: 'windows'
+          target: 'desktop'
+          arch: 'win64_mingw'
+          modules: 'qt5compat qtserialport qtwebsockets'
+          tools: 'tools_mingw1310'
+          cache: true
+
+      - name: Add MinGW to PATH
+        shell: pwsh
+        run: |
+          $mingwDir = Get-ChildItem -Path "$env:IQTA_TOOLS" -Filter "mingw*_64" -Directory | Select-Object -First 1
+          if (-not $mingwDir) {
+              $mingwDir = Get-ChildItem -Path "$env:IQTA_TOOLS" -Filter "mingw*" -Directory | Select-Object -First 1
+          }
+          if ($mingwDir) {
+              $binDir = Join-Path $mingwDir.FullName "bin"
+              Write-Host "Adding MinGW to PATH: $binDir"
+              echo "$binDir" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+          } else {
+              Write-Error "MinGW toolchain not found under $env:IQTA_TOOLS"
+              exit 1
+          }
+
+      - name: Install MSYS2 dependencies
+        shell: cmd
+        run: |
+          C:\msys64\usr\bin\pacman -S --noconfirm --needed mingw-w64-x86_64-zlib mingw-w64-x86_64-bzip2 mingw-w64-x86_64-xz mingw-w64-x86_64-openssl mingw-w64-x86_64-zstd mingw-w64-x86_64-pkg-config
+
+      - name: Cache KArchive build
+        uses: actions/cache@v4
+        id: karchive-cache
+        with:
+          path: C:/karchive
+          key: karchive-kf6-mingw64-${{ hashFiles('win32/scripts/build_karchive.ps1') }}
+
+      - name: Build KArchive from source
+        if: steps.karchive-cache.outputs.cache-hit != 'true'
+        shell: pwsh
+        run: ./win32/scripts/build_karchive.ps1
+
+      - name: Cache QtMqtt build
+        uses: actions/cache@v4
+        id: qtmqtt-cache
+        with:
+          path: C:/qtmqtt
+          key: qtmqtt-mingw64-${{ hashFiles('win32/scripts/build_qtmqtt.ps1') }}
+
+      - name: Build QtMqtt from source
+        if: steps.qtmqtt-cache.outputs.cache-hit != 'true'
+        shell: pwsh
+        run: ./win32/scripts/build_qtmqtt.ps1
+
+      - name: Compile
+        shell: pwsh
+        run: ./win32/scripts/build_installer.ps1
+
+      - name: Package
+        shell: pwsh
+        run: ./win32/scripts/package_installer.ps1
+
+      - name: Upload Windows installer
+        uses: actions/upload-artifact@v4
+        with:
+          name: calaos-installer-windows
+          path: packages/*.exe
+          retention-days: 5
+
+  # ──────────────────────────────────────────────
+  # macOS (brew Qt6, unsigned .app bundle)
+  # ──────────────────────────────────────────────
+  build-macos:
+    name: macOS
+    runs-on: macos-latest
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install deps
+        run: bash scripts/macos/install_deps.sh
+
+      - name: Compile
+        run: bash scripts/macos/build.sh
+
+      - name: Package unsigned app bundle
+        run: |
+          source scripts/funcs.sh
+          VERSION="$(get_version .)"
+          QTDIR="$(brew --prefix qt6)"
+          APP=calaos_installer
+
+          # Prepare bundle resources
+          mkdir -p build/$APP.app/Contents/Resources/
+          cp macos/icon.icns build/$APP.app/Contents/Resources/
+          cp macos/Info.plist build/$APP.app/Contents/Info.plist
+
+          # Copy machine_creator into bundle
+          cp build/machine_creator/calaos_machinecreator.app/Contents/MacOS/calaos_machinecreator \
+             build/$APP.app/Contents/MacOS/
+          cp macos/calaos_machinecreator.sh build/$APP.app/Contents/MacOS/
+          cp macos/main.scpt build/$APP.app/Contents/MacOS/
+
+          # Deploy Qt frameworks (no code signing)
+          $QTDIR/bin/macdeployqt build/$APP.app -verbose=1 \
+              -qmldir=qml \
+              -executable=build/$APP.app/Contents/MacOS/calaos_installer \
+              -executable=build/$APP.app/Contents/MacOS/calaos_machinecreator
+
+          # Create a zip for upload
+          cd build
+          zip -r -y "../calaos_installer-${VERSION}-macos.zip" $APP.app
+          cd ..
+          echo "MACOS_ARTIFACT=calaos_installer-${VERSION}-macos.zip" >> $GITHUB_ENV
+
+      - name: Upload macOS app
+        uses: actions/upload-artifact@v4
+        with:
+          name: calaos-installer-macos
+          path: ${{ env.MACOS_ARTIFACT }}
+          retention-days: 5
+
+  # ──────────────────────────────────────────────
+  # Flatpak (KDE 6.10 runtime)
+  # ──────────────────────────────────────────────
+  build-flatpak:
+    name: Flatpak
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Generate version header
+        run: |
+          source scripts/funcs.sh
+          make_version .
+          VERSION="$(get_version .)"
+          echo "APP_VERSION=$VERSION" >> $GITHUB_ENV
+          echo "Building version: $VERSION"
+
+      - name: Inject version into Flatpak metainfo
+        run: |
+          VERSION="${{ env.APP_VERSION }}"
+          DATE="$(date +%Y-%m-%d)"
+          sed -i "s|<release version=\"0.0.0\" date=\"2024-01-01\">|<release version=\"${VERSION}\" date=\"${DATE}\">|" \
+            flatpak/fr.calaos.CalaosInstaller.metainfo.xml
+          sed -i "s|<p>Development build</p>|<p>Calaos Installer ${VERSION}</p>|" \
+            flatpak/fr.calaos.CalaosInstaller.metainfo.xml
+
+      - name: Install Flatpak and Flatpak Builder
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq flatpak flatpak-builder
+
+      - name: Add Flathub remote
+        run: |
+          flatpak remote-add --user --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+
+      - name: Install KDE SDK and Platform runtime
+        run: |
+          flatpak install --user -y --noninteractive flathub org.kde.Sdk//6.10 org.kde.Platform//6.10
+
+      - name: Build Flatpak
+        run: |
+          flatpak-builder \
+            --user \
+            --force-clean \
+            --default-branch=stable \
+            --install-deps-from=flathub \
+            --repo=flatpak-repo \
+            flatpak-build \
+            flatpak/fr.calaos.CalaosInstaller.yml
+
+      - name: Create Flatpak bundle
+        run: |
+          flatpak build-bundle \
+            flatpak-repo \
+            "calaos_installer-${{ env.APP_VERSION }}.flatpak" \
+            fr.calaos.CalaosInstaller \
+            stable
+          echo "FLATPAK_FILE=calaos_installer-${{ env.APP_VERSION }}.flatpak" >> $GITHUB_ENV
+
+      - name: Upload Flatpak bundle
+        uses: actions/upload-artifact@v4
+        with:
+          name: calaos-installer-flatpak
+          path: ${{ env.FLATPAK_FILE }}
+          retention-days: 5
