@@ -16,6 +16,14 @@
 #include <fcntl.h>
 #include <unistd.h>
 
+#ifdef Q_OS_WIN
+#include <winioctl.h>
+// IOCTL_DISK_SET_DISK_ATTRIBUTES may not be defined in older SDKs
+#ifndef IOCTL_DISK_SET_DISK_ATTRIBUTES
+#define IOCTL_DISK_SET_DISK_ATTRIBUTES CTL_CODE(IOCTL_DISK_BASE, 0x003D, METHOD_BUFFERED, FILE_READ_ACCESS | FILE_WRITE_ACCESS)
+#endif
+#endif
+
 #ifdef Q_OS_LINUX
 #include <QDBusConnection>
 #include <QDBusInterface>
@@ -63,22 +71,21 @@ bool PhysicalDevice::open(OpenMode flags)
     // Construct QFile around the device handle; close() will now close the handle automatically
     if (QFile::open(_open_osfhandle(reinterpret_cast<intptr_t>(m_fileHandle), 0), flags, AutoCloseHandle))
     {
-        if (!lockVolume())
+        // Lock and dismount all volumes on this physical disk.
+        // FSCTL_LOCK_VOLUME / FSCTL_DISMOUNT_VOLUME only work on volume handles,
+        // NOT on the physical drive handle.
+        if (!lockAndDismountVolumes())
         {
-            qWarning() << "Failed to lock device. Closing handle :(";
+            qWarning() << "Failed to lock/dismount volumes on device. Closing handle :(";
+            unlockAndCloseVolumes();
             CloseHandle(m_fileHandle);
             m_fileHandle = INVALID_HANDLE_VALUE;
             return false;
         }
 
-        //Also umount all volumes on the device
-        if (!umountVolume())
-        {
-            qWarning() << "Failed to umount volumes on device. Closing handle :(";
-            CloseHandle(m_fileHandle);
-            m_fileHandle = INVALID_HANDLE_VALUE;
-            return false;
-        }
+        // Set disk offline to prevent Windows PnP from auto-mounting
+        // partitions as they appear during the write
+        setDiskOffline(true);
 
         return true;
     }
@@ -203,7 +210,8 @@ bool PhysicalDevice::open(OpenMode flags)
 void PhysicalDevice::close()
 {
 #ifdef Q_OS_WIN
-    unlockVolume();
+    setDiskOffline(false);
+    unlockAndCloseVolumes();
 #endif
 
     QFile::close();
@@ -287,97 +295,170 @@ bool PhysicalDevice::reopenForRead()
 }
 
 #if defined(Q_OS_WIN)
-bool PhysicalDevice::lockVolume()
+
+// Enumerate volume handles that belong to the physical drive, lock and dismount each one.
+// FSCTL_LOCK_VOLUME and FSCTL_DISMOUNT_VOLUME only work on VOLUME handles (e.g. \\.\E:),
+// NOT on physical drive handles (e.g. \\.\PhysicalDrive3).
+bool PhysicalDevice::lockAndDismountVolumes()
 {
-    DWORD bytesRet;
-    DeviceIoControl(m_fileHandle,
-                    FSCTL_ALLOW_EXTENDED_DASD_IO,
-                    NULL,
-                    0,
-                    NULL,
-                    0,
-                    &bytesRet,
-                    NULL);
-    for (int attempt = 0; attempt < 20; attempt++)
+    // Extract disk number from \\.\PhysicalDriveN
+    QRegularExpression re("PHYSICALDRIVE(\\d+)", QRegularExpression::CaseInsensitiveOption);
+    QRegularExpressionMatch m = re.match(fileName());
+    if (!m.hasMatch())
     {
-        qDebug() << "Locking volume" << fileName();
+        qWarning() << "Cannot parse disk number from" << fileName();
+        return true; // no volumes to lock
+    }
+    DWORD targetDiskNumber = m.captured(1).toULong();
 
-        auto ret = DeviceIoControl(m_fileHandle, FSCTL_LOCK_VOLUME, NULL, 0, NULL, 0, &bytesRet, NULL);
-        DWORD errorCode = GetLastError();
+    // Enumerate all volumes and find those on our physical disk
+    WCHAR volumeName[MAX_PATH] = {};
+    HANDLE hFind = FindFirstVolumeW(volumeName, ARRAYSIZE(volumeName));
+    if (hFind == INVALID_HANDLE_VALUE)
+    {
+        qWarning() << "FindFirstVolume failed:" << Utils::errorMessageFromCode(GetLastError());
+        return true;
+    }
 
-        if (ret || errorCode == ERROR_SUCCESS)
+    do
+    {
+        // Remove trailing backslash for CreateFile
+        size_t len = wcslen(volumeName);
+        if (len > 0 && volumeName[len - 1] == L'\\')
+            volumeName[len - 1] = L'\0';
+
+        HANDLE hVol = CreateFileW(
+            volumeName,
+            GENERIC_READ | GENERIC_WRITE,
+            FILE_SHARE_READ | FILE_SHARE_WRITE,
+            NULL,
+            OPEN_EXISTING,
+            0,
+            NULL
+        );
+
+        if (hVol == INVALID_HANDLE_VALUE)
+            continue;
+
+        // Check which physical disk this volume belongs to
+        BYTE buffer[sizeof(VOLUME_DISK_EXTENTS) + sizeof(DISK_EXTENT) * 8] = {};
+        DWORD bytesRet = 0;
+        BOOL ok = DeviceIoControl(
+            hVol,
+            IOCTL_VOLUME_GET_VOLUME_DISK_EXTENTS,
+            NULL, 0,
+            buffer, sizeof(buffer),
+            &bytesRet, NULL
+        );
+
+        if (!ok)
         {
-            handleLocked = true;
-            if (!ret && errorCode == ERROR_SUCCESS)
-                qDebug() << "Already locked volume";
-            else
+            CloseHandle(hVol);
+            continue;
+        }
+
+        auto *extents = reinterpret_cast<VOLUME_DISK_EXTENTS *>(buffer);
+        bool belongsToUs = false;
+        for (DWORD i = 0;i < extents->NumberOfDiskExtents;i++)
+        {
+            if (extents->Extents[i].DiskNumber == targetDiskNumber)
+            {
+                belongsToUs = true;
+                break;
+            }
+        }
+
+        if (!belongsToUs)
+        {
+            CloseHandle(hVol);
+            continue;
+        }
+
+        qDebug() << "Found volume on disk" << targetDiskNumber << "- locking and dismounting";
+
+        // Allow extended DASD I/O on this volume
+        DeviceIoControl(hVol, FSCTL_ALLOW_EXTENDED_DASD_IO, NULL, 0, NULL, 0, &bytesRet, NULL);
+
+        // Lock the volume with retries
+        bool locked = false;
+        for (int attempt = 0;attempt < 20;attempt++)
+        {
+            if (DeviceIoControl(hVol, FSCTL_LOCK_VOLUME, NULL, 0, NULL, 0, &bytesRet, NULL))
+            {
+                locked = true;
                 qDebug() << "Locked volume";
-            return true;
+                break;
+            }
+            qDebug() << "FSCTL_LOCK_VOLUME retry" << attempt + 1;
+            QThread::msleep(100);
         }
 
-        qDebug() << Utils::formatErrorMessageFromCode("Could not lock volume:", GetLastError());
-
-        qDebug() << "FSCTL_LOCK_VOLUME failed. Retrying in 0.1 sec";
-        QThread::msleep(100);
-    }
-
-    qDebug() << "Giving up locking volume";
-    return false;
-}
-
-void PhysicalDevice::unlockVolume()
-{
-    if (!handleLocked)
-        return;
-
-    DWORD bytesRet;
-    if (DeviceIoControl(m_fileHandle,
-                        FSCTL_UNLOCK_VOLUME,
-                        NULL,
-                        0,
-                        NULL,
-                        0,
-                        &bytesRet,
-                        NULL))
-    {
-        handleLocked = false;
-        qDebug() << "Unlocked volume";
-        return;
-    }
-    else
-    {
-        qDebug() << "FSCTL_UNLOCK_VOLUME failed";
-        return;
-    }
-}
-
-bool PhysicalDevice::umountVolume()
-{
-    DWORD bytesRet;
-    for (int attempt = 0; attempt < 20; attempt++)
-    {
-        qDebug() << "Dismount volume" << fileName();
-
-        auto ret = DeviceIoControl(m_fileHandle, FSCTL_DISMOUNT_VOLUME, NULL, 0, NULL, 0, &bytesRet, NULL);
-        DWORD errorCode = GetLastError();
-
-        if (ret || errorCode == ERROR_SUCCESS)
+        if (!locked)
         {
-            if (!ret && errorCode == ERROR_SUCCESS)
-                qDebug() << "Already unmounted volume";
-            else
-                qDebug() << "Unmounted volume";
-            return true;
+            qWarning() << "Failed to lock volume, proceeding anyway";
         }
 
-        qDebug() << Utils::formatErrorMessageFromCode("Could not dismount volume:", GetLastError());
+        // Dismount the volume
+        for (int attempt = 0;attempt < 20;attempt++)
+        {
+            if (DeviceIoControl(hVol, FSCTL_DISMOUNT_VOLUME, NULL, 0, NULL, 0, &bytesRet, NULL))
+            {
+                qDebug() << "Dismounted volume";
+                break;
+            }
+            qDebug() << "FSCTL_DISMOUNT_VOLUME retry" << attempt + 1;
+            QThread::msleep(100);
+        }
 
-        qDebug() << "FSCTL_DISMOUNT_VOLUME failed. Retrying in 0.1 sec";
-        QThread::msleep(100);
+        // Keep handle open (locked) to prevent Windows from re-mounting
+        m_volumeHandles.append(hVol);
+
+    } while (FindNextVolumeW(hFind, volumeName, ARRAYSIZE(volumeName)));
+
+    FindVolumeClose(hFind);
+    return true;
+}
+
+void PhysicalDevice::unlockAndCloseVolumes()
+{
+    DWORD bytesRet;
+    for (HANDLE hVol : m_volumeHandles)
+    {
+        DeviceIoControl(hVol, FSCTL_UNLOCK_VOLUME, NULL, 0, NULL, 0, &bytesRet, NULL);
+        CloseHandle(hVol);
     }
+    m_volumeHandles.clear();
+}
 
-    qDebug() << "Giving up dismounting volume";
-    return false;
+bool PhysicalDevice::setDiskOffline(bool offline)
+{
+    // SET_DISK_ATTRIBUTES to mark disk offline prevents Windows PnP from
+    // auto-mounting partitions as they appear during image writing.
+    // Available since Windows Vista / Server 2008.
+    struct {
+        DWORD Version;
+        BOOLEAN Persist;
+        BYTE Reserved1[3];
+        DWORD AttributesMask;
+        DWORD Attributes;
+        DWORD Reserved2[4];
+    } attrs = {};
+
+    attrs.Version = sizeof(attrs);
+    attrs.Persist = FALSE;  // Don't persist across reboots
+    attrs.AttributesMask = 0x00000001; // DISK_ATTRIBUTE_OFFLINE
+    attrs.Attributes = offline ? 0x00000001 : 0x00000000;
+
+    DWORD bytesRet;
+    if (!DeviceIoControl(m_fileHandle, IOCTL_DISK_SET_DISK_ATTRIBUTES,
+                         &attrs, sizeof(attrs), NULL, 0, &bytesRet, NULL))
+    {
+        qWarning() << "IOCTL_DISK_SET_DISK_ATTRIBUTES" << (offline ? "offline" : "online")
+                   << "failed:" << Utils::errorMessageFromCode(GetLastError());
+        return false;
+    }
+    qDebug() << "Disk set" << (offline ? "offline" : "online");
+    return true;
 }
 
 qint64 PhysicalDevice::writeData(const char *data, qint64 len)
@@ -394,35 +475,41 @@ qint64 PhysicalDevice::writeData(const char *data, qint64 len)
     DWORD bytesWritten = 0;
     BOOL result;
     int retryCount = 0;
-    const int maxRetries = 3;
-    const DWORD retryDelay = 100;  // 100 ms
+    const int maxRetries = 5;
+    const DWORD retryDelay = 200;  // 200 ms
+
+    m_lastWriteError = 0;
 
     while (bytesLeft > 0 && retryCount < maxRetries)
     {
         result = WriteFile(m_fileHandle, dataPtr, static_cast<DWORD>(bytesLeft), &bytesWritten, NULL);
         if (result)
         {
-            // Write successful
             totalBytesWritten += bytesWritten;
             dataPtr += bytesWritten;
             bytesLeft -= bytesWritten;
-            retryCount = 0; // Reset retry count after a successful write
+            retryCount = 0;
         }
         else
         {
             DWORD errorCode = GetLastError();
+            m_lastWriteError = errorCode;
             qWarning() << "WriteFile failed with error code:" << errorCode << Utils::errorMessageFromCode(errorCode);
 
-            // Check if the error is recoverable
-            if (errorCode == ERROR_IO_PENDING || errorCode == ERROR_LOCK_VIOLATION || errorCode == ERROR_WRITE_PROTECT)
+            // Retry on transient errors.
+            // ERROR_INVALID_PARAMETER (87) can happen when Windows PnP
+            // briefly interferes with the physical drive.
+            if (errorCode == ERROR_IO_PENDING ||
+                errorCode == ERROR_LOCK_VIOLATION ||
+                errorCode == ERROR_NOT_READY ||
+                errorCode == ERROR_INVALID_PARAMETER)
             {
                 retryCount++;
                 qWarning() << "Retrying write (" << retryCount << "/" << maxRetries << ")";
-                QThread::msleep(retryDelay);
+                QThread::msleep(retryDelay * retryCount); // exponential backoff
             }
             else
             {
-                // Unrecoverable error
                 return -1;
             }
         }
@@ -814,7 +901,9 @@ void DiskWriter::writeToRemovableDevice(const QString &filename, UsbDisk *d)
         if (n != alignedSize)
         {
 #ifdef Q_OS_WIN
-            QString err = phyDev.errorString() + ": " + Utils::errorMessageFromCode(GetLastError());
+            // Use the error code saved by writeData() — GetLastError() is already
+            // clobbered by qWarning/FormatMessage calls inside writeData().
+            QString err = Utils::errorMessageFromCode(phyDev.m_lastWriteError);
 #else
             QString err = phyDev.errorString();
 #endif

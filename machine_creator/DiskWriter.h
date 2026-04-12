@@ -6,6 +6,7 @@
 #include <QStringList>
 #include <QByteArray>
 #include <QFile>
+#include <QVector>
 
 #include "UsbDisk.h"
 
@@ -31,6 +32,11 @@ public:
     // On Linux with udisks2, this closes the write fd and opens via OpenForBackup.
     bool reopenForRead();
 
+#if defined(Q_OS_WIN)
+    // Last WriteFile error code, saved for caller to retrieve
+    DWORD m_lastWriteError = 0;
+#endif
+
 protected:
 #if defined(Q_OS_LINUX)
     bool m_useUdisks = false;
@@ -38,11 +44,11 @@ protected:
 #endif
 #if defined(Q_OS_WIN)
     HANDLE m_fileHandle = INVALID_HANDLE_VALUE;
-    bool handleLocked = false;
+    QVector<HANDLE> m_volumeHandles;
 
-    bool lockVolume();
-    void unlockVolume();
-    bool umountVolume();
+    bool lockAndDismountVolumes();
+    void unlockAndCloseVolumes();
+    bool setDiskOffline(bool offline);
 
     virtual qint64 writeData(const char *data, qint64 len) override;
 #endif
