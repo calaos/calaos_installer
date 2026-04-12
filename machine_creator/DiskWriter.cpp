@@ -839,7 +839,7 @@ QIODevice *DiskWriter::createSourceDevice(QString filename)
                  mime.inherits(QStringLiteral("application/x-lzma")))
             comp = KCompressionDevice::Xz;
 
-#if KARCHIVE_VERSION_MINOR > 81
+#if KARCHIVE_VERSION >= ((5<<16)|(82<<8)|(0))
         else if (mime.inherits(QStringLiteral("application/x-zstd")) ||
                  mime.inherits(QStringLiteral("application/zstd")) ||
                  filename.endsWith(".zst") ||
