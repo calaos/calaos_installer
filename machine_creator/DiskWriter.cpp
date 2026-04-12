@@ -16,6 +16,13 @@
 #include <fcntl.h>
 #include <unistd.h>
 
+#ifdef Q_OS_LINUX
+#include <QDBusConnection>
+#include <QDBusInterface>
+#include <QDBusReply>
+#include <QDBusUnixFileDescriptor>
+#endif
+
 #ifdef Q_OS_MAC
 #include <sys/socket.h>
 #include <security/Authorization.h>
@@ -112,7 +119,68 @@ bool PhysicalDevice::open(OpenMode flags)
     }
 #endif
 
-    return QFile::open(flags);
+    // Try direct open first (works when running as root / via pkexec)
+    if (QFile::open(flags))
+        return true;
+
+    // Direct open failed (likely Flatpak sandbox). Try udisks2 D-Bus API.
+    // udisks2 OpenForRestore returns a writable fd with polkit auth on the host.
+    qDebug() << "Direct open failed for" << fileName() << "- trying udisks2 D-Bus...";
+
+    // Convert /dev/sda → sda for udisks2 object path
+    m_deviceName = fileName();
+    if (m_deviceName.startsWith("/dev/"))
+        m_deviceName = m_deviceName.mid(5);
+
+    QString udisksPath = QStringLiteral("/org/freedesktop/UDisks2/block_devices/%1").arg(m_deviceName);
+
+    QDBusConnection bus = QDBusConnection::systemBus();
+    if (!bus.isConnected())
+    {
+        setErrorString("Cannot connect to system D-Bus");
+        return false;
+    }
+
+    QDBusInterface blockIface("org.freedesktop.UDisks2",
+                              udisksPath,
+                              "org.freedesktop.UDisks2.Block",
+                              bus);
+
+    if (!blockIface.isValid())
+    {
+        setErrorString("udisks2 block interface not available for " + fileName());
+        return false;
+    }
+
+    // OpenForRestore(a{sv} options) → returns a unix fd
+    QVariantMap options;
+    QDBusReply<QDBusUnixFileDescriptor> reply = blockIface.call("OpenForRestore", QVariant::fromValue(options));
+
+    if (!reply.isValid())
+    {
+        setErrorString("udisks2 OpenForRestore failed: " + reply.error().message());
+        return false;
+    }
+
+    int fd = ::dup(reply.value().fileDescriptor());
+    if (fd < 0)
+    {
+        setErrorString("Failed to duplicate udisks2 file descriptor");
+        return false;
+    }
+
+    if (QFile::open(fd, flags, AutoCloseHandle))
+    {
+        m_useUdisks = true;
+        qDebug() << "Opened" << m_deviceName << "via udisks2 D-Bus (write)";
+        return true;
+    }
+    else
+    {
+        ::close(fd);
+        setErrorString("QFile::open failed on udisks2 fd for " + fileName());
+        return false;
+    }
 
 #elif defined(Q_OS_MAC)
     //auto ret = QFile::open(flags);
@@ -153,6 +221,69 @@ bool PhysicalDevice::syncToDisk()
     }
 
     return false;
+}
+
+bool PhysicalDevice::reopenForRead()
+{
+#if defined(Q_OS_LINUX)
+    if (m_useUdisks)
+    {
+        // Close the write fd from OpenForRestore
+        close();
+
+        QString udisksPath = QStringLiteral("/org/freedesktop/UDisks2/block_devices/%1").arg(m_deviceName);
+
+        QDBusConnection bus = QDBusConnection::systemBus();
+        if (!bus.isConnected())
+        {
+            setErrorString("Cannot connect to system D-Bus");
+            return false;
+        }
+
+        QDBusInterface blockIface("org.freedesktop.UDisks2",
+                                  udisksPath,
+                                  "org.freedesktop.UDisks2.Block",
+                                  bus);
+
+        if (!blockIface.isValid())
+        {
+            setErrorString("udisks2 block interface not available for " + m_deviceName);
+            return false;
+        }
+
+        // OpenForBackup(a{sv} options) → returns a readable fd
+        QVariantMap options;
+        QDBusReply<QDBusUnixFileDescriptor> reply = blockIface.call("OpenForBackup", QVariant::fromValue(options));
+
+        if (!reply.isValid())
+        {
+            setErrorString("udisks2 OpenForBackup failed: " + reply.error().message());
+            return false;
+        }
+
+        int fd = ::dup(reply.value().fileDescriptor());
+        if (fd < 0)
+        {
+            setErrorString("Failed to duplicate udisks2 read file descriptor");
+            return false;
+        }
+
+        if (QFile::open(fd, QIODevice::ReadOnly | QIODevice::Unbuffered, AutoCloseHandle))
+        {
+            qDebug() << "Reopened" << m_deviceName << "via udisks2 D-Bus (read)";
+            return true;
+        }
+        else
+        {
+            ::close(fd);
+            setErrorString("QFile::open failed on udisks2 read fd");
+            return false;
+        }
+    }
+#endif
+
+    // Non-udisks2 path: seek back to 0 (device already open as ReadWrite)
+    return seek(0);
 }
 
 #if defined(Q_OS_WIN)
@@ -465,13 +596,54 @@ void DiskWriter::writeToRemovableDevice(const QString &filename, UsbDisk *d)
         qDebug() << unmount.readAll();
     }
 #elif defined(Q_OS_LINUX)
-    for (QString vol: disk->get_volumes())
+    // Try direct umount first (works as root / via pkexec)
+    bool umountOk = true;
+    for (const QString &vol: disk->get_volumes())
     {
         QProcess unmount;
         unmount.start("/bin/umount", QStringList() << vol);
         unmount.waitForStarted();
         unmount.waitForFinished();
         qDebug() << unmount.readAll();
+        if (unmount.exitCode() != 0)
+            umountOk = false;
+    }
+
+    // If direct umount failed, try udisks2 D-Bus (Flatpak sandbox)
+    if (!umountOk && !disk->get_volumes().isEmpty())
+    {
+        qDebug() << "Direct umount failed, trying udisks2 D-Bus...";
+        QDBusConnection bus = QDBusConnection::systemBus();
+        if (bus.isConnected())
+        {
+            // Enumerate udisks2 block devices for this drive's partitions
+            QString physDev = disk->get_physicalDevice();
+            QString devBase = physDev;
+            if (devBase.startsWith("/dev/"))
+                devBase = devBase.mid(5);
+
+            // Try partitions: sda1, sda2, ... sda9
+            for (int i = 1;i <= 9;i++)
+            {
+                QString partName = devBase + QString::number(i);
+                QString partPath = QStringLiteral("/org/freedesktop/UDisks2/block_devices/%1").arg(partName);
+
+                QDBusInterface fsIface("org.freedesktop.UDisks2",
+                                       partPath,
+                                       "org.freedesktop.UDisks2.Filesystem",
+                                       bus);
+
+                if (!fsIface.isValid())
+                    continue;
+
+                QVariantMap options;
+                QDBusReply<void> reply = fsIface.call("Unmount", QVariant::fromValue(options));
+                if (reply.isValid())
+                    qDebug() << "Unmounted" << partName << "via udisks2";
+                else
+                    qDebug() << "udisks2 unmount" << partName << ":" << reply.error().message();
+            }
+        }
     }
 #endif
 
@@ -703,18 +875,19 @@ void DiskWriter::writeToRemovableDevice(const QString &filename, UsbDisk *d)
 
     emit progress("Verify", writtenBytes, totalBytes, timer.elapsed());
 
+    // Reopen for reading (udisks2: close write fd, open read fd via OpenForBackup)
+    if (!phyDev.reopenForRead())
+    {
+        qDebug() << "reopenForRead failed:" << phyDev.errorString();
+        emit error("Failed to reopen drive for verification: " + phyDev.errorString());
+        return;
+    }
+
 #ifdef Q_OS_LINUX
     /* Make sure we are reading from the drive and not from cache */
     //fcntl(phyDev.handle(), F_SETFL, O_DIRECT | fcntl(phyDev.handle(), F_GETFL));
     posix_fadvise(phyDev.handle(), 0, 0, POSIX_FADV_DONTNEED);
 #endif
-
-    if (!phyDev.seek(0))
-    {
-        qDebug() << "seek failed " << phyDev.errorString();
-        emit error("Failed to seek to begining of drive: " + phyDev.errorString());
-        return;
-    }
 
     while (writtenBytes < totalBytes && !isCancelled)
     {

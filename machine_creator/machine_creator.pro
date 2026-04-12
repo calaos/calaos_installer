@@ -45,6 +45,7 @@ RESOURCES += \
 
 linux {
     QT_CONFIG -= no-pkg-config
+    QT += dbus
     CONFIG += link_pkgconfig
     PKGCONFIG += libudev
 

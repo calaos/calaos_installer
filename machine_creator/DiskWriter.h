@@ -27,7 +27,15 @@ public:
 
     bool syncToDisk();
 
+    // Reopen the device for reading (used after writing for verification).
+    // On Linux with udisks2, this closes the write fd and opens via OpenForBackup.
+    bool reopenForRead();
+
 protected:
+#if defined(Q_OS_LINUX)
+    bool m_useUdisks = false;
+    QString m_deviceName; // e.g. "sda"
+#endif
 #if defined(Q_OS_WIN)
     HANDLE m_fileHandle = INVALID_HANDLE_VALUE;
     bool handleLocked = false;
