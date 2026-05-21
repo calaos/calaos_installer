@@ -36,7 +36,7 @@ curl.exe -X POST `
     -F "upload_folder=$uploadFolder" `
     -F "upload_sha256=$hash" `
     -F "upload_file=@$filePath" `
-    https://calaos.fr/download/upload
+    https://dl-direct.raoulh.pw/download/upload
 
 if ($LASTEXITCODE -ne 0) {
     Write-Error "Upload failed with exit code $LASTEXITCODE"
