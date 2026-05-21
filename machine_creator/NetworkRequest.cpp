@@ -68,7 +68,7 @@ bool NetworkRequest::start()
     }
 
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
-    request.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::ManualRedirectPolicy);
+    request.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
 #else
     request.setAttribute(QNetworkRequest::FollowRedirectsAttribute, true);
 #endif
