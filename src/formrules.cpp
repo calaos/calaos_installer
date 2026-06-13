@@ -13,6 +13,7 @@
 
 #ifdef QT_MQTT_AVAILABLE
 #include "DialogZigbee2mqtt.h"
+#include "DialogHomeAssistantMqtt.h"
 #endif
 
 FormRules::FormRules(QWidget *parent) :
@@ -569,6 +570,46 @@ FormRules::FormRules(QWidget *parent) :
             auto p = d.getIOParam();
             addCalaosIO(p);
         }
+    });
+
+    action = add_menu->addAction(tr("Home Assistant MQTT discovery"));
+    action->setIcon(QIcon(":/img/mqtt.png"));
+    connect(action, &QAction::triggered, this, [=]()
+    {
+        if (ListeRoom::Instance().size() <= 0)
+        {
+            QMessageBox::warning(this, tr("Calaos Installer"), tr("You need to add one room at least!"));
+            return;
+        }
+
+        DialogHomeAssistantMqtt d(this);
+        if (d.exec() != QDialog::Accepted)
+            return;
+
+        for (const auto &item : d.getImportItems())
+        {
+            Params p = item.params;
+            p.Add("id", ListeRoom::get_new_id("io_"));
+            IOBase *io = nullptr;
+            if (p["io_type"] == "input")
+            {
+                io = ListeRoom::Instance().createInput(p, item.room);
+                addItemInput(io, item.room, true);
+            }
+            else
+            {
+                io = ListeRoom::Instance().createOutput(p, item.room);
+                addItemOutput(io, item.room, true);
+            }
+        }
+        setProjectModified(true);
+
+        auto warnings = d.getWarnings();
+        if (!warnings.isEmpty())
+            QMessageBox::information(this, tr("Import complete"),
+                tr("Imported %1 entit(y/ies).\n\nNotes:\n%2")
+                    .arg(d.getImportItems().size())
+                    .arg(warnings.join('\n')));
     });
 #endif
 
