@@ -41,6 +41,8 @@ public:
     void setMqttBrokerUser(QString s) { settings.setValue("calaos/mqtt_broker_user", s); }
     QString getMqttBrokerPass() { return settings.value("calaos/mqtt_broker_pass", "").toString(); }
     void setMqttBrokerPass(QString s) { settings.setValue("calaos/mqtt_broker_pass", s); }
+    QString getHADiscoveryPrefix() { return settings.value("calaos/ha_discovery_prefix", "homeassistant").toString(); }
+    void setHADiscoveryPrefix(QString s) { settings.setValue("calaos/ha_discovery_prefix", s); }
 
     void saveConfig() { settings.sync(); }
 
