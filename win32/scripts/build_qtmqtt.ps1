@@ -56,7 +56,14 @@ cmake -G "MinGW Makefiles" `
     "$BUILD_ROOT/qtmqtt"
 if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
-mingw32-make -j $env:NUMBER_OF_PROCESSORS
+# Built serially on purpose: the Mqtt_sync_headers and Mqtt_version_script
+# targets both drive syncqt into the same .syncqt_staging directory, and in a
+# parallel make they collide on Windows file locks:
+#   Unable to remove file: ".../include/QtMqtt/QtMqttVersion" ... error: (32)
+#   The process cannot access the file because it is being used by another process
+# The race is intermittent, which is why this step failed only on some runs.
+# QtMqtt is small and the result is cached, so the lost parallelism is cheap.
+mingw32-make -j 1
 if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
 mingw32-make install
