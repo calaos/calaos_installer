@@ -1,6 +1,8 @@
 #include <QThread>
 #include <QFileDialog>
 #include <QMessageBox>
+#include <QCloseEvent>
+#include <QApplication>
 #include <QtConcurrent/QtConcurrentRun>
 
 #include "mainwindow.h"
@@ -60,11 +62,21 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(diskWriter, &DiskWriter::finished, this, &MainWindow::writeFinished);
     connect(diskWriter, &DiskWriter::syncing, this, &MainWindow::writeSync);
 
+    connect(&m_writeWatcher, &QFutureWatcher<void>::finished, this, &MainWindow::writeFutureFinished);
+
     ui->restartButton->hide();
 }
 
 MainWindow::~MainWindow()
 {
+    //The worker thread uses diskWriter and other members of this object,
+    //it must be joined before anything is destroyed
+    if (m_writeFuture.isRunning())
+    {
+        diskWriter->cancelWrite();
+        m_writeFuture.waitForFinished();
+    }
+
     delete ui;
 }
 
@@ -209,6 +221,10 @@ void MainWindow::downloadProgress(qint64 bytesReceived, qint64 bytesTotal)
 
 void MainWindow::writeFinished()
 {
+    //The window is about to close, don't switch pages anymore
+    if (m_closeRequested)
+        return;
+
     ui->stackedWidget->setCurrentIndex(MainWindow::Page_Final);
     ui->finalLabelIcon->setPixmap(QPixmap(":/img/dialog-ok.png"));
     ui->finalLabelTitle->setText(tr("Image succesfully written on disk."));
@@ -224,6 +240,10 @@ void MainWindow::writeFinished()
 
 void MainWindow::writeSync()
 {
+    //Keep the "Cancelling, please wait..." state while waiting for the worker to stop
+    if (m_closeRequested)
+        return;
+
     ui->writeProgress->setMinimum (0);
     ui->writeProgress->setMaximum (0);
     ui->writeProgress->setValue(-1);
@@ -234,6 +254,11 @@ void MainWindow::writeSync()
 
 void MainWindow::writeError(QString error)
 {
+    //The window is about to close: the cancellation itself emits a queued
+    //"Write cancelled." error, don't show the failure page for it
+    if (m_closeRequested)
+        return;
+
     ui->stackedWidget->setCurrentIndex(MainWindow::Page_Final);
     ui->finalLabelTitle->setText(tr("Failed to write image !"));
     ui->finalLabel->setText(error);
@@ -250,6 +275,10 @@ void MainWindow::writeError(QString error)
 void MainWindow::writeProgress(QString status, qint64 bytesReceived, qint64 bytesTotal, qint64 elapsedMs)
 {
     //qDebug() << "writeProgress: " << status << bytesReceived << bytesTotal << elapsedMs;
+
+    //Keep the "Cancelling, please wait..." state while waiting for the worker to stop
+    if (m_closeRequested)
+        return;
 
     if (bytesTotal > 0)
     {
@@ -291,10 +320,11 @@ void MainWindow::startWriteProcess()
     //disable USB model reloading while writing
     platform->setReloadEnabled(false);
 
-    auto f = QtConcurrent::run([=]()
+    m_writeFuture = QtConcurrent::run([=]()
     {
         diskWriter->writeToRemovableDevice(m_decompressedFile, m_disk);
     });
+    m_writeWatcher.setFuture(m_writeFuture);
 }
 
 void MainWindow::on_cancelButton_clicked()
@@ -316,6 +346,81 @@ void MainWindow::on_cancelButton_clicked()
     }
 
     reject();
+}
+
+bool MainWindow::confirmSafeClose()
+{
+    if (m_writeFuture.isRunning())
+    {
+        //A close was already requested, the worker is being cancelled.
+        //Swallow any further close request until writeFutureFinished() fires.
+        if (m_closeRequested)
+            return false;
+
+        if (QMessageBox::question(this, "Calaos", tr("Cancel write ?")) != QMessageBox::Yes)
+            return false;
+
+        //The worker may have finished while the confirmation dialog was open
+        if (!m_writeFuture.isRunning())
+            return true;
+
+        //Ask the worker to stop, but never block the GUI thread waiting for it:
+        //the window stays responsive and will actually close from
+        //writeFutureFinished() once the worker has really stopped.
+        m_closeRequested = true;
+        diskWriter->cancelWrite();
+
+        ui->writeProgress->setMinimum(0);
+        ui->writeProgress->setMaximum(0);
+        ui->writeProgress->setValue(-1);
+        ui->writeLabel->setText(tr("Cancelling, please wait..."));
+        ui->timeWriteLabel->clear();
+        ui->speedWriteLabel->clear();
+        ui->cancelButton->setEnabled(false);
+        ui->continueButton->setEnabled(false);
+
+        return false;
+    }
+    else if (ui->stackedWidget->currentIndex() == MainWindow::Page_Download && downloadReq)
+    {
+        if (QMessageBox::question(this, "Calaos", tr("Cancel download ?")) != QMessageBox::Yes)
+            return false;
+
+        downloadReq->cancel();
+        downloadReq = nullptr;
+    }
+
+    return true;
+}
+
+void MainWindow::reject()
+{
+    if (!confirmSafeClose())
+        return;
+
+    QDialog::reject();
+}
+
+void MainWindow::closeEvent(QCloseEvent *event)
+{
+    if (!confirmSafeClose())
+    {
+        event->ignore();
+        return;
+    }
+
+    QDialog::closeEvent(event);
+}
+
+void MainWindow::writeFutureFinished()
+{
+    //The worker thread has fully stopped. If a close was requested while it
+    //was still running, it is now safe to actually close the window.
+    if (!m_closeRequested)
+        return;
+
+    m_closeRequested = false;
+    QDialog::reject();
 }
 
 void MainWindow::on_restartButton_clicked()

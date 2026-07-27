@@ -92,6 +92,10 @@ QVector<UsbDisk *> Platform::enumUsbDisk()
         d->set_isRemovable(i.isRemovable);
         d->set_isSystem(i.isSystem);
         d->set_size(i.size);
+        //Physical sector size reported by drivelist (defaults to 512 when the
+        //platform backend does not probe it). DiskWriter falls back to 4096
+        //when the value is 0 or not a power of two.
+        d->set_sectorSize(i.blockSize);
         d->set_volumes(mountpoints);
         d->set_isUsb(i.isUSB);
         d->set_isSD(i.isCard);

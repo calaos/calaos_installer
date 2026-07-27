@@ -6,7 +6,9 @@
 #include <QStringList>
 #include <QByteArray>
 #include <QFile>
-#include <QVector>
+#include <QHash>
+
+#include <atomic>
 
 #include "UsbDisk.h"
 
@@ -21,6 +23,7 @@ class PhysicalDevice : public QFile
     Q_OBJECT
 public:
     PhysicalDevice(const QString &name);
+    virtual ~PhysicalDevice();
 
     // Opens the selected device in WriteOnly mode, flags is ignored
     virtual bool open(OpenMode flags) override;
@@ -35,6 +38,21 @@ public:
 #if defined(Q_OS_WIN)
     // Last WriteFile error code, saved for caller to retrieve
     DWORD m_lastWriteError = 0;
+
+    // Enumerate volumes belonging to this physical disk and lock/dismount any
+    // that are not already held. Keeps every locked volume handle open until
+    // close(). Safe to call repeatedly (before diskpart, after diskpart
+    // clean/rescan, and mid-write when a volume gets re-mounted under us).
+    // If volumesOnDiskOut is non-null it receives the number of volumes found
+    // on the disk (newly locked + already held).
+    bool relockVolumes(int *volumesOnDiskOut = nullptr);
+
+    // Release and close every held volume lock. Called from close(), and by
+    // DiskWriter right before running diskpart: FSCTL_LOCK_VOLUME (which
+    // diskpart/VDS takes itself to clean a volume) only succeeds when no
+    // other handle to the volume exists, so our own held locks would make
+    // "clean" fail.
+    void unlockAndCloseVolumes();
 #endif
 
 protected:
@@ -44,10 +62,13 @@ protected:
 #endif
 #if defined(Q_OS_WIN)
     HANDLE m_fileHandle = INVALID_HANDLE_VALUE;
-    QVector<HANDLE> m_volumeHandles;
+    // Locked volume handles, keyed by volume GUID path so relockVolumes() can
+    // tell which volumes are already held
+    QHash<QString, HANDLE> m_volumeHandles;
+    // Whether IOCTL_DISK_SET_DISK_ATTRIBUTES offline succeeded (it is unreliable
+    // on removable media; the volume locks are the primary protection)
+    bool m_diskSetOffline = false;
 
-    bool lockAndDismountVolumes();
-    void unlockAndCloseVolumes();
     bool setDiskOffline(bool offline);
 
     virtual qint64 writeData(const char *data, qint64 len) override;
@@ -80,7 +101,7 @@ signals:
     void error(const QString &message);
 
 protected:
-    volatile bool isCancelled;
+    std::atomic<bool> isCancelled {false};
 
     QIODevice *createSourceDevice(QString filename);
 };

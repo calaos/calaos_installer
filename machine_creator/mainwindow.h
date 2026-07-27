@@ -4,6 +4,8 @@
 #include <QMainWindow>
 #include <QDialog>
 #include <QProcess>
+#include <QFuture>
+#include <QFutureWatcher>
 
 #include "DiskWriter.h"
 #include "CalaosApi.h"
@@ -15,6 +17,8 @@
 namespace Ui {
 class MainWindow;
 }
+
+class QCloseEvent;
 
 class MainWindow : public QDialog
 {
@@ -43,6 +47,12 @@ private slots:
 
     void on_restartButton_clicked();
 
+    void writeFutureFinished();
+
+protected:
+    void reject() override;
+    void closeEvent(QCloseEvent *event) override;
+
 signals:
     void finished(QString filename);
     void proceedToWriteImageToDevice(const QString &image, UsbDisk *device);
@@ -68,6 +78,9 @@ private:
 
     DiskWriter *diskWriter;
     QThread* diskWriterThread;
+    QFuture<void> m_writeFuture;
+    QFutureWatcher<void> m_writeWatcher;
+    bool m_closeRequested = false;
 
     bool m_bFileFromDisk = false;
     QString path;
@@ -83,6 +96,7 @@ private:
     NetworkRequest *downloadReq = nullptr;
 
     void startWriteProcess();
+    bool confirmSafeClose();
 };
 
 #endif // MAINWINDOW_H
