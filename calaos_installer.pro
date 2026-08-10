@@ -3,8 +3,13 @@ QT += core gui network widgets xml printsupport quick qml quickwidgets quickcont
 qtHaveModule(mqtt) {
     QT += mqtt
     DEFINES += QT_MQTT_AVAILABLE
-    SOURCES += src/DialogZigbee2mqtt.cpp
-    HEADERS += src/DialogZigbee2mqtt.h
+    SOURCES += src/DialogZigbee2mqtt.cpp \
+        src/DialogHomeAssistantMqtt.cpp \
+        src/HomeAssistantDiscovery.cpp
+    HEADERS += src/DialogZigbee2mqtt.h \
+        src/DialogHomeAssistantMqtt.h \
+        src/HomeAssistantDiscovery.h
+    FORMS += src/DialogHomeAssistantMqtt.ui
 }
 
 equals(QT_MAJOR_VERSION, 6) {
