@@ -67,6 +67,16 @@ void DialogListProperties::on_addButton_clicked()
     {
         string key = text.toUtf8().data();
 
+        //Without this guard the param would be created empty and then refused
+        //by on_modifyButton_clicked() below: a one-way door, an empty param
+        //written to io.xml that can neither be edited nor deleted afterwards.
+        if (isAutoScenarioProperty(key))
+        {
+            QMessageBox::warning(this, tr("Calaos Installer"), tr("This property name is reserved!"));
+
+            return;
+        }
+
         if (params.Exists(key))
         {
             QMessageBox::warning(this, tr("Calaos Installer"), tr("This property already exists!"));
