@@ -11,6 +11,7 @@
 #include "DialogRemoteUIEditor.h"
 #include "DialogNewRemoteUIRelay.h"
 
+#include <QDebug>
 #ifdef QT_MQTT_AVAILABLE
 #include "DialogZigbee2mqtt.h"
 #endif
@@ -1476,9 +1477,11 @@ void FormRules::updateItemCondition(QTreeWidgetItem *item, Condition *condition)
             }
             else
             {
-                /* Wrong param_var, remove it */
+                /* The IO used as the value does not exist (yet). Keep the
+                 * reference: dropping it here would silently rewrite the rule
+                 * on the next save. Just display the static value instead. */
+                qWarning() << "Rule condition uses an unknown IO id as value:" << var_id.c_str();
                 value = condition->get_params().get_param(id);
-                condition->get_params_var().Delete(id);
             }
         }
         else
@@ -1549,9 +1552,10 @@ void FormRules::updateItemCondition(QTreeWidgetItem *item, Condition *condition)
             }
             else
             {
-                /* Wrong param_var, remove it */
+                /* Same as above: keep the dangling reference rather than
+                 * destroying it behind the user's back. */
+                qWarning() << "Rule condition uses an unknown IO id as value:" << var_id.c_str();
                 value = condition->getOutputParam();
-                condition->setOutputParamVar("");
             }
         }
         else
@@ -1653,9 +1657,10 @@ void FormRules::updateItemAction(QTreeWidgetItem *item, Action *action)
             }
             else
             {
-                /* wrong param_var, remove it */
+                /* Same as above: keep the dangling reference rather than
+                 * destroying it behind the user's back. */
+                qWarning() << "Rule action uses an unknown IO id as value:" << var_id.c_str();
                 value = action->get_params().get_param(id);
-                action->get_params_var().Delete(id);
             }
         }
         else
