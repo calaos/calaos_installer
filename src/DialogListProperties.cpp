@@ -1,6 +1,16 @@
 #include "DialogListProperties.h"
 #include "ui_DialogListProperties.h"
 
+/* Params carrying the definition of an auto scenario. calaos_server owns them
+ * and rebuilds the scenario rules from them, so editing or deleting one by
+ * hand silently breaks the scenario. The installer does not need to understand
+ * them, only to leave them alone — the same way "type" and "name" are already
+ * protected here. See calaos_base docs/refactoring/E4.6.md. */
+static bool isAutoScenarioProperty(const string &key)
+{
+    return key.rfind("autoscenario_", 0) == 0 || key.rfind("as_", 0) == 0;
+}
+
 DialogListProperties::DialogListProperties(const Params &p, int t, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::DialogListProperties),
@@ -84,7 +94,7 @@ void DialogListProperties::on_delButton_clicked()
     {
         string key = current_item->text(0).toUtf8().data();
 
-        if (key == "type" || key == "name")
+        if (key == "type" || key == "name" || isAutoScenarioProperty(key))
         {
             QMessageBox::warning(this, tr("Calaos Installer"), tr("This property cannot be deleted!"));
             return;
@@ -106,7 +116,7 @@ void DialogListProperties::on_modifyButton_clicked()
     key = current_item->text(0).toUtf8().data();
     value = params[key];
 
-    if (key == "type" && type != OBJ_RULE)
+    if ((key == "type" && type != OBJ_RULE) || isAutoScenarioProperty(key))
     {
         QMessageBox::warning(this, tr("Calaos Installer"), tr("This property can't be changed!"));
         return;
