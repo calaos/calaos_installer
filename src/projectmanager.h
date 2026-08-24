@@ -8,6 +8,7 @@
 #include <QDomDocument>
 #include <vector>
 #include <QMessageBox>
+#include <QStringList>
 
 #include <ListeRoom.h>
 #include <ListeRule.h>
@@ -84,6 +85,12 @@ public:
     /* Parse and fill ListeRoom/ListeRule from xml files */
     static bool loadIOsFromFile(QString &file);
     static bool loadRulesFromFile(QString &file);
+
+    /* IO ids that the last loadRulesFromFile() found in rules.xml but that do
+     * not exist in io.xml. Their references are kept alive by a placeholder IO
+     * so that saving does not destroy the rules using them; this list lets the
+     * caller tell the user about them. One line per id, empty when all good. */
+    static QStringList missingIOReport();
 
     //Used to know wich wago is 849 or 842.
     static map<string, bool> wagoTypeCache;

@@ -49,7 +49,10 @@ protected:
     vector<IOBase *> in_event;
 
     //Output condition
-    IOBase *output;
+    //Must be initialized: a <calaos:condition type="output"> without a usable
+    //<calaos:output> child never calls setOutput(), and every reader of this
+    //member tests it against nullptr before dereferencing it.
+    IOBase *output = nullptr;
     string output_param, output_param_var, output_oper;
 
 public:

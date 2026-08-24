@@ -269,6 +269,19 @@ void MainWindow::Load(QString path)
     ui->widgetRules->setProjectModified(false);
 
     statusBar()->showMessage(QString(tr("Project loaded: %1")).arg(project_path), 3000);
+
+    bar.close();
+
+    QStringList missing = ProjectManager::missingIOReport();
+    if (!missing.isEmpty())
+    {
+        QMessageBox::warning(this, tr("Calaos Installer"),
+                             tr("Some rules use inputs or outputs that do not exist in this "
+                                "project:\n\n%1\n\nThose references have been kept as they are, "
+                                "so saving the project will not destroy the rules using them. "
+                                "Fix or remove them if they are not expected.")
+                             .arg(missing.join("\n")));
+    }
 }
 
 void MainWindow::on_actionLoadProject_triggered()

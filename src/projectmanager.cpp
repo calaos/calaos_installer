@@ -1,4 +1,5 @@
 #include "projectmanager.h"
+#include <QDebug>
 
 map<string, bool> ProjectManager::wagoTypeCache;
 
@@ -334,6 +335,14 @@ void RuleXmlWriter::writeCondition(Rule *rule)
         }
         case COND_OUTPUT:
         {
+            if (!cond->getOutput())
+            {
+                //Nothing to write, and dereferencing it would crash. This can
+                //only happen for a condition that was built without an output.
+                qWarning() << "Skipping an output condition without any output";
+                break;
+            }
+
             writeStartElement("http://www.calaos.fr", "condition");
             QXmlStreamAttributes attr;
             attr.append("type", "output");
@@ -961,8 +970,92 @@ bool ProjectManager::loadIOsFromFile(QString &file)
     return true;
 }
 
+/*
+ * Handling of IOs that rules.xml references but io.xml does not define.
+ *
+ * Historically such a reference was simply dropped while reading rules.xml.
+ * Because the installer always rewrites rules.xml in full from its in-memory
+ * model, merely opening a project whose io.xml and rules.xml are out of sync
+ * and saving it destroyed, without a word, every condition and every action
+ * that used the unresolved id.
+ *
+ * Instead we now build a placeholder IO carrying the id. It is deliberately
+ * NOT registered in any Room, so it never reaches io.xml and never shows up in
+ * the IO tree; it only keeps the reference alive so that rules.xml round-trips
+ * unchanged. The user is told about it once, at the end of the load.
+ */
+namespace
+{
+
+map<string, IOBase *> missingIOCache;
+//id -> names of the rules referencing it
+map<string, QStringList> missingIOUsage;
+
+void resetMissingIOs()
+{
+    //The placeholders are intentionally not deleted: rules loaded previously
+    //may still point at them, and they are a handful of small objects.
+    missingIOCache.clear();
+    missingIOUsage.clear();
+}
+
+IOBase *getMissingIO(const string &id, int ioType, const string &ruleName)
+{
+    if (id.empty())
+        return nullptr;
+
+    QStringList &usage = missingIOUsage[id];
+    QString rname = QString::fromUtf8(ruleName.c_str());
+    if (!rname.isEmpty() && !usage.contains(rname))
+        usage.append(rname);
+
+    string key = (ioType == IOBase::IO_INPUT? "in:": "out:") + id;
+    auto it = missingIOCache.find(key);
+    if (it != missingIOCache.end())
+        return it->second;
+
+    Params p;
+    p.Add("id", id);
+    p.Add("type", "unknown");
+    p.Add("name", QObject::tr("Missing IO (%1)").arg(QString::fromUtf8(id.c_str())).toUtf8().data());
+
+    IOBase *io = new IOBase(p, "unknown", TSTRING, ioType);
+    missingIOCache[key] = io;
+
+    qWarning() << "rules.xml references an unknown IO id" << id.c_str()
+               << "- keeping the reference instead of dropping it";
+
+    return io;
+}
+
+}
+
+/* Reported by the caller once the project is fully loaded, so that the warning
+ * does not fight with the modal progress dialog shown during the load. */
+QStringList ProjectManager::missingIOReport()
+{
+    QStringList lines;
+    int shown = 0;
+    for (const auto &it: missingIOUsage)
+    {
+        if (shown >= 20)
+        {
+            lines.append(QObject::tr("... and %1 more").arg((int)missingIOUsage.size() - shown));
+            break;
+        }
+        lines.append(QString("• %1 (%2)")
+                     .arg(QString::fromUtf8(it.first.c_str()))
+                     .arg(it.second.join(", ")));
+        shown++;
+    }
+
+    return lines;
+}
+
 bool ProjectManager::loadRulesFromFile(QString &file)
 {
+    resetMissingIOs();
+
     QFile t(file);
     if (!t.open(QIODevice::ReadOnly | QIODevice::Text))
         return false;
@@ -1019,6 +1112,8 @@ bool ProjectManager::loadRulesFromFile(QString &file)
                     string val_var = node_in.attribute("val_var").toUtf8().data();
 
                     IOBase *input = ListeRoom::Instance().get_input(id);
+                    if (!input)
+                        input = getMissingIO(id, IOBase::IO_INPUT, rule->get_name());
 
                     if (input)
                     {
@@ -1050,6 +1145,8 @@ bool ProjectManager::loadRulesFromFile(QString &file)
                     string val_var = node_in.attribute("val_var").toUtf8().data();
 
                     IOBase *output = ListeRoom::Instance().get_output(id);
+                    if (!output)
+                        output = getMissingIO(id, IOBase::IO_OUTPUT, rule->get_name());
 
                     if (output)
                     {
@@ -1079,6 +1176,8 @@ bool ProjectManager::loadRulesFromFile(QString &file)
                     {
                         string id = node_in.attribute("id").toUtf8().data();
                         IOBase *input = ListeRoom::Instance().get_input(id);
+                        if (!input)
+                            input = getMissingIO(id, IOBase::IO_INPUT, rule->get_name());
                         if (input)
                         {
                             id = input->get_param("id"); //set id back to "id" parameter if old iid/oid where used
@@ -1121,6 +1220,8 @@ bool ProjectManager::loadRulesFromFile(QString &file)
                     string val_var = node_out.attribute("val_var").toUtf8().data();
 
                     IOBase *output = ListeRoom::Instance().get_output(id);
+                    if (!output)
+                        output = getMissingIO(id, IOBase::IO_OUTPUT, rule->get_name());
 
                     if (output)
                     {
