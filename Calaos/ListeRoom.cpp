@@ -20,6 +20,7 @@
 ******************************************************************************/
 //-----------------------------------------------------------------------------
 #include <ListeRoom.h>
+#include <set>
 #include <QString>
 #include "ConfigOptions.h"
 //-----------------------------------------------------------------------------
@@ -44,6 +45,10 @@ void ListeRoom::clear()
         delete rooms[i];
 
     rooms.clear();
+
+    //Resetting the model also drops the ids reserved for dangling rule
+    //references: a brand new project must start numbering from scratch.
+    clearPendingIOIds();
 }
 //-----------------------------------------------------------------------------
 void ListeRoom::Add(Room *p)
@@ -549,16 +554,45 @@ IOBase *ListeRoom::createAVR(Params param, Room *room)
     return output;
 }
 
+static std::set<std::string> &pendingIOIds()
+{
+    //Deliberately immortal. ~ListeRoom() calls clear(), which clears this set,
+    //and it runs during static destruction — a plain function-local static
+    //would already have been destroyed by then (use-after-free at exit).
+    static std::set<std::string> *ids = new std::set<std::string>();
+    return *ids;
+}
+
+void ListeRoom::reservePendingIOId(const std::string &id)
+{
+    if (!id.empty())
+        pendingIOIds().insert(id);
+}
+
+void ListeRoom::clearPendingIOIds()
+{
+    pendingIOIds().clear();
+}
+
+bool ListeRoom::isPendingIOId(const std::string &id)
+{
+    return pendingIOIds().find(id) != pendingIOIds().end();
+}
+
 std::string ListeRoom::get_new_id(std::string prefix)
 {
     int cpt = 0;
     bool found = false;
     while (!found)
     {
-        IOBase *in = ListeRoom::Instance().get_input(prefix + Utils::to_string(cpt));
-        IOBase *out = ListeRoom::Instance().get_output(prefix + Utils::to_string(cpt));
+        std::string candidate = prefix + Utils::to_string(cpt);
+        IOBase *in = ListeRoom::Instance().get_input(candidate);
+        IOBase *out = ListeRoom::Instance().get_output(candidate);
 
-        if (!in && !out)
+        //An id still referenced by a rule whose IO is missing is NOT free: the
+        //room scan above cannot see it, and reusing it would wire the new IO
+        //into rules that were written for another one.
+        if (!in && !out && !isPendingIOId(candidate))
             found = true;
         else
             cpt++;

@@ -997,6 +997,7 @@ void resetMissingIOs()
     //may still point at them, and they are a handful of small objects.
     missingIOCache.clear();
     missingIOUsage.clear();
+    ListeRoom::clearPendingIOIds();
 }
 
 IOBase *getMissingIO(const string &id, int ioType, const string &ruleName)
@@ -1004,12 +1005,13 @@ IOBase *getMissingIO(const string &id, int ioType, const string &ruleName)
     if (id.empty())
         return nullptr;
 
-    QStringList &usage = missingIOUsage[id];
+    string key = (ioType == IOBase::IO_INPUT? "in:": "out:") + id;
+
+    QStringList &usage = missingIOUsage[key];
     QString rname = QString::fromUtf8(ruleName.c_str());
     if (!rname.isEmpty() && !usage.contains(rname))
         usage.append(rname);
 
-    string key = (ioType == IOBase::IO_INPUT? "in:": "out:") + id;
     auto it = missingIOCache.find(key);
     if (it != missingIOCache.end())
         return it->second;
@@ -1022,7 +1024,11 @@ IOBase *getMissingIO(const string &id, int ioType, const string &ruleName)
     IOBase *io = new IOBase(p, "unknown", TSTRING, ioType);
     missingIOCache[key] = io;
 
-    qWarning() << "rules.xml references an unknown IO id" << id.c_str()
+    //Do not hand this id out again to a brand new IO while a rule still uses it.
+    ListeRoom::reservePendingIOId(id);
+
+    qWarning() << "rules.xml references an unknown"
+               << (ioType == IOBase::IO_INPUT? "input": "output") << "id" << id.c_str()
                << "- keeping the reference instead of dropping it";
 
     return io;
@@ -1040,11 +1046,17 @@ QStringList ProjectManager::missingIOReport()
     {
         if (shown >= 20)
         {
-            lines.append(QObject::tr("... and %1 more").arg((int)missingIOUsage.size() - shown));
+            lines.append(QObject::tr("... and %1 more (the full list is written to the "
+                                     "application log)").arg((int)missingIOUsage.size() - shown));
             break;
         }
-        lines.append(QString("• %1 (%2)")
-                     .arg(QString::fromUtf8(it.first.c_str()))
+        //Keys are "in:<id>" / "out:<id>": say which side the id is missing from,
+        //an input and an output may legitimately share the same id.
+        QString key = QString::fromUtf8(it.first.c_str());
+        QString side = key.startsWith("in:")? QObject::tr("input"): QObject::tr("output");
+        lines.append(QString("• %1 %2 (%3)")
+                     .arg(side)
+                     .arg(key.section(':', 1))
                      .arg(it.second.join(", ")));
         shown++;
     }

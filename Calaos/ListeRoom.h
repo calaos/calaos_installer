@@ -96,6 +96,17 @@ public:
     IOBase *createAVR(Params param, Room *room);
 
     static string get_new_id(string prefix);
+
+    /* Ids that rules.xml references but io.xml does not define. They are kept
+     * alive by placeholder IOs (see ProjectManager) which live outside any
+     * Room, so the room scan of get_new_id() cannot see them. Reserving them
+     * is what stops a brand new IO from being handed a still-referenced id and
+     * silently inheriting the rules of the IO that disappeared.
+     * Rebuilt from scratch at every rules.xml load, so the reservation lasts
+     * exactly as long as the dangling reference itself. */
+    static void reservePendingIOId(const string &id);
+    static void clearPendingIOIds();
+    static bool isPendingIOId(const string &id);
     static string get_new_varsave();
 
     static string getRoomType(int type);
