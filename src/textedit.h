@@ -66,8 +66,8 @@ public:
 
     void loadText(const QString &str);
     bool load(const QString &f);
-    void loadRooms();
-    void loadIOList();
+    void loadRooms(const QString &projectName = QString());
+    void loadIOList(const QString &projectName = QString());
 
 private:
     void setupFileActions();

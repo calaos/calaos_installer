@@ -58,6 +58,9 @@ private:
 
     TextEdit teditor;
 
+    /* Short name of the loaded project, used to title the reports. */
+    QString projectDisplayName() const;
+
     void onShowProg();
     void onShowTransfert();
 

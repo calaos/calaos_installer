@@ -66,6 +66,12 @@
 #include <QMessageBox>
 #include <QPrintPreviewDialog>
 #include <QActionGroup>
+#include <QCoreApplication>
+#include <QHash>
+#include <QMap>
+#include <QSet>
+#include <QVector>
+#include <algorithm>
 
 using namespace Calaos;
 
@@ -664,485 +670,679 @@ QString TextEdit::readFile(QString f)
     return (codec->toUnicode(data));
 }
 
-bool _sort_input_by_var(IOBase *in1, IOBase *in2)
+/* Report generation.
+ *
+ * Every IO of the project is turned into one or more report lines by
+ * describeIo(). A line knows which bus it belongs to (a Wago PLC is identified
+ * by its host, so two PLCs never end up mixed in the same table) and which
+ * category it falls into. Types unknown to the classification tables are not
+ * dropped, they land in a fallback group so the report always accounts for the
+ * whole project.
+ */
+namespace IoReport
 {
-    int var1, var2;
-    from_string(in1->get_param("var"), var1);
-    from_string(in2->get_param("var"), var2);
+struct Tr { Q_DECLARE_TR_FUNCTIONS(IoReport) };
 
-    return (var1 < var2);
+enum Bus
+{
+    BUS_WAGO = 10,
+    BUS_KNX = 20,
+    BUS_MYSENSORS = 30,
+    BUS_MQTT = 40,
+    BUS_WEB = 50,
+    BUS_GPIO = 60,
+    BUS_HUE = 70,
+    BUS_OLA = 80,
+    BUS_XPL = 90,
+    BUS_ZIBASE = 95,
+    BUS_1WIRE = 96,
+    BUS_OTHER = 99
+};
+
+enum Category
+{
+    CAT_IN_DIGITAL = 100,
+    CAT_IN_DIGITAL_KNX = 110,
+    CAT_IN_ANALOG = 120,
+    CAT_IN_TEMP = 130,
+    CAT_IN_STRING = 140,
+    CAT_IN_MISC = 190,
+    CAT_OUT_DIGITAL = 200,
+    CAT_OUT_DIGITAL_KNX = 210,
+    CAT_OUT_DIMMER = 220,
+    CAT_OUT_RGB = 230,
+    CAT_OUT_SHUTTER = 240,
+    CAT_OUT_ANALOG = 250,
+    CAT_OUT_STRING = 260,
+    CAT_OUT_MISC = 290,
+    CAT_DALI = 300
+};
+
+struct Line
+{
+    QString icon;
+    QString address;
+    QString name;
+    QString room;
+    QString detail;
+    QString flags;
+    int sortKey = 0;
+};
+
+struct Entry
+{
+    int bus = BUS_OTHER;
+    QString groupKey;
+    QString groupTitle;
+    QString catKey;
+    QString catTitle;
+    bool misc = false;
+    Line line;
+};
+
+struct Table
+{
+    QString title;
+    QVector<Line> lines;
+};
+
+struct Group
+{
+    QString title;
+    QMap<QString, Table> tables;
+    int count = 0;
+};
+
+static const QString ICON_SWITCH = QStringLiteral("<img src=\":/img/icon_inter.png\" />");
+static const QString ICON_LIGHT = QStringLiteral("<img src=\":/img/icon_light_on.png\" />");
+static const QString ICON_TOR = QStringLiteral("<img src=\":/img/icon_tor_on.png\" />");
+static const QString ICON_SHUTTER = QStringLiteral("<img src=\":/img/icon_shutter.png\" />");
+static const QString ICON_ANALOG = QStringLiteral("<img src=\":/img/icon_analog.png\" />");
+static const QString ICON_TEMP = QStringLiteral("<img src=\":/img/temp.png\" />");
+static const QString ICON_STRING = QStringLiteral("<img src=\":/img/text.png\" />");
+static const QString ICON_INT = QStringLiteral("<img src=\":/img/icon_int.png\" />");
+static const QString ICON_BOOL = QStringLiteral("<img src=\":/img/icon_bool_on.png\" />");
+static const QString ICON_SCENARIO = QStringLiteral("<img src=\":/img/icon_scenario.png\" />");
+static const QString ICON_CLOCK = QStringLiteral("<img src=\":/img/icon_clock.png\" />");
+static const QString ICON_CAMERA = QStringLiteral("<img src=\":/img/icon_camera_on.png\" />");
+static const QString ICON_SOUND = QStringLiteral("<img src=\":/img/icon_sound.png\" />");
+
+QString esc(const std::string &s)
+{
+    return QString::fromUtf8(s.c_str()).toHtmlEscaped();
 }
 
-bool _sort_output_by_var(IOBase *out1, IOBase *out2)
+QString esc(const QString &s)
 {
-    int var1, var2;
-    from_string(out1->get_param("var"), var1);
-    from_string(out2->get_param("var"), var2);
-
-    return (var1 < var2);
+    return s.toHtmlEscaped();
 }
 
-bool _sort_output_dali(IOBase *out1, IOBase *out2)
+QString param(IOBase *io, const char *key)
 {
-    int var1, var2;
-    from_string(out1->get_param("address"), var1);
-    from_string(out2->get_param("address"), var2);
-
-    return (var1 < var2);
+    return QString::fromUtf8(io->get_param(key).c_str());
 }
 
-void TextEdit::loadIOList()
+/* Alias names registered in IOBase.cpp all describe the same hardware. The
+ * report must not care which spelling the config file uses. */
+QString canonicalType(const QString &type)
 {
-    QString html;
+    static QHash<QString, QString> aliases;
+    if (aliases.isEmpty())
+    {
+        aliases.insert(QStringLiteral("WIDigital"), QStringLiteral("WIDigitalBP"));
+        aliases.insert(QStringLiteral("WagoInputSwitch"), QStringLiteral("WIDigitalBP"));
+        aliases.insert(QStringLiteral("WagoInputSwitchTriple"), QStringLiteral("WIDigitalTriple"));
+        aliases.insert(QStringLiteral("WagoInputSwitchLongPress"), QStringLiteral("WIDigitalLong"));
+        aliases.insert(QStringLiteral("WagoInputTemp"), QStringLiteral("WITemp"));
+        aliases.insert(QStringLiteral("WagoInputAnalog"), QStringLiteral("WIAnalog"));
+        aliases.insert(QStringLiteral("WagoOutputLight"), QStringLiteral("WODigital"));
+        aliases.insert(QStringLiteral("WagoOutputShutter"), QStringLiteral("WOVolet"));
+        aliases.insert(QStringLiteral("WagoOutputShutterSmart"), QStringLiteral("WOVoletSmart"));
+        aliases.insert(QStringLiteral("WagoOutputDimmer"), QStringLiteral("WODali"));
+        aliases.insert(QStringLiteral("WagoOutputDimmerRGB"), QStringLiteral("WODaliRVB"));
+        aliases.insert(QStringLiteral("WagoOutputAnalog"), QStringLiteral("WOAnalog"));
+    }
 
-    QString header = readFile(":/home_header.html").arg("Maison");
-    QString footer = readFile(":/home_footer.html");
-    QString room = readFile(":/home_room.html");
-    QString room_footer = readFile(":/home_room_footer.html");
-    QString inputs = readFile(":/home_inputs.html");
-    QString outputs = readFile(":/home_outputs.html");
-    QString item_header = readFile(":/home_item_header.html");
-    QString item = readFile(":/home_item.html");
+    return aliases.value(type, type);
+}
 
-    html += header;
+int busForType(const QString &type)
+{
+    static QHash<QString, int> buses;
+    if (buses.isEmpty())
+    {
+        const char *wago[] = { "WIDigitalBP", "WIDigitalTriple", "WIDigitalLong", "WITemp",
+                               "WIAnalog", "WODigital", "WOVolet", "WOVoletSmart", "WODali",
+                               "WODaliRVB", "WOAnalog", "WONeon", 0 };
+        const char *knx[] = { "KNXInputSwitch", "KNXInputSwitchTriple", "KNXInputSwitchLongPress",
+                              "KNXInputAnalog", "KNXInputTemp", "KNXOutputLight",
+                              "KNXOutputLightDimmer", "KNXOutputLightRGB", "KNXOutputAnalog",
+                              "KNXOutputShutter", "KNXOutputShutterSmart", 0 };
+        const char *mysensors[] = { "MySensorsInputSwitch", "MySensorsInputSwitchTriple",
+                                    "MySensorsInputSwitchLongPress", "MySensorsInputAnalog",
+                                    "MySensorsInputTemp", "MySensorsInputString",
+                                    "MySensorsOutputLight", "MySensorsOutputDimmer",
+                                    "MySensorsOutputLightRGB", "MySensorsOutputAnalog",
+                                    "MySensorsOutputShutter", "MySensorsOutputShutterSmart",
+                                    "MySensorsOutputString", 0 };
+        const char *mqtt[] = { "MqttInputSwitch", "MqttInputAnalog", "MqttInputTemp",
+                               "MqttInputString", "MqttOutputLight", "MqttOutputLightDimmer",
+                               "MqttOutputLightRGB", "MqttOutputAnalog", "MqttOutputShutter", 0 };
+        const char *web[] = { "WebInputSwitch", "WebInputAnalog", "WebInputTemp", "WebInputString",
+                              "WebOutputLight", "WebOutputLightRGB", "WebOutputAnalog",
+                              "WebOutputString", 0 };
+        const char *gpio[] = { "GpioInputSwitch", "GpioInputSwitchTriple",
+                               "GpioInputSwitchLongPress", "GpioOutputSwitch",
+                               "GpioOutputShutter", "GpioOutputShutterSmart", 0 };
+        const char *hue[] = { "HueOutputLightRGB", 0 };
+        const char *ola[] = { "OLAOutputLightDimmer", "OLAOutputLightRGB", 0 };
+        const char *xpl[] = { "xPLInputSwitch", "xPLInputAnalog", "xPLInputTemp", "xPLInputString",
+                              "xPLOutputSwitch", "xPLOutputAnalog", "xPLOutputString", 0 };
+        const char *zibase[] = { "ZibaseDigitalIn", "ZibaseAnalogIn", "ZibaseTemp",
+                                 "ZibaseDigitalOut", 0 };
+        const char *onewire[] = { "OWTemp", 0 };
 
-    vector<IOBase *> wago_inputs_digital;
-    vector<IOBase *> wago_inputs_digital_knx;
-    vector<IOBase *> wago_inputs_analog;
-    vector<IOBase *> wago_inputs_temp;
+        struct { const char **list; int bus; } all[] = {
+            { wago, BUS_WAGO }, { knx, BUS_KNX }, { mysensors, BUS_MYSENSORS },
+            { mqtt, BUS_MQTT }, { web, BUS_WEB }, { gpio, BUS_GPIO }, { hue, BUS_HUE },
+            { ola, BUS_OLA }, { xpl, BUS_XPL }, { zibase, BUS_ZIBASE }, { onewire, BUS_1WIRE },
+        };
 
-    vector<IOBase *> wago_outputs_digital;
-    vector<IOBase *> wago_outputs_digital_knx;
-    vector<IOBase *> wago_outputs_dali;
-    vector<IOBase *> wago_outputs_dali_group;
-    vector<IOBase *> wago_outputs_analog;
+        for (unsigned int i = 0;i < sizeof(all) / sizeof(all[0]);i++)
+        {
+            for (int j = 0;all[i].list[j];j++)
+                buses.insert(QString::fromLatin1(all[i].list[j]), all[i].bus);
+        }
+    }
 
-    vector<IOBase *> temp_ios; //handle temporary IOs
+    return buses.value(type, BUS_OTHER);
+}
+
+QString busName(int bus)
+{
+    switch (bus)
+    {
+    case BUS_WAGO: return QStringLiteral("Wago");
+    case BUS_KNX: return QStringLiteral("KNX");
+    case BUS_MYSENSORS: return QStringLiteral("MySensors");
+    case BUS_MQTT: return QStringLiteral("MQTT");
+    case BUS_WEB: return QStringLiteral("Web");
+    case BUS_GPIO: return QStringLiteral("GPIO");
+    case BUS_HUE: return QStringLiteral("Philips Hue");
+    case BUS_OLA: return QStringLiteral("OLA / DMX");
+    case BUS_XPL: return QStringLiteral("xPL");
+    case BUS_ZIBASE: return QStringLiteral("Zibase");
+    case BUS_1WIRE: return QStringLiteral("1-Wire");
+    default: return Tr::tr("Others / unclassified");
+    }
+}
+
+/* Sortable key for a host: dotted IPv4 addresses sort numerically and come
+ * first, anything else sorts alphabetically after them. */
+QString hostSortKey(const QString &host)
+{
+    const QStringList parts = host.split(QLatin1Char('.'));
+    if (parts.size() == 4)
+    {
+        QString key = QStringLiteral("0");
+        for (int i = 0;i < parts.size();i++)
+        {
+            bool ok = false;
+            const int v = parts[i].toInt(&ok);
+            if (!ok || v < 0 || v > 255)
+                break;
+            key += QString("%1").arg(v, 3, 10, QLatin1Char('0'));
+        }
+        if (key.size() == 13)
+            return key;
+    }
+
+    return QStringLiteral("1") + host.toLower();
+}
+
+QString catKeyOf(int order, const QString &discriminator = QString())
+{
+    return QString("%1|%2").arg(QString("%1").arg(order, 4, 10, QLatin1Char('0')), discriminator);
+}
+
+int daliLine(IOBase *io, const char *lineParam)
+{
+    QString l = param(io, lineParam);
+    if (l.isEmpty())
+        l = param(io, "line");
+
+    const int v = l.toInt();
+    return v > 0 ? v : 1;
+}
+
+QString guiTypeLabel(const QString &guiType, bool isInput)
+{
+    if (guiType == QLatin1String("switch")) return Tr::tr("Digital inputs");
+    if (guiType == QLatin1String("switch3")) return Tr::tr("Digital inputs");
+    if (guiType == QLatin1String("switch_long")) return Tr::tr("Digital inputs");
+    if (guiType == QLatin1String("analog_in")) return Tr::tr("Analog inputs");
+    if (guiType == QLatin1String("temp")) return Tr::tr("Temperature inputs");
+    if (guiType == QLatin1String("string_in")) return Tr::tr("String inputs");
+    if (guiType == QLatin1String("light")) return Tr::tr("Digital outputs");
+    if (guiType == QLatin1String("light_dimmer")) return Tr::tr("Dimmers");
+    if (guiType == QLatin1String("light_rgb")) return Tr::tr("RGB lights");
+    if (guiType == QLatin1String("shutter")) return Tr::tr("Shutters");
+    if (guiType == QLatin1String("shutter_smart")) return Tr::tr("Shutters");
+    if (guiType == QLatin1String("analog_out")) return Tr::tr("Analog outputs");
+    if (guiType == QLatin1String("string_out")) return Tr::tr("String outputs");
+    if (guiType == QLatin1String("var_bool")) return Tr::tr("Internal booleans");
+    if (guiType == QLatin1String("var_int")) return Tr::tr("Internal integers");
+    if (guiType == QLatin1String("var_string")) return Tr::tr("Internal strings");
+    if (guiType == QLatin1String("scenario")) return Tr::tr("Scenarios");
+    if (guiType == QLatin1String("timer")) return Tr::tr("Timers");
+    if (guiType == QLatin1String("time")) return Tr::tr("Time events");
+    if (guiType == QLatin1String("time_range")) return Tr::tr("Time ranges");
+    if (guiType == QLatin1String("camera")) return Tr::tr("Cameras");
+    if (guiType == QLatin1String("audio")) return Tr::tr("Audio zones");
+    if (guiType == QLatin1String("avreceiver")) return Tr::tr("AV receivers");
+    if (guiType == QLatin1String("remote_ui")) return Tr::tr("Remote UI");
+    if (guiType.isEmpty()) return isInput ? Tr::tr("Other inputs") : Tr::tr("Other outputs");
+
+    return Tr::tr("Other (%1)").arg(guiType);
+}
+
+int guiTypeCategory(const QString &guiType, bool isInput)
+{
+    if (guiType == QLatin1String("switch") ||
+        guiType == QLatin1String("switch3") ||
+        guiType == QLatin1String("switch_long")) return CAT_IN_DIGITAL;
+    if (guiType == QLatin1String("analog_in")) return CAT_IN_ANALOG;
+    if (guiType == QLatin1String("temp")) return CAT_IN_TEMP;
+    if (guiType == QLatin1String("string_in")) return CAT_IN_STRING;
+    if (guiType == QLatin1String("light")) return CAT_OUT_DIGITAL;
+    if (guiType == QLatin1String("light_dimmer")) return CAT_OUT_DIMMER;
+    if (guiType == QLatin1String("light_rgb")) return CAT_OUT_RGB;
+    if (guiType == QLatin1String("shutter") ||
+        guiType == QLatin1String("shutter_smart")) return CAT_OUT_SHUTTER;
+    if (guiType == QLatin1String("analog_out")) return CAT_OUT_ANALOG;
+    if (guiType == QLatin1String("string_out")) return CAT_OUT_STRING;
+
+    return isInput ? CAT_IN_MISC : CAT_OUT_MISC;
+}
+
+QString guiTypeIcon(const QString &guiType)
+{
+    if (guiType == QLatin1String("switch") ||
+        guiType == QLatin1String("switch3") ||
+        guiType == QLatin1String("switch_long")) return ICON_SWITCH;
+    if (guiType == QLatin1String("analog_in") ||
+        guiType == QLatin1String("analog_out")) return ICON_ANALOG;
+    if (guiType == QLatin1String("temp")) return ICON_TEMP;
+    if (guiType == QLatin1String("string_in") ||
+        guiType == QLatin1String("string_out") ||
+        guiType == QLatin1String("var_string")) return ICON_STRING;
+    if (guiType == QLatin1String("light") ||
+        guiType == QLatin1String("light_dimmer") ||
+        guiType == QLatin1String("light_rgb")) return ICON_LIGHT;
+    if (guiType == QLatin1String("shutter") ||
+        guiType == QLatin1String("shutter_smart")) return ICON_SHUTTER;
+    if (guiType == QLatin1String("var_int")) return ICON_INT;
+    if (guiType == QLatin1String("var_bool")) return ICON_BOOL;
+    if (guiType == QLatin1String("scenario")) return ICON_SCENARIO;
+    if (guiType == QLatin1String("timer") ||
+        guiType == QLatin1String("time") ||
+        guiType == QLatin1String("time_range")) return ICON_CLOCK;
+    if (guiType == QLatin1String("camera")) return ICON_CAMERA;
+    if (guiType == QLatin1String("audio") ||
+        guiType == QLatin1String("avreceiver")) return ICON_SOUND;
+
+    return ICON_TOR;
+}
+
+/* Best effort address for a bus that is not the Wago one. */
+QString genericAddress(IOBase *io, int bus)
+{
+    switch (bus)
+    {
+    case BUS_KNX:
+        return param(io, "knx_group");
+    case BUS_MYSENSORS:
+    {
+        const QString node = param(io, "node_id");
+        const QString sensor = param(io, "sensor_id");
+        if (node.isEmpty() && sensor.isEmpty())
+            return QString();
+        return QString("%1/%2").arg(node, sensor);
+    }
+    case BUS_MQTT:
+    {
+        QString topic = param(io, "topic_sub");
+        if (topic.isEmpty()) topic = param(io, "topic_pub");
+        if (topic.isEmpty()) topic = param(io, "path");
+        return topic;
+    }
+    case BUS_WEB:
+        return param(io, "url");
+    case BUS_GPIO:
+        return param(io, "gpio");
+    case BUS_HUE:
+        return param(io, "id_hue");
+    case BUS_1WIRE:
+        return param(io, "ow_id");
+    default:
+        break;
+    }
+
+    static const char *fallback[] = { "var", "address", "url", "gpio", 0 };
+    for (int i = 0;fallback[i];i++)
+    {
+        const QString v = param(io, fallback[i]);
+        if (!v.isEmpty())
+            return v;
+    }
+
+    return QString();
+}
+
+QVector<Entry> describeIo(IOBase *io, bool isInput)
+{
+    QVector<Entry> entries;
+
+    const QString type = param(io, "type");
+    const QString canon = canonicalType(type);
+    const QString guiType = QString::fromUtf8(io->get_gui_type().c_str());
+    const int bus = busForType(canon);
+    const QString host = param(io, "host");
+    const QString port = param(io, "port");
+    const bool knx = param(io, "knx") == QLatin1String("true");
+
+    QString groupTitle;
+    if (bus == BUS_WAGO)
+    {
+        groupTitle = QString("Wago %1").arg(host.isEmpty() ? Tr::tr("(host not set)") : esc(host));
+        if (!port.isEmpty() && port != QLatin1String("502"))
+            groupTitle += QLatin1Char(':') + esc(port);
+    }
+    else if (bus == BUS_OTHER || host.isEmpty())
+        groupTitle = busName(bus);
+    else
+        groupTitle = QString("%1 (%2)").arg(busName(bus), esc(host));
+
+    /* The fallback group is a single bucket, it must not be split per host. */
+    const QString busKey = QString("%1").arg(bus, 3, 10, QLatin1Char('0'));
+    const QString groupKey = bus == BUS_OTHER ? busKey
+                             : QString("%1|%2|%3").arg(busKey, hostSortKey(host), port);
+
+    QString flags;
+    if (param(io, "enabled") == QLatin1String("false"))
+        flags = Tr::tr("disabled");
+    if (knx)
+        flags = flags.isEmpty() ? QStringLiteral("KNX") : flags + QStringLiteral(", KNX");
+
+    const QString baseName = esc(io->get_param("name"));
+
+    auto add = [&](const QString &catKey, const QString &catTitle, const QString &icon,
+                   const QString &address, const QString &nameSuffix, const QString &detail,
+                   bool misc)
+    {
+        Entry e;
+        e.bus = bus;
+        e.groupKey = groupKey;
+        e.groupTitle = groupTitle;
+        e.catKey = catKey;
+        e.catTitle = catTitle;
+        e.misc = misc;
+        e.line.icon = icon;
+        e.line.address = esc(address);
+        e.line.name = baseName + nameSuffix;
+        e.line.detail = detail;
+        e.line.flags = flags;
+        e.line.sortKey = address.toInt();
+        entries.append(e);
+    };
+
+    if (bus != BUS_WAGO)
+    {
+        const int cat = guiTypeCategory(guiType, isInput);
+        const bool misc = (cat == CAT_IN_MISC || cat == CAT_OUT_MISC);
+        add(catKeyOf(cat, misc ? guiType : QString()), guiTypeLabel(guiType, isInput),
+            guiTypeIcon(guiType), genericAddress(io, bus), QString(), QString(), misc);
+        return entries;
+    }
+
+    const int digitalIn = knx ? CAT_IN_DIGITAL_KNX : CAT_IN_DIGITAL;
+    const QString digitalInTitle = knx ? Tr::tr("KNX digital inputs") : Tr::tr("Digital inputs");
+    const int digitalOut = knx ? CAT_OUT_DIGITAL_KNX : CAT_OUT_DIGITAL;
+    const QString digitalOutTitle = knx ? Tr::tr("KNX digital outputs") : Tr::tr("Digital outputs");
+
+    if (canon == QLatin1String("WIDigitalBP") ||
+        canon == QLatin1String("WIDigitalTriple") ||
+        canon == QLatin1String("WIDigitalLong"))
+    {
+        QString detail = Tr::tr("Push button");
+        if (canon == QLatin1String("WIDigitalTriple")) detail = Tr::tr("Triple click");
+        else if (canon == QLatin1String("WIDigitalLong")) detail = Tr::tr("Long press");
+
+        add(catKeyOf(digitalIn), digitalInTitle, ICON_SWITCH, param(io, "var"),
+            QString(), detail, false);
+    }
+    else if (canon == QLatin1String("WITemp"))
+    {
+        add(catKeyOf(CAT_IN_TEMP), Tr::tr("Temperature inputs"), ICON_TEMP, param(io, "var"),
+            QString(), QString(), false);
+    }
+    else if (canon == QLatin1String("WIAnalog"))
+    {
+        add(catKeyOf(CAT_IN_ANALOG), Tr::tr("Analog inputs"), ICON_ANALOG, param(io, "var"),
+            QString(), QString(), false);
+    }
+    else if (canon == QLatin1String("WODigital"))
+    {
+        const QString icon = param(io, "gtype") == QLatin1String("light") ? ICON_LIGHT : ICON_TOR;
+        add(catKeyOf(digitalOut), digitalOutTitle, icon, param(io, "var"),
+            QString(), QString(), false);
+    }
+    else if (canon == QLatin1String("WOVolet") || canon == QLatin1String("WOVoletSmart"))
+    {
+        add(catKeyOf(digitalOut), digitalOutTitle, ICON_SHUTTER, param(io, "var_up"),
+            QString(), Tr::tr("Shutter (up)"), false);
+        add(catKeyOf(digitalOut), digitalOutTitle, ICON_SHUTTER, param(io, "var_down"),
+            QString(), Tr::tr("Shutter (down)"), false);
+
+        /* WOVoletSmart keeps the shutter position in a PLC word, it takes a real
+         * address and must show up in the report. */
+        if (io->get_params().Exists("var_save"))
+            add(catKeyOf(digitalOut), digitalOutTitle, ICON_SHUTTER, param(io, "var_save"),
+                QString(), Tr::tr("Shutter (position save)"), false);
+    }
+    else if (canon == QLatin1String("WODali"))
+    {
+        const bool group = param(io, "group") == QLatin1String("1");
+        const int line = daliLine(io, "line");
+        add(catKeyOf(CAT_DALI + line * 10 + (group ? 1 : 0),
+                     QString::number(line) + (group ? QStringLiteral("g") : QString())),
+            group ? Tr::tr("DALI line %1 (groups)").arg(line) : Tr::tr("DALI line %1").arg(line),
+            ICON_LIGHT, param(io, "address"), QString(),
+            group ? Tr::tr("Group") : QString(), false);
+    }
+    else if (canon == QLatin1String("WODaliRVB"))
+    {
+        struct Channel
+        {
+            const char *address;
+            const char *line;
+            const char *group;
+            QString suffix;
+        };
+
+        const Channel channels[] = {
+            { "raddress", "rline", "rgroup", Tr::tr(" (Red)") },
+            { "gaddress", "gline", "ggroup", Tr::tr(" (Green)") },
+            { "baddress", "bline", "bgroup", Tr::tr(" (Blue)") },
+        };
+
+        for (unsigned int i = 0;i < sizeof(channels) / sizeof(channels[0]);i++)
+        {
+            const bool group = param(io, channels[i].group) == QLatin1String("1");
+            const int line = daliLine(io, channels[i].line);
+            add(catKeyOf(CAT_DALI + line * 10 + (group ? 1 : 0),
+                         QString::number(line) + (group ? QStringLiteral("g") : QString())),
+                group ? Tr::tr("DALI line %1 (groups)").arg(line) : Tr::tr("DALI line %1").arg(line),
+                ICON_LIGHT, param(io, channels[i].address), channels[i].suffix,
+                group ? Tr::tr("Group") : QString(), false);
+        }
+    }
+    else if (canon == QLatin1String("WONeon"))
+    {
+        add(catKeyOf(digitalOut), digitalOutTitle, ICON_LIGHT, param(io, "var_relay"),
+            QString(), Tr::tr("Neon (relay output)"), false);
+        add(catKeyOf(CAT_OUT_ANALOG), Tr::tr("Analog outputs"), ICON_ANALOG, param(io, "var"),
+            QString(), Tr::tr("Neon (analog output)"), false);
+    }
+    else if (canon == QLatin1String("WOAnalog"))
+    {
+        add(catKeyOf(CAT_OUT_ANALOG), Tr::tr("Analog outputs"), ICON_ANALOG, param(io, "var"),
+            QString(), QString(), false);
+    }
+    else
+    {
+        const int cat = guiTypeCategory(guiType, isInput);
+        const bool misc = (cat == CAT_IN_MISC || cat == CAT_OUT_MISC);
+        add(catKeyOf(cat, misc ? guiType : QString()), guiTypeLabel(guiType, isInput),
+            guiTypeIcon(guiType), genericAddress(io, bus), QString(), QString(), misc);
+    }
+
+    return entries;
+}
+
+bool lineLessThan(const Line &l1, const Line &l2)
+{
+    if (l1.sortKey != l2.sortKey)
+        return l1.sortKey < l2.sortKey;
+    return l1.name.localeAwareCompare(l2.name) < 0;
+}
+
+QString roomLabel(Room *r)
+{
+    const QString name = esc(r->get_name());
+    const QString type = esc(r->get_type());
+
+    if (type.isEmpty() || type.compare(name, Qt::CaseInsensitive) == 0)
+        return name;
+
+    return QString("%1 (%2)").arg(name, type);
+}
+
+void collect(IOBase *io, bool isInput, const QString &room, QMap<QString, Group> &groups)
+{
+    const QVector<Entry> entries = describeIo(io, isInput);
+
+    for (int i = 0;i < entries.size();i++)
+    {
+        const Entry &e = entries[i];
+        Group &g = groups[e.groupKey];
+        g.title = e.groupTitle;
+
+        Table &t = g.tables[e.catKey];
+        t.title = e.catTitle;
+
+        Line l = e.line;
+        l.room = room;
+        t.lines.append(l);
+        g.count++;
+    }
+}
+
+}
+
+void TextEdit::loadIOList(const QString &projectName)
+{
+    const QString header = readFile(":/home_header.html");
+    const QString footer = readFile(":/home_footer.html");
+    const QString groupTpl = readFile(":/home_group.html");
+    const QString tableFooter = readFile(":/home_room_footer.html");
+    const QString itemHeader = readFile(":/home_item_header.html");
+    const QString item = readFile(":/home_item.html");
+
+    QMap<QString, IoReport::Group> groups;
 
     for (int i = 0;i < ListeRoom::Instance().size();i++)
     {
         Room *r = ListeRoom::Instance().get_room(i);
+        const QString room = IoReport::roomLabel(r);
+
+        /* An inout IO is registered both as an input and as an output of its
+         * room, it must only be reported once. */
+        QSet<IOBase *> seen;
 
         for (int j = 0;j < r->get_size_in();j++)
         {
-            IOBase *in = r->get_input(j);
-
-            if (in->get_param("type") == "WIDigitalBP" ||
-                in->get_param("type") == "WIDigitalTriple" ||
-                in->get_param("type") == "WIDigitalLong")
-            {
-                IOBase *nin = new IOBase(*in);
-                nin->set_param("room_name", r->get_name());
-                nin->set_param("room_type", r->get_type());
-
-                if (in->get_param("knx") == "true")
-                    wago_inputs_digital_knx.push_back(nin);
-                else
-                    wago_inputs_digital.push_back(nin);
-
-                temp_ios.push_back(nin);
-            }
-            else if (in->get_param("type") == "WITemp")
-            {
-                IOBase *nin = new IOBase(*in);
-                nin->set_param("room_name", r->get_name());
-                nin->set_param("room_type", r->get_type());
-
-                wago_inputs_temp.push_back(nin);
-
-                temp_ios.push_back(nin);
-            }
-            else if (in->get_param("type") == "WIAnalog")
-            {
-                IOBase *nin = new IOBase(*in);
-                nin->set_param("room_name", r->get_name());
-                nin->set_param("room_type", r->get_type());
-
-                wago_inputs_analog.push_back(nin);
-
-                temp_ios.push_back(nin);
-            }
+            IOBase *io = r->get_input(j);
+            if (seen.contains(io))
+                continue;
+            seen.insert(io);
+            IoReport::collect(io, true, room, groups);
         }
 
         for (int j = 0;j < r->get_size_out();j++)
         {
-            IOBase *out = r->get_output(j);
+            IOBase *io = r->get_output(j);
+            if (seen.contains(io))
+                continue;
+            seen.insert(io);
+            IoReport::collect(io, false, room, groups);
+        }
+    }
 
-            if (out->get_param("type") == "WODigital")
+    QString title = tr("I/O list");
+    if (!projectName.isEmpty())
+        title = tr("I/O list - %1").arg(projectName);
+
+    QString html = header.arg(IoReport::esc(title));
+
+    for (QMap<QString, IoReport::Group>::const_iterator git = groups.constBegin();
+         git != groups.constEnd(); ++git)
+    {
+        const IoReport::Group &g = git.value();
+
+        html += groupTpl.arg(g.title,
+                             tr("%1 line(s) in %2 table(s)")
+                             .arg(QString::number(g.count), QString::number(g.tables.size())));
+
+        for (QMap<QString, IoReport::Table>::const_iterator tit = g.tables.constBegin();
+             tit != g.tables.constEnd(); ++tit)
+        {
+            QVector<IoReport::Line> lines = tit.value().lines;
+            std::stable_sort(lines.begin(), lines.end(), IoReport::lineLessThan);
+
+            html += itemHeader.arg(QString(), tit.value().title, tr("Name"),
+                                   tr("Room"), tr("Type"), tr("Flags"));
+
+            for (int i = 0;i < lines.size();i++)
             {
-                IOBase *nout = new IOBase(*out);
-                nout->set_param("room_name", r->get_name());
-                nout->set_param("room_type", r->get_type());
-
-                if (out->get_param("knx") == "true")
-                    wago_outputs_digital_knx.push_back(nout);
-                else
-                    wago_outputs_digital.push_back(nout);
-
-                temp_ios.push_back(nout);
+                const IoReport::Line &l = lines[i];
+                html += item.arg(l.icon, l.address, l.name, l.room, l.detail, l.flags);
             }
-            else if (out->get_param("type") == "WOVolet" ||
-                     out->get_param("type") == "WOVoletSmart")
-            {
-                IOBase *volet_up = new IOBase(*out);
-                IOBase *volet_down = new IOBase(*out);
 
-                volet_up->set_param("room_name", r->get_name());
-                volet_up->set_param("room_type", r->get_type());
-
-                volet_down->set_param("room_name", r->get_name());
-                volet_down->set_param("room_type", r->get_type());
-
-                volet_up->get_params().Add("name", out->get_param("name") + " (Montée)");
-                volet_down->get_params().Add("name", out->get_param("name") + " (Descente)");
-
-                volet_up->get_params().Add("var", out->get_param("var_up"));
-                volet_down->get_params().Add("var", out->get_param("var_down"));
-
-                if (out->get_param("knx") == "true")
-                {
-                    wago_outputs_digital_knx.push_back(volet_up);
-                    wago_outputs_digital_knx.push_back(volet_down);
-                }
-                else
-                {
-                    wago_outputs_digital.push_back(volet_up);
-                    wago_outputs_digital.push_back(volet_down);
-                }
-
-                temp_ios.push_back(volet_up);
-                temp_ios.push_back(volet_down);
-            }
-            else if (out->get_param("type") == "WODali")
-            {
-                IOBase *nout = new IOBase(*out);
-                nout->set_param("room_name", r->get_name());
-                nout->set_param("room_type", r->get_type());
-
-                if (out->get_param("group") == "1")
-                    wago_outputs_dali_group.push_back(nout);
-                else
-                    wago_outputs_dali.push_back(nout);
-
-                temp_ios.push_back(nout);
-            }
-            else if (out->get_param("type") == "WODaliRVB")
-            {
-                IOBase *dali_r = new IOBase(*out);
-                IOBase *dali_g = new IOBase(*out);
-                IOBase *dali_b = new IOBase(*out);
-
-                dali_r->set_param("room_name", r->get_name());
-                dali_r->set_param("room_type", r->get_type());
-                dali_g->set_param("room_name", r->get_name());
-                dali_g->set_param("room_type", r->get_type());
-                dali_b->set_param("room_name", r->get_name());
-                dali_b->set_param("room_type", r->get_type());
-
-                dali_r->get_params().Add("name", out->get_param("name") + " (Rouge)");
-                dali_g->get_params().Add("name", out->get_param("name") + " (Vert)");
-                dali_b->get_params().Add("name", out->get_param("name") + " (Bleu)");
-
-                dali_r->get_params().Add("address", out->get_param("raddress"));
-                dali_g->get_params().Add("address", out->get_param("gaddress"));
-                dali_b->get_params().Add("address", out->get_param("baddress"));
-
-                if (out->get_param("rgroup") == "1")
-                    wago_outputs_dali_group.push_back(dali_r);
-                else
-                    wago_outputs_dali.push_back(dali_r);
-
-                if (out->get_param("ggroup") == "1")
-                    wago_outputs_dali_group.push_back(dali_g);
-                else
-                    wago_outputs_dali.push_back(dali_g);
-
-                if (out->get_param("bgroup") == "1")
-                    wago_outputs_dali_group.push_back(dali_b);
-                else
-                    wago_outputs_dali.push_back(dali_b);
-
-                temp_ios.push_back(dali_r);
-                temp_ios.push_back(dali_g);
-                temp_ios.push_back(dali_b);
-            }
-            else if (out->get_param("type") == "WOAnalog")
-            {
-                IOBase *nout = new IOBase(*out);
-                nout->set_param("room_name", r->get_name());
-                nout->set_param("room_type", r->get_type());
-
-                wago_outputs_analog.push_back(nout);
-
-                temp_ios.push_back(nout);
-            }
+            html += tableFooter;
         }
     }
-
-    // Sort by var
-    sort(wago_inputs_digital.begin(), wago_inputs_digital.end(), _sort_input_by_var);
-    sort(wago_inputs_digital_knx.begin(), wago_inputs_digital_knx.end(), _sort_input_by_var);
-    sort(wago_inputs_analog.begin(), wago_inputs_analog.end(), _sort_input_by_var);
-    sort(wago_inputs_temp.begin(), wago_inputs_temp.end(), _sort_input_by_var);
-
-    sort(wago_outputs_digital.begin(), wago_outputs_digital.end(), _sort_output_by_var);
-    sort(wago_outputs_digital_knx.begin(), wago_outputs_digital_knx.end(), _sort_output_by_var);
-    sort(wago_outputs_dali.begin(), wago_outputs_dali.end(), _sort_output_dali);
-    sort(wago_outputs_dali_group.begin(), wago_outputs_dali_group.end(), _sort_output_dali);
-    sort(wago_outputs_analog.begin(), wago_outputs_analog.end(), _sort_output_by_var);
-
-    if (!wago_inputs_digital.empty())
-    {
-        html += item_header.arg("")
-                .arg(tr("Wago Input"))
-                .arg(tr("Name"))
-                .arg("")
-                .arg("");
-        for (unsigned int i = 0;i < wago_inputs_digital.size();i++)
-        {
-            QString icon, var;
-            IOBase *io = wago_inputs_digital[i];
-
-            icon = "<img src=\":/img/icon_inter.png\" />";
-            var = io->get_param("var").c_str();
-
-            html += item.arg(icon)
-                    .arg(var)
-                    .arg(QString::fromUtf8(io->get_param("name").c_str()))
-                    .arg(QString::fromUtf8(io->get_param("room_name").c_str()))
-                    .arg(QString::fromUtf8(io->get_param("room_type").c_str()));
-        }
-        html += room_footer;
-    }
-
-    if (!wago_inputs_digital_knx.empty())
-    {
-        html += item_header.arg("")
-                .arg(tr("KNX Input"))
-                .arg(tr("Name"))
-                .arg("")
-                .arg("");
-        for (unsigned int i = 0;i < wago_inputs_digital_knx.size();i++)
-        {
-            QString icon, var;
-            IOBase *io = wago_inputs_digital_knx[i];
-
-            icon = "<img src=\":/img/icon_inter.png\" />";
-            var = io->get_param("var").c_str();
-
-            html += item.arg(icon)
-                    .arg(var)
-                    .arg(QString::fromUtf8(io->get_param("name").c_str()))
-                    .arg(QString::fromUtf8(io->get_param("room_name").c_str()))
-                    .arg(QString::fromUtf8(io->get_param("room_type").c_str()));
-        }
-        html += room_footer;
-    }
-
-    if (!wago_inputs_analog.empty())
-    {
-        html += item_header.arg("")
-                .arg(tr("Analog Wago input"))
-                .arg(tr("Name"))
-                .arg("")
-                .arg("");
-        for (unsigned int i = 0;i < wago_inputs_analog.size();i++)
-        {
-            QString icon, var;
-            IOBase *io = wago_inputs_analog[i];
-
-            icon = "<img src=\":/img/icon_analog.png\" />";
-            var = io->get_param("var").c_str();
-
-            html += item.arg(icon)
-                    .arg(var)
-                    .arg(QString::fromUtf8(io->get_param("name").c_str()))
-                    .arg(QString::fromUtf8(io->get_param("room_name").c_str()))
-                    .arg(QString::fromUtf8(io->get_param("room_type").c_str()));
-        }
-        html += room_footer;
-    }
-
-    if (!wago_inputs_temp.empty())
-    {
-        html += item_header.arg("")
-                .arg(tr("Temperature input"))
-                .arg(tr("Name"))
-                .arg("")
-                .arg("");
-        for (unsigned int i = 0;i < wago_inputs_temp.size();i++)
-        {
-            QString icon, var;
-            IOBase *io = wago_inputs_temp[i];
-
-            icon = "<img src=\":/img/temp.png\" />";
-            var = io->get_param("var").c_str();
-
-            html += item.arg(icon)
-                    .arg(var)
-                    .arg(QString::fromUtf8(io->get_param("name").c_str()))
-                    .arg(QString::fromUtf8(io->get_param("room_name").c_str()))
-                    .arg(QString::fromUtf8(io->get_param("room_type").c_str()));
-        }
-        html += room_footer;
-    }
-
-    if (!wago_outputs_digital.empty())
-    {
-        html += item_header.arg("")
-                .arg(tr("Wago output"))
-                .arg(tr("Name"))
-                .arg("")
-                .arg("");
-        for (unsigned int i = 0;i < wago_outputs_digital.size();i++)
-        {
-            QString icon, var;
-            IOBase *io = wago_outputs_digital[i];
-
-            if (io->get_param("type") == "WODigital")
-                icon = "<img src=\":/img/icon_light_on.png\" />";
-            else if (io->get_param("type") == "WOVolet" || io->get_param("type") == "WOVoletSmart")
-                icon = "<img src=\":/img/icon_shutter.png\" />";
-
-            var = io->get_param("var").c_str();
-
-            html += item.arg(icon)
-                    .arg(var)
-                    .arg(QString::fromUtf8(io->get_param("name").c_str()))
-                    .arg(QString::fromUtf8(io->get_param("room_name").c_str()))
-                    .arg(QString::fromUtf8(io->get_param("room_type").c_str()));
-        }
-        html += room_footer;
-    }
-
-    if (!wago_outputs_digital_knx.empty())
-    {
-        html += item_header.arg("")
-                .arg(tr("KNX Output"))
-                .arg(tr("Name"))
-                .arg("")
-                .arg("");
-        for (unsigned int i = 0;i < wago_outputs_digital_knx.size();i++)
-        {
-            QString icon, var;
-            IOBase *io = wago_outputs_digital_knx[i];
-
-            if (io->get_param("type") == "WODigital")
-                icon = "<img src=\":/img/icon_light_on.png\" />";
-            else if (io->get_param("type") == "WOVolet" || io->get_param("type") == "WOVoletSmart")
-                icon = "<img src=\":/img/icon_shutter.png\" />";
-
-            var = io->get_param("var").c_str();
-
-            html += item.arg(icon)
-                    .arg(var)
-                    .arg(QString::fromUtf8(io->get_param("name").c_str()))
-                    .arg(QString::fromUtf8(io->get_param("room_name").c_str()))
-                    .arg(QString::fromUtf8(io->get_param("room_type").c_str()));
-        }
-        html += room_footer;
-    }
-
-    if (!wago_outputs_dali.empty())
-    {
-        html += item_header.arg("")
-                .arg(tr("DALI Output"))
-                .arg(tr("Name"))
-                .arg("")
-                .arg("");
-        for (unsigned int i = 0;i < wago_outputs_dali.size();i++)
-        {
-            QString icon, var;
-            IOBase *io = wago_outputs_dali[i];
-
-            icon = "<img src=\":/img/icon_light_on.png\" />";
-
-            var = io->get_param("address").c_str();
-
-            html += item.arg(icon)
-                    .arg(var)
-                    .arg(QString::fromUtf8(io->get_param("name").c_str()))
-                    .arg(QString::fromUtf8(io->get_param("room_name").c_str()))
-                    .arg(QString::fromUtf8(io->get_param("room_type").c_str()));
-        }
-        html += room_footer;
-    }
-
-    if (!wago_outputs_dali_group.empty())
-    {
-        html += item_header.arg("")
-                .arg(tr("DALI Output (Group)"))
-                .arg(tr("Name"))
-                .arg("")
-                .arg("");
-        for (unsigned int i = 0;i < wago_outputs_dali_group.size();i++)
-        {
-            QString icon, var;
-            IOBase *io = wago_outputs_dali_group[i];
-
-            icon = "<img src=\":/img/icon_light_on.png\" />";
-
-            var = io->get_param("address").c_str();
-
-            html += item.arg(icon)
-                    .arg(var)
-                    .arg(QString::fromUtf8(io->get_param("name").c_str()))
-                    .arg(QString::fromUtf8(io->get_param("room_name").c_str()))
-                    .arg(QString::fromUtf8(io->get_param("room_type").c_str()));
-        }
-        html += room_footer;
-    }
-
-    if (!wago_outputs_analog.empty())
-    {
-        html += item_header.arg("")
-                .arg(tr("Analog Output"))
-                .arg(tr("Name"))
-                .arg("")
-                .arg("");
-        for (unsigned int i = 0;i < wago_outputs_analog.size();i++)
-        {
-            QString icon, var;
-            IOBase *io = wago_outputs_analog[i];
-
-            icon = "<img src=\":/img/icon_analog.png\" />";
-
-            var = io->get_param("var").c_str();
-
-            html += item.arg(icon)
-                    .arg(var)
-                    .arg(QString::fromUtf8(io->get_param("name").c_str()))
-                    .arg(QString::fromUtf8(io->get_param("room_name").c_str()))
-                    .arg(QString::fromUtf8(io->get_param("room_type").c_str()));
-        }
-        html += room_footer;
-    }
-
-    //Free temp memory
-    for (unsigned int i = 0;i < temp_ios.size();i++)
-    {
-        delete temp_ios[i];
-    }
-    temp_ios.clear();
 
     html += footer;
 
     textEdit->setHtml(html);
 }
 
-void TextEdit::loadRooms()
+void TextEdit::loadRooms(const QString &projectName)
 {
-    QString html;
+    const QString header = readFile(":/home_header.html");
+    const QString footer = readFile(":/home_footer.html");
+    const QString roomTpl = readFile(":/home_room.html");
+    const QString tableFooter = readFile(":/home_room_footer.html");
+    const QString inputs = readFile(":/home_inputs.html");
+    const QString outputs = readFile(":/home_outputs.html");
+    const QString item = readFile(":/home_item.html");
 
-    QString header = readFile(":/home_header.html").arg("Maison");
-    QString footer = readFile(":/home_footer.html");
-    QString room = readFile(":/home_room.html");
-    QString room_footer = readFile(":/home_room_footer.html");
-    QString inputs = readFile(":/home_inputs.html");
-    QString outputs = readFile(":/home_outputs.html");
-    QString item = readFile(":/home_item.html");
+    QString title = tr("By room");
+    if (!projectName.isEmpty())
+        title = tr("By room - %1").arg(projectName);
 
-    html += header;
+    QString html = header.arg(IoReport::esc(title));
 
     for (int i = 0;i < ListeRoom::Instance().size();i++)
     {
@@ -1151,143 +1351,55 @@ void TextEdit::loadRooms()
         if (r->get_type() == "Internal")
             continue;
 
-        html += room.arg(QString::fromUtf8(r->get_name().c_str()));
+        html += roomTpl.arg(tr("Room"), IoReport::esc(r->get_name()));
 
-        html += inputs;
+        QSet<IOBase *> seen;
+
+        html += inputs.arg(QString(), tr("Input"), tr("Name"), tr("Type"),
+                           tr("Detail"), tr("Flags"));
+
         for (int j = 0;j < r->get_size_in();j++)
         {
-            IOBase *in = r->get_input(j);
-
-            QString icon, var, knx;
-
-            if (in->get_gui_type() == "switch" ||
-                in->get_gui_type() == "switch3" ||
-                in->get_gui_type() == "switch_long")
-            {
-                icon = "<img src=\":/img/icon_inter.png\" />";
-                var = in->get_param("var").c_str();
-                if (in->get_param("knx") == "true")
-                    knx = "<img src=\":/img/checkbox.png\" />";
-            }
-            else if (in->get_gui_type() == "temp")
-            {
-                icon = "<img src=\":/img/temp.png\" />";
-                var = in->get_param("var").c_str();
-            }
-            else
+            IOBase *io = r->get_input(j);
+            if (seen.contains(io))
                 continue;
+            seen.insert(io);
 
-            html += item.arg(icon)
-                    .arg(var)
-                    .arg(QString::fromUtf8(in->get_param("name").c_str()))
-                    .arg("")
-                    .arg(knx);
+            const QVector<IoReport::Entry> entries = IoReport::describeIo(io, true);
+            for (int k = 0;k < entries.size();k++)
+            {
+                if (entries[k].misc)
+                    continue;
+
+                const IoReport::Line &l = entries[k].line;
+                html += item.arg(l.icon, l.address, l.name, entries[k].catTitle,
+                                 l.detail, l.flags);
+            }
         }
 
-        html += outputs;
+        html += outputs.arg(QString(), tr("Output"), tr("Name"), tr("Type"),
+                            tr("Detail"), tr("Flags"));
+
         for (int j = 0;j < r->get_size_out();j++)
         {
-            IOBase *out = r->get_output(j);
-
-            QString icon, name, var, dali, knx;
-
-            name = QString::fromUtf8(out->get_param("name").c_str());
-
-            if (out->get_param("type") == "WODigital")
-            {
-                if (out->get_param("gtype") == "light")
-                    icon = "<img src=\":/img/icon_light_on.png\" />";
-                else
-                    icon = "<img src=\":/img/icon_tor_on.png\" />";
-                var = out->get_param("var").c_str();
-                if (out->get_param("knx") == "true")
-                    knx = "<img src=\":/img/checkbox.png\" />";
-
-            }
-            else if (out->get_param("type") == "WODali")
-            {
-                icon = "<img src=\":/img/icon_light_on.png\" />";
-                var = out->get_param("address").c_str();
-                if (out->get_param("group") == "1")
-                    var += tr(" (Group)");
-                dali = "<img src=\":/img/checkbox.png\" />";
-            }
-            else if (out->get_param("type") == "WODaliRVB")
-            {
-                icon = "<img src=\":/img/icon_light_on.png\" />";
-                dali = "<img src=\":/img/checkbox.png\" />";
-
-                var = out->get_param("raddress").c_str();
-                if (out->get_param("rgroup") == "1")
-                    var += tr(" (Red Group)");
-                else
-                    var += tr(" (Red)");
-
-                html += item.arg(icon)
-                        .arg(var)
-                        .arg(name)
-                        .arg(dali)
-                        .arg(knx);
-
-                var = out->get_param("gaddress").c_str();
-                if (out->get_param("ggroup") == "1")
-                    var += tr(" (Green Group)");
-                else
-                    var += tr(" (Green)");
-
-                html += item.arg(icon)
-                        .arg(var)
-                        .arg(name)
-                        .arg(dali)
-                        .arg(knx);
-
-                var = out->get_param("baddress").c_str();
-                if (out->get_param("bgroup") == "1")
-                    var += tr(" (Blue Group)");
-                else
-                    var += tr(" (Blue)");
-            }
-            else if (out->get_param("type") == "WONeon")
-            {
-                icon = "<img src=\":/img/icon_light_on.png\" />";
-                var = out->get_param("var_relay").c_str();
-                var += tr(" (Relay output)");
-
-                html += item.arg(icon)
-                        .arg(var)
-                        .arg(name)
-                        .arg(dali)
-                        .arg(knx);
-
-                var = out->get_param("var_relay").c_str();
-                var += tr(" (Analog output)");
-            }
-            else if (out->get_param("type") == "WOVolet" || out->get_param("type") == "WOVoletSmart")
-            {
-                icon = "<img src=\":/img/icon_shutter.png\" />";
-                var = out->get_param("var_up").c_str();
-                var += tr(" (Up)");
-
-                html += item.arg(icon)
-                        .arg(var)
-                        .arg(name)
-                        .arg(dali)
-                        .arg(knx);
-
-                var = out->get_param("var_down").c_str();
-                var += tr(" (Down)");
-            }
-            else
+            IOBase *io = r->get_output(j);
+            if (seen.contains(io))
                 continue;
+            seen.insert(io);
 
-            html += item.arg(icon)
-                    .arg(var)
-                    .arg(name)
-                    .arg(dali)
-                    .arg(knx);
+            const QVector<IoReport::Entry> entries = IoReport::describeIo(io, false);
+            for (int k = 0;k < entries.size();k++)
+            {
+                if (entries[k].misc)
+                    continue;
+
+                const IoReport::Line &l = entries[k].line;
+                html += item.arg(l.icon, l.address, l.name, entries[k].catTitle,
+                                 l.detail, l.flags);
+            }
         }
 
-        html += room_footer;
+        html += tableFooter;
     }
 
     html += footer;

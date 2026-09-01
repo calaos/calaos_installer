@@ -11,6 +11,7 @@
 #include <QFile>
 #include <QFileDialog>
 #include <QDesktopServices>
+#include <QDir>
 #include <QDialogButtonBox>
 
 MainWindow::MainWindow(QWidget *parent):
@@ -557,18 +558,27 @@ void MainWindow::actionAbout_triggered()
     ShowPage(PAGE_ABOUT);
 }
 
+QString MainWindow::projectDisplayName() const
+{
+    if (project_path.isEmpty())
+        return QString();
+
+    const QString name = QDir(project_path).dirName();
+    return name.isEmpty() ? project_path : name;
+}
+
 void MainWindow::on_actionPar_pi_ce_triggered()
 {
     teditor.resize(700, 700);
     teditor.show();
-    teditor.loadRooms();
+    teditor.loadRooms(projectDisplayName());
 }
 
 void MainWindow::on_actionPar_Entr_es_Sorties_triggered()
 {
     teditor.resize(700, 700);
     teditor.show();
-    teditor.loadIOList();
+    teditor.loadIOList(projectDisplayName());
 }
 
 void MainWindow::on_actionMise_jour_Automate_triggered()
