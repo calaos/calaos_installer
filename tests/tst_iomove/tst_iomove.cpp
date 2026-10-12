@@ -6,6 +6,8 @@
 #include <QTemporaryDir>
 #include <QTimer>
 
+#include "HomeTreeMove.h"
+#include "qtreewidget_addition.h"
 #include "projectmanager.h"
 
 using namespace Calaos;
@@ -125,6 +127,43 @@ QStringList dumpWith(const QStringList &base, const QStringList &ioIds, const QS
     return l;
 }
 
+// What FormRules::PopulateRoomsTree builds, minus icons and labels.
+void populate(QTreeWidget *tree)
+{
+    tree->clear();
+    ListeRoom &lr = ListeRoom::Instance();
+    for (int r = 0;r < lr.size();r++)
+    {
+        Room *room = lr.get_room(r);
+        QTreeWidgetItemRoom *iroom = new QTreeWidgetItemRoom(room, tree);
+        for (int i = 0;i < room->get_size_in();i++)
+            if (inputHasTreeItem(room->get_input(i)))
+                new QTreeWidgetItemInput(room->get_input(i), iroom);
+        for (int i = 0;i < room->get_size_out();i++)
+            new QTreeWidgetItemOutput(room->get_output(i), iroom);
+    }
+    tree->expandAll();
+}
+
+QStringList treeDump(QTreeWidget *tree)
+{
+    QStringList l;
+    for (QTreeWidgetItemIterator it(tree);*it;++it)
+    {
+        QTreeWidgetItem *parent = (*it)->parent();
+        QTreeWidgetItemRoom *room = dynamic_cast<QTreeWidgetItemRoom *>(parent);
+        if (!room)
+            continue;
+
+        if (QTreeWidgetItemInput *in = dynamic_cast<QTreeWidgetItemInput *>(*it))
+            l << u(room->getRoom()->get_name()) + ":" + u(in->getInput()->get_param("id")) + ":in";
+        else if (QTreeWidgetItemOutput *out = dynamic_cast<QTreeWidgetItemOutput *>(*it))
+            l << u(room->getRoom()->get_name()) + ":" + u(out->getOutput()->get_param("id")) + ":out";
+    }
+    l.sort();
+    return l;
+}
+
 IOBase *findIo(const QString &id)
 {
     ListeRoom &lr = ListeRoom::Instance();
@@ -132,6 +171,11 @@ IOBase *findIo(const QString &id)
         return io;
     return lr.get_input(id.toStdString());
 }
+
+struct ProbeIo: public IOBase
+{
+    explicit ProbeIo(Params &p): IOBase(p, "probe", TBOOL, IOBase::IO_INPUT) { }
+};
 
 QSet<IOBase *> ruleIos()
 {
@@ -210,26 +254,17 @@ private slots:
     void movingThereAndBackChangesNothing();
     void rulesKeepPointingAtMovedIos();
     void movingTwiceKeepsTheLastRoom();
+    void refusedMovesChangeNothing();
+    void treeFollowsTheModel_data();
+    void treeFollowsTheModel();
+    void treeKeepsTheCurrentItem();
+    void refusedTreeMoveChangesNothing();
+    void nestedItemsTravelWithTheirParent();
 };
 
 bool tst_IoMove::move(IOBase *io, Room *to)
 {
-    Room *from = ListeRoom::Instance().get_room(ListeRoom::Instance().searchIO(io));
-    if (!from)
-        return false;
-
-    // What the tree does today: one list at a time.
-    if (io->is_output())
-    {
-        from->RemoveOutput(io);
-        to->AddOutput(io);
-    }
-    else
-    {
-        from->RemoveInput(io);
-        to->AddInput(io);
-    }
-    return true;
+    return ListeRoom::Instance().moveIO(io, to);
 }
 
 void tst_IoMove::initTestCase()
@@ -338,7 +373,7 @@ void tst_IoMove::rulesKeepPointingAtMovedIos()
     const QSet<IOBase *> ios = ruleIos();
     QCOMPARE(ListeRule::Instance().size(), 3);
 
-    const QStringList movedIds = { "int_bool", "out_dig", "dev", "dev_out", "scn", "cam_i_cam_o" };
+    const QStringList movedIds = { "int_bool", "out_dig", "dev", "dev_target", "dev_in", "dev_out", "scn", "cam_i_cam_o" };
     const QStringList expected = dumpWith(dump(), movedIds, "C");
     for (const char *id: { "int_bool", "out_dig", "dev", "scn", "cam_i_cam_o" })
         QVERIFY(move(findIo(id), lr.get_room(2)));
@@ -368,6 +403,117 @@ void tst_IoMove::movingTwiceKeepsTheLastRoom()
     QCOMPARE(dump(), expected);
     QVERIFY(load(saveIOs()));
     QCOMPARE(dump(), expected);
+}
+
+// An owned IO is written inside its device: moving it alone would be undone by
+// the next reload, so it is refused rather than half done.
+void tst_IoMove::refusedMovesChangeNothing()
+{
+    QVERIFY(load(ioSource(kProject, " format=\"2\"")));
+    ListeRoom &lr = ListeRoom::Instance();
+    Room *a = lr.get_room(0);
+    Room *b = lr.get_room(1);
+    const QStringList before = dump();
+
+    QVERIFY(!lr.moveIO(findIo("in_temp"), a));        // already there
+    QVERIFY(!lr.moveIO(findIo("dev_in"), b));         // owned, input
+    QVERIFY(!lr.moveIO(findIo("dev_out"), b));        // owned, output
+    QVERIFY(!lr.moveIO(findIo("dev_target"), b));     // owned, input+output
+    QVERIFY(!lr.moveIO(nullptr, b));
+    QVERIFY(!lr.moveIO(findIo("in_temp"), nullptr));
+
+    Room stranger("stranger", "salon");
+    QVERIFY(!lr.moveIO(findIo("in_temp"), &stranger));
+
+    Params p;
+    p.Add("id", "orphan");
+    ProbeIo orphan(p);
+    QVERIFY(!lr.moveIO(&orphan, b));
+
+    QCOMPARE(dump(), before);
+    QCOMPARE(findIo("dev_in")->getOwnerDevice(), lr.get_device("dev"));
+}
+
+void tst_IoMove::treeFollowsTheModel_data()
+{
+    kinds();
+}
+
+void tst_IoMove::treeFollowsTheModel()
+{
+    QFETCH(QString, id);
+
+    QVERIFY(load(ioSource(kProject, " format=\"2\"")));
+    ListeRoom &lr = ListeRoom::Instance();
+    QTreeWidget tree;
+    populate(&tree);
+
+    QVERIFY(moveIOInHome(&tree, findIo(id), lr.get_room(1)));
+    const QStringList moved = treeDump(&tree);
+
+    QTreeWidget fresh;
+    populate(&fresh);
+    QCOMPARE(moved, treeDump(&fresh));
+
+    // Back again, through a third room.
+    QVERIFY(moveIOInHome(&tree, findIo(id), lr.get_room(2)));
+    QVERIFY(moveIOInHome(&tree, findIo(id), lr.get_room(0)));
+    populate(&fresh);
+    QCOMPARE(treeDump(&tree), treeDump(&fresh));
+}
+
+void tst_IoMove::treeKeepsTheCurrentItem()
+{
+    QVERIFY(load(ioSource(kProject, " format=\"2\"")));
+    ListeRoom &lr = ListeRoom::Instance();
+    QTreeWidget tree;
+    populate(&tree);
+
+    QTreeWidgetItem *grabbed = nullptr;
+    for (QTreeWidgetItemIterator it(&tree);*it && !grabbed;++it)
+        if (QTreeWidgetItemOutput *out = dynamic_cast<QTreeWidgetItemOutput *>(*it))
+            if (out->getOutput() == findIo("int_bool"))
+                grabbed = out;
+    QVERIFY(grabbed);
+    tree.setCurrentItem(grabbed);
+
+    QVERIFY(moveIOInHome(&tree, findIo("int_bool"), lr.get_room(1)));
+    QCOMPARE(tree.currentItem(), grabbed);
+    QCOMPARE(dynamic_cast<QTreeWidgetItemRoom *>(grabbed->parent())->getRoom(), lr.get_room(1));
+}
+
+void tst_IoMove::refusedTreeMoveChangesNothing()
+{
+    QVERIFY(load(ioSource(kProject, " format=\"2\"")));
+    ListeRoom &lr = ListeRoom::Instance();
+    QTreeWidget tree;
+    populate(&tree);
+    const QStringList before = treeDump(&tree);
+
+    QVERIFY(!moveIOInHome(&tree, findIo("dev_out"), lr.get_room(1)));
+    QVERIFY(!moveIOInHome(&tree, findIo("in_temp"), lr.get_room(0)));
+    QCOMPARE(treeDump(&tree), before);
+}
+
+// Once owned IOs are shown under their device, only the device item is a room child.
+void tst_IoMove::nestedItemsTravelWithTheirParent()
+{
+    QVERIFY(load(ioSource(kProject, " format=\"2\"")));
+    ListeRoom &lr = ListeRoom::Instance();
+    QTreeWidget tree;
+    populate(&tree);
+
+    QTreeWidgetItem *deviceItem = nullptr;
+    for (QTreeWidgetItemIterator it(&tree);*it && !deviceItem;++it)
+        if (QTreeWidgetItemOutput *out = dynamic_cast<QTreeWidgetItemOutput *>(*it))
+            if (out->getOutput() == findIo("dev"))
+                deviceItem = out;
+    QVERIFY(deviceItem);
+    QTreeWidgetItem *child = new QTreeWidgetItemOutput(findIo("dev_out"), deviceItem);
+
+    QVERIFY(moveIOInHome(&tree, findIo("dev"), lr.get_room(1)));
+    QCOMPARE(child->parent(), deviceItem);
+    QCOMPARE(dynamic_cast<QTreeWidgetItemRoom *>(deviceItem->parent())->getRoom(), lr.get_room(1));
 }
 
 QTEST_MAIN(tst_IoMove)

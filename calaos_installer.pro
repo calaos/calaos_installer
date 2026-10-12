@@ -42,6 +42,7 @@ SOURCES += src/main.cpp \
     src/dialogioproperties.cpp \
     src/dialognewvolet.cpp \
     src/hometreewidget.cpp \
+    src/HomeTreeMove.cpp \
     src/detectip.cpp \
     src/dialognewrule.cpp \
     src/conditiontreewidget.cpp \
@@ -136,6 +137,7 @@ HEADERS += src/mainwindow.h \
     src/dialogioproperties.h \
     src/dialognewvolet.h \
     src/hometreewidget.h \
+    src/HomeTreeMove.h \
     src/detectip.h \
     src/dialognewrule.h \
     src/conditiontreewidget.h \

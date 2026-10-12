@@ -68,6 +68,11 @@ public:
     void RemoveOutput(int i, bool del = true);
     void RemoveOutput(IOBase *output);
 
+    bool hasInput(IOBase *io) const;
+    bool hasOutput(IOBase *io) const;
+    //Out of both lists, without deleting: the caller re-homes it.
+    void detach(IOBase *io);
+
     IOBase *get_input(int i) { return inputs[i]; }
     IOBase *get_output(int i) { return outputs[i]; }
 
