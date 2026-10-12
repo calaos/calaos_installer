@@ -372,8 +372,8 @@ void tst_RoomTeardown::scriptConditionLosesOnlyTheDeletedTrigger()
     QCOMPARE(c->getScript(), std::string("return true"));
 }
 
-// The server keeps a script condition that has no trigger: the rule can still
-// fire through its other conditions, and the user keeps the Lua to re-attach it.
+// The rule and its Lua are kept so the user can attach a new trigger, but a
+// script condition with none is never evaluated by the server: the rule is inert.
 void tst_RoomTeardown::scriptConditionWithoutTriggerKeepsItsRule()
 {
     ListeRule &rules = ListeRule::Instance();
