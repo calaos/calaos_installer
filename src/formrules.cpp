@@ -5,6 +5,10 @@
 #include "TwoLineItemDelegate.h"
 #include "mainwindow.h"
 #include "HomeTreeMove.h"
+#include "HomeTree.h"
+#include "DialogDeleteImpact.h"
+#include "DialogDeviceInfo.h"
+#include <DeletionImpact.h>
 #include "DialogEditTimeRange.h"
 #include "DialogNewAVReceiver.h"
 #include "dialognewwebioshutter.h"
@@ -667,6 +671,7 @@ FormRules::FormRules(QWidget *parent) :
     connect(action, &QAction::triggered, this, [=]() { addAction(ACTION_PUSH); });
 
     connect(ui->tree_home, &HomeTreeWidget::customContextMenuRequested, this, &FormRules::showPopup_tree);
+    connect(ui->tree_home, &HomeTreeWidget::ioMoved, this, [this]() { setProjectModified(true); });
     connect(ui->tree_condition, &ConditionTreeWidget::customContextMenuRequested, this, &FormRules::showPopup_condition);
     connect(ui->tree_action, &ActionTreeWidget::customContextMenuRequested, this, &FormRules::showPopup_action);
     connect(ui->tree_rules, &QTreeWidget::customContextMenuRequested, this, &FormRules::showPopup_rule);
@@ -718,23 +723,11 @@ void FormRules::PopulateRoomsTree()
         if (i == 0) selected = true;
         QTreeWidgetItemRoom *iroom = addItemRoom(room, selected);
 
-        for (int j = 0;j < room->get_size_in();j++)
+        populateRoomItems(iroom, [](QTreeWidgetItem *item)
         {
-            IOBase *in = room->get_input(j);
-
-            if (inputHasTreeItem(in))
-                addItemInput(in, iroom);
-
+            refreshItemInfos(item);
             QCoreApplication::processEvents();
-        }
-
-        for (int j = 0;j < room->get_size_out();j++)
-        {
-            IOBase *out = room->get_output(j);
-            addItemOutput(out, iroom);
-
-            QCoreApplication::processEvents();
-        }
+        });
     }
 
     ui->tree_home->expandAll();
@@ -1391,6 +1384,33 @@ void FormRules::updateItemInfos(QTreeWidgetItemOutput *item)
     item->setData(0, Qt::StatusTipRole, s);
 }
 
+void FormRules::updateItemInfos(QTreeWidgetItemDevice *item)
+{
+    Device *dev = item->getDevice();
+    const QString name = QString::fromUtf8(dev->get_param("name").c_str());
+
+    item->setData(0, Qt::DisplayRole, name);
+    item->setData(0, Qt::DecorationRole, QIcon(":/img/chip.png"));
+
+    QString s = name + " (" + QString::fromUtf8(dev->family().c_str());
+    if (!dev->impl().empty())
+        s += " / " + QString::fromUtf8(dev->impl().c_str());
+    s += ")";
+
+    item->setData(0, Qt::ToolTipRole, s);
+    item->setData(0, Qt::StatusTipRole, s);
+}
+
+void FormRules::refreshItemInfos(QTreeWidgetItem *item)
+{
+    if (QTreeWidgetItemDevice *dev = dynamic_cast<QTreeWidgetItemDevice *>(item))
+        updateItemInfos(dev);
+    else if (QTreeWidgetItemInput *in = dynamic_cast<QTreeWidgetItemInput *>(item))
+        updateItemInfos(in);
+    else if (QTreeWidgetItemOutput *out = dynamic_cast<QTreeWidgetItemOutput *>(item))
+        updateItemInfos(out);
+}
+
 QTreeWidgetItemRule *FormRules::addItemRule(Rule *rule, bool selected)
 {
     QTreeWidgetItemRule *item = new QTreeWidgetItemRule(rule, ui->tree_rules);
@@ -1750,25 +1770,9 @@ void FormRules::goSelectRule()
 
 void FormRules::on_tree_home_currentItemChanged(QTreeWidgetItem *current, QTreeWidgetItem *)
 {
-    QTreeWidgetItemRoom *itroom = dynamic_cast<QTreeWidgetItemRoom *>(current);
-    if (itroom)
-    {
+    //An owned IO sits under its device's item, not directly under the room's.
+    if (QTreeWidgetItemRoom *itroom = roomItemOf(current))
         current_room = itroom->getRoom();
-    }
-
-    QTreeWidgetItemInput *itinput = dynamic_cast<QTreeWidgetItemInput *>(current);
-    if (itinput)
-    {
-        itroom = dynamic_cast<QTreeWidgetItemRoom *>(itinput->parent());
-        current_room = itroom->getRoom();
-    }
-
-    QTreeWidgetItemOutput *itoutput = dynamic_cast<QTreeWidgetItemOutput *>(current);
-    if (itoutput)
-    {
-        itroom = dynamic_cast<QTreeWidgetItemRoom *>(itoutput->parent());
-        current_room = itroom->getRoom();
-    }
 }
 
 void FormRules::showPopup_tree(const QPoint point)
@@ -1798,28 +1802,39 @@ void FormRules::showPopup_tree(const QPoint point)
         //An owned IO is written inside its device: it moves with it, not alone.
         IOBase *clicked = itoutput ? itoutput->getOutput() : (itinput ? itinput->getInput() : nullptr);
 
-        if (ListeRoom::Instance().size() > 1 && clicked && !clicked->getOwnerDevice())
+        if (ListeRoom::Instance().size() > 1 && clicked)
         {
             QMenu *moveMenu = item_menu.addMenu(tr("Move to..."));
-            Room *current = nullptr;
 
-            if (itinput) current = ListeRoom::Instance().searchRoomByInput(itinput->getInput());
-            if (itoutput) current = ListeRoom::Instance().searchRoomByOutput(itoutput->getOutput());
-
-            for (int i = 0;i < ListeRoom::Instance().size();i++)
+            if (clicked->getOwnerDevice())
             {
-                Room *room = ListeRoom::Instance().get_room(i);
-                if (room == current) continue;
+                item_menu.setToolTipsVisible(true);
+                moveMenu->menuAction()->setEnabled(false);
+                moveMenu->menuAction()->setToolTip(tr("Moves with its device"));
+            }
+            else
+            {
+                Room *current = nullptr;
 
-                action = moveMenu->addAction(QString::fromUtf8(room->get_name().c_str()));
-                action->setIcon(QIcon(getIconFromRoom(room)));
-                action->setData(QVariant::fromValue<void *>(room));
+                if (itinput) current = ListeRoom::Instance().searchRoomByInput(itinput->getInput());
+                if (itoutput) current = ListeRoom::Instance().searchRoomByOutput(itoutput->getOutput());
 
-                connect(action, &QAction::triggered, this, &FormRules::moveIOToRoom);
+                for (int i = 0;i < ListeRoom::Instance().size();i++)
+                {
+                    Room *room = ListeRoom::Instance().get_room(i);
+                    if (room == current) continue;
+
+                    action = moveMenu->addAction(QString::fromUtf8(room->get_name().c_str()));
+                    action->setIcon(QIcon(getIconFromRoom(room)));
+                    action->setData(QVariant::fromValue<void *>(room));
+
+                    connect(action, &QAction::triggered, this, &FormRules::moveIOToRoom);
+                }
             }
         }
 
-        action = item_menu.addAction(tr("Delete"));
+        action = item_menu.addAction(dynamic_cast<QTreeWidgetItemDevice *>(treeItem) ?
+                                         tr("Delete device and its IOs...") : tr("Delete..."));
         action->setIcon(QIcon(":/img/user-trash.png"));
         connect(action, &QAction::triggered, this, &FormRules::deleteItem);
 
@@ -1978,11 +1993,7 @@ void FormRules::moveIOToRoom()
     Room *to_room = static_cast<Room *>(action->data().value<void *>());
     if (!to_room) return;
 
-    IOBase *io = nullptr;
-    if (QTreeWidgetItemOutput *itoutput = dynamic_cast<QTreeWidgetItemOutput *>(treeItem))
-        io = itoutput->getOutput();
-    else if (QTreeWidgetItemInput *itinput = dynamic_cast<QTreeWidgetItemInput *>(treeItem))
-        io = itinput->getInput();
+    IOBase *io = ioOfItem(treeItem);
 
     if (io && moveIOInHome(ui->tree_home, io, to_room))
         setProjectModified(true);
@@ -2030,73 +2041,38 @@ void FormRules::showPopup_action(const QPoint point)
     item_menu.exec(QCursor::pos());
 }
 
-//Deleting a device also deletes its owned IOs: their items must not outlive them.
-void FormRules::removeIOItems(const std::vector<IOBase *> &ios)
-{
-    QList<QTreeWidgetItem *> items;
-    for (QTreeWidgetItemIterator it(ui->tree_home);*it;++it)
-    {
-        IOBase *io = nullptr;
-        if (QTreeWidgetItemInput *in = dynamic_cast<QTreeWidgetItemInput *>(*it))
-            io = in->getInput();
-        else if (QTreeWidgetItemOutput *out = dynamic_cast<QTreeWidgetItemOutput *>(*it))
-            io = out->getOutput();
-
-        if (io && std::find(ios.begin(), ios.end(), io) != ios.end())
-            items.append(*it);
-    }
-
-    if (items.contains(treeItem))
-        treeItem = nullptr;
-    qDeleteAll(items);
-}
-
 void FormRules::deleteItem()
 {
     if (!treeItem) return;
 
-    QMessageBox::StandardButton reply;
-    reply = QMessageBox::question(this, tr("Calaos Installer"),
-                                  QString(tr("Are you sure to delete item \"%1\"")).arg(treeItem->text(0)),
-                                  QMessageBox::Yes | QMessageBox::No);
+    IOBase *io = ioOfItem(treeItem);
+    QTreeWidgetItemRoom *itroom = dynamic_cast<QTreeWidgetItemRoom *>(treeItem);
+    if (!io && !itroom)
+        return;
 
-    if (reply != QMessageBox::Yes)
+    //Read before anything is deleted: the rules about to be touched are still there.
+    const DeletionImpact impact = io ? deletionImpact(io) : deletionImpactOfRoom(itroom->getRoom());
+    const QString name = treeItem->text(0);
+    QString subject = QStringLiteral("\"%1\"").arg(name);
+    if (dynamic_cast<QTreeWidgetItemDevice *>(treeItem))
+        subject = tr("device \"%1\" and its IOs").arg(name);
+    else if (itroom)
+        subject = tr("room \"%1\" and everything in it").arg(name);
+
+    DialogDeleteImpact dialog(subject, impact, dynamic_cast<QTreeWidgetItemDevice *>(treeItem) != nullptr, this);
+    if (dialog.exec() != QDialog::Accepted)
         return;
 
     setProjectModified(true);
 
-    QTreeWidgetItemInput *itinput = dynamic_cast<QTreeWidgetItemInput *>(treeItem);
-    if (itinput)
+    //The clicked item is among those about to go.
+    treeItem = nullptr;
+
+    if (io)
     {
-        std::vector<IOBase *> gone = ListeRoom::iosDeletedWith(itinput->getInput());
-        ListeRoom::Instance().deleteIOInput(itinput->getInput());
-        removeIOItems(gone);
-
-        ui->tree_action->clear_all();
-        ui->tree_condition->clear_all();
-        ui->tree_rules->clear();
-
-        PopulateRulesTree();
-        return;
+        deleteIOInHome(ui->tree_home, io);
     }
-
-    QTreeWidgetItemOutput *itoutput = dynamic_cast<QTreeWidgetItemOutput *>(treeItem);
-    if (itoutput)
-    {
-        std::vector<IOBase *> gone = ListeRoom::iosDeletedWith(itoutput->getOutput());
-        ListeRoom::Instance().deleteIOOutput(itoutput->getOutput());
-        removeIOItems(gone);
-
-        ui->tree_action->clear_all();
-        ui->tree_condition->clear_all();
-        ui->tree_rules->clear();
-
-        PopulateRulesTree();
-        return;
-    }
-
-    QTreeWidgetItemRoom *itroom = dynamic_cast<QTreeWidgetItemRoom *>(treeItem);
-    if (itroom)
+    else
     {
         ListeRoom::Instance().Remove(itroom->getRoom());
         delete itroom;
@@ -2105,14 +2081,13 @@ void FormRules::deleteItem()
             current_room = ListeRoom::Instance().get_room(ListeRoom::Instance().size() - 1);
         else
             current_room = nullptr;
-
-        ui->tree_action->clear_all();
-        ui->tree_condition->clear_all();
-        ui->tree_rules->clear();
-
-        PopulateRulesTree();
-        return;
     }
+
+    ui->tree_action->clear_all();
+    ui->tree_condition->clear_all();
+    ui->tree_rules->clear();
+
+    PopulateRulesTree();
 }
 
 void FormRules::cloneRule()
@@ -2139,6 +2114,14 @@ void FormRules::showPropertiesItem()
     Params proom, prule;
     int type = OBJ_NONE;
     IOBase *io = nullptr;
+
+    //Read-only until the device wizard can edit one coherently.
+    if (QTreeWidgetItemDevice *itdevice = dynamic_cast<QTreeWidgetItemDevice *>(treeItem))
+    {
+        DialogDeviceInfo info(itdevice->getDevice(), this);
+        info.exec();
+        return;
+    }
 
     QTreeWidgetItemInput *itinput = dynamic_cast<QTreeWidgetItemInput *>(treeItem);
     if (itinput)

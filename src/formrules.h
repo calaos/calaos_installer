@@ -79,6 +79,8 @@ public:
     static void updateItemInfos(QTreeWidgetItemRoom *item);
     static void updateItemInfos(QTreeWidgetItemInput *item);
     static void updateItemInfos(QTreeWidgetItemOutput *item);
+    static void updateItemInfos(QTreeWidgetItemDevice *item);
+    static void refreshItemInfos(QTreeWidgetItem *item);
     static void updateItemInfos(QTreeWidgetItemRule *item);
     static void updateItemCondition(QTreeWidgetItem *item, Condition *condition);
     static void updateItemAction(QTreeWidgetItem *item, Action *action);
@@ -143,7 +145,6 @@ public slots:
     void showPopup_action(const QPoint point);
     void showPopup_rule(const QPoint point);
     void deleteItem();
-    void removeIOItems(const std::vector<IOBase *> &ios);
     void deleteItemCondition();
     void deleteItemAction();
     void goSelectRule();

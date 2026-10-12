@@ -11,6 +11,7 @@ include($$PWD/../../calaos_model.pri)
 
 SOURCES += \
     $$PWD/../../src/HomeTreeMove.cpp \
+    $$PWD/../../src/HomeTree.cpp \
     tst_iomove.cpp
 
-HEADERS += $$PWD/../../src/HomeTreeMove.h $$PWD/../../src/qtreewidget_addition.h
+HEADERS += $$PWD/../../src/HomeTreeMove.h $$PWD/../../src/HomeTree.h $$PWD/../../src/qtreewidget_addition.h
