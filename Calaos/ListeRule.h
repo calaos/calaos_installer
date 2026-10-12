@@ -51,8 +51,10 @@ public:
     void Add(Rule *p);
     void Remove(int i);
     void Remove(Rule *obj);
-    void RemoveRuleInput(IOBase *obj); //remove all rules containing obj
-    void RemoveRuleOutput(IOBase *obj); //remove all rules containing obj
+    //Remove every rule that holds io as a condition input, script input,
+    //output-state condition or action output. Must run before io is destroyed.
+    void RemoveRulesUsing(IOBase *io);
+    Rule *searchRuleUsing(IOBase *io);
 
     Rule *searchRuleInput(IOBase *input);
     Rule *searchRuleOutput(IOBase *output);

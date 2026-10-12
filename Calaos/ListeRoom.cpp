@@ -371,8 +371,7 @@ string ListeRoom::getRoomType(int type)
 bool ListeRoom::deleteIOInput(IOBase *input)
 {
     //first delete all rules using "input"
-    ListeRule::Instance().RemoveRuleInput(input);
-    ListeRule::Instance().RemoveRuleOutput(input);
+    ListeRule::Instance().RemoveRulesUsing(input);
 
     if (input->is_inout())
         ListeRoom::Instance().delete_output(input, false);
@@ -384,8 +383,7 @@ bool ListeRoom::deleteIOInput(IOBase *input)
 bool ListeRoom::deleteIOOutput(IOBase *output)
 {
     //first delete all rules using "output"
-    ListeRule::Instance().RemoveRuleInput(output);
-    ListeRule::Instance().RemoveRuleOutput(output);
+    ListeRule::Instance().RemoveRulesUsing(output);
 
     if (output->is_inout())
         ListeRoom::Instance().delete_input(output, false);

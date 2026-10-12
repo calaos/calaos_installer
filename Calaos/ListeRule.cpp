@@ -64,64 +64,75 @@ Rule *ListeRule::get_rule(int i)
     return rules[i];
 }
 //-----------------------------------------------------------------------------
-void ListeRule::RemoveRuleInput(IOBase *obj)
+namespace
 {
-    //delete all rules using "output"
-    for (uint i = 0;i < rules.size();i++)
+
+//A condition or action may hold an IO other than the one in the room list
+//(legacy iid/oid references), so ids are compared as well as pointers.
+//An empty id never identifies anything.
+bool sameIO(IOBase *ref, IOBase *io)
+{
+    if (!ref)
+        return false;
+    if (ref == io)
+        return true;
+
+    static const char *keys[] = { "id", "iid", "oid" };
+    for (const char *k: keys)
     {
-        Rule *rule = get_rule(i);
-        Rule *rule_to_del = NULL;
-        for (int j = 0;j < rule->get_size_conds();j++)
-        {
-            Condition *cond = rule->get_condition(j);
-            for (int k = 0;k < cond->get_size();k++)
-            {
-                if (obj->get_param("id") == cond->get_input(k)->get_param("id"))
-                    rule_to_del = rule;
-                if (obj->get_param("iid") == cond->get_input(k)->get_param("id") && obj->get_param("iid") != "")
-                    rule_to_del = rule;
-                if (obj->get_param("id") == cond->get_input(k)->get_param("iid") && cond->get_input(k)->get_param("iid") != "")
-                    rule_to_del = rule;
-                if (obj->get_param("iid") == cond->get_input(k)->get_param("iid") && obj->get_param("iid") != "")
-                    rule_to_del = rule;
-            }
-        }
-        if (rule_to_del)
-        {
-            Remove(rule_to_del);
-            i--;
-        }
+        const string a = io->get_param(k);
+        if (a.empty())
+            continue;
+        for (const char *m: keys)
+            if (a == ref->get_param(m))
+                return true;
     }
+
+    return false;
+}
+
+bool ruleUses(Rule *rule, IOBase *io)
+{
+    for (int j = 0;j < rule->get_size_conds();j++)
+    {
+        Condition *cond = rule->get_condition(j);
+
+        for (int k = 0;k < cond->get_size();k++)
+            if (sameIO(cond->get_input(k), io))
+                return true;
+        for (int k = 0;k < cond->getScriptInputSize();k++)
+            if (sameIO(cond->getScriptInput(k), io))
+                return true;
+        if (sameIO(cond->getOutput(), io))
+            return true;
+    }
+
+    for (int j = 0;j < rule->get_size_actions();j++)
+    {
+        Action *action = rule->get_action(j);
+        for (int k = 0;k < action->get_size();k++)
+            if (sameIO(action->get_output(k), io))
+                return true;
+    }
+
+    return false;
+}
+
 }
 //-----------------------------------------------------------------------------
-void ListeRule::RemoveRuleOutput(IOBase *obj)
+Rule *ListeRule::searchRuleUsing(IOBase *io)
 {
-    //delete all rules using "output"
-    for (uint i = 0;i < rules.size();i++)
-    {
-        Rule *rule = get_rule(i);
-        Rule *rule_to_del = NULL;
-        for (int j = 0;j < rule->get_size_actions();j++)
-        {
-            Action *action = rule->get_action(j);
-            for (int k = 0;k < action->get_size();k++)
-            {
-                if (obj->get_param("id") == action->get_output(k)->get_param("id"))
-                    rule_to_del = rule;
-                if (obj->get_param("oid") == action->get_output(k)->get_param("id") && obj->get_param("oid") != "")
-                    rule_to_del = rule;
-                if (obj->get_param("id") == action->get_output(k)->get_param("oid") && action->get_output(k)->get_param("oid") != "")
-                    rule_to_del = rule;
-                if (obj->get_param("oid") == action->get_output(k)->get_param("oid") && obj->get_param("oid") != "")
-                    rule_to_del = rule;
-            }
-        }
-        if (rule_to_del)
-        {
-            Remove(rule_to_del);
-            i--;
-        }
-    }
+    for (Rule *rule: rules)
+        if (ruleUses(rule, io))
+            return rule;
+
+    return NULL;
+}
+//-----------------------------------------------------------------------------
+void ListeRule::RemoveRulesUsing(IOBase *io)
+{
+    while (Rule *rule = searchRuleUsing(io))
+        Remove(rule);
 }
 //-----------------------------------------------------------------------------
 Rule *ListeRule::searchRule(string type, string name)
