@@ -10,5 +10,12 @@
             {"name": "offset", "type": "float", "mandatory": "false", "readonly": "false", "default": "0", "description": "Offset without any bound."},
             {"name": "ratio", "type": "float", "mandatory": "false", "readonly": "false", "default": "1", "min": "0", "max": "10", "description": "Ratio."}
         ]
+    },
+    "MySensorsFixture": {
+        "description": "Fixture: a MySensors-typed IO, the only family whose entry helper can write a float.",
+        "parameters": [
+            {"name": "name", "type": "string", "mandatory": "true", "readonly": "false", "description": "Name."},
+            {"name": "node_id", "type": "float", "mandatory": "true", "readonly": "false", "default": "0", "description": "Node id."}
+        ]
     }
 }
