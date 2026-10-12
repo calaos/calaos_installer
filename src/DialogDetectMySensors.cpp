@@ -77,7 +77,8 @@ Params& DialogDetectMySensors::getParams()
         params.Add("node_id", qList[0]->text(0).toStdString());
         params.Add("sensor_id", qList[0]->text(1).toStdString());
         params.Add("name", qList[0]->text(3).toStdString());
-        params.Add("gateway", sGateway.toStdString());
+        //The IO schema stores the gateway by key ("tcp"), not by the displayed label.
+        params.Add("gateway", sGateway.toLower().toStdString());
         params.Add("port", sPort.toStdString());
         if (sGateway == "TCP")
             params.Add("host", sHost.toStdString());
