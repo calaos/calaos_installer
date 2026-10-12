@@ -83,7 +83,7 @@ void WidgetIOProperties::updateChangedParam(const string &prop, const QString va
 
 void WidgetIOProperties::flagOutOfRange(QAbstractSpinBox *w, QLabel *title, const QString &value, const QString &range)
 {
-    QString tip = tr("The stored value %1 is outside the documented range (%2). "
+    QString tip = tr("The value %1 is outside the documented range (%2). "
                      "It is kept as is unless you change it.").arg(value, range);
     w->setToolTip(tip);
     title->setToolTip(tip);
@@ -429,7 +429,7 @@ void WidgetIOProperties::setValues(Params& params)
                     it->second.comboBox->setEditText(qvalue);
                 else
                 {
-                    int defIndex = it->second.comboBox->findText(qvalue);
+                    int defIndex = it->second.comboBox->findData(qvalue);
                     if(defIndex!=-1) it->second.comboBox->setCurrentIndex(defIndex);
                 }
                 break;

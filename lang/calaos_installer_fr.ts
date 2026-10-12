@@ -6946,8 +6946,8 @@ L&apos;assistant va créer les 2 règles qui vont démarrer ou arrêter le chauf
     </message>
     <message>
         <location filename="../src/WidgetIOProperties.cpp" line="86"/>
-        <source>The stored value %1 is outside the documented range (%2). It is kept as is unless you change it.</source>
-        <translation>La valeur enregistrée %1 est hors de la plage documentée (%2). Elle est conservée telle quelle tant que vous ne la modifiez pas.</translation>
+        <source>The value %1 is outside the documented range (%2). It is kept as is unless you change it.</source>
+        <translation>La valeur %1 est hors de la plage documentée (%2). Elle est conservée telle quelle tant que vous ne la modifiez pas.</translation>
     </message>
     <message>
         <location filename="../src/WidgetIOProperties.cpp" line="103"/>
