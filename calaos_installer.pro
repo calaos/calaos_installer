@@ -23,6 +23,8 @@ DEFINES += CALAOS_VERSION=\\\"$$REVISION\\\"
 #enable C++11 new syntax
 CONFIG += c++11
 
+include(calaos_model.pri)
+
 TARGET = calaos_installer
 TEMPLATE = app
 SOURCES += src/main.cpp \
@@ -34,25 +36,13 @@ SOURCES += src/main.cpp \
     src/RemoteUIModel.cpp \
     src/PageModel.cpp \
     src/WidgetModel.cpp \
-    src/SimpleCrypt.cpp \
     src/mainwindow.cpp \
-    src/common/base64.c \
-    src/common/Params.cpp \
-    src/common/Utils.cpp \
-    Calaos/Rule.cpp \
-    Calaos/Room.cpp \
-    Calaos/ListeRule.cpp \
-    Calaos/ListeRoom.cpp \
-    Calaos/IOFactory.cpp \
-    Calaos/Condition.cpp \
-    Calaos/Action.cpp \
     src/dialognewroom.cpp \
     src/dialognewwago.cpp \
     src/dialogioproperties.cpp \
     src/dialognewvolet.cpp \
     src/hometreewidget.cpp \
     src/detectip.cpp \
-    src/projectmanager.cpp \
     src/dialognewrule.cpp \
     src/conditiontreewidget.cpp \
     src/actiontreewidget.cpp \
@@ -95,7 +85,6 @@ SOURCES += src/main.cpp \
     src/FormActionTouchscreen.cpp \
     src/FormConditionScript.cpp \
     src/DialogInputEventScript.cpp \
-    src/ConfigOptions.cpp \
     src/TempWizard.cpp \
     src/dialognewanalog.cpp \
     src/TwoLineItemDelegate.cpp \
@@ -104,9 +93,7 @@ SOURCES += src/main.cpp \
     src/RuleActionMenu.cpp \
     src/ftp/qurlinfo.cpp \
     src/ftp/qftp.cpp \
-    Calaos/IOBase.cpp \
     src/DialogEditTimeRange.cpp \
-    Calaos/TimeRange.cpp \
     src/DialogNewAVReceiver.cpp \
     src/DialogOptions.cpp \
     src/dialognewwebioshutter.cpp \
@@ -144,26 +131,12 @@ HEADERS += src/mainwindow.h \
     src/RemoteUIModel.h \
     src/PageModel.h \
     src/WidgetModel.h \
-    src/SimpleCrypt.h \
-    src/common/Utils.h \
-    src/common/base64.h \
-    src/common/Params.h \
-    Calaos/IOBase.h \
-    Calaos/Rule.h \
-    Calaos/Room.h \
-    Calaos/ListeRule.h \
-    Calaos/ListeRoom.h \
-    Calaos/IOFactory.h \
-    Calaos/IOBase.h \
-    Calaos/Condition.h \
-    Calaos/Action.h \
     src/dialognewroom.h \
     src/dialognewwago.h \
     src/dialogioproperties.h \
     src/dialognewvolet.h \
     src/hometreewidget.h \
     src/detectip.h \
-    src/projectmanager.h \
     src/dialognewrule.h \
     src/conditiontreewidget.h \
     src/actiontreewidget.h \
@@ -207,7 +180,6 @@ HEADERS += src/mainwindow.h \
     src/FormActionTouchscreen.h \
     src/FormConditionScript.h \
     src/DialogInputEventScript.h \
-    src/ConfigOptions.h \
     src/TempWizard.h \
     src/dialognewanalog.h \
     src/TwoLineItemDelegate.h \
@@ -219,7 +191,6 @@ HEADERS += src/mainwindow.h \
     src/ftp/qurlinfo.h \
     src/ftp/qftp.h \
     src/DialogEditTimeRange.h \
-    Calaos/TimeRange.h \
     src/DialogNewAVReceiver.h \
     src/dialognewwebio.h \
     src/DialogOptions.h \
