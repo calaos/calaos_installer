@@ -731,15 +731,14 @@ R"(        <calaos:room name="R" type="salon" hits="1">
     QCOMPARE(ioThroughModel(expected.toUtf8()), expected);
 }
 
-// Moving an item in the tree takes it out of both lists but puts it back in
-// one only: a device left among the outputs must still be written, once.
+// A device listed only among the outputs must still be written, once.
 void tst_Devices::deviceListedOnlyAsOutputIsWrittenOnce()
 {
     QVERIFY(load(ioSource(QString(kCascadeIo) + R"(<calaos:room name="B" type="salon" hits="1"/>)", kFormat2)));
     ListeRoom &lr = ListeRoom::Instance();
     Device *dev = lr.get_device("dev");
 
-    lr.get_room(0)->RemoveOutput(dev);
+    lr.get_room(0)->detach(dev);
     lr.get_room(1)->AddOutput(dev);
 
     QCOMPARE(lr.get_room(1)->get_devices(), std::vector<Device *>({ dev }));
@@ -760,7 +759,7 @@ void tst_Devices::ownedIoMovedToAnotherRoomStaysInItsDevice()
     Room *b = lr.get_room(1);
 
     IOBase *out = lr.get_output("dev_out");
-    a->RemoveOutput(out);
+    a->detach(out);
     b->AddOutput(out);
 
     QCOMPARE(ids(lr.get_device("dev")->ownedIos()), QStringList({ "dev_target", "dev_in", "dev_out" }));
@@ -787,9 +786,9 @@ void tst_Devices::ioOutlivingItsDeviceIsWrittenInItsRoom()
     Device *dev = lr.get_device("dev");
     IOBase *in = lr.get_input("dev_in");
 
-    // Out of every room (as during a move in the tree), it writes nothing:
+    // Out of every room, it writes nothing:
     // its IOs must not be lost with it.
-    lr.get_room(0)->RemoveInput(dev);
+    lr.get_room(0)->detach(dev);
     QVERIFY(QString::fromUtf8(saveIOs("dst.xml")).contains("id=\"dev_in\""));
 
     delete dev;

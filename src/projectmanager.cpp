@@ -91,8 +91,7 @@ void IOXmlWriter::writeRoom(Room *room)
     writeAttributes(attr);
 
     //Owned IOs are written inside their device, wherever it is. A device is
-    //written where it first stands: among the inputs, or among the outputs
-    //when only listed there (the tree moves IOs one list at a time).
+    //written where it first stands, among the outputs when it is listed only there.
     std::set<Device *> written;
     auto nested = [](IOBase *io)
     {

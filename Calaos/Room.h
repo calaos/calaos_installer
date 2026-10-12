@@ -63,10 +63,8 @@ public:
 
     void AddInput(IOBase *p);
     void RemoveInput(int i, bool del = true);
-    void RemoveInput(IOBase *input);
     void AddOutput(IOBase *p);
     void RemoveOutput(int i, bool del = true);
-    void RemoveOutput(IOBase *output);
 
     bool hasInput(IOBase *io) const;
     bool hasOutput(IOBase *io) const;

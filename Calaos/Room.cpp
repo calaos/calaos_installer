@@ -100,27 +100,11 @@ void Room::RemoveInput(int pos, bool del)
     inputs.erase(iter);
 }
 //-----------------------------------------------------------------------------
-void Room::RemoveInput(IOBase *input)
-{
-    if (input->is_output())
-        outputs.erase(std::remove( outputs.begin(), outputs.end(), input) , outputs.end());
-
-    inputs.erase(std::remove( inputs.begin(), inputs.end(), input) , inputs.end());
-}
-//-----------------------------------------------------------------------------
 void Room::RemoveOutput(int pos, bool del)
 {
     vector<IOBase *>::iterator iter = outputs.begin();
     for (int i = 0;i < pos;iter++, i++) ;
     if (del) delete outputs[pos];
     outputs.erase(iter);
-}
-//-----------------------------------------------------------------------------
-void Room::RemoveOutput(IOBase *output)
-{
-    if (output->is_input())
-        inputs.erase(std::remove( inputs.begin(), inputs.end(), output) , inputs.end());;
-
-    outputs.erase(std::remove( outputs.begin(), outputs.end(), output) , outputs.end());
 }
 //-----------------------------------------------------------------------------
