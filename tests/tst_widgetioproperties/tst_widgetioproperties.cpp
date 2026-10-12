@@ -4,6 +4,7 @@
 #include <QLabel>
 #include <QPushButton>
 #include <QSettings>
+#include <QComboBox>
 #include <QDialog>
 #include <QDoubleSpinBox>
 #include <QLineEdit>
@@ -132,6 +133,7 @@ private slots:
     void entryHelperValueInsideTheRangeKeepsTheBounds();
     void entryHelperOutOfRangeValueIsWidenedAndFlagged();
     void entryHelperOutOfRangeValueCanBeReverted();
+    void entryHelperSelectsAListEntryByItsKey();
 };
 
 void tst_WidgetIOProperties::initTestCase()
@@ -427,6 +429,7 @@ void tst_WidgetIOProperties::entryHelperOutOfRangeValueIsWidenedAndFlagged()
     QCOMPARE(sensor->value(), 300);
     QCOMPARE(stored(w, "sensor_id"), QString("300"));
     QVERIFY2(sensor->toolTip().contains("300") && sensor->toolTip().contains("254"), qPrintable(sensor->toolTip()));
+    QVERIFY2(!sensor->toolTip().contains("stored"), qPrintable(sensor->toolTip()));
 
     QCOMPARE(port->value(), 70000.0);
     QCOMPARE(stored(w, "port"), QString("70000"));
@@ -447,6 +450,25 @@ void tst_WidgetIOProperties::entryHelperOutOfRangeValueCanBeReverted()
 
     QCOMPARE(sensor->value(), 1);
     QCOMPARE(stored(w, "sensor_id"), QString("1"));
+}
+
+// The list stores keys and displays labels: the helper's value is a key.
+void tst_WidgetIOProperties::entryHelperSelectsAListEntryByItsKey()
+{
+    Params p = sensorParams();
+    p.Add("type", "MySensorsListFixture");
+    p.Add("gateway", "serial");
+    WidgetIOProperties w(p);
+
+    QComboBox *gateway = editor<QComboBox>(w, "gateway");
+    QVERIFY(gateway && !gateway->isEditable());
+    QCOMPARE(gateway->currentData().toString(), QString("serial"));
+
+    runEntryHelper(w, "3", "5000");
+
+    QCOMPARE(gateway->currentData().toString(), QString("tcp"));
+    QCOMPARE(gateway->currentText(), QString("Network"));
+    QCOMPARE(stored(w, "gateway"), QString("tcp"));
 }
 
 QTEST_MAIN(tst_WidgetIOProperties)

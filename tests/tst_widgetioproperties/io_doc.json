@@ -20,5 +20,15 @@
             {"name": "port", "type": "float", "mandatory": "true", "readonly": "false", "default": "1", "min": "1", "max": "65535", "description": "Gateway port."},
             {"name": "gateway", "type": "string", "mandatory": "true", "readonly": "true", "description": "Read-only gateway."}
         ]
+    },
+    "MySensorsListFixture": {
+        "description": "Artificial fixture: gateway is a list whose labels share nothing with its keys, so only a lookup by key can find an entry.",
+        "parameters": [
+            {"name": "name", "type": "string", "mandatory": "true", "readonly": "false", "description": "Name."},
+            {"name": "node_id", "type": "float", "mandatory": "true", "readonly": "false", "default": "0", "description": "Node id."},
+            {"name": "sensor_id", "type": "int", "mandatory": "true", "readonly": "false", "default": "0", "min": "0", "max": "254", "description": "Sensor id."},
+            {"name": "port", "type": "float", "mandatory": "true", "readonly": "false", "default": "1", "min": "1", "max": "65535", "description": "Gateway port."},
+            {"name": "gateway", "type": "list", "mandatory": "true", "readonly": "false", "default": "serial", "list_value": {"serial": "Serial port", "tcp": "Network"}, "description": "Gateway type."}
+        ]
     }
 }
