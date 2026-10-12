@@ -173,8 +173,13 @@ private slots:
     void roomOutsideTheListDestroysAnInOutIOOnce();
     void roomDropsItsRulesBeforeItsIOsDie();
     void roomLeavesTheRulesOfOtherIOsAlone();
-    void rulesOnAnotherIOWithTheSameIdGoWithIt();
-    void rulesMatchLegacyIidAndOid();
+    void rulesOnAnotherIOWithTheSameIdSurvive();
+    void aCameraTakesItsRulesWithItButNotThoseOfIOsNamedLikeIt();
+    void scriptConditionLosesOnlyTheDeletedTrigger();
+    void scriptConditionWithoutTriggerKeepsItsRule();
+    void removingAnUnknownScriptInputChangesNothing();
+    void orphanVariableIdsAreKeptAndReserved();
+    void orphanVariableReservedUnderItsLegacyName();
     void emptyIdsNeverMatch();
     void removeFromTheListDestroysTheRoomsIOs();
     void clearDestroysTheRoomsIOs();
@@ -184,6 +189,7 @@ void tst_RoomTeardown::cleanup()
 {
     ListeRule::Instance().clear();
     ListeRoom::Instance().clear();
+    ListeRoom::clearPendingIOIds();
 }
 
 void tst_RoomTeardown::roomOutsideTheListDestroysItsIOs()
@@ -256,8 +262,11 @@ void tst_RoomTeardown::roomDropsItsRulesBeforeItsIOsDie()
         rules.Add(ruleOnOutputState("on both state", both));
         delete room;
 
-        if (rules.size() != 0)
+        // The script rule only loses its trigger.
+        if (rules.size() != 1 || rules.get_rule(0)->get_name() != "on in script")
             report += std::to_string(rules.size()) + " rules survived their IOs";
+        else if (rules.get_rule(0)->get_condition(0)->getScriptInputSize() != 0)
+            report += "the script kept a trigger on a dead IO";
         return report;
     });
     VERIFY_CHILD_OK(res);
@@ -278,7 +287,7 @@ void tst_RoomTeardown::roomLeavesTheRulesOfOtherIOsAlone()
         rules.Add(ruleOnInput("room rule", in));
         delete room;
 
-        if (rules.size() != 1 || !rules.searchRuleInput(&outsider))
+        if (rules.size() != 1 || !rules.searchRuleUsing(&outsider))
             return "the rule of an IO outside the room did not survive";
         return "";
     });
@@ -294,39 +303,158 @@ Params idParams(const char *id, const char *iid = "", const char *oid = "")
     return p;
 }
 
-// The model can hold several IOs under one id; a rule bound to one of them is
-// as good as bound to all.
-void tst_RoomTeardown::rulesOnAnotherIOWithTheSameIdGoWithIt()
+// Rules hold the IO pointer, which is what would dangle: the other IO that
+// shares the id is still alive and keeps its rules.
+void tst_RoomTeardown::rulesOnAnotherIOWithTheSameIdSurvive()
 {
     ListeRule &rules = ListeRule::Instance();
     ProbeIO first(idParams("dup"), IOBase::IO_INPUT), second(idParams("dup"), IOBase::IO_INPUT);
     ProbeIO other(idParams("other"), IOBase::IO_INPUT);
     rules.Add(ruleOnInput("on first", &first));
+    rules.Add(ruleOnInput("on second", &second));
     rules.Add(ruleOnInput("on other", &other));
 
     rules.RemoveRulesUsing(&second);
 
-    QCOMPARE(rules.size(), 1);
+    QCOMPARE(rules.size(), 2);
+    QVERIFY(rules.searchRuleUsing(&first));
     QVERIFY(rules.searchRuleUsing(&other));
+    QVERIFY(!rules.searchRuleUsing(&second));
 }
 
-// Rules written for the camera model before the id merge name its iid or oid.
-void tst_RoomTeardown::rulesMatchLegacyIidAndOid()
+// A camera is one IO under id, iid and oid; rules loaded from the legacy names
+// hold that very pointer. Another IO that merely carries the same name is not it.
+void tst_RoomTeardown::aCameraTakesItsRulesWithItButNotThoseOfIOsNamedLikeIt()
 {
     ListeRule &rules = ListeRule::Instance();
     ProbeIO camera(idParams("cam", "cam_in", "cam_out"), IOBase::IO_BOTH);
-    ProbeIO legacyIn(idParams("cam_in"), IOBase::IO_INPUT);
-    ProbeIO legacyOut(idParams("cam_out"), IOBase::IO_OUTPUT);
-    ProbeIO other(idParams("other", "other_in"), IOBase::IO_INPUT);
+    ProbeIO namesakeIn(idParams("cam_in"), IOBase::IO_INPUT);
+    ProbeIO namesakeOut(idParams("cam_out"), IOBase::IO_OUTPUT);
 
-    rules.Add(ruleOnInput("legacy in", &legacyIn));
-    rules.Add(ruleOnOutput("legacy out", &legacyOut));
-    rules.Add(ruleOnOutputState("legacy out state", &legacyOut));
-    rules.Add(ruleOnInput("other", &other));
+    rules.Add(ruleOnInput("camera in", &camera));
+    rules.Add(ruleOnOutput("camera out", &camera));
+    rules.Add(ruleOnOutputState("camera out state", &camera));
+    rules.Add(ruleOnInput("namesake in", &namesakeIn));
+    rules.Add(ruleOnOutput("namesake out", &namesakeOut));
+    rules.RemoveRulesUsing(&camera);
+
+    QCOMPARE(rules.size(), 2);
+    QVERIFY(rules.searchRuleUsing(&namesakeIn));
+    QVERIFY(rules.searchRuleUsing(&namesakeOut));
+    QVERIFY(!rules.searchRuleUsing(&camera));
+}
+
+Rule *scriptRule(const std::string &name, std::initializer_list<IOBase *> triggers)
+{
+    Params rp;
+    rp.Add("name", name);
+    Rule *r = new Rule(rp);
+    Condition *c = new Condition(COND_SCRIPT);
+    for (IOBase *io: triggers)
+        c->addScriptInput(io);
+    c->setScript("return true");
+    r->AddCondition(c);
+    return r;
+}
+
+void tst_RoomTeardown::scriptConditionLosesOnlyTheDeletedTrigger()
+{
+    ListeRule &rules = ListeRule::Instance();
+    ProbeIO gone(idParams("gone"), IOBase::IO_INPUT), kept(idParams("kept"), IOBase::IO_INPUT);
+    rules.Add(scriptRule("script", {&gone, &kept}));
+
+    rules.RemoveRulesUsing(&gone);
+
+    QCOMPARE(rules.size(), 1);
+    Condition *c = rules.get_rule(0)->get_condition(0);
+    QCOMPARE(c->getScriptInputSize(), 1);
+    QVERIFY(c->getScriptInput(0) == &kept);
+    QCOMPARE(c->getScript(), std::string("return true"));
+}
+
+// The server keeps a script condition that has no trigger: the rule can still
+// fire through its other conditions, and the user keeps the Lua to re-attach it.
+void tst_RoomTeardown::scriptConditionWithoutTriggerKeepsItsRule()
+{
+    ListeRule &rules = ListeRule::Instance();
+    ProbeIO only(idParams("only"), IOBase::IO_INPUT);
+    rules.Add(scriptRule("script", {&only}));
+
+    rules.RemoveRulesUsing(&only);
+
+    QCOMPARE(rules.size(), 1);
+    Condition *c = rules.get_rule(0)->get_condition(0);
+    QCOMPARE(c->getScriptInputSize(), 0);
+    QCOMPARE(c->getScript(), std::string("return true"));
+}
+
+void tst_RoomTeardown::removingAnUnknownScriptInputChangesNothing()
+{
+    ProbeIO listed(idParams("listed"), IOBase::IO_INPUT), stranger(idParams("stranger"), IOBase::IO_INPUT);
+    Condition c(COND_SCRIPT);
+    c.addScriptInput(&listed);
+
+    c.removeScriptInput(&stranger);
+
+    QCOMPARE(c.getScriptInputSize(), 1);
+}
+
+// The variable of a comparison is stored by id only, so the rule keeps working
+// once an IO with that id exists again: no new IO may take it.
+void tst_RoomTeardown::orphanVariableIdsAreKeptAndReserved()
+{
+    ListeRule &rules = ListeRule::Instance();
+    ProbeIO in(idParams("in"), IOBase::IO_INPUT), out(idParams("out"), IOBase::IO_OUTPUT);
+    ProbeIO varIn(idParams("var_in"), IOBase::IO_INPUT);
+    ProbeIO varOut(idParams("var_out"), IOBase::IO_OUTPUT);
+    ProbeIO varAct(idParams("var_act"), IOBase::IO_OUTPUT);
+    ProbeIO bystander(idParams("bystander"), IOBase::IO_INPUT);
+
+    Rule *r = ruleOnInput("vars", &in);
+    r->get_condition(0)->get_params_var().Add("in", "var_in");
+    r->get_condition(0)->get_params_var().Add("alive", "var_alive");
+    Condition *oc = new Condition(COND_OUTPUT);
+    oc->setOutput(&out);
+    oc->setOutputParamVar("var_out");
+    r->AddCondition(oc);
+    Action *a = new Action(ACTION_STD);
+    a->Add(&out);
+    a->get_params_var().Add("out", "var_act");
+    r->AddAction(a);
+    rules.Add(r);
+
+    rules.RemoveRulesUsing(&bystander);
+    QVERIFY(!ListeRoom::isPendingIOId("bystander"));
+
+    rules.RemoveRulesUsing(&varIn);
+    rules.RemoveRulesUsing(&varOut);
+    rules.RemoveRulesUsing(&varAct);
+
+    QCOMPARE(rules.size(), 1);
+    QCOMPARE(r->get_condition(0)->get_params_var().get_param("in"), std::string("var_in"));
+    QCOMPARE(oc->getOutputParamVar(), std::string("var_out"));
+    QCOMPARE(a->get_params_var().get_param("out"), std::string("var_act"));
+    QVERIFY(ListeRoom::isPendingIOId("var_in"));
+    QVERIFY(ListeRoom::isPendingIOId("var_out"));
+    QVERIFY(ListeRoom::isPendingIOId("var_act"));
+    QVERIFY(!ListeRoom::isPendingIOId("var_alive"));
+}
+
+// The legacy iid/oid are names a variable may still carry in a rule.
+void tst_RoomTeardown::orphanVariableReservedUnderItsLegacyName()
+{
+    ListeRule &rules = ListeRule::Instance();
+    ProbeIO in(idParams("in"), IOBase::IO_INPUT);
+    ProbeIO camera(idParams("cam", "cam_in", "cam_out"), IOBase::IO_BOTH);
+
+    Rule *r = ruleOnInput("legacy var", &in);
+    r->get_condition(0)->get_params_var().Add("in", "cam_in");
+    rules.Add(r);
+
     rules.RemoveRulesUsing(&camera);
 
     QCOMPARE(rules.size(), 1);
-    QVERIFY(rules.searchRuleUsing(&other));
+    QVERIFY(ListeRoom::isPendingIOId("cam_in"));
 }
 
 // An IO without id is not any other IO without id.

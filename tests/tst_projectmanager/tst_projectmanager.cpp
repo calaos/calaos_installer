@@ -424,6 +424,9 @@ private slots:
     void deletingAnIOKeepsTheOtherRules();
     void savingAfterDeletingAnIOReadsNoFreedMemory_data() { deletingAnIOLeavesNoRuleOnIt_data(); }
     void savingAfterDeletingAnIOReadsNoFreedMemory();
+    void deletingAScriptTriggerKeepsTheRuleAndItsLua_data();
+    void deletingAScriptTriggerKeepsTheRuleAndItsLua();
+    void anIOUsedAsAVariableKeepsItsIdReserved();
 };
 
 void tst_ProjectManager::initTestCase()
@@ -1362,9 +1365,13 @@ static const void *loadAndDelete(const QString &ioId, int route)
     if (!target)
         return nullptr;
 
+    const int roomIndex = lr.searchIO(target);
+    if (roomIndex < 0)
+        return nullptr;
+
     const void *address = target;
     if (route == DestroyRoom)
-        lr.Remove(lr.get_room(lr.searchIO(target)));
+        lr.Remove(lr.get_room(roomIndex));
     else if (target->is_input())
         lr.deleteIOInput(target);
     else
@@ -1379,7 +1386,7 @@ void tst_ProjectManager::deletingAnIOLeavesNoRuleOnIt_data()
     QTest::addColumn<int>("route");
 
     const struct { const char *rule; const char *io; } cases[] = {
-        { "std_cond", "i1" }, { "out_cond", "o1" }, { "script_cond", "i1" },
+        { "std_cond", "i1" }, { "out_cond", "o1" },
         { "std_action", "o1" }, { "camera", "ci_co" },
     };
     for (const auto &c: cases)
@@ -1434,12 +1441,77 @@ void tst_ProjectManager::deletingAnIOKeepsTheOtherRules()
     QCOMPARE(rules.size(), 6);
 
     // i1, o1 and ci_co carry every other rule; none of them belongs to the bystander.
+    // The script rule only loses its trigger.
     lr.Remove(lr.get_room(lr.searchIO(lr.get_input("i1"))));
 
-    QCOMPARE(rules.size(), 1);
-    QCOMPARE(u(rules.get_rule(0)->get_name()), QString(kBystander));
-    QCOMPARE(rules.get_rule(0)->get_size_conds(), 2);
-    QCOMPARE(rules.get_rule(0)->get_size_actions(), 1);
+    QCOMPARE(rules.size(), 2);
+    QVERIFY(rules.searchRule("t", "script_cond"));
+    Rule *bystander = rules.searchRule("t", kBystander);
+    QVERIFY(bystander);
+    QCOMPARE(bystander->get_size_conds(), 2);
+    QCOMPARE(bystander->get_size_actions(), 1);
+}
+
+void tst_ProjectManager::deletingAScriptTriggerKeepsTheRuleAndItsLua_data()
+{
+    QTest::addColumn<int>("route");
+    QTest::newRow("delete the IO") << int(DeleteIO);
+    QTest::newRow("destroy the room") << int(DestroyRoom);
+}
+
+void tst_ProjectManager::deletingAScriptTriggerKeepsTheRuleAndItsLua()
+{
+    QFETCH(int, route);
+
+    const QByteArray io = ioSource(R"(
+<calaos:room name="Doomed" type="salon" hits="1">
+  <calaos:input id="i1" type="WIDigitalBP" name="i1" host="h" port="502" var="1"/>
+</calaos:room>
+<calaos:room name="Safe" type="salon" hits="1">
+  <calaos:input id="i2" type="WITemp" name="i2" host="h" port="502" var="2"/>
+</calaos:room>)");
+    const QByteArray rules = rulesSource(R"(
+<calaos:rule name="script_cond" type="t">
+  <calaos:condition type="script"><calaos:input id="i1"/><calaos:input id="i2"/><calaos:script type="lua"><![CDATA[return 42]]></calaos:script></calaos:condition>
+</calaos:rule>)");
+
+    rulesThroughModel(io, rules);
+    QVERIFY(loadAndDelete("i1", route));
+
+    const QString saved = QString::fromUtf8(saveRules("after_delete.xml"));
+    QVERIFY2(saved.contains("name=\"script_cond\""), qPrintable(saved));
+    QVERIFY2(saved.contains("return 42"), qPrintable(saved));
+    QVERIFY2(saved.contains("<calaos:input id=\"i2\"/>"), qPrintable(saved));
+    QVERIFY2(!saved.contains("id=\"i1\""), qPrintable(saved));
+}
+
+// A variable that has lost its IO stays in the rule on purpose (the user decides);
+// the id must not be handed to a new IO, which would rewire the rule silently.
+void tst_ProjectManager::anIOUsedAsAVariableKeepsItsIdReserved()
+{
+    const QByteArray io = ioSource(R"(
+<calaos:room name="R" type="salon" hits="1">
+  <calaos:input id="input_0" type="WITemp" name="var" host="h" port="502" var="1"/>
+  <calaos:input id="i2" type="WITemp" name="i2" host="h" port="502" var="2"/>
+  <calaos:output id="o2" type="WODigital" name="o2" host="h" port="502" var="2"/>
+</calaos:room>)");
+    const QByteArray rules = rulesSource(R"(
+<calaos:rule name="vars" type="t">
+  <calaos:condition><calaos:input id="i2" oper="&lt;" val="" val_var="input_0"/></calaos:condition>
+  <calaos:condition type="output"><calaos:output id="o2" oper="==" val="" val_var="input_0"/></calaos:condition>
+  <calaos:action><calaos:output id="o2" val="" val_var="input_0"/></calaos:action>
+</calaos:rule>)");
+
+    rulesThroughModel(io, rules);
+    ListeRoom &lr = ListeRoom::Instance();
+    QVERIFY(lr.deleteIOInput(lr.get_input("input_0")));
+
+    IOBase *created = lr.createInput(Params(), lr.get_room(0));
+    QVERIFY(created);
+    QVERIFY2(created->get_param("id") != "input_0", "a new IO took the id of the deleted variable");
+
+    const QString saved = QString::fromUtf8(saveRules("after_delete.xml"));
+    QCOMPARE(saved.count("val_var=\"input_0\""), 3);
 }
 
 QTEST_MAIN(tst_ProjectManager)
