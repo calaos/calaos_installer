@@ -41,10 +41,13 @@ ListeRoom::~ListeRoom()
 //-----------------------------------------------------------------------------
 void ListeRoom::clear()
 {
-    for (uint i = 0;i < rooms.size();i++)
-        delete rooms[i];
-
-    rooms.clear();
+    //~Room() looks its IOs up through this list: a room must leave it only
+    //once destroyed, and the ones left behind must still be alive.
+    while (!rooms.empty())
+    {
+        delete rooms.back();
+        rooms.pop_back();
+    }
 
     //Resetting the model also drops the ids reserved for dangling rule
     //references: a brand new project must start numbering from scratch.
