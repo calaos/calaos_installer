@@ -189,8 +189,6 @@ const char *kCascadeIo = R"(
   </calaos:device>
 </calaos:room>)";
 
-// Standard conditions and actions only: ListeRule does not yet remove the
-// rules holding an IO as a script input or an output-state condition.
 const char *kCascadeRules = R"(
 <calaos:rule name="on_target" type="t">
   <calaos:condition><calaos:input id="dev_target" oper="==" val="20"/></calaos:condition>
@@ -212,6 +210,35 @@ const char *kCascadeRules = R"(
 <calaos:rule name="external_only" type="t">
   <calaos:condition><calaos:input id="ext" oper="&gt;" val="3"/></calaos:condition>
 </calaos:rule>)";
+
+// Every IO the rules point at, dereferenced: under ASan a freed one aborts here.
+QSet<IOBase *> ruleIos()
+{
+    QSet<IOBase *> ios;
+    for (int i = 0;i < ListeRule::Instance().size();i++)
+    {
+        Rule *r = ListeRule::Instance().get_rule(i);
+        for (int c = 0;c < r->get_size_conds();c++)
+        {
+            Condition *cd = r->get_condition(c);
+            for (int k = 0;k < cd->get_size();k++)
+                ios << cd->get_input(k);
+            for (int k = 0;k < cd->getScriptInputSize();k++)
+                ios << cd->getScriptInput(k);
+            if (cd->getType() == COND_OUTPUT && cd->getOutput())
+                ios << cd->getOutput();
+        }
+        for (int a = 0;a < r->get_size_actions();a++)
+        {
+            Action *ac = r->get_action(a);
+            for (int k = 0;k < ac->get_size();k++)
+                ios << ac->get_output(k);
+        }
+    }
+    for (IOBase *io: ios)
+        (void)io->get_param("id");
+    return ios;
+}
 
 }
 
@@ -278,6 +305,7 @@ private slots:
     void newerFormatIsReadOnly();
     void deletingDeviceDeletesOwnedIosAndTheirRules_data();
     void deletingDeviceDeletesOwnedIosAndTheirRules();
+    void deletingDeviceLeavesNoRuleOnItsIos();
     void deletingOwnedIoKeepsDeviceAndLink();
     void renamingDeviceKeepsItsIos();
     void ownedIoMovedToAnotherRoomStaysInItsDevice();
@@ -576,6 +604,47 @@ R"(        <calaos:room name="A" type="salon" hits="1">
             <calaos:input host="h" id="ext" name="ext" port="502" type="WITemp" var="0"/>
         </calaos:room>
 )"));
+}
+
+// Script inputs and output-state conditions hold the IO too: once the device
+// and its IOs are gone, no rule may still point at any of them.
+void tst_Devices::deletingDeviceLeavesNoRuleOnItsIos()
+{
+    QVERIFY(load(ioSource(kCascadeIo, kFormat2), rulesSource(R"(
+<calaos:rule name="script_on_owned" type="t">
+  <calaos:condition type="script"><calaos:input id="ext"/><calaos:input id="dev_in"/>
+    <calaos:script type="lua"><![CDATA[return true]]></calaos:script></calaos:condition>
+  <calaos:action><calaos:output id="dev_target" val="1"/></calaos:action>
+</calaos:rule>
+<calaos:rule name="state_of_owned" type="t">
+  <calaos:condition type="output"><calaos:output id="dev_out" oper="==" val="true"/></calaos:condition>
+</calaos:rule>
+<calaos:rule name="state_of_device" type="t">
+  <calaos:condition type="output"><calaos:output id="dev" oper="==" val="off"/></calaos:condition>
+</calaos:rule>
+<calaos:rule name="external_only" type="t">
+  <calaos:condition><calaos:input id="ext" oper="&gt;" val="3"/></calaos:condition>
+</calaos:rule>)")));
+    QVERIFY(ProjectManager::missingIOReport().isEmpty());
+
+    ListeRoom &lr = ListeRoom::Instance();
+    Device *dev = lr.get_device("dev");
+    QSet<IOBase *> gone = { dev };
+    for (IOBase *io: dev->ownedIos())
+        gone << io;
+    QCOMPARE(gone.size(), 4);
+    QVERIFY(ruleIos().intersects(gone));
+
+    QVERIFY(lr.deleteIOOutput(dev));
+
+    QVERIFY(!ruleIos().intersects(gone));
+    QVERIFY(!ruleNames().contains("state_of_owned"));
+    QVERIFY(!ruleNames().contains("state_of_device"));
+    QVERIFY(ruleNames().contains("external_only"));
+
+    QString rules = work("rules_after.xml");
+    QVERIFY(ProjectManager::saveRulesToFile(rules));
+    QVERIFY(!QString::fromUtf8(readAll(rules)).contains("dev"));
 }
 
 // A link is only an id: deleting its target leaves it unresolved, as the
