@@ -390,7 +390,8 @@ private slots:
     void ioIosWithoutIdGetFreshIdsWithoutModal();
     void ioEmptyIdIsKeptAndNeverReportedAsDuplicate();
     void listeRoomEmptyIdNeverMatches();
-    void ioLoadReportsSuccessOnMalformedFile();
+    void ioLoadFailsOnUnknownRoot();
+    void ioLoadFailsOnTruncatedFile();
     void ioLoadFailsOnMissingFile();
 
     void rulesStandardEntriesWithSeveralIosAreSplit();
@@ -967,19 +968,22 @@ void tst_ProjectManager::listeRoomEmptyIdNeverMatches()
     QCOMPARE(idOf(lr.get_output("o2")), QString("o2"));
 }
 
-// loadIOsFromFile() drops the reader's verdict: a file the reader rejected
-// still reports success, with whatever was parsed before the error.
-void tst_ProjectManager::ioLoadReportsSuccessOnMalformedFile()
+// A file the reader rejected must be reported as such, even though the rooms
+// parsed before the error stay in the model.
+void tst_ProjectManager::ioLoadFailsOnUnknownRoot()
 {
     writeAll(work("bad.xml"), "<?xml version=\"1.0\"?><notcalaos/>");
-    QVERIFY(loadIOs(work("bad.xml")));
+    QVERIFY(!loadIOs(work("bad.xml")));
     QCOMPARE(ListeRoom::Instance().size(), 0);
+}
 
+void tst_ProjectManager::ioLoadFailsOnTruncatedFile()
+{
     // Truncated in the middle of the second room.
     writeAll(work("cut.xml"), ioSource(R"(
 <calaos:room name="A" type="salon" hits="1"><calaos:input id="a" type="WITemp"/></calaos:room>
 <calaos:room name="B" type="salon" hits="1"><calaos:input id="b" type="WITemp"/>)"));
-    QVERIFY(loadIOs(work("cut.xml")));
+    QVERIFY(!loadIOs(work("cut.xml")));
     QCOMPARE(ListeRoom::Instance().size(), 2);
     QCOMPARE(ListeRoom::Instance().get_room(1)->get_size_in(), 1);
 }
