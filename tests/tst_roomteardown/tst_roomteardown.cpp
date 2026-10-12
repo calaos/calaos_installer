@@ -25,6 +25,9 @@ struct ProbeIO : public IOBase
         IOBase(params(id), "probe", TBOOL, ioType),
         onDestroy(std::move(cb))
     { }
+    ProbeIO(Params ioParams, int ioType):
+        IOBase(ioParams, "probe", TBOOL, ioType)
+    { }
     ~ProbeIO() override
     {
         if (onDestroy)
@@ -47,6 +50,28 @@ Rule *ruleOnInput(const std::string &name, IOBase *io)
     Rule *r = new Rule(rp);
     Condition *c = new Condition(COND_STD);
     c->Add(io);
+    r->AddCondition(c);
+    return r;
+}
+
+Rule *ruleOnOutputState(const std::string &name, IOBase *io)
+{
+    Params rp;
+    rp.Add("name", name);
+    Rule *r = new Rule(rp);
+    Condition *c = new Condition(COND_OUTPUT);
+    c->setOutput(io);
+    r->AddCondition(c);
+    return r;
+}
+
+Rule *ruleOnScript(const std::string &name, IOBase *io)
+{
+    Params rp;
+    rp.Add("name", name);
+    Rule *r = new Rule(rp);
+    Condition *c = new Condition(COND_SCRIPT);
+    c->addScriptInput(io);
     r->AddCondition(c);
     return r;
 }
@@ -148,6 +173,9 @@ private slots:
     void roomOutsideTheListDestroysAnInOutIOOnce();
     void roomDropsItsRulesBeforeItsIOsDie();
     void roomLeavesTheRulesOfOtherIOsAlone();
+    void rulesOnAnotherIOWithTheSameIdGoWithIt();
+    void rulesMatchLegacyIidAndOid();
+    void emptyIdsNeverMatch();
     void removeFromTheListDestroysTheRoomsIOs();
     void clearDestroysTheRoomsIOs();
 };
@@ -206,7 +234,7 @@ void tst_RoomTeardown::roomDropsItsRulesBeforeItsIOsDie()
 
         auto check = [&](ProbeIO *io)
         {
-            if (rules.searchRuleInput(io) || rules.searchRuleOutput(io))
+            if (rules.searchRuleUsing(io))
                 report += "a rule still references " + io->get_param("id") + " while it dies; ";
         };
 
@@ -223,6 +251,9 @@ void tst_RoomTeardown::roomDropsItsRulesBeforeItsIOsDie()
         rules.Add(ruleOnOutput("on out", out));
         rules.Add(ruleOnInput("on both as input", both));
         rules.Add(ruleOnOutput("on both as output", both));
+        rules.Add(ruleOnOutputState("on out state", out));
+        rules.Add(ruleOnScript("on in script", in));
+        rules.Add(ruleOnOutputState("on both state", both));
         delete room;
 
         if (rules.size() != 0)
@@ -252,6 +283,65 @@ void tst_RoomTeardown::roomLeavesTheRulesOfOtherIOsAlone()
         return "";
     });
     VERIFY_CHILD_OK(res);
+}
+
+Params idParams(const char *id, const char *iid = "", const char *oid = "")
+{
+    Params p;
+    if (*id) p.Add("id", id);
+    if (*iid) p.Add("iid", iid);
+    if (*oid) p.Add("oid", oid);
+    return p;
+}
+
+// The model can hold several IOs under one id; a rule bound to one of them is
+// as good as bound to all.
+void tst_RoomTeardown::rulesOnAnotherIOWithTheSameIdGoWithIt()
+{
+    ListeRule &rules = ListeRule::Instance();
+    ProbeIO first(idParams("dup"), IOBase::IO_INPUT), second(idParams("dup"), IOBase::IO_INPUT);
+    ProbeIO other(idParams("other"), IOBase::IO_INPUT);
+    rules.Add(ruleOnInput("on first", &first));
+    rules.Add(ruleOnInput("on other", &other));
+
+    rules.RemoveRulesUsing(&second);
+
+    QCOMPARE(rules.size(), 1);
+    QVERIFY(rules.searchRuleUsing(&other));
+}
+
+// Rules written for the camera model before the id merge name its iid or oid.
+void tst_RoomTeardown::rulesMatchLegacyIidAndOid()
+{
+    ListeRule &rules = ListeRule::Instance();
+    ProbeIO camera(idParams("cam", "cam_in", "cam_out"), IOBase::IO_BOTH);
+    ProbeIO legacyIn(idParams("cam_in"), IOBase::IO_INPUT);
+    ProbeIO legacyOut(idParams("cam_out"), IOBase::IO_OUTPUT);
+    ProbeIO other(idParams("other", "other_in"), IOBase::IO_INPUT);
+
+    rules.Add(ruleOnInput("legacy in", &legacyIn));
+    rules.Add(ruleOnOutput("legacy out", &legacyOut));
+    rules.Add(ruleOnOutputState("legacy out state", &legacyOut));
+    rules.Add(ruleOnInput("other", &other));
+    rules.RemoveRulesUsing(&camera);
+
+    QCOMPARE(rules.size(), 1);
+    QVERIFY(rules.searchRuleUsing(&other));
+}
+
+// An IO without id is not any other IO without id.
+void tst_RoomTeardown::emptyIdsNeverMatch()
+{
+    ListeRule &rules = ListeRule::Instance();
+    ProbeIO deleted(idParams(""), IOBase::IO_INPUT), bystander(idParams(""), IOBase::IO_INPUT);
+    rules.Add(ruleOnInput("bystander", &bystander));
+    rules.Add(ruleOnInput("deleted", &deleted));
+
+    rules.RemoveRulesUsing(&deleted);
+
+    QCOMPARE(rules.size(), 1);
+    QVERIFY(rules.searchRuleUsing(&bystander));
+    QVERIFY(!rules.searchRuleUsing(&deleted));
 }
 
 void tst_RoomTeardown::removeFromTheListDestroysTheRoomsIOs()

@@ -20,7 +20,6 @@
 ******************************************************************************/
 //-----------------------------------------------------------------------------
 #include <Room.h>
-#include <ListeRoom.h>
 #include <ListeRule.h>
 #include <algorithm>
 //-----------------------------------------------------------------------------
@@ -44,10 +43,7 @@ Room::~Room()
 
     //Rules point at the IOs without owning them: they go first.
     for (IOBase *io: owned)
-    {
-        ListeRule::Instance().RemoveRuleInput(io);
-        ListeRule::Instance().RemoveRuleOutput(io);
-    }
+        ListeRule::Instance().RemoveRulesUsing(io);
 
     for (IOBase *io: owned)
         delete io;
