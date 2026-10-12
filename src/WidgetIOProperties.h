@@ -86,7 +86,7 @@ private:
     void createIOProperties();
     void updateChangedParam(const string &prop, const QString value, const QString pvalue, QLabel *title, QPushButton *revert);
     void setValues(Params& params);
-    void flagOutOfRange(QAbstractSpinBox *w, QLabel *title, const QString &value, const QString &min, const QString &max);
+    void flagOutOfRange(QAbstractSpinBox *w, QLabel *title, const QString &value, const QString &range);
 };
 
 #endif // WIDGETIOPROPERTIES_H

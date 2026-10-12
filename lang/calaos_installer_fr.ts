@@ -4981,7 +4981,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../data/FormDaliMaster.ui" line="186"/>
         <source>Edit</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Édition</translation>
     </message>
     <message>
         <location filename="../data/FormDaliMaster.ui" line="197"/>
@@ -5531,7 +5531,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/formrules.cpp" line="602"/>
         <source>Remote UI</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Remote UI</translation>
     </message>
     <message>
         <location filename="../src/formrules.cpp" line="604"/>
@@ -6018,25 +6018,26 @@ p, li { white-space: pre-wrap; }
     <name>MainWindow</name>
     <message>
         <location filename="../data/MainWindow.ui" line="14"/>
-        <location filename="../src/mainwindow.cpp" line="21"/>
-        <location filename="../src/mainwindow.cpp" line="173"/>
-        <location filename="../src/mainwindow.cpp" line="209"/>
-        <location filename="../src/mainwindow.cpp" line="279"/>
-        <location filename="../src/mainwindow.cpp" line="293"/>
-        <location filename="../src/mainwindow.cpp" line="323"/>
-        <location filename="../src/mainwindow.cpp" line="451"/>
-        <location filename="../src/mainwindow.cpp" line="496"/>
-        <location filename="../src/mainwindow.cpp" line="499"/>
-        <location filename="../src/mainwindow.cpp" line="502"/>
-        <location filename="../src/mainwindow.cpp" line="505"/>
-        <location filename="../src/mainwindow.cpp" line="529"/>
-        <location filename="../src/mainwindow.cpp" line="593"/>
-        <location filename="../src/mainwindow.cpp" line="603"/>
-        <location filename="../src/mainwindow.cpp" line="701"/>
-        <location filename="../src/mainwindow.cpp" line="704"/>
-        <location filename="../src/mainwindow.cpp" line="709"/>
-        <location filename="../src/mainwindow.cpp" line="770"/>
-        <location filename="../src/mainwindow.cpp" line="776"/>
+        <location filename="../src/mainwindow.cpp" line="22"/>
+        <location filename="../src/mainwindow.cpp" line="174"/>
+        <location filename="../src/mainwindow.cpp" line="210"/>
+        <location filename="../src/mainwindow.cpp" line="281"/>
+        <location filename="../src/mainwindow.cpp" line="290"/>
+        <location filename="../src/mainwindow.cpp" line="304"/>
+        <location filename="../src/mainwindow.cpp" line="334"/>
+        <location filename="../src/mainwindow.cpp" line="462"/>
+        <location filename="../src/mainwindow.cpp" line="507"/>
+        <location filename="../src/mainwindow.cpp" line="510"/>
+        <location filename="../src/mainwindow.cpp" line="513"/>
+        <location filename="../src/mainwindow.cpp" line="516"/>
+        <location filename="../src/mainwindow.cpp" line="540"/>
+        <location filename="../src/mainwindow.cpp" line="604"/>
+        <location filename="../src/mainwindow.cpp" line="614"/>
+        <location filename="../src/mainwindow.cpp" line="712"/>
+        <location filename="../src/mainwindow.cpp" line="715"/>
+        <location filename="../src/mainwindow.cpp" line="720"/>
+        <location filename="../src/mainwindow.cpp" line="781"/>
+        <location filename="../src/mainwindow.cpp" line="787"/>
         <source>Calaos Installer</source>
         <translation></translation>
     </message>
@@ -6326,52 +6327,57 @@ hr { height: 1px; border-width: 0; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="59"/>
-        <location filename="../src/mainwindow.cpp" line="441"/>
+        <location filename="../src/mainwindow.cpp" line="60"/>
+        <location filename="../src/mainwindow.cpp" line="452"/>
         <source>Disconnected.</source>
         <translation>Déconnecté.</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="72"/>
+        <location filename="../src/mainwindow.cpp" line="73"/>
         <source>New</source>
         <translation>Nouveau</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="174"/>
-        <location filename="../src/mainwindow.cpp" line="210"/>
-        <location filename="../src/mainwindow.cpp" line="294"/>
-        <location filename="../src/mainwindow.cpp" line="324"/>
+        <location filename="../src/mainwindow.cpp" line="175"/>
+        <location filename="../src/mainwindow.cpp" line="211"/>
+        <location filename="../src/mainwindow.cpp" line="305"/>
+        <location filename="../src/mainwindow.cpp" line="335"/>
         <source>The project was modified, do you want to save it?</source>
         <translation>Le projet a été modifé, souhaitez vous l&apos;enregistrer?</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="194"/>
-        <location filename="../src/mainwindow.cpp" line="301"/>
+        <location filename="../src/mainwindow.cpp" line="195"/>
+        <location filename="../src/mainwindow.cpp" line="312"/>
         <source>Choose a project folder...</source>
         <translation>Choisir un dossier de projet...</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="222"/>
+        <location filename="../src/mainwindow.cpp" line="223"/>
         <source>Nouveau</source>
         <translation>Nouveau</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="247"/>
+        <location filename="../src/mainwindow.cpp" line="248"/>
         <source>Project saved: %1</source>
         <translation>Projet enregistré: %1</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="255"/>
+        <location filename="../src/mainwindow.cpp" line="256"/>
         <source>Loading in progress...</source>
         <translation>Chargement en cours...</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="272"/>
+        <location filename="../src/mainwindow.cpp" line="275"/>
         <source>Project loaded: %1</source>
         <translation>Projet chargé: %1</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="280"/>
+        <location filename="../src/mainwindow.cpp" line="282"/>
+        <source>The file %1 is not valid or is truncated. Only part of the project could be loaded: saving now would overwrite the original file with this incomplete data.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.cpp" line="291"/>
         <source>Some rules use inputs or outputs that do not exist in this project:
 
 %1
@@ -6380,32 +6386,32 @@ Those references have been kept as they are, so saving the project will not dest
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="382"/>
+        <location filename="../src/mainwindow.cpp" line="393"/>
         <source>Please wait...</source>
         <translation>Veuillez patienter...</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="386"/>
+        <location filename="../src/mainwindow.cpp" line="397"/>
         <source>Creating %p%</source>
         <translation>Création %p%</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="390"/>
+        <location filename="../src/mainwindow.cpp" line="401"/>
         <source>Loading PLC %p%</source>
         <translation>Chargement automate %p%</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="394"/>
+        <location filename="../src/mainwindow.cpp" line="405"/>
         <source>Canceled</source>
         <translation>Annulé</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="428"/>
+        <location filename="../src/mainwindow.cpp" line="439"/>
         <source>Connected (%1)</source>
         <translation>Connecté (%1)</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="452"/>
+        <location filename="../src/mainwindow.cpp" line="463"/>
         <source>The WAGO PLC have to be upgraded.
 
 It is actually running the version %1, the last version is %2.
@@ -6420,74 +6426,74 @@ Vous pouvez le faire maintenant, et l&apos;automate sera réinitialisé.
 Voulez-vous le faire maintenant?</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="496"/>
+        <location filename="../src/mainwindow.cpp" line="507"/>
         <source>Connection failed!</source>
         <translation>La connection a échoué!</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="499"/>
+        <location filename="../src/mainwindow.cpp" line="510"/>
         <source>Wago PLC is not connected!</source>
         <translation>L&apos;automate Wago n&apos;est pas connecté!</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="502"/>
+        <location filename="../src/mainwindow.cpp" line="513"/>
         <source>Wait timeout reached, error in communication!</source>
         <translation>Le délai d&apos;attente de la réponse est dépassé ! Erreur dans la réponse!</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="505"/>
+        <location filename="../src/mainwindow.cpp" line="516"/>
         <source>Unknown error!</source>
         <translation>Une erreur inconnue est survenue !</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="529"/>
+        <location filename="../src/mainwindow.cpp" line="540"/>
         <source>DALI configuration tool is not available on your PLC!</source>
         <translation>L&apos;adressage DALI n&apos;est pas supporté sur votre automate!</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="594"/>
+        <location filename="../src/mainwindow.cpp" line="605"/>
         <source>Your PLC can be upgraded to the latest version right now, do it?</source>
         <translation>L&apos;automate peut être mis à jour à la dernière version.
 
 Voulez-vous le faire maintenant?</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="603"/>
+        <location filename="../src/mainwindow.cpp" line="614"/>
         <source>Wago PLC upgrade not supported on your PLC!</source>
         <translation>La mise à jour n&apos;est pas supporté sur votre automate!</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="681"/>
+        <location filename="../src/mainwindow.cpp" line="692"/>
         <source>Please enter the IP address of the DMX4ALL:</source>
         <translation>Entrez l&apos;adresse IP du DMX4ALL :</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="701"/>
+        <location filename="../src/mainwindow.cpp" line="712"/>
         <source>IP Address changed successfully</source>
         <translation>Adresse IP changée avec succès</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="704"/>
+        <location filename="../src/mainwindow.cpp" line="715"/>
         <source>Wrong IP Address!</source>
         <translation>Mauvaise adresse IP !</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="709"/>
+        <location filename="../src/mainwindow.cpp" line="720"/>
         <source>DMX4ALL configuration is not available on your PLC!</source>
         <translation>La configuration DMX4ALL n&apos;est pas disponible sur votre automate !</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="733"/>
+        <location filename="../src/mainwindow.cpp" line="744"/>
         <source>Wago Codesys Boot Files (*.PRG *.CHK)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="770"/>
+        <location filename="../src/mainwindow.cpp" line="781"/>
         <source>Too many files selected, please select only one .PRG and one .CHK file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="776"/>
+        <location filename="../src/mainwindow.cpp" line="787"/>
         <source>Not all required files selected, please select one .PRG and one .CHK file</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6597,32 +6603,32 @@ Voulez-vous le faire maintenant?</translation>
         <translation>Ce fichier n&apos;est pas formaté correctement!</translation>
     </message>
     <message>
-        <location filename="../src/projectmanager.cpp" line="631"/>
+        <location filename="../src/projectmanager.cpp" line="633"/>
         <source>Input with id &quot;%1&quot; already exists!</source>
         <translation>L&apos;entrée avec l&apos;id &quot;%1&quot; existe déjà!</translation>
     </message>
     <message>
-        <location filename="../src/projectmanager.cpp" line="761"/>
+        <location filename="../src/projectmanager.cpp" line="765"/>
         <source>Output with id &quot;%1&quot; already exists!</source>
         <translation>La sortie avec l&apos;id &quot;%1&quot; existe déjà!</translation>
     </message>
     <message>
-        <location filename="../src/projectmanager.cpp" line="1022"/>
+        <location filename="../src/projectmanager.cpp" line="1026"/>
         <source>Missing IO (%1)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/projectmanager.cpp" line="1049"/>
+        <location filename="../src/projectmanager.cpp" line="1053"/>
         <source>... and %1 more (the full list is written to the application log)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/projectmanager.cpp" line="1056"/>
+        <location filename="../src/projectmanager.cpp" line="1060"/>
         <source>input</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/projectmanager.cpp" line="1056"/>
+        <location filename="../src/projectmanager.cpp" line="1060"/>
         <source>output</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6657,6 +6663,26 @@ Voulez-vous le faire maintenant?</translation>
 The wizard is going to create 2 rules that would start or stop the heating system from the setpoint value. Those rules will not have any actions, you need to add them yourself.</source>
         <translation>Attention!
 L&apos;assistant va créer les 2 règles qui vont démarrer ou arrêter le chauffage en fonction de la consigne. Ces règles ne comportent aucune action, vous devrez les ajouter par vous même.</translation>
+    </message>
+    <message>
+        <location filename="../src/WidgetIOProperties.cpp" line="28"/>
+        <source>%1 to %2</source>
+        <translation>%1 à %2</translation>
+    </message>
+    <message>
+        <location filename="../src/WidgetIOProperties.cpp" line="30"/>
+        <source>at least %1</source>
+        <translation>au moins %1</translation>
+    </message>
+    <message>
+        <location filename="../src/WidgetIOProperties.cpp" line="32"/>
+        <source>at most %1</source>
+        <translation>au plus %1</translation>
+    </message>
+    <message>
+        <location filename="../src/WidgetIOProperties.cpp" line="33"/>
+        <source>no documented bound</source>
+        <translation>aucune borne documentée</translation>
     </message>
 </context>
 <context>
@@ -6919,12 +6945,17 @@ L&apos;assistant va créer les 2 règles qui vont démarrer ou arrêter le chauf
         <translation>Paramètres optionnels</translation>
     </message>
     <message>
-        <location filename="../src/WidgetIOProperties.cpp" line="60"/>
+        <location filename="../src/WidgetIOProperties.cpp" line="86"/>
+        <source>The stored value %1 is outside the documented range (%2). It is kept as is unless you change it.</source>
+        <translation>La valeur enregistrée %1 est hors de la plage documentée (%2). Elle est conservée telle quelle tant que vous ne la modifiez pas.</translation>
+    </message>
+    <message>
+        <location filename="../src/WidgetIOProperties.cpp" line="103"/>
         <source>Error</source>
         <translation>Erreur</translation>
     </message>
     <message>
-        <location filename="../src/WidgetIOProperties.cpp" line="60"/>
+        <location filename="../src/WidgetIOProperties.cpp" line="103"/>
         <source>IO type %1 is not found in IO documentation</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6941,7 +6972,7 @@ L&apos;assistant va créer les 2 règles qui vont démarrer ou arrêter le chauf
         <translation type="vanished">L&apos;entrée/Sortie %1 est introuvable dans %2</translation>
     </message>
     <message>
-        <location filename="../src/WidgetIOProperties.cpp" line="100"/>
+        <location filename="../src/WidgetIOProperties.cpp" line="143"/>
         <source>Revert modification</source>
         <translation>Annuler les modification</translation>
     </message>
