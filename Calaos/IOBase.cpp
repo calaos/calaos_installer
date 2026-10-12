@@ -20,8 +20,15 @@
 ******************************************************************************/
 #include <IOBase.h>
 #include <IOFactory.h>
+#include <Device.h>
 
 using namespace Calaos;
+
+IOBase::~IOBase()
+{
+    if (ownerDevice)
+        ownerDevice->releaseIO(this);
+}
 
 /* Declare input class/type */
 REGISTER_INPUT(InputTime, "time", TBOOL, "true")

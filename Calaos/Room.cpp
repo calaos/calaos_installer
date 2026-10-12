@@ -53,9 +53,16 @@ Room::~Room()
 std::vector<Device *> Room::get_devices()
 {
     std::vector<Device *> res;
-    for (IOBase *io: inputs)
-        if (Device *dev = dynamic_cast<Device *>(io))
+    auto collect = [&res](IOBase *io)
+    {
+        Device *dev = dynamic_cast<Device *>(io);
+        if (dev && std::find(res.begin(), res.end(), dev) == res.end())
             res.push_back(dev);
+    };
+    for (IOBase *io: inputs)
+        collect(io);
+    for (IOBase *io: outputs)
+        collect(io);
     return res;
 }
 //-----------------------------------------------------------------------------

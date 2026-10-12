@@ -38,8 +38,6 @@ private:
     void readUnknownChildren(IOBase *io);
     QString readRawElement();
 
-    // RemoteUI support
-    QString readRemoteUIPagesElement();
 };
 
 class IOXmlWriter: public QXmlStreamWriter

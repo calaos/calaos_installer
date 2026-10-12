@@ -33,6 +33,8 @@ using namespace Utils;
 namespace Calaos
 {
 
+class Device;
+
 class IOBase
 {
 private:
@@ -45,8 +47,10 @@ private:
     //Child elements the reader does not know, written back as they were read
     QStringList unknownXml;
 
-    //Id of the <calaos:device> this IO is declared in, empty for a free IO
-    string ownerDevice;
+    //The <calaos:device> this IO is declared in, kept in sync by Device in
+    //both directions so that either side may be destroyed first.
+    Device *ownerDevice = nullptr;
+    friend class Device;
 
     double dvalue = 1.234;
     bool bvalue = true;
@@ -70,7 +74,11 @@ public:
     {
         range_months.set();
     }
-    virtual ~IOBase() { }
+    virtual ~IOBase();
+
+    //The device/IO links are not copyable.
+    IOBase(const IOBase &) = delete;
+    IOBase &operator=(const IOBase &) = delete;
 
     virtual DATA_TYPE get_type() { return basic_type; }
 
@@ -103,8 +111,7 @@ public:
     const QStringList &getUnknownXml() const { return unknownXml; }
     void addUnknownXml(const QString &xml) { unknownXml.append(xml); }
 
-    const string &getOwnerDevice() const { return ownerDevice; }
-    void setOwnerDevice(const string &id) { ownerDevice = id; }
+    Device *getOwnerDevice() const { return ownerDevice; }
 
     //For time ranges
     vector<TimeRange> range_monday;

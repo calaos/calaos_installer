@@ -394,6 +394,7 @@ private slots:
     void ioUnknownHomeChildIsKept();
     void ioUnknownChildrenOfEveryIoKindAreKept();
     void ioUnknownTextCdataAndNamespacesAreKept();
+    void ioUnknownDefaultNamespaceAndCommentsAreKept();
     void ioUnknownElementsInTimeRangesAreSkippedWhole();
     void ioAllIoKindsRoundTrip();
     void ioFactoryDefaultsAreWritten();
@@ -766,6 +767,39 @@ R"(        <calaos:room name="R" type="salon" hits="1">
                 <ext:sub/>
             </ext:thing>
             <plain a="1"/>
+        </calaos:room>
+)");
+    QCOMPARE(ioThroughModel(src), expected);
+    QCOMPARE(ioThroughModel(expected.toUtf8()), expected);
+}
+
+// A namespace declared by an unknown element is its own, even as the first
+// child of its parent: the next sibling must stay in the calaos namespace.
+// Comments inside it are kept.
+void tst_ProjectManager::ioUnknownDefaultNamespaceAndCommentsAreKept()
+{
+    QByteArray src = ioSource(R"(
+<calaos:room name="R" type="salon" hits="1">
+  <cfg xmlns="urn:cfg" a="1"><!-- note --><item b="2"/></cfg>
+  <calaos:next/>
+</calaos:room>
+<calaos:room name="S" type="salon" hits="1">
+  <calaos:input id="i" type="WITemp" name="i" host="h" port="502" var="0"><x:e xmlns:x="urn:x"/><calaos:f/></calaos:input>
+</calaos:room>)");
+
+    QString expected = ioDoc(
+R"(        <calaos:room name="R" type="salon" hits="1">
+            <cfg xmlns="urn:cfg" a="1">
+                <!-- note -->
+                <item b="2"/>
+            </cfg>
+            <calaos:next/>
+        </calaos:room>
+        <calaos:room name="S" type="salon" hits="1">
+            <calaos:input host="h" id="i" name="i" port="502" type="WITemp" var="0">
+                <x:e xmlns:x="urn:x"/>
+                <calaos:f/>
+            </calaos:input>
         </calaos:room>
 )");
     QCOMPARE(ioThroughModel(src), expected);
