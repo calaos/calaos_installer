@@ -57,6 +57,10 @@ struct UiObject
     QSpinBox* spinBox = nullptr;
     QDoubleSpinBox* doubleSpinBox = nullptr;
     QComboBox* comboBox = nullptr;
+
+    // Spin boxes only: what flagOutOfRange() needs to flag a value set later.
+    QLabel* title = nullptr;
+    QString docRange;
 };
 
 class WidgetIOProperties : public QWidget
