@@ -37,6 +37,9 @@ public:
     void ShowPage(int page = PAGE_ABOUT);
 
     bool Save(QString path = QString());
+    bool saveChangesIfWanted();
+    bool saveProject();
+    bool saveProjectAs();
     void Load(QString path = QString());
 
     FormRules *getFormRules();

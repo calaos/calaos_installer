@@ -168,18 +168,12 @@ void MainWindow::projectChanged(bool changed)
 
 void MainWindow::closeEvent(QCloseEvent *event)
 {
-    if (ui->widgetRules->projectChanged())
+    if (!saveChangesIfWanted())
     {
-        QMessageBox::StandardButton reply;
-        reply = QMessageBox::question(this, tr("Calaos Installer"),
-                                      tr("The project was modified, do you want to save it?"),
-                                      QMessageBox::Yes | QMessageBox::No);
-
-        if (reply == QMessageBox::Yes)
-            on_actionSave_triggered();
-
-        event->accept();
+        event->ignore();
+        return;
     }
+    event->accept();
 
     ConfigOptions::Instance().setOption("MainWindow/size", size());
     ConfigOptions::Instance().setOption("MainWindow/pos", pos());
@@ -190,38 +184,58 @@ void MainWindow::closeEvent(QCloseEvent *event)
     ConfigOptions::Instance().saveConfig();
 }
 
-void MainWindow::on_actionSaveProject_triggered()
+//False when the user chose to save and the save did not happen: the caller
+//must not go on and lose the changes.
+bool MainWindow::saveChangesIfWanted()
+{
+    if (!ui->widgetRules->projectChanged())
+        return true;
+
+    QMessageBox::StandardButton reply;
+    reply = QMessageBox::question(this, tr("Calaos Installer"),
+                                  tr("The project was modified, do you want to save it?"),
+                                  QMessageBox::Yes | QMessageBox::No);
+
+    return reply != QMessageBox::Yes || saveProject();
+}
+
+bool MainWindow::saveProject()
+{
+    if (project_path.isEmpty() || project_path == "new")
+        return saveProjectAs();
+
+    return Save();
+}
+
+bool MainWindow::saveProjectAs()
 {
     //Before the folder dialog, so that the project path is left alone.
     QString readOnly = ProjectManager::readOnlyReason();
     if (!readOnly.isEmpty())
     {
         QMessageBox::critical(this, tr("Calaos Installer"), readOnly);
-        return;
+        return false;
     }
 
     QString dir = QFileDialog::getExistingDirectory(this, tr("Choose a project folder..."),
                                                     QDir::homePath(),
                                                     QFileDialog::ShowDirsOnly
                                                     | QFileDialog::DontResolveSymlinks);
+    if (dir.isEmpty())
+        return false;
 
-    project_path = dir;
+    return Save(dir);
+}
 
-    Save();
+void MainWindow::on_actionSaveProject_triggered()
+{
+    saveProjectAs();
 }
 
 void MainWindow::on_actionNewProject_triggered()
 {
-    if (ui->widgetRules->projectChanged())
-    {
-        QMessageBox::StandardButton reply;
-        reply = QMessageBox::question(this, tr("Calaos Installer"),
-                                      tr("The project was modified, do you want to save it?"),
-                                      QMessageBox::Yes | QMessageBox::No);
-
-        if (reply == QMessageBox::Yes)
-            on_actionSave_triggered();
-    }
+    if (!saveChangesIfWanted())
+        return;
 
     ListeRule::Instance().clear();
     ListeRoom::Instance().clear();
@@ -234,10 +248,7 @@ void MainWindow::on_actionNewProject_triggered()
 
 void MainWindow::on_actionSave_triggered()
 {
-    if (project_path.isEmpty() || project_path == "new")
-        on_actionSaveProject_triggered();
-    else
-        Save();
+    saveProject();
 }
 
 bool MainWindow::Save(QString path)
@@ -249,19 +260,19 @@ bool MainWindow::Save(QString path)
         return false;
     }
 
-    if (!path.isEmpty())
-        project_path = path;
-
-    QString iofile = project_path + "/io.xml";
-    QString rulefile = project_path + "/rules.xml";
+    //The project only moves once it is written there.
+    QString target = path.isEmpty() ? project_path : path;
+    QString iofile = target + "/io.xml";
+    QString rulefile = target + "/rules.xml";
 
     if (!ProjectManager::saveIOsToFile(iofile) || !ProjectManager::saveRulesToFile(rulefile))
     {
         QMessageBox::critical(this, tr("Calaos Installer"),
-                              tr("The project could not be written to %1.").arg(project_path));
+                              tr("The project could not be written to %1.").arg(target));
         return false;
     }
 
+    project_path = target;
     ui->widgetRules->setProjectModified(false);
 
     statusBar()->showMessage(QString(tr("Project saved: %1")).arg(project_path), 3000);
@@ -323,16 +334,8 @@ void MainWindow::Load(QString path)
 
 void MainWindow::on_actionLoadProject_triggered()
 {
-    if (ui->widgetRules->projectChanged())
-    {
-        QMessageBox::StandardButton reply;
-        reply = QMessageBox::question(this, tr("Calaos Installer"),
-                                      tr("The project was modified, do you want to save it?"),
-                                      QMessageBox::Yes | QMessageBox::No);
-
-        if (reply == QMessageBox::Yes)
-            on_actionSave_triggered();
-    }
+    if (!saveChangesIfWanted())
+        return;
 
     QString dir = QFileDialog::getExistingDirectory(this, tr("Choose a project folder..."),
                                                     QDir::homePath(),
@@ -353,16 +356,8 @@ void MainWindow::on_actionLoadProject_triggered()
 
 void MainWindow::on_actionOuvrir_un_projet_en_ligne_triggered()
 {
-    if (ui->widgetRules->projectChanged())
-    {
-        QMessageBox::StandardButton reply;
-        reply = QMessageBox::question(this, tr("Calaos Installer"),
-                                      tr("The project was modified, do you want to save it?"),
-                                      QMessageBox::Yes | QMessageBox::No);
-
-        if (reply == QMessageBox::Yes)
-            on_actionSave_triggered();
-    }
+    if (!saveChangesIfWanted())
+        return;
 
     DialogOpenOnline dopen(tempDir.path());
 

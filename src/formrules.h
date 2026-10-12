@@ -143,6 +143,7 @@ public slots:
     void showPopup_action(const QPoint point);
     void showPopup_rule(const QPoint point);
     void deleteItem();
+    void removeIOItems(const std::vector<IOBase *> &ios);
     void deleteItemCondition();
     void deleteItemAction();
     void goSelectRule();
