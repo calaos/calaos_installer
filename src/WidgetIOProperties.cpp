@@ -3,6 +3,26 @@
 #include "IODoc.h"
 #include <QCheckBox>
 
+namespace
+{
+
+// A stored value outside the schema range must stay editable and revertible as is:
+// QAbstractSpinBox clamps silently on setValue(), and the revert button would then
+// write the clamped bound over the stored value.
+template<class T>
+bool widenToStoredValue(T &minV, T &maxV, T stored)
+{
+    if (stored >= minV && stored <= maxV)
+        return false;
+    minV = qMin(minV, stored);
+    maxV = qMax(maxV, stored);
+    return true;
+}
+
+const char *s_outOfRangeStyle = "QAbstractSpinBox { background-color: #ffe8b3; color: black; }";
+
+}
+
 WidgetIOProperties::WidgetIOProperties(const Params &p, bool _editable, QWidget *parent) :
     QWidget(parent),
     ui(new Ui::WidgetIOProperties),
@@ -45,6 +65,15 @@ void WidgetIOProperties::updateChangedParam(const string &prop, const QString va
         else
             changedParams.Delete(prop);
     }
+}
+
+void WidgetIOProperties::flagOutOfRange(QAbstractSpinBox *w, QLabel *title, const QString &value, const QString &min, const QString &max)
+{
+    QString tip = tr("The stored value %1 is outside the documented range %2 to %3. "
+                     "It is kept as is unless you change it.").arg(value, min, max);
+    w->setToolTip(tip);
+    title->setToolTip(tip);
+    w->setStyleSheet(s_outOfRangeStyle);
 }
 
 void WidgetIOProperties::createIOProperties()
@@ -156,14 +185,16 @@ void WidgetIOProperties::createIOProperties()
         {
             QSpinBox *w = new QSpinBox();
             w->setEnabled(jparam["readonly"].toString() != "true" && editable);
-            if (!jparam["min"].toString().isEmpty())
-                w->setMinimum(jparam["min"].toString().toInt());
-            else
-                w->setMinimum(-999999999);
-            if (!jparam["max"].toString().isEmpty())
-                w->setMaximum(jparam["max"].toString().toInt());
-            else
-                w->setMaximum(999999999);
+            int minV = jparam["min"].toString().isEmpty() ? -999999999 : jparam["min"].toString().toInt();
+            int maxV = jparam["max"].toString().isEmpty() ? 999999999 : jparam["max"].toString().toInt();
+            const QString docMin = QString::number(minV), docMax = QString::number(maxV);
+            bool parsed = false;
+            int storedV = pvalue.toInt(&parsed);
+            // Only a value read from io.xml is kept; a schema default is still clamped.
+            if (params.Exists(prop) && parsed && widenToStoredValue(minV, maxV, storedV))
+                flagOutOfRange(w, title, pvalue, docMin, docMax);
+            w->setMinimum(minV);
+            w->setMaximum(maxV);
             w->setValue(pvalue.toInt());
             layout->addWidget(w, row, 2);
 
@@ -186,14 +217,15 @@ void WidgetIOProperties::createIOProperties()
         {
             QDoubleSpinBox *w = new QDoubleSpinBox();
             w->setEnabled(jparam["readonly"].toString() != "true" && editable);
-            if (!jparam["min"].toString().isEmpty())
-                w->setMinimum(jparam["min"].toString().toDouble());
-            else
-                w->setMinimum(-999999999.0);
-            if (!jparam["max"].toString().isEmpty())
-                w->setMaximum(jparam["max"].toString().toDouble());
-            else
-                w->setMaximum(999999999.0);
+            double minV = jparam["min"].toString().isEmpty() ? -999999999.0 : jparam["min"].toString().toDouble();
+            double maxV = jparam["max"].toString().isEmpty() ? 999999999.0 : jparam["max"].toString().toDouble();
+            const QString docMin = QString::number(minV), docMax = QString::number(maxV);
+            bool parsed = false;
+            double storedV = pvalue.toDouble(&parsed);
+            if (params.Exists(prop) && parsed && widenToStoredValue(minV, maxV, storedV))
+                flagOutOfRange(w, title, pvalue, docMin, docMax);
+            w->setMinimum(minV);
+            w->setMaximum(maxV);
             w->setValue(pvalue.toDouble());
             layout->addWidget(w, row, 2);
             w->setDecimals(3);
