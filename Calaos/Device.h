@@ -18,32 +18,31 @@ struct DeviceLink
 
 // <calaos:device>. It is an IO itself, listed in its room as both input and
 // output like the server's, so that rules can target it. Its owned IOs are
-// ordinary IOs of the room tagged with the device id: the device holds no
-// pointer to them, so deleting or moving one through the existing IO paths
-// cannot leave anything dangling here.
+// ordinary IOs of the room; ownership is by object, not by id, so an empty or
+// duplicated device id cannot hand them to another device.
 class Device: public IOBase
 {
 public:
     explicit Device(Params &p);
+    ~Device() override;
 
+    //Used by the tree and the wizard to pick widgets and templates.
     std::string family() { return get_param("type"); }
     std::string impl() { return get_param("impl"); }
 
-    //Renaming the device carries its owned IOs along.
-    void set_param(std::string opt, std::string val) override;
-
-    //In file order. Empty for a second device reusing the id of a first one,
-    //which keeps the tagged IOs: they would otherwise be written twice.
-    std::vector<IOBase *> ownedIos();
+    //In file order.
+    const std::vector<IOBase *> &ownedIos() const { return m_ownedIos; }
+    //Takes io from its previous device, if any. Devices do not nest.
     bool adoptIO(IOBase *io);
+    void releaseIO(IOBase *io);
 
     std::vector<DeviceLink> &links() { return m_links; }
     std::vector<std::pair<std::string, std::string>> &deviceParams() { return m_deviceParams; }
 
 private:
+    std::vector<IOBase *> m_ownedIos;
     std::vector<DeviceLink> m_links;
     std::vector<std::pair<std::string, std::string>> m_deviceParams;
-    std::vector<std::string> m_ioOrder;
 };
 
 }

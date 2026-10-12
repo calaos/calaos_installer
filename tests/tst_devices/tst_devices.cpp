@@ -308,9 +308,12 @@ private slots:
     void deletingDeviceLeavesNoRuleOnItsIos();
     void deletingOwnedIoKeepsDeviceAndLink();
     void renamingDeviceKeepsItsIos();
+    void deviceKeepsItsPlaceAmongIos();
+    void deviceListedOnlyAsOutputIsWrittenOnce();
     void ownedIoMovedToAnotherRoomStaysInItsDevice();
-    void ownerWithoutDeviceIsWrittenInItsRoom();
-    void duplicateDeviceIdWritesIosOnce();
+    void ioOutlivingItsDeviceIsWrittenInItsRoom();
+    void duplicateDeviceIdsKeepTheirOwnIos();
+    void emptyDeviceIdKeepsItsIos();
     void adoptRefusesDevicesAndNull();
     void createDeviceGeneratesUniqueIds();
 };
@@ -380,7 +383,7 @@ void tst_Devices::specExampleModel()
     QCOMPARE(ids(ac->ownedIos()), QStringList({ "salon_ac_mode", "salon_ac_mode_cmd", "salon_ac_current",
                                                 "salon_ac_target", "salon_ac_action", "salon_ac_remotetemp" }));
     for (IOBase *io: ac->ownedIos())
-        QCOMPARE(u(io->getOwnerDevice()), QString("salon_ac"));
+        QCOMPARE(io->getOwnerDevice(), ac);
 
     QCOMPARE(int(ac->links().size()), 6);
     QCOMPARE(u(ac->links()[0].name), QString("mode"));
@@ -403,7 +406,7 @@ void tst_Devices::specExampleModel()
                                    "min_range", "sensor_timeout", "humidity_max" }));
 
     // The external sensor stays a free IO, linked by both devices.
-    QCOMPARE(u(lr.get_input("salon_temp")->getOwnerDevice()), QString());
+    QVERIFY(lr.get_input("salon_temp")->getOwnerDevice() == nullptr);
     QVERIFY(lr.get_device("salon_temp") == nullptr);
     QVERIFY(lr.get_device("") == nullptr);
 }
@@ -455,7 +458,6 @@ void tst_Devices::unknownDeviceChildrenAreKept()
 
     QString expected = ioDoc(
 R"(        <calaos:room name="R" type="salon" hits="1">
-            <calaos:input host="h" id="after" name="after" port="502" type="WITemp" var="0"/>
             <calaos:device id="d" impl="proxy" name="d" type="climate">
                 <calaos:input host="h" id="d_in" name="in" port="502" type="WITemp" var="0"/>
                 <calaos:link name="current_temp" io="d_in"/>
@@ -467,6 +469,7 @@ R"(        <calaos:room name="R" type="salon" hits="1">
                     <calaos:input id="inner_in" type="WITemp"/>
                 </calaos:device>
             </calaos:device>
+            <calaos:input host="h" id="after" name="after" port="502" type="WITemp" var="0"/>
         </calaos:room>
 )", kFormat2);
     QCOMPARE(ioThroughModel(src), expected);
@@ -530,6 +533,13 @@ void tst_Devices::formatSupport()
     QVERIFY(load(ioSource(R"(<calaos:room name="R" type="salon" hits="1"/>)", attrs)));
     QCOMPARE(ListeRoom::Instance().getLoadedFormat(), format.isNull() ? QString("") : format);
     QCOMPARE(ListeRoom::Instance().isReadOnly(), !supported);
+
+    // A format that is not a newer one is not reported as such.
+    QString reason = ProjectManager::readOnlyReason();
+    bool newer = format.toInt() > ListeRoom::IO_FORMAT_SUPPORTED;
+    QCOMPARE(reason.isEmpty(), supported);
+    QCOMPARE(reason.contains("only knows up to format 2"), !supported && newer);
+    QCOMPARE(reason.contains(QString("invalid format \"%1\"").arg(format)), !supported && !newer);
 }
 
 // Saving rebuilds the files from the model: for a format it does not know,
@@ -583,6 +593,10 @@ void tst_Devices::deletingDeviceDeletesOwnedIosAndTheirRules()
     ListeRoom &lr = ListeRoom::Instance();
     Device *dev = lr.get_device("dev");
     QVERIFY(dev);
+
+    std::vector<IOBase *> gone = ListeRoom::iosDeletedWith(dev);
+    QCOMPARE(ids(gone), QStringList({ "dev", "dev_target", "dev_in", "dev_out" }));
+    QCOMPARE(ids(ListeRoom::iosDeletedWith(lr.get_input("ext"))), QStringList({ "ext" }));
 
     QVERIFY(asInput ? lr.deleteIOInput(dev) : lr.deleteIOOutput(dev));
 
@@ -678,14 +692,61 @@ void tst_Devices::renamingDeviceKeepsItsIos()
     QVERIFY(lr.get_device("dev") == nullptr);
     QCOMPARE(lr.get_device("dev2"), dev);
     QCOMPARE(ids(dev->ownedIos()), QStringList({ "dev_target", "dev_in", "dev_out" }));
-    QCOMPARE(u(lr.get_input("dev_in")->getOwnerDevice()), QString("dev2"));
+    QCOMPARE(lr.get_input("dev_in")->getOwnerDevice(), dev);
 
     QString written = QString::fromUtf8(saveIOs("dst.xml"));
     QVERIFY(written.contains(R"(<calaos:device id="dev2" impl="thermostat" name="renamed" type="climate">
                 <calaos:internal id="dev_target")"));
 }
 
-// Ownership is the tag, not the room: the IO is still written inside its
+// Like the server, which keeps a device where it stands in the room: the first
+// save already gives the order every later save keeps.
+void tst_Devices::deviceKeepsItsPlaceAmongIos()
+{
+    QString expected = ioDoc(
+R"(        <calaos:room name="R" type="salon" hits="1">
+            <calaos:input host="h" id="a" name="a" port="502" type="WITemp" var="0"/>
+            <calaos:device id="d" impl="proxy" name="d" type="climate">
+                <calaos:input host="h" id="d_in" name="in" port="502" type="WITemp" var="0"/>
+            </calaos:device>
+            <calaos:input host="h" id="b" name="b" port="502" type="WITemp" var="0"/>
+            <calaos:device id="e" impl="proxy" name="e" type="climate"/>
+            <calaos:output host="h" id="o" name="o" port="502" type="WODigital"/>
+        </calaos:room>
+)", kFormat2);
+    QCOMPARE(ioThroughModel(ioSource(R"(
+<calaos:room name="R" type="salon" hits="1">
+  <calaos:input id="a" type="WITemp" name="a" host="h" port="502" var="0"/>
+  <calaos:device id="d" type="climate" impl="proxy" name="d">
+    <calaos:input id="d_in" type="WITemp" name="in" host="h" port="502" var="0"/>
+  </calaos:device>
+  <calaos:input id="b" type="WITemp" name="b" host="h" port="502" var="0"/>
+  <calaos:device id="e" type="climate" impl="proxy" name="e"/>
+  <calaos:output id="o" type="WODigital" name="o" host="h" port="502"/>
+</calaos:room>)", kFormat2)), expected);
+    QCOMPARE(ioThroughModel(expected.toUtf8()), expected);
+}
+
+// Moving an item in the tree takes it out of both lists but puts it back in
+// one only: a device left among the outputs must still be written, once.
+void tst_Devices::deviceListedOnlyAsOutputIsWrittenOnce()
+{
+    QVERIFY(load(ioSource(QString(kCascadeIo) + R"(<calaos:room name="B" type="salon" hits="1"/>)", kFormat2)));
+    ListeRoom &lr = ListeRoom::Instance();
+    Device *dev = lr.get_device("dev");
+
+    lr.get_room(0)->RemoveOutput(dev);
+    lr.get_room(1)->AddOutput(dev);
+
+    QCOMPARE(lr.get_room(1)->get_devices(), std::vector<Device *>({ dev }));
+    QString written = QString::fromUtf8(saveIOs("dst.xml"));
+    QCOMPARE(written.count("<calaos:device "), 1);
+    QCOMPARE(written.count("id=\"dev_out\""), 1);
+    QVERIFY(written.contains(R"(<calaos:room name="B" type="salon" hits="1">
+            <calaos:device id="dev")"));
+}
+
+// Ownership is the object, not the room: the IO is still written inside its
 // device, so a reload brings it back next to it.
 void tst_Devices::ownedIoMovedToAnotherRoomStaysInItsDevice()
 {
@@ -702,29 +763,55 @@ void tst_Devices::ownedIoMovedToAnotherRoomStaysInItsDevice()
     QString written = QString::fromUtf8(saveIOs("dst.xml"));
     QCOMPARE(written.count("id=\"dev_out\""), 1);
     QVERIFY(written.contains(R"(<calaos:room name="B" type="salon" hits="1"/>)"));
-}
 
-// The server writes an IO whose device is gone at room level: it must not
-// vanish from the file.
-void tst_Devices::ownerWithoutDeviceIsWrittenInItsRoom()
-{
-    QVERIFY(load(ioSource(R"(
-<calaos:room name="R" type="salon" hits="1">
-  <calaos:input id="i" type="WITemp" name="i" host="h" port="502" var="0"/>
-</calaos:room>)")));
-    ListeRoom::Instance().get_input("i")->setOwnerDevice("ghost");
-
+    // Its device's room goes away: the IO stays, on its own, in room B.
+    lr.Remove(a);
+    QVERIFY(out->getOwnerDevice() == nullptr);
     QCOMPARE(QString::fromUtf8(saveIOs("dst.xml")), ioDoc(
-R"(        <calaos:room name="R" type="salon" hits="1">
-            <calaos:input host="h" id="i" name="i" port="502" type="WITemp" var="0"/>
+R"(        <calaos:room name="B" type="salon" hits="1">
+            <calaos:output host="h" id="dev_out" name="out" port="502" type="WODigital" var="2"/>
         </calaos:room>
 )"));
 }
 
-void tst_Devices::duplicateDeviceIdWritesIosOnce()
+// The server writes an IO whose device is gone at room level: it must not
+// vanish from the file, nor keep a pointer to the freed device.
+void tst_Devices::ioOutlivingItsDeviceIsWrittenInItsRoom()
+{
+    QVERIFY(load(ioSource(kCascadeIo, kFormat2)));
+    ListeRoom &lr = ListeRoom::Instance();
+    Device *dev = lr.get_device("dev");
+    IOBase *in = lr.get_input("dev_in");
+
+    // Out of every room (as during a move in the tree), it writes nothing:
+    // its IOs must not be lost with it.
+    lr.get_room(0)->RemoveInput(dev);
+    QVERIFY(QString::fromUtf8(saveIOs("dst.xml")).contains("id=\"dev_in\""));
+
+    delete dev;
+
+    QVERIFY(in->getOwnerDevice() == nullptr);
+    QString written = QString::fromUtf8(saveIOs("dst.xml"));
+    QVERIFY(!written.contains("<calaos:device"));
+    QVERIFY(written.contains(R"(<calaos:input host="h" id="dev_in" name="in" port="502" type="WITemp" var="1"/>)"));
+}
+
+// Ownership does not go through the id: a duplicated one neither moves IOs to
+// the first device nor lets deleting it take the second one's IOs.
+void tst_Devices::duplicateDeviceIdsKeepTheirOwnIos()
 {
     m_expectedDialogs = { "Device with id \"d\" already exists!" };
-    QString written = ioThroughModel(ioSource(R"(
+    QString expected = ioDoc(
+R"(        <calaos:room name="R" type="salon" hits="1">
+            <calaos:device id="d" impl="proxy" name="first" type="climate">
+                <calaos:input host="h" id="a" name="a" port="502" type="WITemp" var="0"/>
+            </calaos:device>
+            <calaos:device id="d" impl="proxy" name="second" type="climate">
+                <calaos:input host="h" id="b" name="b" port="502" type="WITemp" var="0"/>
+            </calaos:device>
+        </calaos:room>
+)", kFormat2);
+    QCOMPARE(ioThroughModel(ioSource(R"(
 <calaos:room name="R" type="salon" hits="1">
   <calaos:device id="d" type="climate" impl="proxy" name="first">
     <calaos:input id="a" type="WITemp" name="a" host="h" port="502" var="0"/>
@@ -732,17 +819,33 @@ void tst_Devices::duplicateDeviceIdWritesIosOnce()
   <calaos:device id="d" type="climate" impl="proxy" name="second">
     <calaos:input id="b" type="WITemp" name="b" host="h" port="502" var="0"/>
   </calaos:device>
-</calaos:room>)", kFormat2));
+</calaos:room>)", kFormat2)), expected);
 
-    QCOMPARE(written, ioDoc(
+    ListeRoom &lr = ListeRoom::Instance();
+    std::vector<Device *> devs = lr.get_room(0)->get_devices();
+    QCOMPARE(int(devs.size()), 2);
+    QVERIFY(lr.deleteIOOutput(devs[0]));
+    QVERIFY(!lr.get_input("a"));
+    QVERIFY(lr.get_input("b"));
+    QCOMPARE(lr.get_input("b")->getOwnerDevice(), devs[1]);
+}
+
+void tst_Devices::emptyDeviceIdKeepsItsIos()
+{
+    QString expected = ioDoc(
 R"(        <calaos:room name="R" type="salon" hits="1">
-            <calaos:device id="d" impl="proxy" name="first" type="climate">
+            <calaos:device id="" impl="proxy" name="noid" type="climate">
                 <calaos:input host="h" id="a" name="a" port="502" type="WITemp" var="0"/>
-                <calaos:input host="h" id="b" name="b" port="502" type="WITemp" var="0"/>
             </calaos:device>
-            <calaos:device id="d" impl="proxy" name="second" type="climate"/>
         </calaos:room>
-)", kFormat2));
+)", kFormat2);
+    QCOMPARE(ioThroughModel(ioSource(R"(
+<calaos:room name="R" type="salon" hits="1">
+  <calaos:device id="" type="climate" impl="proxy" name="noid">
+    <calaos:input id="a" type="WITemp" name="a" host="h" port="502" var="0"/>
+  </calaos:device>
+</calaos:room>)", kFormat2)), expected);
+    QCOMPARE(ioThroughModel(expected.toUtf8()), expected);
 }
 
 void tst_Devices::adoptRefusesDevicesAndNull()
@@ -759,12 +862,21 @@ void tst_Devices::adoptRefusesDevicesAndNull()
     QVERIFY(!dev->adoptIO(nullptr));
     QVERIFY(!dev->adoptIO(other));
     QVERIFY(!dev->adoptIO(dev));
-    QCOMPARE(u(other->getOwnerDevice()), QString());
+    QVERIFY(other->getOwnerDevice() == nullptr);
 
     QVERIFY(other->adoptIO(lr.get_input("ext")));
     QCOMPARE(ids(other->ownedIos()), QStringList({ "ext" }));
     QVERIFY(other->adoptIO(lr.get_input("ext")));
     QCOMPARE(ids(other->ownedIos()), QStringList({ "ext" }));
+
+    // An IO has one device: adopting it takes it from the previous one.
+    QVERIFY(other->adoptIO(lr.get_input("dev_in")));
+    QCOMPARE(ids(other->ownedIos()), QStringList({ "ext", "dev_in" }));
+    QCOMPARE(ids(dev->ownedIos()), QStringList({ "dev_target", "dev_out" }));
+
+    other->releaseIO(lr.get_input("ext"));
+    QVERIFY(lr.get_input("ext")->getOwnerDevice() == nullptr);
+    QCOMPARE(ids(other->ownedIos()), QStringList({ "dev_in" }));
 }
 
 void tst_Devices::createDeviceGeneratesUniqueIds()

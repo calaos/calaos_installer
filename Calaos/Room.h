@@ -74,7 +74,7 @@ public:
     int get_size_in() { return inputs.size(); }
     int get_size_out() { return outputs.size(); }
 
-    //In the order they were added; they are also listed as inputs and outputs.
+    //Devices are also listed as inputs and/or outputs; this walks inputs first.
     std::vector<Device *> get_devices();
 
     //Child elements the reader does not know, written back as they were read

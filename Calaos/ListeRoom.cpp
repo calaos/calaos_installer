@@ -379,13 +379,23 @@ static void deleteOwnedIos(IOBase *io)
     if (!dev)
         return;
 
-    for (IOBase *owned: dev->ownedIos())
+    //A copy: each deletion shrinks the device's list.
+    std::vector<IOBase *> owned = dev->ownedIos();
+    for (IOBase *io: owned)
     {
-        if (owned->is_input())
-            ListeRoom::Instance().deleteIOInput(owned);
+        if (io->is_input())
+            ListeRoom::Instance().deleteIOInput(io);
         else
-            ListeRoom::Instance().deleteIOOutput(owned);
+            ListeRoom::Instance().deleteIOOutput(io);
     }
+}
+
+std::vector<IOBase *> ListeRoom::iosDeletedWith(IOBase *io)
+{
+    std::vector<IOBase *> res = { io };
+    if (Device *dev = dynamic_cast<Device *>(io))
+        res.insert(res.end(), dev->ownedIos().begin(), dev->ownedIos().end());
+    return res;
 }
 
 bool ListeRoom::deleteIOInput(IOBase *input)

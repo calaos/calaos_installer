@@ -91,8 +91,12 @@ public:
     Room *searchRoomByInput(IOBase *);
     Room *searchRoomByOutput(IOBase *);
 
+    //Both delete a device's owned IOs along with it.
     bool deleteIOInput(IOBase *input);
     bool deleteIOOutput(IOBase *output);
+    //What deleteIOInput/deleteIOOutput(io) destroys, so that views can drop
+    //their pointers to it.
+    static std::vector<IOBase *> iosDeletedWith(IOBase *io);
 
     IOBase *createInput(Params param, Room *room);
     IOBase *createOutput(Params param, Room *room);

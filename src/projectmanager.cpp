@@ -1,9 +1,50 @@
 #include "projectmanager.h"
 #include <QDebug>
+#include <set>
 
 map<string, bool> ProjectManager::wagoTypeCache;
 
 static const QString CALAOS_NS = QStringLiteral("http://www.calaos.fr");
+
+// Copies the token under the reader's cursor. Namespace declarations go after
+// the start tag: written before it, they would land on the still-open parent.
+// Comments are kept; whitespace-only text is not (the writer re-indents).
+static void copyXmlToken(const QXmlStreamReader &r, QXmlStreamWriter &w)
+{
+    if (r.isStartElement())
+    {
+        bool declaresOwnPrefix = false;
+        for (const QXmlStreamNamespaceDeclaration &ns: r.namespaceDeclarations())
+            if (ns.prefix() == r.prefix() && ns.namespaceUri() == r.namespaceUri())
+                declaresOwnPrefix = true;
+
+        //An inherited namespace is either already known to the writer or gets
+        //declared here, under a generated prefix if it came from above the copy.
+        if (r.namespaceUri().isEmpty() || (declaresOwnPrefix && r.namespaceUri() != CALAOS_NS))
+            w.writeStartElement(r.qualifiedName().toString());
+        else
+            w.writeStartElement(r.namespaceUri().toString(), r.name().toString());
+
+        for (const QXmlStreamNamespaceDeclaration &ns: r.namespaceDeclarations())
+        {
+            if (ns.namespaceUri() == CALAOS_NS)
+                continue;
+            if (ns.prefix().isEmpty())
+                w.writeDefaultNamespace(ns.namespaceUri().toString());
+            else
+                w.writeNamespace(ns.namespaceUri().toString(), ns.prefix().toString());
+        }
+        w.writeAttributes(r.attributes());
+    }
+    else if (r.isEndElement())
+        w.writeEndElement();
+    else if (r.isCDATA())
+        w.writeCDATA(r.text().toString());
+    else if (r.isCharacters() && !r.isWhitespace())
+        w.writeCharacters(r.text().toString());
+    else if (r.isComment())
+        w.writeComment(r.text().toString());
+}
 
 IOXmlWriter::IOXmlWriter()
 {
@@ -49,27 +90,35 @@ void IOXmlWriter::writeRoom(Room *room)
     attr.append("hits", QString::fromUtf8(Utils::to_string(room->get_hits()).c_str()));
     writeAttributes(attr);
 
-    //A device and the IOs it owns are written nested, by writeDevice().
+    //Owned IOs are written inside their device, wherever it is. A device is
+    //written where it first stands: among the inputs, or among the outputs
+    //when only listed there (the tree moves IOs one list at a time).
+    std::set<Device *> written;
     auto nested = [](IOBase *io)
     {
         return dynamic_cast<Device *>(io) ||
-               ListeRoom::Instance().get_device(io->getOwnerDevice());
+               (io->getOwnerDevice() && ListeRoom::Instance().searchIO(io->getOwnerDevice()) >= 0);
     };
 
     for (int i = 0;i < room->get_size_in();i++)
     {
-        if (!nested(room->get_input(i)))
-            writeInput(room->get_input(i));
+        IOBase *io = room->get_input(i);
+        Device *dev = dynamic_cast<Device *>(io);
+        if (dev && written.insert(dev).second)
+            writeDevice(dev);
+        else if (!nested(io))
+            writeInput(io);
     }
 
     for (int i = 0;i < room->get_size_out();i++)
     {
-        if (!nested(room->get_output(i)))
-            writeOutput(room->get_output(i));
+        IOBase *io = room->get_output(i);
+        Device *dev = dynamic_cast<Device *>(io);
+        if (dev && written.insert(dev).second)
+            writeDevice(dev);
+        else if (!nested(io))
+            writeOutput(io);
     }
-
-    for (Device *dev: room->get_devices())
-        writeDevice(dev);
 
     for (const QString &xml: room->getUnknownXml())
         writeRawXml(xml);
@@ -299,29 +348,8 @@ void IOXmlWriter::writeRawXml(const QString &xml)
     while (!reader.atEnd())
     {
         reader.readNext();
-
-        if (reader.isStartElement())
-        {
-            //Before the element, so that its own prefixes are used instead of
-            //generated ones; calaos is already declared on the root.
-            for (const QXmlStreamNamespaceDeclaration &ns: reader.namespaceDeclarations())
-            {
-                if (ns.namespaceUri() == CALAOS_NS)
-                    continue;
-                if (ns.prefix().isEmpty())
-                    writeDefaultNamespace(ns.namespaceUri().toString());
-                else
-                    writeNamespace(ns.namespaceUri().toString(), ns.prefix().toString());
-            }
-            writeStartElement(reader.namespaceUri().toString(), reader.name().toString());
-            writeAttributes(reader.attributes());
-        }
-        else if (reader.isEndElement())
-            writeEndElement();
-        else if (reader.isCDATA())
-            writeCDATA(reader.text().toString());
-        else if (reader.isCharacters() && !reader.isWhitespace())
-            writeCharacters(reader.text().toString());
+        if (!reader.isStartDocument() && !reader.isEndDocument())
+            copyXmlToken(reader, *this);
     }
 }
 
@@ -658,31 +686,11 @@ QString IOXmlReader::readRawElement()
     int depth = 0;
     while (true)
     {
+        copyXmlToken(*this, writer);
         if (isStartElement())
-        {
-            for (const QXmlStreamNamespaceDeclaration &ns: namespaceDeclarations())
-            {
-                if (ns.namespaceUri() == CALAOS_NS)
-                    continue;
-                if (ns.prefix().isEmpty())
-                    writer.writeDefaultNamespace(ns.namespaceUri().toString());
-                else
-                    writer.writeNamespace(ns.namespaceUri().toString(), ns.prefix().toString());
-            }
-            writer.writeStartElement(namespaceUri().toString(), name().toString());
-            writer.writeAttributes(attributes());
             depth++;
-        }
-        else if (isEndElement())
-        {
-            writer.writeEndElement();
-            if (--depth == 0)
-                break;
-        }
-        else if (isCDATA())
-            writer.writeCDATA(text().toString());
-        else if (isCharacters() && !isWhitespace())
-            writer.writeCharacters(text().toString());
+        else if (isEndElement() && --depth == 0)
+            break;
 
         if (atEnd())
             break;
@@ -990,7 +998,7 @@ IOBase *IOXmlReader::readOutput(Room *room)
         if (isStartElement())
         {
             if (name() == QStringLiteral("pages"))
-                pagesXml = readRemoteUIPagesElement();
+                pagesXml = readRawElement();
             else
                 output->addUnknownXml(readRawElement());
         }
@@ -998,50 +1006,6 @@ IOBase *IOXmlReader::readOutput(Room *room)
 
     output->setRemoteUIPagesXml(pagesXml);
     return output;
-}
-
-QString IOXmlReader::readRemoteUIPagesElement()
-{
-    // Reads the content of <calaos:pages> element and returns it as a raw XML string
-    QString xml;
-    QXmlStreamWriter writer(&xml);
-    writer.setAutoFormatting(true);
-
-    writer.writeStartElement("http://www.calaos.fr", "pages");
-
-    int depth = 1;
-    while (!atEnd() && depth > 0)
-    {
-        readNext();
-
-        if (isStartElement())
-        {
-            depth++;
-            writer.writeStartElement(namespaceUri().toString(), name().toString());
-
-            // Write all attributes
-            for (const QXmlStreamAttribute &attr : attributes())
-            {
-                writer.writeAttribute(attr);
-            }
-        }
-        else if (isEndElement())
-        {
-            depth--;
-            if (depth > 0)
-            {
-                writer.writeEndElement();
-            }
-        }
-        else if (isCharacters() && !isWhitespace())
-        {
-            writer.writeCharacters(text().toString());
-        }
-    }
-
-    writer.writeEndElement(); // close pages
-
-    return xml;
 }
 
 void IOXmlReader::readCamera(Room *room)
@@ -1233,12 +1197,20 @@ QString ProjectManager::readOnlyReason()
     if (!ListeRoom::Instance().isReadOnly())
         return QString();
 
-    return QObject::tr("This project uses io.xml format \"%1\", and this version of Calaos "
-                       "Installer only knows up to format %2. It is opened read-only: saving "
-                       "it would drop what this version cannot represent. Update Calaos "
-                       "Installer to modify this project.")
-            .arg(ListeRoom::Instance().getLoadedFormat())
-            .arg(ListeRoom::IO_FORMAT_SUPPORTED);
+    const QString format = ListeRoom::Instance().getLoadedFormat();
+    bool ok = false;
+    if (format.toInt(&ok) > ListeRoom::IO_FORMAT_SUPPORTED && ok)
+        return QObject::tr("This project uses io.xml format \"%1\", and this version of Calaos "
+                           "Installer only knows up to format %2. It is opened read-only: saving "
+                           "it would drop what this version cannot represent. Update Calaos "
+                           "Installer to modify this project.")
+                .arg(format)
+                .arg(ListeRoom::IO_FORMAT_SUPPORTED);
+
+    return QObject::tr("The io.xml of this project declares an invalid format \"%1\". It is "
+                       "opened read-only: saving it could drop what this version does not "
+                       "understand. Fix the format attribute of <home> to modify this project.")
+            .arg(format);
 }
 
 bool ProjectManager::loadRulesFromFile(QString &file)
