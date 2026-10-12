@@ -25,6 +25,7 @@
 #include <Utils.h>
 #include "TimeRange.h"
 #include <QString>
+#include <QStringList>
 
 using namespace std;
 using namespace Utils;
@@ -40,6 +41,9 @@ private:
 
     // For RemoteUI: store the raw XML content of <calaos:pages> for roundtrip preservation
     QString remoteUIPagesXml;
+
+    //Child elements the reader does not know, written back as they were read
+    QStringList unknownXml;
 
     double dvalue = 1.234;
     bool bvalue = true;
@@ -92,6 +96,9 @@ public:
     // RemoteUI pages XML content
     QString getRemoteUIPagesXml() const { return remoteUIPagesXml; }
     void setRemoteUIPagesXml(const QString &xml) { remoteUIPagesXml = xml; }
+
+    const QStringList &getUnknownXml() const { return unknownXml; }
+    void addUnknownXml(const QString &xml) { unknownXml.append(xml); }
 
     //For time ranges
     vector<TimeRange> range_monday;

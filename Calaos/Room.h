@@ -25,6 +25,7 @@
 #include <Utils.h>
 #include <iostream>
 #include <IOBase.h>
+#include <QStringList>
 //-----------------------------------------------------------------------------
 using namespace std;
 //-----------------------------------------------------------------------------
@@ -40,6 +41,8 @@ protected:
 
     std::vector<IOBase *> inputs;
     std::vector<IOBase *> outputs;
+
+    QStringList unknownXml;
 
 public:
     Room(std::string _name, std::string _type, int _hits = 0)
@@ -68,6 +71,10 @@ public:
 
     int get_size_in() { return inputs.size(); }
     int get_size_out() { return outputs.size(); }
+
+    //Child elements the reader does not know, written back as they were read
+    const QStringList &getUnknownXml() const { return unknownXml; }
+    void addUnknownXml(const QString &xml) { unknownXml.append(xml); }
 };
 //-----------------------------------------------------------------------------
 //-----------------------------------------------------------------------------

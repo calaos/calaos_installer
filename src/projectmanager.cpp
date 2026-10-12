@@ -3,6 +3,8 @@
 
 map<string, bool> ProjectManager::wagoTypeCache;
 
+static const QString CALAOS_NS = QStringLiteral("http://www.calaos.fr");
+
 IOXmlWriter::IOXmlWriter()
 {
     setAutoFormatting(true);
@@ -23,6 +25,9 @@ bool IOXmlWriter::writeFile(QIODevice *device)
 
         writeRoom(room);
     }
+
+    for (const QString &xml: ListeRoom::Instance().getUnknownXml())
+        writeRawXml(xml);
 
     writeEndDocument();
 
@@ -48,6 +53,9 @@ void IOXmlWriter::writeRoom(Room *room)
     {
         writeOutput(room->get_output(i));
     }
+
+    for (const QString &xml: room->getUnknownXml())
+        writeRawXml(xml);
 
     writeEndElement();
 }
@@ -125,6 +133,9 @@ void IOXmlWriter::writeInput(IOBase *io)
         writePlages(in->range_sunday);
         writeEndElement();
     }
+
+    for (const QString &xml: io->getUnknownXml())
+        writeRawXml(xml);
 
     writeEndElement();
 }
@@ -210,41 +221,44 @@ void IOXmlWriter::writeOutput(IOBase *io)
     {
         QString pagesXml = io->getRemoteUIPagesXml();
         if (!pagesXml.isEmpty())
-        {
-            // Parse the pages XML and write it as child elements
-            QXmlStreamReader reader(pagesXml);
-            writeRemoteUIPagesContent(reader);
-        }
+            writeRawXml(pagesXml);
     }
+
+    for (const QString &xml: io->getUnknownXml())
+        writeRawXml(xml);
 
     writeEndElement();
 }
 
-void IOXmlWriter::writeRemoteUIPagesContent(QXmlStreamReader &reader)
+void IOXmlWriter::writeRawXml(const QString &xml)
 {
-    // Copy the XML content from reader to this writer
+    QXmlStreamReader reader(xml);
     while (!reader.atEnd())
     {
         reader.readNext();
 
         if (reader.isStartElement())
         {
-            writeStartElement(reader.namespaceUri().toString(), reader.name().toString());
-
-            // Write all attributes
-            for (const QXmlStreamAttribute &attr : reader.attributes())
+            //Before the element, so that its own prefixes are used instead of
+            //generated ones; calaos is already declared on the root.
+            for (const QXmlStreamNamespaceDeclaration &ns: reader.namespaceDeclarations())
             {
-                writeAttribute(attr);
+                if (ns.namespaceUri() == CALAOS_NS)
+                    continue;
+                if (ns.prefix().isEmpty())
+                    writeDefaultNamespace(ns.namespaceUri().toString());
+                else
+                    writeNamespace(ns.namespaceUri().toString(), ns.prefix().toString());
             }
+            writeStartElement(reader.namespaceUri().toString(), reader.name().toString());
+            writeAttributes(reader.attributes());
         }
         else if (reader.isEndElement())
-        {
             writeEndElement();
-        }
+        else if (reader.isCDATA())
+            writeCDATA(reader.text().toString());
         else if (reader.isCharacters() && !reader.isWhitespace())
-        {
             writeCharacters(reader.text().toString());
-        }
     }
 }
 
@@ -561,10 +575,75 @@ void IOXmlReader::readHome()
         if (isStartElement())
         {
             if (name() == QStringLiteral("room"))
-            {
                 readRoom();
-            }
+            else
+                ListeRoom::Instance().addUnknownXml(readRawElement());
         }
+    }
+}
+
+// Copies the element under the cursor with its whole subtree and leaves the
+// cursor on its end tag, where the caller's loop expects it.
+QString IOXmlReader::readRawElement()
+{
+    QString xml;
+    QXmlStreamWriter writer(&xml);
+    writer.writeNamespace(CALAOS_NS, "calaos");
+
+    int depth = 0;
+    while (true)
+    {
+        if (isStartElement())
+        {
+            for (const QXmlStreamNamespaceDeclaration &ns: namespaceDeclarations())
+            {
+                if (ns.namespaceUri() == CALAOS_NS)
+                    continue;
+                if (ns.prefix().isEmpty())
+                    writer.writeDefaultNamespace(ns.namespaceUri().toString());
+                else
+                    writer.writeNamespace(ns.namespaceUri().toString(), ns.prefix().toString());
+            }
+            writer.writeStartElement(namespaceUri().toString(), name().toString());
+            writer.writeAttributes(attributes());
+            depth++;
+        }
+        else if (isEndElement())
+        {
+            writer.writeEndElement();
+            if (--depth == 0)
+                break;
+        }
+        else if (isCDATA())
+            writer.writeCDATA(text().toString());
+        else if (isCharacters() && !isWhitespace())
+            writer.writeCharacters(text().toString());
+
+        if (atEnd())
+            break;
+        readNext();
+    }
+
+    return xml;
+}
+
+void IOXmlReader::readUnknownChildren(IOBase *io)
+{
+    if (!io)
+    {
+        skipCurrentElement();
+        return;
+    }
+
+    while (!atEnd())
+    {
+        readNext();
+
+        if (isEndElement())
+            break;
+
+        if (isStartElement())
+            io->addUnknownXml(readRawElement());
     }
 }
 
@@ -605,14 +684,7 @@ void IOXmlReader::readRoom()
             else if (name() == QStringLiteral("remote_ui"))
                 readOutput(room); // RemoteUI is treated as an output
             else
-            {
-                //read dummy
-                while (!atEnd())
-                {
-                    readNext();
-                    if (isEndElement()) break;
-                }
-            }
+                room->addUnknownXml(readRawElement());
         }
     }
 }
@@ -687,6 +759,8 @@ void IOXmlReader::readInput(Room *room)
                 readPlageDay(in->range_saturday);
             else if (p["type"] == "InPlageHoraire" && name() == QStringLiteral("dimanche"))
                 readPlageDay(in->range_sunday);
+            else
+                in->addUnknownXml(readRawElement());
         }
     }
 }
@@ -708,6 +782,8 @@ void IOXmlReader::readPlageDay(vector<TimeRange> &day)
                 readPlage(h);
                 day.push_back(h);
             }
+            else
+                skipCurrentElement();
         }
     }
 }
@@ -740,13 +816,7 @@ void IOXmlReader::readPlage(TimeRange &horaire)
             horaire.end_offset = attr.value().toString().toInt();
     }
 
-    while (!atEnd())
-    {
-        readNext();
-
-        if (isEndElement())
-            break;
-    }
+    skipCurrentElement();
 }
 
 void IOXmlReader::readOutput(Room *room)
@@ -768,7 +838,10 @@ void IOXmlReader::readOutput(Room *room)
     IOBase *output = ListeRoom::Instance().createOutput(p, room);
 
     if (!output)
+    {
+        skipCurrentElement();
         return;
+    }
 
     //Do cache of 849/842 only with WODigital/WOVolet*
     if (output->get_param("type") == "WODigital" ||
@@ -781,45 +854,30 @@ void IOXmlReader::readOutput(Room *room)
             ProjectManager::wagoTypeCache[output->get_param("host")] = true;
     }
 
-    // Special case: RemoteUI - capture the pages XML content
-    if (p["type"] == "RemoteUI")
+    if (p["type"] != "RemoteUI")
     {
-        QString pagesXml;
-        int depth = 1; // We're inside the remote_ui element
-
-        while (!atEnd() && depth > 0)
-        {
-            readNext();
-
-            if (isStartElement())
-            {
-                if (name() == QStringLiteral("pages"))
-                {
-                    // Capture the entire <calaos:pages> element as raw XML
-                    pagesXml = readRemoteUIPagesElement();
-                }
-                else
-                {
-                    depth++;
-                }
-            }
-            else if (isEndElement())
-            {
-                depth--;
-            }
-        }
-
-        output->setRemoteUIPagesXml(pagesXml);
+        readUnknownChildren(output);
         return;
     }
 
+    QString pagesXml;
     while (!atEnd())
     {
         readNext();
 
         if (isEndElement())
             break;
+
+        if (isStartElement())
+        {
+            if (name() == QStringLiteral("pages"))
+                pagesXml = readRemoteUIPagesElement();
+            else
+                output->addUnknownXml(readRawElement());
+        }
     }
+
+    output->setRemoteUIPagesXml(pagesXml);
 }
 
 QString IOXmlReader::readRemoteUIPagesElement()
@@ -877,15 +935,7 @@ void IOXmlReader::readCamera(Room *room)
               attr.value().toString().toUtf8().data());
     }
 
-    ListeRoom::Instance().createCamera(p, room);
-
-    while (!atEnd())
-    {
-        readNext();
-
-        if (isEndElement())
-            break;
-    }
+    readUnknownChildren(ListeRoom::Instance().createCamera(p, room));
 }
 
 void IOXmlReader::readAudio(Room *room)
@@ -899,15 +949,7 @@ void IOXmlReader::readAudio(Room *room)
               attr.value().toString().toUtf8().data());
     }
 
-    ListeRoom::Instance().createAudio(p, room);
-
-    while (!atEnd())
-    {
-        readNext();
-
-        if (isEndElement())
-            break;
-    }
+    readUnknownChildren(ListeRoom::Instance().createAudio(p, room));
 }
 
 void IOXmlReader::readAVR(Room *room)
@@ -921,15 +963,7 @@ void IOXmlReader::readAVR(Room *room)
               attr.value().toString().toUtf8().data());
     }
 
-    ListeRoom::Instance().createAVR(p, room);
-
-    while (!atEnd())
-    {
-        readNext();
-
-        if (isEndElement())
-            break;
-    }
+    readUnknownChildren(ListeRoom::Instance().createAVR(p, room));
 }
 
 bool ProjectManager::saveIOsToFile(QString &file)

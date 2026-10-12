@@ -34,6 +34,8 @@ private:
     void readAVR(Room *room);
     void readPlageDay(vector<TimeRange> &day);
     void readPlage(TimeRange &horaire);
+    void readUnknownChildren(IOBase *io);
+    QString readRawElement();
 
     // RemoteUI support
     QString readRemoteUIPagesElement();
@@ -51,9 +53,7 @@ private:
     void writeInput(IOBase *io);
     void writePlages(vector<TimeRange> &day);
     void writeOutput(IOBase *io);
-
-    // RemoteUI support
-    void writeRemoteUIPagesContent(QXmlStreamReader &reader);
+    void writeRawXml(const QString &xml);
 };
 
 class RuleXmlWriter: public QXmlStreamWriter
