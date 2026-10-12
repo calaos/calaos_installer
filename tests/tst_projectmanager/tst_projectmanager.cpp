@@ -8,6 +8,8 @@
 #include <QTimer>
 #include <QXmlStreamReader>
 
+#include <functional>
+
 #include "projectmanager.h"
 
 using namespace Calaos;
@@ -164,6 +166,18 @@ void resetModel()
     ListeRule::Instance().clear();
     ListeRoom::Instance().clear();
 }
+
+// Reports, from inside the room destructor, how many rooms the list still holds.
+struct ProbeIO : public IOBase
+{
+    std::function<void()> onDestroy;
+
+    ProbeIO(Params &p, int ioType, std::function<void()> cb):
+        IOBase(p, "probe", TBOOL, ioType),
+        onDestroy(std::move(cb))
+    { }
+    ~ProbeIO() override { onDestroy(); }
+};
 
 QByteArray readAll(const QString &path)
 {
@@ -402,6 +416,8 @@ private slots:
     void rulesEmptyIdIsNotBoundToAnyIO();
     void rulesLegacyIidIsRewrittenToId();
     void rulesLoadFailsOnMalformedFile();
+
+    void clearNeverLeavesADestroyedRoomInTheList();
 };
 
 void tst_ProjectManager::initTestCase()
@@ -1212,6 +1228,43 @@ void tst_ProjectManager::rulesLoadFailsOnMalformedFile()
     writeAll(work("bad_rules.xml"), "<calaos:rules xmlns:calaos=\"http://www.calaos.fr\"><calaos:rule>");
     QVERIFY(!loadRules(work("bad_rules.xml")));
     QVERIFY(!loadRules(work("does_not_exist.xml")));
+}
+
+// A room is still in the list while its IOs are deleted (they look themselves up
+// there), so a room already destroyed must not be in it: the walk would read freed
+// memory. That crashed init() of a later case only when the heap layout allowed it.
+void tst_ProjectManager::clearNeverLeavesADestroyedRoomInTheList()
+{
+    ListeRoom &lr = ListeRoom::Instance();
+    const int count = 4;
+    int pending = count;
+    int staleRooms = 0;
+
+    for (int i = 0;i < count;i++)
+    {
+        Room *r = new Room("room" + std::to_string(i), "salon");
+        lr.Add(r);
+
+        Params p;
+        p.Add("id", "io" + std::to_string(i));
+        const bool asInput = i % 2;
+        IOBase *io = new ProbeIO(p, asInput ? IOBase::IO_INPUT : IOBase::IO_OUTPUT, [&]()
+        {
+            if (lr.size() > pending)
+                staleRooms += lr.size() - pending;
+            pending--;
+        });
+        if (asInput)
+            r->AddInput(io);
+        else
+            r->AddOutput(io);
+    }
+
+    lr.clear();
+
+    QCOMPARE(pending, 0);
+    QCOMPARE(lr.size(), 0);
+    QCOMPARE(staleRooms, 0);
 }
 
 QTEST_MAIN(tst_ProjectManager)
