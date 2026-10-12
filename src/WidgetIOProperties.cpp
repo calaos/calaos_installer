@@ -215,6 +215,8 @@ void WidgetIOProperties::createIOProperties()
             UiObject uiObject;
             uiObject.type = UiObjectType::SpinBox;
             uiObject.spinBox = w;
+            uiObject.title = title;
+            uiObject.docRange = docRange;
             uiObjectMap[prop] = uiObject;
 
             connect(w, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, [=]()
@@ -249,6 +251,8 @@ void WidgetIOProperties::createIOProperties()
             UiObject uiObject;
             uiObject.type = UiObjectType::DoubleSpinBox;
             uiObject.doubleSpinBox = w;
+            uiObject.title = title;
+            uiObject.docRange = docRange;
             uiObjectMap[prop] = uiObject;
 
             connect(w, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), this, [=]()
@@ -369,6 +373,18 @@ void WidgetIOProperties::setValues(Params& params)
         it = uiObjectMap.find(key);
         if(it==uiObjectMap.end()) continue;
 
+        QWidget *editorWidget = nullptr;
+        switch(it->second.type)
+        {
+            case UiObjectType::LineEdit : editorWidget = it->second.lineEdit; break;
+            case UiObjectType::CheckBox : editorWidget = it->second.checkBox; break;
+            case UiObjectType::SpinBox : editorWidget = it->second.spinBox; break;
+            case UiObjectType::DoubleSpinBox : editorWidget = it->second.doubleSpinBox; break;
+            case UiObjectType::ComboBox : editorWidget = it->second.comboBox; break;
+        }
+        // Read-only and non-editable fields are disabled: the helper must not bypass that.
+        if (!editorWidget || !editorWidget->isEnabledTo(this)) continue;
+
         qvalue = QString::fromUtf8(value.c_str());
         switch(it->second.type)
         {
@@ -379,11 +395,35 @@ void WidgetIOProperties::setValues(Params& params)
                 it->second.checkBox->setChecked(qvalue == "true");
                 break;
             case UiObjectType::SpinBox :
-                it->second.spinBox->setValue(qvalue.toInt());
+            {
+                QSpinBox *w = it->second.spinBox;
+                bool parsed = false;
+                const int v = qvalue.toInt(&parsed);
+                int minV = w->minimum(), maxV = w->maximum();
+                if (parsed && widenToStoredValue(minV, maxV, v))
+                {
+                    flagOutOfRange(w, it->second.title, qvalue, it->second.docRange);
+                    w->setMinimum(minV);
+                    w->setMaximum(maxV);
+                }
+                w->setValue(v);
                 break;
+            }
             case UiObjectType::DoubleSpinBox :
-                it->second.doubleSpinBox->setValue(qvalue.toDouble());
+            {
+                QDoubleSpinBox *w = it->second.doubleSpinBox;
+                bool parsed = false;
+                const double v = qvalue.toDouble(&parsed);
+                double minV = w->minimum(), maxV = w->maximum();
+                if (parsed && qIsFinite(v) && widenToStoredValue(minV, maxV, v))
+                {
+                    flagOutOfRange(w, it->second.title, qvalue, it->second.docRange);
+                    w->setMinimum(minV);
+                    w->setMaximum(maxV);
+                }
+                w->setValue(v);
                 break;
+            }
             case UiObjectType::ComboBox :
                 if (it->second.comboBox->isEditable())
                     it->second.comboBox->setEditText(qvalue);
