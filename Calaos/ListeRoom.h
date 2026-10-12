@@ -46,6 +46,8 @@ class ListeRoom
 protected:
     std::vector<Room *> rooms;
 
+    QStringList unknownXml;
+
     ListeRoom();
 
 public:
@@ -109,6 +111,10 @@ public:
     static string get_new_varsave();
 
     static string getRoomType(int type);
+
+    //Children of <home> the reader does not know, written back as they were read
+    const QStringList &getUnknownXml() const { return unknownXml; }
+    void addUnknownXml(const QString &xml) { unknownXml.append(xml); }
 
     void clear();
 };

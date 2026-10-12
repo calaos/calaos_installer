@@ -57,6 +57,8 @@ void ListeRoom::clear()
         delete room;
     }
 
+    unknownXml.clear();
+
     //Resetting the model also drops the ids reserved for dangling rule
     //references: a brand new project must start numbering from scratch.
     clearPendingIOIds();
