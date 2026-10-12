@@ -38,7 +38,7 @@ public:
     Rule(Params p):
         ruleParams(p)
     { }
-    ~Rule();
+    virtual ~Rule();
 
     Params ruleParams;
 
