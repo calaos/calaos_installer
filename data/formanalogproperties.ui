@@ -108,40 +108,28 @@
       <item row="5" column="0">
        <widget class="QLabel" name="label_min">
         <property name="text">
-         <string>Minimal :</string>
+         <string>Minimum value :</string>
         </property>
        </widget>
       </item>
       <item row="5" column="1">
-       <widget class="QDoubleSpinBox" name="spin_min">
-        <property name="minimum">
-         <double>-10000.000000000000000</double>
-        </property>
-        <property name="maximum">
-         <double>10000.000000000000000</double>
-        </property>
-        <property name="singleStep">
-         <double>1.000000000000000</double>
-        </property>
-        <property name="value">
-         <double>-10000.000000000000000</double>
+       <widget class="QLineEdit" name="edit_value_min">
+        <property name="placeholderText">
+         <string>unbounded</string>
         </property>
        </widget>
       </item>
       <item row="6" column="0">
        <widget class="QLabel" name="label_max">
         <property name="text">
-         <string>Maximal :</string>
+         <string>Maximum value :</string>
         </property>
        </widget>
       </item>
       <item row="6" column="1">
-       <widget class="QDoubleSpinBox" name="spin_max">
-        <property name="maximum">
-         <double>10000.000000000000000</double>
-        </property>
-        <property name="value">
-         <double>10000.000000000000000</double>
+       <widget class="QLineEdit" name="edit_value_max">
+        <property name="placeholderText">
+         <string>unbounded</string>
         </property>
        </widget>
       </item>

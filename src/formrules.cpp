@@ -529,6 +529,15 @@ FormRules::FormRules(QWidget *parent) :
                 addCalaosIO(p);
             });
 
+    action = mqtt_menu->addAction(tr("String Output"));
+    action->setIcon(QIcon(":/img/text.png"));
+    connect(action, &QAction::triggered, this, [=]()
+            {
+                Params p = {{ "type", "MqttOutputString" },
+                            { "io_type", "output" }};
+                addCalaosIO(p);
+            });
+
     action = mqtt_menu->addAction(tr("Light Dimmer"));
     action->setIcon(QIcon(":/img/icon_light_on.png"));
     connect(action, &QAction::triggered, this, [=]()
