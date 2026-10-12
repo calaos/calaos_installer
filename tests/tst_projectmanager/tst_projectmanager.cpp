@@ -1232,7 +1232,7 @@ void tst_ProjectManager::rulesLoadFailsOnMalformedFile()
 
 // A room is still in the list while its IOs are deleted (they look themselves up
 // there), so a room already destroyed must not be in it: the walk would read freed
-// memory. That crashed init() of a later case only when the heap layout allowed it.
+// memory, which only faults when the heap layout allows it.
 void tst_ProjectManager::clearNeverLeavesADestroyedRoomInTheList()
 {
     ListeRoom &lr = ListeRoom::Instance();
