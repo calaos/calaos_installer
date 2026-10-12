@@ -17,6 +17,7 @@ SOURCES += \
     $$PWD/Calaos/Action.cpp \
     $$PWD/Calaos/IOBase.cpp \
     $$PWD/Calaos/Device.cpp \
+    $$PWD/Calaos/DeletionImpact.cpp \
     $$PWD/Calaos/TimeRange.cpp
 
 HEADERS += \
@@ -28,6 +29,7 @@ HEADERS += \
     $$PWD/src/common/Params.h \
     $$PWD/Calaos/IOBase.h \
     $$PWD/Calaos/Device.h \
+    $$PWD/Calaos/DeletionImpact.h \
     $$PWD/Calaos/Rule.h \
     $$PWD/Calaos/Room.h \
     $$PWD/Calaos/ListeRule.h \

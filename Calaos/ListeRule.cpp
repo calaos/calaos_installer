@@ -110,35 +110,61 @@ bool scriptUses(Rule *rule, IOBase *io)
 }
 
 //Variables are referenced by id, possibly a legacy iid/oid.
-void reserveIfVariable(const string &var, const std::set<string> &names)
+template<class F>
+void forEachVariable(Rule *rule, F fn)
 {
-    if (names.count(var))
-        ListeRoom::reservePendingIOId(var);
-}
-
-void reserveVariablesOf(Rule *rule, const std::set<string> &names)
-{
-    auto reserveAll = [&](Params &vars)
+    auto all = [&](Params &vars)
     {
         for (int k = 0;k < vars.size();k++)
         {
             string key, value;
             vars.get_item(k, key, value);
-            reserveIfVariable(value, names);
+            fn(value);
         }
     };
 
     for (int j = 0;j < rule->get_size_conds();j++)
     {
         Condition *cond = rule->get_condition(j);
-        reserveAll(cond->get_params_var());
-        reserveIfVariable(cond->getOutputParamVar(), names);
+        all(cond->get_params_var());
+        fn(cond->getOutputParamVar());
     }
 
     for (int j = 0;j < rule->get_size_actions();j++)
-        reserveAll(rule->get_action(j)->get_params_var());
+        all(rule->get_action(j)->get_params_var());
 }
 
+void reserveVariablesOf(Rule *rule, const std::set<string> &names)
+{
+    forEachVariable(rule, [&](const string &var)
+    {
+        if (names.count(var))
+            ListeRoom::reservePendingIOId(var);
+    });
+}
+
+}
+//-----------------------------------------------------------------------------
+bool ListeRule::ruleHolds(Rule *rule, IOBase *io)
+{
+    return ruleUses(rule, io);
+}
+//-----------------------------------------------------------------------------
+bool ListeRule::scriptTriggeredBy(Rule *rule, IOBase *io)
+{
+    return scriptUses(rule, io);
+}
+//-----------------------------------------------------------------------------
+std::vector<std::string> ListeRule::variablesNaming(Rule *rule, const std::set<std::string> &names)
+{
+    std::set<string> found;
+    forEachVariable(rule, [&](const string &var)
+    {
+        if (names.count(var))
+            found.insert(var);
+    });
+
+    return std::vector<string>(found.begin(), found.end());
 }
 //-----------------------------------------------------------------------------
 Rule *ListeRule::searchRuleUsing(IOBase *io)

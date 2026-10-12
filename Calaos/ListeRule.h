@@ -28,6 +28,9 @@
 #include <ListeRoom.h>
 #include <Room.h>
 #include <unistd.h>
+#include <set>
+#include <string>
+#include <vector>
 //-----------------------------------------------------------------------------
 using namespace std;
 //-----------------------------------------------------------------------------
@@ -56,6 +59,13 @@ public:
     //stay in the rules and are reserved.
     void RemoveRulesUsing(IOBase *io);
     Rule *searchRuleUsing(IOBase *io);
+
+    //Same matching as RemoveRulesUsing, for reading what a deletion would do.
+    //ruleHolds leaves out script triggers: losing one never removes the rule.
+    static bool ruleHolds(Rule *rule, IOBase *io);
+    static bool scriptTriggeredBy(Rule *rule, IOBase *io);
+    //Variable ids of the rule (sorted, unique) that are one of names.
+    static std::vector<std::string> variablesNaming(Rule *rule, const std::set<std::string> &names);
 
     Rule *searchRule(string type, string name);
 
