@@ -70,6 +70,10 @@ QT_QPA_PLATFORM=offscreen ./tst_projectmanager/tst_projectmanager -v2 ioRoundTri
   aside), never dropped with what follows.
 - `tests/tst_iomove/` covers `ListeRoom::moveIO` (every IO kind moved, saved, reloaded) and
   `moveIOInHome` (tree items re-parented, equal to a freshly populated tree).
+- `tests/tst_deleteimpact/` covers `deletionImpact` (what a deletion does to rules and device
+  links, computed before deleting); `tests/tst_hometree/` the room -> device -> owned IOs
+  tree (`src/HomeTree.*`), cascade delete without double delete, drag and drop onto a room and
+  the delete confirmation dialog.
 - The model and (de)serialisation sources are listed once in `calaos_model.pri`, shared by
   the application and the tests. A new file that the tests need goes there; one that only
   the GUI needs stays in `calaos_installer.pro`.

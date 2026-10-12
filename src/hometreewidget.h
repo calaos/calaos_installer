@@ -4,28 +4,37 @@
 #include <QTreeWidget>
 #include <QDropEvent>
 
+#include <IOBase.h>
+
 class HomeTreeWidget : public QTreeWidget
 {
+    Q_OBJECT
+
 public:
     HomeTreeWidget(QWidget *parent = 0);
 
-    bool dropMimeData(QTreeWidgetItem *parent, int index,
-                      const QMimeData *data, Qt::DropAction action);
-
-    //                QMimeData *mimeData(const QList<QTreeWidgetItem *> items) const;
-    QStringList mimeTypes() const;
-    Qt::DropActions supportedDropActions () const;
+    //Moves io to the room whose item (or whose descendant's) is at pos.
+    //False when there is none, or when the move is refused.
+    bool dropIO(Calaos::IOBase *io, const QPoint &pos);
 
     void mousePressEvent(QMouseEvent *event);
     void mouseMoveEvent(QMouseEvent *event);
 
+signals:
+    void ioMoved();
+
 protected:
     QPoint dragStartPosition;
+    //Only a drag started here is accepted: a file dropped from outside is not an IO.
+    Calaos::IOBase *m_dragged = nullptr;
+
+    //The IO the current item may be dragged as: rooms are not dragged, and an
+    //owned IO moves with its device.
+    Calaos::IOBase *dragCandidate() const;
 
     void dragEnterEvent(QDragEnterEvent *e);
-    //void dragMoveEvent(QDragMoveEvent *e);
-    //void dropEvent(QDropEvent *event);
-
+    void dragMoveEvent(QDragMoveEvent *e);
+    void dropEvent(QDropEvent *event);
 };
 
 #endif // HOMETREEWIDGET_H

@@ -5,6 +5,7 @@
 #include "Room.h"
 #include "Rule.h"
 #include "IOBase.h"
+#include "Device.h"
 
 using namespace Calaos;
 
@@ -90,6 +91,19 @@ public:
         QTreeWidgetItem(other), output(other.output) {}
 
     IOBase *getOutput() { return output; }
+};
+
+//A device is an IO (it lists itself as input and output), so it stays an output
+//item for everything that only needs the IO. Its owned IOs are its children.
+class QTreeWidgetItemDevice: public QTreeWidgetItemOutput
+{
+public:
+    QTreeWidgetItemDevice(Device *d, QTreeWidgetItem *parent):
+        QTreeWidgetItemOutput(d, parent) {}
+    QTreeWidgetItemDevice(Device *d, QTreeWidget *parent):
+        QTreeWidgetItemOutput(d, parent) {}
+
+    Device *getDevice() { return static_cast<Device *>(output); }
 };
 
 class QTreeWidgetItemRule: public QTreeWidgetItem
