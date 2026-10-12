@@ -4,9 +4,13 @@
 #include <QLabel>
 #include <QPushButton>
 #include <QSettings>
+#include <QDialog>
+#include <QDoubleSpinBox>
+#include <QLineEdit>
 #include <QSpinBox>
 #include <QStandardPaths>
 #include <QTemporaryDir>
+#include <QTreeWidget>
 
 #include "WidgetIOProperties.h"
 
@@ -90,6 +94,8 @@ private slots:
 
     void absentParameterKeepsTheSchemaBounds();
     void unparsableValueKeepsTheSchemaBounds();
+
+    void entryHelperFillsAFloatEditor();
 };
 
 void tst_WidgetIOProperties::initTestCase()
@@ -290,6 +296,35 @@ void tst_WidgetIOProperties::unparsableValueKeepsTheSchemaBounds()
     QCOMPARE(s->minimum(), 1);
     QCOMPARE(s->maximum(), 355);
     QCOMPARE(stored(w, "address"), QString("abc"));
+}
+
+// setValues() used to write through the UiObject's unset QSpinBox pointer when the
+// editor was a QDoubleSpinBox.
+void tst_WidgetIOProperties::entryHelperFillsAFloatEditor()
+{
+    Params p;
+    p.Add("type", "MySensorsFixture");
+    p.Add("name", "before");
+    p.Add("node_id", "1");
+    WidgetIOProperties w(p);
+
+    QDoubleSpinBox *node = editor<QDoubleSpinBox>(w, "node_id");
+    QLineEdit *name = editor<QLineEdit>(w, "name");
+    QPushButton *helper = qobject_cast<QPushButton *>(cellOf(w, "name", 4));
+    QDialog *dialog = w.findChild<QDialog *>();
+    QVERIFY(node && name && helper && dialog);
+
+    QTreeWidget *tree = dialog->findChild<QTreeWidget *>("treeMySensors");
+    QVERIFY(tree);
+    QTreeWidgetItem *item = new QTreeWidgetItem(tree, QStringList{"12.5", "3", "S_TEMP", "garage"});
+    tree->setCurrentItem(item);
+
+    QTimer::singleShot(0, dialog, &QDialog::accept);
+    QTest::mouseClick(helper, Qt::LeftButton);
+
+    QCOMPARE(node->value(), 12.5);
+    QCOMPARE(name->text(), QString("garage"));
+    QCOMPARE(stored(w, "node_id"), QString("12.5"));
 }
 
 QTEST_MAIN(tst_WidgetIOProperties)
