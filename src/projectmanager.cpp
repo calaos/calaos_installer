@@ -573,7 +573,9 @@ void IOXmlReader::readRoom()
     string _name = attributes().value("name").toString().toUtf8().data();
     string _type = attributes().value("type").toString().toUtf8().data();
     string _hits = attributes().value("hits").toString().toUtf8().data();
-    int hits;
+    // from_string() leaves the target untouched on an empty value; 0 is what
+    // the server uses for an absent or unparsable attribute.
+    int hits = 0;
     from_string(_hits, hits);
 
     Room *room = new Room(_name, _type, hits);
