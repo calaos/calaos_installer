@@ -51,12 +51,12 @@ enum UiObjectType { LineEdit, CheckBox, SpinBox, DoubleSpinBox, ComboBox };
 
 struct UiObject
 {
-    UiObjectType type;
-    QLineEdit* lineEdit;
-    QCheckBox* checkBox;
-    QSpinBox* spinBox;
-    QDoubleSpinBox* doubleSpinBox;
-    QComboBox* comboBox;
+    UiObjectType type = LineEdit;
+    QLineEdit* lineEdit = nullptr;
+    QCheckBox* checkBox = nullptr;
+    QSpinBox* spinBox = nullptr;
+    QDoubleSpinBox* doubleSpinBox = nullptr;
+    QComboBox* comboBox = nullptr;
 };
 
 class WidgetIOProperties : public QWidget

@@ -382,7 +382,7 @@ void WidgetIOProperties::setValues(Params& params)
                 it->second.spinBox->setValue(qvalue.toInt());
                 break;
             case UiObjectType::DoubleSpinBox :
-                it->second.spinBox->setValue(qvalue.toDouble());
+                it->second.doubleSpinBox->setValue(qvalue.toDouble());
                 break;
             case UiObjectType::ComboBox :
                 if (it->second.comboBox->isEditable())
