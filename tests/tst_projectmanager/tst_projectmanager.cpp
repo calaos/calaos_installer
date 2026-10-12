@@ -387,6 +387,9 @@ private slots:
     void ioTimeRangeMonthsAndPlages();
     void ioRemoteUiPages();
     void ioDuplicateIdsAreKeptAndReported();
+    void ioIosWithoutIdGetFreshIdsWithoutModal();
+    void ioEmptyIdIsKeptAndNeverReportedAsDuplicate();
+    void listeRoomEmptyIdNeverMatches();
     void ioLoadReportsSuccessOnMalformedFile();
     void ioLoadFailsOnMissingFile();
 
@@ -394,7 +397,7 @@ private slots:
     void rulesEveryKindRoundTrips();
     void rulesUnsupportedEntriesAreDropped();
     void rulesMissingIOsSurvive();
-    void rulesEmptyIdBindsToFirstIO();
+    void rulesEmptyIdIsNotBoundToAnyIO();
     void rulesLegacyIidIsRewrittenToId();
     void rulesLoadFailsOnMalformedFile();
 };
@@ -894,6 +897,76 @@ R"(        <calaos:room name="R" type="salon" hits="1">
     QCOMPARE(m_dialogs, m_expectedDialogs);
 }
 
+// An IO without an id attribute gets a generated one, like on the server
+// (createIO adds "io_N"): it is not a duplicate of the IOs already loaded.
+void tst_ProjectManager::ioIosWithoutIdGetFreshIdsWithoutModal()
+{
+    QByteArray src = ioSource(R"(
+<calaos:room name="R" type="salon" hits="1">
+  <calaos:input id="input_0" type="WITemp" name="a" host="h" port="502" var="0"/>
+  <calaos:input type="WITemp" name="b" host="h" port="502" var="0"/>
+  <calaos:input type="WITemp" name="c" host="h" port="502" var="0"/>
+  <calaos:output id="output_0" type="WODigital" name="d" host="h" port="502"/>
+  <calaos:output type="WODigital" name="e" host="h" port="502"/>
+</calaos:room>)");
+
+    QCOMPARE(ioThroughModel(src), ioDoc(
+R"(        <calaos:room name="R" type="salon" hits="1">
+            <calaos:input host="h" id="input_0" name="a" port="502" type="WITemp" var="0"/>
+            <calaos:input host="h" id="input_1" name="b" port="502" type="WITemp" var="0"/>
+            <calaos:input host="h" id="input_2" name="c" port="502" type="WITemp" var="0"/>
+            <calaos:output host="h" id="output_0" name="d" port="502" type="WODigital"/>
+            <calaos:output host="h" id="output_1" name="e" port="502" type="WODigital"/>
+        </calaos:room>
+)"));
+    QCOMPARE(m_dialogs, QStringList());
+}
+
+// The server keeps an explicit id="" as is (and then refuses to resolve it);
+// the installer keeps it too rather than rewriting the file behind the
+// user's back, and the "already exists" box is not about empty ids.
+void tst_ProjectManager::ioEmptyIdIsKeptAndNeverReportedAsDuplicate()
+{
+    QByteArray src = ioSource(R"(
+<calaos:room name="R" type="salon" hits="1">
+  <calaos:input id="" type="WITemp" name="a" host="h" port="502" var="0"/>
+  <calaos:input id="" type="WITemp" name="b" host="h" port="502" var="0"/>
+  <calaos:output id="" type="WODigital" name="c" host="h" port="502"/>
+  <calaos:output id="" type="WODigital" name="d" host="h" port="502"/>
+</calaos:room>)");
+
+    QCOMPARE(ioThroughModel(src), ioDoc(
+R"(        <calaos:room name="R" type="salon" hits="1">
+            <calaos:input host="h" id="" name="a" port="502" type="WITemp" var="0"/>
+            <calaos:input host="h" id="" name="b" port="502" type="WITemp" var="0"/>
+            <calaos:output host="h" id="" name="c" port="502" type="WODigital"/>
+            <calaos:output host="h" id="" name="d" port="502" type="WODigital"/>
+        </calaos:room>
+)"));
+    QCOMPARE(m_dialogs, QStringList());
+}
+
+void tst_ProjectManager::listeRoomEmptyIdNeverMatches()
+{
+    writeAll(work("src.xml"), ioSource(R"(
+<calaos:room name="R" type="salon" hits="1">
+  <calaos:input id="i1" type="WITemp" name="i1" host="h" port="502" var="1"/>
+  <calaos:output id="o2" type="WODigital" name="o2" host="h" port="502" var="2"/>
+  <calaos:camera name="cam" type="axis" iid="ci" oid="co" id="ci_co"/>
+</calaos:room>)"));
+    QVERIFY(loadIOs(work("src.xml")));
+    ListeRoom &lr = ListeRoom::Instance();
+
+    QVERIFY(lr.get_input("") == nullptr);
+    QVERIFY(lr.get_output("") == nullptr);
+
+    // The legacy camera lookups by iid / oid still work.
+    QCOMPARE(idOf(lr.get_input("ci")), QString("ci_co"));
+    QCOMPARE(idOf(lr.get_output("co")), QString("ci_co"));
+    QCOMPARE(idOf(lr.get_input("i1")), QString("i1"));
+    QCOMPARE(idOf(lr.get_output("o2")), QString("o2"));
+}
+
 // loadIOsFromFile() drops the reader's verdict: a file the reader rejected
 // still reports success, with whatever was parsed before the error.
 void tst_ProjectManager::ioLoadReportsSuccessOnMalformedFile()
@@ -1069,22 +1142,19 @@ R"(    <calaos:rule name="ghost" type="x">
     QCOMPARE(snapshotRooms().filter("ghost").size(), 0);
 }
 
-// An empty id is matched by get_param("iid") == "" on any IO that has no
-// iid, so the action below is re-targeted to the first output instead of
-// being treated as a dangling reference.
-void tst_ProjectManager::rulesEmptyIdBindsToFirstIO()
+// An empty id must not be resolved: it used to match get_param("iid") == ""
+// on any IO without an iid, re-targeting the action to the first output.
+// getMissingIO() refuses "" as well, so the reference is dropped, not kept.
+void tst_ProjectManager::rulesEmptyIdIsNotBoundToAnyIO()
 {
     QByteArray rules = rulesSource(R"(
 <calaos:rule name="r" type="t">
+  <calaos:condition><calaos:input id="" oper="==" val="true"/></calaos:condition>
   <calaos:action><calaos:output id="" val="true"/></calaos:action>
 </calaos:rule>)");
 
     QCOMPARE(rulesThroughModel(ioSource(kRulesIo), rules), rulesDoc(
-R"(    <calaos:rule name="r" type="t">
-        <calaos:action type="standard">
-            <calaos:output id="o1" val="true"/>
-        </calaos:action>
-    </calaos:rule>
+R"(    <calaos:rule name="r" type="t"/>
 )"));
     QVERIFY(ProjectManager::missingIOReport().isEmpty());
 }
