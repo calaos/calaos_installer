@@ -3,4 +3,4 @@
 #   qmake6 <repo>/tests/tests.pro && make -j$(nproc) && make check
 TEMPLATE = subdirs
 
-SUBDIRS += tst_projectmanager
+SUBDIRS += tst_projectmanager tst_widgetioproperties
