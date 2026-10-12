@@ -70,7 +70,7 @@ QT_QPA_PLATFORM=offscreen ./tst_projectmanager/tst_projectmanager -v2 ioRoundTri
 - To add a suite: create `tests/tst_<name>/tst_<name>.pro` (copy `tst_projectmanager`) and
   add it to `SUBDIRS` in `tests/tests.pro`.
 - CI (`.github/workflows/pr_ci.yml`) builds the application and runs these tests on every
-  pull request. `tests/tst_widgetioproperties` drives the IO properties dialog widget offscreen; the rest of the GUI has no test: verify UI changes by running the app.
+  pull request. `tests/tst_widgetioproperties` drives the IO properties dialog widget offscreen; `tests/tst_roomteardown` and `tests/tst_teardownorder` run their crash/hang-prone cases in a forked child (the parent must never touch `ListeRoom`/`ListeRule` in the latter); the rest of the GUI has no test: verify UI changes by running the app.
 
 ## Code Style Guidelines
 
