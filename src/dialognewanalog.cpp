@@ -1,6 +1,5 @@
 #include "dialognewanalog.h"
 #include "ui_DialogNewAnalog.h"
-#include "mainwindow.h"
 
 DialogNewAnalog::DialogNewAnalog(Room *r, QWidget *parent) :
     QDialog(parent),
@@ -65,8 +64,7 @@ void DialogNewAnalog::on_buttonBox_accepted()
     p.Add("coeff_a",  QString::number(analogWidget->getCoeff()).toUtf8().constData());
     p.Add("coeff_b",  QString::number(analogWidget->getOffset()).toUtf8().constData());
     p.Add("step",  QString::number(analogWidget->getStep()).toUtf8().constData());
-    p.Add("min",  QString::number(analogWidget->getMin()).toUtf8().constData());
-    p.Add("max",  QString::number(analogWidget->getMax()).toUtf8().constData());
+    analogWidget->addBoundsTo(p);
 
     if (isInputType())
     {

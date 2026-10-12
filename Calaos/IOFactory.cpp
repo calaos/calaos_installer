@@ -22,6 +22,8 @@
 #include <IOFactory.h>
 #include <QtCore>
 
+#include <set>
+
 using namespace Calaos;
 
 Registrar::Registrar(string type, function<IOBase *(Params &)> classFunc)
@@ -30,11 +32,30 @@ Registrar::Registrar(string type, function<IOBase *(Params &)> classFunc)
     IOFactory::Instance().RegisterClass(type, classFunc);
 }
 
+// Same set as the server's dropLegacyBounds(). Not InputTime/InputTimer: their `min` is minutes.
+static bool hasLegacyBounds(const std::string &lowerType)
+{
+    static const std::set<std::string> types = {
+        "wianalog", "wagoinputanalog", "witemp", "wagoinputtemp", "woanalog", "wagooutputanalog",
+        "webinputanalog", "webinputtemp", "weboutputanalog",
+        "mqttinputanalog", "mqttinputtemp", "mqttoutputanalog",
+        "knxinputanalog", "knxinputtemp", "knxoutputanalog",
+        "owtemp", "internalint"
+    };
+    return types.count(lowerType) > 0;
+}
+
 IOBase *IOFactory::CreateIO(std::string type, Params &params, int io_type, string scriptDemoValue)
 {
     IOBase *obj = nullptr;
 
     std::transform(type.begin(), type.end(), type.begin(), Utils::to_lower());
+
+    if (hasLegacyBounds(type))
+    {
+        params.Delete("min");
+        params.Delete("max");
+    }
 
     auto it = ioFunctionRegistry.find(type);
     if (it != ioFunctionRegistry.end())

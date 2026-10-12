@@ -136,8 +136,7 @@ void DialogNewWebIO::on_buttonBox_accepted()
         p.Add("coeff_b",  QString::number(analogWidget->getOffset()).toUtf8().constData());
         if (item == ITEM_ANALOG_OUT)
             p.Add("step",  QString::number(analogWidget->getStep()).toUtf8().constData());
-        p.Add("min",  QString::number(analogWidget->getMin()).toUtf8().constData());
-        p.Add("max",  QString::number(analogWidget->getMax()).toUtf8().constData());
+        analogWidget->addBoundsTo(p);
     }
     switch (ui->io_type->currentIndex())
       {

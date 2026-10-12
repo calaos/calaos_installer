@@ -2,6 +2,7 @@
 #define FORMANALOGPROPERTIES_H
 
 #include <QWidget>
+#include "Params.h"
 
 namespace Ui {
 class FormAnalogProperties;
@@ -18,8 +19,9 @@ public:
     double getStep();
     double getCoeff();
     double getOffset();
-    double getMin();
-    double getMax();
+    QString getValueMin();
+    QString getValueMax();
+    void addBoundsTo(Params &p);
 
     void updateUI(bool isOutput);
 

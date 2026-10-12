@@ -827,7 +827,7 @@ int busForType(const QString &type)
                                     "MySensorsOutputString", 0 };
         const char *mqtt[] = { "MqttInputSwitch", "MqttInputAnalog", "MqttInputTemp",
                                "MqttInputString", "MqttOutputLight", "MqttOutputLightDimmer",
-                               "MqttOutputLightRGB", "MqttOutputAnalog", "MqttOutputShutter", 0 };
+                               "MqttOutputLightRGB", "MqttOutputAnalog", "MqttOutputString", "MqttOutputShutter", 0 };
         const char *web[] = { "WebInputSwitch", "WebInputAnalog", "WebInputTemp", "WebInputString",
                               "WebOutputLight", "WebOutputLightRGB", "WebOutputAnalog",
                               "WebOutputString", 0 };
