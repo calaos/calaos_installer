@@ -192,6 +192,14 @@ void MainWindow::closeEvent(QCloseEvent *event)
 
 void MainWindow::on_actionSaveProject_triggered()
 {
+    //Before the folder dialog, so that the project path is left alone.
+    QString readOnly = ProjectManager::readOnlyReason();
+    if (!readOnly.isEmpty())
+    {
+        QMessageBox::critical(this, tr("Calaos Installer"), readOnly);
+        return;
+    }
+
     QString dir = QFileDialog::getExistingDirectory(this, tr("Choose a project folder..."),
                                                     QDir::homePath(),
                                                     QFileDialog::ShowDirsOnly
@@ -228,24 +236,37 @@ void MainWindow::on_actionSave_triggered()
 {
     if (project_path.isEmpty() || project_path == "new")
         on_actionSaveProject_triggered();
-
-    Save();
+    else
+        Save();
 }
 
-void MainWindow::Save(QString path)
+bool MainWindow::Save(QString path)
 {
+    QString readOnly = ProjectManager::readOnlyReason();
+    if (!readOnly.isEmpty())
+    {
+        QMessageBox::critical(this, tr("Calaos Installer"), readOnly);
+        return false;
+    }
+
     if (!path.isEmpty())
         project_path = path;
 
     QString iofile = project_path + "/io.xml";
     QString rulefile = project_path + "/rules.xml";
 
-    ProjectManager::saveIOsToFile(iofile);
-    ProjectManager::saveRulesToFile(rulefile);
+    if (!ProjectManager::saveIOsToFile(iofile) || !ProjectManager::saveRulesToFile(rulefile))
+    {
+        QMessageBox::critical(this, tr("Calaos Installer"),
+                              tr("The project could not be written to %1.").arg(project_path));
+        return false;
+    }
 
     ui->widgetRules->setProjectModified(false);
 
     statusBar()->showMessage(QString(tr("Project saved: %1")).arg(project_path), 3000);
+
+    return true;
 }
 
 void MainWindow::Load(QString path)
@@ -283,6 +304,10 @@ void MainWindow::Load(QString path)
                                  "project could be loaded: saving now would overwrite the "
                                  "original file with this incomplete data.").arg(iofile));
     }
+
+    QString readOnly = ProjectManager::readOnlyReason();
+    if (!readOnly.isEmpty())
+        QMessageBox::warning(this, tr("Calaos Installer"), readOnly);
 
     QStringList missing = ProjectManager::missingIOReport();
     if (!missing.isEmpty())
@@ -356,9 +381,11 @@ void MainWindow::on_actionOuvrir_un_projet_en_ligne_triggered()
 
 void MainWindow::on_actionSaveProject_en_ligne_triggered()
 {
-    DialogSaveOnline dsave(project_path);
+    //The server gets the files on disk: never send ones this save refused.
+    if (!Save())
+        return;
 
-    Save(); //Save the project before sending it
+    DialogSaveOnline dsave(project_path);
 
     if (dsave.exec() == QDialog::Accepted)
     {
