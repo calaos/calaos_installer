@@ -29,7 +29,9 @@ jobs:
     # Arch ships Qt 6 and KArchive (KF6) built against each other. Ubuntu's
     # Qt 6.4 predates the KF6 packages, and a Qt from aqt cannot link against
     # a distro libKF6Archive.
-    container: archlinux:base-devel
+    # Dated tag: the bare date tag does not exist, only date.0.build. The
+    # pacman -Syu below still moves Qt; the pin only freezes the base image.
+    container: archlinux:base-devel-20261004.0.606936
     steps:
       # Before actions/checkout so that it can use git instead of the REST API.
       - name: Install toolchain
