@@ -9,6 +9,7 @@
 #include "WidgetIPAddr.h"
 #include <QCloseEvent>
 #include <QFile>
+#include <QFileInfo>
 #include <QFileDialog>
 #include <QDesktopServices>
 #include <QDir>
@@ -259,7 +260,9 @@ void MainWindow::Load(QString path)
     QString iofile = project_path + "/io.xml";
     QString rulefile = project_path + "/rules.xml";
 
-    ProjectManager::loadIOsFromFile(iofile);
+    // A missing io.xml stays silent (a fresh folder is a valid empty project);
+    // an existing one that does not parse leaves a partial model.
+    bool ioLoadFailed = !ProjectManager::loadIOsFromFile(iofile) && QFileInfo::exists(iofile);
     QCoreApplication::processEvents();
     ProjectManager::loadRulesFromFile(rulefile);
     QCoreApplication::processEvents();
@@ -272,6 +275,14 @@ void MainWindow::Load(QString path)
     statusBar()->showMessage(QString(tr("Project loaded: %1")).arg(project_path), 3000);
 
     bar.close();
+
+    if (ioLoadFailed)
+    {
+        QMessageBox::critical(this, tr("Calaos Installer"),
+                              tr("The file %1 is not valid or is truncated. Only part of the "
+                                 "project could be loaded: saving now would overwrite the "
+                                 "original file with this incomplete data.").arg(iofile));
+    }
 
     QStringList missing = ProjectManager::missingIOReport();
     if (!missing.isEmpty())

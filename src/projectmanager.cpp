@@ -965,11 +965,11 @@ bool ProjectManager::loadIOsFromFile(QString &file)
         return false;
 
     IOXmlReader xmlfile;
-    xmlfile.readFile(&t);
+    bool ok = xmlfile.readFile(&t);
 
     t.close();
 
-    return true;
+    return ok;
 }
 
 /*
