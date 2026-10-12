@@ -66,7 +66,8 @@ QT_QPA_PLATFORM=offscreen ./tst_projectmanager/tst_projectmanager -v2 ioRoundTri
   fixes one of them, that test is expected to fail: update it in the same commit.
 - `tests/tst_devices/` covers `<calaos:device>` (`Calaos/Device.*`): round trip of the
   spec example, `format="2"`, read-only loading of a newer format, cascade delete.
-  Unknown elements are kept verbatim at every level, never dropped with what follows.
+  Unknown elements are kept at every level (comments included, whitespace-only text
+  aside), never dropped with what follows.
 - The model and (de)serialisation sources are listed once in `calaos_model.pri`, shared by
   the application and the tests. A new file that the tests need goes there; one that only
   the GUI needs stays in `calaos_installer.pro`.
