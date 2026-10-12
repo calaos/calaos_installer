@@ -1,0 +1,80 @@
+name: PR CI
+
+# Release builds (ci_build.yml) only run on push and take 10-14 minutes on three
+# platforms. A pull request gets one Linux job that compiles the app and runs
+# the unit tests.
+on:
+  pull_request:
+    paths-ignore:
+      - 'docs/**'
+      - '**/*.md'
+  push:
+    branches:
+      - master
+    paths-ignore:
+      - 'docs/**'
+      - '**/*.md'
+
+concurrency:
+  group: pr-ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  build-and-test:
+    name: Build and unit tests (Qt 6 / qmake)
+    runs-on: ubuntu-latest
+    # Arch ships Qt 6 and KArchive (KF6) built against each other. Ubuntu's
+    # Qt 6.4 predates the KF6 packages, and a Qt from aqt cannot link against
+    # a distro libKF6Archive.
+    container: archlinux:base-devel
+    steps:
+      # Before actions/checkout so that it can use git instead of the REST API.
+      - name: Install toolchain
+        run: |
+          pacman -Syu --noconfirm --needed \
+            git \
+            karchive \
+            qt6-base \
+            qt6-5compat \
+            qt6-declarative \
+            qt6-serialport \
+            qt6-shadertools \
+            qt6-tools \
+            libglvnd
+
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      # The checkout is owned by another uid inside the container; qmake runs
+      # `git describe` for the version string.
+      - name: Trust the workspace
+        run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
+
+      - name: Show toolchain versions
+        run: |
+          qmake6 -v
+          g++ --version | head -n 1
+
+      - name: Build the application
+        run: |
+          mkdir -p build-app
+          cd build-app
+          qmake6 ../calaos_installer.pro
+          make -j$(nproc)
+
+      - name: Build the unit tests
+        run: |
+          mkdir -p build-tests
+          cd build-tests
+          qmake6 ../tests/tests.pro
+          make -j$(nproc)
+
+      - name: Run the unit tests
+        env:
+          QT_QPA_PLATFORM: offscreen
+        run: make -C build-tests check
