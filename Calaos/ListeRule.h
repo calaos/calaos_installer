@@ -51,13 +51,12 @@ public:
     void Add(Rule *p);
     void Remove(int i);
     void Remove(Rule *obj);
-    //Remove every rule that holds io as a condition input, script input,
-    //output-state condition or action output. Must run before io is destroyed.
+    //Rules keep raw pointers: this must run before io is destroyed.
+    //Script conditions only lose their trigger on io; variable ids naming io
+    //stay in the rules and are reserved.
     void RemoveRulesUsing(IOBase *io);
     Rule *searchRuleUsing(IOBase *io);
 
-    Rule *searchRuleInput(IOBase *input);
-    Rule *searchRuleOutput(IOBase *output);
     Rule *searchRule(string type, string name);
 
     Rule *get_rule(int i);
