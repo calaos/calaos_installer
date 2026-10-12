@@ -418,6 +418,12 @@ private slots:
     void rulesLoadFailsOnMalformedFile();
 
     void clearNeverLeavesADestroyedRoomInTheList();
+
+    void deletingAnIOLeavesNoRuleOnIt_data();
+    void deletingAnIOLeavesNoRuleOnIt();
+    void deletingAnIOKeepsTheOtherRules();
+    void savingAfterDeletingAnIOReadsNoFreedMemory_data() { deletingAnIOLeavesNoRuleOnIt_data(); }
+    void savingAfterDeletingAnIOReadsNoFreedMemory();
 };
 
 void tst_ProjectManager::initTestCase()
@@ -1265,6 +1271,175 @@ void tst_ProjectManager::clearNeverLeavesADestroyedRoomInTheList()
     QCOMPARE(pending, 0);
     QCOMPARE(lr.size(), 0);
     QCOMPARE(staleRooms, 0);
+}
+
+// ---------------------------------------------------------------------------
+// Rules and deleted IOs
+// ---------------------------------------------------------------------------
+
+namespace
+{
+
+enum Route { DeleteIO, DestroyRoom };
+
+// Every way a condition or an action can point at an IO, each on the IO that is
+// deleted by the test, plus a rule on an IO that must survive.
+const char *kRulesOnTheIOs = R"(
+<calaos:rule name="std_cond" type="t">
+  <calaos:condition><calaos:input id="i1" oper="==" val="true"/></calaos:condition>
+</calaos:rule>
+<calaos:rule name="out_cond" type="t">
+  <calaos:condition type="output"><calaos:output id="o1" oper="==" val="true"/></calaos:condition>
+</calaos:rule>
+<calaos:rule name="script_cond" type="t">
+  <calaos:condition type="script"><calaos:input id="i1"/><calaos:script type="lua"><![CDATA[return true]]></calaos:script></calaos:condition>
+</calaos:rule>
+<calaos:rule name="std_action" type="t">
+  <calaos:action><calaos:output id="o1" val="true"/></calaos:action>
+</calaos:rule>
+<calaos:rule name="camera" type="t">
+  <calaos:condition><calaos:input id="ci" oper="==" val="true"/></calaos:condition>
+</calaos:rule>
+<calaos:rule name="bystander" type="t">
+  <calaos:condition><calaos:input id="i2" oper="==" val="true"/></calaos:condition>
+  <calaos:condition type="output"><calaos:output id="o2" oper="==" val="true"/></calaos:condition>
+  <calaos:action><calaos:output id="o2" val="true"/></calaos:action>
+</calaos:rule>)";
+
+const char *kBystander = "bystander";
+
+// i2 and o2 live in a room of their own so that destroying the room of the other
+// IOs leaves them alone.
+const char *kSplitIo = R"(
+<calaos:room name="Doomed" type="salon" hits="1">
+  <calaos:input id="i1" type="WIDigitalBP" name="i1" host="h" port="502" var="1"/>
+  <calaos:output id="o1" type="WODigital" name="o1" host="h" port="502" var="1"/>
+  <calaos:camera name="cam" type="axis" iid="ci" oid="co" id="ci_co"/>
+</calaos:room>
+<calaos:room name="Safe" type="salon" hits="1">
+  <calaos:input id="i2" type="WITemp" name="i2" host="h" port="502" var="2"/>
+  <calaos:output id="o2" type="WODigital" name="o2" host="h" port="502" var="2"/>
+</calaos:room>)";
+
+}
+
+// Names of the rules still holding the address `io`. Only compares pointers: the
+// IO may be freed already.
+static QStringList rulesHolding(const void *io)
+{
+    QStringList names;
+    ListeRule &rules = ListeRule::Instance();
+    for (int i = 0;i < rules.size();i++)
+    {
+        Rule *r = rules.get_rule(i);
+        bool holds = false;
+        for (int c = 0;c < r->get_size_conds();c++)
+        {
+            Condition *cd = r->get_condition(c);
+            for (int k = 0;k < cd->get_size();k++)
+                holds |= cd->get_input(k) == io;
+            for (int k = 0;k < cd->getScriptInputSize();k++)
+                holds |= cd->getScriptInput(k) == io;
+            holds |= cd->getOutput() == io;
+        }
+        for (int a = 0;a < r->get_size_actions();a++)
+            for (int k = 0;k < r->get_action(a)->get_size();k++)
+                holds |= r->get_action(a)->get_output(k) == io;
+        if (holds)
+            names << u(r->get_name());
+    }
+    return names;
+}
+
+// Loads the rules, then deletes `io` the way the installer does (route) and
+// returns its address, which is dangling by then.
+static const void *loadAndDelete(const QString &ioId, int route)
+{
+    ListeRoom &lr = ListeRoom::Instance();
+    IOBase *target = lr.get_input(ioId.toStdString());
+    if (!target)
+        target = lr.get_output(ioId.toStdString());
+    if (!target)
+        return nullptr;
+
+    const void *address = target;
+    if (route == DestroyRoom)
+        lr.Remove(lr.get_room(lr.searchIO(target)));
+    else if (target->is_input())
+        lr.deleteIOInput(target);
+    else
+        lr.deleteIOOutput(target);
+    return address;
+}
+
+void tst_ProjectManager::deletingAnIOLeavesNoRuleOnIt_data()
+{
+    QTest::addColumn<QString>("rule");
+    QTest::addColumn<QString>("io");
+    QTest::addColumn<int>("route");
+
+    const struct { const char *rule; const char *io; } cases[] = {
+        { "std_cond", "i1" }, { "out_cond", "o1" }, { "script_cond", "i1" },
+        { "std_action", "o1" }, { "camera", "ci_co" },
+    };
+    for (const auto &c: cases)
+    {
+        QTest::newRow(qPrintable(QString("%1 / delete %2").arg(c.rule, c.io))) << c.rule << c.io << int(DeleteIO);
+        QTest::newRow(qPrintable(QString("%1 / destroy room").arg(c.rule))) << c.rule << c.io << int(DestroyRoom);
+    }
+}
+
+void tst_ProjectManager::deletingAnIOLeavesNoRuleOnIt()
+{
+    QFETCH(QString, rule);
+    QFETCH(QString, io);
+    QFETCH(int, route);
+
+    const QString initial = rulesThroughModel(ioSource(kSplitIo), rulesSource(kRulesOnTheIOs));
+    QVERIFY2(initial.contains(QString("name=\"%1\"").arg(rule)), qPrintable(initial));
+    ListeRule &rules = ListeRule::Instance();
+    const int before = rules.size();
+    QVERIFY(rules.searchRule("t", rule.toStdString()));
+
+    const void *deleted = loadAndDelete(io, route);
+    QVERIFY(deleted);
+
+    QVERIFY2(!rules.searchRule("t", rule.toStdString()), "the rule survived the deletion of its IO");
+    QCOMPARE(rulesHolding(deleted), QStringList());
+    QVERIFY(rules.size() < before);
+    QVERIFY(rules.searchRule("t", kBystander));
+}
+
+// Saving walks every remaining rule: a pointer left to the freed IO is read here.
+void tst_ProjectManager::savingAfterDeletingAnIOReadsNoFreedMemory()
+{
+    QFETCH(QString, rule);
+    QFETCH(QString, io);
+    QFETCH(int, route);
+
+    rulesThroughModel(ioSource(kSplitIo), rulesSource(kRulesOnTheIOs));
+    QVERIFY(loadAndDelete(io, route));
+
+    const QString saved = QString::fromUtf8(saveRules("after_delete.xml"));
+    QVERIFY(!saved.isEmpty());
+    QVERIFY2(!saved.contains(QString("name=\"%1\"").arg(rule)), qPrintable(saved));
+    QVERIFY2(saved.contains(kBystander), qPrintable(saved));
+}
+
+void tst_ProjectManager::deletingAnIOKeepsTheOtherRules()
+{
+    QVERIFY(rulesThroughModel(ioSource(kSplitIo), rulesSource(kRulesOnTheIOs)).contains(kBystander));
+    ListeRoom &lr = ListeRoom::Instance();
+    ListeRule &rules = ListeRule::Instance();
+    QCOMPARE(rules.size(), 6);
+
+    // i1, o1 and ci_co carry every other rule; none of them belongs to the bystander.
+    lr.Remove(lr.get_room(lr.searchIO(lr.get_input("i1"))));
+
+    QCOMPARE(rules.size(), 1);
+    QCOMPARE(u(rules.get_rule(0)->get_name()), QString(kBystander));
+    QCOMPARE(rules.get_rule(0)->get_size_conds(), 2);
+    QCOMPARE(rules.get_rule(0)->get_size_actions(), 1);
 }
 
 QTEST_MAIN(tst_ProjectManager)

@@ -64,6 +64,7 @@ Rule *ruleOnOutput(const std::string &name, IOBase *io)
 
 struct ChildResult
 {
+    bool forkFailed = false;
     bool timedOut = false;
     bool exited = false;
     int code = -1;
@@ -78,10 +79,20 @@ ChildResult runInChild(const std::function<std::string()> &body, int timeoutMs =
     ChildResult res;
     int fds[2];
     if (::pipe(fds) != 0)
+    {
+        res.forkFailed = true;
         return res;
+    }
 
     std::fflush(nullptr);
     const pid_t pid = ::fork();
+    if (pid < 0)
+    {
+        ::close(fds[0]);
+        ::close(fds[1]);
+        res.forkFailed = true;
+        return res;
+    }
     if (pid == 0)
     {
         ::close(fds[0]);
@@ -118,6 +129,7 @@ ChildResult runInChild(const std::function<std::string()> &body, int timeoutMs =
 
 #define VERIFY_CHILD_OK(res) \
     do { \
+        QVERIFY2(!(res).forkFailed, "could not fork the child"); \
         QVERIFY2(!(res).timedOut, "the room destructor never returned"); \
         QVERIFY2((res).exited && (res).code == 0, "the child crashed"); \
         QVERIFY2((res).report.empty(), (res).report.c_str()); \
