@@ -387,6 +387,7 @@ private slots:
     void ioTimeRangeMonthsAndPlages();
     void ioRemoteUiPages();
     void ioDuplicateIdsAreKeptAndReported();
+    void ioRoomHitsDefaultToZero();
     void ioIosWithoutIdGetFreshIdsWithoutModal();
     void ioEmptyIdIsKeptAndNeverReportedAsDuplicate();
     void listeRoomEmptyIdNeverMatches();
@@ -896,6 +897,27 @@ R"(        <calaos:room name="R" type="salon" hits="1">
         </calaos:room>
 )"));
     QCOMPARE(m_dialogs, m_expectedDialogs);
+}
+
+// The server reads hits with as_int(0): absent, empty and unparsable all
+// land on 0. The reader used to leave an uninitialised int in the first two.
+void tst_ProjectManager::ioRoomHitsDefaultToZero()
+{
+    QByteArray src = ioSource(R"(
+<calaos:room name="absent" type="salon"/>
+<calaos:room name="empty" type="salon" hits=""/>
+<calaos:room name="garbage" type="salon" hits="abc"/>
+<calaos:room name="set" type="salon" hits="7"/>)");
+
+    resetModel();
+    writeAll(work("hits.xml"), src);
+    QVERIFY(loadIOs(work("hits.xml")));
+    ListeRoom &lr = ListeRoom::Instance();
+    QCOMPARE(lr.size(), 4);
+    QCOMPARE(lr.get_room(0)->get_hits(), 0);
+    QCOMPARE(lr.get_room(1)->get_hits(), 0);
+    QCOMPARE(lr.get_room(2)->get_hits(), 0);
+    QCOMPARE(lr.get_room(3)->get_hits(), 7);
 }
 
 // An IO without an id attribute gets a generated one, like on the server
