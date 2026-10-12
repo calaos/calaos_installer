@@ -62,7 +62,7 @@ QT_QPA_PLATFORM=offscreen ./tst_projectmanager/tst_projectmanager -v2 ioRoundTri
   `tests/<project>/` are discovered automatically: dropping a new `io.xml` / `rules.xml`
   in a new directory adds it to the round-trip tests. The remaining cases pin today's
   behaviour, including known defects (an unknown element in a `<room>` swallows the rest
-  of the file, a missing `months` attribute disables every month, ...). When a change
+  of the file, ...). When a change
   fixes one of them, that test is expected to fail: update it in the same commit.
 - The model and (de)serialisation sources are listed once in `calaos_model.pri`, shared by
   the application and the tests. A new file that the tests need goes there; one that only
