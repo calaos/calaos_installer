@@ -21,20 +21,36 @@
 //-----------------------------------------------------------------------------
 #include <Room.h>
 #include <ListeRoom.h>
+#include <ListeRule.h>
+#include <algorithm>
 //-----------------------------------------------------------------------------
 using namespace std;
 using namespace Calaos;
 //-----------------------------------------------------------------------------
 Room::~Room()
 {
-    while (inputs.size() > 0)
-        ListeRoom::Instance().deleteIOInput(inputs[0]);
-
-    while (outputs.size() > 0)
-        ListeRoom::Instance().deleteIOOutput(outputs[0]);
+    //Self-contained on purpose: a room destroyed outside ListeRoom (or while
+    //ListeRoom is itself being destroyed) must not need to be found there.
+    //An IO listed as both input and output is owned once.
+    std::vector<IOBase *> owned;
+    for (IOBase *io: inputs)
+        owned.push_back(io);
+    for (IOBase *io: outputs)
+        if (std::find(owned.begin(), owned.end(), io) == owned.end())
+            owned.push_back(io);
 
     inputs.clear();
     outputs.clear();
+
+    //Rules point at the IOs without owning them: they go first.
+    for (IOBase *io: owned)
+    {
+        ListeRule::Instance().RemoveRuleInput(io);
+        ListeRule::Instance().RemoveRuleOutput(io);
+    }
+
+    for (IOBase *io: owned)
+        delete io;
 }
 //-----------------------------------------------------------------------------
 void Room::AddInput(IOBase *in)

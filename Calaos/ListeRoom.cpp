@@ -34,6 +34,13 @@ ListeRoom &ListeRoom::Instance()
     return inst;
 }
 //-----------------------------------------------------------------------------
+ListeRoom::ListeRoom()
+{
+    //Rooms drop their IOs from ListeRule while they are destroyed, at exit
+    //included: static locals die in reverse order of construction.
+    ListeRule::Instance();
+}
+//-----------------------------------------------------------------------------
 ListeRoom::~ListeRoom()
 {
     clear();
@@ -41,12 +48,13 @@ ListeRoom::~ListeRoom()
 //-----------------------------------------------------------------------------
 void ListeRoom::clear()
 {
-    //~Room() looks its IOs up through this list: a room must leave it only
-    //once destroyed, and the ones left behind must still be alive.
+    //A room leaves the list before it dies so that nothing reachable from its
+    //destructor can find it half destroyed.
     while (!rooms.empty())
     {
-        delete rooms.back();
+        Room *room = rooms.back();
         rooms.pop_back();
+        delete room;
     }
 
     //Resetting the model also drops the ids reserved for dangling rule
@@ -63,14 +71,15 @@ void ListeRoom::Remove(int pos)
 {
     vector<Room *>::iterator iter = rooms.begin();
     for (int i = 0;i < pos;iter++, i++) ;
-    delete rooms[pos];
+    Room *room = rooms[pos];
     rooms.erase(iter);
+    delete room;
 }
 //-----------------------------------------------------------------------------
 void ListeRoom::Remove(Room *room)
 {
-    delete room;
     rooms.erase( std::remove( rooms.begin(), rooms.end(), room) , rooms.end());
+    delete room;
 }
 //-----------------------------------------------------------------------------
 Room *ListeRoom::operator[] (int i) const
