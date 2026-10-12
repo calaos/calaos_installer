@@ -43,9 +43,34 @@ cd build && make clean
 
 ## Testing
 
-There is **no automated test framework** for this project. The `tests/` directory contains
-sample Calaos XML project files (io.xml, rules.xml) used as test data for manual testing —
-not executable test code. Verify changes by building successfully and running the application.
+Unit tests use Qt Test and live in `tests/tests.pro` (standalone qmake project, not included
+by `calaos_installer.pro`). Build out of the repository: qmake artefacts next to the sources
+are not all gitignored.
+
+```bash
+mkdir -p /tmp/installer_tests_build && cd /tmp/installer_tests_build
+qmake6 <repo>/tests/tests.pro
+make -j$(nproc)
+QT_QPA_PLATFORM=offscreen make check          # offscreen: no X server needed
+
+# one suite / one case, verbose
+QT_QPA_PLATFORM=offscreen ./tst_projectmanager/tst_projectmanager -v2 ioRoundTrip
+```
+
+- `tests/tst_projectmanager/` characterises the io.xml / rules.xml reader and writer
+  (`src/projectmanager.cpp`) against the real model. Sample projects under
+  `tests/<project>/` are discovered automatically: dropping a new `io.xml` / `rules.xml`
+  in a new directory adds it to the round-trip tests. The remaining cases pin today's
+  behaviour, including known defects (an unknown element in a `<room>` swallows the rest
+  of the file, a missing `months` attribute disables every month, ...). When a change
+  fixes one of them, that test is expected to fail: update it in the same commit.
+- The model and (de)serialisation sources are listed once in `calaos_model.pri`, shared by
+  the application and the tests. A new file that the tests need goes there; one that only
+  the GUI needs stays in `calaos_installer.pro`.
+- To add a suite: create `tests/tst_<name>/tst_<name>.pro` (copy `tst_projectmanager`) and
+  add it to `SUBDIRS` in `tests/tests.pro`.
+- CI (`.github/workflows/pr_ci.yml`) builds the application and runs these tests on every
+  pull request. There is no test for the GUI itself: verify UI changes by running the app.
 
 ## Code Style Guidelines
 
@@ -163,7 +188,7 @@ qml/             — QML UI for Remote UI Editor
 data/            — UI forms (.ui), resources (.qrc), images, IO docs
 lang/            — Translations (7 languages: fr, de, es, nb, hi, pl, ru)
 machine_creator/ — Secondary app: Calaos Machine Creator (separate .pro)
-tests/           — Sample XML project files (test data, not test code)
+tests/           — Qt Test suites (tests.pro) and sample XML projects used as their data
 scripts/         — CI/CD and build/deploy scripts
 win32/           — Windows packaging (NSIS/Inno Setup)
 macos/           — macOS packaging (DMG, signing)

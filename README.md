@@ -144,7 +144,7 @@ qml/             Remote UI Editor
 data/            .ui forms, Qt resources, images, IO documentation
 lang/            Translations — French, German, Spanish, Norwegian, Hindi, Polish, Russian
 machine_creator/ Calaos Machine Creator (separate .pro)
-tests/           Sample Calaos projects used as manual test data
+tests/           Qt Test suites and the sample Calaos projects they read
 scripts/         Build and release helpers
 flatpak/         Flatpak manifest, desktop entry, AppStream metainfo
 win32/ macos/    Platform packaging
@@ -165,8 +165,16 @@ Two things worth knowing before you start:
 - `Calaos/` is shared with `calaos_server`. Changes there affect both, so tread carefully.
 - Vendored code (Lua 5.1.4, `qftp`, drivelist, BLAKE2) should be left alone.
 
-There is no automated test suite. `tests/` holds sample XML projects to exercise the
-application by hand; verify your changes by building and running it.
+Unit tests (Qt Test) cover the io.xml / rules.xml reader and writer; run them with:
+
+```bash
+mkdir -p /tmp/installer_tests_build && cd /tmp/installer_tests_build
+qmake6 <repo>/tests/tests.pro && make -j$(nproc)
+QT_QPA_PLATFORM=offscreen make check
+```
+
+The GUI has no automated tests: verify UI changes by building and running the application.
+Pull requests are built and tested by `.github/workflows/pr_ci.yml`.
 
 ### Translations
 
