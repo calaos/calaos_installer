@@ -630,6 +630,10 @@ void tst_Devices::deletingDeviceLeavesNoRuleOnItsIos()
     <calaos:script type="lua"><![CDATA[return true]]></calaos:script></calaos:condition>
   <calaos:action><calaos:output id="dev_target" val="1"/></calaos:action>
 </calaos:rule>
+<calaos:rule name="script_keeps_ext" type="t">
+  <calaos:condition type="script"><calaos:input id="dev_in"/><calaos:input id="ext"/>
+    <calaos:script type="lua"><![CDATA[return true]]></calaos:script></calaos:condition>
+</calaos:rule>
 <calaos:rule name="state_of_owned" type="t">
   <calaos:condition type="output"><calaos:output id="dev_out" oper="==" val="true"/></calaos:condition>
 </calaos:rule>
