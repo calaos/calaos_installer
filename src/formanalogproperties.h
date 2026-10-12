@@ -21,6 +21,7 @@ public:
     double getOffset();
     QString getValueMin();
     QString getValueMax();
+    QString boundsError();
     void addBoundsTo(Params &p);
 
     void updateUI(bool isOutput);

@@ -1,6 +1,7 @@
 #include "formanalogproperties.h"
 #include "ui_formanalogproperties.h"
 #include <QDoubleValidator>
+#include <QLineEdit>
 #include <QLocale>
 #include "Params.h"
 
@@ -14,8 +15,10 @@ FormAnalogProperties::FormAnalogProperties(QWidget *parent, bool isOutput) :
     for (QLineEdit *e: { ui->edit_value_min, ui->edit_value_max })
     {
         QDoubleValidator *v = new QDoubleValidator(e);
-        v->setLocale(QLocale::c());
         v->setNotation(QDoubleValidator::StandardNotation);
+        QLocale c = QLocale::c();
+        c.setNumberOptions(QLocale::RejectGroupSeparator);
+        v->setLocale(c);
         e->setValidator(v);
     }
     updateUI(isOutput);
@@ -68,19 +71,42 @@ double FormAnalogProperties::getOffset()
     return ui->spin_offset->value();
 }
 
+// Empty and hidden fields mean "no bound": switching output to input must not keep a stale one.
+static QString boundText(QLineEdit *e, QWidget *form)
+{
+    return e->isVisibleTo(form) ? e->text().trimmed() : QString();
+}
+
 QString FormAnalogProperties::getValueMin()
 {
-    return ui->edit_value_min->text().trimmed();
+    return boundText(ui->edit_value_min, this);
 }
 
 QString FormAnalogProperties::getValueMax()
 {
-    return ui->edit_value_max->text().trimmed();
+    return boundText(ui->edit_value_max, this);
+}
+
+QString FormAnalogProperties::boundsError()
+{
+    for (QLineEdit *e: { ui->edit_value_min, ui->edit_value_max })
+    {
+        if (!boundText(e, this).isEmpty() && !e->hasAcceptableInput())
+            return tr("The minimum and maximum values must be plain numbers.");
+    }
+
+    const QString lo = getValueMin(), hi = getValueMax();
+    if (!lo.isEmpty() && !hi.isEmpty() && lo.toDouble() > hi.toDouble())
+        return tr("The minimum value cannot be greater than the maximum value.");
+
+    return QString();
 }
 
 void FormAnalogProperties::addBoundsTo(Params &p)
 {
-    // Absent means unbounded for the server.
+    if (!boundsError().isEmpty())
+        return;
+
     if (!getValueMin().isEmpty())
         p.Add("value_min", getValueMin().toUtf8().constData());
     if (!getValueMax().isEmpty())

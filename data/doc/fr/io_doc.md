@@ -43,17 +43,18 @@ name | string | yes | Nom de l'entrée/sortie.
 tilt_framesize | string | no | 
 log_history | bool | no | Si activé, écrit une entrée dans l'historique pour cet IO
 visible | bool | no | Afficher l'entrée/sortie sur toutes les interfaces utilisateur si activé. Vrai par défautAffichez l'entrée/sortie sur toutes les interfaces utilisateur. Vrai par défaut
+zoom_step | string | no | 
+enabled | bool | no | Activez l'entrée/sortie. Vrai par défaut. Ce paramètre est ajouté s'il n'est pas trouvé dans la configuration.
 id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
 gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
 io_type | string | yes | Type d'entrée/sortie (input, output, inout)
+insecure | bool | no | Skip TLS certificate verification when connecting to the camera. Default to true (most cameras use self-signed certificates). Set to false to only allow a verified HTTPS connection.
 logged | bool | no | Si activé, et si influxdb est activé dans local_config, envoie la valeur à influxdb pour cet IO
 rotate | int | no | Faire pivoter l'image. Définir une valeur en degrés. Exemple : -90 pour une rotation antihoraire, 90 pour une rotation horaire.
 pan_framesize | string | no | 
 model | string | yes | Modèle de camèra/Canal è utiliser
 width | int | no | Largeur de l'image, si ce paramètre est défini, la vidéo sera redimensionnée pour s'adapter à la largeur donnée. Laissez le paramètre vide pour conserver la taille originale.
 ptz | bool | no | Activer si la camèra supporte le PTZ
-enabled | bool | no | Activez l'entrée/sortie. Vrai par défaut. Ce paramètre est ajouté s'il n'est pas trouvé dans la configuration.
-zoom_step | string | no | 
 
 # Foscam - UNDOCUMENTED IO
 SPANK SPANK SPANK : naughty programmer ! You did not add documentation for this IO, that's BAD :'(
@@ -66,6 +67,7 @@ Foscam IP Camera/Encoder. Camera can be viewed directly inside calaos and used i
 ## Parameters of Foscam
 Name | Type | Mandatory | Description
 ---- | ---- | --------- | -----------
+username | string | yes | Nom d'utilisateur pour accéder à la caméra
 name | string | yes | Nom de l'entrée/sortie.
 log_history | bool | no | Si activé, écrit une entrée dans l'historique pour cet IO
 password | string | yes | Mot de passe pour l'utilisateur
@@ -73,6 +75,7 @@ visible | bool | no | Afficher l'entrée/sortie sur toutes les interfaces utilis
 id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
 gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
 io_type | string | yes | Type d'entrée/sortie (input, output, inout)
+insecure | bool | no | Skip TLS certificate verification when connecting to the camera. Default to true (most cameras use self-signed certificates). Set to false to only allow a verified HTTPS connection.
 logged | bool | no | Si activé, et si influxdb est activé dans local_config, envoie la valeur à influxdb pour cet IO
 host | string | yes | Adresse IP
 rotate | int | no | Faire pivoter l'image. Définir une valeur en degrés. Exemple : -90 pour une rotation antihoraire, 90 pour une rotation horaire.
@@ -81,29 +84,6 @@ width | int | no | Largeur de l'image, si ce paramètre est défini, la vidéo s
 ptz | bool | no | Activer si la camèra supporte le PTZ
 enabled | bool | no | Activez l'entrée/sortie. Vrai par défaut. Ce paramètre est ajouté s'il n'est pas trouvé dans la configuration.
 zoom_step | string | no | 
-username | string | yes | Nom d'utilisateur pour accéder à la caméra
-
-# Gadspot - UNDOCUMENTED IO
-SPANK SPANK SPANK : naughty programmer ! You did not add documentation for this IO, that's BAD :'(
-Go document it in your code or you will burn in hell!
-
-
-
-Camera IP Gadspot. La camèra peut être directement vue dans calaos et utilisée dans les règles.
-
-## Parameters of Gadspot
-Name | Type | Mandatory | Description
----- | ---- | --------- | -----------
-rotate | int | no | Faire pivoter l'image. Définir une valeur en degrés. Exemple : -90 pour une rotation antihoraire, 90 pour une rotation horaire.
-logged | bool | no | Si activé, et si influxdb est activé dans local_config, envoie la valeur à influxdb pour cet IO
-width | int | no | Largeur de l'image, si ce paramètre est défini, la vidéo sera redimensionnée pour s'adapter à la largeur donnée. Laissez le paramètre vide pour conserver la taille originale.
-io_type | string | yes | Type d'entrée/sortie (input, output, inout)
-gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
-enabled | bool | no | Activez l'entrée/sortie. Vrai par défaut. Ce paramètre est ajouté s'il n'est pas trouvé dans la configuration.
-visible | bool | no | Afficher l'entrée/sortie sur toutes les interfaces utilisateur si activé. Vrai par défautAffichez l'entrée/sortie sur toutes les interfaces utilisateur. Vrai par défaut
-log_history | bool | no | Si activé, écrit une entrée dans l'historique pour cet IO
-name | string | yes | Nom de l'entrée/sortie.
-id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
 
 
 # GpioInputSwitch
@@ -118,6 +98,7 @@ Name | Type | Mandatory | Description
 gpio | int | yes | ID du GPIO sur la carte
 logged | bool | no | Si activé, et si influxdb est activé dans local_config, envoie la valeur à influxdb pour cet IO
 io_type | string | yes | Type d'entrée/sortie (input, output, inout)
+debounce | float | no | Debounce time in seconds. Values changing faster than this are filtered out
 gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
 enabled | bool | no | Activez l'entrée/sortie. Vrai par défaut. Ce paramètre est ajouté s'il n'est pas trouvé dans la configuration.
 visible | bool | no | Display the Input/Output on all user interfaces if set. Default to false for switches
@@ -147,6 +128,7 @@ Name | Type | Mandatory | Description
 gpio | int | yes | ID du GPIO sur la carte
 logged | bool | no | Si activé, et si influxdb est activé dans local_config, envoie la valeur à influxdb pour cet IO
 io_type | string | yes | Type d'entrée/sortie (input, output, inout)
+debounce | float | no | Debounce time in seconds. Values changing faster than this are filtered out
 gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
 enabled | bool | no | Activez l'entrée/sortie. Vrai par défaut. Ce paramètre est ajouté s'il n'est pas trouvé dans la configuration.
 visible | bool | no | Un interrupteur ne peut pas être visible. Toujours faux.
@@ -175,6 +157,7 @@ Name | Type | Mandatory | Description
 gpio | int | yes | ID du GPIO sur la carte
 logged | bool | no | Si activé, et si influxdb est activé dans local_config, envoie la valeur à influxdb pour cet IO
 io_type | string | yes | Type d'entrée/sortie (input, output, inout)
+debounce | float | no | Debounce time in seconds. Values changing faster than this are filtered out
 gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
 enabled | bool | no | Activez l'entrée/sortie. Vrai par défaut. Ce paramètre est ajouté s'il n'est pas trouvé dans la configuration.
 visible | bool | no | Un interrupteur ne peut pas être visible. Toujours faux.
@@ -273,14 +256,13 @@ false | Événement lorsque le volet est fermè
 ## Actions of GpioOutputShutterSmart
 Name | Description
 ---- | -----------
-up 5 | Ouvrir le volet de X pourcent 
+set_state 50 | Update internal shutter position, in percent, without starting real action. This is useful when having updating the shutter state from an external source. 
+ up 5 | Ouvrir le volet de X pourcent 
  set 50 | Mettre le volet è la position X en pourcentage 
  impulse up 200 | Ouvrir le volet pendant X ms 
- set_state true | Met è jour l'état du volet en interne sans démarrer d'action rèelle. Ceci est utile lorsque vous avez mis è jour l'état du volet è partir d'une source externe. 
  down 5 | Fermer le volet de X pourcent 
  impulse down 200 | Fermer le volet pendant X ms 
  toggle | Inverser l'état du volet 
- set_state false | Met è jour l'état du volet en interne sans démarrer d'action rèelle. Ceci est utile lorsque vous avez mis è jour l'état du volet è partir d'une source externe. 
  calibrate | Commencez l'ètalonnage du volet. Cela ouvre complètement le volet et rèinitialise toutes les valeurs de position internes. Utilisez cette option si la synchronisation du volet est perdue. 
  stop | Arrêter le volet 
  down | Fermer le volet 
@@ -339,6 +321,7 @@ Name | Type | Mandatory | Description
 api | string | yes | Clé API renvoyée par la passerelle Hue lorsque l'association a été effectuée. Utilisez Hue Wizard dans Calaos_installer pour obtenir cette valeur automatiquement.
 host | string | yes | Adresse IP de la passerelle Philips Hue
 logged | bool | no | Si activé, et si influxdb est activé dans local_config, envoie la valeur à influxdb pour cet IO
+insecure | bool | no | Skip TLS certificate verification when connecting to the Hue bridge. Default to true (the bridge uses a self-signed certificate). Set to false to only allow a verified HTTPS connection.
 io_type | string | yes | Type d'entrée/sortie (input, output, inout)
 id_hue | string | yes | ID unique décrivant la lumière Hue. Cette valeur est renvoyée par Hue Wizard.
 gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
@@ -483,18 +466,20 @@ Objet de numérique interne. Cet objet est utile pour la programmation interne d
 ## Parameters of InternalInt
 Name | Type | Mandatory | Description
 ---- | ---- | --------- | -----------
-rw | bool | no | Activer le mode d'édition pour cet objet. Il permet aux utilisateurs de modifier la valeur sur les interfaces. Faux par défaut
-unit | string | no | Unité affichée sur l'interface utilisateur en tant que suffixe.
-logged | bool | no | Si activé, et si influxdb est activé dans local_config, envoie la valeur à influxdb pour cet IO
-io_type | string | yes | Type d'entrée/sortie (input, output, inout)
-gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
-enabled | bool | no | Activez l'entrée/sortie. Vrai par défaut. Ce paramètre est ajouté s'il n'est pas trouvé dans la configuration.
 save | bool | no | Enregistrer automatiquement la valeur dans le cache. La valeur sera rechargée lors du démarrage de calaos. Défaut à faux
-step | float | no | Définir un pas pour incrémenter/décrémenter la valeur. La valeur par défaut est 1.0Définit le pas pour incrémenter/décrémenter la valeur. La valeur par défaut est 1.0
-visible | bool | no | Afficher l'entrée/sortie sur toutes les interfaces utilisateur si activé. Vrai par défautAffichez l'entrée/sortie sur toutes les interfaces utilisateur. Vrai par défaut
-log_history | bool | no | Si activé, écrit une entrée dans l'historique pour cet IO
 name | string | yes | Nom de l'entrée/sortie.
+log_history | bool | no | Si activé, écrit une entrée dans l'historique pour cet IO
+visible | bool | no | Afficher l'entrée/sortie sur toutes les interfaces utilisateur si activé. Vrai par défautAffichez l'entrée/sortie sur toutes les interfaces utilisateur. Vrai par défaut
+step | float | no | Définir un pas pour incrémenter/décrémenter la valeur. La valeur par défaut est 1.0Définit le pas pour incrémenter/décrémenter la valeur. La valeur par défaut est 1.0
+enabled | bool | no | Activez l'entrée/sortie. Vrai par défaut. Ce paramètre est ajouté s'il n'est pas trouvé dans la configuration.
 id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
+gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
+io_type | string | yes | Type d'entrée/sortie (input, output, inout)
+value_max | float | no | Highest value accepted when writing. A higher value is lowered to `value_max`. The bound applies to the written value, before coeff_a/coeff_b/calc_expr, and also to the result of inc/dec. No upper bound if not set. Ignored, with an error in the log, if lower than `value_min`.
+logged | bool | no | Si activé, et si influxdb est activé dans local_config, envoie la valeur à influxdb pour cet IO
+unit | string | no | Unité affichée sur l'interface utilisateur en tant que suffixe.
+value_min | float | no | Lowest value accepted when writing. A lower value is raised to `value_min`. The bound applies to the written value, before coeff_a/coeff_b/calc_expr, and also to the result of inc/dec. No lower bound if not set. Ignored, with an error in the log, if greater than `value_max`.
+rw | bool | no | Activer le mode d'édition pour cet objet. Il permet aux utilisateurs de modifier la valeur sur les interfaces. Faux par défaut
 
 ## Conditions of InternalInt
 Name | Description
@@ -744,6 +729,8 @@ host | string | yes | Nom d'hète de knxd, localhost par défaut
 read_at_start | bool | yes | Envoyer une demande de lecture au démarrage pour obtenir la valeur actuelle. Faux par défautEnvoier une demande de lecture au démarrage pour obtenir la valeur. Faux par défaut
 eis | int | no | KNX EIS (type de données)
 listen_knx_group | string | no | Adresse de groupe KNX pour l'écoute de l'état, Ex: x/y/z
+value_max | float | no | Highest value accepted when writing. A higher value is lowered to `value_max`. The bound applies to the written value, before coeff_a/coeff_b/calc_expr, and also to the result of inc/dec. No upper bound if not set. Ignored, with an error in the log, if lower than `value_min`.
+value_min | float | no | Lowest value accepted when writing. A lower value is raised to `value_min`. The bound applies to the written value, before coeff_a/coeff_b/calc_expr, and also to the result of inc/dec. No lower bound if not set. Ignored, with an error in the log, if greater than `value_max`.
 name | string | yes | Nom de l'entrée/sortie.
 visible | bool | no | Afficher l'entrée/sortie sur toutes les interfaces utilisateur si activé. Vrai par défautAffichez l'entrée/sortie sur toutes les interfaces utilisateur. Vrai par défaut
 step | float | no | Définir un pas pour incrémenter/décrémenter la valeur. La valeur par défaut est 1.0Définit le pas pour incrémenter/décrémenter la valeur. La valeur par défaut est 1.0
@@ -1022,14 +1009,13 @@ false | Événement lorsque le volet est fermè
 ## Actions of KNXOutputShutterSmart
 Name | Description
 ---- | -----------
-up 5 | Ouvrir le volet de X pourcent 
+set_state 50 | Update internal shutter position, in percent, without starting real action. This is useful when having updating the shutter state from an external source. 
+ up 5 | Ouvrir le volet de X pourcent 
  set 50 | Mettre le volet è la position X en pourcentage 
  impulse up 200 | Ouvrir le volet pendant X ms 
- set_state true | Met è jour l'état du volet en interne sans démarrer d'action rèelle. Ceci est utile lorsque vous avez mis è jour l'état du volet è partir d'une source externe. 
  down 5 | Fermer le volet de X pourcent 
  impulse down 200 | Fermer le volet pendant X ms 
  toggle | Inverser l'état du volet 
- set_state false | Met è jour l'état du volet en interne sans démarrer d'action rèelle. Ceci est utile lorsque vous avez mis è jour l'état du volet è partir d'une source externe. 
  calibrate | Commencez l'ètalonnage du volet. Cela ouvre complètement le volet et rèinitialise toutes les valeurs de position internes. Utilisez cette option si la synchronisation du volet est perdue. 
  stop | Arrêter le volet 
  down | Fermer le volet 
@@ -1048,12 +1034,12 @@ Une entrée analogique peut être utilisée pour lire des valeurs analogiques po
 ## Parameters of MqttInputAnalog
 Name | Type | Mandatory | Description
 ---- | ---- | --------- | -----------
-wifi_ssid_path | string | no | The path where to find the WiFi SSID where the sensor is connected in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. for example weather[0]/description, try to read the description value of the 1 element of the array of the weather object. If payload is simple json, just try to use the key of the value you want to read, for example : {"wifi_ssid": "MyWifi"} use "wifi_ssid" as path. The value should be a string with the WiFi SSID.
+wifi_ssid_path | string | no | The path where to find the WiFi SSID where the sensor is connected in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. Array indices are their own path segment, written between square brackets: for example weather/[0]/description reads the description value of the first element of the weather array. If payload is simple json, just try to use the key of the value you want to read, for example : {"wifi_ssid": "MyWifi"} use "wifi_ssid" as path. The value should be a string with the WiFi SSID.
 uptime_expr | string | no | If the uptime value is not directly available in the payload, you can use this parameter to calculate the uptime value from the payload. The value will be calculated as any valid mathematic expression. In the expression, the variable x is replaced with the raw value from path. If not set, the uptime value will be read directly from the path. Example: "x * 100 / 255"
 uptime_topic | string | no | The topic on witch to publish the uptime of the sensor. If not set, no uptime will be reported.
 connected_status_expr | string | no | If the connected status value is not directly available in the payload, you can use this parameter to convert the value from the path to a boolean. The value will be calculated as any valid mathematic expression. In the expression, the variable `value` is replaced with the raw value from path. If not set, the connected status will be read directly from the path. Example: "value == 'connected'" or "value > 30 and value < 150"
-connected_status_path | string | no | The path where to find the connected status in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. for example weather[0]/description, try to read the description value of the 1 element of the array of the weather object. If payload is simple json, just try to use the key of the value you want to read, for example : {"connected":true} use "connected" as path. The value should be a boolean. Use connected_status_expr to convert to a boolean
-uptime_path | string | no | The path where to find the uptime of the sensor in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. for example weather[0]/description, try to read the description value of the 1 element of the array of the weather object. If payload is simple json, just try to use the key of the value you want to read, for example : {"uptime": 3600} use "uptime" as path. The value should be a number in seconds. Use `uptime_expr` to adjust if required.
+connected_status_path | string | no | The path where to find the connected status in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. Array indices are their own path segment, written between square brackets: for example weather/[0]/description reads the description value of the first element of the weather array. If payload is simple json, just try to use the key of the value you want to read, for example : {"connected":true} use "connected" as path. The value should be a boolean. Use connected_status_expr to convert to a boolean
+uptime_path | string | no | The path where to find the uptime of the sensor in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. Array indices are their own path segment, written between square brackets: for example weather/[0]/description reads the description value of the first element of the weather array. If payload is simple json, just try to use the key of the value you want to read, for example : {"uptime": 3600} use "uptime" as path. The value should be a number in seconds. Use `uptime_expr` to adjust if required.
 connected_status_topic | string | no | The topic on witch to publish the connected status of the sensor. If not set, no connected status will be reported.
 host | string | no | Adresse IP du broker MQTT auquel se connecter. La valeur par défaut est 127.0.0.1.
 period | float | no | Sampling time in millisecond. The value is read at this frequency. If this value is not set, calaos tries to read the interval parameter
@@ -1063,9 +1049,9 @@ calc_expr | string | no | Utiliser une expression mathématique pour calculer la
 wifi_ssid_topic | string | no | The topic on witch to publish the WiFi SSID of the sensor. If not set, no WiFi SSID will be reported.
 log_history | bool | no | Si activé, écrit une entrée dans l'historique pour cet IO
 io_style | list | yes | Affichage de style GUI. Ceci contrôlera l'ìcône affichée sur l'interface utilisateurStyle d'affichage. Contrôle l'icône affichée sur l'interface utilisateur
-path | string | yes | The path where to find the value in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. for example weather[0]/description, try to read the description value of the 1 element of the array of the weather object. if payload is simple json, just try to use the key of the value you want to read, for example : {"temperature":14.23} use "temperature" as path
+path | string | yes | The path where to find the value in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. Array indices are their own path segment, written between square brackets: for example weather/[0]/description reads the description value of the first element of the weather array. if payload is simple json, just try to use the key of the value you want to read, for example : {"temperature":14.23} use "temperature" as path
 logged | bool | no | Si activé, et si influxdb est activé dans local_config, envoie la valeur à influxdb pour cet IO
-wireless_signal_path | string | no | The path where to find the wireless signal strength in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. for example weather[0]/description, try to read the description value of the 1 element of the array of the weather object. If payload is simple json, just try to use the key of the value you want to read, for example : {"signal": 70} use "signal" as path. The value should be a number in percent. Use `wireless_signal_expr` to adjust if required.
+wireless_signal_path | string | no | The path where to find the wireless signal strength in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. Array indices are their own path segment, written between square brackets: for example weather/[0]/description reads the description value of the first element of the weather array. If payload is simple json, just try to use the key of the value you want to read, for example : {"signal": 70} use "signal" as path. The value should be a number in percent. Use `wireless_signal_expr` to adjust if required.
 coeff_b | float | no | Utiliser conjointement coeff_a pour appliquer l'èquation de la forme valeur = coeff_a * raw_value + coeff_b. La valeur par défaut est 0.0.
 io_type | string | yes | Type d'entrée/sortie (input, output, inout)
 coeff_a | float | no | Utiliser conjointement coeff_b pour appliquer l'èquation de la forme valeur = coeff_a * raw_value + coeff_b. La valeur par défaut est 1.0.
@@ -1075,7 +1061,7 @@ enabled | bool | no | Activez l'entrée/sortie. Vrai par défaut. Ce paramètre 
 offset | float | no | Comme le coeff_b, peut être utilisé seul. La valeur par défaut est 0.0
 display_warning | bool | no | Affiche un avertissement si la valeur n'a pas été mise à jour depuis longtemps. Vrai par défaut
 visible | bool | no | Afficher l'entrée/sortie sur toutes les interfaces utilisateur si activé. Vrai par défautAffichez l'entrée/sortie sur toutes les interfaces utilisateur. Vrai par défaut
-ip_address_path | string | no | The path where to find the IP address of the sensor in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. for example weather[0]/description, try to read the description value of the 1 element of the array of the weather object. If payload is simple json, just try to use the key of the value you want to read, for example : {"ip_address": "192.168.1.156"} use "ip_address" as path. The value should be a string with the IP address.
+ip_address_path | string | no | The path where to find the IP address of the sensor in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. Array indices are their own path segment, written between square brackets: for example weather/[0]/description reads the description value of the first element of the weather array. If payload is simple json, just try to use the key of the value you want to read, for example : {"ip_address": "192.168.1.156"} use "ip_address" as path. The value should be a string with the IP address.
 password | string | no | Mot de passe à utiliser pour l'authentification avec le broker MQTT. L'utilisateur doit être défini dans ce cas.
 name | string | yes | Nom de l'entrée/sortie.
 interval | float | no | Temps d'échantillonnage en secondes. La valeur est lue à cette fréquence. Si cette valeur n'est pas définie, la valeur par défaut est 15s
@@ -1091,7 +1077,7 @@ gui_type | string | no | Type graphique interne pour tous les objets calaos. Par
 battery_expr | string | no | If the battery value is not directly available in the payload, you can use this parameter to calculate the battery value from the payload. The value will be calculated as any valid mathematic expression. In the expression, the variable x is replaced with the raw value from path. If not set, the battery value will be read directly from the path. Example: "x * 100 / 255"
 notif_battery | bool | no | If set, a notification will be sent when the battery level drops below 30%. This is only used if the battery_topic is set.
 wireless_signal_expr | string | no | If the wireless signal value is not directly available in the payload, you can use this parameter to calculate the wireless signal value from the payload. The value will be calculated as any valid mathematic expression. In the expression, the variable x is replaced with the raw value from path. If not set, the wireless signal value will be read directly from the path. Example: "x * 100 / 255"
-battery_path | string | no | The path where to find the battery status in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. for example weather[0]/description, try to read the description value of the 1 element of the array of the weather object. If payload is simple json object, just try to use the key of the value you want to read, for example : {"battery":90} use "battery" as path. When this path is set, and the level drops below 30%. The battery reported should be in percent. Use `battery_expr` to adjust if required.
+battery_path | string | no | The path where to find the battery status in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. Array indices are their own path segment, written between square brackets: for example weather/[0]/description reads the description value of the first element of the weather array. If payload is simple json object, just try to use the key of the value you want to read, for example : {"battery":90} use "battery" as path. When this path is set, and the level drops below 30%. The battery reported should be in percent. Use `battery_expr` to adjust if required.
 
 ## Conditions of MqttInputAnalog
 Name | Description
@@ -1106,8 +1092,8 @@ Valeur chaîne lue depuis un broker MQTT
 ## Parameters of MqttInputString
 Name | Type | Mandatory | Description
 ---- | ---- | --------- | -----------
-wifi_ssid_path | string | no | The path where to find the WiFi SSID where the sensor is connected in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. for example weather[0]/description, try to read the description value of the 1 element of the array of the weather object. If payload is simple json, just try to use the key of the value you want to read, for example : {"wifi_ssid": "MyWifi"} use "wifi_ssid" as path. The value should be a string with the WiFi SSID.
-ip_address_path | string | no | The path where to find the IP address of the sensor in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. for example weather[0]/description, try to read the description value of the 1 element of the array of the weather object. If payload is simple json, just try to use the key of the value you want to read, for example : {"ip_address": "192.168.1.156"} use "ip_address" as path. The value should be a string with the IP address.
+wifi_ssid_path | string | no | The path where to find the WiFi SSID where the sensor is connected in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. Array indices are their own path segment, written between square brackets: for example weather/[0]/description reads the description value of the first element of the weather array. If payload is simple json, just try to use the key of the value you want to read, for example : {"wifi_ssid": "MyWifi"} use "wifi_ssid" as path. The value should be a string with the WiFi SSID.
+ip_address_path | string | no | The path where to find the IP address of the sensor in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. Array indices are their own path segment, written between square brackets: for example weather/[0]/description reads the description value of the first element of the weather array. If payload is simple json, just try to use the key of the value you want to read, for example : {"ip_address": "192.168.1.156"} use "ip_address" as path. The value should be a string with the IP address.
 password | string | no | Mot de passe à utiliser pour l'authentification avec le broker MQTT. L'utilisateur doit être défini dans ce cas.
 visible | bool | no | Afficher l'entrée/sortie sur toutes les interfaces utilisateur si activé. Vrai par défautAffichez l'entrée/sortie sur toutes les interfaces utilisateur. Vrai par défaut
 uptime_expr | string | no | If the uptime value is not directly available in the payload, you can use this parameter to calculate the uptime value from the payload. The value will be calculated as any valid mathematic expression. In the expression, the variable x is replaced with the raw value from path. If not set, the uptime value will be read directly from the path. Example: "x * 100 / 255"
@@ -1115,7 +1101,7 @@ host | string | no | Adresse IP du broker MQTT auquel se connecter. La valeur pa
 logged | bool | no | Si activé, et si influxdb est activé dans local_config, envoie la valeur à influxdb pour cet IO
 notif_connected | bool | no | If set, a notification will be sent when the connected status changes. This is only used if the connected_status_topic is set.
 user | string | no | Utilisateur à utiliser pour l'authentification avec le broker MQTT. Le mot de passe doit être défini dans ce cas.
-wireless_signal_path | string | no | The path where to find the wireless signal strength in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. for example weather[0]/description, try to read the description value of the 1 element of the array of the weather object. If payload is simple json, just try to use the key of the value you want to read, for example : {"signal": 70} use "signal" as path. The value should be a number in percent. Use `wireless_signal_expr` to adjust if required.
+wireless_signal_path | string | no | The path where to find the wireless signal strength in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. Array indices are their own path segment, written between square brackets: for example weather/[0]/description reads the description value of the first element of the weather array. If payload is simple json, just try to use the key of the value you want to read, for example : {"signal": 70} use "signal" as path. The value should be a number in percent. Use `wireless_signal_expr` to adjust if required.
 io_type | string | yes | Type d'entrée/sortie (input, output, inout)
 id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
 enabled | bool | no | Activez l'entrée/sortie. Vrai par défaut. Ce paramètre est ajouté s'il n'est pas trouvé dans la configuration.
@@ -1124,7 +1110,7 @@ port | int | no | Port TCP du broker MQTT. La valeur par défaut est 1883
 wireless_signal_topic | string | no | The topic on witch to publish the wireless signal strength of the sensor. If not set, no wireless signal strength will be reported.
 wifi_ssid_topic | string | no | The topic on witch to publish the WiFi SSID of the sensor. If not set, no WiFi SSID will be reported.
 log_history | bool | no | Si activé, écrit une entrée dans l'historique pour cet IO
-path | string | yes | The path where to find the value in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. for example weather[0]/description, try to read the description value of the 1 element of the array of the weather object. if payload is simple json, just try to use the key of the value you want to read, for example : {"temperature":14.23} use "temperature" as path
+path | string | yes | The path where to find the value in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. Array indices are their own path segment, written between square brackets: for example weather/[0]/description reads the description value of the first element of the weather array. if payload is simple json, just try to use the key of the value you want to read, for example : {"temperature":14.23} use "temperature" as path
 name | string | yes | Nom de l'entrée/sortie.
 keepalive | int | no | Délai de keepalive en secondes. Temps entre deux PING MQTT.
 topic_pub | string | yes | Sujet sur lequel publier.
@@ -1134,12 +1120,12 @@ gui_type | string | no | Type graphique interne pour tous les objets calaos. Par
 battery_expr | string | no | If the battery value is not directly available in the payload, you can use this parameter to calculate the battery value from the payload. The value will be calculated as any valid mathematic expression. In the expression, the variable x is replaced with the raw value from path. If not set, the battery value will be read directly from the path. Example: "x * 100 / 255"
 notif_battery | bool | no | If set, a notification will be sent when the battery level drops below 30%. This is only used if the battery_topic is set.
 wireless_signal_expr | string | no | If the wireless signal value is not directly available in the payload, you can use this parameter to calculate the wireless signal value from the payload. The value will be calculated as any valid mathematic expression. In the expression, the variable x is replaced with the raw value from path. If not set, the wireless signal value will be read directly from the path. Example: "x * 100 / 255"
-battery_path | string | no | The path where to find the battery status in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. for example weather[0]/description, try to read the description value of the 1 element of the array of the weather object. If payload is simple json object, just try to use the key of the value you want to read, for example : {"battery":90} use "battery" as path. When this path is set, and the level drops below 30%. The battery reported should be in percent. Use `battery_expr` to adjust if required.
-connected_status_path | string | no | The path where to find the connected status in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. for example weather[0]/description, try to read the description value of the 1 element of the array of the weather object. If payload is simple json, just try to use the key of the value you want to read, for example : {"connected":true} use "connected" as path. The value should be a boolean. Use connected_status_expr to convert to a boolean
+battery_path | string | no | The path where to find the battery status in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. Array indices are their own path segment, written between square brackets: for example weather/[0]/description reads the description value of the first element of the weather array. If payload is simple json object, just try to use the key of the value you want to read, for example : {"battery":90} use "battery" as path. When this path is set, and the level drops below 30%. The battery reported should be in percent. Use `battery_expr` to adjust if required.
+connected_status_path | string | no | The path where to find the connected status in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. Array indices are their own path segment, written between square brackets: for example weather/[0]/description reads the description value of the first element of the weather array. If payload is simple json, just try to use the key of the value you want to read, for example : {"connected":true} use "connected" as path. The value should be a boolean. Use connected_status_expr to convert to a boolean
 uptime_topic | string | no | The topic on witch to publish the uptime of the sensor. If not set, no uptime will be reported.
 connected_status_expr | string | no | If the connected status value is not directly available in the payload, you can use this parameter to convert the value from the path to a boolean. The value will be calculated as any valid mathematic expression. In the expression, the variable `value` is replaced with the raw value from path. If not set, the connected status will be read directly from the path. Example: "value == 'connected'" or "value > 30 and value < 150"
 connected_status_topic | string | no | The topic on witch to publish the connected status of the sensor. If not set, no connected status will be reported.
-uptime_path | string | no | The path where to find the uptime of the sensor in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. for example weather[0]/description, try to read the description value of the 1 element of the array of the weather object. If payload is simple json, just try to use the key of the value you want to read, for example : {"uptime": 3600} use "uptime" as path. The value should be a number in seconds. Use `uptime_expr` to adjust if required.
+uptime_path | string | no | The path where to find the uptime of the sensor in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. Array indices are their own path segment, written between square brackets: for example weather/[0]/description reads the description value of the first element of the weather array. If payload is simple json, just try to use the key of the value you want to read, for example : {"uptime": 3600} use "uptime" as path. The value should be a number in seconds. Use `uptime_expr` to adjust if required.
 
 
 # MqttInputSwitch
@@ -1152,15 +1138,15 @@ Interrupteur de base avec états de appuyé/relâché.
 Name | Type | Mandatory | Description
 ---- | ---- | --------- | -----------
 off_value | string | yes | Valeur à interpréter comme valeur OFF
-wifi_ssid_path | string | no | The path where to find the WiFi SSID where the sensor is connected in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. for example weather[0]/description, try to read the description value of the 1 element of the array of the weather object. If payload is simple json, just try to use the key of the value you want to read, for example : {"wifi_ssid": "MyWifi"} use "wifi_ssid" as path. The value should be a string with the WiFi SSID.
+wifi_ssid_path | string | no | The path where to find the WiFi SSID where the sensor is connected in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. Array indices are their own path segment, written between square brackets: for example weather/[0]/description reads the description value of the first element of the weather array. If payload is simple json, just try to use the key of the value you want to read, for example : {"wifi_ssid": "MyWifi"} use "wifi_ssid" as path. The value should be a string with the WiFi SSID.
 ip_address_topic | string | no | The topic on witch to publish the IP address of the sensor. If not set, no IP address will be reported.
-ip_address_path | string | no | The path where to find the IP address of the sensor in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. for example weather[0]/description, try to read the description value of the 1 element of the array of the weather object. If payload is simple json, just try to use the key of the value you want to read, for example : {"ip_address": "192.168.1.156"} use "ip_address" as path. The value should be a string with the IP address.
+ip_address_path | string | no | The path where to find the IP address of the sensor in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. Array indices are their own path segment, written between square brackets: for example weather/[0]/description reads the description value of the first element of the weather array. If payload is simple json, just try to use the key of the value you want to read, for example : {"ip_address": "192.168.1.156"} use "ip_address" as path. The value should be a string with the IP address.
 password | string | no | Mot de passe à utiliser pour l'authentification avec le broker MQTT. L'utilisateur doit être défini dans ce cas.
 visible | bool | no | Display the Input/Output on all user interfaces if set. Default to false for switches
 uptime_expr | string | no | If the uptime value is not directly available in the payload, you can use this parameter to calculate the uptime value from the payload. The value will be calculated as any valid mathematic expression. In the expression, the variable x is replaced with the raw value from path. If not set, the uptime value will be read directly from the path. Example: "x * 100 / 255"
 host | string | no | Adresse IP du broker MQTT auquel se connecter. La valeur par défaut est 127.0.0.1.
 logged | bool | no | Si activé, et si influxdb est activé dans local_config, envoie la valeur à influxdb pour cet IO
-wireless_signal_path | string | no | The path where to find the wireless signal strength in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. for example weather[0]/description, try to read the description value of the 1 element of the array of the weather object. If payload is simple json, just try to use the key of the value you want to read, for example : {"signal": 70} use "signal" as path. The value should be a number in percent. Use `wireless_signal_expr` to adjust if required.
+wireless_signal_path | string | no | The path where to find the wireless signal strength in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. Array indices are their own path segment, written between square brackets: for example weather/[0]/description reads the description value of the first element of the weather array. If payload is simple json, just try to use the key of the value you want to read, for example : {"signal": 70} use "signal" as path. The value should be a number in percent. Use `wireless_signal_expr` to adjust if required.
 io_type | string | yes | Type d'entrée/sortie (input, output, inout)
 id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
 enabled | bool | no | Activez l'entrée/sortie. Vrai par défaut. Ce paramètre est ajouté s'il n'est pas trouvé dans la configuration.
@@ -1169,7 +1155,7 @@ wireless_signal_topic | string | no | The topic on witch to publish the wireless
 wifi_ssid_topic | string | no | The topic on witch to publish the WiFi SSID of the sensor. If not set, no WiFi SSID will be reported.
 log_history | bool | no | Si activé, écrit une entrée dans l'historique pour cet IO
 io_style | list | yes | Affichage de style GUI. Ceci contrôlera l'ìcône affichée sur l'interface utilisateurStyle d'affichage. Contrôle l'icône affichée sur l'interface utilisateur
-path | string | yes | The path where to find the value in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. for example weather[0]/description, try to read the description value of the 1 element of the array of the weather object. if payload is simple json, just try to use the key of the value you want to read, for example : {"temperature":14.23} use "temperature" as path
+path | string | yes | The path where to find the value in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. Array indices are their own path segment, written between square brackets: for example weather/[0]/description reads the description value of the first element of the weather array. if payload is simple json, just try to use the key of the value you want to read, for example : {"temperature":14.23} use "temperature" as path
 name | string | yes | Nom de l'entrée/sortie.
 keepalive | int | no | Délai de keepalive en secondes. Temps entre deux PING MQTT.
 notif_connected | bool | no | If set, a notification will be sent when the connected status changes. This is only used if the connected_status_topic is set.
@@ -1181,13 +1167,13 @@ gui_type | string | no | Type graphique interne pour tous les objets calaos. Par
 battery_expr | string | no | If the battery value is not directly available in the payload, you can use this parameter to calculate the battery value from the payload. The value will be calculated as any valid mathematic expression. In the expression, the variable x is replaced with the raw value from path. If not set, the battery value will be read directly from the path. Example: "x * 100 / 255"
 notif_battery | bool | no | If set, a notification will be sent when the battery level drops below 30%. This is only used if the battery_topic is set.
 wireless_signal_expr | string | no | If the wireless signal value is not directly available in the payload, you can use this parameter to calculate the wireless signal value from the payload. The value will be calculated as any valid mathematic expression. In the expression, the variable x is replaced with the raw value from path. If not set, the wireless signal value will be read directly from the path. Example: "x * 100 / 255"
-battery_path | string | no | The path where to find the battery status in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. for example weather[0]/description, try to read the description value of the 1 element of the array of the weather object. If payload is simple json object, just try to use the key of the value you want to read, for example : {"battery":90} use "battery" as path. When this path is set, and the level drops below 30%. The battery reported should be in percent. Use `battery_expr` to adjust if required.
-connected_status_path | string | no | The path where to find the connected status in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. for example weather[0]/description, try to read the description value of the 1 element of the array of the weather object. If payload is simple json, just try to use the key of the value you want to read, for example : {"connected":true} use "connected" as path. The value should be a boolean. Use connected_status_expr to convert to a boolean
+battery_path | string | no | The path where to find the battery status in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. Array indices are their own path segment, written between square brackets: for example weather/[0]/description reads the description value of the first element of the weather array. If payload is simple json object, just try to use the key of the value you want to read, for example : {"battery":90} use "battery" as path. When this path is set, and the level drops below 30%. The battery reported should be in percent. Use `battery_expr` to adjust if required.
+connected_status_path | string | no | The path where to find the connected status in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. Array indices are their own path segment, written between square brackets: for example weather/[0]/description reads the description value of the first element of the weather array. If payload is simple json, just try to use the key of the value you want to read, for example : {"connected":true} use "connected" as path. The value should be a boolean. Use connected_status_expr to convert to a boolean
 uptime_topic | string | no | The topic on witch to publish the uptime of the sensor. If not set, no uptime will be reported.
 on_value | string | yes | Valeur à interpréter comme valeur ON
 connected_status_expr | string | no | If the connected status value is not directly available in the payload, you can use this parameter to convert the value from the path to a boolean. The value will be calculated as any valid mathematic expression. In the expression, the variable `value` is replaced with the raw value from path. If not set, the connected status will be read directly from the path. Example: "value == 'connected'" or "value > 30 and value < 150"
 connected_status_topic | string | no | The topic on witch to publish the connected status of the sensor. If not set, no connected status will be reported.
-uptime_path | string | no | The path where to find the uptime of the sensor in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. for example weather[0]/description, try to read the description value of the 1 element of the array of the weather object. If payload is simple json, just try to use the key of the value you want to read, for example : {"uptime": 3600} use "uptime" as path. The value should be a number in seconds. Use `uptime_expr` to adjust if required.
+uptime_path | string | no | The path where to find the uptime of the sensor in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. Array indices are their own path segment, written between square brackets: for example weather/[0]/description reads the description value of the first element of the weather array. If payload is simple json, just try to use the key of the value you want to read, for example : {"uptime": 3600} use "uptime" as path. The value should be a number in seconds. Use `uptime_expr` to adjust if required.
 
 ## Conditions of MqttInputSwitch
 Name | Description
@@ -1206,12 +1192,12 @@ Temperature sensor input. Used for displaying temperature and to control heating
 ## Parameters of MqttInputTemp
 Name | Type | Mandatory | Description
 ---- | ---- | --------- | -----------
-wifi_ssid_path | string | no | The path where to find the WiFi SSID where the sensor is connected in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. for example weather[0]/description, try to read the description value of the 1 element of the array of the weather object. If payload is simple json, just try to use the key of the value you want to read, for example : {"wifi_ssid": "MyWifi"} use "wifi_ssid" as path. The value should be a string with the WiFi SSID.
+wifi_ssid_path | string | no | The path where to find the WiFi SSID where the sensor is connected in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. Array indices are their own path segment, written between square brackets: for example weather/[0]/description reads the description value of the first element of the weather array. If payload is simple json, just try to use the key of the value you want to read, for example : {"wifi_ssid": "MyWifi"} use "wifi_ssid" as path. The value should be a string with the WiFi SSID.
 uptime_expr | string | no | If the uptime value is not directly available in the payload, you can use this parameter to calculate the uptime value from the payload. The value will be calculated as any valid mathematic expression. In the expression, the variable x is replaced with the raw value from path. If not set, the uptime value will be read directly from the path. Example: "x * 100 / 255"
 uptime_topic | string | no | The topic on witch to publish the uptime of the sensor. If not set, no uptime will be reported.
 connected_status_expr | string | no | If the connected status value is not directly available in the payload, you can use this parameter to convert the value from the path to a boolean. The value will be calculated as any valid mathematic expression. In the expression, the variable `value` is replaced with the raw value from path. If not set, the connected status will be read directly from the path. Example: "value == 'connected'" or "value > 30 and value < 150"
-connected_status_path | string | no | The path where to find the connected status in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. for example weather[0]/description, try to read the description value of the 1 element of the array of the weather object. If payload is simple json, just try to use the key of the value you want to read, for example : {"connected":true} use "connected" as path. The value should be a boolean. Use connected_status_expr to convert to a boolean
-uptime_path | string | no | The path where to find the uptime of the sensor in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. for example weather[0]/description, try to read the description value of the 1 element of the array of the weather object. If payload is simple json, just try to use the key of the value you want to read, for example : {"uptime": 3600} use "uptime" as path. The value should be a number in seconds. Use `uptime_expr` to adjust if required.
+connected_status_path | string | no | The path where to find the connected status in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. Array indices are their own path segment, written between square brackets: for example weather/[0]/description reads the description value of the first element of the weather array. If payload is simple json, just try to use the key of the value you want to read, for example : {"connected":true} use "connected" as path. The value should be a boolean. Use connected_status_expr to convert to a boolean
+uptime_path | string | no | The path where to find the uptime of the sensor in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. Array indices are their own path segment, written between square brackets: for example weather/[0]/description reads the description value of the first element of the weather array. If payload is simple json, just try to use the key of the value you want to read, for example : {"uptime": 3600} use "uptime" as path. The value should be a number in seconds. Use `uptime_expr` to adjust if required.
 connected_status_topic | string | no | The topic on witch to publish the connected status of the sensor. If not set, no connected status will be reported.
 host | string | no | Adresse IP du broker MQTT auquel se connecter. La valeur par défaut est 127.0.0.1.
 period | float | no | Sampling time in millisecond. The value is read at this frequency. If this value is not set, calaos tries to read the interval parameter
@@ -1221,9 +1207,9 @@ calc_expr | string | no | Utiliser une expression mathématique pour calculer la
 wifi_ssid_topic | string | no | The topic on witch to publish the WiFi SSID of the sensor. If not set, no WiFi SSID will be reported.
 log_history | bool | no | Si activé, écrit une entrée dans l'historique pour cet IO
 io_style | list | yes | Affichage de style GUI. Ceci contrôlera l'ìcône affichée sur l'interface utilisateurStyle d'affichage. Contrôle l'icône affichée sur l'interface utilisateur
-path | string | yes | The path where to find the value in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. for example weather[0]/description, try to read the description value of the 1 element of the array of the weather object. if payload is simple json, just try to use the key of the value you want to read, for example : {"temperature":14.23} use "temperature" as path
+path | string | yes | The path where to find the value in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. Array indices are their own path segment, written between square brackets: for example weather/[0]/description reads the description value of the first element of the weather array. if payload is simple json, just try to use the key of the value you want to read, for example : {"temperature":14.23} use "temperature" as path
 logged | bool | no | Si activé, et si influxdb est activé dans local_config, envoie la valeur à influxdb pour cet IO
-wireless_signal_path | string | no | The path where to find the wireless signal strength in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. for example weather[0]/description, try to read the description value of the 1 element of the array of the weather object. If payload is simple json, just try to use the key of the value you want to read, for example : {"signal": 70} use "signal" as path. The value should be a number in percent. Use `wireless_signal_expr` to adjust if required.
+wireless_signal_path | string | no | The path where to find the wireless signal strength in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. Array indices are their own path segment, written between square brackets: for example weather/[0]/description reads the description value of the first element of the weather array. If payload is simple json, just try to use the key of the value you want to read, for example : {"signal": 70} use "signal" as path. The value should be a number in percent. Use `wireless_signal_expr` to adjust if required.
 coeff_b | float | no | Utiliser conjointement coeff_a pour appliquer l'èquation de la forme valeur = coeff_a * raw_value + coeff_b. La valeur par défaut est 0.0.
 io_type | string | yes | Type d'entrée/sortie (input, output, inout)
 coeff_a | float | no | Utiliser conjointement coeff_b pour appliquer l'èquation de la forme valeur = coeff_a * raw_value + coeff_b. La valeur par défaut est 1.0.
@@ -1233,7 +1219,7 @@ enabled | bool | no | Activez l'entrée/sortie. Vrai par défaut. Ce paramètre 
 offset | float | no | Comme le coeff_b, peut être utilisé seul. La valeur par défaut est 0.0
 display_warning | bool | no | Affiche un avertissement si la valeur n'a pas été mise à jour depuis longtemps. Vrai par défaut
 visible | bool | no | Afficher l'entrée/sortie sur toutes les interfaces utilisateur si activé. Vrai par défautAffichez l'entrée/sortie sur toutes les interfaces utilisateur. Vrai par défaut
-ip_address_path | string | no | The path where to find the IP address of the sensor in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. for example weather[0]/description, try to read the description value of the 1 element of the array of the weather object. If payload is simple json, just try to use the key of the value you want to read, for example : {"ip_address": "192.168.1.156"} use "ip_address" as path. The value should be a string with the IP address.
+ip_address_path | string | no | The path where to find the IP address of the sensor in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. Array indices are their own path segment, written between square brackets: for example weather/[0]/description reads the description value of the first element of the weather array. If payload is simple json, just try to use the key of the value you want to read, for example : {"ip_address": "192.168.1.156"} use "ip_address" as path. The value should be a string with the IP address.
 password | string | no | Mot de passe à utiliser pour l'authentification avec le broker MQTT. L'utilisateur doit être défini dans ce cas.
 name | string | yes | Nom de l'entrée/sortie.
 interval | float | no | Temps d'échantillonnage en secondes. La valeur est lue à cette fréquence. Si cette valeur n'est pas définie, la valeur par défaut est 15s
@@ -1249,7 +1235,7 @@ gui_type | string | no | Type graphique interne pour tous les objets calaos. Par
 battery_expr | string | no | If the battery value is not directly available in the payload, you can use this parameter to calculate the battery value from the payload. The value will be calculated as any valid mathematic expression. In the expression, the variable x is replaced with the raw value from path. If not set, the battery value will be read directly from the path. Example: "x * 100 / 255"
 notif_battery | bool | no | If set, a notification will be sent when the battery level drops below 30%. This is only used if the battery_topic is set.
 wireless_signal_expr | string | no | If the wireless signal value is not directly available in the payload, you can use this parameter to calculate the wireless signal value from the payload. The value will be calculated as any valid mathematic expression. In the expression, the variable x is replaced with the raw value from path. If not set, the wireless signal value will be read directly from the path. Example: "x * 100 / 255"
-battery_path | string | no | The path where to find the battery status in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. for example weather[0]/description, try to read the description value of the 1 element of the array of the weather object. If payload is simple json object, just try to use the key of the value you want to read, for example : {"battery":90} use "battery" as path. When this path is set, and the level drops below 30%. The battery reported should be in percent. Use `battery_expr` to adjust if required.
+battery_path | string | no | The path where to find the battery status in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. Array indices are their own path segment, written between square brackets: for example weather/[0]/description reads the description value of the first element of the weather array. If payload is simple json object, just try to use the key of the value you want to read, for example : {"battery":90} use "battery" as path. When this path is set, and the level drops below 30%. The battery reported should be in percent. Use `battery_expr` to adjust if required.
 
 ## Conditions of MqttInputTemp
 Name | Description
@@ -1267,36 +1253,40 @@ Utile pour contrôler les périphériques de sortie analogique connectès è cal
 ## Parameters of MqttOutputAnalog
 Name | Type | Mandatory | Description
 ---- | ---- | --------- | -----------
-wifi_ssid_path | string | no | The path where to find the WiFi SSID where the sensor is connected in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. for example weather[0]/description, try to read the description value of the 1 element of the array of the weather object. If payload is simple json, just try to use the key of the value you want to read, for example : {"wifi_ssid": "MyWifi"} use "wifi_ssid" as path. The value should be a string with the WiFi SSID.
+wifi_ssid_path | string | no | The path where to find the WiFi SSID where the sensor is connected in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. Array indices are their own path segment, written between square brackets: for example weather/[0]/description reads the description value of the first element of the weather array. If payload is simple json, just try to use the key of the value you want to read, for example : {"wifi_ssid": "MyWifi"} use "wifi_ssid" as path. The value should be a string with the WiFi SSID.
 uptime_expr | string | no | If the uptime value is not directly available in the payload, you can use this parameter to calculate the uptime value from the payload. The value will be calculated as any valid mathematic expression. In the expression, the variable x is replaced with the raw value from path. If not set, the uptime value will be read directly from the path. Example: "x * 100 / 255"
 uptime_topic | string | no | The topic on witch to publish the uptime of the sensor. If not set, no uptime will be reported.
+data | string | yes | The data sent when publishing to topic. The __##VALUE##__ contained in data is substituted with the state (float value) to be sent.
+connected_status_expr | string | no | If the connected status value is not directly available in the payload, you can use this parameter to convert the value from the path to a boolean. The value will be calculated as any valid mathematic expression. In the expression, the variable `value` is replaced with the raw value from path. If not set, the connected status will be read directly from the path. Example: "value == 'connected'" or "value > 30 and value < 150"
+wireless_signal_topic | string | no | The topic on witch to publish the wireless signal strength of the sensor. If not set, no wireless signal strength will be reported.
+unit | string | no | Unité affichée sur l'interface utilisateur en tant que suffixe.
 coeff_a | float | no | Utiliser conjointement coeff_b pour appliquer l'èquation de la forme valeur = coeff_a * raw_value + coeff_b. La valeur par défaut est 1.0.
 ip_address_topic | string | no | The topic on witch to publish the IP address of the sensor. If not set, no IP address will be reported.
 calc_expr | string | no | Utiliser une expression mathématique pour calculer la valeur à partir de la valeur brute. La variable `x` est remplacée par la valeur brute. Par exemple, si vous voulez convertir une valeur brute de 0-1000 en température en Celsius, vous pouvez utiliser `x / 10.0 - 50.0`. Si cette expression est définie, les paramètres coeff_a, coeff_b et offset sont ignorés.
 wifi_ssid_topic | string | no | The topic on witch to publish the WiFi SSID of the sensor. If not set, no WiFi SSID will be reported.
 log_history | bool | no | Si activé, écrit une entrée dans l'historique pour cet IO
 io_style | list | yes | Affichage de style GUI. Ceci contrôlera l'ìcône affichée sur l'interface utilisateurStyle d'affichage. Contrôle l'icône affichée sur l'interface utilisateur
-path | string | yes | The path where to find the value in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. for example weather[0]/description, try to read the description value of the 1 element of the array of the weather object. if payload is simple json, just try to use the key of the value you want to read, for example : {"temperature":14.23} use "temperature" as path
+path | string | yes | The path where to find the value in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. Array indices are their own path segment, written between square brackets: for example weather/[0]/description reads the description value of the first element of the weather array. if payload is simple json, just try to use the key of the value you want to read, for example : {"temperature":14.23} use "temperature" as path
 logged | bool | no | Si activé, et si influxdb est activé dans local_config, envoie la valeur à influxdb pour cet IO
-wireless_signal_path | string | no | The path where to find the wireless signal strength in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. for example weather[0]/description, try to read the description value of the 1 element of the array of the weather object. If payload is simple json, just try to use the key of the value you want to read, for example : {"signal": 70} use "signal" as path. The value should be a number in percent. Use `wireless_signal_expr` to adjust if required.
+wireless_signal_path | string | no | The path where to find the wireless signal strength in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. Array indices are their own path segment, written between square brackets: for example weather/[0]/description reads the description value of the first element of the weather array. If payload is simple json, just try to use the key of the value you want to read, for example : {"signal": 70} use "signal" as path. The value should be a number in percent. Use `wireless_signal_expr` to adjust if required.
 coeff_b | float | no | Utiliser conjointement coeff_a pour appliquer l'èquation de la forme valeur = coeff_a * raw_value + coeff_b. La valeur par défaut est 0.0.
 io_type | string | yes | Type d'entrée/sortie (input, output, inout)
-id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
 enabled | bool | no | Activez l'entrée/sortie. Vrai par défaut. Ce paramètre est ajouté s'il n'est pas trouvé dans la configuration.
 step | float | no | Définir un pas pour incrémenter/décrémenter la valeur. La valeur par défaut est 1.0Définit le pas pour incrémenter/décrémenter la valeur. La valeur par défaut est 1.0
 battery_topic | string | no | The topic on witch to publish the battery status of the sensor. If not set, no battery status will be reported.
 gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
 battery_expr | string | no | If the battery value is not directly available in the payload, you can use this parameter to calculate the battery value from the payload. The value will be calculated as any valid mathematic expression. In the expression, the variable x is replaced with the raw value from path. If not set, the battery value will be read directly from the path. Example: "x * 100 / 255"
 visible | bool | no | Afficher l'entrée/sortie sur toutes les interfaces utilisateur si activé. Vrai par défautAffichez l'entrée/sortie sur toutes les interfaces utilisateur. Vrai par défaut
-ip_address_path | string | no | The path where to find the IP address of the sensor in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. for example weather[0]/description, try to read the description value of the 1 element of the array of the weather object. If payload is simple json, just try to use the key of the value you want to read, for example : {"ip_address": "192.168.1.156"} use "ip_address" as path. The value should be a string with the IP address.
+ip_address_path | string | no | The path where to find the IP address of the sensor in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. Array indices are their own path segment, written between square brackets: for example weather/[0]/description reads the description value of the first element of the weather array. If payload is simple json, just try to use the key of the value you want to read, for example : {"ip_address": "192.168.1.156"} use "ip_address" as path. The value should be a string with the IP address.
 password | string | no | Mot de passe à utiliser pour l'authentification avec le broker MQTT. L'utilisateur doit être défini dans ce cas.
 name | string | yes | Nom de l'entrée/sortie.
-uptime_path | string | no | The path where to find the uptime of the sensor in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. for example weather[0]/description, try to read the description value of the 1 element of the array of the weather object. If payload is simple json, just try to use the key of the value you want to read, for example : {"uptime": 3600} use "uptime" as path. The value should be a number in seconds. Use `uptime_expr` to adjust if required.
+uptime_path | string | no | The path where to find the uptime of the sensor in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. Array indices are their own path segment, written between square brackets: for example weather/[0]/description reads the description value of the first element of the weather array. If payload is simple json, just try to use the key of the value you want to read, for example : {"uptime": 3600} use "uptime" as path. The value should be a number in seconds. Use `uptime_expr` to adjust if required.
 connected_status_topic | string | no | The topic on witch to publish the connected status of the sensor. If not set, no connected status will be reported.
+id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
+value_min | float | no | Lowest value accepted when writing. A lower value is raised to `value_min`. The bound applies to the written value, before coeff_a/coeff_b/calc_expr, and also to the result of inc/dec. No lower bound if not set. Ignored, with an error in the log, if greater than `value_max`.
+value_max | float | no | Highest value accepted when writing. A higher value is lowered to `value_max`. The bound applies to the written value, before coeff_a/coeff_b/calc_expr, and also to the result of inc/dec. No upper bound if not set. Ignored, with an error in the log, if lower than `value_min`.
 host | string | no | Adresse IP du broker MQTT auquel se connecter. La valeur par défaut est 127.0.0.1.
 port | int | no | Port TCP du broker MQTT. La valeur par défaut est 1883
-unit | string | no | Unité affichée sur l'interface utilisateur en tant que suffixe.
-wireless_signal_topic | string | no | The topic on witch to publish the wireless signal strength of the sensor. If not set, no wireless signal strength will be reported.
 keepalive | int | no | Délai de keepalive en secondes. Temps entre deux PING MQTT.
 notif_connected | bool | no | If set, a notification will be sent when the connected status changes. This is only used if the connected_status_topic is set.
 user | string | no | Utilisateur à utiliser pour l'authentification avec le broker MQTT. Le mot de passe doit être défini dans ce cas.
@@ -1304,10 +1294,8 @@ topic_pub | string | yes | Sujet sur lequel publier.
 topic_sub | string | yes | Sujet auquel s'abonner.
 notif_battery | bool | no | If set, a notification will be sent when the battery level drops below 30%. This is only used if the battery_topic is set.
 wireless_signal_expr | string | no | If the wireless signal value is not directly available in the payload, you can use this parameter to calculate the wireless signal value from the payload. The value will be calculated as any valid mathematic expression. In the expression, the variable x is replaced with the raw value from path. If not set, the wireless signal value will be read directly from the path. Example: "x * 100 / 255"
-battery_path | string | no | The path where to find the battery status in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. for example weather[0]/description, try to read the description value of the 1 element of the array of the weather object. If payload is simple json object, just try to use the key of the value you want to read, for example : {"battery":90} use "battery" as path. When this path is set, and the level drops below 30%. The battery reported should be in percent. Use `battery_expr` to adjust if required.
-connected_status_path | string | no | The path where to find the connected status in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. for example weather[0]/description, try to read the description value of the 1 element of the array of the weather object. If payload is simple json, just try to use the key of the value you want to read, for example : {"connected":true} use "connected" as path. The value should be a boolean. Use connected_status_expr to convert to a boolean
-data | string | yes | The data sent when publishing to topic. The __##VALUE##__ contained in data is substituted with the state (float value) to be sent.
-connected_status_expr | string | no | If the connected status value is not directly available in the payload, you can use this parameter to convert the value from the path to a boolean. The value will be calculated as any valid mathematic expression. In the expression, the variable `value` is replaced with the raw value from path. If not set, the connected status will be read directly from the path. Example: "value == 'connected'" or "value > 30 and value < 150"
+battery_path | string | no | The path where to find the battery status in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. Array indices are their own path segment, written between square brackets: for example weather/[0]/description reads the description value of the first element of the weather array. If payload is simple json object, just try to use the key of the value you want to read, for example : {"battery":90} use "battery" as path. When this path is set, and the level drops below 30%. The battery reported should be in percent. Use `battery_expr` to adjust if required.
+connected_status_path | string | no | The path where to find the connected status in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. Array indices are their own path segment, written between square brackets: for example weather/[0]/description reads the description value of the first element of the weather array. If payload is simple json, just try to use the key of the value you want to read, for example : {"connected":true} use "connected" as path. The value should be a boolean. Use connected_status_expr to convert to a boolean
 
 ## Conditions of MqttOutputAnalog
 Name | Description
@@ -1336,15 +1324,15 @@ Lumière simple. Cette lumière ne comporte que 2 états, ON ou OFF. Peut égale
 Name | Type | Mandatory | Description
 ---- | ---- | --------- | -----------
 off_value | string | yes | Valeur à interpréter comme valeur OFF
-wifi_ssid_path | string | no | The path where to find the WiFi SSID where the sensor is connected in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. for example weather[0]/description, try to read the description value of the 1 element of the array of the weather object. If payload is simple json, just try to use the key of the value you want to read, for example : {"wifi_ssid": "MyWifi"} use "wifi_ssid" as path. The value should be a string with the WiFi SSID.
+wifi_ssid_path | string | no | The path where to find the WiFi SSID where the sensor is connected in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. Array indices are their own path segment, written between square brackets: for example weather/[0]/description reads the description value of the first element of the weather array. If payload is simple json, just try to use the key of the value you want to read, for example : {"wifi_ssid": "MyWifi"} use "wifi_ssid" as path. The value should be a string with the WiFi SSID.
 ip_address_topic | string | no | The topic on witch to publish the IP address of the sensor. If not set, no IP address will be reported.
-ip_address_path | string | no | The path where to find the IP address of the sensor in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. for example weather[0]/description, try to read the description value of the 1 element of the array of the weather object. If payload is simple json, just try to use the key of the value you want to read, for example : {"ip_address": "192.168.1.156"} use "ip_address" as path. The value should be a string with the IP address.
+ip_address_path | string | no | The path where to find the IP address of the sensor in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. Array indices are their own path segment, written between square brackets: for example weather/[0]/description reads the description value of the first element of the weather array. If payload is simple json, just try to use the key of the value you want to read, for example : {"ip_address": "192.168.1.156"} use "ip_address" as path. The value should be a string with the IP address.
 password | string | no | Mot de passe à utiliser pour l'authentification avec le broker MQTT. L'utilisateur doit être défini dans ce cas.
 visible | bool | no | Afficher l'entrée/sortie sur toutes les interfaces utilisateur si activé. Vrai par défautAffichez l'entrée/sortie sur toutes les interfaces utilisateur. Vrai par défaut
 uptime_expr | string | no | If the uptime value is not directly available in the payload, you can use this parameter to calculate the uptime value from the payload. The value will be calculated as any valid mathematic expression. In the expression, the variable x is replaced with the raw value from path. If not set, the uptime value will be read directly from the path. Example: "x * 100 / 255"
 host | string | no | Adresse IP du broker MQTT auquel se connecter. La valeur par défaut est 127.0.0.1.
 logged | bool | no | Si activé, et si influxdb est activé dans local_config, envoie la valeur à influxdb pour cet IO
-wireless_signal_path | string | no | The path where to find the wireless signal strength in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. for example weather[0]/description, try to read the description value of the 1 element of the array of the weather object. If payload is simple json, just try to use the key of the value you want to read, for example : {"signal": 70} use "signal" as path. The value should be a number in percent. Use `wireless_signal_expr` to adjust if required.
+wireless_signal_path | string | no | The path where to find the wireless signal strength in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. Array indices are their own path segment, written between square brackets: for example weather/[0]/description reads the description value of the first element of the weather array. If payload is simple json, just try to use the key of the value you want to read, for example : {"signal": 70} use "signal" as path. The value should be a number in percent. Use `wireless_signal_expr` to adjust if required.
 io_type | string | yes | Type d'entrée/sortie (input, output, inout)
 id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
 enabled | bool | no | Activez l'entrée/sortie. Vrai par défaut. Ce paramètre est ajouté s'il n'est pas trouvé dans la configuration.
@@ -1353,7 +1341,7 @@ wireless_signal_topic | string | no | The topic on witch to publish the wireless
 wifi_ssid_topic | string | no | The topic on witch to publish the WiFi SSID of the sensor. If not set, no WiFi SSID will be reported.
 log_history | bool | no | Si activé, écrit une entrée dans l'historique pour cet IO
 io_style | list | yes | Affichage de style GUI. Ceci contrôlera l'ìcône affichée sur l'interface utilisateurStyle d'affichage. Contrôle l'icône affichée sur l'interface utilisateur
-path | string | yes | The path where to find the value in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. for example weather[0]/description, try to read the description value of the 1 element of the array of the weather object. if payload is simple json, just try to use the key of the value you want to read, for example : {"temperature":14.23} use "temperature" as path
+path | string | yes | The path where to find the value in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. Array indices are their own path segment, written between square brackets: for example weather/[0]/description reads the description value of the first element of the weather array. if payload is simple json, just try to use the key of the value you want to read, for example : {"temperature":14.23} use "temperature" as path
 name | string | yes | Nom de l'entrée/sortie.
 keepalive | int | no | Délai de keepalive en secondes. Temps entre deux PING MQTT.
 notif_connected | bool | no | If set, a notification will be sent when the connected status changes. This is only used if the connected_status_topic is set.
@@ -1365,14 +1353,14 @@ gui_type | string | no | Type graphique interne pour tous les objets calaos. Par
 battery_expr | string | no | If the battery value is not directly available in the payload, you can use this parameter to calculate the battery value from the payload. The value will be calculated as any valid mathematic expression. In the expression, the variable x is replaced with the raw value from path. If not set, the battery value will be read directly from the path. Example: "x * 100 / 255"
 notif_battery | bool | no | If set, a notification will be sent when the battery level drops below 30%. This is only used if the battery_topic is set.
 wireless_signal_expr | string | no | If the wireless signal value is not directly available in the payload, you can use this parameter to calculate the wireless signal value from the payload. The value will be calculated as any valid mathematic expression. In the expression, the variable x is replaced with the raw value from path. If not set, the wireless signal value will be read directly from the path. Example: "x * 100 / 255"
-battery_path | string | no | The path where to find the battery status in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. for example weather[0]/description, try to read the description value of the 1 element of the array of the weather object. If payload is simple json object, just try to use the key of the value you want to read, for example : {"battery":90} use "battery" as path. When this path is set, and the level drops below 30%. The battery reported should be in percent. Use `battery_expr` to adjust if required.
-connected_status_path | string | no | The path where to find the connected status in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. for example weather[0]/description, try to read the description value of the 1 element of the array of the weather object. If payload is simple json, just try to use the key of the value you want to read, for example : {"connected":true} use "connected" as path. The value should be a boolean. Use connected_status_expr to convert to a boolean
+battery_path | string | no | The path where to find the battery status in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. Array indices are their own path segment, written between square brackets: for example weather/[0]/description reads the description value of the first element of the weather array. If payload is simple json object, just try to use the key of the value you want to read, for example : {"battery":90} use "battery" as path. When this path is set, and the level drops below 30%. The battery reported should be in percent. Use `battery_expr` to adjust if required.
+connected_status_path | string | no | The path where to find the connected status in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. Array indices are their own path segment, written between square brackets: for example weather/[0]/description reads the description value of the first element of the weather array. If payload is simple json, just try to use the key of the value you want to read, for example : {"connected":true} use "connected" as path. The value should be a boolean. Use connected_status_expr to convert to a boolean
 uptime_topic | string | no | The topic on witch to publish the uptime of the sensor. If not set, no uptime will be reported.
 data | string | yes | The data sent when publishing to topic. The __##VALUE##__ contained in data is substituted with with the state (on_value, off_value) to be sent.
 on_value | string | yes | Valeur à interpréter comme valeur ON
 connected_status_expr | string | no | If the connected status value is not directly available in the payload, you can use this parameter to convert the value from the path to a boolean. The value will be calculated as any valid mathematic expression. In the expression, the variable `value` is replaced with the raw value from path. If not set, the connected status will be read directly from the path. Example: "value == 'connected'" or "value > 30 and value < 150"
 connected_status_topic | string | no | The topic on witch to publish the connected status of the sensor. If not set, no connected status will be reported.
-uptime_path | string | no | The path where to find the uptime of the sensor in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. for example weather[0]/description, try to read the description value of the 1 element of the array of the weather object. If payload is simple json, just try to use the key of the value you want to read, for example : {"uptime": 3600} use "uptime" as path. The value should be a number in seconds. Use `uptime_expr` to adjust if required.
+uptime_path | string | no | The path where to find the uptime of the sensor in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. Array indices are their own path segment, written between square brackets: for example weather/[0]/description reads the description value of the first element of the weather array. If payload is simple json, just try to use the key of the value you want to read, for example : {"uptime": 3600} use "uptime" as path. The value should be a number in seconds. Use `uptime_expr` to adjust if required.
 
 ## Conditions of MqttOutputLight
 Name | Description
@@ -1404,8 +1392,8 @@ Name | Type | Mandatory | Description
 ---- | ---- | --------- | -----------
 out_expr | string | no | Use a mathematical expression to convert the value of the percentage into a raw value. The variable `x` is replaced with the percent value. For example, if you want to convert a percent value of 0-100 to a brightness of 0-254, you can use `x * 2.54`.
 in_expr | string | no | Use a mathematical expression to convert the raw value into a percent between 0 and 100. The variable `x` is replaced with the raw value. For example, if you want to convert a brightness of 0-254 to a percentage, you can use `x / 2.54`.
-wifi_ssid_path | string | no | The path where to find the WiFi SSID where the sensor is connected in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. for example weather[0]/description, try to read the description value of the 1 element of the array of the weather object. If payload is simple json, just try to use the key of the value you want to read, for example : {"wifi_ssid": "MyWifi"} use "wifi_ssid" as path. The value should be a string with the WiFi SSID.
-ip_address_path | string | no | The path where to find the IP address of the sensor in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. for example weather[0]/description, try to read the description value of the 1 element of the array of the weather object. If payload is simple json, just try to use the key of the value you want to read, for example : {"ip_address": "192.168.1.156"} use "ip_address" as path. The value should be a string with the IP address.
+wifi_ssid_path | string | no | The path where to find the WiFi SSID where the sensor is connected in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. Array indices are their own path segment, written between square brackets: for example weather/[0]/description reads the description value of the first element of the weather array. If payload is simple json, just try to use the key of the value you want to read, for example : {"wifi_ssid": "MyWifi"} use "wifi_ssid" as path. The value should be a string with the WiFi SSID.
+ip_address_path | string | no | The path where to find the IP address of the sensor in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. Array indices are their own path segment, written between square brackets: for example weather/[0]/description reads the description value of the first element of the weather array. If payload is simple json, just try to use the key of the value you want to read, for example : {"ip_address": "192.168.1.156"} use "ip_address" as path. The value should be a string with the IP address.
 password | string | no | Mot de passe à utiliser pour l'authentification avec le broker MQTT. L'utilisateur doit être défini dans ce cas.
 visible | bool | no | Afficher l'entrée/sortie sur toutes les interfaces utilisateur si activé. Vrai par défautAffichez l'entrée/sortie sur toutes les interfaces utilisateur. Vrai par défaut
 uptime_expr | string | no | If the uptime value is not directly available in the payload, you can use this parameter to calculate the uptime value from the payload. The value will be calculated as any valid mathematic expression. In the expression, the variable x is replaced with the raw value from path. If not set, the uptime value will be read directly from the path. Example: "x * 100 / 255"
@@ -1413,7 +1401,7 @@ host | string | no | Adresse IP du broker MQTT auquel se connecter. La valeur pa
 logged | bool | no | Si activé, et si influxdb est activé dans local_config, envoie la valeur à influxdb pour cet IO
 notif_connected | bool | no | If set, a notification will be sent when the connected status changes. This is only used if the connected_status_topic is set.
 user | string | no | Utilisateur à utiliser pour l'authentification avec le broker MQTT. Le mot de passe doit être défini dans ce cas.
-wireless_signal_path | string | no | The path where to find the wireless signal strength in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. for example weather[0]/description, try to read the description value of the 1 element of the array of the weather object. If payload is simple json, just try to use the key of the value you want to read, for example : {"signal": 70} use "signal" as path. The value should be a number in percent. Use `wireless_signal_expr` to adjust if required.
+wireless_signal_path | string | no | The path where to find the wireless signal strength in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. Array indices are their own path segment, written between square brackets: for example weather/[0]/description reads the description value of the first element of the weather array. If payload is simple json, just try to use the key of the value you want to read, for example : {"signal": 70} use "signal" as path. The value should be a number in percent. Use `wireless_signal_expr` to adjust if required.
 io_type | string | yes | Type d'entrée/sortie (input, output, inout)
 id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
 enabled | bool | no | Activez l'entrée/sortie. Vrai par défaut. Ce paramètre est ajouté s'il n'est pas trouvé dans la configuration.
@@ -1422,7 +1410,7 @@ port | int | no | Port TCP du broker MQTT. La valeur par défaut est 1883
 wireless_signal_topic | string | no | The topic on witch to publish the wireless signal strength of the sensor. If not set, no wireless signal strength will be reported.
 wifi_ssid_topic | string | no | The topic on witch to publish the WiFi SSID of the sensor. If not set, no WiFi SSID will be reported.
 log_history | bool | no | Si activé, écrit une entrée dans l'historique pour cet IO
-path | string | yes | The path where to find the value in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. for example weather[0]/description, try to read the description value of the 1 element of the array of the weather object. if payload is simple json, just try to use the key of the value you want to read, for example : {"temperature":14.23} use "temperature" as path
+path | string | yes | The path where to find the value in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. Array indices are their own path segment, written between square brackets: for example weather/[0]/description reads the description value of the first element of the weather array. if payload is simple json, just try to use the key of the value you want to read, for example : {"temperature":14.23} use "temperature" as path
 name | string | yes | Nom de l'entrée/sortie.
 keepalive | int | no | Délai de keepalive en secondes. Temps entre deux PING MQTT.
 topic_pub | string | yes | Sujet sur lequel publier.
@@ -1432,13 +1420,13 @@ gui_type | string | no | Type graphique interne pour tous les objets calaos. Par
 battery_expr | string | no | If the battery value is not directly available in the payload, you can use this parameter to calculate the battery value from the payload. The value will be calculated as any valid mathematic expression. In the expression, the variable x is replaced with the raw value from path. If not set, the battery value will be read directly from the path. Example: "x * 100 / 255"
 notif_battery | bool | no | If set, a notification will be sent when the battery level drops below 30%. This is only used if the battery_topic is set.
 wireless_signal_expr | string | no | If the wireless signal value is not directly available in the payload, you can use this parameter to calculate the wireless signal value from the payload. The value will be calculated as any valid mathematic expression. In the expression, the variable x is replaced with the raw value from path. If not set, the wireless signal value will be read directly from the path. Example: "x * 100 / 255"
-battery_path | string | no | The path where to find the battery status in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. for example weather[0]/description, try to read the description value of the 1 element of the array of the weather object. If payload is simple json object, just try to use the key of the value you want to read, for example : {"battery":90} use "battery" as path. When this path is set, and the level drops below 30%. The battery reported should be in percent. Use `battery_expr` to adjust if required.
-connected_status_path | string | no | The path where to find the connected status in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. for example weather[0]/description, try to read the description value of the 1 element of the array of the weather object. If payload is simple json, just try to use the key of the value you want to read, for example : {"connected":true} use "connected" as path. The value should be a boolean. Use connected_status_expr to convert to a boolean
+battery_path | string | no | The path where to find the battery status in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. Array indices are their own path segment, written between square brackets: for example weather/[0]/description reads the description value of the first element of the weather array. If payload is simple json object, just try to use the key of the value you want to read, for example : {"battery":90} use "battery" as path. When this path is set, and the level drops below 30%. The battery reported should be in percent. Use `battery_expr` to adjust if required.
+connected_status_path | string | no | The path where to find the connected status in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. Array indices are their own path segment, written between square brackets: for example weather/[0]/description reads the description value of the first element of the weather array. If payload is simple json, just try to use the key of the value you want to read, for example : {"connected":true} use "connected" as path. The value should be a boolean. Use connected_status_expr to convert to a boolean
 uptime_topic | string | no | The topic on witch to publish the uptime of the sensor. If not set, no uptime will be reported.
 data | string | yes | The data sent when publishing to topic. The __##VALUE##__ contained in data is substituted with the state (integer value) to be sent.
 connected_status_expr | string | no | If the connected status value is not directly available in the payload, you can use this parameter to convert the value from the path to a boolean. The value will be calculated as any valid mathematic expression. In the expression, the variable `value` is replaced with the raw value from path. If not set, the connected status will be read directly from the path. Example: "value == 'connected'" or "value > 30 and value < 150"
 connected_status_topic | string | no | The topic on witch to publish the connected status of the sensor. If not set, no connected status will be reported.
-uptime_path | string | no | The path where to find the uptime of the sensor in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. for example weather[0]/description, try to read the description value of the 1 element of the array of the weather object. If payload is simple json, just try to use the key of the value you want to read, for example : {"uptime": 3600} use "uptime" as path. The value should be a number in seconds. Use `uptime_expr` to adjust if required.
+uptime_path | string | no | The path where to find the uptime of the sensor in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. Array indices are their own path segment, written between square brackets: for example weather/[0]/description reads the description value of the first element of the weather array. If payload is simple json, just try to use the key of the value you want to read, for example : {"uptime": 3600} use "uptime" as path. The value should be a number in seconds. Use `uptime_expr` to adjust if required.
 
 ## Conditions of MqttOutputLightDimmer
 Name | Description
@@ -1475,10 +1463,10 @@ Lumière RVB. Choisir une couleur è dèfinir pour cette lumière.
 Name | Type | Mandatory | Description
 ---- | ---- | --------- | -----------
 path_brightness | string | yes | The path where to found the brightness value in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. for example 'brightness'
-path_y | string | yes | The path where to found the Y (X/Y Color space) value in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. for example color/y, try to read the x value from the color object.
+path_y | string | yes | The path where to found the Y (X/Y Color space) value in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. for example color/y, try to read the y value from the color object.
 path_x | string | yes | The path where to found the X (X/Y Color space) value in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. for example color/x, try to read the x value from the color object.
-wifi_ssid_path | string | no | The path where to find the WiFi SSID where the sensor is connected in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. for example weather[0]/description, try to read the description value of the 1 element of the array of the weather object. If payload is simple json, just try to use the key of the value you want to read, for example : {"wifi_ssid": "MyWifi"} use "wifi_ssid" as path. The value should be a string with the WiFi SSID.
-ip_address_path | string | no | The path where to find the IP address of the sensor in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. for example weather[0]/description, try to read the description value of the 1 element of the array of the weather object. If payload is simple json, just try to use the key of the value you want to read, for example : {"ip_address": "192.168.1.156"} use "ip_address" as path. The value should be a string with the IP address.
+wifi_ssid_path | string | no | The path where to find the WiFi SSID where the sensor is connected in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. Array indices are their own path segment, written between square brackets: for example weather/[0]/description reads the description value of the first element of the weather array. If payload is simple json, just try to use the key of the value you want to read, for example : {"wifi_ssid": "MyWifi"} use "wifi_ssid" as path. The value should be a string with the WiFi SSID.
+ip_address_path | string | no | The path where to find the IP address of the sensor in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. Array indices are their own path segment, written between square brackets: for example weather/[0]/description reads the description value of the first element of the weather array. If payload is simple json, just try to use the key of the value you want to read, for example : {"ip_address": "192.168.1.156"} use "ip_address" as path. The value should be a string with the IP address.
 password | string | no | Mot de passe à utiliser pour l'authentification avec le broker MQTT. L'utilisateur doit être défini dans ce cas.
 visible | bool | no | Afficher l'entrée/sortie sur toutes les interfaces utilisateur si activé. Vrai par défautAffichez l'entrée/sortie sur toutes les interfaces utilisateur. Vrai par défaut
 uptime_expr | string | no | If the uptime value is not directly available in the payload, you can use this parameter to calculate the uptime value from the payload. The value will be calculated as any valid mathematic expression. In the expression, the variable x is replaced with the raw value from path. If not set, the uptime value will be read directly from the path. Example: "x * 100 / 255"
@@ -1486,7 +1474,7 @@ host | string | no | Adresse IP du broker MQTT auquel se connecter. La valeur pa
 logged | bool | no | Si activé, et si influxdb est activé dans local_config, envoie la valeur à influxdb pour cet IO
 notif_connected | bool | no | If set, a notification will be sent when the connected status changes. This is only used if the connected_status_topic is set.
 user | string | no | Utilisateur à utiliser pour l'authentification avec le broker MQTT. Le mot de passe doit être défini dans ce cas.
-wireless_signal_path | string | no | The path where to find the wireless signal strength in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. for example weather[0]/description, try to read the description value of the 1 element of the array of the weather object. If payload is simple json, just try to use the key of the value you want to read, for example : {"signal": 70} use "signal" as path. The value should be a number in percent. Use `wireless_signal_expr` to adjust if required.
+wireless_signal_path | string | no | The path where to find the wireless signal strength in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. Array indices are their own path segment, written between square brackets: for example weather/[0]/description reads the description value of the first element of the weather array. If payload is simple json, just try to use the key of the value you want to read, for example : {"signal": 70} use "signal" as path. The value should be a number in percent. Use `wireless_signal_expr` to adjust if required.
 io_type | string | yes | Type d'entrée/sortie (input, output, inout)
 id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
 enabled | bool | no | Activez l'entrée/sortie. Vrai par défaut. Ce paramètre est ajouté s'il n'est pas trouvé dans la configuration.
@@ -1495,7 +1483,7 @@ port | int | no | Port TCP du broker MQTT. La valeur par défaut est 1883
 wireless_signal_topic | string | no | The topic on witch to publish the wireless signal strength of the sensor. If not set, no wireless signal strength will be reported.
 wifi_ssid_topic | string | no | The topic on witch to publish the WiFi SSID of the sensor. If not set, no WiFi SSID will be reported.
 log_history | bool | no | Si activé, écrit une entrée dans l'historique pour cet IO
-path | string | yes | The path where to find the value in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. for example weather[0]/description, try to read the description value of the 1 element of the array of the weather object. if payload is simple json, just try to use the key of the value you want to read, for example : {"temperature":14.23} use "temperature" as path
+path | string | yes | The path where to find the value in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. Array indices are their own path segment, written between square brackets: for example weather/[0]/description reads the description value of the first element of the weather array. if payload is simple json, just try to use the key of the value you want to read, for example : {"temperature":14.23} use "temperature" as path
 name | string | yes | Nom de l'entrée/sortie.
 keepalive | int | no | Délai de keepalive en secondes. Temps entre deux PING MQTT.
 topic_pub | string | yes | Sujet sur lequel publier.
@@ -1505,13 +1493,13 @@ gui_type | string | no | Type graphique interne pour tous les objets calaos. Par
 battery_expr | string | no | If the battery value is not directly available in the payload, you can use this parameter to calculate the battery value from the payload. The value will be calculated as any valid mathematic expression. In the expression, the variable x is replaced with the raw value from path. If not set, the battery value will be read directly from the path. Example: "x * 100 / 255"
 notif_battery | bool | no | If set, a notification will be sent when the battery level drops below 30%. This is only used if the battery_topic is set.
 wireless_signal_expr | string | no | If the wireless signal value is not directly available in the payload, you can use this parameter to calculate the wireless signal value from the payload. The value will be calculated as any valid mathematic expression. In the expression, the variable x is replaced with the raw value from path. If not set, the wireless signal value will be read directly from the path. Example: "x * 100 / 255"
-battery_path | string | no | The path where to find the battery status in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. for example weather[0]/description, try to read the description value of the 1 element of the array of the weather object. If payload is simple json object, just try to use the key of the value you want to read, for example : {"battery":90} use "battery" as path. When this path is set, and the level drops below 30%. The battery reported should be in percent. Use `battery_expr` to adjust if required.
-connected_status_path | string | no | The path where to find the connected status in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. for example weather[0]/description, try to read the description value of the 1 element of the array of the weather object. If payload is simple json, just try to use the key of the value you want to read, for example : {"connected":true} use "connected" as path. The value should be a boolean. Use connected_status_expr to convert to a boolean
+battery_path | string | no | The path where to find the battery status in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. Array indices are their own path segment, written between square brackets: for example weather/[0]/description reads the description value of the first element of the weather array. If payload is simple json object, just try to use the key of the value you want to read, for example : {"battery":90} use "battery" as path. When this path is set, and the level drops below 30%. The battery reported should be in percent. Use `battery_expr` to adjust if required.
+connected_status_path | string | no | The path where to find the connected status in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. Array indices are their own path segment, written between square brackets: for example weather/[0]/description reads the description value of the first element of the weather array. If payload is simple json, just try to use the key of the value you want to read, for example : {"connected":true} use "connected" as path. The value should be a boolean. Use connected_status_expr to convert to a boolean
 uptime_topic | string | no | The topic on witch to publish the uptime of the sensor. If not set, no uptime will be reported.
 data | string | yes | The data sent when publishing color to topic. The __##VALUE_R##__  __##VALUE_G##__  __##VALUE_B##__ or __##VALUE_HEX##__ or __##VALUE_X##__ __##VALUE_Y##__ __##VALUE_BRIGHTNESS##__ contained in data is substituted with the color (integer value or #RRGGBB string value) to be sent.
 connected_status_expr | string | no | If the connected status value is not directly available in the payload, you can use this parameter to convert the value from the path to a boolean. The value will be calculated as any valid mathematic expression. In the expression, the variable `value` is replaced with the raw value from path. If not set, the connected status will be read directly from the path. Example: "value == 'connected'" or "value > 30 and value < 150"
 connected_status_topic | string | no | The topic on witch to publish the connected status of the sensor. If not set, no connected status will be reported.
-uptime_path | string | no | The path where to find the uptime of the sensor in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. for example weather[0]/description, try to read the description value of the 1 element of the array of the weather object. If payload is simple json, just try to use the key of the value you want to read, for example : {"uptime": 3600} use "uptime" as path. The value should be a number in seconds. Use `uptime_expr` to adjust if required.
+uptime_path | string | no | The path where to find the uptime of the sensor in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. Array indices are their own path segment, written between square brackets: for example weather/[0]/description reads the description value of the first element of the weather array. If payload is simple json, just try to use the key of the value you want to read, for example : {"uptime": 3600} use "uptime" as path. The value should be a number in seconds. Use `uptime_expr` to adjust if required.
 
 ## Conditions of MqttOutputLightRGB
 Name | Description
@@ -1549,7 +1537,7 @@ Volet simple. Ce volet prend en charge les états ouvert/fermer, ainsi que les v
 ## Parameters of MqttOutputShutter
 Name | Type | Mandatory | Description
 ---- | ---- | --------- | -----------
-wifi_ssid_path | string | no | The path where to find the WiFi SSID where the sensor is connected in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. for example weather[0]/description, try to read the description value of the 1 element of the array of the weather object. If payload is simple json, just try to use the key of the value you want to read, for example : {"wifi_ssid": "MyWifi"} use "wifi_ssid" as path. The value should be a string with the WiFi SSID.
+wifi_ssid_path | string | no | The path where to find the WiFi SSID where the sensor is connected in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. Array indices are their own path segment, written between square brackets: for example weather/[0]/description reads the description value of the first element of the weather array. If payload is simple json, just try to use the key of the value you want to read, for example : {"wifi_ssid": "MyWifi"} use "wifi_ssid" as path. The value should be a string with the WiFi SSID.
 ip_address_topic | string | no | The topic on witch to publish the IP address of the sensor. If not set, no IP address will be reported.
 uptime_expr | string | no | If the uptime value is not directly available in the payload, you can use this parameter to calculate the uptime value from the payload. The value will be calculated as any valid mathematic expression. In the expression, the variable x is replaced with the raw value from path. If not set, the uptime value will be read directly from the path. Example: "x * 100 / 255"
 host | string | no | Adresse IP du broker MQTT auquel se connecter. La valeur par défaut est 127.0.0.1.
@@ -1559,19 +1547,19 @@ stop_both | bool | no | En mode impulsion, certains volets doivent activer les d
 port | int | no | Port TCP du broker MQTT. La valeur par défaut est 1883
 wireless_signal_topic | string | no | The topic on witch to publish the wireless signal strength of the sensor. If not set, no wireless signal strength will be reported.
 logged | bool | no | Si activé, et si influxdb est activé dans local_config, envoie la valeur à influxdb pour cet IO
-wireless_signal_path | string | no | The path where to find the wireless signal strength in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. for example weather[0]/description, try to read the description value of the 1 element of the array of the weather object. If payload is simple json, just try to use the key of the value you want to read, for example : {"signal": 70} use "signal" as path. The value should be a number in percent. Use `wireless_signal_expr` to adjust if required.
+wireless_signal_path | string | no | The path where to find the wireless signal strength in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. Array indices are their own path segment, written between square brackets: for example weather/[0]/description reads the description value of the first element of the weather array. If payload is simple json, just try to use the key of the value you want to read, for example : {"signal": 70} use "signal" as path. The value should be a number in percent. Use `wireless_signal_expr` to adjust if required.
 io_type | string | yes | Type d'entrée/sortie (input, output, inout)
 id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
 enabled | bool | no | Activez l'entrée/sortie. Vrai par défaut. Ce paramètre est ajouté s'il n'est pas trouvé dans la configuration.
 visible | bool | no | Afficher l'entrée/sortie sur toutes les interfaces utilisateur si activé. Vrai par défautAffichez l'entrée/sortie sur toutes les interfaces utilisateur. Vrai par défaut
-ip_address_path | string | no | The path where to find the IP address of the sensor in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. for example weather[0]/description, try to read the description value of the 1 element of the array of the weather object. If payload is simple json, just try to use the key of the value you want to read, for example : {"ip_address": "192.168.1.156"} use "ip_address" as path. The value should be a string with the IP address.
+ip_address_path | string | no | The path where to find the IP address of the sensor in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. Array indices are their own path segment, written between square brackets: for example weather/[0]/description reads the description value of the first element of the weather array. If payload is simple json, just try to use the key of the value you want to read, for example : {"ip_address": "192.168.1.156"} use "ip_address" as path. The value should be a string with the IP address.
 password | string | no | Mot de passe à utiliser pour l'authentification avec le broker MQTT. L'utilisateur doit être défini dans ce cas.
 wifi_ssid_topic | string | no | The topic on witch to publish the WiFi SSID of the sensor. If not set, no WiFi SSID will be reported.
 log_history | bool | no | Si activé, écrit une entrée dans l'historique pour cet IO
 state_close | string | no | Value received for closed state (when topic_sub is set)
-path | string | yes | The path where to find the value in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. for example weather[0]/description, try to read the description value of the 1 element of the array of the weather object. if payload is simple json, just try to use the key of the value you want to read, for example : {"temperature":14.23} use "temperature" as path
+path | string | yes | The path where to find the value in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. Array indices are their own path segment, written between square brackets: for example weather/[0]/description reads the description value of the first element of the weather array. if payload is simple json, just try to use the key of the value you want to read, for example : {"temperature":14.23} use "temperature" as path
 name | string | yes | Nom de l'entrée/sortie.
-uptime_path | string | no | The path where to find the uptime of the sensor in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. for example weather[0]/description, try to read the description value of the 1 element of the array of the weather object. If payload is simple json, just try to use the key of the value you want to read, for example : {"uptime": 3600} use "uptime" as path. The value should be a number in seconds. Use `uptime_expr` to adjust if required.
+uptime_path | string | no | The path where to find the uptime of the sensor in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. Array indices are their own path segment, written between square brackets: for example weather/[0]/description reads the description value of the first element of the weather array. If payload is simple json, just try to use the key of the value you want to read, for example : {"uptime": 3600} use "uptime" as path. The value should be a number in seconds. Use `uptime_expr` to adjust if required.
 connected_status_topic | string | no | The topic on witch to publish the connected status of the sensor. If not set, no connected status will be reported.
 keepalive | int | no | Délai de keepalive en secondes. Temps entre deux PING MQTT.
 payload_open | string | yes | Payload to send when opening
@@ -1586,8 +1574,8 @@ battery_expr | string | no | If the battery value is not directly available in t
 payload_stop | string | yes | Payload to send when stopping
 notif_battery | bool | no | If set, a notification will be sent when the battery level drops below 30%. This is only used if the battery_topic is set.
 wireless_signal_expr | string | no | If the wireless signal value is not directly available in the payload, you can use this parameter to calculate the wireless signal value from the payload. The value will be calculated as any valid mathematic expression. In the expression, the variable x is replaced with the raw value from path. If not set, the wireless signal value will be read directly from the path. Example: "x * 100 / 255"
-battery_path | string | no | The path where to find the battery status in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. for example weather[0]/description, try to read the description value of the 1 element of the array of the weather object. If payload is simple json object, just try to use the key of the value you want to read, for example : {"battery":90} use "battery" as path. When this path is set, and the level drops below 30%. The battery reported should be in percent. Use `battery_expr` to adjust if required.
-connected_status_path | string | no | The path where to find the connected status in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. for example weather[0]/description, try to read the description value of the 1 element of the array of the weather object. If payload is simple json, just try to use the key of the value you want to read, for example : {"connected":true} use "connected" as path. The value should be a boolean. Use connected_status_expr to convert to a boolean
+battery_path | string | no | The path where to find the battery status in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. Array indices are their own path segment, written between square brackets: for example weather/[0]/description reads the description value of the first element of the weather array. If payload is simple json object, just try to use the key of the value you want to read, for example : {"battery":90} use "battery" as path. When this path is set, and the level drops below 30%. The battery reported should be in percent. Use `battery_expr` to adjust if required.
+connected_status_path | string | no | The path where to find the connected status in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. Array indices are their own path segment, written between square brackets: for example weather/[0]/description reads the description value of the first element of the weather array. If payload is simple json, just try to use the key of the value you want to read, for example : {"connected":true} use "connected" as path. The value should be a boolean. Use connected_status_expr to convert to a boolean
 state_open | string | no | Value received for open state (when topic_sub is set)
 uptime_topic | string | no | The topic on witch to publish the uptime of the sensor. If not set, no uptime will be reported.
 connected_status_expr | string | no | If the connected status value is not directly available in the payload, you can use this parameter to convert the value from the path to a boolean. The value will be calculated as any valid mathematic expression. In the expression, the variable `value` is replaced with the raw value from path. If not set, the connected status will be read directly from the path. Example: "value == 'connected'" or "value > 30 and value < 150"
@@ -1612,560 +1600,53 @@ impulse up 200 | Ouvrir le volet pendant X ms
  up | Ouvrir le volet 
  
 
-# MySensorsInputAnalog
-Mesure analogique depuis un noeud MySensors
+# MqttOutputString
+Control a string output through mqtt broker
 
-
-Une entrée analogique peut être utilisée pour lire des valeurs analogiques pour les afficher et les utiliser dans les règles.
-
-## Parameters of MySensorsInputAnalog
+## Parameters of MqttOutputString
 Name | Type | Mandatory | Description
 ---- | ---- | --------- | -----------
-sensor_id | string | yes | ID du capteur, tel que dèfini dans votre noeud
-node_id | string | yes | ID du noeud sur le réseau MySensors
-gateway | list | yes | Passerelle utilisée, tcp ou sèrie
-port | string | yes | Si vous utilisez la passerelle sèrie, le port est le port sèrie (/dev/ttyUSB0 par ex.). Si vous utilisez la passerelle tcp, c'est le port TCP de la passerelle.
-precision | int | no | Précision de la valeur retournée. La valeur représente le nombre de décimales après le point. La valeur est arrondie comme ceci: valeur = 19.275 => valeur renvoyée 19.28 lors de la précision = 2, 19.3 lorsque la précision = 1, 19 lorsque la précision = 0
-interval | float | no | Temps d'échantillonnage en secondes. La valeur est lue à cette fréquence. Si cette valeur n'est pas définie, la valeur par défaut est 15s
-name | string | yes | Nom de l'entrée/sortie.
+wifi_ssid_path | string | no | The path where to find the WiFi SSID where the sensor is connected in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. Array indices are their own path segment, written between square brackets: for example weather/[0]/description reads the description value of the first element of the weather array. If payload is simple json, just try to use the key of the value you want to read, for example : {"wifi_ssid": "MyWifi"} use "wifi_ssid" as path. The value should be a string with the WiFi SSID.
+ip_address_path | string | no | The path where to find the IP address of the sensor in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. Array indices are their own path segment, written between square brackets: for example weather/[0]/description reads the description value of the first element of the weather array. If payload is simple json, just try to use the key of the value you want to read, for example : {"ip_address": "192.168.1.156"} use "ip_address" as path. The value should be a string with the IP address.
+password | string | no | Mot de passe à utiliser pour l'authentification avec le broker MQTT. L'utilisateur doit être défini dans ce cas.
 visible | bool | no | Afficher l'entrée/sortie sur toutes les interfaces utilisateur si activé. Vrai par défautAffichez l'entrée/sortie sur toutes les interfaces utilisateur. Vrai par défaut
-display_warning | bool | no | Affiche un avertissement si la valeur n'a pas été mise à jour depuis longtemps. Vrai par défaut
-enabled | bool | no | Activez l'entrée/sortie. Vrai par défaut. Ce paramètre est ajouté s'il n'est pas trouvé dans la configuration.
-unit | string | no | Unité affichée sur l'interface utilisateur en tant que suffixe.
-coeff_a | float | no | Utiliser conjointement coeff_b pour appliquer l'èquation de la forme valeur = coeff_a * raw_value + coeff_b. La valeur par défaut est 1.0.
-io_type | string | yes | Type d'entrée/sortie (input, output, inout)
+uptime_expr | string | no | If the uptime value is not directly available in the payload, you can use this parameter to calculate the uptime value from the payload. The value will be calculated as any valid mathematic expression. In the expression, the variable x is replaced with the raw value from path. If not set, the uptime value will be read directly from the path. Example: "x * 100 / 255"
+host | string | no | Adresse IP du broker MQTT auquel se connecter. La valeur par défaut est 127.0.0.1.
 logged | bool | no | Si activé, et si influxdb est activé dans local_config, envoie la valeur à influxdb pour cet IO
-coeff_b | float | no | Utiliser conjointement coeff_a pour appliquer l'èquation de la forme valeur = coeff_a * raw_value + coeff_b. La valeur par défaut est 0.0.
-io_style | list | yes | Affichage de style GUI. Ceci contrôlera l'ìcône affichée sur l'interface utilisateurStyle d'affichage. Contrôle l'icône affichée sur l'interface utilisateur
-log_history | bool | no | Si activé, écrit une entrée dans l'historique pour cet IO
-calc_expr | string | no | Utiliser une expression mathématique pour calculer la valeur à partir de la valeur brute. La variable `x` est remplacée par la valeur brute. Par exemple, si vous voulez convertir une valeur brute de 0-1000 en température en Celsius, vous pouvez utiliser `x / 10.0 - 50.0`. Si cette expression est définie, les paramètres coeff_a, coeff_b et offset sont ignorés.
+notif_connected | bool | no | If set, a notification will be sent when the connected status changes. This is only used if the connected_status_topic is set.
+user | string | no | Utilisateur à utiliser pour l'authentification avec le broker MQTT. Le mot de passe doit être défini dans ce cas.
+wireless_signal_path | string | no | The path where to find the wireless signal strength in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. Array indices are their own path segment, written between square brackets: for example weather/[0]/description reads the description value of the first element of the weather array. If payload is simple json, just try to use the key of the value you want to read, for example : {"signal": 70} use "signal" as path. The value should be a number in percent. Use `wireless_signal_expr` to adjust if required.
+io_type | string | yes | Type d'entrée/sortie (input, output, inout)
 id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
-gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
-period | float | no | Sampling time in millisecond. The value is read at this frequency. If this value is not set, calaos tries to read the interval parameter
-host | string | yes | Adresse IP de la passerelle tcp si pertinent
-offset | float | no | Comme le coeff_b, peut être utilisé seul. La valeur par défaut est 0.0
-
-## Conditions of MySensorsInputAnalog
-Name | Description
----- | -----------
-changed | Événement à chaque changement 
- value | Événement sur une valeur spécifique 
- 
-## More Infos
-* MySensors: http://mysensors.org
-
-
-# MySensorsInputString
-Chaine depuis un noeud MySensors
-
-## Parameters of MySensorsInputString
-Name | Type | Mandatory | Description
----- | ---- | --------- | -----------
-sensor_id | string | yes | ID du capteur, tel que dèfini dans votre noeud
-host | string | yes | Adresse IP de la passerelle tcp si pertinent
-logged | bool | no | Si activé, et si influxdb est activé dans local_config, envoie la valeur à influxdb pour cet IO
-io_type | string | yes | Type d'entrée/sortie (input, output, inout)
-gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
 enabled | bool | no | Activez l'entrée/sortie. Vrai par défaut. Ce paramètre est ajouté s'il n'est pas trouvé dans la configuration.
-node_id | string | yes | ID du noeud sur le réseau MySensors
-gateway | list | yes | Passerelle utilisée, tcp ou sèrie
-visible | bool | no | Afficher l'entrée/sortie sur toutes les interfaces utilisateur si activé. Vrai par défautAffichez l'entrée/sortie sur toutes les interfaces utilisateur. Vrai par défaut
-port | string | yes | Si vous utilisez la passerelle sèrie, le port est le port sèrie (/dev/ttyUSB0 par ex.). Si vous utilisez la passerelle tcp, c'est le port TCP de la passerelle.
+ip_address_topic | string | no | The topic on witch to publish the IP address of the sensor. If not set, no IP address will be reported.
+port | int | no | Port TCP du broker MQTT. La valeur par défaut est 1883
+wireless_signal_topic | string | no | The topic on witch to publish the wireless signal strength of the sensor. If not set, no wireless signal strength will be reported.
+wifi_ssid_topic | string | no | The topic on witch to publish the WiFi SSID of the sensor. If not set, no WiFi SSID will be reported.
 log_history | bool | no | Si activé, écrit une entrée dans l'historique pour cet IO
+path | string | yes | The path where to find the value in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. Array indices are their own path segment, written between square brackets: for example weather/[0]/description reads the description value of the first element of the weather array. if payload is simple json, just try to use the key of the value you want to read, for example : {"temperature":14.23} use "temperature" as path
 name | string | yes | Nom de l'entrée/sortie.
-id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
-
-## More Infos
-* MySensors: http://mysensors.org
-
-
-# MySensorsInputSwitch
-Interrupteur depuis un noeud MySensors
-
-
-Interrupteur de base avec états de appuyé/relâché.
-
-## Parameters of MySensorsInputSwitch
-Name | Type | Mandatory | Description
----- | ---- | --------- | -----------
-sensor_id | string | yes | ID du capteur, tel que dèfini dans votre noeud
-name | string | yes | Nom de l'entrée/sortie.
-io_style | list | yes | Affichage de style GUI. Ceci contrôlera l'ìcône affichée sur l'interface utilisateurStyle d'affichage. Contrôle l'icône affichée sur l'interface utilisateur
-log_history | bool | no | Si activé, écrit une entrée dans l'historique pour cet IO
-port | string | yes | Si vous utilisez la passerelle sèrie, le port est le port sèrie (/dev/ttyUSB0 par ex.). Si vous utilisez la passerelle tcp, c'est le port TCP de la passerelle.
-visible | bool | no | Display the Input/Output on all user interfaces if set. Default to false for switches
-gateway | list | yes | Passerelle utilisée, tcp ou sèrie
-node_id | string | yes | ID du noeud sur le réseau MySensors
-enabled | bool | no | Activez l'entrée/sortie. Vrai par défaut. Ce paramètre est ajouté s'il n'est pas trouvé dans la configuration.
-id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
+keepalive | int | no | Délai de keepalive en secondes. Temps entre deux PING MQTT.
+topic_pub | string | yes | Sujet sur lequel publier.
+topic_sub | string | yes | Sujet auquel s'abonner.
+battery_topic | string | no | The topic on witch to publish the battery status of the sensor. If not set, no battery status will be reported.
 gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
-io_type | string | yes | Type d'entrée/sortie (input, output, inout)
-logged | bool | no | Si activé, et si influxdb est activé dans local_config, envoie la valeur à influxdb pour cet IO
-host | string | yes | Adresse IP de la passerelle tcp si pertinent
+battery_expr | string | no | If the battery value is not directly available in the payload, you can use this parameter to calculate the battery value from the payload. The value will be calculated as any valid mathematic expression. In the expression, the variable x is replaced with the raw value from path. If not set, the battery value will be read directly from the path. Example: "x * 100 / 255"
+notif_battery | bool | no | If set, a notification will be sent when the battery level drops below 30%. This is only used if the battery_topic is set.
+wireless_signal_expr | string | no | If the wireless signal value is not directly available in the payload, you can use this parameter to calculate the wireless signal value from the payload. The value will be calculated as any valid mathematic expression. In the expression, the variable x is replaced with the raw value from path. If not set, the wireless signal value will be read directly from the path. Example: "x * 100 / 255"
+battery_path | string | no | The path where to find the battery status in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. Array indices are their own path segment, written between square brackets: for example weather/[0]/description reads the description value of the first element of the weather array. If payload is simple json object, just try to use the key of the value you want to read, for example : {"battery":90} use "battery" as path. When this path is set, and the level drops below 30%. The battery reported should be in percent. Use `battery_expr` to adjust if required.
+connected_status_path | string | no | The path where to find the connected status in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. Array indices are their own path segment, written between square brackets: for example weather/[0]/description reads the description value of the first element of the weather array. If payload is simple json, just try to use the key of the value you want to read, for example : {"connected":true} use "connected" as path. The value should be a boolean. Use connected_status_expr to convert to a boolean
+uptime_topic | string | no | The topic on witch to publish the uptime of the sensor. If not set, no uptime will be reported.
+data | string | yes | The data sent when publishing to topic. The __##VALUE##__ contained in data is substituted with the string to be sent. If data is a JSON document (starts with `{`, `[` or `"`), the string is JSON-escaped, so write the placeholder inside the quotes: `{"mode":"__##VALUE##__"}`.
+connected_status_expr | string | no | If the connected status value is not directly available in the payload, you can use this parameter to convert the value from the path to a boolean. The value will be calculated as any valid mathematic expression. In the expression, the variable `value` is replaced with the raw value from path. If not set, the connected status will be read directly from the path. Example: "value == 'connected'" or "value > 30 and value < 150"
+connected_status_topic | string | no | The topic on witch to publish the connected status of the sensor. If not set, no connected status will be reported.
+uptime_path | string | no | The path where to find the uptime of the sensor in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. Array indices are their own path segment, written between square brackets: for example weather/[0]/description reads the description value of the first element of the weather array. If payload is simple json, just try to use the key of the value you want to read, for example : {"uptime": 3600} use "uptime" as path. The value should be a number in seconds. Use `uptime_expr` to adjust if required.
 
-## Conditions of MySensorsInputSwitch
+## Actions of MqttOutputString
 Name | Description
 ---- | -----------
-changed | Événement lors de chaque changement d'état 
- false | Événement déclenché lors du relâché 
- true | Événement déclenché lors de l'appui 
+value | Publish a specific string value 
  
-## More Infos
-* MySensors: http://mysensors.org
-
-
-# MySensorsInputSwitchLongPress
-Appui long depuis un noeud MySensors
-
-
-Interrupteur à appui long. Cet interrupteur prend en charge un appui court et un appui long. L'utilisateur dispose de 500 ms pour effectuer un appui long.
-
-## Parameters of MySensorsInputSwitchLongPress
-Name | Type | Mandatory | Description
----- | ---- | --------- | -----------
-sensor_id | string | yes | ID du capteur, tel que dèfini dans votre noeud
-host | string | yes | Adresse IP de la passerelle tcp si pertinent
-logged | bool | no | Si activé, et si influxdb est activé dans local_config, envoie la valeur à influxdb pour cet IO
-io_type | string | yes | Type d'entrée/sortie (input, output, inout)
-gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
-enabled | bool | no | Activez l'entrée/sortie. Vrai par défaut. Ce paramètre est ajouté s'il n'est pas trouvé dans la configuration.
-node_id | string | yes | ID du noeud sur le réseau MySensors
-gateway | list | yes | Passerelle utilisée, tcp ou sèrie
-visible | bool | no | Un interrupteur ne peut pas être visible. Toujours faux.
-port | string | yes | Si vous utilisez la passerelle sèrie, le port est le port sèrie (/dev/ttyUSB0 par ex.). Si vous utilisez la passerelle tcp, c'est le port TCP de la passerelle.
-log_history | bool | no | Si activé, écrit une entrée dans l'historique pour cet IO
-name | string | yes | Nom de l'entrée/sortie.
-id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
-
-## Conditions of MySensorsInputSwitchLongPress
-Name | Description
----- | -----------
-changed | Événement lors de chaque changement d'état 
- 2 | Événement déclenché lors d'un appui long (> 500ms) 
- 1 | Événement déclenché lors d'un appui court 
- 
-## More Infos
-* MySensors: http://mysensors.org
-
-
-# MySensorsInputSwitchTriple
-Triple clic depuis un noeud MySensors
-
-
-Commutateur à triple clic. Ce commutateur peut déclencher 3 types d'actions. L'utilisateur dispose de 500 ms pour faire un clic multiple.
-
-## Parameters of MySensorsInputSwitchTriple
-Name | Type | Mandatory | Description
----- | ---- | --------- | -----------
-sensor_id | string | yes | ID du capteur, tel que dèfini dans votre noeud
-host | string | yes | Adresse IP de la passerelle tcp si pertinent
-logged | bool | no | Si activé, et si influxdb est activé dans local_config, envoie la valeur à influxdb pour cet IO
-io_type | string | yes | Type d'entrée/sortie (input, output, inout)
-gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
-enabled | bool | no | Activez l'entrée/sortie. Vrai par défaut. Ce paramètre est ajouté s'il n'est pas trouvé dans la configuration.
-node_id | string | yes | ID du noeud sur le réseau MySensors
-gateway | list | yes | Passerelle utilisée, tcp ou sèrie
-visible | bool | no | Un interrupteur ne peut pas être visible. Toujours faux.
-port | string | yes | Si vous utilisez la passerelle sèrie, le port est le port sèrie (/dev/ttyUSB0 par ex.). Si vous utilisez la passerelle tcp, c'est le port TCP de la passerelle.
-log_history | bool | no | Si activé, écrit une entrée dans l'historique pour cet IO
-name | string | yes | Nom de l'entrée/sortie.
-id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
-
-## Conditions of MySensorsInputSwitchTriple
-Name | Description
----- | -----------
-changed | Événement lors de chaque changement d'état 
- 2 | Événement déclenché lors d'un double clic 
- 3 | Événement déclenché lors d'un triple clic 
- 1 | Événement déclenché lors d'un simple clic 
- 
-## More Infos
-* MySensors: http://mysensors.org
-
-
-# MySensorsInputTemp
-Tempèrature depuis un noeud MySensors
-
-
-Temperature sensor input. Used for displaying temperature and to control heating devices with rules based on temperature value
-
-## Parameters of MySensorsInputTemp
-Name | Type | Mandatory | Description
----- | ---- | --------- | -----------
-sensor_id | string | yes | ID du capteur, tel que dèfini dans votre noeud
-node_id | string | yes | ID du noeud sur le réseau MySensors
-gateway | list | yes | Passerelle utilisée, tcp ou sèrie
-port | string | yes | Si vous utilisez la passerelle sèrie, le port est le port sèrie (/dev/ttyUSB0 par ex.). Si vous utilisez la passerelle tcp, c'est le port TCP de la passerelle.
-precision | int | no | Précision de la valeur retournée. La valeur représente le nombre de décimales après le point. La valeur est arrondie comme ceci: valeur = 19.275 => valeur renvoyée 19.28 lors de la précision = 2, 19.3 lorsque la précision = 1, 19 lorsque la précision = 0
-interval | float | no | Temps d'échantillonnage en secondes. La valeur est lue à cette fréquence. Si cette valeur n'est pas définie, la valeur par défaut est 15s
-name | string | yes | Nom de l'entrée/sortie.
-visible | bool | no | Afficher l'entrée/sortie sur toutes les interfaces utilisateur si activé. Vrai par défautAffichez l'entrée/sortie sur toutes les interfaces utilisateur. Vrai par défaut
-display_warning | bool | no | Affiche un avertissement si la valeur n'a pas été mise à jour depuis longtemps. Vrai par défaut
-enabled | bool | no | Activez l'entrée/sortie. Vrai par défaut. Ce paramètre est ajouté s'il n'est pas trouvé dans la configuration.
-unit | string | no | Unité affichée sur l'interface utilisateur en tant que suffixe.
-coeff_a | float | no | Utiliser conjointement coeff_b pour appliquer l'èquation de la forme valeur = coeff_a * raw_value + coeff_b. La valeur par défaut est 1.0.
-io_type | string | yes | Type d'entrée/sortie (input, output, inout)
-logged | bool | no | Si activé, et si influxdb est activé dans local_config, envoie la valeur à influxdb pour cet IO
-coeff_b | float | no | Utiliser conjointement coeff_a pour appliquer l'èquation de la forme valeur = coeff_a * raw_value + coeff_b. La valeur par défaut est 0.0.
-io_style | list | yes | Affichage de style GUI. Ceci contrôlera l'ìcône affichée sur l'interface utilisateurStyle d'affichage. Contrôle l'icône affichée sur l'interface utilisateur
-log_history | bool | no | Si activé, écrit une entrée dans l'historique pour cet IO
-calc_expr | string | no | Utiliser une expression mathématique pour calculer la valeur à partir de la valeur brute. La variable `x` est remplacée par la valeur brute. Par exemple, si vous voulez convertir une valeur brute de 0-1000 en température en Celsius, vous pouvez utiliser `x / 10.0 - 50.0`. Si cette expression est définie, les paramètres coeff_a, coeff_b et offset sont ignorés.
-id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
-gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
-period | float | no | Sampling time in millisecond. The value is read at this frequency. If this value is not set, calaos tries to read the interval parameter
-host | string | yes | Adresse IP de la passerelle tcp si pertinent
-offset | float | no | Comme le coeff_b, peut être utilisé seul. La valeur par défaut est 0.0
-
-## Conditions of MySensorsInputTemp
-Name | Description
----- | -----------
-changed | Événement à chaque changement 
- value | Événement sur une valeur spécifique 
- 
-## More Infos
-* MySensors: http://mysensors.org
-
-
-# MySensorsOutputAnalog
-Sortie analogique depuis un noeud MySensors
-
-
-Utile pour contrôler les périphériques de sortie analogique connectès è calaos.
-
-## Parameters of MySensorsOutputAnalog
-Name | Type | Mandatory | Description
----- | ---- | --------- | -----------
-data_type | string | no | Type de données envoyè au noeud. Par défaut: V_DIMMER, voir MySensors.cpp pour plus de valeurs.
-sensor_id | string | yes | ID du capteur, tel que dèfini dans votre noeud
-node_id | string | yes | ID du noeud sur le réseau MySensors
-host | string | yes | Adresse IP de la passerelle tcp si pertinent
-port | string | yes | Si vous utilisez la passerelle sèrie, le port est le port sèrie (/dev/ttyUSB0 par ex.). Si vous utilisez la passerelle tcp, c'est le port TCP de la passerelle.
-gateway | list | yes | Passerelle utilisée, tcp ou sèrie
-name | string | yes | Nom de l'entrée/sortie.
-visible | bool | no | Afficher l'entrée/sortie sur toutes les interfaces utilisateur si activé. Vrai par défautAffichez l'entrée/sortie sur toutes les interfaces utilisateur. Vrai par défaut
-step | float | no | Définir un pas pour incrémenter/décrémenter la valeur. La valeur par défaut est 1.0Définit le pas pour incrémenter/décrémenter la valeur. La valeur par défaut est 1.0
-enabled | bool | no | Activez l'entrée/sortie. Vrai par défaut. Ce paramètre est ajouté s'il n'est pas trouvé dans la configuration.
-id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
-gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
-io_type | string | yes | Type d'entrée/sortie (input, output, inout)
-logged | bool | no | Si activé, et si influxdb est activé dans local_config, envoie la valeur à influxdb pour cet IO
-coeff_b | float | no | Utiliser conjointement coeff_a pour appliquer l'èquation de la forme valeur = coeff_a * raw_value + coeff_b. La valeur par défaut est 0.0.
-io_style | list | yes | Affichage de style GUI. Ceci contrôlera l'ìcône affichée sur l'interface utilisateurStyle d'affichage. Contrôle l'icône affichée sur l'interface utilisateur
-log_history | bool | no | Si activé, écrit une entrée dans l'historique pour cet IO
-calc_expr | string | no | Utiliser une expression mathématique pour calculer la valeur à partir de la valeur brute. La variable `x` est remplacée par la valeur brute. Par exemple, si vous voulez convertir une valeur brute de 0-1000 en température en Celsius, vous pouvez utiliser `x / 10.0 - 50.0`. Si cette expression est définie, les paramètres coeff_a, coeff_b et offset sont ignorés.
-coeff_a | float | no | Utiliser conjointement coeff_b pour appliquer l'èquation de la forme valeur = coeff_a * raw_value + coeff_b. La valeur par défaut est 1.0.
-unit | string | no | Unité affichée sur l'interface utilisateur en tant que suffixe.
-
-## Conditions of MySensorsOutputAnalog
-Name | Description
----- | -----------
-0 | Événement sur une valeur spécifique 
- changed | Événement à chaque changement 
- value | Événement sur une valeur spécifique 
- 
-## Actions of MySensorsOutputAnalog
-Name | Description
----- | -----------
-dec 1 | Diminuer valeur par valeur 
- inc 1 | Augmenter valeur par valeur 
- dec | Diminuer la valeur avec le pas définit 
- inc | Augmenter la valeur avec le pas définit 
- 0 | Définir une valeur spécifique 
- 
-## More Infos
-* MySensors: http://mysensors.org
-
-
-# MySensorsOutputDimmer
-Variateur de lumière avec un noeud MySensors
-
-
-Lumière avec variateur. La luminositè peut-être modifièe pour cette lumière.
-
-## Parameters of MySensorsOutputDimmer
-Name | Type | Mandatory | Description
----- | ---- | --------- | -----------
-data_type | string | no | Type de données envoyè au noeud. Par défaut: V_DIMMER, voir MySensors.cpp pour plus de valeurs.
-name | string | yes | Nom de l'entrée/sortie.
-log_history | bool | no | Si activé, écrit une entrée dans l'historique pour cet IO
-port | string | yes | Si vous utilisez la passerelle sèrie, le port est le port sèrie (/dev/ttyUSB0 par ex.). Si vous utilisez la passerelle tcp, c'est le port TCP de la passerelle.
-visible | bool | no | Afficher l'entrée/sortie sur toutes les interfaces utilisateur si activé. Vrai par défautAffichez l'entrée/sortie sur toutes les interfaces utilisateur. Vrai par défaut
-gateway | list | yes | Passerelle utilisée, tcp ou sèrie
-node_id | string | yes | ID du noeud sur le réseau MySensors
-enabled | bool | no | Activez l'entrée/sortie. Vrai par défaut. Ce paramètre est ajouté s'il n'est pas trouvé dans la configuration.
-id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
-gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
-io_type | string | yes | Type d'entrée/sortie (input, output, inout)
-logged | bool | no | Si activé, et si influxdb est activé dans local_config, envoie la valeur à influxdb pour cet IO
-host | string | yes | Adresse IP de la passerelle tcp si pertinent
-sensor_id | string | yes | ID du capteur, tel que dèfini dans votre noeud
-
-## Conditions of MySensorsOutputDimmer
-Name | Description
----- | -----------
-value | Événement lorsque la lumière est à cette valeur 
- changed | Événement à chaque changement 
- 
-## Actions of MySensorsOutputDimmer
-Name | Description
----- | -----------
-hold stop | Changer dynamiquement l'intensité lumineuse en maintenant un interrupteur (action d'arrêt)Modifie dynamiquement l'intensitè lumineuse lorsque vous maintenez un interrupteur (action relacher) 
- true | Allumer la lumière 
- false | Éteindre la lumière 
- set off 50 | Règlez la valeur de la lumière sans allumer. Ce sera l'intensitè lumineuse pour le prochaine allumage 
- set_state false | Mettre è jour l'état de la lumière interne sans une action rèelle. Ceci est utile lorsque vous avez mis è jour l'état de la lumière è partir d'une source externe. 
- toggle | Inverser l'état de la lumière 
- down 5 | Diminuer l'intensitè de X pourcent 
- impulse 500 200 500 200 | Allume la lumière avec un motif.<br>Ex: 500 200 500 200 signifie: VRAI pour 500ms, FAUX pour 200ms, VRAI pour 500ms, FAUX pour 200ms<br>Ex: 500 loop 200 300 signifie: VRAI pour 500ms, puis relancer les prochaines étapes è l'infini, FAUX pour 200ms, VRAI pour 300ms<br>Ex: 100 100 200 old signifie: clignote et reprend l'ancien état (avant le clignotement) 
- impulse 200 | Impulsion sur la lumière. Allume pour X ms puis èteint 
- set_state true | Mettre è jour l'état de la lumière interne sans une action rèelle. Ceci est utile lorsque vous avez mis è jour l'état de la lumière è partir d'une source externe. 
- hold press | Changer dynamiquement l'intensité lumineuse en maintenant un interrupteur (action d'appui)Modifie dynamiquement l'intensitè lumineuse lorsque vous maintenez un interrupteur (action appuyer) 
- set_state 50 | Mettre è jour l'état de la lumière interne sans une action rèelle. Ceci est utile lorsque vous avez mis è jour l'état de la lumière è partir d'une source externe. 
- set 50 | Règlez l'intensitè lumineuse et allumez si la lumière est èteinte 
- up 5 | Augmenter l'intensitè de X pourcent 
- 
-## More Infos
-* MySensors: http://mysensors.org
-
-
-# MySensorsOutputLight
-Lumière/Relai avec un noeud MySensors
-
-
-Lumière simple. Cette lumière ne comporte que 2 états, ON ou OFF. Peut également être utilisé pour contrôler la sortie des relais simples
-
-## Parameters of MySensorsOutputLight
-Name | Type | Mandatory | Description
----- | ---- | --------- | -----------
-data_type | string | no | Type de données envoyè au noeud. Par défaut: V_LIGHT, voir MySensors.cpp pour plus de valeurs.
-sensor_id | string | yes | ID du capteur, tel que dèfini dans votre noeud
-name | string | yes | Nom de l'entrée/sortie.
-io_style | list | yes | Affichage de style GUI. Ceci contrôlera l'ìcône affichée sur l'interface utilisateurStyle d'affichage. Contrôle l'icône affichée sur l'interface utilisateur
-log_history | bool | no | Si activé, écrit une entrée dans l'historique pour cet IO
-port | string | yes | Si vous utilisez la passerelle sèrie, le port est le port sèrie (/dev/ttyUSB0 par ex.). Si vous utilisez la passerelle tcp, c'est le port TCP de la passerelle.
-visible | bool | no | Afficher l'entrée/sortie sur toutes les interfaces utilisateur si activé. Vrai par défautAffichez l'entrée/sortie sur toutes les interfaces utilisateur. Vrai par défaut
-gateway | list | yes | Passerelle utilisée, tcp ou sèrie
-node_id | string | yes | ID du noeud sur le réseau MySensors
-enabled | bool | no | Activez l'entrée/sortie. Vrai par défaut. Ce paramètre est ajouté s'il n'est pas trouvé dans la configuration.
-id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
-gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
-io_type | string | yes | Type d'entrée/sortie (input, output, inout)
-logged | bool | no | Si activé, et si influxdb est activé dans local_config, envoie la valeur à influxdb pour cet IO
-host | string | yes | Adresse IP de la passerelle tcp si pertinent
-
-## Conditions of MySensorsOutputLight
-Name | Description
----- | -----------
-false | Événement lorsque la lumière est èteinte 
- true | Événement lorsque la lumière est allumèe 
- changed | Événement à chaque changement 
- 
-## Actions of MySensorsOutputLight
-Name | Description
----- | -----------
-impulse 200 | Impulsion sur la lumière. Allume pour X ms puis èteint 
- set_state true | Mettre è jour l'état de la lumière interne sans une action rèelle. Ceci est utile lorsque vous avez mis è jour l'état de la lumière è partir d'une source externe. 
- impulse 500 200 500 200 | Allume la lumière avec un motif.<br>Ex: 500 200 500 200 signifie: VRAI pour 500ms, FAUX pour 200ms, VRAI pour 500ms, FAUX pour 200ms<br>Ex: 500 loop 200 300 signifie: VRAI pour 500ms, puis relancer les prochaines étapes è l'infini, FAUX pour 200ms, VRAI pour 300ms<br>Ex: 100 100 200 old signifie: clignote et reprend l'ancien état (avant le clignotement) 
- toggle | Inverser l'état de la lumière 
- set_state false | Mettre è jour l'état de la lumière interne sans une action rèelle. Ceci est utile lorsque vous avez mis è jour l'état de la lumière è partir d'une source externe. 
- false | Éteindre la lumière 
- true | Allumer la lumière 
- 
-## More Infos
-* MySensors: http://mysensors.org
-
-
-# MySensorsOutputLightRGB
-Variateur de lumière RVB avec un noeud MySensors
-
-
-Lumière RVB. Choisir une couleur è dèfinir pour cette lumière.
-
-## Parameters of MySensorsOutputLightRGB
-Name | Type | Mandatory | Description
----- | ---- | --------- | -----------
-data_type | string | no | Type de données envoyè au noeud. Par défaut: V_DIMMER, voir MySensors.cpp pour plus de valeurs.
-node_id_green | string | yes | ID du noeud pour le canal vert sur le réseau MySensors
-name | string | yes | Nom de l'entrée/sortie.
-log_history | bool | no | Si activé, écrit une entrée dans l'historique pour cet IO
-port | string | yes | Si vous utilisez la passerelle sèrie, le port est le port sèrie (/dev/ttyUSB0 par ex.). Si vous utilisez la passerelle tcp, c'est le port TCP de la passerelle.
-gateway | list | yes | Passerelle utilisée, tcp ou sèrie
-enabled | bool | no | Activez l'entrée/sortie. Vrai par défaut. Ce paramètre est ajouté s'il n'est pas trouvé dans la configuration.
-id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
-gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
-io_type | string | yes | Type d'entrée/sortie (input, output, inout)
-sensor_id_green | string | yes | ID du capteur pour le canal vert, tel que dèfini dans votre noeud
-logged | bool | no | Si activé, et si influxdb est activé dans local_config, envoie la valeur à influxdb pour cet IO
-host | string | yes | Adresse IP de la passerelle tcp si pertinent
-sensor_id_blue | string | yes | ID du capteur pour le canal bleu, tel que dèfini dans votre noeud
-node_id_blue | string | yes | ID du noeud pour le canal bleu sur le réseau MySensors
-visible | bool | no | Afficher l'entrée/sortie sur toutes les interfaces utilisateur si activé. Vrai par défautAffichez l'entrée/sortie sur toutes les interfaces utilisateur. Vrai par défaut
-node_id_red | string | yes | ID du noeud pour le canal rouge sur le réseau MySensors
-sensor_id_red | string | yes | ID du capteur pour le canal rouge, tel que dèfini dans votre noeud
-
-## Conditions of MySensorsOutputLightRGB
-Name | Description
----- | -----------
-value | Événement lorsque la lumière est à cette valeur 
- changed | Événement à chaque changement 
- 
-## Actions of MySensorsOutputLightRGB
-Name | Description
----- | -----------
-down_red 5 | Diminuer l'intensitè de X pourcent le canal rouge 
- true | Allumer la lumière 
- false | Éteindre la lumière 
- set_state false | Mettre è jour l'état de la lumière interne sans une action rèelle. Ceci est utile lorsque vous avez mis è jour l'état de la lumière è partir d'une source externe. 
- down_green 5 | Diminuer l'intensitè de X pourcent le canal vert 
- toggle | Inverser l'état de la lumière (ON/OFF) 
- set_state true | Mettre è jour l'état de la lumière interne sans une action rèelle. Ceci est utile lorsque vous avez mis è jour l'état de la lumière è partir d'une source externe. 
- down_blue 5 | Diminuer l'intensitè de X pourcent le canal bleu 
- set_state #AA1294 | Mettre è jour l'état de la lumière interne sans une action rèelle. Ceci est utile lorsque vous avez mis è jour l'état de la lumière è partir d'une source externe. 
- up_red 5 | Augmenter l'intensitè de X pourcent le canal rouge 
- set_red 50 | Mettre le canal rouge è X pourcent 
- set_blue 50 | Mettre le canal bleu è X pourcent 
- up_green 5 | Augmenter l'intensitè de X pourcent le canal vert 
- set_green 50 | Mettre le canal vert è X pourcent 
- set #AA1294 | Définir la couleur. La couleur peut être reprèsentèe en utilisant la notation HTML: #AABBCC, rgb (50, 10, 30), hsl (11, 22, 33) 
- up_blue 5 | Augmenter l'intensitè de X pourcent le canal bleu 
- 
-## More Infos
-* MySensors: http://mysensors.org
-
-
-# MySensorsOutputShutter
-Volet avec un noeud MySensors
-
-
-Volet simple. Ce volet prend en charge les états ouvert/fermer, ainsi que les volets è impulsions.
-
-## Parameters of MySensorsOutputShutter
-Name | Type | Mandatory | Description
----- | ---- | --------- | -----------
-data_type | string | no | Type de données envoyè au noeud. Par défaut: V_LIGHT, voir MySensors.cpp pour plus de valeurs.
-sensor_id_down | string | yes | ID du capteur pour fermer, tel que dèfini dans votre noeud
-host | string | yes | Adresse IP de la passerelle tcp si pertinent
-name | string | yes | Nom de l'entrée/sortie.
-log_history | bool | no | Si activé, écrit une entrée dans l'historique pour cet IO
-visible | bool | no | Afficher l'entrée/sortie sur toutes les interfaces utilisateur si activé. Vrai par défautAffichez l'entrée/sortie sur toutes les interfaces utilisateur. Vrai par défaut
-gateway | list | yes | Passerelle utilisée, tcp ou sèrie
-enabled | bool | no | Activez l'entrée/sortie. Vrai par défaut. Ce paramètre est ajouté s'il n'est pas trouvé dans la configuration.
-node_id_up | string | yes | ID du noeud pour ouvrir sur le réseau MySensors
-id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
-gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
-node_id_down | string | yes | ID du noeud pour fermer sur le réseau MySensors
-io_type | string | yes | Type d'entrée/sortie (input, output, inout)
-sensor_id_up | string | yes | ID du capteur pour ouvrir, tel que dèfini dans votre noeud
-logged | bool | no | Si activé, et si influxdb est activé dans local_config, envoie la valeur à influxdb pour cet IO
-port | string | yes | Si vous utilisez la passerelle sèrie, le port est le port sèrie (/dev/ttyUSB0 par ex.). Si vous utilisez la passerelle tcp, c'est le port TCP de la passerelle.
-stop_both | bool | no | En mode impulsion, certains volets doivent activer les deux relais haut et bas lors de l'arrèt du volet
-time | int | yes | Temps en sec pour ouvrir ou fermer le volet
-impulse_time | int | no | Temps d'impulsion en ms pour les volets è impulsion. Si 0, le dèclencheur d'impulsion est dèsactivé. 0 par défaut.
-
-## Conditions of MySensorsOutputShutter
-Name | Description
----- | -----------
-false | Événement lorsque le volet est fermè 
- true | Événement lorsque le volet est ouvert 
- changed | Événement sur toute modification de l'état du volet 
- 
-## Actions of MySensorsOutputShutter
-Name | Description
----- | -----------
-impulse up 200 | Ouvrir le volet pendant X ms 
- set_state true | Met è jour l'état du volet en interne sans démarrer d'action rèelle. Ceci est utile lorsque vous avez mis è jour l'état du volet è partir d'une source externe. 
- impulse down 200 | Fermer le volet pendant X ms 
- toggle | Inverser l'état du volet 
- set_state false | Met è jour l'état du volet en interne sans démarrer d'action rèelle. Ceci est utile lorsque vous avez mis è jour l'état du volet è partir d'une source externe. 
- stop | Arrêter le volet 
- down | Fermer le volet 
- up | Ouvrir le volet 
- 
-## More Infos
-* MySensors: http://mysensors.org
-
-
-# MySensorsOutputShutterSmart
-Volet intelligent avec un noeud MySensors
-
-
-Volet intelligent. Cet volet calcule sa position en fonction du temps nècessaire pour s'ouvrir et se fermer. Il est alors possible de règler directement le volet à une position spècifièe.
-
-## Parameters of MySensorsOutputShutterSmart
-Name | Type | Mandatory | Description
----- | ---- | --------- | -----------
-data_type | string | no | Type de données envoyè au noeud. Par défaut: V_LIGHT, voir MySensors.cpp pour plus de valeurs.
-sensor_id_down | string | yes | ID du capteur pour fermer, tel que dèfini dans votre noeud
-host | string | yes | Adresse IP de la passerelle tcp si pertinent
-name | string | yes | Nom de l'entrée/sortie.
-log_history | bool | no | Si activé, écrit une entrée dans l'historique pour cet IO
-visible | bool | no | Afficher l'entrée/sortie sur toutes les interfaces utilisateur si activé. Vrai par défautAffichez l'entrée/sortie sur toutes les interfaces utilisateur. Vrai par défaut
-gateway | list | yes | Passerelle utilisée, tcp ou sèrie
-enabled | bool | no | Activez l'entrée/sortie. Vrai par défaut. Ce paramètre est ajouté s'il n'est pas trouvé dans la configuration.
-node_id_up | string | yes | ID du noeud pour ouvrir sur le réseau MySensors
-id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
-gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
-node_id_down | string | yes | ID du noeud pour fermer sur le réseau MySensors
-time_up | int | yes | Temps en sec pour que le volet soit complètement ouvert. Plus il est prècis, plus le positionnement sera prècis
-io_type | string | yes | Type d'entrée/sortie (input, output, inout)
-sensor_id_up | string | yes | ID du capteur pour ouvrir, tel que dèfini dans votre noeud
-logged | bool | no | Si activé, et si influxdb est activé dans local_config, envoie la valeur à influxdb pour cet IO
-time_down | int | yes | Temps en sec pour que le volet soit complètement fermè. Plus il est prècis, plus le positionnement sera prècis
-port | string | yes | Si vous utilisez la passerelle sèrie, le port est le port sèrie (/dev/ttyUSB0 par ex.). Si vous utilisez la passerelle tcp, c'est le port TCP de la passerelle.
-stop_both | bool | no | En mode impulsion, certains volets doivent activer les deux relais haut et bas lors de l'arrèt du volet
-impulse_time | int | no | Temps d'impulsion en ms pour les volets è impulsion. Si 0, le dèclencheur d'impulsion est dèsactivé. 0 par défaut.
-
-## Conditions of MySensorsOutputShutterSmart
-Name | Description
----- | -----------
-false | Événement lorsque le volet est fermè 
- true | Événement lorsque le volet est ouvert 
- changed | Événement sur toute modification de l'état du volet 
- 
-## Actions of MySensorsOutputShutterSmart
-Name | Description
----- | -----------
-up 5 | Ouvrir le volet de X pourcent 
- set 50 | Mettre le volet è la position X en pourcentage 
- impulse up 200 | Ouvrir le volet pendant X ms 
- set_state true | Met è jour l'état du volet en interne sans démarrer d'action rèelle. Ceci est utile lorsque vous avez mis è jour l'état du volet è partir d'une source externe. 
- down 5 | Fermer le volet de X pourcent 
- impulse down 200 | Fermer le volet pendant X ms 
- toggle | Inverser l'état du volet 
- set_state false | Met è jour l'état du volet en interne sans démarrer d'action rèelle. Ceci est utile lorsque vous avez mis è jour l'état du volet è partir d'une source externe. 
- calibrate | Commencez l'ètalonnage du volet. Cela ouvre complètement le volet et rèinitialise toutes les valeurs de position internes. Utilisez cette option si la synchronisation du volet est perdue. 
- stop | Arrêter le volet 
- down | Fermer le volet 
- up | Ouvrir le volet 
- 
-## More Infos
-* MySensors: http://mysensors.org
-
-
-# MySensorsOutputString
-Chaine envoyè au noeud MySensors
-
-## Parameters of MySensorsOutputString
-Name | Type | Mandatory | Description
----- | ---- | --------- | -----------
-data_type | string | no | Type de données envoyè au noeud. Par défaut: V_VAR1, voir MySensors.cpp pour plus de valeurs.
-name | string | yes | Nom de l'entrée/sortie.
-log_history | bool | no | Si activé, écrit une entrée dans l'historique pour cet IO
-port | string | yes | Si vous utilisez la passerelle sèrie, le port est le port sèrie (/dev/ttyUSB0 par ex.). Si vous utilisez la passerelle tcp, c'est le port TCP de la passerelle.
-visible | bool | no | Afficher l'entrée/sortie sur toutes les interfaces utilisateur si activé. Vrai par défautAffichez l'entrée/sortie sur toutes les interfaces utilisateur. Vrai par défaut
-gateway | list | yes | Passerelle utilisée, tcp ou sèrie
-node_id | string | yes | ID du noeud sur le réseau MySensors
-enabled | bool | no | Activez l'entrée/sortie. Vrai par défaut. Ce paramètre est ajouté s'il n'est pas trouvé dans la configuration.
-id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
-gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
-io_type | string | yes | Type d'entrée/sortie (input, output, inout)
-logged | bool | no | Si activé, et si influxdb est activé dans local_config, envoie la valeur à influxdb pour cet IO
-host | string | yes | Adresse IP de la passerelle tcp si pertinent
-sensor_id | string | yes | ID du capteur, tel que dèfini dans votre noeud
-
-## More Infos
-* MySensors: http://mysensors.org
-
 
 # OLAOutputLightDimmer
 Variateur de lumière DMX avec OLA (Open Lighting Architecture)
@@ -2364,19 +1845,20 @@ Encodeur/Camera IP Planet. La camèra peut être directement vue dans calaos et 
 ## Parameters of Planet
 Name | Type | Mandatory | Description
 ---- | ---- | --------- | -----------
-password | string | no | Mot de passe pour l'utilisateur
-username | string | no | Nom d'utilisateur pour accéder à la caméra
-model | string | yes | Modèle de caméra (ICA-210, ICA-210W, ICA-300, ICA-302, ICA-500) à utiliser
-rotate | int | no | Faire pivoter l'image. Définir une valeur en degrés. Exemple : -90 pour une rotation antihoraire, 90 pour une rotation horaire.
-logged | bool | no | Si activé, et si influxdb est activé dans local_config, envoie la valeur à influxdb pour cet IO
-width | int | no | Largeur de l'image, si ce paramètre est défini, la vidéo sera redimensionnée pour s'adapter à la largeur donnée. Laissez le paramètre vide pour conserver la taille originale.
-io_type | string | yes | Type d'entrée/sortie (input, output, inout)
-gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
-enabled | bool | no | Activez l'entrée/sortie. Vrai par défaut. Ce paramètre est ajouté s'il n'est pas trouvé dans la configuration.
-visible | bool | no | Afficher l'entrée/sortie sur toutes les interfaces utilisateur si activé. Vrai par défautAffichez l'entrée/sortie sur toutes les interfaces utilisateur. Vrai par défaut
-log_history | bool | no | Si activé, écrit une entrée dans l'historique pour cet IO
 name | string | yes | Nom de l'entrée/sortie.
+log_history | bool | no | Si activé, écrit une entrée dans l'historique pour cet IO
+password | string | no | Mot de passe pour l'utilisateur
+visible | bool | no | Afficher l'entrée/sortie sur toutes les interfaces utilisateur si activé. Vrai par défautAffichez l'entrée/sortie sur toutes les interfaces utilisateur. Vrai par défaut
+enabled | bool | no | Activez l'entrée/sortie. Vrai par défaut. Ce paramètre est ajouté s'il n'est pas trouvé dans la configuration.
 id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
+gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
+io_type | string | yes | Type d'entrée/sortie (input, output, inout)
+width | int | no | Largeur de l'image, si ce paramètre est défini, la vidéo sera redimensionnée pour s'adapter à la largeur donnée. Laissez le paramètre vide pour conserver la taille originale.
+insecure | bool | no | Skip TLS certificate verification when connecting to the camera. Default to true (most cameras use self-signed certificates). Set to false to only allow a verified HTTPS connection.
+logged | bool | no | Si activé, et si influxdb est activé dans local_config, envoie la valeur à influxdb pour cet IO
+rotate | int | no | Faire pivoter l'image. Définir une valeur en degrés. Exemple : -90 pour une rotation antihoraire, 90 pour une rotation horaire.
+model | string | yes | Modèle de caméra (ICA-210, ICA-210W, ICA-300, ICA-302, ICA-500) à utiliser
+username | string | no | Nom d'utilisateur pour accéder à la caméra
 
 
 # RemoteUI
@@ -2497,7 +1979,7 @@ io_type | string | yes | Type d'entrée/sortie (input, output, inout)
 gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
 enabled | bool | no | Activez l'entrée/sortie. Vrai par défaut. Ce paramètre est ajouté s'il n'est pas trouvé dans la configuration.
 visible | bool | yes | Les lecteurs audio ne sont pas affichés dans les pièces
-port | int | yes | Port statique du serveur Roon, vide pour détection automatique sur le réseauPort statique du serveur Roon, laisser vide pour la détection automatique sur le réseau
+port | int | no | Port statique du serveur Roon, vide pour détection automatique sur le réseauPort statique du serveur Roon, laisser vide pour la détection automatique sur le réseau
 log_history | bool | no | Si activé, écrit une entrée dans l'historique pour cet IO
 name | string | yes | Nom de l'entrée/sortie.
 id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
@@ -2532,13 +2014,13 @@ Une variable de scènario. Utilisez-la comme un bouton virtuel pour lancer un sc
 Name | Type | Mandatory | Description
 ---- | ---- | --------- | -----------
 logged | bool | no | Si activé, et si influxdb est activé dans local_config, envoie la valeur à influxdb pour cet IO
+autoscenario_uid | string | no | Utilisation interne uniquement pour les scènarios auto. Lecture seule.
 io_type | string | yes | Type d'entrée/sortie (input, output, inout)
 gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
 enabled | bool | no | Activez l'entrée/sortie. Vrai par défaut. Ce paramètre est ajouté s'il n'est pas trouvé dans la configuration.
 visible | bool | no | Afficher l'entrée/sortie sur toutes les interfaces utilisateur si activé. Vrai par défautAffichez l'entrée/sortie sur toutes les interfaces utilisateur. Vrai par défaut
 log_history | bool | no | Si activé, écrit une entrée dans l'historique pour cet IO
 name | string | yes | Nom de l'entrée/sortie.
-auto_scenario | string | no | Utilisation interne uniquement pour les scènarios auto. Lecture seule.
 id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
 
 ## Conditions of Scenario
@@ -2613,19 +2095,20 @@ Camera IP MJPEG/Jpeg. La camèra peut être directement vue dans calaos et utili
 ## Parameters of standard_mjpeg
 Name | Type | Mandatory | Description
 ---- | ---- | --------- | -----------
-ptz | bool | no | Activer si la camèra supporte le PTZ
-rotate | int | no | Faire pivoter l'image. Définir une valeur en degrés. Exemple : -90 pour une rotation antihoraire, 90 pour une rotation horaire.
-logged | bool | no | Si activé, et si influxdb est activé dans local_config, envoie la valeur à influxdb pour cet IO
-width | int | no | Largeur de l'image, si ce paramètre est défini, la vidéo sera redimensionnée pour s'adapter à la largeur donnée. Laissez le paramètre vide pour conserver la taille originale.
-io_type | string | yes | Type d'entrée/sortie (input, output, inout)
-gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
-enabled | bool | no | Activez l'entrée/sortie. Vrai par défaut. Ce paramètre est ajouté s'il n'est pas trouvé dans la configuration.
-url_mjpeg | string | no | URL pour le support du flux MJPEG
-visible | bool | no | Afficher l'entrée/sortie sur toutes les interfaces utilisateur si activé. Vrai par défautAffichez l'entrée/sortie sur toutes les interfaces utilisateur. Vrai par défaut
-log_history | bool | no | Si activé, écrit une entrée dans l'historique pour cet IO
 name | string | yes | Nom de l'entrée/sortie.
-url_jpeg | string | yes | URL pour un instantané au format JPEG
+log_history | bool | no | Si activé, écrit une entrée dans l'historique pour cet IO
+visible | bool | no | Afficher l'entrée/sortie sur toutes les interfaces utilisateur si activé. Vrai par défautAffichez l'entrée/sortie sur toutes les interfaces utilisateur. Vrai par défaut
+url_mjpeg | string | no | URL pour le support du flux MJPEG
+enabled | bool | no | Activez l'entrée/sortie. Vrai par défaut. Ce paramètre est ajouté s'il n'est pas trouvé dans la configuration.
 id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
+gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
+io_type | string | yes | Type d'entrée/sortie (input, output, inout)
+ptz | bool | no | Activer si la camèra supporte le PTZ
+width | int | no | Largeur de l'image, si ce paramètre est défini, la vidéo sera redimensionnée pour s'adapter à la largeur donnée. Laissez le paramètre vide pour conserver la taille originale.
+url_jpeg | string | yes | URL pour un instantané au format JPEG
+insecure | bool | no | Skip TLS certificate verification when connecting to the camera. Default to true (most cameras use self-signed certificates). Set to false to only allow a verified HTTPS connection.
+logged | bool | no | Si activé, et si influxdb est activé dans local_config, envoie la valeur à influxdb pour cet IO
+rotate | int | no | Faire pivoter l'image. Définir une valeur en degrés. Exemple : -90 pour une rotation antihoraire, 90 pour une rotation horaire.
 
 # StandardMjpeg - UNDOCUMENTED IO
 SPANK SPANK SPANK : naughty programmer ! You did not add documentation for this IO, that's BAD :'(
@@ -2638,19 +2121,20 @@ Camera IP MJPEG/Jpeg. La camèra peut être directement vue dans calaos et utili
 ## Parameters of StandardMjpeg
 Name | Type | Mandatory | Description
 ---- | ---- | --------- | -----------
-ptz | bool | no | Activer si la camèra supporte le PTZ
-rotate | int | no | Faire pivoter l'image. Définir une valeur en degrés. Exemple : -90 pour une rotation antihoraire, 90 pour une rotation horaire.
-logged | bool | no | Si activé, et si influxdb est activé dans local_config, envoie la valeur à influxdb pour cet IO
-width | int | no | Largeur de l'image, si ce paramètre est défini, la vidéo sera redimensionnée pour s'adapter à la largeur donnée. Laissez le paramètre vide pour conserver la taille originale.
-io_type | string | yes | Type d'entrée/sortie (input, output, inout)
-gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
-enabled | bool | no | Activez l'entrée/sortie. Vrai par défaut. Ce paramètre est ajouté s'il n'est pas trouvé dans la configuration.
-url_mjpeg | string | no | URL pour le support du flux MJPEG
-visible | bool | no | Afficher l'entrée/sortie sur toutes les interfaces utilisateur si activé. Vrai par défautAffichez l'entrée/sortie sur toutes les interfaces utilisateur. Vrai par défaut
-log_history | bool | no | Si activé, écrit une entrée dans l'historique pour cet IO
 name | string | yes | Nom de l'entrée/sortie.
-url_jpeg | string | yes | URL pour un instantané au format JPEG
+log_history | bool | no | Si activé, écrit une entrée dans l'historique pour cet IO
+visible | bool | no | Afficher l'entrée/sortie sur toutes les interfaces utilisateur si activé. Vrai par défautAffichez l'entrée/sortie sur toutes les interfaces utilisateur. Vrai par défaut
+url_mjpeg | string | no | URL pour le support du flux MJPEG
+enabled | bool | no | Activez l'entrée/sortie. Vrai par défaut. Ce paramètre est ajouté s'il n'est pas trouvé dans la configuration.
 id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
+gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
+io_type | string | yes | Type d'entrée/sortie (input, output, inout)
+ptz | bool | no | Activer si la camèra supporte le PTZ
+width | int | no | Largeur de l'image, si ce paramètre est défini, la vidéo sera redimensionnée pour s'adapter à la largeur donnée. Laissez le paramètre vide pour conserver la taille originale.
+url_jpeg | string | yes | URL pour un instantané au format JPEG
+insecure | bool | no | Skip TLS certificate verification when connecting to the camera. Default to true (most cameras use self-signed certificates). Set to false to only allow a verified HTTPS connection.
+logged | bool | no | Si activé, et si influxdb est activé dans local_config, envoie la valeur à influxdb pour cet IO
+rotate | int | no | Faire pivoter l'image. Définir une valeur en degrés. Exemple : -90 pour une rotation antihoraire, 90 pour une rotation horaire.
 
 # SynoSurveillanceStation - UNDOCUMENTED IO
 SPANK SPANK SPANK : naughty programmer ! You did not add documentation for this IO, that's BAD :'(
@@ -2665,24 +2149,25 @@ Name | Type | Mandatory | Description
 ---- | ---- | --------- | -----------
 name | string | yes | Nom de l'entrée/sortie.
 log_history | bool | no | Si activé, écrit une entrée dans l'historique pour cet IO
+camera_id | string | yes | Arrêter la minuterie
+password | string | yes | Mot de passe pour l'utilisateur
+visible | bool | no | Afficher l'entrée/sortie sur toutes les interfaces utilisateur si activé. Vrai par défautAffichez l'entrée/sortie sur toutes les interfaces utilisateur. Vrai par défaut
 id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
 gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
 io_type | string | yes | Type d'entrée/sortie (input, output, inout)
 width | int | no | Largeur de l'image, si ce paramètre est défini, la vidéo sera redimensionnée pour s'adapter à la largeur donnée. Laissez le paramètre vide pour conserver la taille originale.
+insecure | bool | no | Skip TLS certificate verification when connecting to the camera. Default to true (most cameras use self-signed certificates). Set to false to only allow a verified HTTPS connection.
 camera_profile | int | no | Profil è utiliser pour l'instantanè. 0- Haute qualitè, 1- èquilibrè, 2- Faible bande-passante
 logged | bool | no | Si activé, et si influxdb est activé dans local_config, envoie la valeur à influxdb pour cet IO
 rotate | int | no | Faire pivoter l'image. Définir une valeur en degrés. Exemple : -90 pour une rotation antihoraire, 90 pour une rotation horaire.
 enabled | bool | no | Activez l'entrée/sortie. Vrai par défaut. Ce paramètre est ajouté s'il n'est pas trouvé dans la configuration.
 url | string | yes | Url complet ver le NAS Synology. Ex: https://192.168.0.22:5000
 username | string | yes | Nom d'utilisateur qui a accès è la station de surveillance
-camera_id | string | yes | Arrêter la minuterie
-visible | bool | no | Afficher l'entrée/sortie sur toutes les interfaces utilisateur si activé. Vrai par défautAffichez l'entrée/sortie sur toutes les interfaces utilisateur. Vrai par défaut
-password | string | yes | Mot de passe pour l'utilisateur
 
 
 # TimeRange
 #### Alias: InPlageHoraire
-Représentez un objet de plage de temps. Une plage de temps est vraie si l'heure actuelle est dans l'une des gammes incluses, false sinon. La gamme de temps prend également en charge les jours de semaine et les mois.
+Represent a time range object. A time range is true if current time is in one of the included range, false otherwise. The time range also support weekdays and months. A range whose end is before its start wraps over midnight: it starts on the weekday it is attached to and ends the next morning. For example a range 23:00 -> 01:00 set on monday is true from monday 23:00 to tuesday 01:00, and never on monday between 00:00 and 01:00. Beware that bounds relative to sunrise/sunset move with the season: a range like sunset -> 23:00 is a normal range most of the year but starts to wrap over midnight when sunset gets later than 23:00. Such a range is reported in the log the first time it is evaluated as wrapping.
 
 ## Parameters of TimeRange
 Name | Type | Mandatory | Description
@@ -2713,6 +2198,7 @@ Une entrée analogique peut être utilisée pour lire des valeurs analogiques po
 ## Parameters of WebInputAnalog
 Name | Type | Mandatory | Description
 ---- | ---- | --------- | -----------
+insecure | bool | no | Skip TLS certificate verification when connecting to the url. Default to true (LAN devices commonly use self-signed certificates). Set to false to only allow a verified HTTPS connection.
 precision | int | no | Précision de la valeur retournée. La valeur représente le nombre de décimales après le point. La valeur est arrondie comme ceci: valeur = 19.275 => valeur renvoyée 19.28 lors de la précision = 2, 19.3 lorsque la précision = 1, 19 lorsque la précision = 0
 interval | float | no | Temps d'échantillonnage en secondes. La valeur est lue à cette fréquence. Si cette valeur n'est pas définie, la valeur par défaut est 15s
 name | string | yes | Nom de l'entrée/sortie.
@@ -2726,7 +2212,7 @@ coeff_a | float | no | Utiliser conjointement coeff_b pour appliquer l'èquation
 io_type | string | yes | Type d'entrée/sortie (input, output, inout)
 logged | bool | no | Si activé, et si influxdb est activé dans local_config, envoie la valeur à influxdb pour cet IO
 coeff_b | float | no | Utiliser conjointement coeff_a pour appliquer l'èquation de la forme valeur = coeff_a * raw_value + coeff_b. La valeur par défaut est 0.0.
-path | string | yes | Chemin pour identifier l'emplacement de la valeur. Ce chemin peut prendre plusieurs formes en fonction du type de fichier. Si file_type est JSON, le fichier tèlèchargè sera lu et les informations seront extraites du chemin. Par exemple weather[0]/description, essayez de lire la description du premier èlèment du tableau de l'objet weahter.
+path | string | yes | Chemin pour identifier l'emplacement de la valeur. Ce chemin peut prendre plusieurs formes en fonction du type de fichier. Si file_type est JSON, le fichier tèlèchargè sera lu et les informations seront extraites du chemin. Les indices de tableau sont un segment de chemin à eux seuls, entre crochets : par exemple weather/[0]/description lit la valeur description du premier élément du tableau weather.
 Si file_type est XML, le chemin d'accès est une expression xpath; Regardez ici la syntaxe: http://www.w3schools.com/xsl/xpath_syntax.asp. Si file_type est TEXT, le fichier tèlèchargè est renvoyè en tant que fichier texte simple, et le chemin doit être sous la forme ligne/pos/separateur. La ligne lue est divisèe è l'aide du sèparateur en tant que dèlimiteurs. La valeur renvoyée est la valeur è pos dans la ligne fractionnèe. Si le sèparateur n'est pas trouvé, la ligne entière est renvoyée. Exemple, pour un fichier contenant 
 10,0,10,1,10,2,10,3
 20,0,20,1,20,2,20.3
@@ -2757,11 +2243,12 @@ Name | Type | Mandatory | Description
 url | string | yes | URL oè tèlècharger le document
 Si l'URL commence avec / ou file:// les données sont lues sur un disque local
 logged | bool | no | Si activé, et si influxdb est activé dans local_config, envoie la valeur à influxdb pour cet IO
+insecure | bool | no | Skip TLS certificate verification when connecting to the url. Default to true (LAN devices commonly use self-signed certificates). Set to false to only allow a verified HTTPS connection.
 io_type | string | yes | Type d'entrée/sortie (input, output, inout)
 file_type | string | yes | Type de fichier. Les valeurs peuvent être xml, json ou text.
 gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
 enabled | bool | no | Activez l'entrée/sortie. Vrai par défaut. Ce paramètre est ajouté s'il n'est pas trouvé dans la configuration.
-path | string | yes | Chemin pour identifier l'emplacement de la valeur. Ce chemin peut prendre plusieurs formes en fonction du type de fichier. Si file_type est JSON, le fichier tèlèchargè sera lu et les informations seront extraites du chemin. Par exemple weather[0]/description, essayez de lire la description du premier èlèment du tableau de l'objet weahter.
+path | string | yes | Chemin pour identifier l'emplacement de la valeur. Ce chemin peut prendre plusieurs formes en fonction du type de fichier. Si file_type est JSON, le fichier tèlèchargè sera lu et les informations seront extraites du chemin. Les indices de tableau sont un segment de chemin à eux seuls, entre crochets : par exemple weather/[0]/description lit la valeur description du premier élément du tableau weather.
 Si file_type est XML, le chemin d'accès est une expression xpath; Regardez ici la syntaxe: http://www.w3schools.com/xsl/xpath_syntax.asp. Si file_type est TEXT, le fichier tèlèchargè est renvoyè en tant que fichier texte simple, et le chemin doit être sous la forme ligne/pos/separateur. La ligne lue est divisèe è l'aide du sèparateur en tant que dèlimiteurs. La valeur renvoyée est la valeur è pos dans la ligne fractionnèe. Si le sèparateur n'est pas trouvé, la ligne entière est renvoyée. Exemple, pour un fichier contenant 
 10,0,10,1,10,2,10,3
 20,0,20,1,20,2,20.3
@@ -2782,6 +2269,7 @@ Temperature sensor input. Used for displaying temperature and to control heating
 ## Parameters of WebInputTemp
 Name | Type | Mandatory | Description
 ---- | ---- | --------- | -----------
+insecure | bool | no | Skip TLS certificate verification when connecting to the url. Default to true (LAN devices commonly use self-signed certificates). Set to false to only allow a verified HTTPS connection.
 precision | int | no | Précision de la valeur retournée. La valeur représente le nombre de décimales après le point. La valeur est arrondie comme ceci: valeur = 19.275 => valeur renvoyée 19.28 lors de la précision = 2, 19.3 lorsque la précision = 1, 19 lorsque la précision = 0
 interval | float | no | Temps d'échantillonnage en secondes. La valeur est lue à cette fréquence. Si cette valeur n'est pas définie, la valeur par défaut est 15s
 name | string | yes | Nom de l'entrée/sortie.
@@ -2795,7 +2283,7 @@ coeff_a | float | no | Utiliser conjointement coeff_b pour appliquer l'èquation
 io_type | string | yes | Type d'entrée/sortie (input, output, inout)
 logged | bool | no | Si activé, et si influxdb est activé dans local_config, envoie la valeur à influxdb pour cet IO
 coeff_b | float | no | Utiliser conjointement coeff_a pour appliquer l'èquation de la forme valeur = coeff_a * raw_value + coeff_b. La valeur par défaut est 0.0.
-path | string | yes | Chemin pour identifier l'emplacement de la valeur. Ce chemin peut prendre plusieurs formes en fonction du type de fichier. Si file_type est JSON, le fichier tèlèchargè sera lu et les informations seront extraites du chemin. Par exemple weather[0]/description, essayez de lire la description du premier èlèment du tableau de l'objet weahter.
+path | string | yes | Chemin pour identifier l'emplacement de la valeur. Ce chemin peut prendre plusieurs formes en fonction du type de fichier. Si file_type est JSON, le fichier tèlèchargè sera lu et les informations seront extraites du chemin. Les indices de tableau sont un segment de chemin à eux seuls, entre crochets : par exemple weather/[0]/description lit la valeur description du premier élément du tableau weather.
 Si file_type est XML, le chemin d'accès est une expression xpath; Regardez ici la syntaxe: http://www.w3schools.com/xsl/xpath_syntax.asp. Si file_type est TEXT, le fichier tèlèchargè est renvoyè en tant que fichier texte simple, et le chemin doit être sous la forme ligne/pos/separateur. La ligne lue est divisèe è l'aide du sèparateur en tant que dèlimiteurs. La valeur renvoyée est la valeur è pos dans la ligne fractionnèe. Si le sèparateur n'est pas trouvé, la ligne entière est renvoyée. Exemple, pour un fichier contenant 
 10,0,10,1,10,2,10,3
 20,0,20,1,20,2,20.3
@@ -2826,7 +2314,10 @@ Utile pour contrôler les périphériques de sortie analogique connectès è cal
 ## Parameters of WebOutputAnalog
 Name | Type | Mandatory | Description
 ---- | ---- | --------- | -----------
+insecure | bool | no | Skip TLS certificate verification when connecting to the url. Default to true (LAN devices commonly use self-signed certificates). Set to false to only allow a verified HTTPS connection.
 file_type | string | yes | Type de fichier. Les valeurs peuvent être xml, json ou text.
+value_max | float | no | Highest value accepted when writing. A higher value is lowered to `value_max`. The bound applies to the written value, before coeff_a/coeff_b/calc_expr, and also to the result of inc/dec. No upper bound if not set. Ignored, with an error in the log, if lower than `value_min`.
+value_min | float | no | Lowest value accepted when writing. A lower value is raised to `value_min`. The bound applies to the written value, before coeff_a/coeff_b/calc_expr, and also to the result of inc/dec. No lower bound if not set. Ignored, with an error in the log, if greater than `value_max`.
 name | string | yes | Nom de l'entrée/sortie.
 visible | bool | no | Afficher l'entrée/sortie sur toutes les interfaces utilisateur si activé. Vrai par défautAffichez l'entrée/sortie sur toutes les interfaces utilisateur. Vrai par défaut
 step | float | no | Définir un pas pour incrémenter/décrémenter la valeur. La valeur par défaut est 1.0Définit le pas pour incrémenter/décrémenter la valeur. La valeur par défaut est 1.0
@@ -2838,7 +2329,7 @@ gui_type | string | no | Type graphique interne pour tous les objets calaos. Par
 io_type | string | yes | Type d'entrée/sortie (input, output, inout)
 logged | bool | no | Si activé, et si influxdb est activé dans local_config, envoie la valeur à influxdb pour cet IO
 coeff_b | float | no | Utiliser conjointement coeff_a pour appliquer l'èquation de la forme valeur = coeff_a * raw_value + coeff_b. La valeur par défaut est 0.0.
-path | string | yes | Chemin pour identifier l'emplacement de la valeur. Ce chemin peut prendre plusieurs formes en fonction du type de fichier. Si file_type est JSON, le fichier tèlèchargè sera lu et les informations seront extraites du chemin. Par exemple weather[0]/description, essayez de lire la description du premier èlèment du tableau de l'objet weahter.
+path | string | yes | Chemin pour identifier l'emplacement de la valeur. Ce chemin peut prendre plusieurs formes en fonction du type de fichier. Si file_type est JSON, le fichier tèlèchargè sera lu et les informations seront extraites du chemin. Les indices de tableau sont un segment de chemin à eux seuls, entre crochets : par exemple weather/[0]/description lit la valeur description du premier élément du tableau weather.
 Si file_type est XML, le chemin d'accès est une expression xpath; Regardez ici la syntaxe: http://www.w3schools.com/xsl/xpath_syntax.asp. Si file_type est TEXT, le fichier tèlèchargè est renvoyè en tant que fichier texte simple, et le chemin doit être sous la forme ligne/pos/separateur. La ligne lue est divisèe è l'aide du sèparateur en tant que dèlimiteurs. La valeur renvoyée est la valeur è pos dans la ligne fractionnèe. Si le sèparateur n'est pas trouvé, la ligne entière est renvoyée. Exemple, pour un fichier contenant 
 10,0,10,1,10,2,10,3
 20,0,20,1,20,2,20.3
@@ -2881,6 +2372,7 @@ http://example.com/api?value=20.3
 L'URL est encodèe avant d'être envoyèe.
 Si l'URL commence par / ou file:// les données sont ècrites dans un fichier local.
 logged | bool | no | Si activé, et si influxdb est activé dans local_config, envoie la valeur à influxdb pour cet IO
+insecure | bool | no | Skip TLS certificate verification when connecting to the url. Default to true (LAN devices commonly use self-signed certificates). Set to false to only allow a verified HTTPS connection.
 io_type | string | yes | Type d'entrée/sortie (input, output, inout)
 gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
 data_type | string | yes | Entète HTTP Content-Type utilisé lors de l'envoi du document. Cela dèpend du site, mais vous pouvez utiliser application/json ou application/xml comme valeurs correctes.
@@ -2925,6 +2417,7 @@ http://example.com/api?value=20.3
 L'URL est encodèe avant d'être envoyèe.
 Si l'URL commence par / ou file:// les données sont ècrites dans un fichier local.
 logged | bool | no | Si activé, et si influxdb est activé dans local_config, envoie la valeur à influxdb pour cet IO
+insecure | bool | no | Skip TLS certificate verification when connecting to the url. Default to true (LAN devices commonly use self-signed certificates). Set to false to only allow a verified HTTPS connection.
 io_type | string | yes | Type d'entrée/sortie (input, output, inout)
 gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
 data_type | string | yes | Entète HTTP Content-Type utilisé lors de l'envoi du document. Cela dèpend du site, mais vous pouvez utiliser application/json ou application/xml comme valeurs correctes.
@@ -2969,27 +2462,28 @@ Ecriture d'une chaine dans un document web ou une URL.
 ## Parameters of WebOutputString
 Name | Type | Mandatory | Description
 ---- | ---- | --------- | -----------
-url | string | yes | URL pour poster le document. Le champ data est envoyè en POST si il n'est pas nul. Lorsque aucune donnèe n'est fournie, Calaos substitue __##VALUE##__ de l'URL avec la valeur è envoyer. Par exemple, si l'url est http://example.com/api?value=__##VALUE##__ l'url sera :
-http://example.com/api?value=20.3
-L'URL est encodèe avant d'être envoyèe.
-Si l'URL commence par / ou file:// les données sont ècrites dans un fichier local.
-logged | bool | no | Si activé, et si influxdb est activé dans local_config, envoie la valeur à influxdb pour cet IO
-io_type | string | yes | Type d'entrée/sortie (input, output, inout)
-file_type | string | yes | Type de fichier. Les valeurs peuvent être xml, json ou text.
-gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
 data_type | string | yes | Entète HTTP Content-Type utilisé lors de l'envoi du document. Cela dèpend du site, mais vous pouvez utiliser application/json ou application/xml comme valeurs correctes.
-enabled | bool | no | Activez l'entrée/sortie. Vrai par défaut. Ce paramètre est ajouté s'il n'est pas trouvé dans la configuration.
-data | string | yes | Donnèes è publier. Cette valeur peut être nulle, dans ce cas, la valeur est remplacèe dans l'URL, sinon la valeur __##VALUE##__ contenue dans les données est remplacèe par la valeur è envoyer.
-path | string | yes | Chemin pour identifier l'emplacement de la valeur. Ce chemin peut prendre plusieurs formes en fonction du type de fichier. Si file_type est JSON, le fichier tèlèchargè sera lu et les informations seront extraites du chemin. Par exemple weather[0]/description, essayez de lire la description du premier èlèment du tableau de l'objet weahter.
+name | string | yes | Nom de l'entrée/sortie.
+visible | bool | no | Afficher l'entrée/sortie sur toutes les interfaces utilisateur si activé. Vrai par défautAffichez l'entrée/sortie sur toutes les interfaces utilisateur. Vrai par défaut
+log_history | bool | no | Si activé, écrit une entrée dans l'historique pour cet IO
+path | string | yes | Chemin pour identifier l'emplacement de la valeur. Ce chemin peut prendre plusieurs formes en fonction du type de fichier. Si file_type est JSON, le fichier tèlèchargè sera lu et les informations seront extraites du chemin. Les indices de tableau sont un segment de chemin à eux seuls, entre crochets : par exemple weather/[0]/description lit la valeur description du premier élément du tableau weather.
 Si file_type est XML, le chemin d'accès est une expression xpath; Regardez ici la syntaxe: http://www.w3schools.com/xsl/xpath_syntax.asp. Si file_type est TEXT, le fichier tèlèchargè est renvoyè en tant que fichier texte simple, et le chemin doit être sous la forme ligne/pos/separateur. La ligne lue est divisèe è l'aide du sèparateur en tant que dèlimiteurs. La valeur renvoyée est la valeur è pos dans la ligne fractionnèe. Si le sèparateur n'est pas trouvé, la ligne entière est renvoyée. Exemple, pour un fichier contenant 
 10,0,10,1,10,2,10,3
 20,0,20,1,20,2,20.3
 Si le chemin est 2/4/, la valeur retournée sera 20.3
 
-visible | bool | no | Afficher l'entrée/sortie sur toutes les interfaces utilisateur si activé. Vrai par défautAffichez l'entrée/sortie sur toutes les interfaces utilisateur. Vrai par défaut
-log_history | bool | no | Si activé, écrit une entrée dans l'historique pour cet IO
-name | string | yes | Nom de l'entrée/sortie.
+data | string | yes | Donnèes è publier. Cette valeur peut être nulle, dans ce cas, la valeur est remplacèe dans l'URL, sinon la valeur __##VALUE##__ contenue dans les données est remplacèe par la valeur è envoyer.
 id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
+gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
+file_type | string | yes | Type de fichier. Les valeurs peuvent être xml, json ou text.
+io_type | string | yes | Type d'entrée/sortie (input, output, inout)
+insecure | bool | no | Skip TLS certificate verification when connecting to the url. Default to true (LAN devices commonly use self-signed certificates). Set to false to only allow a verified HTTPS connection.
+logged | bool | no | Si activé, et si influxdb est activé dans local_config, envoie la valeur à influxdb pour cet IO
+enabled | bool | no | Activez l'entrée/sortie. Vrai par défaut. Ce paramètre est ajouté s'il n'est pas trouvé dans la configuration.
+url | string | yes | URL pour poster le document. Le champ data est envoyè en POST si il n'est pas nul. Lorsque aucune donnèe n'est fournie, Calaos substitue __##VALUE##__ de l'URL avec la valeur è envoyer. Par exemple, si l'url est http://example.com/api?value=__##VALUE##__ l'url sera :
+http://example.com/api?value=20.3
+L'URL est encodèe avant d'être envoyèe.
+Si l'URL commence par / ou file:// les données sont ècrites dans un fichier local.
 
 
 # WIAnalog
@@ -3189,6 +2683,8 @@ Name | Type | Mandatory | Description
 ---- | ---- | --------- | -----------
 port | int | no | Port de l'automate Wage, 502 par défaut
 host | string | yes | Adresse IP de l'automate Wago
+value_max | float | no | Highest value accepted when writing. A higher value is lowered to `value_max`. The bound applies to the written value, before coeff_a/coeff_b/calc_expr, and also to the result of inc/dec. No upper bound if not set. Ignored, with an error in the log, if lower than `value_min`.
+value_min | float | no | Lowest value accepted when writing. A lower value is raised to `value_min`. The bound applies to the written value, before coeff_a/coeff_b/calc_expr, and also to the result of inc/dec. No lower bound if not set. Ignored, with an error in the log, if greater than `value_max`.
 var | int | yes | Adresse de l'automate de la sortie
 name | string | yes | Nom de l'entrée/sortie.
 visible | bool | no | Afficher l'entrée/sortie sur toutes les interfaces utilisateur si activé. Vrai par défautAffichez l'entrée/sortie sur toutes les interfaces utilisateur. Vrai par défaut
@@ -3243,7 +2739,7 @@ fade_time | int | no | Durèe du fondu DALI (entre 1 et 10)
 line | int | no | Ligne de bus DALI, habituellement 1
 enabled | bool | no | Activez l'entrée/sortie. Vrai par défaut. Ce paramètre est ajouté s'il n'est pas trouvé dans la configuration.
 id | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
-address | int | yes | Adresse de l'appareil. Les adresses DALI se situent entre 1 et 64. Pour les DMX, les adresses commencent è 100. Donc, pour le périphérique DMX 5, l'adresse doit être 105.
+address | int | yes | Device address. For DALI address is between 1-64. For DMX the address is 100 + the channel, so DMX channel 5 is address 105; channel 1 is address 101 and 100 itself is not a DMX address
 gui_type | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
 io_type | string | yes | Type d'entrée/sortie (input, output, inout)
 logged | bool | no | Si activé, et si influxdb est activé dans local_config, envoie la valeur à influxdb pour cet IO
@@ -3292,11 +2788,11 @@ Name | Type | Mandatory | Description
 bfade_time | int | no | Durèe du fondu pour le canal bleu DALI (entre 1 et 10)
 bgroup | int | no | Règlez sur 1 si l'adresse du canal bleu est une adresse de groupe DALI, sinon mettre 0
 ggroup | int | no | Règlez sur 1 si l'adresse du canal vert est une adresse de groupe DALI, sinon mettre 0
-gaddress | int | yes | Adresse pour le canal vert. Les adresses DALI se situent entre 1 et 64. Pour les DMX, les adresses commencent è 100. Donc, pour le périphérique DMX 5, l'adresse doit être 105.
+gaddress | int | yes | Device address for green channel. For DALI address is between 1-64. For DMX the address is 100 + the channel, so DMX channel 5 is address 105; channel 1 is address 101 and 100 itself is not a DMX address
 gline | int | no | Ligne de bus DALI pour canal vert, habituellement 1
 rfade_time | int | no | Durèe du fondu pour le canal rouge DALI (entre 1 et 10)
 name | string | yes | Nom de l'entrée/sortie.
-baddress | int | yes | Adresse pour le canal bleu. Les adresses DALI se situent entre 1 et 64. Pour les DMX, les adresses commencent è 100. Donc, pour le périphérique DMX 5, l'adresse doit être 105.
+baddress | int | yes | Device address for blue channel. For DALI address is between 1-64. For DMX the address is 100 + the channel, so DMX channel 5 is address 105; channel 1 is address 101 and 100 itself is not a DMX address
 log_history | bool | no | Si activé, écrit une entrée dans l'historique pour cet IO
 port | int | no | Port de l'automate Wage, 502 par défaut
 gfade_time | int | no | Durèe du fondu pour le canal vert DALI (entre 1 et 10)
@@ -3308,7 +2804,7 @@ bline | int | no | Ligne de bus DALI pour canal bleu, habituellement 1
 io_type | string | yes | Type d'entrée/sortie (input, output, inout)
 host | string | yes | Adresse IP de l'automate Wago
 rline | int | no | Ligne de bus DALI pour canal rouge, habituellement 1
-raddress | int | yes | Adresse pour le canal rouge. Les adresses DALI se situent entre 1 et 64. Pour les DMX, les adresses commencent è 100. Donc, pour le périphérique DMX 5, l'adresse doit être 105.
+raddress | int | yes | Device address for red channel. For DALI address is between 1-64. For DMX the address is 100 + the channel, so DMX channel 5 is address 105; channel 1 is address 101 and 100 itself is not a DMX address
 logged | bool | no | Si activé, et si influxdb est activé dans local_config, envoie la valeur à influxdb pour cet IO
 rgroup | int | no | Règlez sur 1 si l'adresse du canal rouge est une adresse de groupe DALI,  sinon mettre 0
 
@@ -3503,14 +2999,13 @@ false | Événement lorsque le volet est fermè
 ## Actions of WOVoletSmart
 Name | Description
 ---- | -----------
-up 5 | Ouvrir le volet de X pourcent 
+set_state 50 | Update internal shutter position, in percent, without starting real action. This is useful when having updating the shutter state from an external source. 
+ up 5 | Ouvrir le volet de X pourcent 
  set 50 | Mettre le volet è la position X en pourcentage 
  impulse up 200 | Ouvrir le volet pendant X ms 
- set_state true | Met è jour l'état du volet en interne sans démarrer d'action rèelle. Ceci est utile lorsque vous avez mis è jour l'état du volet è partir d'une source externe. 
  down 5 | Fermer le volet de X pourcent 
  impulse down 200 | Fermer le volet pendant X ms 
  toggle | Inverser l'état du volet 
- set_state false | Met è jour l'état du volet en interne sans démarrer d'action rèelle. Ceci est utile lorsque vous avez mis è jour l'état du volet è partir d'une source externe. 
  calibrate | Commencez l'ètalonnage du volet. Cela ouvre complètement le volet et rèinitialise toutes les valeurs de position internes. Utilisez cette option si la synchronisation du volet est perdue. 
  stop | Arrêter le volet 
  down | Fermer le volet 

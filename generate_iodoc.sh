@@ -18,6 +18,6 @@ export LANG=fr_FR.UTF-8
 calaos_server --help
 calaos_server --gendoc docpath/fr
 cp docpath/fr/io_doc.json  data/doc/fr/io_doc.json
-cp docpath/fr/io_doc.json  data/doc/fr/io_doc.json
+cp docpath/fr/io_doc.md  data/doc/fr/io_doc.md
 
 rm -fr docpath

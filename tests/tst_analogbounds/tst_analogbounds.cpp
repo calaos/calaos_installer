@@ -132,7 +132,7 @@ private slots:
         QVERIFY(!p.Exists("value_min") && !p.Exists("value_max"));
         QVERIFY(!p.Exists("min") && !p.Exists("max"));
 
-        w.findChild<QLineEdit *>("edit_value_min")->setText(" 16 ");
+        w.findChild<QLineEdit *>("edit_value_min")->setText("16");
         w.addBoundsTo(p);
         QCOMPARE(u(p["value_min"]), QString("16"));
         QVERIFY(!p.Exists("value_max"));
@@ -151,6 +151,46 @@ private slots:
         w.updateUI(true);
         QVERIFY(w.findChild<QLineEdit *>("edit_value_min")->isVisible());
         QVERIFY(w.findChild<QLineEdit *>("edit_value_max")->isVisible());
+    }
+
+    void formIgnoresBoundsOfHiddenFields()
+    {
+        FormAnalogProperties w(nullptr, true);
+        w.findChild<QLineEdit *>("edit_value_min")->setText("3");
+        w.updateUI(false);
+        Params p;
+        w.addBoundsTo(p);
+        QVERIFY(!p.Exists("value_min"));
+        QVERIFY(w.boundsError().isEmpty());
+    }
+
+    void formRejectsMalformedBounds_data()
+    {
+        QTest::addColumn<QString>("lo");
+        QTest::addColumn<QString>("hi");
+        QTest::addColumn<bool>("valid");
+        QTest::newRow("lone minus") << "-" << "" << false;
+        QTest::newRow("group separator") << "" << "1,000" << false;
+        QTest::newRow("letters") << "abc" << "" << false;
+        QTest::newRow("min above max") << "10" << "5" << false;
+        QTest::newRow("equal") << "5" << "5" << true;
+        QTest::newRow("negative range") << "-10.5" << "-2" << true;
+        QTest::newRow("one side") << "" << "5" << true;
+    }
+
+    void formRejectsMalformedBounds()
+    {
+        QFETCH(QString, lo);
+        QFETCH(QString, hi);
+        QFETCH(bool, valid);
+        FormAnalogProperties w(nullptr, true);
+        // Direct edit of the text bypasses the validator, as a paste can.
+        w.findChild<QLineEdit *>("edit_value_min")->setText(lo);
+        w.findChild<QLineEdit *>("edit_value_max")->setText(hi);
+        QCOMPARE(w.boundsError().isEmpty(), valid);
+        Params p;
+        w.addBoundsTo(p);
+        QCOMPARE(p.Exists("value_min") || p.Exists("value_max"), valid && (!lo.isEmpty() || !hi.isEmpty()));
     }
 
     void newAnalogDialogWritesNoLegacyBounds()
