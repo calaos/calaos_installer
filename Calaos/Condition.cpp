@@ -19,6 +19,7 @@
 **
 ******************************************************************************/
 #include <Condition.h>
+#include <algorithm>
 
 using namespace Calaos;
 
@@ -47,9 +48,7 @@ void Condition::removeScriptInput(int pos)
 
 void Condition::removeScriptInput(IOBase *in)
 {
-    vector<IOBase *>::iterator iter = in_event.begin();
-    for (int i = 0;i < (int)in_event.size() && in != in_event[i];iter++, i++) ;
-    in_event.erase(iter);
+    in_event.erase(std::remove(in_event.begin(), in_event.end(), in), in_event.end());
 }
 
 Condition *Condition::duplicate()

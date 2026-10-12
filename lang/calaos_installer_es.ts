@@ -6456,7 +6456,7 @@ The wizard is going to create 2 rules that would start or stop the heating syste
     </message>
     <message>
         <location filename="../src/WidgetIOProperties.cpp" line="86"/>
-        <source>The stored value %1 is outside the documented range (%2). It is kept as is unless you change it.</source>
+        <source>The value %1 is outside the documented range (%2). It is kept as is unless you change it.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

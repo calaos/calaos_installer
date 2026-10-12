@@ -20,6 +20,8 @@
 ******************************************************************************/
 //-----------------------------------------------------------------------------
 #include <ListeRule.h>
+#include <algorithm>
+#include <set>
 //-----------------------------------------------------------------------------
 using namespace Calaos;
 //-----------------------------------------------------------------------------
@@ -67,30 +69,9 @@ Rule *ListeRule::get_rule(int i)
 namespace
 {
 
-//A condition or action may hold an IO other than the one in the room list
-//(legacy iid/oid references), so ids are compared as well as pointers.
-//An empty id never identifies anything.
-bool sameIO(IOBase *ref, IOBase *io)
-{
-    if (!ref)
-        return false;
-    if (ref == io)
-        return true;
-
-    static const char *keys[] = { "id", "iid", "oid" };
-    for (const char *k: keys)
-    {
-        const string a = io->get_param(k);
-        if (a.empty())
-            continue;
-        for (const char *m: keys)
-            if (a == ref->get_param(m))
-                return true;
-    }
-
-    return false;
-}
-
+//Pointer only: it is what dangles, and what a rule holds. Several IOs may share
+//an id (or a camera answer to iid/oid), and those must keep their rules.
+//Script triggers are not rule members: they are detached, not matched.
 bool ruleUses(Rule *rule, IOBase *io)
 {
     for (int j = 0;j < rule->get_size_conds();j++)
@@ -98,12 +79,9 @@ bool ruleUses(Rule *rule, IOBase *io)
         Condition *cond = rule->get_condition(j);
 
         for (int k = 0;k < cond->get_size();k++)
-            if (sameIO(cond->get_input(k), io))
+            if (cond->get_input(k) == io)
                 return true;
-        for (int k = 0;k < cond->getScriptInputSize();k++)
-            if (sameIO(cond->getScriptInput(k), io))
-                return true;
-        if (sameIO(cond->getOutput(), io))
+        if (cond->getOutput() == io)
             return true;
     }
 
@@ -111,11 +89,54 @@ bool ruleUses(Rule *rule, IOBase *io)
     {
         Action *action = rule->get_action(j);
         for (int k = 0;k < action->get_size();k++)
-            if (sameIO(action->get_output(k), io))
+            if (action->get_output(k) == io)
                 return true;
     }
 
     return false;
+}
+
+bool scriptUses(Rule *rule, IOBase *io)
+{
+    for (int j = 0;j < rule->get_size_conds();j++)
+    {
+        Condition *cond = rule->get_condition(j);
+        for (int k = 0;k < cond->getScriptInputSize();k++)
+            if (cond->getScriptInput(k) == io)
+                return true;
+    }
+
+    return false;
+}
+
+//Variables are referenced by id, possibly a legacy iid/oid.
+void reserveIfVariable(const string &var, const std::set<string> &names)
+{
+    if (names.count(var))
+        ListeRoom::reservePendingIOId(var);
+}
+
+void reserveVariablesOf(Rule *rule, const std::set<string> &names)
+{
+    auto reserveAll = [&](Params &vars)
+    {
+        for (int k = 0;k < vars.size();k++)
+        {
+            string key, value;
+            vars.get_item(k, key, value);
+            reserveIfVariable(value, names);
+        }
+    };
+
+    for (int j = 0;j < rule->get_size_conds();j++)
+    {
+        Condition *cond = rule->get_condition(j);
+        reserveAll(cond->get_params_var());
+        reserveIfVariable(cond->getOutputParamVar(), names);
+    }
+
+    for (int j = 0;j < rule->get_size_actions();j++)
+        reserveAll(rule->get_action(j)->get_params_var());
 }
 
 }
@@ -123,7 +144,7 @@ bool ruleUses(Rule *rule, IOBase *io)
 Rule *ListeRule::searchRuleUsing(IOBase *io)
 {
     for (Rule *rule: rules)
-        if (ruleUses(rule, io))
+        if (ruleUses(rule, io) || scriptUses(rule, io))
             return rule;
 
     return NULL;
@@ -131,8 +152,29 @@ Rule *ListeRule::searchRuleUsing(IOBase *io)
 //-----------------------------------------------------------------------------
 void ListeRule::RemoveRulesUsing(IOBase *io)
 {
-    while (Rule *rule = searchRuleUsing(io))
-        Remove(rule);
+    for (Rule *rule: rules)
+        for (int j = 0;j < rule->get_size_conds();j++)
+            rule->get_condition(j)->removeScriptInput(io);
+
+    for (;;)
+    {
+        auto it = std::find_if(rules.begin(), rules.end(), [&](Rule *r) { return ruleUses(r, io); });
+        if (it == rules.end())
+            break;
+        Remove(*it);
+    }
+
+    //A variable reference outlives its IO (the user decides what to do with it),
+    //so its id must not be given to a new IO.
+    std::set<string> names;
+    for (const char *k: { "id", "iid", "oid" })
+    {
+        const string v = io->get_param(k);
+        if (!v.empty())
+            names.insert(v);
+    }
+    for (Rule *rule: rules)
+        reserveVariablesOf(rule, names);
 }
 //-----------------------------------------------------------------------------
 Rule *ListeRule::searchRule(string type, string name)
@@ -143,48 +185,6 @@ Rule *ListeRule::searchRule(string type, string name)
             rules[i]->get_type() == type)
         {
             return rules[i];
-        }
-    }
-
-    return NULL;
-}
-//-----------------------------------------------------------------------------
-Rule *ListeRule::searchRuleInput(IOBase *input)
-{
-    for (uint i = 0;i < rules.size();i++)
-    {
-        Rule *rule = rules[i];
-        for (int j = 0;j < rule->get_size_conds();j++)
-        {
-            Condition *cond = rule->get_condition(j);
-            for (int k = 0;k < cond->get_size();k++)
-            {
-                if (cond->get_input(k) == input)
-                {
-                    return rules[i];
-                }
-            }
-        }
-    }
-
-    return NULL;
-}
-//-----------------------------------------------------------------------------
-Rule *ListeRule::searchRuleOutput(IOBase *output)
-{
-    for (uint i = 0;i < rules.size();i++)
-    {
-        Rule *rule = rules[i];
-        for (int j = 0;j < rule->get_size_actions();j++)
-        {
-            Action *action = rule->get_action(j);
-            for (int k = 0;k < action->get_size();k++)
-            {
-                if (action->get_output(k) == output)
-                {
-                    return rules[i];
-                }
-            }
         }
     }
 
