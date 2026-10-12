@@ -20,6 +20,7 @@
 ******************************************************************************/
 //-----------------------------------------------------------------------------
 #include <Room.h>
+#include <Device.h>
 #include <ListeRule.h>
 #include <algorithm>
 //-----------------------------------------------------------------------------
@@ -47,6 +48,15 @@ Room::~Room()
 
     for (IOBase *io: owned)
         delete io;
+}
+//-----------------------------------------------------------------------------
+std::vector<Device *> Room::get_devices()
+{
+    std::vector<Device *> res;
+    for (IOBase *io: inputs)
+        if (Device *dev = dynamic_cast<Device *>(io))
+            res.push_back(dev);
+    return res;
 }
 //-----------------------------------------------------------------------------
 void Room::AddInput(IOBase *in)

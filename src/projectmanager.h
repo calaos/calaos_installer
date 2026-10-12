@@ -26,8 +26,9 @@ public:
 private:
     void readHome();
     void readRoom();
-    void readInput(Room *room);
-    void readOutput(Room *room);
+    IOBase *readInput(Room *room);
+    IOBase *readOutput(Room *room);
+    void readDevice(Room *room);
     void readInternal(Room *room);
     void readCamera(Room *room);
     void readAudio(Room *room);
@@ -53,6 +54,7 @@ private:
     void writeInput(IOBase *io);
     void writePlages(vector<TimeRange> &day);
     void writeOutput(IOBase *io);
+    void writeDevice(Device *dev);
     void writeRawXml(const QString &xml);
 };
 
@@ -82,6 +84,8 @@ public:
     /* save rules the same way as ios */
     static bool saveRulesToFile(QString &file);
 
+    /* Both refuse to write while ListeRoom::isReadOnly() */
+
     /* Parse and fill ListeRoom/ListeRule from xml files */
     static bool loadIOsFromFile(QString &file);
     static bool loadRulesFromFile(QString &file);
@@ -91,6 +95,9 @@ public:
      * so that saving does not destroy the rules using them; this list lets the
      * caller tell the user about them. One line per id, empty when all good. */
     static QStringList missingIOReport();
+
+    /* Why the loaded project cannot be saved, empty when it can. */
+    static QString readOnlyReason();
 
     //Used to know wich wago is 849 or 842.
     static map<string, bool> wagoTypeCache;

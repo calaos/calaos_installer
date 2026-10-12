@@ -19,6 +19,11 @@ bool IOXmlWriter::writeFile(QIODevice *device)
     writeStartElement("http://www.calaos.fr", "ioconfig");
     writeStartElement("http://www.calaos.fr", "home");
 
+    //Same rule as the server: format 1 readers silently drop devices, so the
+    //marker is only there when there is something to lose.
+    if (ListeRoom::Instance().hasDevices())
+        writeAttribute("format", QString::number(ListeRoom::IO_FORMAT_SUPPORTED));
+
     for (int i = 0;i < ListeRoom::Instance().size();i++)
     {
         Room *room = ListeRoom::Instance().get_room(i);
@@ -44,15 +49,27 @@ void IOXmlWriter::writeRoom(Room *room)
     attr.append("hits", QString::fromUtf8(Utils::to_string(room->get_hits()).c_str()));
     writeAttributes(attr);
 
+    //A device and the IOs it owns are written nested, by writeDevice().
+    auto nested = [](IOBase *io)
+    {
+        return dynamic_cast<Device *>(io) ||
+               ListeRoom::Instance().get_device(io->getOwnerDevice());
+    };
+
     for (int i = 0;i < room->get_size_in();i++)
     {
-        writeInput(room->get_input(i));
+        if (!nested(room->get_input(i)))
+            writeInput(room->get_input(i));
     }
 
     for (int i = 0;i < room->get_size_out();i++)
     {
-        writeOutput(room->get_output(i));
+        if (!nested(room->get_output(i)))
+            writeOutput(room->get_output(i));
     }
+
+    for (Device *dev: room->get_devices())
+        writeDevice(dev);
 
     for (const QString &xml: room->getUnknownXml())
         writeRawXml(xml);
@@ -225,6 +242,52 @@ void IOXmlWriter::writeOutput(IOBase *io)
     }
 
     for (const QString &xml: io->getUnknownXml())
+        writeRawXml(xml);
+
+    writeEndElement();
+}
+
+void IOXmlWriter::writeDevice(Device *dev)
+{
+    writeStartElement("http://www.calaos.fr", "device");
+
+    QXmlStreamAttributes attr;
+    for (int i = 0;i < dev->get_params().size();i++)
+    {
+        string key, value;
+        dev->get_params().get_item(i, key, value);
+        attr.append(QString::fromUtf8(key.c_str()), QString::fromUtf8(value.c_str()));
+    }
+    writeAttributes(attr);
+
+    //Each kind is written by exactly one of the two, as in writeRoom().
+    for (IOBase *io: dev->ownedIos())
+    {
+        if (io->is_input())
+            writeInput(io);
+        if (io->is_output())
+            writeOutput(io);
+    }
+
+    for (const DeviceLink &l: dev->links())
+    {
+        writeStartElement("http://www.calaos.fr", "link");
+        writeAttribute("name", QString::fromUtf8(l.name.c_str()));
+        writeAttribute("io", QString::fromUtf8(l.io.c_str()));
+        if (!l.commandIo.empty())
+            writeAttribute("command_io", QString::fromUtf8(l.commandIo.c_str()));
+        writeEndElement();
+    }
+
+    for (const auto &p: dev->deviceParams())
+    {
+        writeStartElement("http://www.calaos.fr", "param");
+        writeAttribute("name", QString::fromUtf8(p.first.c_str()));
+        writeAttribute("value", QString::fromUtf8(p.second.c_str()));
+        writeEndElement();
+    }
+
+    for (const QString &xml: dev->getUnknownXml())
         writeRawXml(xml);
 
     writeEndElement();
@@ -537,6 +600,7 @@ IOXmlReader::IOXmlReader()
 bool IOXmlReader::readFile(QIODevice *device)
 {
     setDevice(device);
+    ListeRoom::Instance().setLoadedFormat(QString());
 
     bool file_ok = false;
 
@@ -565,6 +629,8 @@ bool IOXmlReader::readFile(QIODevice *device)
 
 void IOXmlReader::readHome()
 {
+    ListeRoom::Instance().setLoadedFormat(attributes().value("format").toString());
+
     while (!atEnd())
     {
         readNext();
@@ -683,13 +749,65 @@ void IOXmlReader::readRoom()
                 readAVR(room);
             else if (name() == QStringLiteral("remote_ui"))
                 readOutput(room); // RemoteUI is treated as an output
+            else if (name() == QStringLiteral("device"))
+                readDevice(room);
             else
                 room->addUnknownXml(readRawElement());
         }
     }
 }
 
-void IOXmlReader::readInput(Room *room)
+void IOXmlReader::readDevice(Room *room)
+{
+    Params p;
+
+    for (int i = 0;i < attributes().size();i++)
+    {
+        QXmlStreamAttribute attr = attributes().at(i);
+        p.Add(attr.name().toString().toUtf8().data(),
+              attr.value().toString().toUtf8().data());
+    }
+
+    if (ListeRoom::Instance().get_input(p["id"]) || ListeRoom::Instance().get_output(p["id"]))
+    {
+        QMessageBox::critical(nullptr, "Calaos Installer", QObject::tr("Device with id \"%1\" already exists!").arg(QString(p["id"].c_str())));
+    }
+
+    Device *dev = ListeRoom::Instance().createDevice(p, room);
+
+    while (!atEnd())
+    {
+        readNext();
+
+        if (isEndElement())
+            break;
+
+        if (!isStartElement())
+            continue;
+
+        if (name() == QStringLiteral("input") || name() == QStringLiteral("internal"))
+            dev->adoptIO(readInput(room));
+        else if (name() == QStringLiteral("output"))
+            dev->adoptIO(readOutput(room));
+        else if (name() == QStringLiteral("link"))
+        {
+            dev->links().push_back({ attributes().value("name").toString().toStdString(),
+                                     attributes().value("io").toString().toStdString(),
+                                     attributes().value("command_io").toString().toStdString() });
+            skipCurrentElement();
+        }
+        else if (name() == QStringLiteral("param"))
+        {
+            dev->deviceParams().emplace_back(attributes().value("name").toString().toStdString(),
+                                             attributes().value("value").toString().toStdString());
+            skipCurrentElement();
+        }
+        else
+            dev->addUnknownXml(readRawElement());
+    }
+}
+
+IOBase *IOXmlReader::readInput(Room *room)
 {
     Params p;
 
@@ -763,6 +881,8 @@ void IOXmlReader::readInput(Room *room)
                 in->addUnknownXml(readRawElement());
         }
     }
+
+    return in;
 }
 
 void IOXmlReader::readPlageDay(vector<TimeRange> &day)
@@ -819,7 +939,7 @@ void IOXmlReader::readPlage(TimeRange &horaire)
     skipCurrentElement();
 }
 
-void IOXmlReader::readOutput(Room *room)
+IOBase *IOXmlReader::readOutput(Room *room)
 {
     Params p;
 
@@ -840,7 +960,7 @@ void IOXmlReader::readOutput(Room *room)
     if (!output)
     {
         skipCurrentElement();
-        return;
+        return nullptr;
     }
 
     //Do cache of 849/842 only with WODigital/WOVolet*
@@ -857,7 +977,7 @@ void IOXmlReader::readOutput(Room *room)
     if (p["type"] != "RemoteUI")
     {
         readUnknownChildren(output);
-        return;
+        return output;
     }
 
     QString pagesXml;
@@ -878,6 +998,7 @@ void IOXmlReader::readOutput(Room *room)
     }
 
     output->setRemoteUIPagesXml(pagesXml);
+    return output;
 }
 
 QString IOXmlReader::readRemoteUIPagesElement()
@@ -968,6 +1089,9 @@ void IOXmlReader::readAVR(Room *room)
 
 bool ProjectManager::saveIOsToFile(QString &file)
 {
+    if (ListeRoom::Instance().isReadOnly())
+        return false;
+
     QFile t(file);
     if (!t.open(QIODevice::WriteOnly))
         return false;
@@ -982,6 +1106,9 @@ bool ProjectManager::saveIOsToFile(QString &file)
 
 bool ProjectManager::saveRulesToFile(QString &file)
 {
+    if (ListeRoom::Instance().isReadOnly())
+        return false;
+
     QFile t(file);
     if (!t.open(QIODevice::WriteOnly))
         return false;
@@ -1100,6 +1227,19 @@ QStringList ProjectManager::missingIOReport()
     }
 
     return lines;
+}
+
+QString ProjectManager::readOnlyReason()
+{
+    if (!ListeRoom::Instance().isReadOnly())
+        return QString();
+
+    return QObject::tr("This project uses io.xml format \"%1\", and this version of Calaos "
+                       "Installer only knows up to format %2. It is opened read-only: saving "
+                       "it would drop what this version cannot represent. Update Calaos "
+                       "Installer to modify this project.")
+            .arg(ListeRoom::Instance().getLoadedFormat())
+            .arg(ListeRoom::IO_FORMAT_SUPPORTED);
 }
 
 bool ProjectManager::loadRulesFromFile(QString &file)

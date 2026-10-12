@@ -58,6 +58,7 @@ void ListeRoom::clear()
     }
 
     unknownXml.clear();
+    loadedFormat.clear();
 
     //Resetting the model also drops the ids reserved for dangling rule
     //references: a brand new project must start numbering from scratch.
@@ -370,8 +371,27 @@ string ListeRoom::getRoomType(int type)
     }
 }
 //-----------------------------------------------------------------------------
+//Owned IOs go through the regular IO deletion, which takes the rules
+//referencing them along.
+static void deleteOwnedIos(IOBase *io)
+{
+    Device *dev = dynamic_cast<Device *>(io);
+    if (!dev)
+        return;
+
+    for (IOBase *owned: dev->ownedIos())
+    {
+        if (owned->is_input())
+            ListeRoom::Instance().deleteIOInput(owned);
+        else
+            ListeRoom::Instance().deleteIOOutput(owned);
+    }
+}
+
 bool ListeRoom::deleteIOInput(IOBase *input)
 {
+    deleteOwnedIos(input);
+
     //first delete all rules using "input"
     ListeRule::Instance().RemoveRulesUsing(input);
 
@@ -384,6 +404,8 @@ bool ListeRoom::deleteIOInput(IOBase *input)
 
 bool ListeRoom::deleteIOOutput(IOBase *output)
 {
+    deleteOwnedIos(output);
+
     //first delete all rules using "output"
     ListeRule::Instance().RemoveRulesUsing(output);
 
@@ -572,6 +594,51 @@ IOBase *ListeRoom::createAVR(Params param, Room *room)
     output->buildInputSourcesList();
 
     return output;
+}
+
+Device *ListeRoom::createDevice(Params param, Room *room)
+{
+    if (!param.Exists("id")) param.Add("id", ListeRoom::get_new_id("device_"));
+
+    Device *dev = new Device(param);
+    room->AddInput(dev);
+    room->AddOutput(dev);
+
+    return dev;
+}
+
+Device *ListeRoom::get_device(const std::string &id)
+{
+    if (id.empty())
+        return nullptr;
+
+    for (Room *room: rooms)
+    {
+        for (Device *dev: room->get_devices())
+            if (dev->get_param("id") == id)
+                return dev;
+    }
+
+    return nullptr;
+}
+
+bool ListeRoom::hasDevices()
+{
+    for (Room *room: rooms)
+        if (!room->get_devices().empty())
+            return true;
+
+    return false;
+}
+
+bool ListeRoom::isFormatSupported(const QString &format)
+{
+    if (format.isEmpty())
+        return true;
+
+    bool ok = false;
+    int v = format.toInt(&ok);
+    return ok && v >= 1 && v <= IO_FORMAT_SUPPORTED;
 }
 
 static std::set<std::string> &pendingIOIds()
