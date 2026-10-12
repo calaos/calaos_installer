@@ -83,6 +83,11 @@ private slots:
     void belowMinimumValueSurvivesAnUntouchedDialog();
     void outOfRangeFloatSurvivesAGestureOnAnotherField();
 
+    void floatKeepsThreeDecimalsWhenWidened();
+    void nonFiniteFloatIsNeverWidenedTo_data();
+    void nonFiniteFloatIsNeverWidenedTo();
+    void tooltipDoesNotShowTheSentinelBounds();
+
     void absentParameterKeepsTheSchemaBounds();
     void unparsableValueKeepsTheSchemaBounds();
 };
@@ -216,6 +221,55 @@ void tst_WidgetIOProperties::outOfRangeFloatSurvivesAGestureOnAnotherField()
     revertButton(w, "ratio")->click();
     QCOMPARE(s->value(), 20.5);
     QCOMPARE(stored(w, "ratio"), QString("20.5"));
+}
+
+void tst_WidgetIOProperties::floatKeepsThreeDecimalsWhenWidened()
+{
+    WidgetIOProperties w(wodali({{"ratio", "10.004"}, {"offset", "3.333"}}));
+    QDoubleSpinBox *s = editor<QDoubleSpinBox>(w, "ratio");
+    QVERIFY(s);
+    QCOMPARE(s->value(), 10.004);
+    QCOMPARE(s->maximum(), 10.004);
+    QVERIFY(s->toolTip().contains("10.004"));
+
+    QDoubleSpinBox *o = editor<QDoubleSpinBox>(w, "offset");
+    QVERIFY(o);
+    QCOMPARE(o->value(), 3.333);
+}
+
+void tst_WidgetIOProperties::nonFiniteFloatIsNeverWidenedTo_data()
+{
+    QTest::addColumn<QString>("value");
+    QTest::newRow("nan") << "nan";
+    QTest::newRow("inf") << "inf";
+    QTest::newRow("-inf") << "-inf";
+}
+
+void tst_WidgetIOProperties::nonFiniteFloatIsNeverWidenedTo()
+{
+    QFETCH(QString, value);
+    WidgetIOProperties w(wodali({{"ratio", value}}));
+    QDoubleSpinBox *s = editor<QDoubleSpinBox>(w, "ratio");
+    QVERIFY(s);
+    QCOMPARE(s->minimum(), 0.0);
+    QCOMPARE(s->maximum(), 10.0);
+    QVERIFY(s->toolTip().isEmpty());
+    QCOMPARE(stored(w, "ratio"), value);
+}
+
+void tst_WidgetIOProperties::tooltipDoesNotShowTheSentinelBounds()
+{
+    WidgetIOProperties w(wodali({{"level", "150"}, {"offset", "1000000000000"}}));
+
+    QSpinBox *level = editor<QSpinBox>(w, "level");
+    QVERIFY(level);
+    QVERIFY2(level->toolTip().contains("150") && level->toolTip().contains("100"), qPrintable(level->toolTip()));
+    QVERIFY2(!level->toolTip().contains("999999999"), qPrintable(level->toolTip()));
+
+    QDoubleSpinBox *offset = editor<QDoubleSpinBox>(w, "offset");
+    QVERIFY(offset);
+    QVERIFY(!offset->toolTip().isEmpty());
+    QVERIFY2(!offset->toolTip().contains("999999999") && !offset->toolTip().contains("e+"), qPrintable(offset->toolTip()));
 }
 
 void tst_WidgetIOProperties::absentParameterKeepsTheSchemaBounds()

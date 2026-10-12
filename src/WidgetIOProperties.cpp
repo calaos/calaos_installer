@@ -19,6 +19,20 @@ bool widenToStoredValue(T &minV, T &maxV, T stored)
     return true;
 }
 
+// Missing min/max fall back to a sentinel that must not be shown as a documented bound.
+QString documentedRange(const QJsonObject &jparam, const QString &min, const QString &max)
+{
+    const bool hasMin = !jparam["min"].toString().isEmpty();
+    const bool hasMax = !jparam["max"].toString().isEmpty();
+    if (hasMin && hasMax)
+        return QObject::tr("%1 to %2").arg(min, max);
+    if (hasMin)
+        return QObject::tr("at least %1").arg(min);
+    if (hasMax)
+        return QObject::tr("at most %1").arg(max);
+    return QObject::tr("no documented bound");
+}
+
 const char *s_outOfRangeStyle = "QAbstractSpinBox { background-color: #ffe8b3; color: black; }";
 
 }
@@ -67,10 +81,10 @@ void WidgetIOProperties::updateChangedParam(const string &prop, const QString va
     }
 }
 
-void WidgetIOProperties::flagOutOfRange(QAbstractSpinBox *w, QLabel *title, const QString &value, const QString &min, const QString &max)
+void WidgetIOProperties::flagOutOfRange(QAbstractSpinBox *w, QLabel *title, const QString &value, const QString &range)
 {
-    QString tip = tr("The stored value %1 is outside the documented range %2 to %3. "
-                     "It is kept as is unless you change it.").arg(value, min, max);
+    QString tip = tr("The stored value %1 is outside the documented range (%2). "
+                     "It is kept as is unless you change it.").arg(value, range);
     w->setToolTip(tip);
     title->setToolTip(tip);
     w->setStyleSheet(s_outOfRangeStyle);
@@ -187,12 +201,12 @@ void WidgetIOProperties::createIOProperties()
             w->setEnabled(jparam["readonly"].toString() != "true" && editable);
             int minV = jparam["min"].toString().isEmpty() ? -999999999 : jparam["min"].toString().toInt();
             int maxV = jparam["max"].toString().isEmpty() ? 999999999 : jparam["max"].toString().toInt();
-            const QString docMin = QString::number(minV), docMax = QString::number(maxV);
+            const QString docRange = documentedRange(jparam, QString::number(minV), QString::number(maxV));
             bool parsed = false;
             int storedV = pvalue.toInt(&parsed);
             // Only a value read from io.xml is kept; a schema default is still clamped.
             if (params.Exists(prop) && parsed && widenToStoredValue(minV, maxV, storedV))
-                flagOutOfRange(w, title, pvalue, docMin, docMax);
+                flagOutOfRange(w, title, pvalue, docRange);
             w->setMinimum(minV);
             w->setMaximum(maxV);
             w->setValue(pvalue.toInt());
@@ -219,16 +233,18 @@ void WidgetIOProperties::createIOProperties()
             w->setEnabled(jparam["readonly"].toString() != "true" && editable);
             double minV = jparam["min"].toString().isEmpty() ? -999999999.0 : jparam["min"].toString().toDouble();
             double maxV = jparam["max"].toString().isEmpty() ? 999999999.0 : jparam["max"].toString().toDouble();
-            const QString docMin = QString::number(minV), docMax = QString::number(maxV);
+            const QString docRange = documentedRange(jparam, QString::number(minV), QString::number(maxV));
             bool parsed = false;
             double storedV = pvalue.toDouble(&parsed);
-            if (params.Exists(prop) && parsed && widenToStoredValue(minV, maxV, storedV))
-                flagOutOfRange(w, title, pvalue, docMin, docMax);
+            // "nan" and "inf" parse fine but would make the widened bounds meaningless.
+            if (params.Exists(prop) && parsed && qIsFinite(storedV) && widenToStoredValue(minV, maxV, storedV))
+                flagOutOfRange(w, title, pvalue, docRange);
+            // Decimals first: the bounds and the value are rounded to them when set.
+            w->setDecimals(3);
             w->setMinimum(minV);
             w->setMaximum(maxV);
             w->setValue(pvalue.toDouble());
             layout->addWidget(w, row, 2);
-            w->setDecimals(3);
 
             UiObject uiObject;
             uiObject.type = UiObjectType::DoubleSpinBox;

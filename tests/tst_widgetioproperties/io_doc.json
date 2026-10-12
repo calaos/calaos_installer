@@ -6,6 +6,8 @@
             {"name": "address", "type": "int", "mandatory": "true", "readonly": "false", "default": "0", "min": "1", "max": "355", "description": "Device address."},
             {"name": "group", "type": "int", "mandatory": "false", "readonly": "false", "default": "0", "min": "0", "max": "1", "description": "Group flag."},
             {"name": "fade_time", "type": "int", "mandatory": "false", "readonly": "false", "default": "0", "min": "1", "max": "10", "description": "Fade time."},
+            {"name": "level", "type": "int", "mandatory": "false", "readonly": "false", "default": "0", "max": "100", "description": "Level without a lower bound."},
+            {"name": "offset", "type": "float", "mandatory": "false", "readonly": "false", "default": "0", "description": "Offset without any bound."},
             {"name": "ratio", "type": "float", "mandatory": "false", "readonly": "false", "default": "1", "min": "0", "max": "10", "description": "Ratio."}
         ]
     }
