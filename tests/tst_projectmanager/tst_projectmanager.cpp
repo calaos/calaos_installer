@@ -225,7 +225,7 @@ QVector<XNode> parseNodes(const QByteArray &xml)
 const QSet<QString> &knownAdditions()
 {
     static const QSet<QString> s = {
-        "port=502", "months=000000000000",
+        "port=502", "months=111111111111",
         "start_type=0", "start_offset=1", "end_type=0", "end_offset=1",
         "type=standard", "trigger=true", "time_down=28", "time_up=30",
     };

@@ -635,13 +635,15 @@ void IOXmlReader::readInput(Room *room)
 
     if (in->get_gui_type() == "time_range")
     {
+        // bitset<12>("") is all zeroes: an absent attribute must not
+        // disable every month, the server reads it as all months active.
+        bool hasMonths = p.Exists("months");
         string m = p["months"];
         in->get_params().Delete("months");
         std::reverse(m.begin(), m.end());
         try
         {
-            bitset<12> mset(m);
-            in->range_months = mset;
+            in->range_months = hasMonths ? bitset<12>(m) : bitset<12>().set();
         }
         catch(...)
         {
