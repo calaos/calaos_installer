@@ -1,4 +1,5 @@
 #include "dialognewwebio.h"
+#include <QMessageBox>
 #include "ui_DialogNewWebIO.h"
 #include "formrules.h"
 #include "formanalogproperties.h"
@@ -117,6 +118,12 @@ void DialogNewWebIO::on_buttonBox_accepted()
     else if (ui->label_error_url_empty->text().isEmpty())
     {
         ui->label_error_url_empty->show();
+        return;
+    }
+
+    if (analogWidget && !analogWidget->boundsError().isEmpty())
+    {
+        QMessageBox::warning(this, tr("Calaos Installer"), analogWidget->boundsError());
         return;
     }
 

@@ -1,4 +1,5 @@
 #include "dialognewanalog.h"
+#include <QMessageBox>
 #include "ui_DialogNewAnalog.h"
 
 DialogNewAnalog::DialogNewAnalog(Room *r, QWidget *parent) :
@@ -42,6 +43,12 @@ void DialogNewAnalog::on_buttonBox_accepted()
     if (ui->edit_name->text().isEmpty())
     {
         ui->label_error_empty->show();
+        return;
+    }
+
+    if (!analogWidget->boundsError().isEmpty())
+    {
+        QMessageBox::warning(this, tr("Calaos Installer"), analogWidget->boundsError());
         return;
     }
 

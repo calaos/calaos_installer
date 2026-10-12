@@ -1526,6 +1526,11 @@ p, li { white-space: pre-wrap; }
         <source>Please enter a name for this item..</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location filename="../src/dialognewanalog.cpp" line="51"/>
+        <source>Calaos Installer</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>DialogNewAudio</name>
@@ -2781,48 +2786,53 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/dialognewwebio.cpp" line="33"/>
+        <location filename="../src/dialognewwebio.cpp" line="34"/>
         <source>Create a new Web Input Switch</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/dialognewwebio.cpp" line="41"/>
+        <location filename="../src/dialognewwebio.cpp" line="42"/>
         <source>Create a new Web Light</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/dialognewwebio.cpp" line="45"/>
+        <location filename="../src/dialognewwebio.cpp" line="46"/>
         <source>Create a new Web RGB Light</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/dialognewwebio.cpp" line="49"/>
+        <location filename="../src/dialognewwebio.cpp" line="50"/>
         <source>Create a new Web Shutter</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/dialognewwebio.cpp" line="53"/>
+        <location filename="../src/dialognewwebio.cpp" line="54"/>
         <source>Create a new Web Temperature Input</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/dialognewwebio.cpp" line="59"/>
+        <location filename="../src/dialognewwebio.cpp" line="60"/>
         <source>Create a new Web Analog Input</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/dialognewwebio.cpp" line="65"/>
+        <location filename="../src/dialognewwebio.cpp" line="66"/>
         <source>Create a new Web Analog Output</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/dialognewwebio.cpp" line="71"/>
+        <location filename="../src/dialognewwebio.cpp" line="72"/>
         <source>Create a new Web String Input</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/dialognewwebio.cpp" line="75"/>
+        <location filename="../src/dialognewwebio.cpp" line="76"/>
         <source>Create a new Web String Output</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/dialognewwebio.cpp" line="126"/>
+        <source>Calaos Installer</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -4111,6 +4121,16 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../data/formanalogproperties.ui" line="139"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#9f9f9f;&quot;&gt;displayedValue = value * Coeff + Offset&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/formanalogproperties.cpp" line="95"/>
+        <source>The minimum and maximum values must be plain numbers.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/formanalogproperties.cpp" line="100"/>
+        <source>The minimum value cannot be greater than the maximum value.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -6200,22 +6220,22 @@ The wizard is going to create 2 rules that would start or stop the heating syste
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/WidgetIOProperties.cpp" line="28"/>
+        <location filename="../src/WidgetIOProperties.cpp" line="30"/>
         <source>%1 to %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/WidgetIOProperties.cpp" line="30"/>
+        <location filename="../src/WidgetIOProperties.cpp" line="32"/>
         <source>at least %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/WidgetIOProperties.cpp" line="32"/>
+        <location filename="../src/WidgetIOProperties.cpp" line="34"/>
         <source>at most %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/WidgetIOProperties.cpp" line="33"/>
+        <location filename="../src/WidgetIOProperties.cpp" line="35"/>
         <source>no documented bound</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6476,23 +6496,28 @@ The wizard is going to create 2 rules that would start or stop the heating syste
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/WidgetIOProperties.cpp" line="86"/>
+        <location filename="../src/WidgetIOProperties.cpp" line="88"/>
         <source>The value %1 is outside the documented range (%2). It is kept as is unless you change it.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/WidgetIOProperties.cpp" line="103"/>
+        <location filename="../src/WidgetIOProperties.cpp" line="105"/>
         <source>Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/WidgetIOProperties.cpp" line="103"/>
+        <location filename="../src/WidgetIOProperties.cpp" line="105"/>
         <source>IO type %1 is not found in IO documentation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/WidgetIOProperties.cpp" line="143"/>
+        <location filename="../src/WidgetIOProperties.cpp" line="145"/>
         <source>Revert modification</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/WidgetIOProperties.cpp" line="241"/>
+        <source>unbounded</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

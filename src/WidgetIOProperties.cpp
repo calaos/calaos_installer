@@ -2,6 +2,8 @@
 #include "ui_WidgetIOProperties.h"
 #include "IODoc.h"
 #include <QCheckBox>
+#include <QDoubleValidator>
+#include <QLocale>
 
 namespace
 {
@@ -227,6 +229,41 @@ void WidgetIOProperties::createIOProperties()
             connect(revert, &QPushButton::clicked, this, [=]()
             {
                 w->setValue(pvalue.toInt());
+            });
+        }
+        else if (jparam["type"].toString() == "float" && jparam["mandatory"].toString() != "true" &&
+                 jparam["default"].toString().isEmpty())
+        {
+            // A spin box always holds a number: an optional bound (value_min/value_max, ...)
+            // needs an empty state meaning "param absent".
+            QLineEdit *w = new QLineEdit();
+            w->setEnabled(jparam["readonly"].toString() != "true" && editable);
+            w->setPlaceholderText(tr("unbounded"));
+            QDoubleValidator *v = new QDoubleValidator(w);
+            QLocale c = QLocale::c();
+            c.setNumberOptions(QLocale::RejectGroupSeparator);
+            v->setLocale(c);
+            v->setNotation(QDoubleValidator::StandardNotation);
+            w->setValidator(v);
+            w->setText(pvalue);
+            layout->addWidget(w, row, 2);
+
+            UiObject uiObject;
+            uiObject.type = UiObjectType::LineEdit;
+            uiObject.lineEdit = w;
+            uiObjectMap[prop] = uiObject;
+
+            connect(w, &QLineEdit::textChanged, this, [=]()
+            {
+                const QString text = w->text().trimmed();
+                updateChangedParam(prop, text, pvalue, title, revert);
+                if (text.isEmpty())
+                    changedParams.Delete(prop);
+            });
+
+            connect(revert, &QPushButton::clicked, this, [=]()
+            {
+                w->setText(pvalue);
             });
         }
         else if (jparam["type"].toString() == "float")

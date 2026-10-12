@@ -1599,6 +1599,11 @@ p, li { white-space: pre-wrap; }
         <source>Please enter a name for this item..</source>
         <translation>Veuillez entrer un nom pour cette élément..</translation>
     </message>
+    <message>
+        <location filename="../src/dialognewanalog.cpp" line="51"/>
+        <source>Calaos Installer</source>
+        <translation type="unfinished">Calaos Installer</translation>
+    </message>
 </context>
 <context>
     <name>DialogNewAudio</name>
@@ -3093,7 +3098,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../data/DialogNewWebIO.ui" line="104"/>
         <source>String Output</source>
-        <translation>Sortie texte</translation>
+        <translation>Sortie chaine de caractères</translation>
     </message>
     <message>
         <location filename="../data/DialogNewWebIO.ui" line="56"/>
@@ -3101,49 +3106,54 @@ p, li { white-space: pre-wrap; }
         <translation>Type d&apos;IO</translation>
     </message>
     <message>
-        <location filename="../src/dialognewwebio.cpp" line="33"/>
+        <location filename="../src/dialognewwebio.cpp" line="34"/>
         <source>Create a new Web Input Switch</source>
         <translation>Créer un nouvel interrupteur WebIO</translation>
     </message>
     <message>
-        <location filename="../src/dialognewwebio.cpp" line="41"/>
+        <location filename="../src/dialognewwebio.cpp" line="42"/>
         <source>Create a new Web Light</source>
         <translation>Créer une nouvelle lumière WebIO</translation>
     </message>
     <message>
-        <location filename="../src/dialognewwebio.cpp" line="45"/>
+        <location filename="../src/dialognewwebio.cpp" line="46"/>
         <source>Create a new Web RGB Light</source>
         <translation>Créer une nouvelle lumière RGB WebIO</translation>
     </message>
     <message>
-        <location filename="../src/dialognewwebio.cpp" line="49"/>
+        <location filename="../src/dialognewwebio.cpp" line="50"/>
         <source>Create a new Web Shutter</source>
         <translation>Créer un nouveau volet WebIO</translation>
     </message>
     <message>
-        <location filename="../src/dialognewwebio.cpp" line="53"/>
+        <location filename="../src/dialognewwebio.cpp" line="54"/>
         <source>Create a new Web Temperature Input</source>
         <translation>Créer une nouvelle entrée de température WebIO</translation>
     </message>
     <message>
-        <location filename="../src/dialognewwebio.cpp" line="59"/>
+        <location filename="../src/dialognewwebio.cpp" line="60"/>
         <source>Create a new Web Analog Input</source>
         <translation>Créer une nouvelle entrée analogique WebIO</translation>
     </message>
     <message>
-        <location filename="../src/dialognewwebio.cpp" line="65"/>
+        <location filename="../src/dialognewwebio.cpp" line="66"/>
         <source>Create a new Web Analog Output</source>
         <translation>Créer une nouvelle sortie analogique WebIO</translation>
     </message>
     <message>
-        <location filename="../src/dialognewwebio.cpp" line="71"/>
+        <location filename="../src/dialognewwebio.cpp" line="72"/>
         <source>Create a new Web String Input</source>
         <translation>Créer une nouvelle entrée chaine WebIO</translation>
     </message>
     <message>
-        <location filename="../src/dialognewwebio.cpp" line="75"/>
+        <location filename="../src/dialognewwebio.cpp" line="76"/>
         <source>Create a new Web String Output</source>
         <translation>Créer une nouvelle sortie chaine WebIO</translation>
+    </message>
+    <message>
+        <location filename="../src/dialognewwebio.cpp" line="126"/>
+        <source>Calaos Installer</source>
+        <translation type="unfinished">Calaos Installer</translation>
     </message>
 </context>
 <context>
@@ -4515,6 +4525,16 @@ p, li { white-space: pre-wrap; }
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#9f9f9f;&quot;&gt;displayedValue = value * Coeff + Offset&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#9f9f9f;&quot;&gt;Aleur affichée = valeur * Coeff + Offset&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
+    <message>
+        <location filename="../src/formanalogproperties.cpp" line="95"/>
+        <source>The minimum and maximum values must be plain numbers.</source>
+        <translation>Les valeurs minimale et maximale doivent être des nombres simples.</translation>
+    </message>
+    <message>
+        <location filename="../src/formanalogproperties.cpp" line="100"/>
+        <source>The minimum value cannot be greater than the maximum value.</source>
+        <translation>La valeur minimale ne peut pas dépasser la valeur maximale.</translation>
+    </message>
 </context>
 <context>
     <name>FormConditionScript</name>
@@ -5338,7 +5358,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../src/formrules.cpp" line="241"/>
         <location filename="../src/formrules.cpp" line="527"/>
         <source>String Output</source>
-        <translation>Sortie texte</translation>
+        <translation>Sortie chaine de caractères</translation>
     </message>
     <message>
         <location filename="../src/formrules.cpp" line="256"/>
@@ -6690,22 +6710,22 @@ The wizard is going to create 2 rules that would start or stop the heating syste
 L&apos;assistant va créer les 2 règles qui vont démarrer ou arrêter le chauffage en fonction de la consigne. Ces règles ne comportent aucune action, vous devrez les ajouter par vous même.</translation>
     </message>
     <message>
-        <location filename="../src/WidgetIOProperties.cpp" line="28"/>
+        <location filename="../src/WidgetIOProperties.cpp" line="30"/>
         <source>%1 to %2</source>
         <translation>%1 à %2</translation>
     </message>
     <message>
-        <location filename="../src/WidgetIOProperties.cpp" line="30"/>
+        <location filename="../src/WidgetIOProperties.cpp" line="32"/>
         <source>at least %1</source>
         <translation>au moins %1</translation>
     </message>
     <message>
-        <location filename="../src/WidgetIOProperties.cpp" line="32"/>
+        <location filename="../src/WidgetIOProperties.cpp" line="34"/>
         <source>at most %1</source>
         <translation>au plus %1</translation>
     </message>
     <message>
-        <location filename="../src/WidgetIOProperties.cpp" line="33"/>
+        <location filename="../src/WidgetIOProperties.cpp" line="35"/>
         <source>no documented bound</source>
         <translation>aucune borne documentée</translation>
     </message>
@@ -6970,19 +6990,24 @@ L&apos;assistant va créer les 2 règles qui vont démarrer ou arrêter le chauf
         <translation>Paramètres optionnels</translation>
     </message>
     <message>
-        <location filename="../src/WidgetIOProperties.cpp" line="86"/>
+        <location filename="../src/WidgetIOProperties.cpp" line="88"/>
         <source>The value %1 is outside the documented range (%2). It is kept as is unless you change it.</source>
         <translation>La valeur %1 est hors de la plage documentée (%2). Elle est conservée telle quelle tant que vous ne la modifiez pas.</translation>
     </message>
     <message>
-        <location filename="../src/WidgetIOProperties.cpp" line="103"/>
+        <location filename="../src/WidgetIOProperties.cpp" line="105"/>
         <source>Error</source>
         <translation>Erreur</translation>
     </message>
     <message>
-        <location filename="../src/WidgetIOProperties.cpp" line="103"/>
+        <location filename="../src/WidgetIOProperties.cpp" line="105"/>
         <source>IO type %1 is not found in IO documentation</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/WidgetIOProperties.cpp" line="241"/>
+        <source>unbounded</source>
+        <translation>illimité</translation>
     </message>
     <message>
         <source>Failed to load IO documentation from %1</source>
@@ -6997,7 +7022,7 @@ L&apos;assistant va créer les 2 règles qui vont démarrer ou arrêter le chauf
         <translation type="vanished">L&apos;entrée/Sortie %1 est introuvable dans %2</translation>
     </message>
     <message>
-        <location filename="../src/WidgetIOProperties.cpp" line="143"/>
+        <location filename="../src/WidgetIOProperties.cpp" line="145"/>
         <source>Revert modification</source>
         <translation>Annuler les modification</translation>
     </message>
