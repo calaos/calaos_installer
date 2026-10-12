@@ -1,4 +1,5 @@
 #include "formrules.h"
+#include <algorithm>
 #include "ui_FormRules.h"
 
 #include "TwoLineItemDelegate.h"
@@ -2074,6 +2075,27 @@ void FormRules::showPopup_action(const QPoint point)
     item_menu.exec(QCursor::pos());
 }
 
+//Deleting a device also deletes its owned IOs: their items must not outlive them.
+void FormRules::removeIOItems(const std::vector<IOBase *> &ios)
+{
+    QList<QTreeWidgetItem *> items;
+    for (QTreeWidgetItemIterator it(ui->tree_home);*it;++it)
+    {
+        IOBase *io = nullptr;
+        if (QTreeWidgetItemInput *in = dynamic_cast<QTreeWidgetItemInput *>(*it))
+            io = in->getInput();
+        else if (QTreeWidgetItemOutput *out = dynamic_cast<QTreeWidgetItemOutput *>(*it))
+            io = out->getOutput();
+
+        if (io && std::find(ios.begin(), ios.end(), io) != ios.end())
+            items.append(*it);
+    }
+
+    if (items.contains(treeItem))
+        treeItem = nullptr;
+    qDeleteAll(items);
+}
+
 void FormRules::deleteItem()
 {
     if (!treeItem) return;
@@ -2091,8 +2113,9 @@ void FormRules::deleteItem()
     QTreeWidgetItemInput *itinput = dynamic_cast<QTreeWidgetItemInput *>(treeItem);
     if (itinput)
     {
+        std::vector<IOBase *> gone = ListeRoom::iosDeletedWith(itinput->getInput());
         ListeRoom::Instance().deleteIOInput(itinput->getInput());
-        delete itinput;
+        removeIOItems(gone);
 
         ui->tree_action->clear_all();
         ui->tree_condition->clear_all();
@@ -2105,8 +2128,9 @@ void FormRules::deleteItem()
     QTreeWidgetItemOutput *itoutput = dynamic_cast<QTreeWidgetItemOutput *>(treeItem);
     if (itoutput)
     {
+        std::vector<IOBase *> gone = ListeRoom::iosDeletedWith(itoutput->getOutput());
         ListeRoom::Instance().deleteIOOutput(itoutput->getOutput());
-        delete itoutput;
+        removeIOItems(gone);
 
         ui->tree_action->clear_all();
         ui->tree_condition->clear_all();
