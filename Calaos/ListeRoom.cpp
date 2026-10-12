@@ -119,6 +119,11 @@ int ListeRoom::searchIO(IOBase *io)
 //-----------------------------------------------------------------------------
 IOBase *ListeRoom::get_input(std::string i)
 {
+    // get_param("iid") is "" on every IO that has no iid: an empty needle
+    // would match the first one. The server refuses "" the same way (findIO).
+    if (i.empty())
+        return NULL;
+
     for (uint j = 0;j < rooms.size();j++)
     {
         for (int m = 0;m < rooms[j]->get_size_in();m++)
@@ -136,6 +141,9 @@ IOBase *ListeRoom::get_input(std::string i)
 //-----------------------------------------------------------------------------
 IOBase *ListeRoom::get_output(std::string i)
 {
+    if (i.empty())
+        return NULL;
+
     for (uint j = 0;j < rooms.size();j++)
     {
         for (int m = 0;m < rooms[j]->get_size_out();m++)
