@@ -45,6 +45,9 @@ private:
     //Child elements the reader does not know, written back as they were read
     QStringList unknownXml;
 
+    //Id of the <calaos:device> this IO is declared in, empty for a free IO
+    string ownerDevice;
+
     double dvalue = 1.234;
     bool bvalue = true;
     string svalue = "Sample string";
@@ -99,6 +102,9 @@ public:
 
     const QStringList &getUnknownXml() const { return unknownXml; }
     void addUnknownXml(const QString &xml) { unknownXml.append(xml); }
+
+    const string &getOwnerDevice() const { return ownerDevice; }
+    void setOwnerDevice(const string &id) { ownerDevice = id; }
 
     //For time ranges
     vector<TimeRange> range_monday;

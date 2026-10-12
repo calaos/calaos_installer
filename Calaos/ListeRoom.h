@@ -29,6 +29,7 @@
 #include <ListeRule.h>
 #include <IOBase.h>
 #include <IOFactory.h>
+#include <Device.h>
 
 //-----------------------------------------------------------------------------
 using namespace std;
@@ -47,6 +48,9 @@ protected:
     std::vector<Room *> rooms;
 
     QStringList unknownXml;
+
+    //format attribute of <home> in the file loaded last, empty when absent
+    QString loadedFormat;
 
     ListeRoom();
 
@@ -95,6 +99,21 @@ public:
     IOBase *createCamera(Params param, Room *room);
     IOBase *createAudio(Params param, Room *room);
     IOBase *createAVR(Params param, Room *room);
+    Device *createDevice(Params param, Room *room);
+
+    //First device holding that id, nullptr for an empty id
+    Device *get_device(const std::string &id);
+    bool hasDevices();
+
+    //Newest io.xml format this installer reads and writes in full.
+    static const int IO_FORMAT_SUPPORTED = 2;
+
+    //A file in a newer format may hold data this model cannot represent:
+    //it is opened read-only rather than silently stripped on save.
+    static bool isFormatSupported(const QString &format);
+    void setLoadedFormat(const QString &format) { loadedFormat = format; }
+    QString getLoadedFormat() const { return loadedFormat; }
+    bool isReadOnly() const { return !isFormatSupported(loadedFormat); }
 
     static string get_new_id(string prefix);
 

@@ -16,6 +16,7 @@ SOURCES += \
     $$PWD/Calaos/Condition.cpp \
     $$PWD/Calaos/Action.cpp \
     $$PWD/Calaos/IOBase.cpp \
+    $$PWD/Calaos/Device.cpp \
     $$PWD/Calaos/TimeRange.cpp
 
 HEADERS += \
@@ -26,6 +27,7 @@ HEADERS += \
     $$PWD/src/common/base64.h \
     $$PWD/src/common/Params.h \
     $$PWD/Calaos/IOBase.h \
+    $$PWD/Calaos/Device.h \
     $$PWD/Calaos/Rule.h \
     $$PWD/Calaos/Room.h \
     $$PWD/Calaos/ListeRule.h \
