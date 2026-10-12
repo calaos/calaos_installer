@@ -600,7 +600,6 @@ IOXmlReader::IOXmlReader()
 bool IOXmlReader::readFile(QIODevice *device)
 {
     setDevice(device);
-    ListeRoom::Instance().setLoadedFormat(QString());
 
     bool file_ok = false;
 
