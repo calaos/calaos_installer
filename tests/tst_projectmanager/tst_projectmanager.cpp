@@ -378,7 +378,8 @@ private slots:
     void ioFactoryDefaultsAreWritten();
     void ioUnknownTypeIsKeptVerbatim();
     void ioInputsAreWrittenBeforeOutputs();
-    void ioTimeRangeWithoutMonthsDisablesAllMonths();
+    void ioTimeRangeWithoutMonthsStaysActiveAllYear();
+    void ioTimeRangeExplicitMonthsRoundTrip();
     void ioTimeRangeMonthsAndPlages();
     void ioRemoteUiPages();
     void ioDuplicateIdsAreKeptAndReported();
@@ -714,10 +715,9 @@ R"(        <calaos:room name="R" type="salon" hits="1">
 )"));
 }
 
-// Data-changing: the reader parses a missing "months" as an empty bitset
-// string, which is all zeroes, so an old project saved once has every month
-// switched off. An unparsable value takes the other branch (all months on).
-void tst_ProjectManager::ioTimeRangeWithoutMonthsDisablesAllMonths()
+// The server treats a missing or unparsable "months" as all months active;
+// the reader must not turn an absent attribute into "000000000000" on save.
+void tst_ProjectManager::ioTimeRangeWithoutMonthsStaysActiveAllYear()
 {
     QByteArray src = ioSource(R"(
 <calaos:room name="R" type="salon" hits="1">
@@ -735,9 +735,35 @@ void tst_ProjectManager::ioTimeRangeWithoutMonthsDisablesAllMonths()
 )";
     QCOMPARE(ioThroughModel(src), ioDoc(
 QString(R"(        <calaos:room name="R" type="salon" hits="1">
-            <calaos:input months="000000000000" id="t1" name="absent" type="InPlageHoraire">
+            <calaos:input months="111111111111" id="t1" name="absent" type="InPlageHoraire">
 %1            </calaos:input>
             <calaos:input months="111111111111" id="t3" name="garbage" type="InPlageHoraire">
+%1            </calaos:input>
+        </calaos:room>
+)").arg(days)));
+}
+
+void tst_ProjectManager::ioTimeRangeExplicitMonthsRoundTrip()
+{
+    QByteArray src = ioSource(R"(
+<calaos:room name="R" type="salon" hits="1">
+  <calaos:input id="t1" type="InPlageHoraire" name="none" months="000000000000"/>
+  <calaos:input id="t2" type="InPlageHoraire" name="some" months="010100000110"/>
+</calaos:room>)");
+
+    const char *days = R"(                <calaos:lundi/>
+                <calaos:mardi/>
+                <calaos:mercredi/>
+                <calaos:jeudi/>
+                <calaos:vendredi/>
+                <calaos:samedi/>
+                <calaos:dimanche/>
+)";
+    QCOMPARE(ioThroughModel(src), ioDoc(
+QString(R"(        <calaos:room name="R" type="salon" hits="1">
+            <calaos:input months="000000000000" id="t1" name="none" type="InPlageHoraire">
+%1            </calaos:input>
+            <calaos:input months="010100000110" id="t2" name="some" type="InPlageHoraire">
 %1            </calaos:input>
         </calaos:room>
 )").arg(days)));
