@@ -12,7 +12,7 @@
         ]
     },
     "MySensorsFixture": {
-        "description": "Fixture: a MySensors-typed IO, the only family whose entry helper can write a float.",
+        "description": "Artificial fixture: a MySensors-typed IO whose node_id is declared float, to give the entry helper a float editor to fill.",
         "parameters": [
             {"name": "name", "type": "string", "mandatory": "true", "readonly": "false", "description": "Name."},
             {"name": "node_id", "type": "float", "mandatory": "true", "readonly": "false", "default": "0", "description": "Node id."}

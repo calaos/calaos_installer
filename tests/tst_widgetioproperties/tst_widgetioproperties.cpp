@@ -298,8 +298,8 @@ void tst_WidgetIOProperties::unparsableValueKeepsTheSchemaBounds()
     QCOMPARE(stored(w, "address"), QString("abc"));
 }
 
-// setValues() used to write through the UiObject's unset QSpinBox pointer when the
-// editor was a QDoubleSpinBox.
+// The entry helper's values must reach a QDoubleSpinBox through its own pointer:
+// the UiObject's QSpinBox one is not set for that editor kind.
 void tst_WidgetIOProperties::entryHelperFillsAFloatEditor()
 {
     Params p;
