@@ -63,6 +63,37 @@ QString stored(WidgetIOProperties &w, const char *key)
     return QString::fromStdString(w.getParams()[key]);
 }
 
+
+// The entry helper's button sits on the first parameter in name order: "gateway".
+Params sensorParams()
+{
+    Params p;
+    p.Add("type", "MySensorsFixture");
+    p.Add("name", "before");
+    p.Add("node_id", "1");
+    p.Add("sensor_id", "1");
+    p.Add("port", "5000");
+    p.Add("gateway", "stored-gateway");
+    return p;
+}
+
+// Accepts the entry helper's dialog with one sensor picked and the given port typed.
+void runEntryHelper(WidgetIOProperties &w, const QString &sensorId, const QString &port)
+{
+    QPushButton *helper = qobject_cast<QPushButton *>(cellOf(w, "gateway", 4));
+    QDialog *dialog = w.findChild<QDialog *>();
+    QTreeWidget *tree = dialog ? dialog->findChild<QTreeWidget *>("treeMySensors") : nullptr;
+    QLineEdit *portEdit = dialog ? dialog->findChild<QLineEdit *>("lineEditPort") : nullptr;
+    QVERIFY(helper && tree && portEdit);
+
+    portEdit->setText(port);
+    QTreeWidgetItem *item = new QTreeWidgetItem(tree, QStringList{"12", sensorId, "S_TEMP", "garage"});
+    tree->setCurrentItem(item);
+
+    QTimer::singleShot(0, dialog, &QDialog::accept);
+    QTest::mouseClick(helper, Qt::LeftButton);
+}
+
 }
 
 class tst_WidgetIOProperties : public QObject
@@ -96,6 +127,11 @@ private slots:
     void unparsableValueKeepsTheSchemaBounds();
 
     void entryHelperFillsAFloatEditor();
+    void entryHelperLeavesAReadOnlyEditorAlone();
+    void entryHelperLeavesANonEditableDialogAlone();
+    void entryHelperValueInsideTheRangeKeepsTheBounds();
+    void entryHelperOutOfRangeValueIsWidenedAndFlagged();
+    void entryHelperOutOfRangeValueCanBeReverted();
 };
 
 void tst_WidgetIOProperties::initTestCase()
@@ -310,7 +346,7 @@ void tst_WidgetIOProperties::entryHelperFillsAFloatEditor()
 
     QDoubleSpinBox *node = editor<QDoubleSpinBox>(w, "node_id");
     QLineEdit *name = editor<QLineEdit>(w, "name");
-    QPushButton *helper = qobject_cast<QPushButton *>(cellOf(w, "name", 4));
+    QPushButton *helper = qobject_cast<QPushButton *>(cellOf(w, "gateway", 4));
     QDialog *dialog = w.findChild<QDialog *>();
     QVERIFY(node && name && helper && dialog);
 
@@ -325,6 +361,92 @@ void tst_WidgetIOProperties::entryHelperFillsAFloatEditor()
     QCOMPARE(node->value(), 12.5);
     QCOMPARE(name->text(), QString("garage"));
     QCOMPARE(stored(w, "node_id"), QString("12.5"));
+}
+
+void tst_WidgetIOProperties::entryHelperLeavesAReadOnlyEditorAlone()
+{
+    WidgetIOProperties w(sensorParams());
+    QLineEdit *gateway = editor<QLineEdit>(w, "gateway");
+    QLineEdit *name = editor<QLineEdit>(w, "name");
+    QVERIFY(gateway && name);
+    QVERIFY(!gateway->isEnabled());
+
+    runEntryHelper(w, "3", "5000");
+
+    QCOMPARE(gateway->text(), QString("stored-gateway"));
+    QCOMPARE(stored(w, "gateway"), QString("stored-gateway"));
+    QCOMPARE(name->text(), QString("garage"));
+}
+
+void tst_WidgetIOProperties::entryHelperLeavesANonEditableDialogAlone()
+{
+    WidgetIOProperties w(sensorParams(), false);
+    QLineEdit *name = editor<QLineEdit>(w, "name");
+    QSpinBox *sensor = editor<QSpinBox>(w, "sensor_id");
+    QDoubleSpinBox *node = editor<QDoubleSpinBox>(w, "node_id");
+    QVERIFY(name && sensor && node);
+    QVERIFY(!name->isEnabled());
+
+    runEntryHelper(w, "300", "70000");
+
+    QCOMPARE(name->text(), QString("before"));
+    QCOMPARE(sensor->value(), 1);
+    QCOMPARE(sensor->maximum(), 254);
+    QCOMPARE(node->value(), 1.0);
+    QCOMPARE(stored(w, "name"), QString("before"));
+    QCOMPARE(stored(w, "sensor_id"), QString("1"));
+}
+
+void tst_WidgetIOProperties::entryHelperValueInsideTheRangeKeepsTheBounds()
+{
+    WidgetIOProperties w(sensorParams());
+    runEntryHelper(w, "3", "8080");
+
+    QSpinBox *sensor = editor<QSpinBox>(w, "sensor_id");
+    QDoubleSpinBox *port = editor<QDoubleSpinBox>(w, "port");
+    QVERIFY(sensor && port);
+    QCOMPARE(sensor->value(), 3);
+    QCOMPARE(sensor->maximum(), 254);
+    QVERIFY(sensor->toolTip().isEmpty());
+    QCOMPARE(port->value(), 8080.0);
+    QCOMPARE(port->maximum(), 65535.0);
+    QVERIFY(port->toolTip().isEmpty());
+}
+
+// Like a value read from io.xml, a helper value outside the documented range is kept
+// as is, not clamped to a bound the user never typed.
+void tst_WidgetIOProperties::entryHelperOutOfRangeValueIsWidenedAndFlagged()
+{
+    WidgetIOProperties w(sensorParams());
+    runEntryHelper(w, "300", "70000");
+
+    QSpinBox *sensor = editor<QSpinBox>(w, "sensor_id");
+    QDoubleSpinBox *port = editor<QDoubleSpinBox>(w, "port");
+    QVERIFY(sensor && port);
+
+    QCOMPARE(sensor->value(), 300);
+    QCOMPARE(stored(w, "sensor_id"), QString("300"));
+    QVERIFY2(sensor->toolTip().contains("300") && sensor->toolTip().contains("254"), qPrintable(sensor->toolTip()));
+
+    QCOMPARE(port->value(), 70000.0);
+    QCOMPARE(stored(w, "port"), QString("70000"));
+    QVERIFY2(port->toolTip().contains("70000") && port->toolTip().contains("65535"), qPrintable(port->toolTip()));
+}
+
+void tst_WidgetIOProperties::entryHelperOutOfRangeValueCanBeReverted()
+{
+    WidgetIOProperties w(sensorParams());
+    runEntryHelper(w, "300", "5000");
+
+    QSpinBox *sensor = editor<QSpinBox>(w, "sensor_id");
+    QPushButton *revert = revertButton(w, "sensor_id");
+    QVERIFY(sensor && revert);
+    QCOMPARE(sensor->value(), 300);
+
+    revert->click();
+
+    QCOMPARE(sensor->value(), 1);
+    QCOMPARE(stored(w, "sensor_id"), QString("1"));
 }
 
 QTEST_MAIN(tst_WidgetIOProperties)
