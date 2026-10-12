@@ -388,9 +388,13 @@ private slots:
     void rulesWriteOnlyAddsKnownDefaults_data();
     void rulesWriteOnlyAddsKnownDefaults();
 
-    void ioUnknownRoomChildWithChildrenIsFlattened();
-    void ioUnknownLeafRoomChildIsDropped();
-    void ioUnknownInputChildTruncatesTheRoom();
+    void ioUnknownRoomChildIsKeptWithItsSubtree();
+    void ioUnknownLeafRoomChildIsKept();
+    void ioUnknownInputChildIsKept();
+    void ioUnknownHomeChildIsKept();
+    void ioUnknownChildrenOfEveryIoKindAreKept();
+    void ioUnknownTextCdataAndNamespacesAreKept();
+    void ioUnknownElementsInTimeRangesAreSkippedWhole();
     void ioAllIoKindsRoundTrip();
     void ioFactoryDefaultsAreWritten();
     void ioUnknownTypeIsKeptVerbatim();
@@ -595,37 +599,46 @@ void tst_ProjectManager::rulesWriteOnlyAddsKnownDefaults()
 // io.xml: lossy or surprising behaviour, pinned as it is today
 // ---------------------------------------------------------------------------
 
-// Pins the defect INST-1 fixes. The reader's "skip unknown element" loop stops
-// at the first end tag it meets, which is the end of the element's first
-// nested child, not its own. Consequences, all visible below: the first nested
-// element (input_2) vanishes, the next one (output_3) is adopted by the room,
-// </device> then closes the room early, and everything after it, including
-// the whole next room, is silently discarded.
-void tst_ProjectManager::ioUnknownRoomChildWithChildrenIsFlattened()
+// An unknown element is carried as an opaque subtree: what it contains is not
+// instantiated (input_2 is no IO of the model) and nothing after it is lost.
+// Unknown elements are written after the known content of their parent.
+void tst_ProjectManager::ioUnknownRoomChildIsKeptWithItsSubtree()
 {
     QByteArray src = ioSource(R"(
 <calaos:room name="Salon" type="salon" hits="3">
   <calaos:input id="input_1" name="A" type="WITemp" host="1.2.3.4" port="502" var="1"/>
-  <calaos:device name="Thermo" type="thermostat">
+  <calaos:future name="Thermo" kind="x">
     <calaos:input id="input_2" name="B" type="WITemp" host="1.2.3.4" port="502" var="2"/>
     <calaos:output id="output_3" name="C" type="WODigital" host="1.2.3.4" port="502" var="3"/>
-  </calaos:device>
+  </calaos:future>
   <calaos:input id="input_4" name="D" type="WITemp" host="1.2.3.4" port="502" var="4"/>
 </calaos:room>
 <calaos:room name="Cuisine" type="cuisine" hits="0">
   <calaos:input id="input_5" name="E" type="WITemp" host="1.2.3.4" port="502" var="5"/>
 </calaos:room>)");
 
-    QCOMPARE(ioThroughModel(src), ioDoc(
+    QString expected = ioDoc(
 R"(        <calaos:room name="Salon" type="salon" hits="3">
             <calaos:input host="1.2.3.4" id="input_1" name="A" port="502" type="WITemp" var="1"/>
-            <calaos:output host="1.2.3.4" id="output_3" name="C" port="502" type="WODigital" var="3"/>
+            <calaos:input host="1.2.3.4" id="input_4" name="D" port="502" type="WITemp" var="4"/>
+            <calaos:future name="Thermo" kind="x">
+                <calaos:input id="input_2" name="B" type="WITemp" host="1.2.3.4" port="502" var="2"/>
+                <calaos:output id="output_3" name="C" type="WODigital" host="1.2.3.4" port="502" var="3"/>
+            </calaos:future>
         </calaos:room>
-)"));
-    QCOMPARE(ListeRoom::Instance().size(), 1);
+        <calaos:room name="Cuisine" type="cuisine" hits="0">
+            <calaos:input host="1.2.3.4" id="input_5" name="E" port="502" type="WITemp" var="5"/>
+        </calaos:room>
+)");
+    QCOMPARE(ioThroughModel(src), expected);
+    QCOMPARE(ListeRoom::Instance().size(), 2);
+    QVERIFY(ListeRoom::Instance().get_input("input_2") == nullptr);
+    QVERIFY(ListeRoom::Instance().get_output("output_3") == nullptr);
+
+    QCOMPARE(ioThroughModel(expected.toUtf8()), expected);
 }
 
-void tst_ProjectManager::ioUnknownLeafRoomChildIsDropped()
+void tst_ProjectManager::ioUnknownLeafRoomChildIsKept()
 {
     QByteArray src = ioSource(R"(
 <calaos:room name="R" type="salon" hits="1">
@@ -638,27 +651,152 @@ void tst_ProjectManager::ioUnknownLeafRoomChildIsDropped()
 R"(        <calaos:room name="R" type="salon" hits="1">
             <calaos:input host="h" id="i" name="i" port="502" type="WITemp" var="0"/>
             <calaos:input host="h" id="i2" name="i2" port="502" type="WITemp" var="0"/>
+            <calaos:foo bar="1"/>
         </calaos:room>
 )"));
 }
 
-// Same defect as above, one level down: an unknown child inside an <input>
-// ends the input, then ends the room, so the rest of the room is lost.
-void tst_ProjectManager::ioUnknownInputChildTruncatesTheRoom()
+void tst_ProjectManager::ioUnknownInputChildIsKept()
 {
     QByteArray src = ioSource(R"(
 <calaos:room name="R" type="salon" hits="1">
   <calaos:input id="a" type="WITemp" name="a" host="h" port="502" var="0">
-    <calaos:bogus/>
+    <calaos:bogus><calaos:input id="nested"/></calaos:bogus>
   </calaos:input>
+  <calaos:output id="o" type="WODigital" name="o" host="h" port="502"><calaos:bogus2/></calaos:output>
   <calaos:input id="b" type="WITemp" name="b" host="h" port="502" var="0"/>
-</calaos:room>)");
+</calaos:room>
+<calaos:room name="R2" type="salon" hits="1"/>)");
 
     QCOMPARE(ioThroughModel(src), ioDoc(
 R"(        <calaos:room name="R" type="salon" hits="1">
-            <calaos:input host="h" id="a" name="a" port="502" type="WITemp" var="0"/>
+            <calaos:input host="h" id="a" name="a" port="502" type="WITemp" var="0">
+                <calaos:bogus>
+                    <calaos:input id="nested"/>
+                </calaos:bogus>
+            </calaos:input>
+            <calaos:input host="h" id="b" name="b" port="502" type="WITemp" var="0"/>
+            <calaos:output host="h" id="o" name="o" port="502" type="WODigital">
+                <calaos:bogus2/>
+            </calaos:output>
         </calaos:room>
+        <calaos:room name="R2" type="salon" hits="1"/>
 )"));
+    QVERIFY(ListeRoom::Instance().get_input("nested") == nullptr);
+}
+
+// Used to end <home> early, and the next <room> was then rejected as a
+// misplaced element: the whole load failed.
+void tst_ProjectManager::ioUnknownHomeChildIsKept()
+{
+    QByteArray src = ioSource(R"(
+<calaos:room name="A" type="salon" hits="1"/>
+<calaos:zones v="2"><calaos:room name="Inner" type="salon"/></calaos:zones>
+<calaos:room name="B" type="salon" hits="1"/>)");
+
+    writeAll(work("src.xml"), src);
+    QVERIFY(loadIOs(work("src.xml")));
+    QCOMPARE(ListeRoom::Instance().size(), 2);
+
+    QCOMPARE(QString::fromUtf8(saveIOs("dst.xml")), ioDoc(
+R"(        <calaos:room name="A" type="salon" hits="1"/>
+        <calaos:room name="B" type="salon" hits="1"/>
+        <calaos:zones v="2">
+            <calaos:room name="Inner" type="salon"/>
+        </calaos:zones>
+)"));
+
+    // A new project must not inherit them.
+    QCOMPARE(ioThroughModel(ioSource(R"(<calaos:room name="A" type="salon" hits="1"/>)")), ioDoc(
+R"(        <calaos:room name="A" type="salon" hits="1"/>
+)"));
+}
+
+void tst_ProjectManager::ioUnknownChildrenOfEveryIoKindAreKept()
+{
+    QByteArray src = ioSource(R"(
+<calaos:room name="R" type="salon" hits="1">
+  <calaos:internal id="n1" type="InternalBool" name="b"><calaos:x1/></calaos:internal>
+  <calaos:input id="s1" type="scenario" name="scn"><calaos:x2/></calaos:input>
+  <calaos:camera name="cam" type="axis" iid="ci" oid="co" id="ci_co"><calaos:x3/></calaos:camera>
+  <calaos:audio name="aud" type="slim" iid="ai" oid="ao"><calaos:x4/></calaos:audio>
+  <calaos:avr name="avr" type="AVReceiver" id="avr_0" host="x" model="pioneer"><calaos:x5/></calaos:avr>
+  <calaos:input id="last" type="WITemp" name="last" host="h" port="502" var="0"/>
+</calaos:room>)");
+
+    QString expected = ioDoc(
+R"(        <calaos:room name="R" type="salon" hits="1">
+            <calaos:internal id="n1" name="b" type="InternalBool">
+                <calaos:x1/>
+            </calaos:internal>
+            <calaos:input id="s1" name="scn" type="scenario">
+                <calaos:x2/>
+            </calaos:input>
+            <calaos:input host="h" id="last" name="last" port="502" type="WITemp" var="0"/>
+            <calaos:camera id="ci_co" iid="ci" name="cam" oid="co" type="axis">
+                <calaos:x3/>
+            </calaos:camera>
+            <calaos:audio iid="ai" name="aud" oid="ao" type="slim">
+                <calaos:x4/>
+            </calaos:audio>
+            <calaos:avr host="x" id="avr_0" model="pioneer" name="avr" type="AVReceiver">
+                <calaos:x5/>
+            </calaos:avr>
+        </calaos:room>
+)");
+    QCOMPARE(ioThroughModel(src), expected);
+    QCOMPARE(ioThroughModel(expected.toUtf8()), expected);
+}
+
+void tst_ProjectManager::ioUnknownTextCdataAndNamespacesAreKept()
+{
+    QByteArray src = ioSource(R"(
+<calaos:room name="R" type="salon" hits="1">
+  <calaos:note lang="fr">a &amp; b</calaos:note>
+  <calaos:script><![CDATA[if a < b then]]></calaos:script>
+  <ext:thing xmlns:ext="urn:example" ext:k="v"><ext:sub/></ext:thing>
+  <plain a="1"/>
+</calaos:room>)");
+
+    QString expected = ioDoc(
+R"(        <calaos:room name="R" type="salon" hits="1">
+            <calaos:note lang="fr">a &amp; b</calaos:note>
+            <calaos:script><![CDATA[if a < b then]]></calaos:script>
+            <ext:thing xmlns:ext="urn:example" ext:k="v">
+                <ext:sub/>
+            </ext:thing>
+            <plain a="1"/>
+        </calaos:room>
+)");
+    QCOMPARE(ioThroughModel(src), expected);
+    QCOMPARE(ioThroughModel(expected.toUtf8()), expected);
+}
+
+// Nothing in a time range can be kept as is (the model holds TimeRange
+// values), but an unknown element must still be skipped with its subtree.
+void tst_ProjectManager::ioUnknownElementsInTimeRangesAreSkippedWhole()
+{
+    QByteArray src = ioSource(R"(
+<calaos:room name="R" type="salon" hits="1">
+  <calaos:input id="t" type="InPlageHoraire" name="t" months="111111111111">
+    <calaos:lundi>
+      <calaos:junk><calaos:plage start_hour="5"/></calaos:junk>
+      <calaos:plage start_hour="8"><calaos:junk/></calaos:plage>
+      <calaos:plage start_hour="9"/>
+    </calaos:lundi>
+    <calaos:mardi><calaos:plage start_hour="10"/></calaos:mardi>
+  </calaos:input>
+  <calaos:input id="after" type="WITemp" name="after" host="h" port="502" var="0"/>
+</calaos:room>)");
+
+    ioThroughModel(src);
+    IOBase *t = ListeRoom::Instance().get_input("t");
+    QVERIFY(t);
+    QCOMPARE(int(t->range_monday.size()), 2);
+    QCOMPARE(QString::fromStdString(t->range_monday[0].shour), QString("8"));
+    QCOMPARE(QString::fromStdString(t->range_monday[1].shour), QString("9"));
+    QCOMPARE(int(t->range_tuesday.size()), 1);
+    QVERIFY(ListeRoom::Instance().get_input("after"));
 }
 
 void tst_ProjectManager::ioAllIoKindsRoundTrip()
@@ -869,8 +1007,8 @@ R"(        <calaos:room name="R" type="salon" hits="1">
 )"));
 }
 
-// The pages subtree is carried as an opaque string; any other child of
-// <remote_ui> is not.
+// The pages subtree is carried as an opaque string, like any other child of
+// <remote_ui>.
 void tst_ProjectManager::ioRemoteUiPages()
 {
     QByteArray src = ioSource(R"(
@@ -892,6 +1030,9 @@ R"(        <calaos:room name="R" type="salon" hits="1">
                         <calaos:widget x="1">hello</calaos:widget>
                     </calaos:page>
                 </calaos:pages>
+                <calaos:other>
+                    <calaos:x/>
+                </calaos:other>
             </calaos:remote_ui>
             <calaos:remote_ui id="ui2" name="ui2" type="RemoteUI"/>
         </calaos:room>
