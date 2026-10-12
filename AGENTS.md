@@ -61,9 +61,12 @@ QT_QPA_PLATFORM=offscreen ./tst_projectmanager/tst_projectmanager -v2 ioRoundTri
   (`src/projectmanager.cpp`) against the real model. Sample projects under
   `tests/<project>/` are discovered automatically: dropping a new `io.xml` / `rules.xml`
   in a new directory adds it to the round-trip tests. The remaining cases pin today's
-  behaviour, including known defects (an unknown element in a `<room>` swallows the rest
-  of the file, ...). When a change
+  behaviour, including known defects (defaults injected at load, rule entries dropped
+  without a word, ...). When a change
   fixes one of them, that test is expected to fail: update it in the same commit.
+- `tests/tst_devices/` covers `<calaos:device>` (`Calaos/Device.*`): round trip of the
+  spec example, `format="2"`, read-only loading of a newer format, cascade delete.
+  Unknown elements are kept verbatim at every level, never dropped with what follows.
 - The model and (de)serialisation sources are listed once in `calaos_model.pri`, shared by
   the application and the tests. A new file that the tests need goes there; one that only
   the GUI needs stays in `calaos_installer.pro`.
