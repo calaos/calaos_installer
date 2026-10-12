@@ -66,6 +66,22 @@ std::vector<Device *> Room::get_devices()
     return res;
 }
 //-----------------------------------------------------------------------------
+bool Room::hasInput(IOBase *io) const
+{
+    return std::find(inputs.begin(), inputs.end(), io) != inputs.end();
+}
+//-----------------------------------------------------------------------------
+bool Room::hasOutput(IOBase *io) const
+{
+    return std::find(outputs.begin(), outputs.end(), io) != outputs.end();
+}
+//-----------------------------------------------------------------------------
+void Room::detach(IOBase *io)
+{
+    inputs.erase(std::remove(inputs.begin(), inputs.end(), io), inputs.end());
+    outputs.erase(std::remove(outputs.begin(), outputs.end(), io), outputs.end());
+}
+//-----------------------------------------------------------------------------
 void Room::AddInput(IOBase *in)
 {
     inputs.push_back(in);

@@ -68,6 +68,8 @@ QT_QPA_PLATFORM=offscreen ./tst_projectmanager/tst_projectmanager -v2 ioRoundTri
   spec example, `format="2"`, read-only loading of a newer format, cascade delete.
   Unknown elements are kept at every level (comments included, whitespace-only text
   aside), never dropped with what follows.
+- `tests/tst_iomove/` covers `ListeRoom::moveIO` (every IO kind moved, saved, reloaded) and
+  `moveIOInHome` (tree items re-parented, equal to a freshly populated tree).
 - The model and (de)serialisation sources are listed once in `calaos_model.pri`, shared by
   the application and the tests. A new file that the tests need goes there; one that only
   the GUI needs stays in `calaos_installer.pro`.

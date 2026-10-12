@@ -425,6 +425,32 @@ bool ListeRoom::deleteIOOutput(IOBase *output)
     return ListeRoom::Instance().delete_output(output);
 }
 
+bool ListeRoom::moveIO(IOBase *io, Room *to)
+{
+    if (!io || !roomExists(to) || io->getOwnerDevice())
+        return false;
+
+    int from = searchIO(io);
+    if (from < 0 || rooms[from] == to)
+        return false;
+
+    for (IOBase *moved: iosDeletedWith(io))
+    {
+        bool asInput = false, asOutput = false;
+        for (Room *room: rooms)
+        {
+            asInput |= room->hasInput(moved);
+            asOutput |= room->hasOutput(moved);
+            room->detach(moved);
+        }
+
+        if (asInput) to->AddInput(moved);
+        if (asOutput) to->AddOutput(moved);
+    }
+
+    return true;
+}
+
 IOBase* ListeRoom::createInput(Params param, Room *room)
 {
     IOBase *input = NULL;

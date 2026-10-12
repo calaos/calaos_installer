@@ -98,6 +98,13 @@ public:
     //their pointers to it.
     static std::vector<IOBase *> iosDeletedWith(IOBase *io);
 
+    //Re-homes io (a device brings its owned IOs) keeping the lists it was in:
+    //Room::RemoveOutput/AddOutput would turn an input+output IO into an
+    //output only, which io.xml cannot represent for Internal*, scenarios, timers.
+    //Refuses an owned IO: it is written inside its device, so a reload would
+    //put it back next to it. Rules point at the objects and are untouched.
+    bool moveIO(IOBase *io, Room *to);
+
     IOBase *createInput(Params param, Room *room);
     IOBase *createOutput(Params param, Room *room);
     IOBase *createCamera(Params param, Room *room);

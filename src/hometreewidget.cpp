@@ -1,6 +1,7 @@
 #include "hometreewidget.h"
 #include "mainwindow.h"
 #include "formrules.h"
+#include "HomeTreeMove.h"
 #include <ListeRoom.h>
 #include <QApplication>
 #include <QDrag>
@@ -48,72 +49,17 @@ bool HomeTreeWidget::dropMimeData(QTreeWidgetItem *parent, int, const QMimeData 
 
             if (pitem)
             {
-                IOBase *output = ListeRoom::Instance().get_output(id);
-                if (output)
+                IOBase *io = ListeRoom::Instance().get_output(id);
+                if (!io)
+                    io = ListeRoom::Instance().get_input(id);
+
+                if (io)
                 {
-                    int _i = ListeRoom::Instance().searchIO(output);
-                    if (_i < 0) return false;
-                    Room *old_room = ListeRoom::Instance().get_room(_i);
-
-                    if (pitem->getRoom() == old_room) return false;
-
-                    //delete old item
-                    old_room->RemoveOutput(output);
-
-                    QTreeWidgetItemIterator it(this);
-                    while (*it)
-                    {
-                        QTreeWidgetItemOutput *item = dynamic_cast<QTreeWidgetItemOutput *>(*it);
-                        if (item && item->getOutput() == output)
-                        {
-                            delete item;
-                            break;
-                        }
-                        ++it;
-                    }
+                    if (!moveIOInHome(this, io, pitem->getRoom()))
+                        return false;
 
                     MainWindow *win = dynamic_cast<MainWindow *>(QApplication::activeWindow());
-                    win->getFormRules()->addItemOutput(output, pitem);
-                    pitem->getRoom()->AddOutput(output);
-
-                    return true;
-                }
-
-                IOBase *input = ListeRoom::Instance().get_input(id);
-                if (input)
-                {
-                    int _i = ListeRoom::Instance().searchIO(input);
-                    if (_i < 0) return false;
-                    Room *old_room = ListeRoom::Instance().get_room(_i);
-
-                    if (pitem->getRoom() == old_room) return false;
-
-                    //delete old item
-                    old_room->RemoveInput(input);
-
-                    QTreeWidgetItemIterator it(this);
-                    while (*it)
-                    {
-                        QTreeWidgetItemInput *item = dynamic_cast<QTreeWidgetItemInput *>(*it);
-                        if (item && item->getInput() == input)
-                        {
-                            delete item;
-                            break;
-                        }
-
-                        /*QTreeWidgetItemOutput *oitem = dynamic_cast<QTreeWidgetItemOutput *>(*it);
-                                                if (oitem && oitem->getOutput() == output)
-                                                {
-                                                        delete oitem;
-                                                        //break;
-                                                }*/
-                        ++it;
-                    }
-
-                    //create new item
-                    MainWindow *win = dynamic_cast<MainWindow *>(QApplication::activeWindow());
-                    win->getFormRules()->addItemInput(input, pitem);
-                    pitem->getRoom()->AddInput(input);
+                    win->getFormRules()->setProjectModified(true);
 
                     return true;
                 }

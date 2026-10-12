@@ -9,4 +9,8 @@ TEMPLATE = app
 
 include($$PWD/../../calaos_model.pri)
 
-SOURCES += tst_iomove.cpp
+SOURCES += \
+    $$PWD/../../src/HomeTreeMove.cpp \
+    tst_iomove.cpp
+
+HEADERS += $$PWD/../../src/HomeTreeMove.h $$PWD/../../src/qtreewidget_addition.h

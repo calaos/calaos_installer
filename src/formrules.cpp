@@ -4,6 +4,7 @@
 
 #include "TwoLineItemDelegate.h"
 #include "mainwindow.h"
+#include "HomeTreeMove.h"
 #include "DialogEditTimeRange.h"
 #include "DialogNewAVReceiver.h"
 #include "dialognewwebioshutter.h"
@@ -721,17 +722,8 @@ void FormRules::PopulateRoomsTree()
         {
             IOBase *in = room->get_input(j);
 
-            if (in->get_gui_type() == "switch" ||
-                in->get_gui_type() == "switch3" ||
-                in->get_gui_type() == "switch_long" ||
-                in->get_gui_type() == "time" ||
-                in->get_gui_type() == "time_range" ||
-                in->get_gui_type() == "temp" ||
-                in->get_gui_type() == "analog_in" ||
-                in->get_gui_type() == "string_in")
-            {
+            if (inputHasTreeItem(in))
                 addItemInput(in, iroom);
-            }
 
             QCoreApplication::processEvents();
         }
@@ -1803,8 +1795,10 @@ void FormRules::showPopup_tree(const QPoint point)
         QTreeWidgetItemOutput *itoutput = dynamic_cast<QTreeWidgetItemOutput *>(treeItem);
         QTreeWidgetItemInput *itinput = dynamic_cast<QTreeWidgetItemInput *>(treeItem);
 
-        if (ListeRoom::Instance().size() > 1 &&
-            (itoutput || itinput))
+        //An owned IO is written inside its device: it moves with it, not alone.
+        IOBase *clicked = itoutput ? itoutput->getOutput() : (itinput ? itinput->getInput() : nullptr);
+
+        if (ListeRoom::Instance().size() > 1 && clicked && !clicked->getOwnerDevice())
         {
             QMenu *moveMenu = item_menu.addMenu(tr("Move to..."));
             Room *current = nullptr;
@@ -1984,53 +1978,14 @@ void FormRules::moveIOToRoom()
     Room *to_room = static_cast<Room *>(action->data().value<void *>());
     if (!to_room) return;
 
-    QTreeWidgetItemOutput *itoutput = dynamic_cast<QTreeWidgetItemOutput *>(treeItem);
-    if (itoutput)
-    {
-        IOBase *output = itoutput->getOutput();
-        if (output)
-        {
-            int _i = ListeRoom::Instance().searchIO(output);
-            if (_i < 0) return;
-            Room *old_room = ListeRoom::Instance().get_room(_i);
+    IOBase *io = nullptr;
+    if (QTreeWidgetItemOutput *itoutput = dynamic_cast<QTreeWidgetItemOutput *>(treeItem))
+        io = itoutput->getOutput();
+    else if (QTreeWidgetItemInput *itinput = dynamic_cast<QTreeWidgetItemInput *>(treeItem))
+        io = itinput->getInput();
 
-            if (old_room == to_room) return;
-
-            //delete old item
-            old_room->RemoveOutput(output);
-
-            delete treeItem;
-
-            to_room->AddOutput(output);
-            addItemOutput(output, to_room, true);
-
-            return;
-        }
-    }
-
-    QTreeWidgetItemInput *itinput = dynamic_cast<QTreeWidgetItemInput *>(treeItem);
-    if (itinput)
-    {
-        IOBase *input = itinput->getInput();
-        if (input)
-        {
-            int _i = ListeRoom::Instance().searchIO(input);
-            if (_i < 0) return;
-            Room *old_room = ListeRoom::Instance().get_room(_i);
-
-            if (old_room == to_room) return;
-
-            //delete old item
-            old_room->RemoveInput(input);
-
-            delete treeItem;
-
-            to_room->AddInput(input);
-            addItemInput(input, to_room, true);
-
-            return;
-        }
-    }
+    if (io && moveIOInHome(ui->tree_home, io, to_room))
+        setProjectModified(true);
 }
 
 void FormRules::showPopup_condition(const QPoint point)
