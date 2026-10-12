@@ -297,7 +297,9 @@ class tst_ProjectManager: public QObject
 private:
     QTemporaryDir m_settingsDir;
     QTemporaryDir m_workDir;
-    QStringList m_dialogs; // texts of the modal boxes the code under test tried to show
+    QStringList m_dialogs; // texts of the QMessageBox the code under test tried to show
+    QStringList m_expectedDialogs;
+    QStringList m_otherModals; // class names of modals that are not a QMessageBox
     QTimer m_dialogKiller;
 
     QString sample(const QString &name, const QString &file) const
@@ -356,6 +358,7 @@ private:
 private slots:
     void initTestCase();
     void init();
+    void cleanup();
 
     void ioRoundTrip_data();
     void ioRoundTrip();
@@ -379,6 +382,7 @@ private slots:
     void ioUnknownTypeIsKeptVerbatim();
     void ioInputsAreWrittenBeforeOutputs();
     void ioTimeRangeWithoutMonthsStaysActiveAllYear();
+    void ioTimeRangeEmptyMonthsDisablesAllMonths();
     void ioTimeRangeExplicitMonthsRoundTrip();
     void ioTimeRangeMonthsAndPlages();
     void ioRemoteUiPages();
@@ -417,6 +421,8 @@ void tst_ProjectManager::initTestCase()
         {
             if (QMessageBox *mb = qobject_cast<QMessageBox *>(w))
                 m_dialogs << mb->text();
+            else
+                m_otherModals << QString::fromLatin1(w->metaObject()->className());
             w->close();
         }
     });
@@ -427,6 +433,16 @@ void tst_ProjectManager::init()
 {
     resetModel();
     m_dialogs.clear();
+    m_expectedDialogs.clear();
+    m_otherModals.clear();
+}
+
+// A modal the killer closes is invisible to the test body: without this, a
+// spurious "already exists" box would pass unnoticed.
+void tst_ProjectManager::cleanup()
+{
+    QCOMPARE(m_otherModals, QStringList());
+    QCOMPARE(m_dialogs, m_expectedDialogs);
 }
 
 static QStringList samplesWith(const QString &file)
@@ -743,6 +759,30 @@ QString(R"(        <calaos:room name="R" type="salon" hits="1">
 )").arg(days)));
 }
 
+// months="" is present, so it is not the "absent" case above: the server
+// parses it as an empty set and keeps every month disabled.
+void tst_ProjectManager::ioTimeRangeEmptyMonthsDisablesAllMonths()
+{
+    QByteArray src = ioSource(R"(
+<calaos:room name="R" type="salon" hits="1">
+  <calaos:input id="t1" type="InPlageHoraire" name="empty" months=""/>
+</calaos:room>)");
+
+    QCOMPARE(ioThroughModel(src), ioDoc(
+R"(        <calaos:room name="R" type="salon" hits="1">
+            <calaos:input months="000000000000" id="t1" name="empty" type="InPlageHoraire">
+                <calaos:lundi/>
+                <calaos:mardi/>
+                <calaos:mercredi/>
+                <calaos:jeudi/>
+                <calaos:vendredi/>
+                <calaos:samedi/>
+                <calaos:dimanche/>
+            </calaos:input>
+        </calaos:room>
+)"));
+}
+
 void tst_ProjectManager::ioTimeRangeExplicitMonthsRoundTrip()
 {
     QByteArray src = ioSource(R"(
@@ -841,6 +881,8 @@ void tst_ProjectManager::ioDuplicateIdsAreKeptAndReported()
 </calaos:room>)");
 
     // The modal box comes from the reader itself (see m_dialogKiller).
+    m_expectedDialogs = { "Input with id \"same\" already exists!",
+                          "Output with id \"same\" already exists!" };
     QCOMPARE(ioThroughModel(src), ioDoc(
 R"(        <calaos:room name="R" type="salon" hits="1">
             <calaos:input host="h" id="same" name="a" port="502" type="WITemp" var="0"/>
@@ -849,8 +891,7 @@ R"(        <calaos:room name="R" type="salon" hits="1">
             <calaos:output host="h" id="same" name="d" port="502" type="WODigital"/>
         </calaos:room>
 )"));
-    QCOMPARE(m_dialogs, QStringList({ "Input with id \"same\" already exists!",
-                                      "Output with id \"same\" already exists!" }));
+    QCOMPARE(m_dialogs, m_expectedDialogs);
 }
 
 // loadIOsFromFile() drops the reader's verdict: a file the reader rejected
@@ -866,7 +907,8 @@ void tst_ProjectManager::ioLoadReportsSuccessOnMalformedFile()
 <calaos:room name="A" type="salon" hits="1"><calaos:input id="a" type="WITemp"/></calaos:room>
 <calaos:room name="B" type="salon" hits="1"><calaos:input id="b" type="WITemp"/>)"));
     QVERIFY(loadIOs(work("cut.xml")));
-    QVERIFY(ListeRoom::Instance().size() >= 1);
+    QCOMPARE(ListeRoom::Instance().size(), 2);
+    QCOMPARE(ListeRoom::Instance().get_room(1)->get_size_in(), 1);
 }
 
 void tst_ProjectManager::ioLoadFailsOnMissingFile()
