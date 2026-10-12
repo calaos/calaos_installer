@@ -46,8 +46,7 @@ class ListeRoom
 protected:
     std::vector<Room *> rooms;
 
-    ListeRoom()
-    { }
+    ListeRoom();
 
 public:
     //singleton
