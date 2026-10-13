@@ -134,13 +134,27 @@ void forEachVariable(Rule *rule, F fn)
         all(rule->get_action(j)->get_params_var());
 }
 
+//The camera a mail or push action attaches a picture of, by id (or legacy iid/oid).
+template<class F>
+void forEachAttachment(Rule *rule, F fn)
+{
+    for (int j = 0;j < rule->get_size_actions();j++)
+    {
+        Action *a = rule->get_action(j);
+        if (a->getType() == ACTION_MAIL || a->getType() == ACTION_PUSH)
+            fn(a->getMailAttachment());
+    }
+}
+
 void reserveVariablesOf(Rule *rule, const std::set<string> &names)
 {
-    forEachVariable(rule, [&](const string &var)
+    auto reserve = [&](const string &var)
     {
         if (names.count(var))
             ListeRoom::reservePendingIOId(var);
-    });
+    };
+    forEachVariable(rule, reserve);
+    forEachAttachment(rule, reserve);
 }
 
 }
@@ -157,6 +171,18 @@ std::vector<std::string> ListeRule::variablesNaming(Rule *rule, const std::set<s
     {
         if (names.count(var))
             found.insert(var);
+    });
+
+    return std::vector<string>(found.begin(), found.end());
+}
+//-----------------------------------------------------------------------------
+std::vector<std::string> ListeRule::attachmentsNaming(Rule *rule, const std::set<std::string> &names)
+{
+    std::set<string> found;
+    forEachAttachment(rule, [&](const string &id)
+    {
+        if (names.count(id))
+            found.insert(id);
     });
 
     return std::vector<string>(found.begin(), found.end());

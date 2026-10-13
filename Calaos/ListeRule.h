@@ -65,6 +65,8 @@ public:
     static bool ruleHolds(Rule *rule, IOBase *io);
     //Variable ids of the rule (sorted, unique) that are one of names.
     static std::vector<std::string> variablesNaming(Rule *rule, const std::set<std::string> &names);
+    //Same for the camera id kept by mail and push actions as their attachment.
+    static std::vector<std::string> attachmentsNaming(Rule *rule, const std::set<std::string> &names);
 
     Rule *searchRule(string type, string name);
 

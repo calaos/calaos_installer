@@ -93,7 +93,7 @@ DialogDeleteImpact::DialogDeleteImpact(const QString &subject, const DeletionImp
 
     QStringList orphans;
     for (const OrphanVariable &v: impact.orphanVariables)
-        orphans << tr("%1, variable \"%2\"").arg(ruleLabel(v.rule), u(v.id));
+        orphans << (v.attachment ? tr("%1, attached camera \"%2\"") : tr("%1, variable \"%2\"")).arg(ruleLabel(v.rule), u(v.id));
     if (!orphans.isEmpty())
         addSection(tr("Rules still naming a deleted variable (%1)").arg(orphans.size()),
                    tr("The id stays in the rule and is not given to a new IO."),

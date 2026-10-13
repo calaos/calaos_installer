@@ -109,7 +109,9 @@ DeletionImpact Calaos::deletionImpact(const std::vector<IOBase *> &requested)
             res.inertRules.push_back(rule);
 
         for (const std::string &id: ListeRule::variablesNaming(rule, names))
-            res.orphanVariables.push_back({ rule, id });
+            res.orphanVariables.push_back({ rule, id, false });
+        for (const std::string &id: ListeRule::attachmentsNaming(rule, names))
+            res.orphanVariables.push_back({ rule, id, true });
     }
 
     //Links name IOs by id. A device that goes with them keeps nothing dangling.
