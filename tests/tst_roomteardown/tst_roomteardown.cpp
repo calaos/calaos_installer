@@ -474,6 +474,10 @@ void tst_RoomTeardown::mailAndPushAttachmentsOfADeletedCameraAreReserved()
     Action *push = new Action(ACTION_PUSH);
     push->setMailAttachment("cam_out");
     r->AddAction(push);
+    Action *view = new Action(ACTION_TOUCHSCREEN);
+    view->setTouchscreenAction("view_camera");
+    view->setTouchscreenCamera("cam_in");
+    r->AddAction(view);
     // Only mail and push actions attach anything.
     Action *std = new Action(ACTION_STD);
     std->setMailAttachment("oc_in");
@@ -489,7 +493,7 @@ void tst_RoomTeardown::mailAndPushAttachmentsOfADeletedCameraAreReserved()
     QCOMPARE(mail->getMailAttachment(), std::string("cam"));
     QVERIFY(ListeRoom::isPendingIOId("cam"));
     QVERIFY(ListeRoom::isPendingIOId("cam_out"));
-    QVERIFY(!ListeRoom::isPendingIOId("cam_in"));
+    QVERIFY(ListeRoom::isPendingIOId("cam_in"));
 }
 
 // An IO without id is not any other IO without id.

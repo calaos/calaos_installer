@@ -134,7 +134,7 @@ void forEachVariable(Rule *rule, F fn)
         all(rule->get_action(j)->get_params_var());
 }
 
-//The camera a mail or push action attaches a picture of, by id (or legacy iid/oid).
+//The camera a mail/push action attaches or a touchscreen action shows, by id (or legacy iid/oid).
 template<class F>
 void forEachAttachment(Rule *rule, F fn)
 {
@@ -143,6 +143,8 @@ void forEachAttachment(Rule *rule, F fn)
         Action *a = rule->get_action(j);
         if (a->getType() == ACTION_MAIL || a->getType() == ACTION_PUSH)
             fn(a->getMailAttachment());
+        else if (a->getType() == ACTION_TOUCHSCREEN && a->getTouchscreenAction() == "view_camera")
+            fn(a->getTouchscreenCamera());
     }
 }
 
