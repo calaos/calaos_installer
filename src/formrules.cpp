@@ -2059,7 +2059,13 @@ void FormRules::deleteItem()
     else if (itroom)
         subject = tr("room \"%1\" and everything in it").arg(name);
 
-    DialogDeleteImpact dialog(subject, impact, dynamic_cast<QTreeWidgetItemDevice *>(treeItem) != nullptr, this);
+    DialogDeleteImpact::Listing listing = DialogDeleteImpact::ListNone;
+    if (dynamic_cast<QTreeWidgetItemDevice *>(treeItem))
+        listing = DialogDeleteImpact::ListOwned;
+    else if (itroom)
+        listing = DialogDeleteImpact::ListAll;
+
+    DialogDeleteImpact dialog(subject, impact, listing, this);
     if (dialog.exec() != QDialog::Accepted)
         return;
 

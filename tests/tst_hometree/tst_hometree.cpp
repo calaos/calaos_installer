@@ -3,6 +3,7 @@
 #include <QDialogButtonBox>
 #include <QLabel>
 #include <algorithm>
+#include <memory>
 #include <QMessageBox>
 #include <QPushButton>
 #include <QSettings>
@@ -226,9 +227,12 @@ private slots:
     void dropOnAnyItemOfARoomMovesTheIo();
     void dropRefusedWhereNothingMoves();
     void aDragFromOutsideIsIgnored();
-    void onlyFreeIosAreDragged();
+    void everyIoIsDraggedButNoRoom();
+    void dragCarriesTheIdTheRuleTreesRead();
+    void ownedIoIsNotDroppedOnARoom();
 
     void dialogForADeviceListsWhatItDoes();
+    void dialogForARoomListsEverythingItDestroys();
     void dialogForAnIoNothingUses();
     void dialogWarnsAboutLinksAndScripts();
     void dialogCancelIsTheDefault();
@@ -532,7 +536,8 @@ void tst_HomeTree::aDragFromOutsideIsIgnored()
     QVERIFY(!ownRoom.isAccepted());
 }
 
-void tst_HomeTree::onlyFreeIosAreDragged()
+// Any IO may be dragged into a rule, an owned one included; rooms are not dragged.
+void tst_HomeTree::everyIoIsDraggedButNoRoom()
 {
     ProbeTree tree;
     populate(&tree);
@@ -545,9 +550,48 @@ void tst_HomeTree::onlyFreeIosAreDragged()
 
     QVERIFY(candidate(itemOf(&tree, io("out_light"))) == io("out_light"));
     QVERIFY(candidate(itemOf(&tree, io("dev"), true)) == io("dev"));
-    QVERIFY(candidate(itemOf(&tree, io("dev_in"))) == nullptr);
-    QVERIFY(candidate(itemOf(&tree, io("dev_out"))) == nullptr);
+    QVERIFY(candidate(itemOf(&tree, io("dev_in"))) == io("dev_in"));
+    QVERIFY(candidate(itemOf(&tree, io("dev_out"))) == io("dev_out"));
     QVERIFY(candidate(tree.topLevelItem(0)) == nullptr);
+}
+
+// The condition and action trees read text/uri-list and take the url as an IO id.
+void tst_HomeTree::dragCarriesTheIdTheRuleTreesRead()
+{
+    for (const char *id: { "out_light", "dev_in", "dev_out", "dev" })
+    {
+        std::unique_ptr<QMimeData> mime(HomeTreeWidget::ioMimeData(io(id)));
+
+        QVERIFY(mime->hasFormat("text/uri-list"));
+        QCOMPARE(mime->urls().size(), 1);
+        const std::string read = mime->urls().first().toString().toUtf8().data();
+        QCOMPARE(read, std::string(id));
+        QVERIFY(ListeRoom::Instance().get_input(read) || ListeRoom::Instance().get_output(read));
+    }
+}
+
+// Dropping on a room would split the IO from its device, which writes it inside itself.
+void tst_HomeTree::ownedIoIsNotDroppedOnARoom()
+{
+    ProbeTree tree;
+    populate(&tree);
+    tree.resize(400, 400);
+    tree.show();
+    QVERIFY(QTest::qWaitForWindowExposed(&tree));
+    const QStringList before = shape(&tree);
+
+    tree.setDragged(io("dev_in"));
+    QMimeData mime;
+    const QPoint onC = tree.visualItemRect(tree.topLevelItem(2)).center();
+
+    QDragMoveEvent over(onC, Qt::MoveAction, &mime, Qt::LeftButton, Qt::NoModifier);
+    tree.dragMoveEvent(&over);
+    QVERIFY(!over.isAccepted());
+
+    QDropEvent drop(onC, Qt::MoveAction, &mime, Qt::LeftButton, Qt::NoModifier);
+    tree.dropEvent(&drop);
+    QVERIFY(!drop.isAccepted());
+    QCOMPARE(shape(&tree), before);
 }
 
 void tst_HomeTree::dialogForADeviceListsWhatItDoes()
@@ -559,7 +603,7 @@ void tst_HomeTree::dialogForADeviceListsWhatItDoes()
     var->get_condition(0)->get_params_var().Add("v", "dev_in");
 
     DeletionImpact imp = deletionImpact(io("dev"));
-    DialogDeleteImpact dlg("device \"Salon AC\"", imp, true);
+    DialogDeleteImpact dlg("device \"Salon AC\"", imp, DialogDeleteImpact::ListOwned);
 
     QCOMPARE(dlg.findChild<QLabel *>("title")->text(), QString("Delete device \"Salon AC\"?"));
     QTreeWidget *tree = dlg.findChild<QTreeWidget *>("impactTree");
@@ -576,10 +620,25 @@ void tst_HomeTree::dialogForADeviceListsWhatItDoes()
     QCOMPARE(entries(tree->topLevelItem(3)), QStringList({ "names the relay (t), variable \"dev_in\"" }));
 }
 
+void tst_HomeTree::dialogForARoomListsEverythingItDestroys()
+{
+    // A full room with no rule at all must still say what goes.
+    DeletionImpact imp = deletionImpactOfRoom(room(0));
+    DialogDeleteImpact dlg("room \"A\"", imp, DialogDeleteImpact::ListAll);
+
+    QTreeWidget *tree = dlg.findChild<QTreeWidget *>("impactTree");
+    QVERIFY(!tree->isHidden());
+    QCOMPARE(sectionTitles(tree).first(), QString("Deleted with it (%1)").arg(imp.ios.size()));
+    QCOMPARE(entries(tree->topLevelItem(0)).size(), int(imp.ios.size()));
+    QVERIFY(entries(tree->topLevelItem(0)).contains("temp a (in_a)"));
+    QVERIFY(entries(tree->topLevelItem(0)).contains("Salon AC (dev)"));
+    QVERIFY(!dlg.findChild<QLabel *>("lead")->text().startsWith("No rule and no device"));
+}
+
 void tst_HomeTree::dialogForAnIoNothingUses()
 {
     DeletionImpact imp = deletionImpact(io("out_light"));
-    DialogDeleteImpact dlg("\"light\"", imp, false);
+    DialogDeleteImpact dlg("\"light\"", imp, DialogDeleteImpact::ListNone);
 
     QTreeWidget *tree = dlg.findChild<QTreeWidget *>("impactTree");
     QCOMPARE(tree->topLevelItemCount(), 0);
@@ -591,7 +650,7 @@ void tst_HomeTree::dialogWarnsAboutLinksAndScripts()
 {
     scriptOn("watches temp", io("in_a"));
 
-    DialogDeleteImpact dlg("\"temp a\"", deletionImpact(io("in_a")), false);
+    DialogDeleteImpact dlg("\"temp a\"", deletionImpact(io("in_a")), DialogDeleteImpact::ListNone);
 
     QTreeWidget *tree = dlg.findChild<QTreeWidget *>("impactTree");
     QCOMPARE(sectionTitles(tree), QStringList({
@@ -604,7 +663,7 @@ void tst_HomeTree::dialogWarnsAboutLinksAndScripts()
 
 void tst_HomeTree::dialogCancelIsTheDefault()
 {
-    DialogDeleteImpact dlg("\"light\"", deletionImpact(io("out_light")), false);
+    DialogDeleteImpact dlg("\"light\"", deletionImpact(io("out_light")), DialogDeleteImpact::ListNone);
 
     auto *buttons = dlg.findChild<QDialogButtonBox *>();
     QVERIFY(buttons);

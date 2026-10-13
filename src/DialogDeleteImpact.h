@@ -17,10 +17,13 @@ class DialogDeleteImpact: public QDialog
     Q_OBJECT
 
 public:
-    //subject: the thing deleted ("device \"Salon AC\""). listOwnedIos: also
-    //list the IOs that go with it (a device's own), minus the first of impact.ios.
+    //Which of impact.ios the dialog lists as "deleted with it": a device's own
+    //(all but the first), everything (a room), or nothing (a single IO).
+    enum Listing { ListNone, ListOwned, ListAll };
+
+    //subject: the thing deleted ("device \"Salon AC\"").
     DialogDeleteImpact(const QString &subject, const Calaos::DeletionImpact &impact,
-                       bool listOwnedIos, QWidget *parent = nullptr);
+                       Listing listing, QWidget *parent = nullptr);
 
     static QString ioLabel(Calaos::IOBase *io);
     static QString ruleLabel(Calaos::Rule *rule);

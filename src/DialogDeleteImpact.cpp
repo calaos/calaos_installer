@@ -32,7 +32,7 @@ QString DialogDeleteImpact::ruleLabel(Rule *rule)
 }
 
 DialogDeleteImpact::DialogDeleteImpact(const QString &subject, const DeletionImpact &impact,
-                                       bool listOwnedIos, QWidget *parent):
+                                       Listing listing, QWidget *parent):
     QDialog(parent)
 {
     setWindowTitle(tr("Calaos Installer"));
@@ -70,12 +70,11 @@ DialogDeleteImpact::DialogDeleteImpact(const QString &subject, const DeletionImp
     const QIcon warn = style()->standardIcon(QStyle::SP_MessageBoxWarning);
 
     QStringList owned;
-    if (listOwnedIos)
-        for (size_t i = 1;i < impact.ios.size();i++)
-            owned << ioLabel(impact.ios[i]);
+    for (size_t i = listing == ListOwned ? 1 : 0;listing != ListNone && i < impact.ios.size();i++)
+        owned << ioLabel(impact.ios[i]);
     if (!owned.isEmpty())
         addSection(tr("Deleted with it (%1)").arg(owned.size()),
-                   tr("Its own IOs."), owned, trash, false);
+                   listing == ListAll ? tr("Everything in the room.") : tr("Its own IOs."), owned, trash, false);
 
     QStringList removed;
     for (Rule *rule: impact.removedRules)

@@ -15,9 +15,13 @@ bool contains(const std::vector<IOBase *> &ios, IOBase *io)
     return std::find(ios.begin(), ios.end(), io) != ios.end();
 }
 
-//A condition that makes the rule run by itself when something changes.
+//A condition that makes the rule run by itself when something changes. One
+//saved with trigger="false" only takes part in the evaluation.
 bool providesTrigger(Condition *cond, const std::vector<IOBase *> &gone)
 {
+    if (!cond->isTrigger())
+        return false;
+
     switch (cond->getType())
     {
     case COND_SCRIPT:
@@ -114,28 +118,19 @@ DeletionImpact Calaos::deletionImpact(const std::vector<IOBase *> &requested)
         if (!io->get_param("id").empty())
             goneIds.insert(io->get_param("id"));
 
-    std::set<Device *> seen;
-    ListeRoom &rooms = ListeRoom::Instance();
-    for (int r = 0;r < rooms.size();r++)
+    for (int r = 0;r < ListeRoom::Instance().size();r++)
     {
-        Room *room = rooms.get_room(r);
-        for (int s = 0;s < 2;s++)
+        for (Device *dev: ListeRoom::Instance().get_room(r)->get_devices())
         {
-            const int count = s == 0 ? room->get_size_in() : room->get_size_out();
-            for (int i = 0;i < count;i++)
-            {
-                IOBase *io = s == 0 ? room->get_input(i) : room->get_output(i);
-                Device *dev = dynamic_cast<Device *>(io);
-                if (!dev || contains(res.ios, dev) || !seen.insert(dev).second)
-                    continue;
+            if (contains(res.ios, dev))
+                continue;
 
-                for (const DeviceLink &link: dev->links())
-                {
-                    if (goneIds.count(link.io))
-                        res.brokenLinks.push_back({ dev, link.name, link.io });
-                    if (!link.commandIo.empty() && goneIds.count(link.commandIo))
-                        res.brokenLinks.push_back({ dev, link.name, link.commandIo });
-                }
+            for (const DeviceLink &link: dev->links())
+            {
+                if (goneIds.count(link.io))
+                    res.brokenLinks.push_back({ dev, link.name, link.io });
+                if (!link.commandIo.empty() && goneIds.count(link.commandIo))
+                    res.brokenLinks.push_back({ dev, link.name, link.commandIo });
             }
         }
     }
