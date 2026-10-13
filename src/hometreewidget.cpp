@@ -82,6 +82,10 @@ void HomeTreeWidget::dragMoveEvent(QDragMoveEvent *event)
 
 void HomeTreeWidget::dropEvent(QDropEvent *event)
 {
+    //The base dropEvent is not called, and it is what stops the auto-scroll
+    //timer started by dragMoveEvent: it would keep scrolling after the drop.
+    stopAutoScroll();
+
     if (m_dragged && dropIO(m_dragged, dropPos(event)))
         event->acceptProposedAction();
     else

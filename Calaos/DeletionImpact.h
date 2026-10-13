@@ -15,6 +15,7 @@ struct OrphanVariable
 {
     Rule *rule;
     std::string id; //still written in the rule, naming nothing once the IO is gone
+    bool attachment = false; //a mail/push camera attachment rather than a variable
 };
 
 struct BrokenLink
