@@ -3,7 +3,8 @@
 
 #include "ConfigOptions.h"
 #include <Utils.h>
-#include <QJsonDocument>
+#include "OnlineConfig.h"
+#include <ListeRoom.h>
 #include <QMessageBox>
 
 DialogSaveOnline::DialogSaveOnline(QString temp, QWidget *parent):
@@ -102,68 +103,89 @@ void DialogSaveOnline::uploadXmlFiles(QString ip)
         if (ip.startsWith("http"))
             url = QUrl(ip);
 
-        QJsonObject jroot, jfiles;
-        jroot["cn_user"] = ui->editUsername->text();
-        jroot["cn_pass"] = ui->editPass->text();
-        jroot["action"] = QStringLiteral("config");
-        jroot["type"] = QStringLiteral("put");
-
-        jfiles["io.xml"] = readFileContent("io.xml");
-        jfiles["rules.xml"] = readFileContent("rules.xml");
-        //jfiles["local_config.xml"] = readFileContent("local_config.xml");
-
-        jroot["config_files"] = jfiles;
-
-        QJsonDocument jdoc(jroot);
-
-        connect(&networkAccess, &QNetworkAccessManager::finished,
-                this, &DialogSaveOnline::uploadFinished);
-
-        networkAccess.post(QNetworkRequest(url), jdoc.toJson());
+        // A server that was never read, or announced format 1, may have been updated since.
+        if (OnlineConfig::mustProbeBeforePut(Calaos::ListeRoom::Instance().hasDevices(), currentIP))
+            probeServerFormat(url);
+        else
+            putFiles(url);
     }
     else
         reject();
 }
 
+void DialogSaveOnline::putFiles(const QUrl &url)
+{
+    const QByteArray body = OnlineConfig::buildPutRequest(ui->editUsername->text(), ui->editPass->text(),
+                                                          readFileContent("io.xml"), readFileContent("rules.xml"));
+
+    QNetworkReply *reply = networkAccess.post(QNetworkRequest(url), body);
+    connect(reply, &QNetworkReply::finished, this, [this, reply]() { uploadFinished(reply); });
+}
+
+void DialogSaveOnline::probeServerFormat(const QUrl &url)
+{
+    const QByteArray body = OnlineConfig::buildGetRequest(ui->editUsername->text(), ui->editPass->text());
+
+    QNetworkReply *reply = networkAccess.post(QNetworkRequest(url), body);
+    connect(reply, &QNetworkReply::finished, this, [this, reply, url]() {
+        reply->deleteLater();
+
+        if (reply->error() != QNetworkReply::NoError)
+        {
+            fail(tr("Failed to connect!\nPlease check your credentials.\nHTTP error: ") + reply->errorString());
+            return;
+        }
+
+        const OnlineConfig::GetResult res = OnlineConfig::parseGetResponse(reply->readAll());
+        if (!res.ok)
+        {
+            fail(tr("Error when loading config files!"));
+            return;
+        }
+
+        OnlineConfig::rememberServerFormat(currentIP, res.ioFormat);
+
+        if (!OnlineConfig::serverAcceptsDevices(res.ioFormat))
+        {
+            fail(tr("This server is too old to store devices: update calaos_server, "
+                    "or remove the devices from this project."));
+            return;
+        }
+
+        putFiles(url);
+    });
+}
+
+void DialogSaveOnline::fail(const QString &message)
+{
+    QMessageBox::critical(this, tr("Calaos Installer"), message);
+
+    this->setEnabled(true);
+    delete spinner;
+}
+
 void DialogSaveOnline::uploadFinished(QNetworkReply *reply)
 {
+    reply->deleteLater();
+
     if (reply->error() == QNetworkReply::NoError)
     {
-        QByteArray bytes = reply->readAll();
-        QJsonParseError err;
-        QJsonDocument jdoc = QJsonDocument::fromJson(bytes, &err);
-        QVariantMap result = jdoc.object().toVariantMap();
+        const OnlineConfig::PutResult res = OnlineConfig::parsePutResponse(reply->readAll());
 
-        if (err.error == QJsonParseError::NoError &&
-            result.contains("success") &&
-            result["success"].toString() == "true")
+        if (res.ok)
         {
             QMessageBox::information(this, tr("Calaos Installer"),
                                      tr("Configuration successfully uploaded."));
 
             accept();
         }
+        else if (!res.error.isEmpty())
+            fail(tr("The server refused the configuration:\n%1").arg(res.error));
         else
-        {
-            QMessageBox::critical(this, tr("Calaos Installer"),
-                                  tr("Error when loading config files!"));
-
-            this->setEnabled(true);
-            delete spinner;
-        }
+            fail(tr("Error when loading config files!"));
     }
     else
-    {
-        QMessageBox::critical(this, tr("Calaos Installer"), tr("Failed to connect!\nPlease check your credentials.\nHTTP error: ") + reply->errorString());
-
-        this->setEnabled(true);
-        delete spinner;
-    }
-
-    disconnect(&networkAccess, &QNetworkAccessManager::finished,
-               this, &DialogSaveOnline::uploadFinished);
-
-    reply->deleteLater();
+        fail(tr("Failed to connect!\nPlease check your credentials.\nHTTP error: ") + reply->errorString());
 }
 
 void DialogSaveOnline::sslErrors(QNetworkReply *reply, const QList<QSslError> &)

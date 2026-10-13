@@ -36,6 +36,9 @@ private:
     QVector<CalaosAuth> auths;
 
     void uploadXmlFiles(QString ip);
+    void probeServerFormat(const QUrl &url);
+    void putFiles(const QUrl &url);
+    void fail(const QString &message);
     QString readFileContent(QString fileName);
 
 private slots:

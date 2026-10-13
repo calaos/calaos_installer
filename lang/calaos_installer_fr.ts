@@ -3835,6 +3835,18 @@ HTTP error: </translation>
         <translation>La configuration a été envoyé correctement.</translation>
     </message>
     <message>
+        <location filename="../src/dialogsaveonline.cpp" line="132"/>
+        <source>This server is too old to store devices: update calaos_server, or remove the devices from this project.</source>
+        <translation>Ce serveur est trop ancien pour gérer les devices : mettez à jour calaos_server, ou retirez les devices de ce projet.</translation>
+    </message>
+    <message>
+        <location filename="../src/dialogsaveonline.cpp" line="166"/>
+        <source>The server refused the configuration:
+%1</source>
+        <translation>Le serveur a refusé la configuration :
+%1</translation>
+    </message>
+    <message>
         <location filename="../src/dialogsaveonline.cpp" line="149"/>
         <source>Error when loading config files!</source>
         <translation>Erreur lors de l&apos;envoi des fichiers!</translation>
