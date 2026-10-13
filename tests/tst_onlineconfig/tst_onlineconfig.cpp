@@ -42,6 +42,7 @@ private slots:
     void deviceIdsParsing();
     void lostDevices();
     void getRefusalKeepsError();
+    void lostIdlessDevices();
 };
 
 void TstOnlineConfig::putDeclaresFormat2()
@@ -178,7 +179,7 @@ void TstOnlineConfig::deviceIdsParsing()
     QCOMPARE(deviceIds(io({"a", "b"})), QStringList({"a", "b"}));
     QVERIFY(deviceIds(io({})).isEmpty());
     QVERIFY(deviceIds("not xml").isEmpty());
-    QVERIFY(deviceIds("<calaos:home><calaos:device type=\"x\"/></calaos:home>").isEmpty());
+    QVERIFY(deviceIds("<calaos:home xmlns:calaos=\"http://www.calaos.fr\"><calaos:device type=\"x\"/></calaos:home>").isEmpty());
 }
 
 void TstOnlineConfig::lostDevices()
@@ -195,6 +196,21 @@ void TstOnlineConfig::getRefusalKeepsError()
     const GetResult r = parseGetResponse("{\"success\":\"false\",\"error\":\"bad credentials\"}");
     QVERIFY(!r.ok);
     QCOMPARE(r.error, QString("bad credentials"));
+}
+
+void TstOnlineConfig::lostIdlessDevices()
+{
+    const QString one = "<calaos:home xmlns:calaos=\"http://www.calaos.fr\"><calaos:device type=\"x\"/></calaos:home>";
+    const QString two = "<calaos:home xmlns:calaos=\"http://www.calaos.fr\"><calaos:device type=\"x\"/><calaos:device type=\"y\"/></calaos:home>";
+    const QString none = "<calaos:home xmlns:calaos=\"http://www.calaos.fr\"/>";
+
+    QCOMPARE(devicesLostByPut(one, none).size(), 1);
+    QCOMPARE(devicesLostByPut(two, one).size(), 1);
+    QCOMPARE(devicesLostByPut(two, none).size(), 2);
+    QVERIFY(devicesLostByPut(one, one).isEmpty());
+    QVERIFY(devicesLostByPut(one, two).isEmpty());
+    QVERIFY(devicesLostByPut(none, one).isEmpty());
+    QCOMPARE(devicesLostByPut(one, io({"a"})).size(), 1);
 }
 
 QTEST_APPLESS_MAIN(TstOnlineConfig)

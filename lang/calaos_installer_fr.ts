@@ -389,6 +389,14 @@ p, li { white-space: pre-wrap; }
     </message>
 </context>
 <context>
+    <name>OnlineConfig</name>
+    <message>
+        <location filename="../src/OnlineConfig.cpp" line="91"/>
+        <source>(device without id)</source>
+        <translation>(device sans identifiant)</translation>
+    </message>
+</context>
+<context>
     <name>DialogDeleteImpact</name>
     <message>
         <location filename="../src/DialogDeleteImpact.cpp" line="38"/>
