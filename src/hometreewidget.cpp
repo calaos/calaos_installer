@@ -32,10 +32,19 @@ HomeTreeWidget::HomeTreeWidget(QWidget *parent):
     setDragEnabled(false);
 }
 
+QMimeData *HomeTreeWidget::ioMimeData(IOBase *io)
+{
+    //text/uri-list is the only format ConditionTreeWidget and ActionTreeWidget accept.
+    QMimeData *mimeData = new QMimeData;
+    mimeData->setUrls({ QUrl(QString::fromUtf8(io->get_param("id").c_str())) });
+    return mimeData;
+}
+
 bool HomeTreeWidget::dropIO(IOBase *io, const QPoint &pos)
 {
     QTreeWidgetItemRoom *room = roomItemOf(itemAt(pos));
-    if (!io || !room || !moveIOInHome(this, io, room->getRoom()))
+    //An owned IO is written inside its device: it moves with it, never alone.
+    if (!io || io->getOwnerDevice() || !room || !moveIOInHome(this, io, room->getRoom()))
         return false;
 
     emit ioMoved();
@@ -60,9 +69,12 @@ void HomeTreeWidget::dragEnterEvent(QDragEnterEvent *event)
 
 void HomeTreeWidget::dragMoveEvent(QDragMoveEvent *event)
 {
+    //Keeps the view's auto-scroll and hover going; nothing is moved before the drop.
+    QTreeWidget::dragMoveEvent(event);
+
     QTreeWidgetItemRoom *room = roomItemOf(itemAt(dropPos(event)));
     const int from = m_dragged ? ListeRoom::Instance().searchIO(m_dragged) : -1;
-    if (room && from >= 0 && ListeRoom::Instance().get_room(from) != room->getRoom())
+    if (room && from >= 0 && !m_dragged->getOwnerDevice() && ListeRoom::Instance().get_room(from) != room->getRoom())
         event->acceptProposedAction();
     else
         event->ignore();
@@ -78,8 +90,7 @@ void HomeTreeWidget::dropEvent(QDropEvent *event)
 
 IOBase *HomeTreeWidget::dragCandidate() const
 {
-    IOBase *io = ioOfItem(currentItem());
-    return io && !io->getOwnerDevice() ? io : nullptr;
+    return ioOfItem(currentItem());
 }
 
 void HomeTreeWidget::mouseMoveEvent(QMouseEvent *event)
@@ -98,13 +109,10 @@ void HomeTreeWidget::mouseMoveEvent(QMouseEvent *event)
     if (!io)
         return;
 
-    QMimeData *mimeData = new QMimeData;
-    mimeData->setText(QString::fromUtf8(io->get_param("id").c_str()));
-
     QDrag *drag = new QDrag(this);
-    drag->setMimeData(mimeData);
+    drag->setMimeData(ioMimeData(io));
 
     m_dragged = io;
-    drag->exec(Qt::MoveAction);
+    drag->exec(Qt::CopyAction | Qt::MoveAction);
     m_dragged = nullptr;
 }

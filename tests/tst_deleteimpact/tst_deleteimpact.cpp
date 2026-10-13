@@ -133,6 +133,106 @@ QStringList ruleNames()
     return l;
 }
 
+QSet<QString> roomIds(Room *room)
+{
+    QSet<QString> l;
+    for (int i = 0;i < room->get_size_in();i++)
+        l << u(room->get_input(i)->get_param("id"));
+    for (int i = 0;i < room->get_size_out();i++)
+        l << u(room->get_output(i)->get_param("id"));
+    return l;
+}
+
+// The model as the announcement is about to be checked against it.
+struct World
+{
+    QSet<QString> ios;
+    QMap<QString, int> scriptTriggers; // by rule name
+    QStringList rules;
+};
+
+World snap()
+{
+    World w;
+    ListeRoom &lr = ListeRoom::Instance();
+    for (int r = 0;r < lr.size();r++)
+    {
+        Room *room = lr.get_room(r);
+        for (int i = 0;i < room->get_size_in();i++)
+            w.ios << u(room->get_input(i)->get_param("id"));
+        for (int i = 0;i < room->get_size_out();i++)
+            w.ios << u(room->get_output(i)->get_param("id"));
+    }
+    for (int i = 0;i < ListeRule::Instance().size();i++)
+    {
+        Rule *rule = ListeRule::Instance().get_rule(i);
+        int n = 0;
+        for (int c = 0;c < rule->get_size_conds();c++)
+            n += rule->get_condition(c)->getScriptInputSize();
+        w.scriptTriggers[u(rule->get_name())] = n;
+        w.rules << u(rule->get_name());
+    }
+    w.rules.sort();
+    return w;
+}
+
+// Whether the server could still start this rule by itself.
+bool canRun(Rule *rule)
+{
+    for (int c = 0;c < rule->get_size_conds();c++)
+    {
+        Condition *cond = rule->get_condition(c);
+        if (cond->getType() == COND_SCRIPT)
+        {
+            if (cond->getScriptInputSize() > 0)
+                return true;
+        }
+        else if (cond->isTrigger() && (cond->getType() == COND_START || cond->get_size() > 0 || cond->getOutput()))
+            return true;
+    }
+    return false;
+}
+
+// Names and ids taken from an impact before the deletion frees what it points at.
+struct Announcement
+{
+    QSet<QString> ios;
+    QStringList removed, inert;
+
+    explicit Announcement(const DeletionImpact &imp)
+    {
+        for (const QString &id: ids(imp.ios))
+            ios << id;
+        removed = names(imp.removedRules);
+        inert = names(imp.inertRules);
+    }
+
+    // `before` is the world the impact was computed in.
+    void verify(const World &before) const
+    {
+        const World after = snap();
+
+        QCOMPARE(ios, before.ios - after.ios);
+
+        QStringList actualRemoved = before.rules;
+        for (const QString &n: after.rules)
+            actualRemoved.removeOne(n);
+        actualRemoved.sort();
+        QCOMPARE(removed, actualRemoved);
+
+        QStringList actualInert;
+        for (int i = 0;i < ListeRule::Instance().size();i++)
+        {
+            Rule *rule = ListeRule::Instance().get_rule(i);
+            const QString n = u(rule->get_name());
+            if (before.scriptTriggers.value(n) > 0 && !canRun(rule))
+                actualInert << n;
+        }
+        actualInert.sort();
+        QCOMPARE(inert, actualInert);
+    }
+};
+
 }
 
 class tst_DeleteImpact: public QObject
@@ -179,7 +279,9 @@ private slots:
     void aDeviceDoesNotBreakItsOwnLinks();
     void deletingAnOwnedIoAloneBreaksItsDevicesLink();
     void roomImpactIsTheUnionOfItsIos();
+    void scriptRuleWhoseOtherConditionsDoNotTriggerIsInert();
     void impactIsWhatTheDeletionDoes();
+    void roomImpactIsWhatRemovingTheRoomDoes();
     void impactOfSeveralIosDoesNotCountTwice();
 };
 
@@ -386,7 +488,9 @@ void tst_DeleteImpact::roomImpactIsTheUnionOfItsIos()
     Room *a = ListeRoom::Instance().get_room(0);
     DeletionImpact imp = deletionImpactOfRoom(a);
 
-    QCOMPARE(imp.ios.size(), size_t(9)); // five free IOs (the camera counted once) + device and its three
+    const QStringList listed = ids(imp.ios);
+    QCOMPARE(QSet<QString>(listed.begin(), listed.end()), roomIds(a));
+    QCOMPARE(int(imp.ios.size()), roomIds(a).size()); // each IO once, though some are inputs and outputs
     QCOMPARE(names(imp.removedRules), QStringList({ "in room A" }));
 
     // Room B's device keeps links into room A, and into the device being deleted.
@@ -415,20 +519,70 @@ void tst_DeleteImpact::impactIsWhatTheDeletionDoes()
     onInput("untouched", io("in_c"));
 
     Device *dev = ListeRoom::Instance().get_device("dev");
+    const World before = snap();
     DeletionImpact imp = deletionImpact(dev);
-    const QStringList removed = names(imp.removedRules);
-    QStringList expectedAfter = ruleNames();
-    for (const QString &n: removed)
-        expectedAfter.removeOne(n);
+    const Announcement announced(imp);
+    QCOMPARE(imp.orphanVariables.size(), size_t(1));
+    QCOMPARE(announced.inert, QStringList({ "inert" }));
 
     QVERIFY(ListeRoom::Instance().deleteIOInput(dev));
 
-    QCOMPARE(ruleNames(), expectedAfter);
-    QVERIFY(ListeRule::Instance().searchRule("t", "inert"));
-    QCOMPARE(ListeRule::Instance().searchRule("t", "inert")->get_condition(0)->getScriptInputSize(), 0);
-    QCOMPARE(ListeRule::Instance().searchRule("t", "alive")->get_condition(0)->getScriptInputSize(), 1);
-    QCOMPARE(imp.orphanVariables.size(), size_t(1));
+    announced.verify(before);
     QVERIFY(ListeRoom::isPendingIOId("dev_in"));
+}
+
+void tst_DeleteImpact::roomImpactIsWhatRemovingTheRoomDoes()
+{
+    ListeRoom &lr = ListeRoom::Instance();
+    onInput("on free", io("in_b"));
+    onInput("on owned", io("dev_in"));
+    Rule *act = onInput("kept: other room", io("in_c"));
+    addAction(act, io("in_c"));
+    onScript("inert: all triggers in the room", { io("in_a"), io("dev_target") });
+    onScript("alive: trigger elsewhere", { io("in_a"), io("in_c") });
+    Rule *vars = onInput("orphan", io("in_c"));
+    vars->get_condition(0)->get_params_var().Add("v", "int_bool");
+
+    Room *a = lr.get_room(0);
+    const World before = snap();
+    DeletionImpact imp = deletionImpactOfRoom(a);
+    const Announcement announced(imp);
+    QCOMPARE(announced.inert, QStringList({ "inert: all triggers in the room" }));
+    QCOMPARE(imp.orphanVariables.size(), size_t(1));
+
+    lr.Remove(a);
+
+    announced.verify(before);
+    QVERIFY(ListeRoom::isPendingIOId("int_bool"));
+}
+
+// A condition saved with trigger="false" never starts the rule: it does not keep a script rule alive.
+void tst_DeleteImpact::scriptRuleWhoseOtherConditionsDoNotTriggerIsInert()
+{
+    Rule *quietStd = onScript("quiet std", { io("in_b") });
+    Condition *std = new Condition(COND_STD);
+    std->Add(io("in_c"));
+    std->setTrigger(false);
+    quietStd->AddCondition(std);
+
+    Rule *quietOut = onScript("quiet output", { io("in_b") });
+    Condition *oc = new Condition(COND_OUTPUT);
+    oc->setOutput(io("out_light"));
+    oc->setTrigger(false);
+    quietOut->AddCondition(oc);
+
+    Rule *loud = onScript("loud std", { io("in_b") });
+    Condition *std2 = new Condition(COND_STD);
+    std2->Add(io("in_c"));
+    loud->AddCondition(std2);
+
+    const World before = snap();
+    DeletionImpact imp = deletionImpact(io("in_b"));
+    const Announcement announced(imp);
+    QCOMPARE(announced.inert, QStringList({ "quiet output", "quiet std" }));
+
+    QVERIFY(ListeRoom::Instance().deleteIOInput(io("in_b")));
+    announced.verify(before);
 }
 
 void tst_DeleteImpact::impactOfSeveralIosDoesNotCountTwice()

@@ -150,11 +150,6 @@ bool ListeRule::ruleHolds(Rule *rule, IOBase *io)
     return ruleUses(rule, io);
 }
 //-----------------------------------------------------------------------------
-bool ListeRule::scriptTriggeredBy(Rule *rule, IOBase *io)
-{
-    return scriptUses(rule, io);
-}
-//-----------------------------------------------------------------------------
 std::vector<std::string> ListeRule::variablesNaming(Rule *rule, const std::set<std::string> &names)
 {
     std::set<string> found;

@@ -63,7 +63,6 @@ public:
     //Same matching as RemoveRulesUsing, for reading what a deletion would do.
     //ruleHolds leaves out script triggers: losing one never removes the rule.
     static bool ruleHolds(Rule *rule, IOBase *io);
-    static bool scriptTriggeredBy(Rule *rule, IOBase *io);
     //Variable ids of the rule (sorted, unique) that are one of names.
     static std::vector<std::string> variablesNaming(Rule *rule, const std::set<std::string> &names);
 
