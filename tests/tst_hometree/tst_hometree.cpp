@@ -157,6 +157,17 @@ struct ProbeTree: public HomeTreeWidget
     using HomeTreeWidget::dragMoveEvent;
     using HomeTreeWidget::dropEvent;
     using HomeTreeWidget::dragCandidate;
+    QSet<int> seen;   // timers that ticked while only the hover was going on
+    int ticks = 0;    // ticks of those timers once `seen` is frozen
+    bool frozen = false;
+    void timerEvent(QTimerEvent *e) override
+    {
+        if (!frozen)
+            seen << e->timerId();
+        else if (seen.contains(e->timerId()))
+            ticks++;
+        HomeTreeWidget::timerEvent(e);
+    }
     void setDragged(IOBase *io) { m_dragged = io; }
 };
 
@@ -235,6 +246,8 @@ private slots:
     void dialogForARoomListsEverythingItDestroys();
     void dialogForAnIoNothingUses();
     void dialogWarnsAboutLinksAndScripts();
+void dialogListsAnAttachedCamera();
+void dropStopsTheAutoScroll();
     void dialogCancelIsTheDefault();
     void deviceInfoShowsParamsLinksAndOwnedIos();
 };
@@ -659,6 +672,55 @@ void tst_HomeTree::dialogWarnsAboutLinksAndScripts()
     }));
     QCOMPARE(entries(tree->topLevelItem(1)), QStringList({ "Salon AC (dev): link \"current_temp\" to in_a" }));
     QVERIFY(!dlg.findChild<QLabel *>("lead")->text().startsWith("No rule"));
+}
+
+void tst_HomeTree::dialogListsAnAttachedCamera()
+{
+    Params cp;
+    cp.Add("iid", "cam_i");
+    cp.Add("oid", "cam_o");
+    cp.Add("type", "planet");
+    IOBase *camera = ListeRoom::Instance().createCamera(cp, room(2));
+    QVERIFY(camera);
+    Rule *r = ruleOn("mail me", io("in_a"));
+    Action *mail = new Action(ACTION_MAIL);
+    mail->setMailAttachment("cam_i_cam_o");
+    r->AddAction(mail);
+
+    DialogDeleteImpact dlg("camera", deletionImpact(camera), DialogDeleteImpact::ListNone);
+
+    QTreeWidget *tree = dlg.findChild<QTreeWidget *>("impactTree");
+    QCOMPARE(sectionTitles(tree), QStringList({ "Rules still naming a deleted variable (1)" }));
+    QCOMPARE(entries(tree->topLevelItem(0)), QStringList({ "mail me (t), attached camera \"cam_i_cam_o\"" }));
+}
+
+// The base dropEvent, which stops the auto-scroll started while hovering near the
+// edge, is not called: without stopAutoScroll the timer outlives the drop.
+void tst_HomeTree::dropStopsTheAutoScroll()
+{
+    ProbeTree tree;
+    populate(&tree);
+    tree.resize(300, 90);
+    tree.show();
+    QVERIFY(QTest::qWaitForWindowExposed(&tree));
+    tree.setDragged(io("out_light"));
+
+    QMimeData mime;
+    const QPoint nearEdge(20, tree.viewport()->height() - 2);
+    QDragMoveEvent hover(nearEdge, Qt::MoveAction, &mime, Qt::LeftButton, Qt::NoModifier);
+    tree.dragMoveEvent(&hover);
+
+    QTest::qWait(300);
+    QVERIFY2(!tree.seen.isEmpty(), "hovering near the edge should start the auto-scroll");
+    tree.frozen = true;
+
+    const QPoint onC = tree.visualItemRect(tree.topLevelItem(2)).center();
+    QDropEvent drop(onC, Qt::MoveAction, &mime, Qt::LeftButton, Qt::NoModifier);
+    tree.dropEvent(&drop);
+
+    tree.ticks = 0;
+    QTest::qWait(300);
+    QCOMPARE(tree.ticks, 0);
 }
 
 void tst_HomeTree::dialogCancelIsTheDefault()

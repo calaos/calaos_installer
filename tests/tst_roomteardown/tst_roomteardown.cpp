@@ -180,6 +180,7 @@ private slots:
     void removingAnUnknownScriptInputChangesNothing();
     void orphanVariableIdsAreKeptAndReserved();
     void orphanVariableReservedUnderItsLegacyName();
+void mailAndPushAttachmentsOfADeletedCameraAreReserved();
     void emptyIdsNeverMatch();
     void removeFromTheListDestroysTheRoomsIOs();
     void clearDestroysTheRoomsIOs();
@@ -372,8 +373,8 @@ void tst_RoomTeardown::scriptConditionLosesOnlyTheDeletedTrigger()
     QCOMPARE(c->getScript(), std::string("return true"));
 }
 
-// The rule and its Lua are kept so the user can attach a new trigger, but a
-// script condition with none is never evaluated by the server: the rule is inert.
+// The rule and its Lua are kept so the user can attach a new trigger; the server
+// never runs a script condition that has none (the delete dialog warns about it).
 void tst_RoomTeardown::scriptConditionWithoutTriggerKeepsItsRule()
 {
     ListeRule &rules = ListeRule::Instance();
@@ -455,6 +456,40 @@ void tst_RoomTeardown::orphanVariableReservedUnderItsLegacyName()
 
     QCOMPARE(rules.size(), 1);
     QVERIFY(ListeRoom::isPendingIOId("cam_in"));
+}
+
+// The attachment is a camera id: a new camera must not silently take over a mail that was
+// meant for the deleted one.
+void tst_RoomTeardown::mailAndPushAttachmentsOfADeletedCameraAreReserved()
+{
+    ListeRule &rules = ListeRule::Instance();
+    ProbeIO in(idParams("in"), IOBase::IO_INPUT);
+    ProbeIO camera(idParams("cam", "cam_in", "cam_out"), IOBase::IO_BOTH);
+    ProbeIO other(idParams("other_cam", "oc_in", "oc_out"), IOBase::IO_BOTH);
+
+    Rule *r = ruleOnInput("mails", &in);
+    Action *mail = new Action(ACTION_MAIL);
+    mail->setMailAttachment("cam");
+    r->AddAction(mail);
+    Action *push = new Action(ACTION_PUSH);
+    push->setMailAttachment("cam_out");
+    r->AddAction(push);
+    // Only mail and push actions attach anything.
+    Action *std = new Action(ACTION_STD);
+    std->setMailAttachment("oc_in");
+    r->AddAction(std);
+    rules.Add(r);
+
+    rules.RemoveRulesUsing(&other);
+    QVERIFY(!ListeRoom::isPendingIOId("oc_in"));
+
+    rules.RemoveRulesUsing(&camera);
+
+    QCOMPARE(rules.size(), 1);
+    QCOMPARE(mail->getMailAttachment(), std::string("cam"));
+    QVERIFY(ListeRoom::isPendingIOId("cam"));
+    QVERIFY(ListeRoom::isPendingIOId("cam_out"));
+    QVERIFY(!ListeRoom::isPendingIOId("cam_in"));
 }
 
 // An IO without id is not any other IO without id.

@@ -272,6 +272,8 @@ private slots:
     void scriptRuleAlreadyWithoutTriggerIsNotBlamed();
     void scriptRuleAlsoActingOnTheIoIsRemovedNotInert();
     void orphanVariablesAreListedPerRule();
+void cameraAttachmentsAreListedAsOrphans();
+void inertRuleSurvivesSaveAndReload();
     void removedRuleIsNotAlsoAnOrphan();
     void deviceImpactCoversItsOwnedIos();
     void linksOfOtherDevicesAreBroken_data();
@@ -400,6 +402,80 @@ void tst_DeleteImpact::orphanVariablesAreListedPerRule()
     DeletionImpact cam = deletionImpact(io("cam_i_cam_o"));
     QCOMPARE(cam.orphanVariables.size(), size_t(1));
     QCOMPARE(u(cam.orphanVariables[0].id), QString("cam_i"));
+}
+
+void tst_DeleteImpact::cameraAttachmentsAreListedAsOrphans()
+{
+    Rule *r = onInput("mails", io("in_b"));
+    Action *mail = new Action(ACTION_MAIL);
+    mail->setMailAttachment("cam_i_cam_o");
+    r->AddAction(mail);
+    Action *push = new Action(ACTION_PUSH);
+    push->setMailAttachment("cam_o");
+    r->AddAction(push);
+    Action *elsewhere = new Action(ACTION_MAIL);
+    elsewhere->setMailAttachment("other_cam");
+    r->AddAction(elsewhere);
+
+    DeletionImpact imp = deletionImpact(io("cam_i_cam_o"));
+
+    QCOMPARE(imp.orphanVariables.size(), size_t(2));
+    QStringList got;
+    for (const OrphanVariable &v: imp.orphanVariables)
+    {
+        QCOMPARE(v.rule, r);
+        QVERIFY(v.attachment);
+        got << u(v.id);
+    }
+    got.sort();
+    QCOMPARE(got, QStringList({ "cam_i_cam_o", "cam_o" }));
+    QVERIFY(imp.removedRules.empty());
+
+    QVERIFY(deletionImpact(io("in_a")).orphanVariables.empty());
+}
+
+// The reloaded rule is the one the user saw warned about: kept with its Lua, still
+// without a trigger, and still never run.
+void tst_DeleteImpact::inertRuleSurvivesSaveAndReload()
+{
+    Rule *r = onScript("inert", { io("in_b") });
+    addAction(r, io("out_light"));
+    onScript("alive", { io("in_b"), io("in_c") });
+
+    const DeletionImpact imp = deletionImpact(io("in_b"));
+    QCOMPARE(names(imp.inertRules), QStringList({ "inert" }));
+    QVERIFY(ListeRoom::Instance().deleteIOInput(io("in_b")));
+
+    QString ioFile = m_workDir.filePath("saved_io.xml");
+    QString rulesFile = m_workDir.filePath("saved_rules.xml");
+    QVERIFY(ProjectManager::saveIOsToFile(ioFile));
+    QVERIFY(ProjectManager::saveRulesToFile(rulesFile));
+
+    ListeRule::Instance().clear();
+    ListeRoom::Instance().clear();
+    QVERIFY(ProjectManager::loadIOsFromFile(ioFile));
+    QVERIFY(ProjectManager::loadRulesFromFile(rulesFile));
+
+    QCOMPARE(ruleNames(), QStringList({ "alive", "inert" }));
+    Rule *inert = ListeRule::Instance().searchRule("t", "inert");
+    QVERIFY(inert);
+    QCOMPARE(inert->get_size_conds(), 1);
+    Condition *c = inert->get_condition(0);
+    QCOMPARE(c->getType(), int(COND_SCRIPT));
+    QCOMPARE(c->getScriptInputSize(), 0);
+    QCOMPARE(c->getScript(), std::string("return true"));
+    QCOMPARE(inert->get_size_actions(), 1);
+    QVERIFY(!canRun(inert));
+
+    Rule *alive = ListeRule::Instance().searchRule("t", "alive");
+    QVERIFY(alive);
+    QCOMPARE(alive->get_condition(0)->getScriptInputSize(), 1);
+    QVERIFY(canRun(alive));
+
+    // Already without trigger: later deletions do not blame it.
+    QVERIFY(deletionImpact(io("out_light")).inertRules.empty());
+    QVERIFY(deletionImpact(io("in_a")).inertRules.empty());
+    QCOMPARE(names(deletionImpact(io("in_c")).inertRules), QStringList({ "alive" }));
 }
 
 void tst_DeleteImpact::removedRuleIsNotAlsoAnOrphan()
