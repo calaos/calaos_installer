@@ -215,8 +215,6 @@ void WidgetIOProperties::createIOProperties()
             UiObject uiObject;
             uiObject.type = UiObjectType::SpinBox;
             uiObject.spinBox = w;
-            uiObject.title = title;
-            uiObject.docRange = docRange;
             uiObjectMap[prop] = uiObject;
 
             connect(w, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, [=]()
@@ -287,8 +285,6 @@ void WidgetIOProperties::createIOProperties()
             UiObject uiObject;
             uiObject.type = UiObjectType::DoubleSpinBox;
             uiObject.doubleSpinBox = w;
-            uiObject.title = title;
-            uiObject.docRange = docRange;
             uiObjectMap[prop] = uiObject;
 
             connect(w, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), this, [=]()

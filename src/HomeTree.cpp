@@ -39,7 +39,7 @@ void markUnsupportedByServer(QTreeWidgetItem *item)
     if (!io || io->isSupportedByServer())
         return;
 
-    item->setData(0, Qt::DecorationRole, QIcon(":/img/icon_unknown.png"));
+    item->setData(0, Qt::DecorationRole, QIcon(":/img/icon_unkown.png"));
     item->setData(0, Qt::ForegroundRole, QColor(Qt::gray));
 
     const QString note = QCoreApplication::translate("HomeTree", "Not supported by the server: kept in the file but it will not run");

@@ -1,6 +1,7 @@
 #include <QtTest>
 #include <QApplication>
 #include <QDir>
+#include <QIcon>
 #include <QDirIterator>
 #include <QJsonDocument>
 #include <QJsonObject>
@@ -176,7 +177,7 @@ private slots:
         QStringList dead;
         for (const QString &dir: { QStringLiteral(REPO_ROOT "/src"), QStringLiteral(REPO_ROOT "/Calaos") })
         {
-            QDirIterator it(dir, { "*.cpp" }, QDir::Files);
+            QDirIterator it(dir, { "*.cpp" }, QDir::Files, QDirIterator::Subdirectories);
             while (it.hasNext())
             {
                 const QString path = it.next();
@@ -203,13 +204,15 @@ private slots:
         QVERIFY(load(R"(
 <calaos:room name="A" type="salon" hits="1">
   <calaos:input id="in_ms" type="MySensorsInputTemp" name="ms temp" node_id="3" sensor_id="1" gateway="serial"/>
-  <calaos:output id="out_g" type="Gadspot" name="cam" host="10.0.0.2"/>
+  <calaos:camera id="out_g" type="Gadspot" name="cam" host="10.0.0.2"/>
   <calaos:input id="in_ok" type="MqttInputTemp" name="mqtt temp" topic_sub="a/b"/>
 </calaos:room>)"));
 
         Room *room = ListeRoom::Instance().get_room(0);
         QVERIFY(room);
-        QCOMPARE(int(room->get_size_in() + room->get_size_out()), 3);
+        QVERIFY(ListeRoom::Instance().get_input("in_ms"));
+        QVERIFY(ListeRoom::Instance().get_output("out_g"));
+        QVERIFY(ListeRoom::Instance().get_input("in_ok"));
 
         QString file = m_workDir.filePath("saved.xml");
         QVERIFY(ProjectManager::saveIOsToFile(file));
@@ -247,6 +250,9 @@ private slots:
             QCOMPARE(tip.contains("Not supported by the server"), legacy);
             QCOMPARE(item->data(0, Qt::StatusTipRole).toString() == tip, legacy);
             QCOMPARE(item->data(0, Qt::ForegroundRole).isValid(), legacy);
+            // The resource must exist, or the icon silently vanishes.
+            if (legacy)
+                QVERIFY(!item->data(0, Qt::DecorationRole).value<QIcon>().isNull());
             marked += legacy;
         }
         QCOMPARE(marked, 1);

@@ -60,8 +60,6 @@ images to USB drives and SD cards.
 | Audio / AV | Squeezebox, Roon, A/V receivers |
 | Generic | HTTP/Web I/O, Wake-on-LAN |
 
-Legacy support for xPL, Zibase and X10 is still present in the codebase.
-
 ## Installing
 
 Prebuilt Windows installers, macOS application bundles and Flatpak bundles are published on
