@@ -180,7 +180,7 @@ private slots:
     void removingAnUnknownScriptInputChangesNothing();
     void orphanVariableIdsAreKeptAndReserved();
     void orphanVariableReservedUnderItsLegacyName();
-void mailAndPushAttachmentsOfADeletedCameraAreReserved();
+    void mailAndPushAttachmentsOfADeletedCameraAreReserved();
     void emptyIdsNeverMatch();
     void removeFromTheListDestroysTheRoomsIOs();
     void clearDestroysTheRoomsIOs();
