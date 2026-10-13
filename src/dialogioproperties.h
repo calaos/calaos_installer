@@ -18,6 +18,7 @@ public:
     DialogIOProperties(IOBase *io, bool editable = true, QWidget *parent = 0);
     virtual ~DialogIOProperties();
 
+    QString validationError() { return ioWidget->validationError(); }
     Params &getParams() { return ioWidget->getParams(); }
 
 private:

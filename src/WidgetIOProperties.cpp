@@ -252,6 +252,7 @@ void WidgetIOProperties::createIOProperties()
             uiObject.type = UiObjectType::LineEdit;
             uiObject.lineEdit = w;
             uiObjectMap[prop] = uiObject;
+            optionalNumbers.push_back(prop);
 
             connect(w, &QLineEdit::textChanged, this, [=]()
             {
@@ -394,6 +395,25 @@ void WidgetIOProperties::createIOProperties()
         else
             rowOption++;
     }
+}
+
+QString WidgetIOProperties::validationError()
+{
+    for (const string &prop: optionalNumbers)
+    {
+        QLineEdit *e = uiObjectMap[prop].lineEdit;
+        if (e->isEnabled() && !e->text().trimmed().isEmpty() && !e->hasAcceptableInput())
+            return tr("%1 must be a plain number.").arg(QString::fromStdString(prop));
+    }
+
+    auto lo = uiObjectMap.find("value_min"), hi = uiObjectMap.find("value_max");
+    if (lo != uiObjectMap.end() && hi != uiObjectMap.end() &&
+        lo->second.lineEdit && hi->second.lineEdit &&
+        !lo->second.lineEdit->text().isEmpty() && !hi->second.lineEdit->text().isEmpty() &&
+        lo->second.lineEdit->text().toDouble() > hi->second.lineEdit->text().toDouble())
+        return tr("The minimum value cannot be greater than the maximum value.");
+
+    return QString();
 }
 
 void WidgetIOProperties::setValues(Params& params)
