@@ -2,6 +2,7 @@
 #include "ui_DialogOpenOnline.h"
 
 #include "ConfigOptions.h"
+#include "OnlineConfig.h"
 #include <Utils.h>
 #include <QJsonDocument>
 #include <QMessageBox>
@@ -84,17 +85,12 @@ void DialogOpenOnline::loadXmlFiles(QString ip)
     if (ip.startsWith("http"))
         url = QUrl(ip);
 
-    QJsonObject jroot;
-    jroot["cn_user"] = ui->editUsername->text();
-    jroot["cn_pass"] = ui->editPass->text();
-    jroot["action"] = QStringLiteral("config");
-    jroot["type"] = QStringLiteral("get");
-    QJsonDocument jdoc(jroot);
+    const QByteArray body = OnlineConfig::buildGetRequest(ui->editUsername->text(), ui->editPass->text());
 
     connect(&networkAccess, &QNetworkAccessManager::finished,
             this, &DialogOpenOnline::downloadFinishedFiles);
 
-    networkAccess.post(QNetworkRequest(url), jdoc.toJson());
+    networkAccess.post(QNetworkRequest(url), body);
 }
 
 void DialogOpenOnline::saveXMLFile(QString filename, QString data)
@@ -114,22 +110,16 @@ void DialogOpenOnline::downloadFinishedFiles(QNetworkReply *reply)
     if (reply->error() == QNetworkReply::NoError)
     {
         QByteArray bytes = reply->readAll();
-        QJsonParseError err;
-        QJsonDocument jdoc = QJsonDocument::fromJson(bytes, &err);
-        QVariantMap jroot = jdoc.object().toVariantMap();
+        const OnlineConfig::GetResult res = OnlineConfig::parseGetResponse(bytes);
 
-        if (err.error == QJsonParseError::NoError &&
-            jroot["success"].toString() == "true")
+        if (res.ok)
         {
-            QVariantMap files = jroot["config_files"].toMap();
+            OnlineConfig::rememberServerFormat(currentIP, res.ioFormat);
 
-            if (files.contains("io.xml") &&
-                files.contains("rules.xml")/* &&
-                files.contains("local_config.xml")*/)
+            if (res.hasFiles)
             {
-                saveXMLFile("io.xml", files["io.xml"].toString());
-                saveXMLFile("rules.xml", files["rules.xml"].toString());
-                //saveXMLFile("local_config.xml", files["local_config.xml"].toString());
+                saveXMLFile("io.xml", res.ioXml);
+                saveXMLFile("rules.xml", res.rulesXml);
 
                 accept();
             }

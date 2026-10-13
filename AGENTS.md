@@ -74,6 +74,7 @@ QT_QPA_PLATFORM=offscreen ./tst_projectmanager/tst_projectmanager -v2 ioRoundTri
   links, computed before deleting); `tests/tst_hometree/` the room -> device -> owned IOs
   tree (`src/HomeTree.*`), cascade delete without double delete, drag and drop onto a room and
   the delete confirmation dialog.
+- `tests/tst_onlineconfig/` covers the `config get`/`put` JSON helper (`src/OnlineConfig.*`): `io_format` declared in every put, announced format parsing, the server's refusal text, the per-host format memory behind the devices gate in `DialogSaveOnline`.
 - `tests/tst_servertypes/` pins the IO types the installer may create to the ones the server
   registers (`server_io_types.txt`, regenerate it with the command in its header when the
   server adds or drops a type). A type the server dropped moves to a `REGISTER_LEGACY_*` line
