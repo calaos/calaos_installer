@@ -30,6 +30,7 @@
 #include <IOBase.h>
 #include <IOFactory.h>
 #include <Device.h>
+#include <OnlineConfig.h>
 
 //-----------------------------------------------------------------------------
 using namespace std;
@@ -117,7 +118,7 @@ public:
     bool hasDevices();
 
     //Newest io.xml format this installer reads and writes in full.
-    static const int IO_FORMAT_SUPPORTED = 2;
+    static const int IO_FORMAT_SUPPORTED = OnlineConfig::kPutIoFormat;
 
     //A file in a newer format may hold data this model cannot represent:
     //it is opened read-only rather than silently stripped on save.

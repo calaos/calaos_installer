@@ -123,11 +123,20 @@ void DialogOpenOnline::downloadFinishedFiles(QNetworkReply *reply)
 
                 accept();
             }
+            else
+            {
+                QMessageBox::critical(this, tr("Calaos Installer"),
+                                      tr("The server answer has no io.xml or rules.xml."));
+
+                this->setEnabled(true);
+                delete spinner;
+            }
         }
         else
         {
             QMessageBox::critical(this, tr("Calaos Installer"),
-                                  tr("Failed to load config files!"));
+                                  res.error.isEmpty() ? tr("Failed to load config files!")
+                                                      : tr("The server refused the request:\n%1").arg(res.error));
 
             this->setEnabled(true);
             delete spinner;

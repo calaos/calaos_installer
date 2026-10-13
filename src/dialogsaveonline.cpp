@@ -4,7 +4,6 @@
 #include "ConfigOptions.h"
 #include <Utils.h>
 #include "OnlineConfig.h"
-#include <ListeRoom.h>
 #include <QMessageBox>
 
 DialogSaveOnline::DialogSaveOnline(QString temp, QWidget *parent):
@@ -103,11 +102,9 @@ void DialogSaveOnline::uploadXmlFiles(QString ip)
         if (ip.startsWith("http"))
             url = QUrl(ip);
 
-        // A server that was never read, or announced format 1, may have been updated since.
-        if (OnlineConfig::mustProbeBeforePut(Calaos::ListeRoom::Instance().hasDevices(), currentIP))
-            probeServerFormat(url);
-        else
-            putFiles(url);
+        // Always read the server first: its devices may differ from what this project was loaded
+        // with, and a put declaring format 2 deletes them without a refusal.
+        probeServerFormat(url);
     }
     else
         reject();
@@ -139,17 +136,36 @@ void DialogSaveOnline::probeServerFormat(const QUrl &url)
         const OnlineConfig::GetResult res = OnlineConfig::parseGetResponse(reply->readAll());
         if (!res.ok)
         {
-            fail(tr("Error when loading config files!"));
+            fail(res.error.isEmpty() ? tr("Error when loading config files!")
+                                     : tr("The server refused the request:\n%1").arg(res.error));
             return;
         }
 
         OnlineConfig::rememberServerFormat(currentIP, res.ioFormat);
 
-        if (!OnlineConfig::serverAcceptsDevices(res.ioFormat))
+        const QString sentIo = readFileContent("io.xml");
+        if (!OnlineConfig::deviceIds(sentIo).isEmpty() &&
+            !OnlineConfig::serverAcceptsDevices(res.ioFormat))
         {
             fail(tr("This server is too old to store devices: update calaos_server, "
                     "or remove the devices from this project."));
             return;
+        }
+
+        const QStringList lost = OnlineConfig::devicesLostByPut(res.ioXml, sentIo);
+        if (!lost.isEmpty())
+        {
+            const auto answer = QMessageBox::warning(
+                this, tr("Calaos Installer"),
+                tr("This will delete %n device(s) on the server: %1\n\nContinue?", nullptr, lost.size())
+                    .arg(lost.join(", ")),
+                QMessageBox::Yes | QMessageBox::Cancel, QMessageBox::Cancel);
+            if (answer != QMessageBox::Yes)
+            {
+                this->setEnabled(true);
+                delete spinner;
+                return;
+            }
         }
 
         putFiles(url);

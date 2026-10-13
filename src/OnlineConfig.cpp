@@ -4,6 +4,7 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonValue>
+#include <QXmlStreamReader>
 
 namespace OnlineConfig
 {
@@ -48,8 +49,13 @@ GetResult parseGetResponse(const QByteArray &body)
     GetResult res;
     QJsonParseError err;
     const QJsonObject o = QJsonDocument::fromJson(body, &err).object();
-    if (err.error != QJsonParseError::NoError || !isSuccess(o))
+    if (err.error != QJsonParseError::NoError)
         return res;
+    if (!isSuccess(o))
+    {
+        res.error = o.value("error").toString();
+        return res;
+    }
 
     res.ok = true;
     const QJsonObject files = o.value("config_files").toObject();
@@ -103,9 +109,31 @@ bool serverAcceptsDevices(int format)
     return format >= kDevicesMinFormat;
 }
 
-bool mustProbeBeforePut(bool projectHasDevices, const QString &host)
+QStringList deviceIds(const QString &ioXml)
 {
-    return projectHasDevices && !serverAcceptsDevices(serverFormat(host));
+    QStringList ids;
+    QXmlStreamReader xml(ioXml);
+    while (!xml.atEnd())
+    {
+        if (xml.readNext() == QXmlStreamReader::StartElement &&
+            xml.qualifiedName() == QLatin1String("calaos:device"))
+        {
+            const QString id = xml.attributes().value("id").toString();
+            if (!id.isEmpty() && !ids.contains(id))
+                ids << id;
+        }
+    }
+    return ids;
+}
+
+QStringList devicesLostByPut(const QString &serverIoXml, const QString &sentIoXml)
+{
+    const QStringList sent = deviceIds(sentIoXml);
+    QStringList lost;
+    for (const QString &id : deviceIds(serverIoXml))
+        if (!sent.contains(id))
+            lost << id;
+    return lost;
 }
 
 }

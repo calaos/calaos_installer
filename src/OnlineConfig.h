@@ -3,12 +3,13 @@
 
 #include <QByteArray>
 #include <QString>
+#include <QStringList>
 
 // JSON side of "config get" / "config put" against calaos_server, kept free of widgets and network.
 namespace OnlineConfig
 {
 
-// Format the installer declares in every put (see ListeRoom::IO_FORMAT_SUPPORTED).
+// Newest io.xml format the installer reads and writes; declared in every put.
 const int kPutIoFormat = 2;
 // First format a server must announce to receive devices.
 const int kDevicesMinFormat = 2;
@@ -23,9 +24,10 @@ struct GetResult
 {
     bool ok = false;
     QString ioXml, rulesXml;
-    // Servers older than CORE-3 omit it; that is format 1, not "unknown".
+    // Older servers omit it; that is format 1, not "unknown".
     int ioFormat = 1;
     bool hasFiles = false;
+    QString error;
 };
 GetResult parseGetResponse(const QByteArray &body);
 
@@ -43,9 +45,12 @@ int serverFormat(const QString &host);
 
 bool serverAcceptsDevices(int format);
 
-// True when a put must wait for a fresh config get: devices are about to be sent and the
-// last announced format would not take them (never read, or since upgraded).
-bool mustProbeBeforePut(bool projectHasDevices, const QString &host);
+// Ids of the <calaos:device> elements of an io.xml text.
+QStringList deviceIds(const QString &ioXml);
+
+// Ids the server holds that the io.xml about to be sent does not: a put declaring format 2
+// is trusted by the server, so these would be deleted without any refusal.
+QStringList devicesLostByPut(const QString &serverIoXml, const QString &sentIoXml);
 
 }
 

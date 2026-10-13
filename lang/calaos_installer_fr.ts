@@ -3544,6 +3544,18 @@ HTTP error: </translation>
         <source>Failed to load config files!</source>
         <translation>Impossible de charger les fichiers de configuration!</translation>
     </message>
+    <message>
+        <location filename="../src/dialogopenonline.cpp" line="125"/>
+        <source>The server answer has no io.xml or rules.xml.</source>
+        <translation>La réponse du serveur ne contient pas io.xml ou rules.xml.</translation>
+    </message>
+    <message>
+        <location filename="../src/dialogopenonline.cpp" line="134"/>
+        <source>The server refused the request:
+%1</source>
+        <translation>Le serveur a refusé la requête :
+%1</translation>
+    </message>
 </context>
 <context>
     <name>DialogOptions</name>
@@ -3845,6 +3857,27 @@ HTTP error: </translation>
 %1</source>
         <translation>Le serveur a refusé la configuration :
 %1</translation>
+    </message>
+    <message>
+        <location filename="../src/dialogsaveonline.cpp" line="140"/>
+        <source>The server refused the request:
+%1</source>
+        <translation>Le serveur a refusé la requête :
+%1</translation>
+    </message>
+    <message numerus="yes">
+        <location filename="../src/dialogsaveonline.cpp" line="150"/>
+        <source>This will delete %n device(s) on the server: %1
+
+Continue?</source>
+        <translation>
+            <numerusform>Cela supprimera %n device sur le serveur : %1
+
+Continuer ?</numerusform>
+            <numerusform>Cela supprimera %n devices sur le serveur : %1
+
+Continuer ?</numerusform>
+        </translation>
     </message>
     <message>
         <location filename="../src/dialogsaveonline.cpp" line="149"/>
