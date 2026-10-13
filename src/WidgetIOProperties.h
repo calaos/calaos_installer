@@ -72,6 +72,8 @@ public:
     ~WidgetIOProperties();
 
     Params &getParams() { return changedParams; }
+    // Empty when the optional numeric fields hold acceptable numbers and value_min <= value_max.
+    QString validationError();
 
 private:
     Ui::WidgetIOProperties *ui;
@@ -85,6 +87,7 @@ private:
     BalloonTip *balloonTip = nullptr;
 
     std::map<string, UiObject> uiObjectMap;
+    std::vector<string> optionalNumbers;
     IEntryHelper* entryHelper;
 
     void createIOProperties();

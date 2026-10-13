@@ -165,6 +165,28 @@ private slots:
         QVERIFY(lo->hasAcceptableInput());
     }
 
+    void invalidOrInvertedBoundsAreRefused()
+    {
+        Params p;
+        p.Add("type", "InternalInt");
+        p.Add("name", "x");
+        DialogIOProperties d(p);
+        QLineEdit *lo = qobject_cast<QLineEdit *>(editorOf(&d, "value_min"));
+        QLineEdit *hi = qobject_cast<QLineEdit *>(editorOf(&d, "value_max"));
+        QVERIFY(d.validationError().isEmpty());
+
+        lo->setText("-");
+        QVERIFY(!d.validationError().isEmpty());
+        lo->setText("10");
+        QVERIFY(d.validationError().isEmpty());
+        hi->setText("5");
+        QVERIFY(!d.validationError().isEmpty());
+        hi->setText("10");
+        QVERIFY(d.validationError().isEmpty());
+        hi->clear();
+        QVERIFY(d.validationError().isEmpty());
+    }
+
     void shippedCatalogueDropsTheOldDaliBound()
     {
         Params p;

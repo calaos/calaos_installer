@@ -1,5 +1,6 @@
 #include "dialogioproperties.h"
 #include "ui_DialogIoProperties.h"
+#include <QMessageBox>
 
 DialogIOProperties::DialogIOProperties(const Params &p, bool editable, QWidget *parent) :
     QDialog(parent),
@@ -36,5 +37,12 @@ DialogIOProperties::~DialogIOProperties()
 
 void DialogIOProperties::on_buttonBox_accepted()
 {
+    const QString err = ioWidget->validationError();
+    if (!err.isEmpty())
+    {
+        QMessageBox::warning(this, tr("Calaos Installer"), err);
+        return;
+    }
+
     accept();
 }
