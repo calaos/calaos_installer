@@ -1,5 +1,6 @@
 #include "OnlineConfig.h"
 
+#include <QCoreApplication>
 #include <QHash>
 #include <QJsonDocument>
 #include <QJsonObject>
@@ -109,9 +110,8 @@ bool serverAcceptsDevices(int format)
     return format >= kDevicesMinFormat;
 }
 
-QStringList deviceIds(const QString &ioXml)
+static void scanDevices(const QString &ioXml, QStringList &ids, int &idless)
 {
-    QStringList ids;
     QXmlStreamReader xml(ioXml);
     while (!xml.atEnd())
     {
@@ -119,20 +119,37 @@ QStringList deviceIds(const QString &ioXml)
             xml.qualifiedName() == QLatin1String("calaos:device"))
         {
             const QString id = xml.attributes().value("id").toString();
-            if (!id.isEmpty() && !ids.contains(id))
+            if (id.isEmpty())
+                idless++;
+            else if (!ids.contains(id))
                 ids << id;
         }
     }
+}
+
+QStringList deviceIds(const QString &ioXml)
+{
+    QStringList ids;
+    int idless = 0;
+    scanDevices(ioXml, ids, idless);
     return ids;
 }
 
 QStringList devicesLostByPut(const QString &serverIoXml, const QString &sentIoXml)
 {
-    const QStringList sent = deviceIds(sentIoXml);
+    QStringList serverIds, sentIds;
+    int serverIdless = 0, sentIdless = 0;
+    scanDevices(serverIoXml, serverIds, serverIdless);
+    scanDevices(sentIoXml, sentIds, sentIdless);
+
     QStringList lost;
-    for (const QString &id : deviceIds(serverIoXml))
-        if (!sent.contains(id))
+    for (const QString &id : serverIds)
+        if (!sentIds.contains(id))
             lost << id;
+
+    // Without an id they cannot be matched one by one; only the count can shrink.
+    for (int i = sentIdless; i < serverIdless; i++)
+        lost << QCoreApplication::translate("OnlineConfig", "(device without id)");
     return lost;
 }
 
