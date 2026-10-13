@@ -24,6 +24,8 @@
 #include <unordered_map>
 #include <memory>
 #include <functional>
+#include <set>
+#include <vector>
 #include <IOBase.h>
 #include <stdlib.h>
 #include <Params.h>
@@ -34,11 +36,20 @@ namespace Calaos
 class Registrar
 {
 public:
-    Registrar(string type, function<IOBase *(Params &)> classFunc);
+    Registrar(string type, function<IOBase *(Params &)> classFunc, bool legacy = false);
 };
 
 #define REGISTER_FACTORY(NAME, GTYPE, DTYPE, ITYPE, SVALUE) \
     static Registrar NAME##_reg_(#NAME, [](Params &_p) -> IOBase * { return new IOBase(_p, GTYPE, DTYPE, ITYPE, SVALUE); });
+
+// Types the server no longer knows. Registered so that existing files are still read and
+// written back unchanged; they must never be offered for creation.
+#define REGISTER_LEGACY_FACTORY(NAME, GTYPE, DTYPE, ITYPE, SVALUE) \
+    static Registrar NAME##_reg_(#NAME, [](Params &_p) -> IOBase * { return new IOBase(_p, GTYPE, DTYPE, ITYPE, SVALUE); }, true);
+
+#define REGISTER_LEGACY_INPUT(NAME, GTYPE, DTYPE, SVALUE) REGISTER_LEGACY_FACTORY(NAME, GTYPE, DTYPE, IOBase::IO_INPUT, SVALUE)
+#define REGISTER_LEGACY_OUTPUT(NAME, GTYPE, DTYPE, SVALUE) REGISTER_LEGACY_FACTORY(NAME, GTYPE, DTYPE, IOBase::IO_OUTPUT, SVALUE)
+#define REGISTER_LEGACY_INOUT(NAME, GTYPE, DTYPE, SVALUE) REGISTER_LEGACY_FACTORY(NAME, GTYPE, DTYPE, IOBase::IO_BOTH, SVALUE)
 
 #define REGISTER_INPUT(NAME, GTYPE, DTYPE, SVALUE) REGISTER_FACTORY(NAME, GTYPE, DTYPE, IOBase::IO_INPUT, SVALUE)
 #define REGISTER_OUTPUT(NAME, GTYPE, DTYPE, SVALUE) REGISTER_FACTORY(NAME, GTYPE, DTYPE, IOBase::IO_OUTPUT, SVALUE)
@@ -50,15 +61,24 @@ private:
     IOFactory() {}
 
     unordered_map<string, function<IOBase *(Params &)>> ioFunctionRegistry;
+    std::set<string> legacyTypes;
 
 public:
 
     IOBase *CreateIO(string type, Params &params, int io_type = IOBase::IO_NONE, string scriptDemoValue = string());
 
-    void RegisterClass(string type, function<IOBase *(Params &)> classFunc)
+    void RegisterClass(string type, function<IOBase *(Params &)> classFunc, bool legacy = false)
     {
         ioFunctionRegistry[type] = classFunc;
+        if (legacy)
+            legacyTypes.insert(type);
     }
+
+    //Case-insensitive, like the server's own lookup.
+    bool isLegacyType(string type) const;
+
+    //Lower-cased registered types the installer may offer for creation.
+    std::vector<string> creatableTypes() const;
 
     static IOFactory &Instance()
     {

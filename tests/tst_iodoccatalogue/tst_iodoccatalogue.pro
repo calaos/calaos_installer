@@ -16,9 +16,7 @@ SOURCES += \
     $$PWD/../../src/IODoc.cpp \
     $$PWD/../../src/WidgetIOProperties.cpp \
     $$PWD/../../src/BalloonTip.cpp \
-    $$PWD/../../src/dialogioproperties.cpp $$PWD/../../src/DialogDetectxPL.cpp \
-    $$PWD/../../src/DialogDetectMySensors.cpp \
-    $$PWD/../../src/MySensors.cpp \
+    $$PWD/../../src/dialogioproperties.cpp \
     $$PWD/../../src/qanimationlabel.cpp \
     tst_iodoccatalogue.cpp
 
@@ -26,12 +24,8 @@ HEADERS += \
     $$PWD/../../src/IODoc.h \
     $$PWD/../../src/WidgetIOProperties.h \
     $$PWD/../../src/BalloonTip.h \
-    $$PWD/../../src/dialogioproperties.h $$PWD/../../src/DialogDetectxPL.h \
-    $$PWD/../../src/DialogDetectMySensors.h \
-    $$PWD/../../src/MySensors.h \
+    $$PWD/../../src/dialogioproperties.h \
     $$PWD/../../src/qanimationlabel.h
 
 FORMS += \
-    $$PWD/../../data/WidgetIOProperties.ui $$PWD/../../data/DialogIoProperties.ui \
-    $$PWD/../../data/DialogDetectxPL.ui \
-    $$PWD/../../data/DialogDetectMySensors.ui
+    $$PWD/../../data/WidgetIOProperties.ui $$PWD/../../data/DialogIoProperties.ui

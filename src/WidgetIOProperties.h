@@ -11,7 +11,6 @@
 #include <Params.h>
 #include <ListeRoom.h>
 #include "BalloonTip.h"
-#include "EntryHelpers.h"
 
 using namespace Calaos;
 
@@ -58,7 +57,6 @@ struct UiObject
     QDoubleSpinBox* doubleSpinBox = nullptr;
     QComboBox* comboBox = nullptr;
 
-    // Spin boxes only: what flagOutOfRange() needs to flag a value set later.
     QLabel* title = nullptr;
     QString docRange;
 };
@@ -88,11 +86,9 @@ private:
 
     std::map<string, UiObject> uiObjectMap;
     std::vector<string> optionalNumbers;
-    IEntryHelper* entryHelper;
 
     void createIOProperties();
     void updateChangedParam(const string &prop, const QString value, const QString pvalue, QLabel *title, QPushButton *revert);
-    void setValues(Params& params);
     void flagOutOfRange(QAbstractSpinBox *w, QLabel *title, const QString &value, const QString &range);
 };
 

@@ -74,6 +74,10 @@ QT_QPA_PLATFORM=offscreen ./tst_projectmanager/tst_projectmanager -v2 ioRoundTri
   links, computed before deleting); `tests/tst_hometree/` the room -> device -> owned IOs
   tree (`src/HomeTree.*`), cascade delete without double delete, drag and drop onto a room and
   the delete confirmation dialog.
+- `tests/tst_servertypes/` pins the IO types the installer may create to the ones the server
+  registers (`server_io_types.txt`, regenerate it with the command in its header when the
+  server adds or drops a type). A type the server dropped moves to a `REGISTER_LEGACY_*` line
+  in `Calaos/IOBase.cpp`: still read and written back, shown as unsupported in the tree.
 - The model and (de)serialisation sources are listed once in `calaos_model.pri`, shared by
   the application and the tests. A new file that the tests need goes there; one that only
   the GUI needs stays in `calaos_installer.pro`.

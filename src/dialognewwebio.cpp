@@ -29,10 +29,6 @@ DialogNewWebIO::DialogNewWebIO(Room *r, int item, QWidget *parent) :
     // Set default combo type value
     switch (item)
       {
-      case ITEM_INPUT_SWITCH:
-        ui->io_type->setCurrentIndex(0);
-        label = tr("Create a new Web Input Switch");
-        break;
       case ITEM_LIGHT:
         ui->io_type->setCurrentIndex(1);
         ui->label_value_off->show();
@@ -44,10 +40,6 @@ DialogNewWebIO::DialogNewWebIO(Room *r, int item, QWidget *parent) :
       case ITEM_LIGHT_RGB:
         ui->io_type->setCurrentIndex(2);
         label = tr("Create a new Web RGB Light");
-        break;
-      case ITEM_SHUTTER:
-        ui->io_type->setCurrentIndex(3);
-        label = tr("Create a new Web Shutter");
         break;
       case ITEM_TEMP:
         ui->io_type->setCurrentIndex(4);
@@ -147,7 +139,6 @@ void DialogNewWebIO::on_buttonBox_accepted()
     }
     switch (ui->io_type->currentIndex())
       {
-      case 0:
       case 1:
         type = "WebOutputLight";
         p.Add("on_value", to_string(ui->edit_value_on->text().toUtf8().constData()));

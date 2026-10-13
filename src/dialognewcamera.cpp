@@ -64,13 +64,7 @@ void DialogNewCamera::on_buttonBox_accepted()
         p.Add("host", ui->planet_ip->text().toUtf8().constData());
         p.Add("model", ui->planet_model->currentItem()->text().toUtf8().constData());
     }
-    else if (ui->tab_camera_model->currentIndex() == 2) //Gadspot
-    {
-        p.Add("type", "gadspot");
-        p.Add("port", "80");
-        p.Add("host", ui->gadspot_ip->text().toUtf8().constData());
-    }
-    else if (ui->tab_camera_model->currentIndex() == 3) //Standard
+    else if (ui->tab_camera_model->currentIndex() == 2) //Standard
     {
         p.Add("type", "standard_mjpeg");
         p.Add("port", "80");
@@ -79,7 +73,7 @@ void DialogNewCamera::on_buttonBox_accepted()
         p.Add("url_mjpeg", ui->std_url_mjpeg->text().toUtf8().constData());
         p.Add("url_mpeg", ui->std_url_mpeg4->text().toUtf8().constData());
     }
-    else if (ui->tab_camera_model->currentIndex() == 4) //Synology
+    else if (ui->tab_camera_model->currentIndex() == 3) //Synology
     {
         p.Add("type", "SynoSurveillanceStation");
         p.Add("url", ui->dsm_url->text().toUtf8().constData());
@@ -95,7 +89,7 @@ void DialogNewCamera::on_buttonBox_accepted()
             p.Add("camera_id", item->text(0).toUtf8().constData());
         }
     }
-    else if (ui->tab_camera_model->currentIndex() == 5) //Foscam
+    else if (ui->tab_camera_model->currentIndex() == 4) //Foscam
     {
         p.Add("type", "foscam");
         p.Add("port", ui->foscam_port->text().toUtf8().constData());

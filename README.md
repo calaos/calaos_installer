@@ -33,7 +33,7 @@ images to USB drives and SD cards.
   (750-841, 750-842, 750-849, 750-880, 750-881, 750-889), or flash a custom one
 - DALI and DMX lighting configuration, including the DALI Master 647 CSV import and
   DMX4ALL addressing
-- Auto-detection wizards for MySensors, xPL, Squeezebox and Philips Hue
+- Auto-detection wizards for Squeezebox and Philips Hue
 - Zigbee2MQTT device import
 
 **Interfaces**
@@ -54,10 +54,9 @@ images to USB drives and SD cards.
 | Wago PLC | Digital in/out, analog in/out, temperature, shutters (simple and smart), DALI/DMX dimming and RGB |
 | KNX | Switches, dimmers, RGB, shutters, analog and temperature, via `knxd` — also KNX/TP1 through a 750-849 |
 | MQTT | Generic MQTT I/O and Zigbee2MQTT |
-| MySensors | Switches, dimmers, RGB, shutters, analog, temperature, strings |
 | Lighting | Philips Hue, OLA / DMX |
 | Sensors | 1-Wire temperature, GPIO, ping |
-| Cameras | Axis, Foscam, Gadspot, Planet, Reolink, Synology Surveillance Station, generic MJPEG |
+| Cameras | Axis, Foscam, Planet, Reolink, Synology Surveillance Station, generic MJPEG |
 | Audio / AV | Squeezebox, Roon, A/V receivers |
 | Generic | HTTP/Web I/O, Wake-on-LAN |
 

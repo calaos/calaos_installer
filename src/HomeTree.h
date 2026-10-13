@@ -17,6 +17,10 @@ QTreeWidgetItemRoom *roomItemOf(QTreeWidgetItem *item);
 //The IO an input, output or device item stands for.
 Calaos::IOBase *ioOfItem(QTreeWidgetItem *item);
 
+//Dimmed unknown-type icon and a tooltip line for an IO whose type the server dropped.
+//Call after the item's own icon and tooltip are set; a no-op for supported IOs.
+void markUnsupportedByServer(QTreeWidgetItem *item);
+
 //Builds the children of a room item. `created` runs on every new item, parents first.
 void populateRoomItems(QTreeWidgetItemRoom *roomItem,
                        const std::function<void(QTreeWidgetItem *)> &created = nullptr);
