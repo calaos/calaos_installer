@@ -100,8 +100,6 @@
         <file>img/qt.png</file>
         <file>img/document-print.png</file>
         <file>img/drive-removable-media.png</file>
-        <file>img/x10.png</file>
-        <file>img/zibase.png</file>
         <file>img/web.png</file>
         <file>img/chip.png</file>
         <file>img/icon_unkown.png</file>
@@ -114,7 +112,6 @@
         <file>img/hue.png</file>
         <file>img/hue_find_bridge.png</file>
         <file>img/hue.jpg</file>
-        <file>img/xpl.png</file>
         <file>img/mqtt.png</file>
         <file>img/zigbee2mqtt.png</file>
         <file>img/reolink.png</file>

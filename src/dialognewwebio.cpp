@@ -30,7 +30,7 @@ DialogNewWebIO::DialogNewWebIO(Room *r, int item, QWidget *parent) :
     switch (item)
       {
       case ITEM_LIGHT:
-        ui->io_type->setCurrentIndex(1);
+        ui->io_type->setCurrentIndex(0);
         ui->label_value_off->show();
         ui->label_value_on->show();
         ui->edit_value_off->show();
@@ -38,33 +38,33 @@ DialogNewWebIO::DialogNewWebIO(Room *r, int item, QWidget *parent) :
         label = tr("Create a new Web Light");
         break;
       case ITEM_LIGHT_RGB:
-        ui->io_type->setCurrentIndex(2);
+        ui->io_type->setCurrentIndex(1);
         label = tr("Create a new Web RGB Light");
         break;
       case ITEM_TEMP:
-        ui->io_type->setCurrentIndex(4);
+        ui->io_type->setCurrentIndex(2);
         label = tr("Create a new Web Temperature Input");
         analogWidget = new FormAnalogProperties(this, false);
         ui->verticalLayout_3->insertWidget(1, analogWidget);
         break;
       case ITEM_ANALOG_IN:
-        ui->io_type->setCurrentIndex(5);
+        ui->io_type->setCurrentIndex(3);
         label = tr("Create a new Web Analog Input");
         analogWidget = new FormAnalogProperties(this, false);
         ui->verticalLayout_3->insertWidget(1, analogWidget);
         break;
       case ITEM_ANALOG_OUT:
-        ui->io_type->setCurrentIndex(6);
+        ui->io_type->setCurrentIndex(4);
         label = tr("Create a new Web Analog Output");
         analogWidget = new FormAnalogProperties(this, true);
         ui->verticalLayout_3->insertWidget(1, analogWidget);
         break;
       case ITEM_STRINGIN:
-        ui->io_type->setCurrentIndex(7);
+        ui->io_type->setCurrentIndex(5);
         label = tr("Create a new Web String Input");
         break;
       case ITEM_STRINGOUT:
-          ui->io_type->setCurrentIndex(8);
+          ui->io_type->setCurrentIndex(6);
           label = tr("Create a new Web String Output");
         break;
       default:
@@ -139,39 +139,39 @@ void DialogNewWebIO::on_buttonBox_accepted()
     }
     switch (ui->io_type->currentIndex())
       {
-      case 1:
+      case 0:
         type = "WebOutputLight";
         p.Add("on_value", to_string(ui->edit_value_on->text().toUtf8().constData()));
         p.Add("off_value", to_string(ui->edit_value_off->text().toUtf8().constData()));
         p.Add("type", type);
         io = ListeRoom::Instance().createOutput(p, room);
         break;
-      case 2:
+      case 1:
         type = "WebOutputLightRGB";
         p.Add("type", type);
         io = ListeRoom::Instance().createOutput(p, room);
         break;
-      case 4:
+      case 2:
         type = "WebInputTemp";
         p.Add("type", type);
         io = ListeRoom::Instance().createInput(p, room);
         break;
-      case 5:
+      case 3:
         type = "WebInputAnalog";
         p.Add("type", type);
         io = ListeRoom::Instance().createInput(p, room);
         break;
-      case 6:
+      case 4:
         type = "WebOutputAnalog";
         p.Add("type", type);
         io = ListeRoom::Instance().createOutput(p, room);
         break;
-      case 7:
+      case 5:
         type = "WebInputString";
         p.Add("type", type);
         io = ListeRoom::Instance().createInput(p, room);
         break;
-      case 8:
+      case 6:
         type = "WebOutputString";
         p.Add("type", type);
         io = ListeRoom::Instance().createOutput(p, room);

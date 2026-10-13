@@ -12,6 +12,8 @@ include($$PWD/../../calaos_model.pri)
 # The suite reads the sources and the shipped catalogue to prove nothing offers a dead type.
 DEFINES += REPO_ROOT=\\\"$$PWD/../..\\\" SUITE_DIR=\\\"$$PWD\\\"
 
+RESOURCES += $$PWD/../../data/resources.qrc
+
 SOURCES += \
     $$PWD/../../src/HomeTree.cpp \
     $$PWD/../../src/HomeTreeMove.cpp \

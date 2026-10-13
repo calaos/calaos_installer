@@ -57,8 +57,6 @@ struct UiObject
     QDoubleSpinBox* doubleSpinBox = nullptr;
     QComboBox* comboBox = nullptr;
 
-    QLabel* title = nullptr;
-    QString docRange;
 };
 
 class WidgetIOProperties : public QWidget

@@ -674,12 +674,6 @@ QVector<IOBase *> FormRules::addCalaosItemInputSwitch(int item, int hw_type)
                 another = false;
         } while (another);
     }
-    else if (hw_type == HW_WEB)
-    {
-        DialogNewWebIO dialog(current_room, item);
-        if (dialog.exec() == QDialog::Accepted)
-            inputs.append(dialog.getInput());
-    }
 
     return inputs;
 }
@@ -1174,7 +1168,7 @@ void FormRules::updateItemInfos(QTreeWidgetItemInput *item)
     else if (type == "string_in")
         item->setData(0, Qt::DecorationRole, QIcon(":/img/text.png"));
     else
-        item->setData(0, Qt::DecorationRole, QIcon(":/img/icon_unknown.png"));
+        item->setData(0, Qt::DecorationRole, QIcon(":/img/icon_unkown.png"));
 
     QString s = QString::fromUtf8(in->get_param("name").c_str());
     s += " (" + QString::fromUtf8(in->get_param("type").c_str()) + ")";
@@ -1246,7 +1240,7 @@ void FormRules::updateItemInfos(QTreeWidgetItemOutput *item)
     else if (type == "remote_ui")
         item->setData(0, Qt::DecorationRole, QIcon(":/img/logo_header.png"));
     else
-        item->setData(0, Qt::DecorationRole, QIcon(":/img/icon_unknown.png"));
+        item->setData(0, Qt::DecorationRole, QIcon(":/img/icon_unkown.png"));
 
     QString s = QString::fromUtf8(out->get_param("name").c_str());
     s += " (" + QString::fromUtf8(out->get_param("type").c_str()) + ")";

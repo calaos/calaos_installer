@@ -144,7 +144,7 @@ QTreeWidgetItemInput *DialogScriptEditor::addItemInput(IOBase *in, QTreeWidgetIt
     else if (type == "string_in")
         item->setData(0, Qt::DecorationRole, QIcon(":/img/text.png"));
     else
-        item->setData(0, Qt::DecorationRole, QIcon(":/img/icon_unknown.png"));
+        item->setData(0, Qt::DecorationRole, QIcon(":/img/icon_unkown.png"));
 
     QString s = QString::fromUtf8(in->get_param("name").c_str());
     s += " (" + QString::fromUtf8(in->get_param("type").c_str()) + ")";
@@ -189,7 +189,7 @@ QTreeWidgetItemOutput *DialogScriptEditor::addItemOutput(IOBase *out, QTreeWidge
     else if (type == "analog_out")
         item->setData(0, Qt::DecorationRole, QIcon(":/img/icon_analog.png"));
     else
-        item->setData(0, Qt::DecorationRole, QIcon(":/img/icon_unknown.png"));
+        item->setData(0, Qt::DecorationRole, QIcon(":/img/icon_unkown.png"));
 
     QString s = QString::fromUtf8(out->get_param("name").c_str());
     s += " (" + QString::fromUtf8(out->get_param("type").c_str()) + ")";

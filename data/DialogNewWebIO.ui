@@ -61,22 +61,12 @@
          <widget class="QComboBox" name="io_type">
           <item>
            <property name="text">
-            <string>Switch Input</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
             <string>Light</string>
            </property>
           </item>
           <item>
            <property name="text">
             <string>Light RGB</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>Shutter</string>
            </property>
           </item>
           <item>

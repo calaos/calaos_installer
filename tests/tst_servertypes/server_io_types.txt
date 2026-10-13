@@ -2,7 +2,7 @@
 # Regenerate from a calaos_base checkout:
 #   git grep -hE 'REGISTER_IO(_USERTYPE)?\(' -- src/bin/calaos_server \
 #     | sed -E 's/.*REGISTER_IO(_USERTYPE)?\(([A-Za-z0-9_]+).*/\2/' | grep -vxE 'TYPE|NAME' | sort -u
-# Server commit: origin/master as of 2026-10-13 (after T2.12 MySensors and T3.6 Gadspot removals).
+# 85 types, generated at calaos_base 7f27608b43fcd9e1330343d3fd6bfa30864e3ce2.
 AVReceiver
 Axis
 Foscam
