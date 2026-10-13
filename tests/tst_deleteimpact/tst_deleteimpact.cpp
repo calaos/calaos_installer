@@ -413,13 +413,17 @@ void tst_DeleteImpact::cameraAttachmentsAreListedAsOrphans()
     Action *push = new Action(ACTION_PUSH);
     push->setMailAttachment("cam_o");
     r->AddAction(push);
+    Action *view = new Action(ACTION_TOUCHSCREEN);
+    view->setTouchscreenAction("view_camera");
+    view->setTouchscreenCamera("cam_i");
+    r->AddAction(view);
     Action *elsewhere = new Action(ACTION_MAIL);
     elsewhere->setMailAttachment("other_cam");
     r->AddAction(elsewhere);
 
     DeletionImpact imp = deletionImpact(io("cam_i_cam_o"));
 
-    QCOMPARE(imp.orphanVariables.size(), size_t(2));
+    QCOMPARE(imp.orphanVariables.size(), size_t(3));
     QStringList got;
     for (const OrphanVariable &v: imp.orphanVariables)
     {
@@ -428,7 +432,7 @@ void tst_DeleteImpact::cameraAttachmentsAreListedAsOrphans()
         got << u(v.id);
     }
     got.sort();
-    QCOMPARE(got, QStringList({ "cam_i_cam_o", "cam_o" }));
+    QCOMPARE(got, QStringList({ "cam_i", "cam_i_cam_o", "cam_o" }));
     QVERIFY(imp.removedRules.empty());
 
     QVERIFY(deletionImpact(io("in_a")).orphanVariables.empty());
