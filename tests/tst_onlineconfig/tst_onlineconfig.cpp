@@ -39,7 +39,9 @@ private slots:
 
     void formatsArePerHost();
     void devicesGate();
-    void probeDecision();
+    void deviceIdsParsing();
+    void lostDevices();
+    void getRefusalKeepsError();
 };
 
 void TstOnlineConfig::putDeclaresFormat2()
@@ -160,17 +162,39 @@ void TstOnlineConfig::devicesGate()
     QVERIFY(serverAcceptsDevices(3));
 }
 
-void TstOnlineConfig::probeDecision()
+namespace
 {
-    QVERIFY(!mustProbeBeforePut(false, "p.unknown"));
-    QVERIFY(mustProbeBeforePut(true, "p.unknown"));
+QString io(const QStringList &ids)
+{
+    QString x = "<?xml version=\"1.0\"?><calaos:home xmlns:calaos=\"http://www.calaos.fr\" format=\"2\"><calaos:room name=\"r\" type=\"salon\">";
+    for (const QString &i : ids)
+        x += "<calaos:device id=\"" + i + "\" type=\"climate\"><calaos:input id=\"i_" + i + "\"/></calaos:device>";
+    return x + "</calaos:room></calaos:home>";
+}
+}
 
-    rememberServerFormat("p.old", 1);
-    QVERIFY(mustProbeBeforePut(true, "p.old"));
-    QVERIFY(!mustProbeBeforePut(false, "p.old"));
+void TstOnlineConfig::deviceIdsParsing()
+{
+    QCOMPARE(deviceIds(io({"a", "b"})), QStringList({"a", "b"}));
+    QVERIFY(deviceIds(io({})).isEmpty());
+    QVERIFY(deviceIds("not xml").isEmpty());
+    QVERIFY(deviceIds("<calaos:home><calaos:device type=\"x\"/></calaos:home>").isEmpty());
+}
 
-    rememberServerFormat("p.new", 2);
-    QVERIFY(!mustProbeBeforePut(true, "p.new"));
+void TstOnlineConfig::lostDevices()
+{
+    QCOMPARE(devicesLostByPut(io({"a", "b"}), io({"a"})), QStringList({"b"}));
+    QCOMPARE(devicesLostByPut(io({"a", "b"}), io({})), QStringList({"a", "b"}));
+    QVERIFY(devicesLostByPut(io({"a"}), io({"a", "c"})).isEmpty());
+    QVERIFY(devicesLostByPut(io({}), io({"a"})).isEmpty());
+    QVERIFY(devicesLostByPut(io({}), io({})).isEmpty());
+}
+
+void TstOnlineConfig::getRefusalKeepsError()
+{
+    const GetResult r = parseGetResponse("{\"success\":\"false\",\"error\":\"bad credentials\"}");
+    QVERIFY(!r.ok);
+    QCOMPARE(r.error, QString("bad credentials"));
 }
 
 QTEST_APPLESS_MAIN(TstOnlineConfig)
