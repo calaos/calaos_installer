@@ -6,6 +6,7 @@
 #include <memory>
 #include <QMessageBox>
 #include <QPushButton>
+#include <QScrollBar>
 #include <QSettings>
 #include <QSignalSpy>
 #include <QStandardPaths>
@@ -246,8 +247,8 @@ private slots:
     void dialogForARoomListsEverythingItDestroys();
     void dialogForAnIoNothingUses();
     void dialogWarnsAboutLinksAndScripts();
-void dialogListsAnAttachedCamera();
-void dropStopsTheAutoScroll();
+    void dialogListsAnAttachedCamera();
+    void dropStopsTheAutoScroll();
     void dialogCancelIsTheDefault();
     void deviceInfoShowsParamsLinksAndOwnedIos();
 };
@@ -700,6 +701,10 @@ void tst_HomeTree::dropStopsTheAutoScroll()
 {
     ProbeTree tree;
     populate(&tree);
+    // Enough rows that the view never reaches the bottom, where it would stop scrolling by itself.
+    for (int i = 0;i < 500;i++)
+        new QTreeWidgetItem(&tree, QStringList(QString::number(i)));
+    tree.setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
     tree.resize(300, 90);
     tree.show();
     QVERIFY(QTest::qWaitForWindowExposed(&tree));
@@ -707,14 +712,19 @@ void tst_HomeTree::dropStopsTheAutoScroll()
 
     QMimeData mime;
     const QPoint nearEdge(20, tree.viewport()->height() - 2);
+    // doAutoScroll reads the real cursor: away from the edge the timer gives up by itself.
+    QCursor::setPos(tree.viewport()->mapToGlobal(nearEdge));
     QDragMoveEvent hover(nearEdge, Qt::MoveAction, &mime, Qt::LeftButton, Qt::NoModifier);
     tree.dragMoveEvent(&hover);
 
-    QTest::qWait(300);
+    // The timer gives up after a few ticks, so the window to observe it is short.
+    QTest::qWait(70);
     QVERIFY2(!tree.seen.isEmpty(), "hovering near the edge should start the auto-scroll");
-    tree.frozen = true;
-
     const QPoint onC = tree.visualItemRect(tree.topLevelItem(2)).center();
+    tree.frozen = true;
+    QTest::qWait(100);
+    QVERIFY2(tree.ticks > 0, "the auto-scroll must be running when the drop happens");
+
     QDropEvent drop(onC, Qt::MoveAction, &mime, Qt::LeftButton, Qt::NoModifier);
     tree.dropEvent(&drop);
 
