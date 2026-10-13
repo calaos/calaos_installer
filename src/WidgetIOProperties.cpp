@@ -49,13 +49,11 @@ WidgetIOProperties::WidgetIOProperties(const Params &p, bool _editable, QWidget 
     ui->setupUi(this);
 
     ui->toolBox->setCurrentIndex(0);
-    entryHelper = EntryHelpers::getEntryHelper(p, this);
     createIOProperties();
 }
 
 WidgetIOProperties::~WidgetIOProperties()
 {
-    if(entryHelper!=nullptr) delete entryHelper;
     delete ui;
 }
 
@@ -363,19 +361,6 @@ void WidgetIOProperties::createIOProperties()
         help->setFlat(true);
         layout->addWidget(help, row, 3);
 
-        if((i==0)&&(entryHelper != nullptr))
-        {
-            QPushButton *entryHelperButton = new QPushButton();
-            entryHelperButton->setIcon(QIcon(":/img/icon_entry_helper.png"));
-            entryHelperButton->setFlat(true);
-            layout->addWidget(entryHelperButton, row, 4);
-            connect(entryHelperButton, &QPushButton::clicked, this, [=]()
-            {
-                if (entryHelper->exec() == QDialog::Accepted)
-                    setValues(entryHelper->getParams());
-            });
-        }
-
         //avoid copy the QJsonObject in the lambda
         QString helpInfo = jparam["description"].toString();
 
@@ -414,82 +399,4 @@ QString WidgetIOProperties::validationError()
         return tr("The minimum value cannot be greater than the maximum value.");
 
     return QString();
-}
-
-void WidgetIOProperties::setValues(Params& params)
-{
-    int size = params.size();
-    string key;
-    string value;
-    QString qvalue;
-    map<string, UiObject>::iterator it;
-
-    for(int i=0; i < size; i++)
-    {
-        params.get_item(i, key, value);
-        it = uiObjectMap.find(key);
-        if(it==uiObjectMap.end()) continue;
-
-        QWidget *editorWidget = nullptr;
-        switch(it->second.type)
-        {
-            case UiObjectType::LineEdit : editorWidget = it->second.lineEdit; break;
-            case UiObjectType::CheckBox : editorWidget = it->second.checkBox; break;
-            case UiObjectType::SpinBox : editorWidget = it->second.spinBox; break;
-            case UiObjectType::DoubleSpinBox : editorWidget = it->second.doubleSpinBox; break;
-            case UiObjectType::ComboBox : editorWidget = it->second.comboBox; break;
-        }
-        // Read-only and non-editable fields are disabled: the helper must not bypass that.
-        if (!editorWidget || !editorWidget->isEnabledTo(this)) continue;
-
-        qvalue = QString::fromUtf8(value.c_str());
-        switch(it->second.type)
-        {
-            case UiObjectType::LineEdit :
-                it->second.lineEdit->setText(qvalue);
-                break;
-            case UiObjectType::CheckBox :
-                it->second.checkBox->setChecked(qvalue == "true");
-                break;
-            case UiObjectType::SpinBox :
-            {
-                QSpinBox *w = it->second.spinBox;
-                bool parsed = false;
-                const int v = qvalue.toInt(&parsed);
-                int minV = w->minimum(), maxV = w->maximum();
-                if (parsed && widenToStoredValue(minV, maxV, v))
-                {
-                    flagOutOfRange(w, it->second.title, qvalue, it->second.docRange);
-                    w->setMinimum(minV);
-                    w->setMaximum(maxV);
-                }
-                w->setValue(v);
-                break;
-            }
-            case UiObjectType::DoubleSpinBox :
-            {
-                QDoubleSpinBox *w = it->second.doubleSpinBox;
-                bool parsed = false;
-                const double v = qvalue.toDouble(&parsed);
-                double minV = w->minimum(), maxV = w->maximum();
-                if (parsed && qIsFinite(v) && widenToStoredValue(minV, maxV, v))
-                {
-                    flagOutOfRange(w, it->second.title, qvalue, it->second.docRange);
-                    w->setMinimum(minV);
-                    w->setMaximum(maxV);
-                }
-                w->setValue(v);
-                break;
-            }
-            case UiObjectType::ComboBox :
-                if (it->second.comboBox->isEditable())
-                    it->second.comboBox->setEditText(qvalue);
-                else
-                {
-                    int defIndex = it->second.comboBox->findData(qvalue);
-                    if(defIndex!=-1) it->second.comboBox->setCurrentIndex(defIndex);
-                }
-                break;
-        }
-    }
 }

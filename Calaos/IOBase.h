@@ -131,6 +131,9 @@ public:
     AVRList source_names;
 
     bool getDemoValueBool();
+
+    //False for a type the server no longer registers: loaded and saved as-is, but it will not run.
+    bool isSupportedByServer();
     double getDemoValueDouble();
     string getDemoValueString();
     string scriptDemoValue;

@@ -11,7 +11,6 @@
 #include <DeletionImpact.h>
 #include "DialogEditTimeRange.h"
 #include "DialogNewAVReceiver.h"
-#include "dialognewwebioshutter.h"
 #include "wizards/hue/wizardhue.h"
 #include "DialogRemoteUI.h"
 #include "DialogRemoteUIEditor.h"
@@ -90,130 +89,7 @@ FormRules::FormRules(QWidget *parent) :
         addCalaosIO(p);
     });
 
-    QMenu *mysensors_menu = add_menu->addMenu(QIcon("://img/mysensors.png"), "MySensors");
-
-    action = mysensors_menu->addAction(tr("Switch"));
-    action->setIcon(QIcon(":/img/icon_inter.png"));
-    connect(action, &QAction::triggered, this, [=]()
-    {
-        Params p = {{ "type", "MySensorsInputSwitch" },
-                    { "io_type", "input" }};
-        addCalaosIO(p);
-    });
-
-    action = mysensors_menu->addAction(tr("Switch triple"));
-    action->setIcon(QIcon(":/img/icon_inter.png"));
-    connect(action, &QAction::triggered, this, [=]()
-    {
-        Params p = {{ "type", "MySensorsInputSwitchTriple" },
-                    { "io_type", "input" }};
-        addCalaosIO(p);
-    });
-
-    action = mysensors_menu->addAction(tr("Switch Long press"));
-    action->setIcon(QIcon(":/img/icon_inter.png"));
-    connect(action, &QAction::triggered, this, [=]()
-    {
-        Params p = {{ "type", "MySensorsInputSwitchLongPress" },
-                    { "io_type", "input" }};
-        addCalaosIO(p);
-    });
-
-    action = mysensors_menu->addAction(tr("Light"));
-    action->setIcon(QIcon(":/img/icon_light_on.png"));
-    connect(action, &QAction::triggered, this, [=]()
-    {
-        Params p = {{ "type", "MySensorsOutputLight" },
-                    { "io_type", "output" }};
-        addCalaosIO(p);
-    });
-
-    action = mysensors_menu->addAction(tr("Shutter"));
-    action->setIcon(QIcon(":/img/icon_shutter.png"));
-    connect(action, &QAction::triggered, this, [=]()
-    {
-        Params p = {{ "type", "MySensorsOutputShutter" },
-                    { "io_type", "output" }};
-        addCalaosIO(p);
-    });
-
-    action = mysensors_menu->addAction(tr("Smart Shutter"));
-    action->setIcon(QIcon(":/img/icon_shutter.png"));
-    connect(action, &QAction::triggered, this, [=]()
-    {
-        Params p = {{ "type", "MySensorsOutputShutterSmart" },
-                    { "io_type", "output" }};
-        addCalaosIO(p);
-    });
-
-    action = mysensors_menu->addAction(tr("Dimmer"));
-    action->setIcon(QIcon(":/img/icon_light_on.png"));
-    connect(action, &QAction::triggered, this, [=]()
-    {
-        Params p = {{ "type", "MySensorsOutputDimmer" },
-                    { "io_type", "output" }};
-        addCalaosIO(p);
-    });
-
-    action = mysensors_menu->addAction(tr("RGB Light"));
-    action->setIcon(QIcon(":/img/icon_light_on.png"));
-    connect(action, &QAction::triggered, this, [=]()
-    {
-        Params p = {{ "type", "MySensorsOutputLightRGB" },
-                    { "io_type", "output" }};
-        addCalaosIO(p);
-    });
-
-    action = mysensors_menu->addAction(tr("Temperature sensor"));
-    action->setIcon(QIcon(":/img/temp.png"));
-    connect(action, &QAction::triggered, this, [=]()
-    {
-        Params p = {{ "type", "MySensorsInputTemp" },
-                    { "io_type", "input" }};
-        addCalaosIO(p);
-    });
-
-    action = mysensors_menu->addAction(tr("Analog Input"));
-    action->setIcon(QIcon(":/img/icon_analog.png"));
-    connect(action, &QAction::triggered, this, [=]()
-    {
-        Params p = {{ "type", "MySensorsInputAnalog" },
-                    { "io_type", "input" }};
-        addCalaosIO(p);
-    });
-
-    action = mysensors_menu->addAction(tr("Analog Output"));
-    action->setIcon(QIcon(":/img/icon_analog.png"));
-    connect(action, &QAction::triggered, this, [=]()
-    {
-        Params p = {{ "type", "MySensorsOutputAnalog" },
-                    { "io_type", "output" }};
-        addCalaosIO(p);
-    });
-
-    action = mysensors_menu->addAction(tr("String Input"));
-    action->setIcon(QIcon(":/img/text.png"));
-    connect(action, &QAction::triggered, this, [=]()
-    {
-        Params p = {{ "type", "MySensorsInputString" },
-                    { "io_type", "input" }};
-        addCalaosIO(p);
-    });
-
-    action = mysensors_menu->addAction(tr("String Output"));
-    action->setIcon(QIcon(":/img/text.png"));
-    connect(action, &QAction::triggered, this, [=]()
-    {
-        Params p = {{ "type", "MySensorsOutputString" },
-                    { "io_type", "output" }};
-        addCalaosIO(p);
-    });
-
     QMenu *web_menu = add_menu->addMenu(QIcon("://img/web.png"), "Web");
-
-    action = web_menu->addAction(tr("Switch Input"));
-    action->setIcon(QIcon(":/img/icon_inter.png"));
-    connect(action, &QAction::triggered, this, [=]() { addCalaosItem(HW_WEB, ITEM_INPUT_SWITCH); });
 
     action = web_menu->addAction(tr("Light"));
     action->setIcon(QIcon(":/img/icon_light_on.png"));
@@ -222,10 +98,6 @@ FormRules::FormRules(QWidget *parent) :
     action = web_menu->addAction(tr("RGB Light"));
     action->setIcon(QIcon(":/img/icon_light_on.png"));
     connect(action, &QAction::triggered, this, [=]() { addCalaosItem(HW_WEB, ITEM_LIGHT_RGB); });
-
-    action = web_menu->addAction(tr("Shutter"));
-    action->setIcon(QIcon(":/img/icon_shutter.png"));
-    connect(action, &QAction::triggered, this, [=]() { addCalaosItem(HW_WEB, ITEM_SHUTTER); });
 
     action = web_menu->addAction(tr("Temperature sensor"));
     action->setIcon(QIcon(":/img/temp.png"));
@@ -871,12 +743,6 @@ IOBase *FormRules::addCalaosItemShutter(int item, int hw_type)
         if (dialog.exec() == QDialog::Accepted)
             output = dialog.getOutput();
     }
-    else if (hw_type == HW_WEB)
-    {
-        DialogNewWebIOShutter dialog(current_room);
-        if (dialog.exec() == QDialog::Accepted)
-            output = dialog.getOutput();
-    }
 
     return output;
 }
@@ -1318,6 +1184,7 @@ void FormRules::updateItemInfos(QTreeWidgetItemInput *item)
 
     item->setData(0, Qt::ToolTipRole, s);
     item->setData(0, Qt::StatusTipRole, s);
+    markUnsupportedByServer(item);
 }
 
 QTreeWidgetItemOutput *FormRules::addItemOutput(IOBase *out, Room *parent, bool selected)
@@ -1391,6 +1258,7 @@ void FormRules::updateItemInfos(QTreeWidgetItemOutput *item)
 
     item->setData(0, Qt::ToolTipRole, s);
     item->setData(0, Qt::StatusTipRole, s);
+    markUnsupportedByServer(item);
 }
 
 void FormRules::updateItemInfos(QTreeWidgetItemDevice *item)

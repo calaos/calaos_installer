@@ -23,13 +23,32 @@
 #include <QtCore>
 
 #include <set>
+#include <algorithm>
 
 using namespace Calaos;
 
-Registrar::Registrar(string type, function<IOBase *(Params &)> classFunc)
+Registrar::Registrar(string type, function<IOBase *(Params &)> classFunc, bool legacy)
 {
     std::transform(type.begin(), type.end(), type.begin(), Utils::to_lower());
-    IOFactory::Instance().RegisterClass(type, classFunc);
+    IOFactory::Instance().RegisterClass(type, classFunc, legacy);
+}
+
+bool IOFactory::isLegacyType(string type) const
+{
+    std::transform(type.begin(), type.end(), type.begin(), Utils::to_lower());
+    return legacyTypes.count(type) > 0;
+}
+
+std::vector<string> IOFactory::creatableTypes() const
+{
+    std::vector<string> types;
+    for (const auto &entry: ioFunctionRegistry)
+    {
+        if (!legacyTypes.count(entry.first))
+            types.push_back(entry.first);
+    }
+    std::sort(types.begin(), types.end());
+    return types;
 }
 
 // Same set as the server's dropLegacyBounds(). Not InputTime/InputTimer: their `min` is minutes.

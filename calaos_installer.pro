@@ -100,7 +100,6 @@ SOURCES += src/main.cpp \
     src/DialogEditTimeRange.cpp \
     src/DialogNewAVReceiver.cpp \
     src/DialogOptions.cpp \
-    src/dialognewwebioshutter.cpp \
     src/formanalogproperties.cpp \
     src/dialogautodetect.cpp \
     src/DialogCreateNewImage.cpp \
@@ -111,9 +110,6 @@ SOURCES += src/main.cpp \
     src/WidgetIPAddr.cpp \
     src/FormDaliMaster.cpp \
     src/DialogDaliMasterItem.cpp \
-    src/DialogDetectxPL.cpp \
-    src/DialogDetectMySensors.cpp \
-    src/MySensors.cpp \
     src/FormActionPush.cpp \
     src/Crc32.cpp \
     src/BoardProfile.cpp \
@@ -202,7 +198,6 @@ HEADERS += src/mainwindow.h \
     src/DialogNewAVReceiver.h \
     src/dialognewwebio.h \
     src/DialogOptions.h \
-    src/dialognewwebioshutter.h \
     src/formanalogproperties.h \
     src/dialogautodetect.h \
     src/DialogCreateNewImage.h \
@@ -214,11 +209,6 @@ HEADERS += src/mainwindow.h \
     src/WidgetIPAddr.h \
     src/FormDaliMaster.h \
     src/DialogDaliMasterItem.h \
-    src/DialogDetectxPL.h \
-    src/DialogDetectMySensors.h \
-    src/MySensors.h \
-    src/EntryHelpers.h \
-    src/IEntryHelper.h \
     src/FormActionPush.h \
     src/Crc32.h \
     src/BoardProfile.h \
@@ -274,7 +264,6 @@ FORMS += \
     data/DialogNewAVReceiver.ui \
     data/DialogNewWebIO.ui \
     data/DialogOptions.ui \
-    data/DialogNewWebIoShutter.ui \
     data/formanalogproperties.ui \
     data/dialogautodetect.ui \
     data/DialogCreateNewImage.ui \
@@ -286,8 +275,6 @@ FORMS += \
     src/wizards/hue/wizardhue.ui \
     data/FormDaliMaster.ui \
     data/DialogDaliMasterItem.ui \
-    data/DialogDetectxPL.ui \
-    data/DialogDetectMySensors.ui \
     data/FormActionPush.ui \
     data/DialogFlashConsole.ui \
     data/DialogFlashDevice.ui

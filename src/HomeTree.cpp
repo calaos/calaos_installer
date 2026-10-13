@@ -3,6 +3,9 @@
 
 #include <ListeRoom.h>
 #include <QSet>
+#include <QIcon>
+#include <QColor>
+#include <QCoreApplication>
 #include <algorithm>
 #include <map>
 
@@ -28,6 +31,21 @@ IOBase *ioOfItem(QTreeWidgetItem *item)
         return out->getOutput();
 
     return nullptr;
+}
+
+void markUnsupportedByServer(QTreeWidgetItem *item)
+{
+    IOBase *io = ioOfItem(item);
+    if (!io || io->isSupportedByServer())
+        return;
+
+    item->setData(0, Qt::DecorationRole, QIcon(":/img/icon_unknown.png"));
+    item->setData(0, Qt::ForegroundRole, QColor(Qt::gray));
+
+    const QString note = QCoreApplication::translate("HomeTree", "Not supported by the server: kept in the file but it will not run");
+    const QString tip = item->data(0, Qt::ToolTipRole).toString() + "\n" + note;
+    item->setData(0, Qt::ToolTipRole, tip);
+    item->setData(0, Qt::StatusTipRole, tip);
 }
 
 void populateRoomItems(QTreeWidgetItemRoom *roomItem, const std::function<void(QTreeWidgetItem *)> &created)
