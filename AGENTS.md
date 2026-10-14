@@ -83,7 +83,8 @@ QT_QPA_PLATFORM=offscreen ./tst_projectmanager/tst_projectmanager -v2 ioRoundTri
   calaos_base, never edited. `./generate_iodoc.sh` refreshes them from the `io-doc` artifact of
   calaos_base's CI (latest green master; `CALAOS_BASE_BRANCH=<branch>` for another one), or from
   a directory (`calaos_base/scripts/create_iodoc`). The `iodoc-sync` CI job fails when the parsed
-  JSON differs from the artifact (`scripts/check_iodoc_sync.py`); `IODoc::getDeviceObject(impl)`
+  JSON differs from the artifact (`scripts/check_iodoc_sync.py`, tested by
+  `tests/iodoc_sync/test_check_iodoc_sync.py`); `IODoc::getDeviceObject(impl)`
   reads `devices[impl]` of `io_doc.json`, a key that is not an IO type.
 - The model and (de)serialisation sources are listed once in `calaos_model.pri`, shared by
   the application and the tests. A new file that the tests need goes there; one that only

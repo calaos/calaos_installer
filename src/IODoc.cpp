@@ -67,9 +67,6 @@ QJsonObject IODoc::getIOObject(const QString &type)
     // Search in aliases
     for (auto it = root.constBegin(); it != root.constEnd(); it++)
     {
-        if (it.key() == kDevicesKey)
-            continue;
-
         QJsonObject o = it.value().toObject();
         QJsonArray jalias = o["alias"].toArray();
         for (int i = 0; i < jalias.size(); i++)
