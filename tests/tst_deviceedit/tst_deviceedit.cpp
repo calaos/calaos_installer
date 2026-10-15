@@ -113,6 +113,7 @@ private slots:
     void rulesAndOwnedIosAreUntouched();
     void anotherIoDropsTheCommandIo();
     void theDialogSaysACommandIoGoes();
+    void whatIODocDoesNotDocumentIsShown();
     void aLinkOrAParamClearedIsRemoved();
     void refusals_data();
     void refusals();
@@ -309,6 +310,32 @@ void tst_DeviceEdit::theDialogSaysACommandIoGoes()
     for (QLabel *l: d.findChild<QWidget *>("link_mode")->parentWidget()->findChildren<QLabel *>())
         said |= l->text().contains("Commands go to AC mode command (mode_cmd) - Cave. Picking another IO drops it");
     QVERIFY(said);
+}
+
+void tst_DeviceEdit::whatIODocDoesNotDocumentIsShown()
+{
+    const QByteArray house = QByteArray(kIo)
+        .replace("<calaos:link name=\"action\" io=\"th_action\"/>",
+                 "<calaos:link name=\"action\" io=\"th_action\" command_io=\"flag\"/>\n"
+                 "    <calaos:link name=\"extra_role\" io=\"relay_spare\"/>")
+        .replace("<calaos:param name=\"emitter\" value=\"heat_pump\"/>",
+                 "<calaos:param name=\"emitter\" value=\"heat_pump\"/>\n    <calaos:param name=\"old_knob\" value=\"7\"/>");
+    QVERIFY(loadIo(work("undocumented.xml"), house));
+
+    DialogEditDevice d(th());
+    QStringList texts;
+    for (QLabel *l: d.findChildren<QLabel *>())
+        texts << l->text();
+    const QString all = texts.join('\n');
+    QVERIFY2(all.contains("extra_role: Spare relay (relay_spare) - Salon"), qPrintable(all));
+    QVERIFY(all.contains("old_knob = 7"));
+    //The command IO of a link the editor does not change is shown too.
+    QVERIFY(all.contains("Commands go to Flag (flag) - Salon."));
+
+    //And kept as they are.
+    clickOk(&d);
+    QVERIFY(linksOf(th()).contains("extra_role"));
+    QVERIFY(paramsOf(th()).contains("old_knob=7"));
 }
 
 void tst_DeviceEdit::aLinkOrAParamClearedIsRemoved()
