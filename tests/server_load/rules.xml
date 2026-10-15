@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<calaos:rules xmlns:calaos="http://www.calaos.fr">
+    <calaos:rule type="t" name="r">
+        <calaos:condition type="standard" trigger="true">
+            <calaos:input id="flag" oper="==" val="true"/>
+        </calaos:condition>
+        <calaos:action type="standard">
+            <calaos:output id="flag" val="false"/>
+        </calaos:action>
+    </calaos:rule>
+</calaos:rules>

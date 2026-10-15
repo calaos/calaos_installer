@@ -369,6 +369,14 @@ void tst_DeviceTemplates::checkRoundTrip(Device *dev)
     const QStringList written = deviceElement(first, id);
     QVERIFY(!written.isEmpty());
 
+    //For a load by the real server (see the INST-4 fiche): one io.xml per row.
+    const QString dump = qEnvironmentVariable("CALAOS_DEVICE_XML_DIR");
+    if (!dump.isEmpty() && QTest::currentDataTag())
+    {
+        const QString tag = QString(QTest::currentDataTag()).replace(QRegularExpression("[^A-Za-z0-9_=-]"), "_");
+        QVERIFY(writeFile(QDir(dump).filePath(tag + ".xml"), first));
+    }
+
     QVERIFY(loadIo(work("reload.xml"), first));
     Device *again = ListeRoom::Instance().get_device(id.toStdString());
     QVERIFY(again);

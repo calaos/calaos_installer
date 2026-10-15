@@ -37,7 +37,7 @@ inline QByteArray houseXml()
   <calaos:output id="relay_heat" type="WODigital" name="Heating relay" host="h" port="502" var="2"/>
   <calaos:output id="relay_cool" type="WODigital" name="Cooling relay" host="h" port="502" var="3"/>
   <calaos:internal id="flag" type="InternalBool" name="Flag"/>
-  <calaos:output id="text_out" type="MqttOutputString" name="Text out" host="h" port="1883" topic_pub="s/x"/>
+  <calaos:output id="text_out" type="MqttOutputString" name="Text out" host="h" port="1883" topic_pub="s/x" topic_sub="s/x"/>
 </calaos:room>
 <calaos:room name="Cave" type="cave" hits="0">
   <calaos:input id="temp_cave" type="WITemp" name="Cave temperature" host="h" port="502" var="4"/>
