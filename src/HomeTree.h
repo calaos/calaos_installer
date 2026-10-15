@@ -25,6 +25,11 @@ void markUnsupportedByServer(QTreeWidgetItem *item);
 void populateRoomItems(QTreeWidgetItemRoom *roomItem,
                        const std::function<void(QTreeWidgetItem *)> &created = nullptr);
 
+//Item of a device added after its room's items were built, with its owned IOs
+//laid out as populateRoomItems() lays them out.
+QTreeWidgetItemDevice *addDeviceItem(QTreeWidgetItemRoom *roomItem, Calaos::Device *dev,
+                                     const std::function<void(QTreeWidgetItem *)> &created = nullptr);
+
 //Deletes every item of these IOs. An owned IO's item is a child of its device's:
 //only the topmost ones are deleted, their children go with them.
 void removeIOItems(QTreeWidget *tree, const std::vector<Calaos::IOBase *> &ios);

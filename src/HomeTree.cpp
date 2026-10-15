@@ -106,6 +106,36 @@ void populateRoomItems(QTreeWidgetItemRoom *roomItem, const std::function<void(Q
     }
 }
 
+QTreeWidgetItemDevice *addDeviceItem(QTreeWidgetItemRoom *roomItem, Device *dev,
+                                     const std::function<void(QTreeWidgetItem *)> &created)
+{
+    Room *room = roomItem->getRoom();
+    QTreeWidgetItemDevice *item = new QTreeWidgetItemDevice(dev, roomItem);
+    if (created)
+        created(item);
+
+    auto add = [&](QTreeWidgetItem *child)
+    {
+        if (created)
+            created(child);
+    };
+
+    for (int j = 0;j < room->get_size_in();j++)
+    {
+        IOBase *in = room->get_input(j);
+        if (in->getOwnerDevice() == dev && inputHasTreeItem(in))
+            add(new QTreeWidgetItemInput(in, item));
+    }
+    for (int j = 0;j < room->get_size_out();j++)
+    {
+        IOBase *out = room->get_output(j);
+        if (out->getOwnerDevice() == dev)
+            add(new QTreeWidgetItemOutput(out, item));
+    }
+
+    return item;
+}
+
 void removeIOItems(QTreeWidget *tree, const std::vector<IOBase *> &ios)
 {
     QSet<QTreeWidgetItem *> matching;

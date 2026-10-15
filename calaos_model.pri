@@ -8,6 +8,7 @@ SOURCES += \
     $$PWD/src/SimpleCrypt.cpp \
     $$PWD/src/ConfigOptions.cpp \
     $$PWD/src/OnlineConfig.cpp \
+    $$PWD/src/DeviceTemplates.cpp \
     $$PWD/src/projectmanager.cpp \
     $$PWD/Calaos/Rule.cpp \
     $$PWD/Calaos/Room.cpp \
@@ -25,6 +26,7 @@ HEADERS += \
     $$PWD/src/SimpleCrypt.h \
     $$PWD/src/ConfigOptions.h \
     $$PWD/src/OnlineConfig.h \
+    $$PWD/src/DeviceTemplates.h \
     $$PWD/src/projectmanager.h \
     $$PWD/src/common/Utils.h \
     $$PWD/src/common/base64.h \
