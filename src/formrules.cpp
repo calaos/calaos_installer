@@ -945,6 +945,13 @@ void FormRules::addCalaosItem(int hw_type, int item)
         }
     }
 
+    //Marks the project itself, once the device is created: a cancelled dialog changes nothing.
+    if (item == ITEM_DEVICE_TEMPLATE)
+    {
+        addDeviceFromTemplate();
+        return;
+    }
+
     setProjectModified(true);
     IOBase *res = nullptr;
     QVector<IOBase *> resList;
@@ -1019,9 +1026,6 @@ void FormRules::addCalaosItem(int hw_type, int item)
     case ITEM_REMOTE_UI_RELAY:
         res = addCalaosItemRemoteUIRelay(item, hw_type);
         break;
-    case ITEM_DEVICE_TEMPLATE:
-        addDeviceFromTemplate();
-        return;
     default:
         QMessageBox::warning(this, tr("Calaos Installer"), QString(tr("Unknown type (%1)")).arg(item));
     }
