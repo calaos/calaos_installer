@@ -26,36 +26,6 @@ struct Variant
     QVariantMap values;
 };
 
-//What a user fills in: the defaults, a name, a value in every required text,
-//and for each io field the first IO that fits and that no other field took.
-QVariantMap filled(const QJsonObject &tpl)
-{
-    QVariantMap v = DeviceTemplates::defaults(tpl, roomNamed("Salon"));
-    QStringList taken;
-    for (const QJsonValue &e: tpl["fields"].toArray())
-    {
-        const QJsonObject f = e.toObject();
-        const QString name = f["name"].toString();
-        const QString type = f["type"].toString();
-        if (type == "string" && f["required"].toBool() && v.value(name).toString().isEmpty())
-            v[name] = name == "name" ? QString("Chauffage salon") : QString("tpl-%1").arg(name);
-        if (type == "io")
-        {
-            for (IOBase *io: DeviceTemplates::candidates(f["io_filter"].toObject()))
-            {
-                const QString id = u(io->get_param("id"));
-                if (!taken.contains(id))
-                {
-                    taken << id;
-                    v[name] = id;
-                    break;
-                }
-            }
-        }
-    }
-    return v;
-}
-
 //Each enum option, each bool both ways, each optional multi, io and text empty
 //and set: every `when` of the shipped templates is taken both ways (checked by
 //everyWhenIsTakenBothWays).
@@ -425,6 +395,8 @@ void tst_DeviceTemplates::everyVariantBuildsAValidDevice()
     QCOMPARE(u(dev->family()), t["family"].toString());
     QCOMPARE(u(dev->impl()), t["impl"].toString());
     QCOMPARE(u(dev->get_param("name")), values["name"].toString());
+    //Clients list only the items whose visible is "true"; the owned IOs stay hidden.
+    QCOMPARE(u(dev->get_param("visible")), QString("true"));
     QCOMPARE(DeviceTemplates::roomOf(t, values), roomNamed("Salon"));
     QVERIFY(roomNamed("Salon")->get_devices().back() == dev);
 
@@ -593,7 +565,7 @@ void tst_DeviceTemplates::theDocumentedExampleIsWrittenAsDocumented()
 {
     //docs/17_device_templates.md of calaos_base, with the id this installer gives it.
     const QString documented = R"(
-<calaos:device id="chauffage_salon" type="climate" impl="thermostat" name="Chauffage salon">
+<calaos:device id="chauffage_salon" type="climate" impl="thermostat" name="Chauffage salon" visible="true">
   <calaos:internal id="chauffage_salon_target_temp" type="InternalInt" name="Chauffage salon setpoint"
                    save="true" step="0.5" unit="°C" value="20" value_max="30" value_min="7" visible="false"/>
   <calaos:internal id="chauffage_salon_action" type="InternalString" name="Chauffage salon action" visible="false"/>

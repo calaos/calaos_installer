@@ -78,6 +78,8 @@ public:
 
     // Get widget type for a given gui_type
     Q_INVOKABLE static QString widgetTypeForGuiType(const QString &guiType);
+    // Empty when no IO has that id
+    static QString guiTypeOfIo(const QString &ioId);
 
     // Category system — derives category from type
     Q_INVOKABLE static QString categoryForType(const QString &type);

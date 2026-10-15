@@ -108,6 +108,36 @@ inline QJsonObject shippedTemplate(const QString &id)
     return QJsonObject();
 }
 
+//What a user fills in: the defaults, a name, a value in every required text,
+//and for each io field the first IO that fits and that no other field took.
+inline QVariantMap filled(const QJsonObject &tpl)
+{
+    QVariantMap v = DeviceTemplates::defaults(tpl, roomNamed("Salon"));
+    QStringList taken;
+    for (const QJsonValue &e: tpl["fields"].toArray())
+    {
+        const QJsonObject f = e.toObject();
+        const QString name = f["name"].toString();
+        const QString type = f["type"].toString();
+        if (type == "string" && f["required"].toBool() && v.value(name).toString().isEmpty())
+            v[name] = name == "name" ? QString("Chauffage salon") : QString("tpl-%1").arg(name);
+        if (type == "io")
+        {
+            for (Calaos::IOBase *io: DeviceTemplates::candidates(f["io_filter"].toObject()))
+            {
+                const QString id = u(io->get_param("id"));
+                if (!taken.contains(id))
+                {
+                    taken << id;
+                    v[name] = id;
+                    break;
+                }
+            }
+        }
+    }
+    return v;
+}
+
 // One line per element of the <calaos:device> of that id, attributes sorted:
 // what the file says, whatever order the writer puts attributes in.
 inline QStringList deviceElement(const QByteArray &xml, const QString &id)
