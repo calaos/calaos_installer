@@ -118,6 +118,7 @@ private slots:
     void whatTheFileAlreadyHeldIsNotRefused();
     void itsOwnOutputsMaySwap();
     void requiredRolesAreReported();
+    void okWithoutAChangeChangesNothing();
     void theDialogChangesTheDevice();
     void theDialogRefusesAndSaysWhy();
     void theDialogMarksTheRequiredRoles();
@@ -412,6 +413,24 @@ void tst_DeviceEdit::requiredRolesAreReported()
     QCOMPARE(DeviceEdit::missingRequired(th(), s), QStringList({ "current_temp" }));
     //Reported, not refused: the server loads the device without that capability.
     QVERIFY(DeviceEdit::validate(th(), s).isEmpty());
+}
+
+void tst_DeviceEdit::okWithoutAChangeChangesNothing()
+{
+    //Raw values a form would not write back as they are.
+    const QByteArray house = QByteArray(kIo)
+        .replace("<calaos:param name=\"hysteresis\" value=\"0.5\"/>", "<calaos:param name=\"hysteresis\" value=\" 0.5\"/>")
+        .replace("<calaos:param name=\"min_range\" value=\"2\"/>", "<calaos:param name=\"min_range\" value=\"\"/>")
+        .replace("impl=\"thermostat\" name=\"Chauffage salon\">", "impl=\"thermostat\" name=\"Chauffage salon\" visible=\"1\">");
+    QVERIFY(loadIo(work("raw.xml"), house));
+    const QByteArray before = saveIo(work("raw_before.xml"));
+
+    DialogEditDevice d(th());
+    d.show();
+    QVERIFY(QTest::qWaitForWindowExposed(&d));
+    clickOk(&d);
+    QCOMPARE(d.result(), int(QDialog::Accepted));
+    QCOMPARE(QString::fromUtf8(saveIo(work("raw_after.xml"))), QString::fromUtf8(before));
 }
 
 void tst_DeviceEdit::theDialogChangesTheDevice()
