@@ -787,6 +787,7 @@ void tst_DeviceTemplates::theDeviceIdComesFromItsName_data()
     QTest::newRow("accents") << "Clim chambre d'Élise" << "clim_chambre_d_elise";
     QTest::newRow("punctuation") << "  --Salon (RDC) #2-- " << "salon_rdc_2";
     QTest::newRow("nothing left") << "° — °" << "device";
+    QTest::newRow("ligatures") << "Œuvre Cæsar Straße ŒÆ" << "oeuvre_caesar_strasse_oeae";
 }
 
 void tst_DeviceTemplates::theDeviceIdComesFromItsName()
