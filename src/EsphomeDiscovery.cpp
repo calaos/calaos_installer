@@ -97,13 +97,14 @@ QString EsphomeDiscovery::Climate::displayName() const
 
 QStringList EsphomeDiscovery::filters()
 {
-    return { "esphome/discover/#", "+/climate/+/#", "+/+/climate/+/#" };
+    return { "esphome/discover/#", "+/climate/+/#", "+/+/climate/+/#", "+/status", "+/+/status" };
 }
 
 void EsphomeDiscovery::clear()
 {
     m_climates.clear();
     m_nodes.clear();
+    m_status.clear();
 }
 
 EsphomeDiscovery::Climate &EsphomeDiscovery::climate(const QString &prefix, const QString &objectId)
@@ -126,6 +127,12 @@ void EsphomeDiscovery::feed(const QString &topic, const QByteArray &payload)
         return;
     }
 
+    if (s.size() >= 2 && s.last() == "status")
+    {
+        m_status[s.mid(0, s.size() - 1).join('/')] = QString::fromUtf8(payload).trimmed().toLower();
+        return;
+    }
+
     if (s.last() == "config")
     {
         const QJsonDocument doc = QJsonDocument::fromJson(payload);
@@ -137,10 +144,21 @@ void EsphomeDiscovery::feed(const QString &topic, const QByteArray &payload)
     QString prefix, objectId, what, way;
     if (!parseClimateTopic(topic, &prefix, &objectId, &what, &way))
         return;
+    //An empty retained message deletes the retained one: nothing is published there any more.
+    if (payload.isEmpty())
+    {
+        auto it = m_climates.find(prefix + "/climate/" + objectId);
+        if (it == m_climates.end() || way != "state")
+            return;
+        it->topics.remove(what);
+        it->states.remove(what);
+        if (it->topics.isEmpty() && !it->configured)
+            m_climates.erase(it);
+        return;
+    }
     Climate &c = climate(prefix, objectId);
     c.topics.insert(what);
-    //An empty retained message deletes it: nothing is published there any more.
-    if (way == "state" && !payload.isEmpty())
+    if (way == "state")
         c.states[what] = QString::fromUtf8(payload).trimmed();
 }
 
@@ -196,9 +214,19 @@ void EsphomeDiscovery::feedConfig(QJsonObject config)
 
 QList<EsphomeDiscovery::Climate> EsphomeDiscovery::climates() const
 {
+    QSet<QString> discoveredPrefixes;
+    for (const Climate &c: m_climates)
+        if (c.configured)
+            discoveredPrefixes.insert(c.prefix);
+
     QList<Climate> res;
     for (Climate c: m_climates)
     {
+        c.status = m_status.value(c.prefix);
+        //A renamed entity leaves its retained states behind, on a node that may
+        //still be online: next to a discovered sibling, they are the old one.
+        c.stale = !c.configured && (c.status != "online" || discoveredPrefixes.contains(c.prefix));
+
         //A node's prefix is its name unless its YAML sets another one.
         auto n = m_nodes.constFind(c.prefix);
         if (n != m_nodes.constEnd())
@@ -208,6 +236,7 @@ QList<EsphomeDiscovery::Climate> EsphomeDiscovery::climates() const
         }
         res << c;
     }
+    std::stable_partition(res.begin(), res.end(), [](const Climate &c) { return !c.stale; });
     return res;
 }
 
@@ -377,6 +406,16 @@ QString EsphomeDiscovery::hostOf(const QString &calaosHost)
     if (h.count(':') == 1)
         return h.section(':', 0, 0);
     return h;
+}
+
+bool EsphomeDiscovery::sameBroker(const QString &probeHost, const QString &brokerHost, const QString &calaosHost)
+{
+    const QString probe = probeHost.trimmed().toLower();
+    if (probe.isEmpty())
+        return false;
+    if (isLoopback(brokerHost))
+        return probe == hostOf(calaosHost).toLower();
+    return probe == brokerHost.trimmed().toLower();
 }
 
 QString EsphomeDiscovery::probeHost(const QString &brokerHost, const QString &reachedBroker, const QString &calaosHost)

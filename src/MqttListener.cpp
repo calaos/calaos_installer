@@ -1,6 +1,7 @@
 #include "MqttListener.h"
 
 #include <QAbstractSocket>
+#include <QLocale>
 #include <QtMqtt/QMqttClient>
 #include <QtMqtt/QMqttSubscription>
 #include <QRandomGenerator>
@@ -14,7 +15,7 @@ MqttListener::MqttListener(QObject *parent):
         if (m_state == LISTENING)
             finish(QString());
         else
-            finish(tr("No answer from the broker at %1 within %2 s.").arg(where()).arg(m_answerTimeoutMs / 1000.0));
+            finish(tr("No answer from the broker at %1 within %2 s.").arg(where(), QLocale().toString(m_answerTimeoutMs / 1000.0)));
     });
 }
 

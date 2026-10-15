@@ -1,6 +1,7 @@
 #include "WidgetEsphomeDiscovery.h"
 
 #include <QHBoxLayout>
+#include <QKeyEvent>
 #include <QHeaderView>
 #include <QLabel>
 #include <QLineEdit>
@@ -32,7 +33,8 @@ QString publishes(const EsphomeDiscovery::Climate &c)
 
 }
 
-WidgetEsphomeDiscovery::WidgetEsphomeDiscovery(std::function<MqttListener::Settings()> settings, QWidget *parent):
+WidgetEsphomeDiscovery::WidgetEsphomeDiscovery(std::function<MqttListener::Settings(const QString &host)> settings,
+                                               QWidget *parent):
     QGroupBox(tr("Find it on the MQTT broker"), parent),
     m_settings(std::move(settings)),
     m_listener(new MqttListener(this))
@@ -48,6 +50,8 @@ WidgetEsphomeDiscovery::WidgetEsphomeDiscovery(std::function<MqttListener::Setti
     m_host->setToolTip(tr("The form's broker address is the one the Calaos server uses; 127.0.0.1 there "
                           "is the box itself. Port, user and password are the form's."));
     hostLabel->setBuddy(m_host);
+    //Enter there searches; the dialog would take it for its default button, Create.
+    m_host->installEventFilter(this);
     m_button = new QPushButton(tr("Search"), this);
     m_button->setObjectName("discoveryButton");
     m_button->setDefault(false);
@@ -65,11 +69,15 @@ WidgetEsphomeDiscovery::WidgetEsphomeDiscovery(std::function<MqttListener::Setti
 
     m_list = new QTreeWidget(this);
     m_list->setObjectName("discoveryList");
-    m_list->setHeaderLabels({ tr("Name"), tr("Topic prefix"), tr("Object id"), tr("Publishes") });
+    m_list->setHeaderLabels({ tr("Name"), tr("Topic prefix"), tr("Object id"), tr("Publishes"), tr("Status") });
     m_list->setRootIsDecorated(false);
     m_list->setAlternatingRowColors(true);
+    //Long "publishes" texts are elided (full text in the tooltip): a horizontal
+    //scroll bar would hide the rows of a list sized to them.
+    m_list->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    m_list->header()->setStretchLastSection(false);
     m_list->header()->setSectionResizeMode(QHeaderView::ResizeToContents);
-    m_list->header()->setStretchLastSection(true);
+    m_list->header()->setSectionResizeMode(3, QHeaderView::Stretch);
     m_list->hide();
     layout->addWidget(m_list);
 
@@ -107,6 +115,21 @@ void WidgetEsphomeDiscovery::setHosts(const QString &brokerHost, const QString &
         m_host->setText(EsphomeDiscovery::probeHost(brokerHost, reachedBroker, calaosHost));
 }
 
+bool WidgetEsphomeDiscovery::eventFilter(QObject *watched, QEvent *event)
+{
+    if (watched == m_host && event->type() == QEvent::KeyPress)
+    {
+        const int key = static_cast<QKeyEvent *>(event)->key();
+        if (key == Qt::Key_Return || key == Qt::Key_Enter)
+        {
+            if (m_button->isEnabled())
+                search();
+            return true;
+        }
+    }
+    return QGroupBox::eventFilter(watched, event);
+}
+
 void WidgetEsphomeDiscovery::setTimings(int listenMs, int answerTimeoutMs)
 {
     m_listenMs = listenMs;
@@ -115,8 +138,9 @@ void WidgetEsphomeDiscovery::setTimings(int listenMs, int answerTimeoutMs)
 
 void WidgetEsphomeDiscovery::search()
 {
-    MqttListener::Settings s = m_settings();
-    s.host = m_host->text().trimmed();
+    const QString host = m_host->text().trimmed();
+    MqttListener::Settings s = m_settings(host);
+    s.host = host;
     if (s.host.isEmpty())
     {
         setStatus(tr("Type the address of the broker as this computer reaches it."), true);
@@ -147,6 +171,18 @@ void WidgetEsphomeDiscovery::finished(const QString &error)
             QTreeWidgetItem *item = new QTreeWidgetItem(m_list, { c.displayName(), c.prefix, c.objectId, publishes(c) });
             item->setToolTip(0, c.ip.isEmpty() ? c.key() : QStringLiteral("%1 (%2)").arg(c.key(), c.ip));
             item->setToolTip(3, item->text(3));
+            if (c.stale)
+            {
+                item->setText(4, tr("old or offline"));
+                item->setToolTip(4, tr("Neither discovered nor online: likely retained messages of a former "
+                                       "object id."));
+                for (int col = 0;col < m_list->columnCount();col++)
+                    item->setForeground(col, palette().color(QPalette::Disabled, QPalette::Text));
+            }
+            else if (c.status == "online")
+                item->setText(4, tr("online"));
+            else if (c.status == "offline")
+                item->setText(4, tr("offline"));
         }
         m_list->setCurrentItem(nullptr);
         //As high as its rows, up to five: the form below needs the room.

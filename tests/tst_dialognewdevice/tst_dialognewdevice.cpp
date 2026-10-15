@@ -853,6 +853,10 @@ void tst_DialogNewDevice::screenshots()
 #ifdef QT_MQTT_AVAILABLE
     FakeMqttBroker broker;
     broker.retained = twoClimates();
+    //The former object id of the user's unit, next to its discovered successor.
+    broker.retained << qMakePair(QString("clim-buanderie/climate/clim_mitsu/mode/state"), QByteArray("cool"));
+    broker.retained << qMakePair(QString("homeassistant/climate/clim-buanderie/clim_mitsu_buanderie/config"),
+                                 QByteArray(R"({"name":"Clim buanderie","mode_cmd_t":"clim-buanderie/climate/clim_mitsu_buanderie/mode/command","modes":["off","heat","cool","heat_cool"]})"));
     const quint16 port = broker.start();
     DialogNewDevice found(shippedTemplates(lang), roomNamed("Salon"));
     found.resize(720, 820);

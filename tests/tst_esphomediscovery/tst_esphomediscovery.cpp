@@ -193,7 +193,9 @@ void tst_EsphomeDiscovery::anEmptyRetainedMessageIsNoState()
 
     //Nothing left but deletions: no climate at all.
     EsphomeDiscovery gone;
+    gone.feed("old/climate/clim/mode/state", "off");
     gone.feed("old/climate/clim/mode/state", "");
+    gone.feed("never/climate/clim/mode/state", "");
     QVERIFY(gone.climates().isEmpty());
 }
 
@@ -549,8 +551,8 @@ void tst_EsphomeDiscovery::theListenerReadsRetainedMessages()
     QVERIFY(broker.clientId.startsWith("calaos-installer-"));
     QCOMPARE(broker.filters, EsphomeDiscovery::filters());
     QCOMPARE(broker.disconnects, 1);
-    //status, zigbee2mqtt: not subscribed.
-    QCOMPARE(r.messages.size(), 8);
+    //zigbee2mqtt: not subscribed.
+    QCOMPARE(r.messages.size(), 9);
     //Two installers on one broker must not kick each other out.
     const QString firstId = broker.clientId;
     probe(broker, local(port, "calaos", "s3cret"));
@@ -587,8 +589,10 @@ void tst_EsphomeDiscovery::packetsSplitAnywhereAreRead()
     broker.retained << qMakePair(QString("homeassistant/climate/clim-buanderie/clim_mitsu_buanderie/config"), buanderieConfig());
     const Run r = probe(broker, local(broker.start()));
     QCOMPARE(r.error, QString());
-    QCOMPARE(r.messages.size(), 8);
-    QCOMPARE(r.messages.last().second, buanderieConfig());
+    QCOMPARE(r.messages.size(), 9);
+    //One SUBSCRIBE per filter: the order follows the filters.
+    QVERIFY(r.messages.contains(qMakePair(QString("homeassistant/climate/clim-buanderie/clim_mitsu_buanderie/config"),
+                                          buanderieConfig())));
 }
 
 void tst_EsphomeDiscovery::aQos1DeliveryIsAcknowledged()
@@ -598,9 +602,9 @@ void tst_EsphomeDiscovery::aQos1DeliveryIsAcknowledged()
     broker.retained = buanderieStates();
     const Run r = probe(broker, local(broker.start()));
     QCOMPARE(r.error, QString());
-    QCOMPARE(r.messages.size(), 7);
-    QCOMPARE(r.messages.first().second, QByteArray("heat"));
-    QCOMPARE(broker.pubacks, 7);
+    QCOMPARE(r.messages.size(), 8);
+    QVERIFY(r.messages.contains(qMakePair(P + "mode/state", QByteArray("heat"))));
+    QCOMPARE(broker.pubacks, 8);
 }
 
 void tst_EsphomeDiscovery::aPasswordWithoutUserIsNotSent()

@@ -19,8 +19,9 @@ class WidgetEsphomeDiscovery: public QGroupBox
     Q_OBJECT
 
 public:
-    //settings: port, user and password of the form, read at each search.
-    explicit WidgetEsphomeDiscovery(std::function<MqttListener::Settings()> settings, QWidget *parent = nullptr);
+    //settings: port, user and password to reach that host, read at each search.
+    explicit WidgetEsphomeDiscovery(std::function<MqttListener::Settings(const QString &host)> settings,
+                                    QWidget *parent = nullptr);
 
     //EsphomeDiscovery::probeHost() of these, until the user types another address.
     void setHosts(const QString &brokerHost, const QString &reachedBroker, const QString &calaosHost);
@@ -30,12 +31,15 @@ public:
 
     QList<EsphomeDiscovery::Climate> climates() const { return m_found; }
 
+protected:
+    bool eventFilter(QObject *watched, QEvent *event) override;
+
 signals:
     void climateChosen(const EsphomeDiscovery::Climate &c);
     void searchFinished();
 
 private:
-    std::function<MqttListener::Settings()> m_settings;
+    std::function<MqttListener::Settings(const QString &host)> m_settings;
     MqttListener *m_listener;
     EsphomeDiscovery m_discovery;
     QList<EsphomeDiscovery::Climate> m_found;

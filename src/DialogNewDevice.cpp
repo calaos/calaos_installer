@@ -27,6 +27,14 @@ using namespace Calaos;
 namespace
 {
 
+//The box last opened online.
+QString currentCalaosHost()
+{
+    const QVector<CalaosAuth> auths = ConfigOptions::Instance().getAuthList();
+    const int current = ConfigOptions::Instance().getCurrentAuthIndex();
+    return current >= 0 && current < auths.size() ? auths.at(current).host : QString();
+}
+
 QString u(const std::string &s)
 {
     return QString::fromUtf8(s.c_str());
@@ -70,13 +78,19 @@ DialogNewDevice::DialogNewDevice(const QJsonArray &templates, Room *room, QWidge
     layout->addWidget(m_description);
 
 #ifdef QT_MQTT_AVAILABLE
-    m_discovery = new WidgetEsphomeDiscovery([this]()
+    m_discovery = new WidgetEsphomeDiscovery([this](const QString &host)
     {
         const QVariantMap v = values();
         MqttListener::Settings s;
         s.port = quint16(v.value("mqtt_port", 1883).toInt());
-        s.user = v.value("mqtt_user").toString();
-        s.password = v.value("mqtt_password").toString();
+        //The credentials of the project's broker go to that broker only, unless the
+        //user typed them for this search.
+        const bool typed = m_changed.contains("mqtt_user") || m_changed.contains("mqtt_password");
+        if (typed || EsphomeDiscovery::sameBroker(host, v.value("mqtt_host").toString(), currentCalaosHost()))
+        {
+            s.user = v.value("mqtt_user").toString();
+            s.password = v.value("mqtt_password").toString();
+        }
         return s;
     }, this);
     m_discovery->hide();
@@ -238,11 +252,7 @@ void DialogNewDevice::buildForm()
 #ifdef QT_MQTT_AVAILABLE
 void DialogNewDevice::updateDiscoveryHosts()
 {
-    QString calaosHost;
-    const QVector<CalaosAuth> auths = ConfigOptions::Instance().getAuthList();
-    const int current = ConfigOptions::Instance().getCurrentAuthIndex();
-    if (current >= 0 && current < auths.size())
-        calaosHost = auths.at(current).host;
+    const QString calaosHost = currentCalaosHost();
     ConfigOptions &opt = ConfigOptions::Instance();
     const QString reached = opt.optionExists("calaos/mqtt_broker_host") ? opt.getMqttBrokerHost() : QString();
     m_discovery->setHosts(values().value("mqtt_host").toString(), reached, calaosHost);

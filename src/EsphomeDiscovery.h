@@ -45,7 +45,8 @@ public:
         QString displayName() const;
     };
 
-    //Wildcards also match homeassistant/climate/<node>/<id>/config, the discovery config.
+    //Wildcards also match homeassistant/climate/<node>/<id>/config, the discovery
+    //config; <prefix>/status is the availability of the node.
     static QStringList filters();
 
     void feed(const QString &topic, const QByteArray &payload);
@@ -77,6 +78,8 @@ public:
     static QString probeHost(const QString &brokerHost, const QString &reachedBroker, const QString &calaosHost);
     //Host part of what the "open online" dialog keeps (an address, host:port or a URL).
     static QString hostOf(const QString &calaosHost);
+    //Whether probeHost is the broker the project's IOs name brokerHost (from the server).
+    static bool sameBroker(const QString &probeHost, const QString &brokerHost, const QString &calaosHost);
 
 private:
     QMap<QString, Climate> m_climates;
@@ -86,6 +89,7 @@ private:
         QString ip;
     };
     QMap<QString, Node> m_nodes;
+    QMap<QString, QString> m_status; //by prefix
 
     Climate &climate(const QString &prefix, const QString &objectId);
     void feedConfig(QJsonObject config);
