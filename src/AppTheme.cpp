@@ -42,6 +42,12 @@ QPalette lightPalette()
 
 void forceLight()
 {
+#if QT_VERSION >= QT_VERSION_CHECK(6, 8, 0)
+    QGuiApplication::styleHints()->setColorScheme(Qt::ColorScheme::Light);
+#else
+    // No colour scheme override before 6.8: pin the palette instead.
+    QGuiApplication::setPalette(lightPalette());
+#endif
 }
 
 }
