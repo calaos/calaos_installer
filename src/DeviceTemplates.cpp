@@ -1,6 +1,7 @@
 #include "DeviceTemplates.h"
 
 #include <ListeRoom.h>
+#include <QDebug>
 #include <QFile>
 #include <QJsonDocument>
 #include <QRegularExpression>
@@ -76,7 +77,17 @@ QJsonArray DeviceTemplates::parse(const QByteArray &json)
     const QJsonObject root = QJsonDocument::fromJson(json).object();
     if (root["format"].toInt() != FORMAT)
         return QJsonArray();
-    return root["templates"].toArray();
+
+    QJsonArray kept;
+    for (const QJsonValue &t: root["templates"].toArray())
+    {
+        const QJsonObject tpl = t.toObject();
+        if (tpl["family"].toString().isEmpty() || tpl["impl"].toString().isEmpty())
+            qWarning().noquote() << QStringLiteral("Device template \"%1\" has no family or no impl: skipped").arg(tpl["id"].toString());
+        else
+            kept.append(tpl);
+    }
+    return kept;
 }
 
 QJsonObject DeviceTemplates::field(const QJsonObject &tpl, const QString &name)
