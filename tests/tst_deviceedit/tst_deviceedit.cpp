@@ -191,7 +191,7 @@ void tst_DeviceEdit::rolesAndParamsComeFromIODoc()
     QVERIFY(DeviceEdit::isDocumented(th()));
     QCOMPARE(names(DeviceEdit::roles(th())),
              QStringList({ "current_temp", "target_temp", "target_temp_low", "target_temp_high", "action",
-                           "output_heat", "output_cool", "humidity" }));
+                           "output_heat", "output_cool", "output", "humidity" }));
 
     //The filter of a role picked from the house comes from the templates of the impl.
     QCOMPARE(roleNamed(th(), "current_temp").valueType, QString("number"));
@@ -199,7 +199,8 @@ void tst_DeviceEdit::rolesAndParamsComeFromIODoc()
     QCOMPARE(roleNamed(th(), "output_heat").valueType, QString("bool"));
     QVERIFY(roleNamed(th(), "output_heat").writable);
     QVERIFY(roleNamed(th(), "output_heat").required);
-    QCOMPARE(roleNamed(th(), "humidity").requiredWhen["param"].toString(), QString("emitter"));
+    QVERIFY(roleNamed(th(), "humidity").requiredWhen.isEmpty());
+    QCOMPARE(roleNamed(th(), "output").replaces, QStringList({ "output_heat", "output_cool" }));
     //Unlinked: only the templates tell its kind.
     QCOMPARE(roleNamed(th(), "humidity").valueType, QString("number"));
 
@@ -208,8 +209,9 @@ void tst_DeviceEdit::rolesAndParamsComeFromIODoc()
         params << p.name + (p.deviceParam ? "*" : "");
     //Read-only ones (id, impl, gui_type, io_type) are not offered.
     QCOMPARE(params, QStringList({ "emitter*", "enabled", "humidity_max*", "hysteresis*", "log_history", "logged",
-                                   "min_off_time*", "min_on_time*", "min_range*", "name", "put_back_delay*",
-                                   "put_back_delay_max*", "sensor_timeout*", "visible" }));
+                                   "min_off_time*", "min_on_time*", "min_range*", "modes*", "name",
+                                   "put_back_delay*", "put_back_delay_max*", "sensor_timeout*", "valid_max*",
+                                   "valid_min*", "visible" }));
 
     Params p = { { "id", "x" }, { "type", "f" }, { "impl", "nope" } };
     Device unknown(p);
@@ -341,8 +343,9 @@ void tst_DeviceEdit::linksToTheDevicesOwnIosAreNotEditable()
     QVERIFY(!DeviceEdit::isOwnedRole(th(), "humidity"));
 
     const DeviceEdit::State s = DeviceEdit::current(th());
-    QCOMPARE(s.links.keys(), QStringList({ "current_temp", "humidity", "output_cool", "output_heat" }));
+    QCOMPARE(s.links.keys(), QStringList({ "current_temp", "humidity", "output", "output_cool", "output_heat" }));
     QCOMPARE(s.links["humidity"], QString());
+    QCOMPARE(s.links["output"], QString());
     QCOMPARE(s.params["hysteresis"], QString("0.5"));
     QCOMPARE(s.params["name"], QString("Chauffage salon"));
     QVERIFY(!s.params.contains("humidity_max"));
@@ -588,11 +591,28 @@ void tst_DeviceEdit::requiredRolesAreReported()
     DeviceEdit::State s = DeviceEdit::current(th());
     QCOMPARE(DeviceEdit::missingRequired(th(), s), QStringList());
 
-    //humidity: required_when output_cool is linked and emitter is floor.
+    //Humidity is optional since decision 22, emitter=floor included.
     s.params["emitter"] = "floor";
-    QCOMPARE(DeviceEdit::missingRequired(th(), s), QStringList({ "Humidity sensor" }));
-    s.links["output_cool"] = QString();
     QCOMPARE(DeviceEdit::missingRequired(th(), s), QStringList());
+
+    //No shipped role has a required_when any more: the rule on a role built here,
+    //the shape humidity had (emitter=floor and output_cool linked).
+    DeviceEdit::Role when = roleNamed(th(), "humidity");
+    when.requiredWhen = QJsonObject { { "param", "emitter" }, { "value", "floor" }, { "link", "output_cool" } };
+    QVERIFY(DeviceEdit::isRequired(th(), when, s));
+    s.params["emitter"] = "electric";
+    QVERIFY(!DeviceEdit::isRequired(th(), when, s));
+    s.params.remove("emitter");
+    QVERIFY(!DeviceEdit::isRequired(th(), when, s));
+    s.params["emitter"] = "floor";
+    s.links["output_cool"] = QString();
+    QVERIFY(!DeviceEdit::isRequired(th(), when, s));
+    s.links["output_cool"] = "ghost";
+    QVERIFY(!DeviceEdit::isRequired(th(), when, s));
+    when.requiredWhen.remove("link");
+    QVERIFY(DeviceEdit::isRequired(th(), when, s));
+    s.links["output_cool"] = QString();
+
     s.links["current_temp"] = QString();
     QCOMPARE(DeviceEdit::missingRequired(th(), s), QStringList({ "Current temperature" }));
     //Reported, not refused: the server loads the device without that capability.
@@ -696,13 +716,16 @@ void tst_DeviceEdit::theDialogMarksTheRequiredRoles()
     QCOMPARE(labelOf("current_temp"), QString("Current temperature (required):"));
     QCOMPARE(labelOf("humidity"), QString("Humidity sensor:"));
 
+    //A floor no longer needs humidity (decision 22).
     choose(d.findChild<QComboBox *>("param_emitter"), "floor");
-    QCOMPARE(labelOf("humidity"), QString("Humidity sensor (required):"));
-    QVERIFY(!warning->isHidden());
-    QCOMPARE(warning->text(), QString("No IO for Humidity sensor: the device loads without what this link gives."));
+    QCOMPARE(labelOf("humidity"), QString("Humidity sensor:"));
+    QVERIFY(warning->isHidden());
     QCOMPARE(labelOf("param_put_back_delay_max"), QString("Maximum put-back delay:"));
 
-    choose(d.findChild<QComboBox *>("link_humidity"), "hum_salon");
+    choose(d.findChild<QComboBox *>("link_current_temp"), QString());
+    QVERIFY(!warning->isHidden());
+    QCOMPARE(warning->text(), QString("No IO for Current temperature: the device loads without what this link gives."));
+    choose(d.findChild<QComboBox *>("link_current_temp"), "temp_salon");
     QVERIFY(warning->isHidden());
 }
 

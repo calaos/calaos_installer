@@ -3030,14 +3030,19 @@ Device of family `climate`, impl `proxy`.
 Name | Label | Type | Mandatory | Description
 ---- | ----- | ---- | --------- | -----------
 auto_payload (calaos:param) | Auto payload | list | no | What is written to the mode link for auto. Without it, the spelling the appliance last reported, else heat_cool.
+changeover_delay (calaos:param) | Changeover delay | float | no | With emulate_range: seconds between the end of heat and the start of cool, or the reverse, at least min_off_time.
+emulate_range (calaos:param) | Emulated dual setpoint | bool | no | For a unit with a single setpoint: the device keeps target_temp_low and target_temp_high itself (internal IOs, created when missing) and offers auto. In auto the unit runs in heat on the low setpoint below the range, in cool on the high setpoint above it, and is off in between. Needs a target_temp link and heat and cool among the modes. The room temperature is remote_temp_source, else current_temp; while it is stale the unit is left as it is. A mode changed on the unit itself suspends auto until it is selected again. auto is never sent to the unit.
 enabled | Enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
 fan_modes (calaos:param) | Fan modes | string | no | Comma separated fan modes the appliance accepts. Without it every fan_mode command is refused.
 gui_type | Display type | string | no | Internal graphical type for all calaos objects. Set automatically, read-only parameter.
+hysteresis (calaos:param) | Hysteresis | float | no | With emulate_range: degrees past the range before the unit starts, in heat below the low setpoint minus hysteresis, in cool above the high setpoint plus hysteresis. It stops as soon as the room is back in the range.
 id | Identifier | string | yes | Unique ID identifying the Input/Output in calaos-server
 impl | Implementation | string | yes | Implementation of the device family: the key of this document in devices.
 io_type | IO type | string | yes | IO type, can be "input", "output", "inout"
 log_history | History log | bool | no | If enabled, write an entry in the history event log for this IO
 logged | InfluxDB | bool | no | If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO
+min_off_time (calaos:param) | Minimum off time | float | no | With emulate_range: seconds the unit stays off at least before auto starts it again.
+min_on_time (calaos:param) | Minimum on time | float | no | With emulate_range: seconds the unit runs at least in heat or cool before auto stops it. A mode selected by the user is applied at once.
 min_range (calaos:param) | Minimum range | float | no | Minimum gap in degrees between target_temp_low and target_temp_high. A range closer than that is refused.
 modes (calaos:param) | Modes | string | no | Comma separated modes the device offers (off, heat, cool, auto, dry, fan_only). Default to all of them.
 name | Name | string | yes | Name of Input/Output.
@@ -3088,7 +3093,7 @@ Device of family `climate`, impl `thermostat`.
 ## Parameters of Climate thermostat
 Name | Label | Type | Mandatory | Description
 ---- | ----- | ---- | --------- | -----------
-emitter (calaos:param) | Emitter | list | no | What the outputs drive. Only floor has an effect: floor cooling then needs a humidity link and stops at humidity_max (dew point).
+emitter (calaos:param) | Emitter | list | no | What the outputs drive. Only floor has an effect: with a humidity link, floor cooling then stops at humidity_max (dew point).
 enabled | Enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
 gui_type | Display type | string | no | Internal graphical type for all calaos objects. Set automatically, read-only parameter.
 humidity_max (calaos:param) | Maximum humidity | float | no | Relative humidity (%) from which floor cooling stops, with emitter=floor. Not negative.
@@ -3101,10 +3106,13 @@ logged | InfluxDB | bool | no | If enabled, and if influxdb is enabled in local_
 min_off_time (calaos:param) | Minimum off time | float | no | Seconds an output stays off at least before it can start again.
 min_on_time (calaos:param) | Minimum on time | float | no | Seconds an output stays on at least, except when the mode is off or a safety cut stops it.
 min_range (calaos:param) | Minimum range | float | no | Minimum gap in degrees between target_temp_low and target_temp_high. A range closer than that is refused.
+modes (calaos:param) | Modes | string | no | Comma separated modes the thermostat offers, among heat, cool and auto; off is always offered. Without it, the outputs decide: heat with output_heat, cool with output_cool, auto with both, and heat alone with output. A mode the outputs cannot run, or an unknown one, is ignored.
 name | Name | string | yes | Name of Input/Output.
 put_back_delay (calaos:param) | Put-back delay | float | no | Seconds before an output that something else keeps switching is put back; the wait doubles while the other writer keeps undoing it, up to put_back_delay_max. At least 0.001, else the default is used.
 put_back_delay_max (calaos:param) | Maximum put-back delay | float | no | Longest wait between two put-backs, in seconds. Not below put_back_delay. It also sets the window of the log of writes from outside to an output: one line per source and output during that time.
 sensor_timeout (calaos:param) | Sensor timeout | float | no | Seconds a linked sensor may go without a reading, a repeated value included, before it counts as stale. A positive number; the default outlasts one lost hourly Zigbee report. A sensor older than half of it is asked for a reading when its protocol can (KNX).
+valid_max (calaos:param) | Highest valid temperature | float | no | Highest plausible reading of current_temp, in the unit of the sensor. A reading above it is treated as no reading, like valid_min. No check when empty. Not below valid_min.
+valid_min (calaos:param) | Lowest valid temperature | float | no | Lowest plausible reading of current_temp, in the unit of the sensor. A reading below it is treated as no reading: the outputs go OFF at once, whatever min_on_time, until a reading is back within the bounds. No check when empty.
 visible | Visible | bool | no | Display the Input/Output on all user interfaces if set. Default to true
 
 ## Link roles of Climate thermostat
@@ -3112,21 +3120,22 @@ Writable: the device writes this link.
 
 Role | Label | Value | Required | Writable | Description
 ---- | ----- | ----- | -------- | -------- | -----------
-current_temp | Current temperature | number | yes | no | Temperature the regulation reads. The outputs stay off until it has delivered a reading since the start (a cached or retained value does not count), and while it has sent nothing for sensor_timeout or reports itself disconnected.
+current_temp | Current temperature | number | yes | no | Temperature the regulation reads. The outputs stay off until it has delivered a reading since the start (a cached or retained value does not count), while it has sent nothing for sensor_timeout, reports itself disconnected or reads outside valid_min..valid_max.
 target_temp | Setpoint | number | yes | yes | Setpoint used in heat and cool. Created when missing.
 target_temp_low | Low setpoint | number | no | yes | Low bound of the auto range. Created when missing, with output_cool.
 target_temp_high | High setpoint | number | no | yes | High bound of the auto range. Created when missing, with output_cool.
 action | Action | string | no | yes | Written by the thermostat: off, idle, heating or cooling. Created when missing.
-output_heat | Heating output | bool | yes | yes | Output driven for heating. Enables heat. An output belongs to a single thermostat: a second one linking it ignores the link.
+output_heat | Heating output | bool | yes, or output | yes | Output driven for heating. Enables heat. An output belongs to a single thermostat: a second one linking it ignores the link.
 output_cool | Cooling output | bool | no | yes | Output driven for cooling. Enables cool and auto. An output belongs to a single thermostat: a second one linking it ignores the link.
-humidity | Humidity sensor | number | when emitter=floor and output_cool | no | Relative humidity of the room. With emitter=floor, cooling stops while it reads humidity_max or more, has not read, is stale or disconnected; without it, a floor offers neither cool nor auto.
+output | Zone valve | bool | no | yes | Valve or relay of the zone, ON for any demand, heating or cooling: the mode gives the direction. Instead of output_heat and output_cool, which cannot be linked with it; the modes param says what it offers. An output belongs to a single thermostat: a second one linking it ignores the link. Replaces output_heat, output_cool.
+humidity | Humidity sensor | number | no | no | Relative humidity of the room. With emitter=floor, cooling stops while it reads humidity_max or more, has not read, is stale or disconnected. Without it, a floor cools with no dew-point cut.
 
 ## Command of Climate thermostat
 The value is a mode (`off`) or a JSON object holding any of these fields, e.g. `{"mode":"heat","target_temp":21.5}`. A field is only applied when all its links exist and are writable on the instance.
 
 Name | Type | Values or bounds | Requires links | Description
 ---- | ---- | ---------------- | -------------- | -----------
-mode | enum | off, heat (needs output_heat), cool (needs output_cool), auto (needs output_heat + output_cool) |  | Operating mode. The modes an instance accepts are published in its capabilities. Heat needs the output_heat link, cool needs output_cool and auto needs both.
+mode | enum | off, heat (needs output_heat), cool (needs output_cool), auto (needs output_heat + output_cool) |  | Operating mode. The modes an instance accepts are published in its capabilities. Heat needs the output_heat link, cool needs output_cool and auto needs both; with the output link, the modes param says which ones.
 target_temp | number | 7 to 35, step 0.5 °C | target_temp | The setpoint used in heat and cool. Bounds are those of the linked IO (value_min, value_max, step, unit), else 7 to 35 by 0.5 in °C. The effective ones are published in the capabilities.
 target_temp_low | number | 7 to 35, step 0.5 °C | target_temp_low, target_temp_high | Low bound of the range used in auto. Bounds are those of the linked IO (value_min, value_max, step, unit), else 7 to 35 by 0.5 in °C. The effective ones are published in the capabilities.
 target_temp_high | number | 7 to 35, step 0.5 °C | target_temp_low, target_temp_high | High bound of the range used in auto. Bounds are those of the linked IO (value_min, value_max, step, unit), else 7 to 35 by 0.5 in °C. The effective ones are published in the capabilities.

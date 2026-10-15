@@ -122,6 +122,14 @@
                     "type": "bool"
                 },
                 {
+                    "default": false,
+                    "description": "Pour un climat \u00e0 consigne unique (laisser Deux consignes d\u00e9coch\u00e9) : Calaos garde une consigne basse et une consigne haute et, en auto, met le climat en chauffage sous la basse, en froid au-dessus de la haute, et l'arr\u00eate entre les deux. Demande le chauffage et le froid parmi les modes.",
+                    "label": "Double consigne \u00e9mul\u00e9e",
+                    "name": "emulate_range",
+                    "required": false,
+                    "type": "bool"
+                },
+                {
                     "default": 16.0,
                     "description": "Consigne la plus basse accept\u00e9e par le climat.",
                     "label": "Consigne minimale",
@@ -499,7 +507,7 @@
             "name": "Climat ESPHome (MQTT)",
             "notes": [
                 {
-                    "text": "ESPHome n'accepte pas de temp\u00e9rature distante par MQTT par d\u00e9faut. Pour un climat Mitsubishi CN105 (dont l'id est hp), ajoutez au YAML du n\u0153ud :\n\n```yaml\nmqtt:\n  on_message:\n    - topic: {topic_prefix}/calaos/remote_temp\n      then:\n        - lambda: |-\n            auto t = parse_number<float>(x);\n            if (t.has_value()) id(hp).set_remote_temperature(*t);\n```\n\nPour un climat qui r\u00e9gule sur sa propre sonde (plateforme thermostat), faites de la temp\u00e9rature relay\u00e9e cette sonde ; le d\u00e9lai la fait passer \u00e0 NaN, et le thermostat s'arr\u00eate, quand Calaos cesse de la relayer :\n\n```yaml\nsensor:\n  - platform: mqtt_subscribe\n    id: calaos_temp\n    topic: {topic_prefix}/calaos/remote_temp\n    filters:\n      - timeout: 5min\nclimate:\n  - platform: thermostat\n    sensor: calaos_temp\n```\n",
+                    "text": "ESPHome n'accepte pas de temp\u00e9rature distante par MQTT par d\u00e9faut. Pour un climat Mitsubishi CN105 (MitsubishiCN105ESPHome), faites de la temp\u00e9rature relay\u00e9e un capteur du n\u0153ud et la source de temp\u00e9rature distante du climat ; sans mise \u00e0 jour pendant remote_temperature_timeout, le climat revient \u00e0 sa propre sonde :\n\n```yaml\nsensor:\n  - platform: mqtt_subscribe\n    id: calaos_temp\n    topic: {topic_prefix}/calaos/remote_temp\nclimate:\n  - platform: cn105\n    remote_temperature_source:\n      sensor_id: calaos_temp\n    remote_temperature_timeout: 10min\n```\n\nPour un climat qui r\u00e9gule sur sa propre sonde (plateforme thermostat), faites de la temp\u00e9rature relay\u00e9e cette sonde ; le d\u00e9lai la fait passer \u00e0 NaN, et le thermostat s'arr\u00eate, quand Calaos cesse de la relayer :\n\n```yaml\nsensor:\n  - platform: mqtt_subscribe\n    id: calaos_temp\n    topic: {topic_prefix}/calaos/remote_temp\n    filters:\n      - timeout: 5min\nclimate:\n  - platform: thermostat\n    sensor: calaos_temp\n```\n",
                     "when": "remote_temp_source"
                 }
             ],
@@ -529,6 +537,36 @@
                     "name": "sensor_timeout",
                     "value": "9000",
                     "when": "remote_temp_source"
+                },
+                {
+                    "name": "emulate_range",
+                    "value": "true",
+                    "when": "emulate_range"
+                },
+                {
+                    "name": "min_range",
+                    "value": "2",
+                    "when": "emulate_range"
+                },
+                {
+                    "name": "hysteresis",
+                    "value": "0.5",
+                    "when": "emulate_range"
+                },
+                {
+                    "name": "min_on_time",
+                    "value": "300",
+                    "when": "emulate_range"
+                },
+                {
+                    "name": "min_off_time",
+                    "value": "300",
+                    "when": "emulate_range"
+                },
+                {
+                    "name": "changeover_delay",
+                    "value": "600",
+                    "when": "emulate_range"
                 }
             ]
         },
@@ -1073,6 +1111,14 @@
                     "value": "9000"
                 },
                 {
+                    "name": "valid_min",
+                    "value": "-30"
+                },
+                {
+                    "name": "valid_max",
+                    "value": "60"
+                },
+                {
                     "name": "put_back_delay",
                     "value": "1"
                 },
@@ -1295,6 +1341,14 @@
                 {
                     "name": "sensor_timeout",
                     "value": "9000"
+                },
+                {
+                    "name": "valid_min",
+                    "value": "-30"
+                },
+                {
+                    "name": "valid_max",
+                    "value": "60"
                 },
                 {
                     "name": "put_back_delay",
@@ -1520,6 +1574,14 @@
                     "value": "9000"
                 },
                 {
+                    "name": "valid_min",
+                    "value": "-30"
+                },
+                {
+                    "name": "valid_max",
+                    "value": "60"
+                },
+                {
                     "name": "put_back_delay",
                     "value": "1"
                 },
@@ -1530,6 +1592,209 @@
                 {
                     "name": "humidity_max",
                     "value": "{humidity_max}"
+                }
+            ]
+        },
+        {
+            "attributes": {
+                "name": "{name}",
+                "visible": "true"
+            },
+            "description": "Calaos ouvre la vanne d'une zone de plancher pour chauffer ou rafra\u00eechir, le mode donnant le sens. Des r\u00e8gles pilotent la pompe \u00e0 chaleur \u00e0 partir des zones.",
+            "family": "climate",
+            "fields": [
+                {
+                    "description": "Nom de l'\u00e9quipement, affich\u00e9 dans les interfaces.",
+                    "label": "Nom",
+                    "name": "name",
+                    "required": true,
+                    "type": "string"
+                },
+                {
+                    "description": "Pi\u00e8ce dans laquelle l'\u00e9quipement est cr\u00e9\u00e9.",
+                    "label": "Pi\u00e8ce",
+                    "name": "room",
+                    "required": true,
+                    "type": "room"
+                },
+                {
+                    "description": "Temp\u00e9rature de la pi\u00e8ce sur laquelle le thermostat r\u00e9gule. Une sonde qui ne remonte que ses variations peut \u00eatre prise pour une sonde muette.",
+                    "io_filter": {
+                        "value": "number",
+                        "writable": false
+                    },
+                    "label": "Sonde de temp\u00e9rature",
+                    "name": "current_temp",
+                    "required": true,
+                    "type": "io"
+                },
+                {
+                    "description": "Vanne ou relais de la zone. Elle s'ouvre pour toute demande, chauffage ou froid : le mode donne le sens. Elle appartient \u00e0 ce seul thermostat : les r\u00e8gles ne doivent pas l'\u00e9crire.",
+                    "io_filter": {
+                        "value": "bool",
+                        "writable": true
+                    },
+                    "label": "Vanne de zone",
+                    "name": "output",
+                    "required": true,
+                    "type": "io"
+                },
+                {
+                    "default": [
+                        "off",
+                        "heat",
+                        "cool"
+                    ],
+                    "description": "Modes propos\u00e9s par la zone ; l'arr\u00eat l'est toujours. Une zone sans froid garde le chauffage seul.",
+                    "label": "Modes",
+                    "name": "modes",
+                    "required": true,
+                    "type": "multi",
+                    "values": [
+                        {
+                            "label": "Arr\u00eat",
+                            "value": "off"
+                        },
+                        {
+                            "label": "Chauffage",
+                            "value": "heat"
+                        },
+                        {
+                            "label": "Froid",
+                            "value": "cool"
+                        }
+                    ]
+                },
+                {
+                    "description": "Facultative. Avec elle, le froid s'arr\u00eate tant que la pi\u00e8ce indique humidity_max ou plus, n'a pas de valeur, ou est muette. Sans elle, l'installation garde le plancher au-dessus du point de ros\u00e9e.",
+                    "io_filter": {
+                        "value": "number",
+                        "writable": false
+                    },
+                    "label": "Sonde d'humidit\u00e9",
+                    "name": "humidity",
+                    "required": false,
+                    "type": "io"
+                },
+                {
+                    "default": 60.0,
+                    "description": "Humidit\u00e9 relative \u00e0 partir de laquelle le froid s'arr\u00eate, avec une sonde d'humidit\u00e9.",
+                    "label": "Humidit\u00e9 maximale",
+                    "max": 90.0,
+                    "min": 40.0,
+                    "name": "humidity_max",
+                    "required": true,
+                    "step": 1.0,
+                    "type": "number",
+                    "unit": "%"
+                }
+            ],
+            "id": "thermostat_floor_zone",
+            "impl": "thermostat",
+            "ios": [
+                {
+                    "element": "internal",
+                    "key": "target_temp",
+                    "params": {
+                        "name": "{name} consigne",
+                        "save": "true",
+                        "step": "0.5",
+                        "unit": "\u00b0C",
+                        "value": "20",
+                        "value_max": "30",
+                        "value_min": "7",
+                        "visible": "false"
+                    },
+                    "type": "InternalInt"
+                },
+                {
+                    "element": "internal",
+                    "key": "action",
+                    "params": {
+                        "name": "{name} action",
+                        "visible": "false"
+                    },
+                    "type": "InternalString"
+                }
+            ],
+            "links": [
+                {
+                    "io": {
+                        "field": "current_temp"
+                    },
+                    "role": "current_temp"
+                },
+                {
+                    "io": {
+                        "owned": "target_temp"
+                    },
+                    "role": "target_temp"
+                },
+                {
+                    "io": {
+                        "owned": "action"
+                    },
+                    "role": "action"
+                },
+                {
+                    "io": {
+                        "field": "output"
+                    },
+                    "role": "output"
+                },
+                {
+                    "io": {
+                        "field": "humidity"
+                    },
+                    "role": "humidity"
+                }
+            ],
+            "name": "Zone de plancher r\u00e9versible",
+            "params": [
+                {
+                    "name": "emitter",
+                    "value": "floor"
+                },
+                {
+                    "name": "hysteresis",
+                    "value": "0.5"
+                },
+                {
+                    "name": "min_on_time",
+                    "value": "900"
+                },
+                {
+                    "name": "min_off_time",
+                    "value": "900"
+                },
+                {
+                    "name": "sensor_timeout",
+                    "value": "9000"
+                },
+                {
+                    "name": "valid_min",
+                    "value": "-30"
+                },
+                {
+                    "name": "valid_max",
+                    "value": "60"
+                },
+                {
+                    "name": "put_back_delay",
+                    "value": "1"
+                },
+                {
+                    "name": "put_back_delay_max",
+                    "value": "60"
+                },
+                {
+                    "name": "modes",
+                    "value": "{modes}"
+                },
+                {
+                    "name": "humidity_max",
+                    "value": "{humidity_max}",
+                    "when": "humidity"
                 }
             ]
         }

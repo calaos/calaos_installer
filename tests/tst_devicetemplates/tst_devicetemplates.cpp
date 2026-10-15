@@ -300,7 +300,8 @@ void tst_DeviceTemplates::theShippedCatalogueIsRead()
 {
     const QJsonArray all = shippedTemplates();
     QCOMPARE(namesOf(all, "id"), QStringList({ "esphome_climate", "esphome_climate_ir", "thermostat_heat",
-                                               "thermostat_heat_cool", "thermostat_floor_heat_cool" }));
+                                               "thermostat_heat_cool", "thermostat_floor_heat_cool",
+                                               "thermostat_floor_zone" }));
     for (const QJsonValue &t: all)
         QVERIFY(!t.toObject()["name"].toString().isEmpty());
 }
@@ -340,9 +341,16 @@ void tst_DeviceTemplates::checkDocumentedDevice(Device *dev, const QJsonObject &
     QMap<QString, QJsonObject> roles;
     for (const QJsonValue &r: doc["link_roles"].toArray())
         roles[r.toObject()["role"].toString()] = r.toObject();
+    //A required role is met by a role that replaces it (the zone valve for output_heat).
     for (const QString &role: roles.keys())
-        if (roles[role]["required"].toBool())
-            QVERIFY2(rolesOf(dev).contains(role), qPrintable("required role missing: " + role));
+    {
+        if (!roles[role]["required"].toBool())
+            continue;
+        bool met = rolesOf(dev).contains(role);
+        for (const QString &by: IODoc::replacersOf(doc, role))
+            met = met || rolesOf(dev).contains(by);
+        QVERIFY2(met, qPrintable("required role missing: " + role));
+    }
 
     for (const DeviceLink &l: dev->links())
     {
@@ -491,8 +499,8 @@ void tst_DeviceTemplates::theNamedVariantsHaveTheirLinksAndParams_data()
     auto thermostat = [](const QString &emitter, const QString &hyst, const QString &on, const QString &off)
     {
         return QVariantMap { { "emitter", emitter }, { "hysteresis", hyst }, { "min_on_time", on },
-                             { "min_off_time", off }, { "sensor_timeout", "9000" }, { "put_back_delay", "1" },
-                             { "put_back_delay_max", "60" } };
+                             { "min_off_time", off }, { "sensor_timeout", "9000" }, { "valid_min", "-30" },
+                             { "valid_max", "60" }, { "put_back_delay", "1" }, { "put_back_delay_max", "60" } };
     };
     auto plus = [](QVariantMap m, const QVariantMap &extra)
     {
@@ -540,6 +548,17 @@ void tst_DeviceTemplates::theNamedVariantsHaveTheirLinksAndParams_data()
                                      << QStringList(range) + QStringList { "humidity" }
                                      << plus(thermostat("floor", "0.5", "900", "900"),
                                              { { "min_range", "2" }, { "humidity_max", "55" } });
+    QTest::newRow("floor_zone") << "thermostat_floor_zone"
+                                << QVariantMap { { "output", "relay_heat" }, { "humidity", "temp_cave" },
+                                                 { "humidity_max", 55.0 } }
+                                << QStringList { "current_temp", "target_temp", "action", "output", "humidity" }
+                                << plus(thermostat("floor", "0.5", "900", "900"),
+                                        { { "modes", "off,heat,cool" }, { "humidity_max", "55" } });
+    QTest::newRow("floor_zone_heat_only") << "thermostat_floor_zone"
+                                          << QVariantMap { { "output", "relay_heat" }, { "humidity", "" },
+                                                           { "modes", QStringList { "heat", "off" } } }
+                                          << QStringList { "current_temp", "target_temp", "action", "output" }
+                                          << plus(thermostat("floor", "0.5", "900", "900"), { { "modes", "off,heat" } });
 }
 
 void tst_DeviceTemplates::theNamedVariantsHaveTheirLinksAndParams()
@@ -615,6 +634,8 @@ void tst_DeviceTemplates::theDocumentedExampleIsWrittenAsDocumented()
   <calaos:param name="min_on_time" value="120"/>
   <calaos:param name="min_off_time" value="120"/>
   <calaos:param name="sensor_timeout" value="9000"/>
+  <calaos:param name="valid_min" value="-30"/>
+  <calaos:param name="valid_max" value="60"/>
   <calaos:param name="put_back_delay" value="1"/>
   <calaos:param name="put_back_delay_max" value="60"/>
 </calaos:device>)";
