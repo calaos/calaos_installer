@@ -40,9 +40,11 @@ const QJsonObject &IODoc::rootObject()
         if (jerr.error != QJsonParseError::NoError || !jdoc.isObject())
             return root;
 
-        QJsonObject obj = jdoc.object();
-        // Insert lowercase keys so lookups are case-insensitive
-        for (auto it = obj.begin(); it != obj.end(); it++)
+        // Insert lowercase keys so lookups are case-insensitive. Iterate a copy:
+        // inserting into the object being walked invalidates its iterators.
+        const QJsonObject file = jdoc.object();
+        QJsonObject obj = file;
+        for (auto it = file.constBegin(); it != file.constEnd(); it++)
             obj.insert(it.key().toLower(), it.value());
 
         root = obj;

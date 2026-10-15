@@ -230,6 +230,25 @@ private slots:
         QVERIFY(IODoc::getDeviceObject("").isEmpty());
     }
 
+    // Lookups go through a lowercase copy of every key of the shipped file.
+    void everyTypeIsFoundWhateverItsCase()
+    {
+        QFile f(":/doc/en/io_doc.json");
+        QVERIFY(f.open(QIODevice::ReadOnly));
+        const QJsonObject file = QJsonDocument::fromJson(f.readAll()).object();
+        QVERIFY(file.size() > 10);
+
+        for (auto it = file.constBegin(); it != file.constEnd(); it++)
+        {
+            if (it.key() == QLatin1String("devices"))
+                continue;
+            const QJsonObject doc = it.value().toObject();
+            QCOMPARE(IODoc::getIOObject(it.key()), doc);
+            QCOMPARE(IODoc::getIOObject(it.key().toLower()), doc);
+            QCOMPARE(IODoc::getIOObject(it.key().toUpper()), doc);
+        }
+    }
+
     // The devices live under a reserved key of the file the IO types are read from.
     void devicesAreNeverTakenForAnIoType()
     {

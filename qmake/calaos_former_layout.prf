@@ -1,0 +1,7 @@
+# Generated files left at the top of the build directory by the layout used before
+# .qmake.conf would shadow the current ones: the build directory is on the include
+# path, and qftp.cpp includes its moc output.
+exists($$OUT_PWD/moc_*.cpp)|exists($$OUT_PWD/*.moc)|exists($$OUT_PWD/ui_*.h)|exists($$OUT_PWD/qrc_*.cpp) {
+    error("$$OUT_PWD holds files of a build made before $$CALAOS_BUILD_DIR/:" \
+          "delete its *.o, *.moc, moc_*, ui_* and qrc_* files, or use an empty build directory.")
+}
