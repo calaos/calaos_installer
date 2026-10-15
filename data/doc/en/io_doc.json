@@ -29,6 +29,7 @@
             {
                 "default": "true",
                 "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
+                "label": "Enabled",
                 "mandatory": "false",
                 "name": "enabled",
                 "readonly": "false",
@@ -36,6 +37,7 @@
             },
             {
                 "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
+                "label": "Display type",
                 "mandatory": "false",
                 "name": "gui_type",
                 "readonly": "true",
@@ -50,6 +52,7 @@
             },
             {
                 "description": "Unique ID identifying the Input/Output in calaos-server",
+                "label": "Identifier",
                 "mandatory": "true",
                 "name": "id",
                 "readonly": "true",
@@ -57,6 +60,7 @@
             },
             {
                 "description": "IO type, can be \"input\", \"output\", \"inout\"",
+                "label": "IO type",
                 "mandatory": "true",
                 "name": "io_type",
                 "readonly": "true",
@@ -65,6 +69,7 @@
             {
                 "default": "false",
                 "description": "If enabled, write an entry in the history event log for this IO",
+                "label": "History log",
                 "mandatory": "false",
                 "name": "log_history",
                 "readonly": "false",
@@ -73,6 +78,7 @@
             {
                 "default": "false",
                 "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "label": "InfluxDB",
                 "mandatory": "false",
                 "name": "logged",
                 "readonly": "false",
@@ -87,6 +93,7 @@
             },
             {
                 "description": "Name of Input/Output.",
+                "label": "Name",
                 "mandatory": "true",
                 "name": "name",
                 "readonly": "false",
@@ -105,6 +112,7 @@
             {
                 "default": "true",
                 "description": "Display the Input/Output on all user interfaces if set. Default to true",
+                "label": "Visible",
                 "mandatory": "false",
                 "name": "visible",
                 "readonly": "false",
@@ -131,6 +139,7 @@
             {
                 "default": "true",
                 "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
+                "label": "Enabled",
                 "mandatory": "false",
                 "name": "enabled",
                 "readonly": "false",
@@ -138,6 +147,7 @@
             },
             {
                 "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
+                "label": "Display type",
                 "mandatory": "false",
                 "name": "gui_type",
                 "readonly": "true",
@@ -145,6 +155,7 @@
             },
             {
                 "description": "Unique ID identifying the Input/Output in calaos-server",
+                "label": "Identifier",
                 "mandatory": "true",
                 "name": "id",
                 "readonly": "true",
@@ -160,6 +171,7 @@
             },
             {
                 "description": "IO type, can be \"input\", \"output\", \"inout\"",
+                "label": "IO type",
                 "mandatory": "true",
                 "name": "io_type",
                 "readonly": "true",
@@ -168,6 +180,7 @@
             {
                 "default": "false",
                 "description": "If enabled, write an entry in the history event log for this IO",
+                "label": "History log",
                 "mandatory": "false",
                 "name": "log_history",
                 "readonly": "false",
@@ -176,6 +189,7 @@
             {
                 "default": "false",
                 "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "label": "InfluxDB",
                 "mandatory": "false",
                 "name": "logged",
                 "readonly": "false",
@@ -190,6 +204,7 @@
             },
             {
                 "description": "Name of Input/Output.",
+                "label": "Name",
                 "mandatory": "true",
                 "name": "name",
                 "readonly": "false",
@@ -234,6 +249,7 @@
             {
                 "default": "true",
                 "description": "Display the Input/Output on all user interfaces if set. Default to true",
+                "label": "Visible",
                 "mandatory": "false",
                 "name": "visible",
                 "readonly": "false",
@@ -264,6 +280,7 @@
             {
                 "default": "true",
                 "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
+                "label": "Enabled",
                 "mandatory": "false",
                 "name": "enabled",
                 "readonly": "false",
@@ -271,6 +288,7 @@
             },
             {
                 "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
+                "label": "Display type",
                 "mandatory": "false",
                 "name": "gui_type",
                 "readonly": "true",
@@ -285,6 +303,7 @@
             },
             {
                 "description": "Unique ID identifying the Input/Output in calaos-server",
+                "label": "Identifier",
                 "mandatory": "true",
                 "name": "id",
                 "readonly": "true",
@@ -300,6 +319,7 @@
             },
             {
                 "description": "IO type, can be \"input\", \"output\", \"inout\"",
+                "label": "IO type",
                 "mandatory": "true",
                 "name": "io_type",
                 "readonly": "true",
@@ -308,6 +328,7 @@
             {
                 "default": "false",
                 "description": "If enabled, write an entry in the history event log for this IO",
+                "label": "History log",
                 "mandatory": "false",
                 "name": "log_history",
                 "readonly": "false",
@@ -316,6 +337,7 @@
             {
                 "default": "false",
                 "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "label": "InfluxDB",
                 "mandatory": "false",
                 "name": "logged",
                 "readonly": "false",
@@ -323,6 +345,7 @@
             },
             {
                 "description": "Name of Input/Output.",
+                "label": "Name",
                 "mandatory": "true",
                 "name": "name",
                 "readonly": "false",
@@ -368,6 +391,7 @@
             {
                 "default": "true",
                 "description": "Display the Input/Output on all user interfaces if set. Default to true",
+                "label": "Visible",
                 "mandatory": "false",
                 "name": "visible",
                 "readonly": "false",
@@ -430,6 +454,7 @@
             {
                 "default": "true",
                 "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
+                "label": "Enabled",
                 "mandatory": "false",
                 "name": "enabled",
                 "readonly": "false",
@@ -447,6 +472,7 @@
             },
             {
                 "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
+                "label": "Display type",
                 "mandatory": "false",
                 "name": "gui_type",
                 "readonly": "true",
@@ -454,6 +480,7 @@
             },
             {
                 "description": "Unique ID identifying the Input/Output in calaos-server",
+                "label": "Identifier",
                 "mandatory": "true",
                 "name": "id",
                 "readonly": "true",
@@ -483,6 +510,7 @@
             },
             {
                 "description": "IO type, can be \"input\", \"output\", \"inout\"",
+                "label": "IO type",
                 "mandatory": "true",
                 "name": "io_type",
                 "readonly": "true",
@@ -491,6 +519,7 @@
             {
                 "default": "false",
                 "description": "If enabled, write an entry in the history event log for this IO",
+                "label": "History log",
                 "mandatory": "false",
                 "name": "log_history",
                 "readonly": "false",
@@ -499,6 +528,7 @@
             {
                 "default": "false",
                 "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "label": "InfluxDB",
                 "mandatory": "false",
                 "name": "logged",
                 "readonly": "false",
@@ -506,6 +536,7 @@
             },
             {
                 "description": "Name of Input/Output.",
+                "label": "Name",
                 "mandatory": "true",
                 "name": "name",
                 "readonly": "false",
@@ -561,6 +592,7 @@
             {
                 "default": "true",
                 "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
+                "label": "Enabled",
                 "mandatory": "false",
                 "name": "enabled",
                 "readonly": "false",
@@ -578,6 +610,7 @@
             },
             {
                 "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
+                "label": "Display type",
                 "mandatory": "false",
                 "name": "gui_type",
                 "readonly": "true",
@@ -585,6 +618,7 @@
             },
             {
                 "description": "Unique ID identifying the Input/Output in calaos-server",
+                "label": "Identifier",
                 "mandatory": "true",
                 "name": "id",
                 "readonly": "true",
@@ -592,6 +626,7 @@
             },
             {
                 "description": "IO type, can be \"input\", \"output\", \"inout\"",
+                "label": "IO type",
                 "mandatory": "true",
                 "name": "io_type",
                 "readonly": "true",
@@ -600,6 +635,7 @@
             {
                 "default": "false",
                 "description": "If enabled, write an entry in the history event log for this IO",
+                "label": "History log",
                 "mandatory": "false",
                 "name": "log_history",
                 "readonly": "false",
@@ -608,6 +644,7 @@
             {
                 "default": "false",
                 "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "label": "InfluxDB",
                 "mandatory": "false",
                 "name": "logged",
                 "readonly": "false",
@@ -615,6 +652,7 @@
             },
             {
                 "description": "Name of Input/Output.",
+                "label": "Name",
                 "mandatory": "true",
                 "name": "name",
                 "readonly": "false",
@@ -674,6 +712,7 @@
             {
                 "default": "true",
                 "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
+                "label": "Enabled",
                 "mandatory": "false",
                 "name": "enabled",
                 "readonly": "false",
@@ -691,6 +730,7 @@
             },
             {
                 "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
+                "label": "Display type",
                 "mandatory": "false",
                 "name": "gui_type",
                 "readonly": "true",
@@ -698,6 +738,7 @@
             },
             {
                 "description": "Unique ID identifying the Input/Output in calaos-server",
+                "label": "Identifier",
                 "mandatory": "true",
                 "name": "id",
                 "readonly": "true",
@@ -705,6 +746,7 @@
             },
             {
                 "description": "IO type, can be \"input\", \"output\", \"inout\"",
+                "label": "IO type",
                 "mandatory": "true",
                 "name": "io_type",
                 "readonly": "true",
@@ -713,6 +755,7 @@
             {
                 "default": "false",
                 "description": "If enabled, write an entry in the history event log for this IO",
+                "label": "History log",
                 "mandatory": "false",
                 "name": "log_history",
                 "readonly": "false",
@@ -721,6 +764,7 @@
             {
                 "default": "false",
                 "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "label": "InfluxDB",
                 "mandatory": "false",
                 "name": "logged",
                 "readonly": "false",
@@ -728,6 +772,7 @@
             },
             {
                 "description": "Name of Input/Output.",
+                "label": "Name",
                 "mandatory": "true",
                 "name": "name",
                 "readonly": "false",
@@ -814,6 +859,7 @@
             {
                 "default": "true",
                 "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
+                "label": "Enabled",
                 "mandatory": "false",
                 "name": "enabled",
                 "readonly": "false",
@@ -841,6 +887,7 @@
             },
             {
                 "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
+                "label": "Display type",
                 "mandatory": "false",
                 "name": "gui_type",
                 "readonly": "true",
@@ -848,6 +895,7 @@
             },
             {
                 "description": "Unique ID identifying the Input/Output in calaos-server",
+                "label": "Identifier",
                 "mandatory": "true",
                 "name": "id",
                 "readonly": "true",
@@ -865,6 +913,7 @@
             },
             {
                 "description": "IO type, can be \"input\", \"output\", \"inout\"",
+                "label": "IO type",
                 "mandatory": "true",
                 "name": "io_type",
                 "readonly": "true",
@@ -873,6 +922,7 @@
             {
                 "default": "false",
                 "description": "If enabled, write an entry in the history event log for this IO",
+                "label": "History log",
                 "mandatory": "false",
                 "name": "log_history",
                 "readonly": "false",
@@ -881,6 +931,7 @@
             {
                 "default": "false",
                 "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "label": "InfluxDB",
                 "mandatory": "false",
                 "name": "logged",
                 "readonly": "false",
@@ -888,6 +939,7 @@
             },
             {
                 "description": "Name of Input/Output.",
+                "label": "Name",
                 "mandatory": "true",
                 "name": "name",
                 "readonly": "false",
@@ -913,6 +965,7 @@
             {
                 "default": "true",
                 "description": "Display the Input/Output on all user interfaces if set. Default to true",
+                "label": "Visible",
                 "mandatory": "false",
                 "name": "visible",
                 "readonly": "false",
@@ -1003,6 +1056,7 @@
             {
                 "default": "true",
                 "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
+                "label": "Enabled",
                 "mandatory": "false",
                 "name": "enabled",
                 "readonly": "false",
@@ -1030,6 +1084,7 @@
             },
             {
                 "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
+                "label": "Display type",
                 "mandatory": "false",
                 "name": "gui_type",
                 "readonly": "true",
@@ -1037,6 +1092,7 @@
             },
             {
                 "description": "Unique ID identifying the Input/Output in calaos-server",
+                "label": "Identifier",
                 "mandatory": "true",
                 "name": "id",
                 "readonly": "true",
@@ -1054,6 +1110,7 @@
             },
             {
                 "description": "IO type, can be \"input\", \"output\", \"inout\"",
+                "label": "IO type",
                 "mandatory": "true",
                 "name": "io_type",
                 "readonly": "true",
@@ -1062,6 +1119,7 @@
             {
                 "default": "false",
                 "description": "If enabled, write an entry in the history event log for this IO",
+                "label": "History log",
                 "mandatory": "false",
                 "name": "log_history",
                 "readonly": "false",
@@ -1070,6 +1128,7 @@
             {
                 "default": "false",
                 "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "label": "InfluxDB",
                 "mandatory": "false",
                 "name": "logged",
                 "readonly": "false",
@@ -1077,6 +1136,7 @@
             },
             {
                 "description": "Name of Input/Output.",
+                "label": "Name",
                 "mandatory": "true",
                 "name": "name",
                 "readonly": "false",
@@ -1112,6 +1172,7 @@
             {
                 "default": "true",
                 "description": "Display the Input/Output on all user interfaces if set. Default to true",
+                "label": "Visible",
                 "mandatory": "false",
                 "name": "visible",
                 "readonly": "false",
@@ -1178,6 +1239,7 @@
             {
                 "default": "true",
                 "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
+                "label": "Enabled",
                 "mandatory": "false",
                 "name": "enabled",
                 "readonly": "false",
@@ -1195,6 +1257,7 @@
             },
             {
                 "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
+                "label": "Display type",
                 "mandatory": "false",
                 "name": "gui_type",
                 "readonly": "true",
@@ -1202,6 +1265,7 @@
             },
             {
                 "description": "Unique ID identifying the Input/Output in calaos-server",
+                "label": "Identifier",
                 "mandatory": "true",
                 "name": "id",
                 "readonly": "true",
@@ -1224,6 +1288,7 @@
             },
             {
                 "description": "IO type, can be \"input\", \"output\", \"inout\"",
+                "label": "IO type",
                 "mandatory": "true",
                 "name": "io_type",
                 "readonly": "true",
@@ -1232,6 +1297,7 @@
             {
                 "default": "false",
                 "description": "If enabled, write an entry in the history event log for this IO",
+                "label": "History log",
                 "mandatory": "false",
                 "name": "log_history",
                 "readonly": "false",
@@ -1240,6 +1306,7 @@
             {
                 "default": "false",
                 "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "label": "InfluxDB",
                 "mandatory": "false",
                 "name": "logged",
                 "readonly": "false",
@@ -1247,6 +1314,7 @@
             },
             {
                 "description": "Name of Input/Output.",
+                "label": "Name",
                 "mandatory": "true",
                 "name": "name",
                 "readonly": "false",
@@ -1255,6 +1323,7 @@
             {
                 "default": "true",
                 "description": "Display the Input/Output on all user interfaces if set. Default to true",
+                "label": "Visible",
                 "mandatory": "false",
                 "name": "visible",
                 "readonly": "false",
@@ -1352,6 +1421,7 @@
             {
                 "default": "true",
                 "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
+                "label": "Enabled",
                 "mandatory": "false",
                 "name": "enabled",
                 "readonly": "false",
@@ -1359,6 +1429,7 @@
             },
             {
                 "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
+                "label": "Display type",
                 "mandatory": "false",
                 "name": "gui_type",
                 "readonly": "true",
@@ -1373,6 +1444,7 @@
             },
             {
                 "description": "Unique ID identifying the Input/Output in calaos-server",
+                "label": "Identifier",
                 "mandatory": "true",
                 "name": "id",
                 "readonly": "true",
@@ -1395,6 +1467,7 @@
             },
             {
                 "description": "IO type, can be \"input\", \"output\", \"inout\"",
+                "label": "IO type",
                 "mandatory": "true",
                 "name": "io_type",
                 "readonly": "true",
@@ -1403,6 +1476,7 @@
             {
                 "default": "false",
                 "description": "If enabled, write an entry in the history event log for this IO",
+                "label": "History log",
                 "mandatory": "false",
                 "name": "log_history",
                 "readonly": "false",
@@ -1411,6 +1485,7 @@
             {
                 "default": "false",
                 "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "label": "InfluxDB",
                 "mandatory": "false",
                 "name": "logged",
                 "readonly": "false",
@@ -1418,6 +1493,7 @@
             },
             {
                 "description": "Name of Input/Output.",
+                "label": "Name",
                 "mandatory": "true",
                 "name": "name",
                 "readonly": "false",
@@ -1426,6 +1502,7 @@
             {
                 "default": "true",
                 "description": "Display the Input/Output on all user interfaces if set. Default to true",
+                "label": "Visible",
                 "mandatory": "false",
                 "name": "visible",
                 "readonly": "false",
@@ -1465,6 +1542,7 @@
             {
                 "default": "true",
                 "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
+                "label": "Enabled",
                 "mandatory": "false",
                 "name": "enabled",
                 "readonly": "false",
@@ -1472,6 +1550,7 @@
             },
             {
                 "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
+                "label": "Display type",
                 "mandatory": "false",
                 "name": "gui_type",
                 "readonly": "true",
@@ -1489,6 +1568,7 @@
             },
             {
                 "description": "Unique ID identifying the Input/Output in calaos-server",
+                "label": "Identifier",
                 "mandatory": "true",
                 "name": "id",
                 "readonly": "true",
@@ -1496,6 +1576,7 @@
             },
             {
                 "description": "IO type, can be \"input\", \"output\", \"inout\"",
+                "label": "IO type",
                 "mandatory": "true",
                 "name": "io_type",
                 "readonly": "true",
@@ -1504,6 +1585,7 @@
             {
                 "default": "false",
                 "description": "If enabled, write an entry in the history event log for this IO",
+                "label": "History log",
                 "mandatory": "false",
                 "name": "log_history",
                 "readonly": "false",
@@ -1512,6 +1594,7 @@
             {
                 "default": "false",
                 "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "label": "InfluxDB",
                 "mandatory": "false",
                 "name": "logged",
                 "readonly": "false",
@@ -1539,6 +1622,7 @@
             },
             {
                 "description": "Name of Input/Output.",
+                "label": "Name",
                 "mandatory": "true",
                 "name": "name",
                 "readonly": "false",
@@ -1623,6 +1707,7 @@
             {
                 "default": "true",
                 "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
+                "label": "Enabled",
                 "mandatory": "false",
                 "name": "enabled",
                 "readonly": "false",
@@ -1630,6 +1715,7 @@
             },
             {
                 "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
+                "label": "Display type",
                 "mandatory": "false",
                 "name": "gui_type",
                 "readonly": "true",
@@ -1647,6 +1733,7 @@
             },
             {
                 "description": "Unique ID identifying the Input/Output in calaos-server",
+                "label": "Identifier",
                 "mandatory": "true",
                 "name": "id",
                 "readonly": "true",
@@ -1654,6 +1741,7 @@
             },
             {
                 "description": "IO type, can be \"input\", \"output\", \"inout\"",
+                "label": "IO type",
                 "mandatory": "true",
                 "name": "io_type",
                 "readonly": "true",
@@ -1662,6 +1750,7 @@
             {
                 "default": "false",
                 "description": "If enabled, write an entry in the history event log for this IO",
+                "label": "History log",
                 "mandatory": "false",
                 "name": "log_history",
                 "readonly": "false",
@@ -1670,6 +1759,7 @@
             {
                 "default": "false",
                 "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "label": "InfluxDB",
                 "mandatory": "false",
                 "name": "logged",
                 "readonly": "false",
@@ -1697,6 +1787,7 @@
             },
             {
                 "description": "Name of Input/Output.",
+                "label": "Name",
                 "mandatory": "true",
                 "name": "name",
                 "readonly": "false",
@@ -1765,6 +1856,7 @@
             {
                 "default": "true",
                 "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
+                "label": "Enabled",
                 "mandatory": "false",
                 "name": "enabled",
                 "readonly": "false",
@@ -1772,6 +1864,7 @@
             },
             {
                 "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
+                "label": "Display type",
                 "mandatory": "false",
                 "name": "gui_type",
                 "readonly": "true",
@@ -1779,6 +1872,7 @@
             },
             {
                 "description": "Unique ID identifying the Input/Output in calaos-server",
+                "label": "Identifier",
                 "mandatory": "true",
                 "name": "id",
                 "readonly": "true",
@@ -1786,6 +1880,7 @@
             },
             {
                 "description": "IO type, can be \"input\", \"output\", \"inout\"",
+                "label": "IO type",
                 "mandatory": "true",
                 "name": "io_type",
                 "readonly": "true",
@@ -1794,6 +1889,7 @@
             {
                 "default": "false",
                 "description": "If enabled, write an entry in the history event log for this IO",
+                "label": "History log",
                 "mandatory": "false",
                 "name": "log_history",
                 "readonly": "false",
@@ -1802,6 +1898,7 @@
             {
                 "default": "false",
                 "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "label": "InfluxDB",
                 "mandatory": "false",
                 "name": "logged",
                 "readonly": "false",
@@ -1809,6 +1906,7 @@
             },
             {
                 "description": "Name of Input/Output.",
+                "label": "Name",
                 "mandatory": "true",
                 "name": "name",
                 "readonly": "false",
@@ -1840,6 +1938,7 @@
             {
                 "default": "true",
                 "description": "Display the Input/Output on all user interfaces if set. Default to true",
+                "label": "Visible",
                 "mandatory": "false",
                 "name": "visible",
                 "readonly": "false",
@@ -1886,6 +1985,7 @@
             {
                 "default": "true",
                 "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
+                "label": "Enabled",
                 "mandatory": "false",
                 "name": "enabled",
                 "readonly": "false",
@@ -1893,6 +1993,7 @@
             },
             {
                 "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
+                "label": "Display type",
                 "mandatory": "false",
                 "name": "gui_type",
                 "readonly": "true",
@@ -1900,6 +2001,7 @@
             },
             {
                 "description": "Unique ID identifying the Input/Output in calaos-server",
+                "label": "Identifier",
                 "mandatory": "true",
                 "name": "id",
                 "readonly": "true",
@@ -1907,6 +2009,7 @@
             },
             {
                 "description": "IO type, can be \"input\", \"output\", \"inout\"",
+                "label": "IO type",
                 "mandatory": "true",
                 "name": "io_type",
                 "readonly": "true",
@@ -1915,6 +2018,7 @@
             {
                 "default": "false",
                 "description": "If enabled, write an entry in the history event log for this IO",
+                "label": "History log",
                 "mandatory": "false",
                 "name": "log_history",
                 "readonly": "false",
@@ -1923,6 +2027,7 @@
             {
                 "default": "false",
                 "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "label": "InfluxDB",
                 "mandatory": "false",
                 "name": "logged",
                 "readonly": "false",
@@ -1930,6 +2035,7 @@
             },
             {
                 "description": "Name of Input/Output.",
+                "label": "Name",
                 "mandatory": "true",
                 "name": "name",
                 "readonly": "false",
@@ -1990,6 +2096,7 @@
             {
                 "default": "true",
                 "description": "Display the Input/Output on all user interfaces if set. Default to true",
+                "label": "Visible",
                 "mandatory": "false",
                 "name": "visible",
                 "readonly": "false",
@@ -2020,6 +2127,7 @@
             {
                 "default": "true",
                 "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
+                "label": "Enabled",
                 "mandatory": "false",
                 "name": "enabled",
                 "readonly": "false",
@@ -2027,6 +2135,7 @@
             },
             {
                 "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
+                "label": "Display type",
                 "mandatory": "false",
                 "name": "gui_type",
                 "readonly": "true",
@@ -2034,6 +2143,7 @@
             },
             {
                 "description": "Unique ID identifying the Input/Output in calaos-server",
+                "label": "Identifier",
                 "mandatory": "true",
                 "name": "id",
                 "readonly": "true",
@@ -2041,6 +2151,7 @@
             },
             {
                 "description": "IO type, can be \"input\", \"output\", \"inout\"",
+                "label": "IO type",
                 "mandatory": "true",
                 "name": "io_type",
                 "readonly": "true",
@@ -2049,6 +2160,7 @@
             {
                 "default": "false",
                 "description": "If enabled, write an entry in the history event log for this IO",
+                "label": "History log",
                 "mandatory": "false",
                 "name": "log_history",
                 "readonly": "false",
@@ -2057,6 +2169,7 @@
             {
                 "default": "false",
                 "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "label": "InfluxDB",
                 "mandatory": "false",
                 "name": "logged",
                 "readonly": "false",
@@ -2064,6 +2177,7 @@
             },
             {
                 "description": "Name of Input/Output.",
+                "label": "Name",
                 "mandatory": "true",
                 "name": "name",
                 "readonly": "false",
@@ -2095,6 +2209,7 @@
             {
                 "default": "true",
                 "description": "Display the Input/Output on all user interfaces if set. Default to true",
+                "label": "Visible",
                 "mandatory": "false",
                 "name": "visible",
                 "readonly": "false",
@@ -2161,6 +2276,7 @@
             {
                 "default": "true",
                 "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
+                "label": "Enabled",
                 "mandatory": "false",
                 "name": "enabled",
                 "readonly": "false",
@@ -2168,6 +2284,7 @@
             },
             {
                 "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
+                "label": "Display type",
                 "mandatory": "false",
                 "name": "gui_type",
                 "readonly": "true",
@@ -2183,6 +2300,7 @@
             },
             {
                 "description": "Unique ID identifying the Input/Output in calaos-server",
+                "label": "Identifier",
                 "mandatory": "true",
                 "name": "id",
                 "readonly": "true",
@@ -2217,6 +2335,7 @@
             },
             {
                 "description": "IO type, can be \"input\", \"output\", \"inout\"",
+                "label": "IO type",
                 "mandatory": "true",
                 "name": "io_type",
                 "readonly": "true",
@@ -2239,6 +2358,7 @@
             {
                 "default": "false",
                 "description": "If enabled, write an entry in the history event log for this IO",
+                "label": "History log",
                 "mandatory": "false",
                 "name": "log_history",
                 "readonly": "false",
@@ -2247,6 +2367,7 @@
             {
                 "default": "false",
                 "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "label": "InfluxDB",
                 "mandatory": "false",
                 "name": "logged",
                 "readonly": "false",
@@ -2254,6 +2375,7 @@
             },
             {
                 "description": "Name of Input/Output.",
+                "label": "Name",
                 "mandatory": "true",
                 "name": "name",
                 "readonly": "false",
@@ -2301,6 +2423,7 @@
             {
                 "default": "true",
                 "description": "Display the Input/Output on all user interfaces if set. Default to true",
+                "label": "Visible",
                 "mandatory": "false",
                 "name": "visible",
                 "readonly": "false",
@@ -2340,6 +2463,7 @@
             {
                 "default": "true",
                 "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
+                "label": "Enabled",
                 "mandatory": "false",
                 "name": "enabled",
                 "readonly": "false",
@@ -2347,6 +2471,7 @@
             },
             {
                 "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
+                "label": "Display type",
                 "mandatory": "false",
                 "name": "gui_type",
                 "readonly": "true",
@@ -2362,6 +2487,7 @@
             },
             {
                 "description": "Unique ID identifying the Input/Output in calaos-server",
+                "label": "Identifier",
                 "mandatory": "true",
                 "name": "id",
                 "readonly": "true",
@@ -2391,6 +2517,7 @@
             },
             {
                 "description": "IO type, can be \"input\", \"output\", \"inout\"",
+                "label": "IO type",
                 "mandatory": "true",
                 "name": "io_type",
                 "readonly": "true",
@@ -2413,6 +2540,7 @@
             {
                 "default": "false",
                 "description": "If enabled, write an entry in the history event log for this IO",
+                "label": "History log",
                 "mandatory": "false",
                 "name": "log_history",
                 "readonly": "false",
@@ -2421,6 +2549,7 @@
             {
                 "default": "false",
                 "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "label": "InfluxDB",
                 "mandatory": "false",
                 "name": "logged",
                 "readonly": "false",
@@ -2428,6 +2557,7 @@
             },
             {
                 "description": "Name of Input/Output.",
+                "label": "Name",
                 "mandatory": "true",
                 "name": "name",
                 "readonly": "false",
@@ -2483,6 +2613,7 @@
             {
                 "default": "true",
                 "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
+                "label": "Enabled",
                 "mandatory": "false",
                 "name": "enabled",
                 "readonly": "false",
@@ -2490,6 +2621,7 @@
             },
             {
                 "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
+                "label": "Display type",
                 "mandatory": "false",
                 "name": "gui_type",
                 "readonly": "true",
@@ -2505,6 +2637,7 @@
             },
             {
                 "description": "Unique ID identifying the Input/Output in calaos-server",
+                "label": "Identifier",
                 "mandatory": "true",
                 "name": "id",
                 "readonly": "true",
@@ -2512,6 +2645,7 @@
             },
             {
                 "description": "IO type, can be \"input\", \"output\", \"inout\"",
+                "label": "IO type",
                 "mandatory": "true",
                 "name": "io_type",
                 "readonly": "true",
@@ -2534,6 +2668,7 @@
             {
                 "default": "false",
                 "description": "If enabled, write an entry in the history event log for this IO",
+                "label": "History log",
                 "mandatory": "false",
                 "name": "log_history",
                 "readonly": "false",
@@ -2542,6 +2677,7 @@
             {
                 "default": "false",
                 "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "label": "InfluxDB",
                 "mandatory": "false",
                 "name": "logged",
                 "readonly": "false",
@@ -2549,6 +2685,7 @@
             },
             {
                 "description": "Name of Input/Output.",
+                "label": "Name",
                 "mandatory": "true",
                 "name": "name",
                 "readonly": "false",
@@ -2608,6 +2745,7 @@
             {
                 "default": "true",
                 "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
+                "label": "Enabled",
                 "mandatory": "false",
                 "name": "enabled",
                 "readonly": "false",
@@ -2615,6 +2753,7 @@
             },
             {
                 "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
+                "label": "Display type",
                 "mandatory": "false",
                 "name": "gui_type",
                 "readonly": "true",
@@ -2630,6 +2769,7 @@
             },
             {
                 "description": "Unique ID identifying the Input/Output in calaos-server",
+                "label": "Identifier",
                 "mandatory": "true",
                 "name": "id",
                 "readonly": "true",
@@ -2637,6 +2777,7 @@
             },
             {
                 "description": "IO type, can be \"input\", \"output\", \"inout\"",
+                "label": "IO type",
                 "mandatory": "true",
                 "name": "io_type",
                 "readonly": "true",
@@ -2659,6 +2800,7 @@
             {
                 "default": "false",
                 "description": "If enabled, write an entry in the history event log for this IO",
+                "label": "History log",
                 "mandatory": "false",
                 "name": "log_history",
                 "readonly": "false",
@@ -2667,6 +2809,7 @@
             {
                 "default": "false",
                 "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "label": "InfluxDB",
                 "mandatory": "false",
                 "name": "logged",
                 "readonly": "false",
@@ -2674,6 +2817,7 @@
             },
             {
                 "description": "Name of Input/Output.",
+                "label": "Name",
                 "mandatory": "true",
                 "name": "name",
                 "readonly": "false",
@@ -2756,6 +2900,7 @@
             {
                 "default": "true",
                 "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
+                "label": "Enabled",
                 "mandatory": "false",
                 "name": "enabled",
                 "readonly": "false",
@@ -2763,6 +2908,7 @@
             },
             {
                 "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
+                "label": "Display type",
                 "mandatory": "false",
                 "name": "gui_type",
                 "readonly": "true",
@@ -2778,6 +2924,7 @@
             },
             {
                 "description": "Unique ID identifying the Input/Output in calaos-server",
+                "label": "Identifier",
                 "mandatory": "true",
                 "name": "id",
                 "readonly": "true",
@@ -2812,6 +2959,7 @@
             },
             {
                 "description": "IO type, can be \"input\", \"output\", \"inout\"",
+                "label": "IO type",
                 "mandatory": "true",
                 "name": "io_type",
                 "readonly": "true",
@@ -2834,6 +2982,7 @@
             {
                 "default": "false",
                 "description": "If enabled, write an entry in the history event log for this IO",
+                "label": "History log",
                 "mandatory": "false",
                 "name": "log_history",
                 "readonly": "false",
@@ -2842,6 +2991,7 @@
             {
                 "default": "false",
                 "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "label": "InfluxDB",
                 "mandatory": "false",
                 "name": "logged",
                 "readonly": "false",
@@ -2849,6 +2999,7 @@
             },
             {
                 "description": "Name of Input/Output.",
+                "label": "Name",
                 "mandatory": "true",
                 "name": "name",
                 "readonly": "false",
@@ -2896,6 +3047,7 @@
             {
                 "default": "true",
                 "description": "Display the Input/Output on all user interfaces if set. Default to true",
+                "label": "Visible",
                 "mandatory": "false",
                 "name": "visible",
                 "readonly": "false",
@@ -2979,6 +3131,7 @@
             {
                 "default": "true",
                 "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
+                "label": "Enabled",
                 "mandatory": "false",
                 "name": "enabled",
                 "readonly": "false",
@@ -2986,6 +3139,7 @@
             },
             {
                 "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
+                "label": "Display type",
                 "mandatory": "false",
                 "name": "gui_type",
                 "readonly": "true",
@@ -3001,6 +3155,7 @@
             },
             {
                 "description": "Unique ID identifying the Input/Output in calaos-server",
+                "label": "Identifier",
                 "mandatory": "true",
                 "name": "id",
                 "readonly": "true",
@@ -3027,6 +3182,7 @@
             },
             {
                 "description": "IO type, can be \"input\", \"output\", \"inout\"",
+                "label": "IO type",
                 "mandatory": "true",
                 "name": "io_type",
                 "readonly": "true",
@@ -3049,6 +3205,7 @@
             {
                 "default": "false",
                 "description": "If enabled, write an entry in the history event log for this IO",
+                "label": "History log",
                 "mandatory": "false",
                 "name": "log_history",
                 "readonly": "false",
@@ -3057,6 +3214,7 @@
             {
                 "default": "false",
                 "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "label": "InfluxDB",
                 "mandatory": "false",
                 "name": "logged",
                 "readonly": "false",
@@ -3064,6 +3222,7 @@
             },
             {
                 "description": "Name of Input/Output.",
+                "label": "Name",
                 "mandatory": "true",
                 "name": "name",
                 "readonly": "false",
@@ -3109,6 +3268,7 @@
             {
                 "default": "true",
                 "description": "Display the Input/Output on all user interfaces if set. Default to true",
+                "label": "Visible",
                 "mandatory": "false",
                 "name": "visible",
                 "readonly": "false",
@@ -3177,6 +3337,7 @@
             {
                 "default": "true",
                 "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
+                "label": "Enabled",
                 "mandatory": "false",
                 "name": "enabled",
                 "readonly": "false",
@@ -3184,6 +3345,7 @@
             },
             {
                 "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
+                "label": "Display type",
                 "mandatory": "false",
                 "name": "gui_type",
                 "readonly": "true",
@@ -3199,6 +3361,7 @@
             },
             {
                 "description": "Unique ID identifying the Input/Output in calaos-server",
+                "label": "Identifier",
                 "mandatory": "true",
                 "name": "id",
                 "readonly": "true",
@@ -3221,6 +3384,7 @@
             },
             {
                 "description": "IO type, can be \"input\", \"output\", \"inout\"",
+                "label": "IO type",
                 "mandatory": "true",
                 "name": "io_type",
                 "readonly": "true",
@@ -3243,6 +3407,7 @@
             {
                 "default": "false",
                 "description": "If enabled, write an entry in the history event log for this IO",
+                "label": "History log",
                 "mandatory": "false",
                 "name": "log_history",
                 "readonly": "false",
@@ -3251,6 +3416,7 @@
             {
                 "default": "false",
                 "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "label": "InfluxDB",
                 "mandatory": "false",
                 "name": "logged",
                 "readonly": "false",
@@ -3258,6 +3424,7 @@
             },
             {
                 "description": "Name of Input/Output.",
+                "label": "Name",
                 "mandatory": "true",
                 "name": "name",
                 "readonly": "false",
@@ -3274,6 +3441,7 @@
             {
                 "default": "true",
                 "description": "Display the Input/Output on all user interfaces if set. Default to true",
+                "label": "Visible",
                 "mandatory": "false",
                 "name": "visible",
                 "readonly": "false",
@@ -3366,6 +3534,7 @@
             {
                 "default": "true",
                 "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
+                "label": "Enabled",
                 "mandatory": "false",
                 "name": "enabled",
                 "readonly": "false",
@@ -3373,6 +3542,7 @@
             },
             {
                 "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
+                "label": "Display type",
                 "mandatory": "false",
                 "name": "gui_type",
                 "readonly": "true",
@@ -3388,6 +3558,7 @@
             },
             {
                 "description": "Unique ID identifying the Input/Output in calaos-server",
+                "label": "Identifier",
                 "mandatory": "true",
                 "name": "id",
                 "readonly": "true",
@@ -3395,6 +3566,7 @@
             },
             {
                 "description": "IO type, can be \"input\", \"output\", \"inout\"",
+                "label": "IO type",
                 "mandatory": "true",
                 "name": "io_type",
                 "readonly": "true",
@@ -3417,6 +3589,7 @@
             {
                 "default": "false",
                 "description": "If enabled, write an entry in the history event log for this IO",
+                "label": "History log",
                 "mandatory": "false",
                 "name": "log_history",
                 "readonly": "false",
@@ -3425,6 +3598,7 @@
             {
                 "default": "false",
                 "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "label": "InfluxDB",
                 "mandatory": "false",
                 "name": "logged",
                 "readonly": "false",
@@ -3432,6 +3606,7 @@
             },
             {
                 "description": "Name of Input/Output.",
+                "label": "Name",
                 "mandatory": "true",
                 "name": "name",
                 "readonly": "false",
@@ -3448,6 +3623,7 @@
             {
                 "default": "true",
                 "description": "Display the Input/Output on all user interfaces if set. Default to true",
+                "label": "Visible",
                 "mandatory": "false",
                 "name": "visible",
                 "readonly": "false",
@@ -3548,6 +3724,7 @@
             {
                 "default": "true",
                 "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
+                "label": "Enabled",
                 "mandatory": "false",
                 "name": "enabled",
                 "readonly": "false",
@@ -3555,6 +3732,7 @@
             },
             {
                 "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
+                "label": "Display type",
                 "mandatory": "false",
                 "name": "gui_type",
                 "readonly": "true",
@@ -3570,6 +3748,7 @@
             },
             {
                 "description": "Unique ID identifying the Input/Output in calaos-server",
+                "label": "Identifier",
                 "mandatory": "true",
                 "name": "id",
                 "readonly": "true",
@@ -3577,6 +3756,7 @@
             },
             {
                 "description": "IO type, can be \"input\", \"output\", \"inout\"",
+                "label": "IO type",
                 "mandatory": "true",
                 "name": "io_type",
                 "readonly": "true",
@@ -3627,6 +3807,7 @@
             {
                 "default": "false",
                 "description": "If enabled, write an entry in the history event log for this IO",
+                "label": "History log",
                 "mandatory": "false",
                 "name": "log_history",
                 "readonly": "false",
@@ -3635,6 +3816,7 @@
             {
                 "default": "false",
                 "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "label": "InfluxDB",
                 "mandatory": "false",
                 "name": "logged",
                 "readonly": "false",
@@ -3642,6 +3824,7 @@
             },
             {
                 "description": "Name of Input/Output.",
+                "label": "Name",
                 "mandatory": "true",
                 "name": "name",
                 "readonly": "false",
@@ -3658,6 +3841,7 @@
             {
                 "default": "true",
                 "description": "Display the Input/Output on all user interfaces if set. Default to true",
+                "label": "Visible",
                 "mandatory": "false",
                 "name": "visible",
                 "readonly": "false",
@@ -3730,6 +3914,7 @@
             {
                 "default": "true",
                 "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
+                "label": "Enabled",
                 "mandatory": "false",
                 "name": "enabled",
                 "readonly": "false",
@@ -3737,6 +3922,7 @@
             },
             {
                 "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
+                "label": "Display type",
                 "mandatory": "false",
                 "name": "gui_type",
                 "readonly": "true",
@@ -3752,6 +3938,7 @@
             },
             {
                 "description": "Unique ID identifying the Input/Output in calaos-server",
+                "label": "Identifier",
                 "mandatory": "true",
                 "name": "id",
                 "readonly": "true",
@@ -3769,6 +3956,7 @@
             },
             {
                 "description": "IO type, can be \"input\", \"output\", \"inout\"",
+                "label": "IO type",
                 "mandatory": "true",
                 "name": "io_type",
                 "readonly": "true",
@@ -3791,6 +3979,7 @@
             {
                 "default": "false",
                 "description": "If enabled, write an entry in the history event log for this IO",
+                "label": "History log",
                 "mandatory": "false",
                 "name": "log_history",
                 "readonly": "false",
@@ -3799,6 +3988,7 @@
             {
                 "default": "false",
                 "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "label": "InfluxDB",
                 "mandatory": "false",
                 "name": "logged",
                 "readonly": "false",
@@ -3806,6 +3996,7 @@
             },
             {
                 "description": "Name of Input/Output.",
+                "label": "Name",
                 "mandatory": "true",
                 "name": "name",
                 "readonly": "false",
@@ -3839,6 +4030,7 @@
             {
                 "default": "true",
                 "description": "Display the Input/Output on all user interfaces if set. Default to true",
+                "label": "Visible",
                 "mandatory": "false",
                 "name": "visible",
                 "readonly": "false",
@@ -3923,6 +4115,7 @@
             {
                 "default": "true",
                 "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
+                "label": "Enabled",
                 "mandatory": "false",
                 "name": "enabled",
                 "readonly": "false",
@@ -3930,6 +4123,7 @@
             },
             {
                 "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
+                "label": "Display type",
                 "mandatory": "false",
                 "name": "gui_type",
                 "readonly": "true",
@@ -3945,6 +4139,7 @@
             },
             {
                 "description": "Unique ID identifying the Input/Output in calaos-server",
+                "label": "Identifier",
                 "mandatory": "true",
                 "name": "id",
                 "readonly": "true",
@@ -3962,6 +4157,7 @@
             },
             {
                 "description": "IO type, can be \"input\", \"output\", \"inout\"",
+                "label": "IO type",
                 "mandatory": "true",
                 "name": "io_type",
                 "readonly": "true",
@@ -3998,6 +4194,7 @@
             {
                 "default": "false",
                 "description": "If enabled, write an entry in the history event log for this IO",
+                "label": "History log",
                 "mandatory": "false",
                 "name": "log_history",
                 "readonly": "false",
@@ -4006,6 +4203,7 @@
             {
                 "default": "false",
                 "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "label": "InfluxDB",
                 "mandatory": "false",
                 "name": "logged",
                 "readonly": "false",
@@ -4013,6 +4211,7 @@
             },
             {
                 "description": "Name of Input/Output.",
+                "label": "Name",
                 "mandatory": "true",
                 "name": "name",
                 "readonly": "false",
@@ -4056,6 +4255,7 @@
             {
                 "default": "true",
                 "description": "Display the Input/Output on all user interfaces if set. Default to true",
+                "label": "Visible",
                 "mandatory": "false",
                 "name": "visible",
                 "readonly": "false",
@@ -4154,6 +4354,7 @@
             {
                 "default": "true",
                 "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
+                "label": "Enabled",
                 "mandatory": "false",
                 "name": "enabled",
                 "readonly": "false",
@@ -4161,6 +4362,7 @@
             },
             {
                 "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
+                "label": "Display type",
                 "mandatory": "false",
                 "name": "gui_type",
                 "readonly": "true",
@@ -4176,6 +4378,7 @@
             },
             {
                 "description": "Unique ID identifying the Input/Output in calaos-server",
+                "label": "Identifier",
                 "mandatory": "true",
                 "name": "id",
                 "readonly": "true",
@@ -4210,6 +4413,7 @@
             },
             {
                 "description": "IO type, can be \"input\", \"output\", \"inout\"",
+                "label": "IO type",
                 "mandatory": "true",
                 "name": "io_type",
                 "readonly": "true",
@@ -4240,6 +4444,7 @@
             {
                 "default": "false",
                 "description": "If enabled, write an entry in the history event log for this IO",
+                "label": "History log",
                 "mandatory": "false",
                 "name": "log_history",
                 "readonly": "false",
@@ -4248,6 +4453,7 @@
             {
                 "default": "false",
                 "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "label": "InfluxDB",
                 "mandatory": "false",
                 "name": "logged",
                 "readonly": "false",
@@ -4255,6 +4461,7 @@
             },
             {
                 "description": "Name of Input/Output.",
+                "label": "Name",
                 "mandatory": "true",
                 "name": "name",
                 "readonly": "false",
@@ -4374,6 +4581,7 @@
             {
                 "default": "true",
                 "description": "Display the Input/Output on all user interfaces if set. Default to true",
+                "label": "Visible",
                 "mandatory": "false",
                 "name": "visible",
                 "readonly": "false",
@@ -4467,6 +4675,7 @@
             {
                 "default": "true",
                 "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
+                "label": "Enabled",
                 "mandatory": "false",
                 "name": "enabled",
                 "readonly": "false",
@@ -4474,6 +4683,7 @@
             },
             {
                 "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
+                "label": "Display type",
                 "mandatory": "false",
                 "name": "gui_type",
                 "readonly": "true",
@@ -4489,6 +4699,7 @@
             },
             {
                 "description": "Unique ID identifying the Input/Output in calaos-server",
+                "label": "Identifier",
                 "mandatory": "true",
                 "name": "id",
                 "readonly": "true",
@@ -4496,6 +4707,7 @@
             },
             {
                 "description": "IO type, can be \"input\", \"output\", \"inout\"",
+                "label": "IO type",
                 "mandatory": "true",
                 "name": "io_type",
                 "readonly": "true",
@@ -4526,6 +4738,7 @@
             {
                 "default": "false",
                 "description": "If enabled, write an entry in the history event log for this IO",
+                "label": "History log",
                 "mandatory": "false",
                 "name": "log_history",
                 "readonly": "false",
@@ -4534,6 +4747,7 @@
             {
                 "default": "false",
                 "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "label": "InfluxDB",
                 "mandatory": "false",
                 "name": "logged",
                 "readonly": "false",
@@ -4541,6 +4755,7 @@
             },
             {
                 "description": "Name of Input/Output.",
+                "label": "Name",
                 "mandatory": "true",
                 "name": "name",
                 "readonly": "false",
@@ -4629,6 +4844,7 @@
             {
                 "default": "true",
                 "description": "Display the Input/Output on all user interfaces if set. Default to true",
+                "label": "Visible",
                 "mandatory": "false",
                 "name": "visible",
                 "readonly": "false",
@@ -4735,6 +4951,7 @@
             {
                 "default": "true",
                 "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
+                "label": "Enabled",
                 "mandatory": "false",
                 "name": "enabled",
                 "readonly": "false",
@@ -4742,6 +4959,7 @@
             },
             {
                 "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
+                "label": "Display type",
                 "mandatory": "false",
                 "name": "gui_type",
                 "readonly": "true",
@@ -4757,6 +4975,7 @@
             },
             {
                 "description": "Unique ID identifying the Input/Output in calaos-server",
+                "label": "Identifier",
                 "mandatory": "true",
                 "name": "id",
                 "readonly": "true",
@@ -4786,6 +5005,7 @@
             },
             {
                 "description": "IO type, can be \"input\", \"output\", \"inout\"",
+                "label": "IO type",
                 "mandatory": "true",
                 "name": "io_type",
                 "readonly": "true",
@@ -4816,6 +5036,7 @@
             {
                 "default": "false",
                 "description": "If enabled, write an entry in the history event log for this IO",
+                "label": "History log",
                 "mandatory": "false",
                 "name": "log_history",
                 "readonly": "false",
@@ -4824,6 +5045,7 @@
             {
                 "default": "false",
                 "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "label": "InfluxDB",
                 "mandatory": "false",
                 "name": "logged",
                 "readonly": "false",
@@ -4831,6 +5053,7 @@
             },
             {
                 "description": "Name of Input/Output.",
+                "label": "Name",
                 "mandatory": "true",
                 "name": "name",
                 "readonly": "false",
@@ -5066,6 +5289,7 @@
             {
                 "default": "true",
                 "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
+                "label": "Enabled",
                 "mandatory": "false",
                 "name": "enabled",
                 "readonly": "false",
@@ -5073,6 +5297,7 @@
             },
             {
                 "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
+                "label": "Display type",
                 "mandatory": "false",
                 "name": "gui_type",
                 "readonly": "true",
@@ -5088,6 +5313,7 @@
             },
             {
                 "description": "Unique ID identifying the Input/Output in calaos-server",
+                "label": "Identifier",
                 "mandatory": "true",
                 "name": "id",
                 "readonly": "true",
@@ -5122,6 +5348,7 @@
             },
             {
                 "description": "IO type, can be \"input\", \"output\", \"inout\"",
+                "label": "IO type",
                 "mandatory": "true",
                 "name": "io_type",
                 "readonly": "true",
@@ -5152,6 +5379,7 @@
             {
                 "default": "false",
                 "description": "If enabled, write an entry in the history event log for this IO",
+                "label": "History log",
                 "mandatory": "false",
                 "name": "log_history",
                 "readonly": "false",
@@ -5160,6 +5388,7 @@
             {
                 "default": "false",
                 "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "label": "InfluxDB",
                 "mandatory": "false",
                 "name": "logged",
                 "readonly": "false",
@@ -5167,6 +5396,7 @@
             },
             {
                 "description": "Name of Input/Output.",
+                "label": "Name",
                 "mandatory": "true",
                 "name": "name",
                 "readonly": "false",
@@ -5286,6 +5516,7 @@
             {
                 "default": "true",
                 "description": "Display the Input/Output on all user interfaces if set. Default to true",
+                "label": "Visible",
                 "mandatory": "false",
                 "name": "visible",
                 "readonly": "false",
@@ -5443,6 +5674,7 @@
             {
                 "default": "true",
                 "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
+                "label": "Enabled",
                 "mandatory": "false",
                 "name": "enabled",
                 "readonly": "false",
@@ -5450,6 +5682,7 @@
             },
             {
                 "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
+                "label": "Display type",
                 "mandatory": "false",
                 "name": "gui_type",
                 "readonly": "true",
@@ -5465,6 +5698,7 @@
             },
             {
                 "description": "Unique ID identifying the Input/Output in calaos-server",
+                "label": "Identifier",
                 "mandatory": "true",
                 "name": "id",
                 "readonly": "true",
@@ -5491,6 +5725,7 @@
             },
             {
                 "description": "IO type, can be \"input\", \"output\", \"inout\"",
+                "label": "IO type",
                 "mandatory": "true",
                 "name": "io_type",
                 "readonly": "true",
@@ -5521,6 +5756,7 @@
             {
                 "default": "false",
                 "description": "If enabled, write an entry in the history event log for this IO",
+                "label": "History log",
                 "mandatory": "false",
                 "name": "log_history",
                 "readonly": "false",
@@ -5529,6 +5765,7 @@
             {
                 "default": "false",
                 "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "label": "InfluxDB",
                 "mandatory": "false",
                 "name": "logged",
                 "readonly": "false",
@@ -5536,6 +5773,7 @@
             },
             {
                 "description": "Name of Input/Output.",
+                "label": "Name",
                 "mandatory": "true",
                 "name": "name",
                 "readonly": "false",
@@ -5653,6 +5891,7 @@
             {
                 "default": "true",
                 "description": "Display the Input/Output on all user interfaces if set. Default to true",
+                "label": "Visible",
                 "mandatory": "false",
                 "name": "visible",
                 "readonly": "false",
@@ -5795,6 +6034,7 @@
             {
                 "default": "true",
                 "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
+                "label": "Enabled",
                 "mandatory": "false",
                 "name": "enabled",
                 "readonly": "false",
@@ -5802,6 +6042,7 @@
             },
             {
                 "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
+                "label": "Display type",
                 "mandatory": "false",
                 "name": "gui_type",
                 "readonly": "true",
@@ -5817,6 +6058,7 @@
             },
             {
                 "description": "Unique ID identifying the Input/Output in calaos-server",
+                "label": "Identifier",
                 "mandatory": "true",
                 "name": "id",
                 "readonly": "true",
@@ -5839,6 +6081,7 @@
             },
             {
                 "description": "IO type, can be \"input\", \"output\", \"inout\"",
+                "label": "IO type",
                 "mandatory": "true",
                 "name": "io_type",
                 "readonly": "true",
@@ -5869,6 +6112,7 @@
             {
                 "default": "false",
                 "description": "If enabled, write an entry in the history event log for this IO",
+                "label": "History log",
                 "mandatory": "false",
                 "name": "log_history",
                 "readonly": "false",
@@ -5877,6 +6121,7 @@
             {
                 "default": "false",
                 "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "label": "InfluxDB",
                 "mandatory": "false",
                 "name": "logged",
                 "readonly": "false",
@@ -5884,6 +6129,7 @@
             },
             {
                 "description": "Name of Input/Output.",
+                "label": "Name",
                 "mandatory": "true",
                 "name": "name",
                 "readonly": "false",
@@ -5986,6 +6232,7 @@
             {
                 "default": "true",
                 "description": "Display the Input/Output on all user interfaces if set. Default to true",
+                "label": "Visible",
                 "mandatory": "false",
                 "name": "visible",
                 "readonly": "false",
@@ -6152,6 +6399,7 @@
             {
                 "default": "true",
                 "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
+                "label": "Enabled",
                 "mandatory": "false",
                 "name": "enabled",
                 "readonly": "false",
@@ -6159,6 +6407,7 @@
             },
             {
                 "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
+                "label": "Display type",
                 "mandatory": "false",
                 "name": "gui_type",
                 "readonly": "true",
@@ -6174,6 +6423,7 @@
             },
             {
                 "description": "Unique ID identifying the Input/Output in calaos-server",
+                "label": "Identifier",
                 "mandatory": "true",
                 "name": "id",
                 "readonly": "true",
@@ -6188,6 +6438,7 @@
             },
             {
                 "description": "IO type, can be \"input\", \"output\", \"inout\"",
+                "label": "IO type",
                 "mandatory": "true",
                 "name": "io_type",
                 "readonly": "true",
@@ -6218,6 +6469,7 @@
             {
                 "default": "false",
                 "description": "If enabled, write an entry in the history event log for this IO",
+                "label": "History log",
                 "mandatory": "false",
                 "name": "log_history",
                 "readonly": "false",
@@ -6226,6 +6478,7 @@
             {
                 "default": "false",
                 "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "label": "InfluxDB",
                 "mandatory": "false",
                 "name": "logged",
                 "readonly": "false",
@@ -6233,6 +6486,7 @@
             },
             {
                 "description": "Name of Input/Output.",
+                "label": "Name",
                 "mandatory": "true",
                 "name": "name",
                 "readonly": "false",
@@ -6328,6 +6582,7 @@
             {
                 "default": "true",
                 "description": "Display the Input/Output on all user interfaces if set. Default to true",
+                "label": "Visible",
                 "mandatory": "false",
                 "name": "visible",
                 "readonly": "false",
@@ -6502,6 +6757,7 @@
             {
                 "default": "true",
                 "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
+                "label": "Enabled",
                 "mandatory": "false",
                 "name": "enabled",
                 "readonly": "false",
@@ -6509,6 +6765,7 @@
             },
             {
                 "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
+                "label": "Display type",
                 "mandatory": "false",
                 "name": "gui_type",
                 "readonly": "true",
@@ -6524,6 +6781,7 @@
             },
             {
                 "description": "Unique ID identifying the Input/Output in calaos-server",
+                "label": "Identifier",
                 "mandatory": "true",
                 "name": "id",
                 "readonly": "true",
@@ -6531,6 +6789,7 @@
             },
             {
                 "description": "IO type, can be \"input\", \"output\", \"inout\"",
+                "label": "IO type",
                 "mandatory": "true",
                 "name": "io_type",
                 "readonly": "true",
@@ -6561,6 +6820,7 @@
             {
                 "default": "false",
                 "description": "If enabled, write an entry in the history event log for this IO",
+                "label": "History log",
                 "mandatory": "false",
                 "name": "log_history",
                 "readonly": "false",
@@ -6569,6 +6829,7 @@
             {
                 "default": "false",
                 "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "label": "InfluxDB",
                 "mandatory": "false",
                 "name": "logged",
                 "readonly": "false",
@@ -6576,6 +6837,7 @@
             },
             {
                 "description": "Name of Input/Output.",
+                "label": "Name",
                 "mandatory": "true",
                 "name": "name",
                 "readonly": "false",
@@ -6685,6 +6947,7 @@
             {
                 "default": "true",
                 "description": "Display the Input/Output on all user interfaces if set. Default to true",
+                "label": "Visible",
                 "mandatory": "false",
                 "name": "visible",
                 "readonly": "false",
@@ -6824,6 +7087,7 @@
             {
                 "default": "true",
                 "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
+                "label": "Enabled",
                 "mandatory": "false",
                 "name": "enabled",
                 "readonly": "false",
@@ -6831,6 +7095,7 @@
             },
             {
                 "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
+                "label": "Display type",
                 "mandatory": "false",
                 "name": "gui_type",
                 "readonly": "true",
@@ -6846,6 +7111,7 @@
             },
             {
                 "description": "Unique ID identifying the Input/Output in calaos-server",
+                "label": "Identifier",
                 "mandatory": "true",
                 "name": "id",
                 "readonly": "true",
@@ -6863,6 +7129,7 @@
             },
             {
                 "description": "IO type, can be \"input\", \"output\", \"inout\"",
+                "label": "IO type",
                 "mandatory": "true",
                 "name": "io_type",
                 "readonly": "true",
@@ -6893,6 +7160,7 @@
             {
                 "default": "false",
                 "description": "If enabled, write an entry in the history event log for this IO",
+                "label": "History log",
                 "mandatory": "false",
                 "name": "log_history",
                 "readonly": "false",
@@ -6901,6 +7169,7 @@
             {
                 "default": "false",
                 "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "label": "InfluxDB",
                 "mandatory": "false",
                 "name": "logged",
                 "readonly": "false",
@@ -6908,6 +7177,7 @@
             },
             {
                 "description": "Name of Input/Output.",
+                "label": "Name",
                 "mandatory": "true",
                 "name": "name",
                 "readonly": "false",
@@ -7053,6 +7323,7 @@
             {
                 "default": "true",
                 "description": "Display the Input/Output on all user interfaces if set. Default to true",
+                "label": "Visible",
                 "mandatory": "false",
                 "name": "visible",
                 "readonly": "false",
@@ -7158,6 +7429,7 @@
             {
                 "default": "true",
                 "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
+                "label": "Enabled",
                 "mandatory": "false",
                 "name": "enabled",
                 "readonly": "false",
@@ -7165,6 +7437,7 @@
             },
             {
                 "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
+                "label": "Display type",
                 "mandatory": "false",
                 "name": "gui_type",
                 "readonly": "true",
@@ -7180,6 +7453,7 @@
             },
             {
                 "description": "Unique ID identifying the Input/Output in calaos-server",
+                "label": "Identifier",
                 "mandatory": "true",
                 "name": "id",
                 "readonly": "true",
@@ -7187,6 +7461,7 @@
             },
             {
                 "description": "IO type, can be \"input\", \"output\", \"inout\"",
+                "label": "IO type",
                 "mandatory": "true",
                 "name": "io_type",
                 "readonly": "true",
@@ -7217,6 +7492,7 @@
             {
                 "default": "false",
                 "description": "If enabled, write an entry in the history event log for this IO",
+                "label": "History log",
                 "mandatory": "false",
                 "name": "log_history",
                 "readonly": "false",
@@ -7225,6 +7501,7 @@
             {
                 "default": "false",
                 "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "label": "InfluxDB",
                 "mandatory": "false",
                 "name": "logged",
                 "readonly": "false",
@@ -7232,6 +7509,7 @@
             },
             {
                 "description": "Name of Input/Output.",
+                "label": "Name",
                 "mandatory": "true",
                 "name": "name",
                 "readonly": "false",
@@ -7320,6 +7598,7 @@
             {
                 "default": "true",
                 "description": "Display the Input/Output on all user interfaces if set. Default to true",
+                "label": "Visible",
                 "mandatory": "false",
                 "name": "visible",
                 "readonly": "false",
@@ -7447,6 +7726,7 @@
             {
                 "default": "true",
                 "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
+                "label": "Enabled",
                 "mandatory": "false",
                 "name": "enabled",
                 "readonly": "false",
@@ -7454,6 +7734,7 @@
             },
             {
                 "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
+                "label": "Display type",
                 "mandatory": "false",
                 "name": "gui_type",
                 "readonly": "true",
@@ -7461,6 +7742,7 @@
             },
             {
                 "description": "Unique ID identifying the Input/Output in calaos-server",
+                "label": "Identifier",
                 "mandatory": "true",
                 "name": "id",
                 "readonly": "true",
@@ -7468,6 +7750,7 @@
             },
             {
                 "description": "IO type, can be \"input\", \"output\", \"inout\"",
+                "label": "IO type",
                 "mandatory": "true",
                 "name": "io_type",
                 "readonly": "true",
@@ -7476,6 +7759,7 @@
             {
                 "default": "false",
                 "description": "If enabled, write an entry in the history event log for this IO",
+                "label": "History log",
                 "mandatory": "false",
                 "name": "log_history",
                 "readonly": "false",
@@ -7484,6 +7768,7 @@
             {
                 "default": "false",
                 "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "label": "InfluxDB",
                 "mandatory": "false",
                 "name": "logged",
                 "readonly": "false",
@@ -7491,6 +7776,7 @@
             },
             {
                 "description": "Name of Input/Output.",
+                "label": "Name",
                 "mandatory": "true",
                 "name": "name",
                 "readonly": "false",
@@ -7509,6 +7795,7 @@
             {
                 "default": "true",
                 "description": "Display the Input/Output on all user interfaces if set. Default to true",
+                "label": "Visible",
                 "mandatory": "false",
                 "name": "visible",
                 "readonly": "false",
@@ -7629,6 +7916,7 @@
             {
                 "default": "true",
                 "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
+                "label": "Enabled",
                 "mandatory": "false",
                 "name": "enabled",
                 "readonly": "false",
@@ -7636,6 +7924,7 @@
             },
             {
                 "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
+                "label": "Display type",
                 "mandatory": "false",
                 "name": "gui_type",
                 "readonly": "true",
@@ -7643,6 +7932,7 @@
             },
             {
                 "description": "Unique ID identifying the Input/Output in calaos-server",
+                "label": "Identifier",
                 "mandatory": "true",
                 "name": "id",
                 "readonly": "true",
@@ -7650,6 +7940,7 @@
             },
             {
                 "description": "IO type, can be \"input\", \"output\", \"inout\"",
+                "label": "IO type",
                 "mandatory": "true",
                 "name": "io_type",
                 "readonly": "true",
@@ -7658,6 +7949,7 @@
             {
                 "default": "false",
                 "description": "If enabled, write an entry in the history event log for this IO",
+                "label": "History log",
                 "mandatory": "false",
                 "name": "log_history",
                 "readonly": "false",
@@ -7666,6 +7958,7 @@
             {
                 "default": "false",
                 "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "label": "InfluxDB",
                 "mandatory": "false",
                 "name": "logged",
                 "readonly": "false",
@@ -7673,6 +7966,7 @@
             },
             {
                 "description": "Name of Input/Output.",
+                "label": "Name",
                 "mandatory": "true",
                 "name": "name",
                 "readonly": "false",
@@ -7691,6 +7985,7 @@
             {
                 "default": "true",
                 "description": "Display the Input/Output on all user interfaces if set. Default to true",
+                "label": "Visible",
                 "mandatory": "false",
                 "name": "visible",
                 "readonly": "false",
@@ -7747,6 +8042,7 @@
             {
                 "default": "true",
                 "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
+                "label": "Enabled",
                 "mandatory": "false",
                 "name": "enabled",
                 "readonly": "false",
@@ -7754,6 +8050,7 @@
             },
             {
                 "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
+                "label": "Display type",
                 "mandatory": "false",
                 "name": "gui_type",
                 "readonly": "true",
@@ -7761,6 +8058,7 @@
             },
             {
                 "description": "Unique ID identifying the Input/Output in calaos-server",
+                "label": "Identifier",
                 "mandatory": "true",
                 "name": "id",
                 "readonly": "true",
@@ -7795,6 +8093,7 @@
             },
             {
                 "description": "IO type, can be \"input\", \"output\", \"inout\"",
+                "label": "IO type",
                 "mandatory": "true",
                 "name": "io_type",
                 "readonly": "true",
@@ -7803,6 +8102,7 @@
             {
                 "default": "false",
                 "description": "If enabled, write an entry in the history event log for this IO",
+                "label": "History log",
                 "mandatory": "false",
                 "name": "log_history",
                 "readonly": "false",
@@ -7811,6 +8111,7 @@
             {
                 "default": "false",
                 "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "label": "InfluxDB",
                 "mandatory": "false",
                 "name": "logged",
                 "readonly": "false",
@@ -7818,6 +8119,7 @@
             },
             {
                 "description": "Name of Input/Output.",
+                "label": "Name",
                 "mandatory": "true",
                 "name": "name",
                 "readonly": "false",
@@ -7878,6 +8180,7 @@
             {
                 "default": "true",
                 "description": "Display the Input/Output on all user interfaces if set. Default to true",
+                "label": "Visible",
                 "mandatory": "false",
                 "name": "visible",
                 "readonly": "false",
@@ -7894,6 +8197,7 @@
             {
                 "default": "true",
                 "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
+                "label": "Enabled",
                 "mandatory": "false",
                 "name": "enabled",
                 "readonly": "false",
@@ -7901,6 +8205,7 @@
             },
             {
                 "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
+                "label": "Display type",
                 "mandatory": "false",
                 "name": "gui_type",
                 "readonly": "true",
@@ -7908,6 +8213,7 @@
             },
             {
                 "description": "Unique ID identifying the Input/Output in calaos-server",
+                "label": "Identifier",
                 "mandatory": "true",
                 "name": "id",
                 "readonly": "true",
@@ -7915,6 +8221,7 @@
             },
             {
                 "description": "IO type, can be \"input\", \"output\", \"inout\"",
+                "label": "IO type",
                 "mandatory": "true",
                 "name": "io_type",
                 "readonly": "true",
@@ -7923,6 +8230,7 @@
             {
                 "default": "false",
                 "description": "If enabled, write an entry in the history event log for this IO",
+                "label": "History log",
                 "mandatory": "false",
                 "name": "log_history",
                 "readonly": "false",
@@ -7931,6 +8239,7 @@
             {
                 "default": "false",
                 "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "label": "InfluxDB",
                 "mandatory": "false",
                 "name": "logged",
                 "readonly": "false",
@@ -7938,6 +8247,7 @@
             },
             {
                 "description": "Name of Input/Output.",
+                "label": "Name",
                 "mandatory": "true",
                 "name": "name",
                 "readonly": "false",
@@ -7946,6 +8256,7 @@
             {
                 "default": "true",
                 "description": "Display the Input/Output on all user interfaces if set. Default to true",
+                "label": "Visible",
                 "mandatory": "false",
                 "name": "visible",
                 "readonly": "false",
@@ -7975,6 +8286,7 @@
             {
                 "default": "true",
                 "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
+                "label": "Enabled",
                 "mandatory": "false",
                 "name": "enabled",
                 "readonly": "false",
@@ -7982,6 +8294,7 @@
             },
             {
                 "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
+                "label": "Display type",
                 "mandatory": "false",
                 "name": "gui_type",
                 "readonly": "true",
@@ -7996,6 +8309,7 @@
             },
             {
                 "description": "Unique ID identifying the Input/Output in calaos-server",
+                "label": "Identifier",
                 "mandatory": "true",
                 "name": "id",
                 "readonly": "true",
@@ -8033,6 +8347,7 @@
             },
             {
                 "description": "IO type, can be \"input\", \"output\", \"inout\"",
+                "label": "IO type",
                 "mandatory": "true",
                 "name": "io_type",
                 "readonly": "true",
@@ -8041,6 +8356,7 @@
             {
                 "default": "false",
                 "description": "If enabled, write an entry in the history event log for this IO",
+                "label": "History log",
                 "mandatory": "false",
                 "name": "log_history",
                 "readonly": "false",
@@ -8049,6 +8365,7 @@
             {
                 "default": "false",
                 "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "label": "InfluxDB",
                 "mandatory": "false",
                 "name": "logged",
                 "readonly": "false",
@@ -8056,6 +8373,7 @@
             },
             {
                 "description": "Name of Input/Output.",
+                "label": "Name",
                 "mandatory": "true",
                 "name": "name",
                 "readonly": "false",
@@ -8087,6 +8405,7 @@
             {
                 "default": "true",
                 "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
+                "label": "Enabled",
                 "mandatory": "false",
                 "name": "enabled",
                 "readonly": "false",
@@ -8094,6 +8413,7 @@
             },
             {
                 "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
+                "label": "Display type",
                 "mandatory": "false",
                 "name": "gui_type",
                 "readonly": "true",
@@ -8101,6 +8421,7 @@
             },
             {
                 "description": "Unique ID identifying the Input/Output in calaos-server",
+                "label": "Identifier",
                 "mandatory": "true",
                 "name": "id",
                 "readonly": "true",
@@ -8116,6 +8437,7 @@
             },
             {
                 "description": "IO type, can be \"input\", \"output\", \"inout\"",
+                "label": "IO type",
                 "mandatory": "true",
                 "name": "io_type",
                 "readonly": "true",
@@ -8124,6 +8446,7 @@
             {
                 "default": "false",
                 "description": "If enabled, write an entry in the history event log for this IO",
+                "label": "History log",
                 "mandatory": "false",
                 "name": "log_history",
                 "readonly": "false",
@@ -8132,6 +8455,7 @@
             {
                 "default": "false",
                 "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "label": "InfluxDB",
                 "mandatory": "false",
                 "name": "logged",
                 "readonly": "false",
@@ -8146,6 +8470,7 @@
             },
             {
                 "description": "Name of Input/Output.",
+                "label": "Name",
                 "mandatory": "true",
                 "name": "name",
                 "readonly": "false",
@@ -8175,6 +8500,7 @@
             {
                 "default": "true",
                 "description": "Display the Input/Output on all user interfaces if set. Default to true",
+                "label": "Visible",
                 "mandatory": "false",
                 "name": "visible",
                 "readonly": "false",
@@ -8259,6 +8585,7 @@
             {
                 "default": "true",
                 "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
+                "label": "Enabled",
                 "mandatory": "false",
                 "name": "enabled",
                 "readonly": "false",
@@ -8282,6 +8609,7 @@
             },
             {
                 "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
+                "label": "Display type",
                 "mandatory": "false",
                 "name": "gui_type",
                 "readonly": "true",
@@ -8289,6 +8617,7 @@
             },
             {
                 "description": "Unique ID identifying the Input/Output in calaos-server",
+                "label": "Identifier",
                 "mandatory": "true",
                 "name": "id",
                 "readonly": "true",
@@ -8296,6 +8625,7 @@
             },
             {
                 "description": "IO type, can be \"input\", \"output\", \"inout\"",
+                "label": "IO type",
                 "mandatory": "true",
                 "name": "io_type",
                 "readonly": "true",
@@ -8304,6 +8634,7 @@
             {
                 "default": "false",
                 "description": "If enabled, write an entry in the history event log for this IO",
+                "label": "History log",
                 "mandatory": "false",
                 "name": "log_history",
                 "readonly": "false",
@@ -8312,6 +8643,7 @@
             {
                 "default": "false",
                 "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "label": "InfluxDB",
                 "mandatory": "false",
                 "name": "logged",
                 "readonly": "false",
@@ -8326,6 +8658,7 @@
             },
             {
                 "description": "Name of Input/Output.",
+                "label": "Name",
                 "mandatory": "true",
                 "name": "name",
                 "readonly": "false",
@@ -8341,6 +8674,7 @@
             {
                 "default": "true",
                 "description": "Display the Input/Output on all user interfaces if set. Default to true",
+                "label": "Visible",
                 "mandatory": "false",
                 "name": "visible",
                 "readonly": "false",
@@ -8399,6 +8733,7 @@
             {
                 "default": "true",
                 "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
+                "label": "Enabled",
                 "mandatory": "false",
                 "name": "enabled",
                 "readonly": "false",
@@ -8406,6 +8741,7 @@
             },
             {
                 "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
+                "label": "Display type",
                 "mandatory": "false",
                 "name": "gui_type",
                 "readonly": "true",
@@ -8413,6 +8749,7 @@
             },
             {
                 "description": "Unique ID identifying the Input/Output in calaos-server",
+                "label": "Identifier",
                 "mandatory": "true",
                 "name": "id",
                 "readonly": "true",
@@ -8435,6 +8772,7 @@
             },
             {
                 "description": "IO type, can be \"input\", \"output\", \"inout\"",
+                "label": "IO type",
                 "mandatory": "true",
                 "name": "io_type",
                 "readonly": "true",
@@ -8443,6 +8781,7 @@
             {
                 "default": "false",
                 "description": "If enabled, write an entry in the history event log for this IO",
+                "label": "History log",
                 "mandatory": "false",
                 "name": "log_history",
                 "readonly": "false",
@@ -8451,6 +8790,7 @@
             {
                 "default": "false",
                 "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "label": "InfluxDB",
                 "mandatory": "false",
                 "name": "logged",
                 "readonly": "false",
@@ -8458,6 +8798,7 @@
             },
             {
                 "description": "Name of Input/Output.",
+                "label": "Name",
                 "mandatory": "true",
                 "name": "name",
                 "readonly": "false",
@@ -8483,6 +8824,7 @@
             {
                 "default": "true",
                 "description": "Display the Input/Output on all user interfaces if set. Default to true",
+                "label": "Visible",
                 "mandatory": "false",
                 "name": "visible",
                 "readonly": "false",
@@ -8512,6 +8854,7 @@
             {
                 "default": "true",
                 "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
+                "label": "Enabled",
                 "mandatory": "false",
                 "name": "enabled",
                 "readonly": "false",
@@ -8537,6 +8880,7 @@
             },
             {
                 "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
+                "label": "Display type",
                 "mandatory": "false",
                 "name": "gui_type",
                 "readonly": "true",
@@ -8551,6 +8895,7 @@
             },
             {
                 "description": "Unique ID identifying the Input/Output in calaos-server",
+                "label": "Identifier",
                 "mandatory": "true",
                 "name": "id",
                 "readonly": "true",
@@ -8580,6 +8925,7 @@
             },
             {
                 "description": "IO type, can be \"input\", \"output\", \"inout\"",
+                "label": "IO type",
                 "mandatory": "true",
                 "name": "io_type",
                 "readonly": "true",
@@ -8588,6 +8934,7 @@
             {
                 "default": "false",
                 "description": "If enabled, write an entry in the history event log for this IO",
+                "label": "History log",
                 "mandatory": "false",
                 "name": "log_history",
                 "readonly": "false",
@@ -8596,6 +8943,7 @@
             {
                 "default": "false",
                 "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "label": "InfluxDB",
                 "mandatory": "false",
                 "name": "logged",
                 "readonly": "false",
@@ -8603,6 +8951,7 @@
             },
             {
                 "description": "Name of Input/Output.",
+                "label": "Name",
                 "mandatory": "true",
                 "name": "name",
                 "readonly": "false",
@@ -8699,6 +9048,7 @@
             {
                 "default": "true",
                 "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
+                "label": "Enabled",
                 "mandatory": "false",
                 "name": "enabled",
                 "readonly": "false",
@@ -8706,6 +9056,7 @@
             },
             {
                 "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
+                "label": "Display type",
                 "mandatory": "false",
                 "name": "gui_type",
                 "readonly": "true",
@@ -8720,6 +9071,7 @@
             },
             {
                 "description": "Unique ID identifying the Input/Output in calaos-server",
+                "label": "Identifier",
                 "mandatory": "true",
                 "name": "id",
                 "readonly": "true",
@@ -8727,6 +9079,7 @@
             },
             {
                 "description": "IO type, can be \"input\", \"output\", \"inout\"",
+                "label": "IO type",
                 "mandatory": "true",
                 "name": "io_type",
                 "readonly": "true",
@@ -8735,6 +9088,7 @@
             {
                 "default": "false",
                 "description": "If enabled, write an entry in the history event log for this IO",
+                "label": "History log",
                 "mandatory": "false",
                 "name": "log_history",
                 "readonly": "false",
@@ -8743,6 +9097,7 @@
             {
                 "default": "false",
                 "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "label": "InfluxDB",
                 "mandatory": "false",
                 "name": "logged",
                 "readonly": "false",
@@ -8750,6 +9105,7 @@
             },
             {
                 "description": "Name of Input/Output.",
+                "label": "Name",
                 "mandatory": "true",
                 "name": "name",
                 "readonly": "false",
@@ -8816,6 +9172,7 @@
             {
                 "default": "true",
                 "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
+                "label": "Enabled",
                 "mandatory": "false",
                 "name": "enabled",
                 "readonly": "false",
@@ -8823,6 +9180,7 @@
             },
             {
                 "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
+                "label": "Display type",
                 "mandatory": "false",
                 "name": "gui_type",
                 "readonly": "true",
@@ -8830,6 +9188,7 @@
             },
             {
                 "description": "Unique ID identifying the Input/Output in calaos-server",
+                "label": "Identifier",
                 "mandatory": "true",
                 "name": "id",
                 "readonly": "true",
@@ -8837,6 +9196,7 @@
             },
             {
                 "description": "IO type, can be \"input\", \"output\", \"inout\"",
+                "label": "IO type",
                 "mandatory": "true",
                 "name": "io_type",
                 "readonly": "true",
@@ -8845,6 +9205,7 @@
             {
                 "default": "false",
                 "description": "If enabled, write an entry in the history event log for this IO",
+                "label": "History log",
                 "mandatory": "false",
                 "name": "log_history",
                 "readonly": "false",
@@ -8853,6 +9214,7 @@
             {
                 "default": "false",
                 "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "label": "InfluxDB",
                 "mandatory": "false",
                 "name": "logged",
                 "readonly": "false",
@@ -8860,6 +9222,7 @@
             },
             {
                 "description": "Name of Input/Output.",
+                "label": "Name",
                 "mandatory": "true",
                 "name": "name",
                 "readonly": "false",
@@ -8868,6 +9231,7 @@
             {
                 "default": "true",
                 "description": "Display the Input/Output on all user interfaces if set. Default to true",
+                "label": "Visible",
                 "mandatory": "false",
                 "name": "visible",
                 "readonly": "false",
@@ -8972,6 +9336,7 @@
             {
                 "default": "true",
                 "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
+                "label": "Enabled",
                 "mandatory": "false",
                 "name": "enabled",
                 "readonly": "false",
@@ -8979,6 +9344,7 @@
             },
             {
                 "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
+                "label": "Display type",
                 "mandatory": "false",
                 "name": "gui_type",
                 "readonly": "true",
@@ -9000,6 +9366,7 @@
             },
             {
                 "description": "IO type, can be \"input\", \"output\", \"inout\"",
+                "label": "IO type",
                 "mandatory": "true",
                 "name": "io_type",
                 "readonly": "true",
@@ -9008,6 +9375,7 @@
             {
                 "default": "false",
                 "description": "If enabled, write an entry in the history event log for this IO",
+                "label": "History log",
                 "mandatory": "false",
                 "name": "log_history",
                 "readonly": "false",
@@ -9016,6 +9384,7 @@
             {
                 "default": "false",
                 "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "label": "InfluxDB",
                 "mandatory": "false",
                 "name": "logged",
                 "readonly": "false",
@@ -9023,6 +9392,7 @@
             },
             {
                 "description": "Name of Input/Output.",
+                "label": "Name",
                 "mandatory": "true",
                 "name": "name",
                 "readonly": "false",
@@ -9067,6 +9437,7 @@
             {
                 "default": "true",
                 "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
+                "label": "Enabled",
                 "mandatory": "false",
                 "name": "enabled",
                 "readonly": "false",
@@ -9074,6 +9445,7 @@
             },
             {
                 "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
+                "label": "Display type",
                 "mandatory": "false",
                 "name": "gui_type",
                 "readonly": "true",
@@ -9081,6 +9453,7 @@
             },
             {
                 "description": "Unique ID identifying the Input/Output in calaos-server",
+                "label": "Identifier",
                 "mandatory": "true",
                 "name": "id",
                 "readonly": "true",
@@ -9096,6 +9469,7 @@
             },
             {
                 "description": "IO type, can be \"input\", \"output\", \"inout\"",
+                "label": "IO type",
                 "mandatory": "true",
                 "name": "io_type",
                 "readonly": "true",
@@ -9104,6 +9478,7 @@
             {
                 "default": "false",
                 "description": "If enabled, write an entry in the history event log for this IO",
+                "label": "History log",
                 "mandatory": "false",
                 "name": "log_history",
                 "readonly": "false",
@@ -9112,6 +9487,7 @@
             {
                 "default": "false",
                 "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "label": "InfluxDB",
                 "mandatory": "false",
                 "name": "logged",
                 "readonly": "false",
@@ -9119,6 +9495,7 @@
             },
             {
                 "description": "Name of Input/Output.",
+                "label": "Name",
                 "mandatory": "true",
                 "name": "name",
                 "readonly": "false",
@@ -9156,6 +9533,7 @@
             {
                 "default": "true",
                 "description": "Display the Input/Output on all user interfaces if set. Default to true",
+                "label": "Visible",
                 "mandatory": "false",
                 "name": "visible",
                 "readonly": "false",
@@ -9196,6 +9574,7 @@
             {
                 "default": "true",
                 "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
+                "label": "Enabled",
                 "mandatory": "false",
                 "name": "enabled",
                 "readonly": "false",
@@ -9203,6 +9582,7 @@
             },
             {
                 "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
+                "label": "Display type",
                 "mandatory": "false",
                 "name": "gui_type",
                 "readonly": "true",
@@ -9210,6 +9590,7 @@
             },
             {
                 "description": "Unique ID identifying the Input/Output in calaos-server",
+                "label": "Identifier",
                 "mandatory": "true",
                 "name": "id",
                 "readonly": "true",
@@ -9225,6 +9606,7 @@
             },
             {
                 "description": "IO type, can be \"input\", \"output\", \"inout\"",
+                "label": "IO type",
                 "mandatory": "true",
                 "name": "io_type",
                 "readonly": "true",
@@ -9233,6 +9615,7 @@
             {
                 "default": "false",
                 "description": "If enabled, write an entry in the history event log for this IO",
+                "label": "History log",
                 "mandatory": "false",
                 "name": "log_history",
                 "readonly": "false",
@@ -9241,6 +9624,7 @@
             {
                 "default": "false",
                 "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "label": "InfluxDB",
                 "mandatory": "false",
                 "name": "logged",
                 "readonly": "false",
@@ -9248,6 +9632,7 @@
             },
             {
                 "description": "Name of Input/Output.",
+                "label": "Name",
                 "mandatory": "true",
                 "name": "name",
                 "readonly": "false",
@@ -9284,6 +9669,7 @@
             {
                 "default": "true",
                 "description": "Display the Input/Output on all user interfaces if set. Default to true",
+                "label": "Visible",
                 "mandatory": "false",
                 "name": "visible",
                 "readonly": "false",
@@ -9322,6 +9708,7 @@
             {
                 "default": "true",
                 "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
+                "label": "Enabled",
                 "mandatory": "false",
                 "name": "enabled",
                 "readonly": "false",
@@ -9329,6 +9716,7 @@
             },
             {
                 "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
+                "label": "Display type",
                 "mandatory": "false",
                 "name": "gui_type",
                 "readonly": "true",
@@ -9336,6 +9724,7 @@
             },
             {
                 "description": "Unique ID identifying the Input/Output in calaos-server",
+                "label": "Identifier",
                 "mandatory": "true",
                 "name": "id",
                 "readonly": "true",
@@ -9343,6 +9732,7 @@
             },
             {
                 "description": "IO type, can be \"input\", \"output\", \"inout\"",
+                "label": "IO type",
                 "mandatory": "true",
                 "name": "io_type",
                 "readonly": "true",
@@ -9351,6 +9741,7 @@
             {
                 "default": "false",
                 "description": "If enabled, write an entry in the history event log for this IO",
+                "label": "History log",
                 "mandatory": "false",
                 "name": "log_history",
                 "readonly": "false",
@@ -9359,6 +9750,7 @@
             {
                 "default": "false",
                 "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "label": "InfluxDB",
                 "mandatory": "false",
                 "name": "logged",
                 "readonly": "false",
@@ -9366,6 +9758,7 @@
             },
             {
                 "description": "Name of Input/Output.",
+                "label": "Name",
                 "mandatory": "true",
                 "name": "name",
                 "readonly": "false",
@@ -9432,6 +9825,7 @@
             {
                 "default": "true",
                 "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
+                "label": "Enabled",
                 "mandatory": "false",
                 "name": "enabled",
                 "readonly": "false",
@@ -9439,6 +9833,7 @@
             },
             {
                 "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
+                "label": "Display type",
                 "mandatory": "false",
                 "name": "gui_type",
                 "readonly": "true",
@@ -9453,6 +9848,7 @@
             },
             {
                 "description": "Unique ID identifying the Input/Output in calaos-server",
+                "label": "Identifier",
                 "mandatory": "true",
                 "name": "id",
                 "readonly": "true",
@@ -9487,6 +9883,7 @@
             },
             {
                 "description": "IO type, can be \"input\", \"output\", \"inout\"",
+                "label": "IO type",
                 "mandatory": "true",
                 "name": "io_type",
                 "readonly": "true",
@@ -9495,6 +9892,7 @@
             {
                 "default": "false",
                 "description": "If enabled, write an entry in the history event log for this IO",
+                "label": "History log",
                 "mandatory": "false",
                 "name": "log_history",
                 "readonly": "false",
@@ -9503,6 +9901,7 @@
             {
                 "default": "false",
                 "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "label": "InfluxDB",
                 "mandatory": "false",
                 "name": "logged",
                 "readonly": "false",
@@ -9510,6 +9909,7 @@
             },
             {
                 "description": "Name of Input/Output.",
+                "label": "Name",
                 "mandatory": "true",
                 "name": "name",
                 "readonly": "false",
@@ -9569,6 +9969,7 @@
             {
                 "default": "true",
                 "description": "Display the Input/Output on all user interfaces if set. Default to true",
+                "label": "Visible",
                 "mandatory": "false",
                 "name": "visible",
                 "readonly": "false",
@@ -9601,6 +10002,7 @@
             {
                 "default": "true",
                 "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
+                "label": "Enabled",
                 "mandatory": "false",
                 "name": "enabled",
                 "readonly": "false",
@@ -9608,6 +10010,7 @@
             },
             {
                 "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
+                "label": "Display type",
                 "mandatory": "false",
                 "name": "gui_type",
                 "readonly": "true",
@@ -9622,6 +10025,7 @@
             },
             {
                 "description": "Unique ID identifying the Input/Output in calaos-server",
+                "label": "Identifier",
                 "mandatory": "true",
                 "name": "id",
                 "readonly": "true",
@@ -9651,6 +10055,7 @@
             },
             {
                 "description": "IO type, can be \"input\", \"output\", \"inout\"",
+                "label": "IO type",
                 "mandatory": "true",
                 "name": "io_type",
                 "readonly": "true",
@@ -9659,6 +10064,7 @@
             {
                 "default": "false",
                 "description": "If enabled, write an entry in the history event log for this IO",
+                "label": "History log",
                 "mandatory": "false",
                 "name": "log_history",
                 "readonly": "false",
@@ -9667,6 +10073,7 @@
             {
                 "default": "false",
                 "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "label": "InfluxDB",
                 "mandatory": "false",
                 "name": "logged",
                 "readonly": "false",
@@ -9674,6 +10081,7 @@
             },
             {
                 "description": "Name of Input/Output.",
+                "label": "Name",
                 "mandatory": "true",
                 "name": "name",
                 "readonly": "false",
@@ -9733,6 +10141,7 @@
             {
                 "default": "true",
                 "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
+                "label": "Enabled",
                 "mandatory": "false",
                 "name": "enabled",
                 "readonly": "false",
@@ -9740,6 +10149,7 @@
             },
             {
                 "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
+                "label": "Display type",
                 "mandatory": "false",
                 "name": "gui_type",
                 "readonly": "true",
@@ -9754,6 +10164,7 @@
             },
             {
                 "description": "Unique ID identifying the Input/Output in calaos-server",
+                "label": "Identifier",
                 "mandatory": "true",
                 "name": "id",
                 "readonly": "true",
@@ -9761,6 +10172,7 @@
             },
             {
                 "description": "IO type, can be \"input\", \"output\", \"inout\"",
+                "label": "IO type",
                 "mandatory": "true",
                 "name": "io_type",
                 "readonly": "true",
@@ -9769,6 +10181,7 @@
             {
                 "default": "false",
                 "description": "If enabled, write an entry in the history event log for this IO",
+                "label": "History log",
                 "mandatory": "false",
                 "name": "log_history",
                 "readonly": "false",
@@ -9777,6 +10190,7 @@
             {
                 "default": "false",
                 "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "label": "InfluxDB",
                 "mandatory": "false",
                 "name": "logged",
                 "readonly": "false",
@@ -9784,6 +10198,7 @@
             },
             {
                 "description": "Name of Input/Output.",
+                "label": "Name",
                 "mandatory": "true",
                 "name": "name",
                 "readonly": "false",
@@ -9847,6 +10262,7 @@
             {
                 "default": "true",
                 "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
+                "label": "Enabled",
                 "mandatory": "false",
                 "name": "enabled",
                 "readonly": "false",
@@ -9854,6 +10270,7 @@
             },
             {
                 "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
+                "label": "Display type",
                 "mandatory": "false",
                 "name": "gui_type",
                 "readonly": "true",
@@ -9868,6 +10285,7 @@
             },
             {
                 "description": "Unique ID identifying the Input/Output in calaos-server",
+                "label": "Identifier",
                 "mandatory": "true",
                 "name": "id",
                 "readonly": "true",
@@ -9875,6 +10293,7 @@
             },
             {
                 "description": "IO type, can be \"input\", \"output\", \"inout\"",
+                "label": "IO type",
                 "mandatory": "true",
                 "name": "io_type",
                 "readonly": "true",
@@ -9883,6 +10302,7 @@
             {
                 "default": "false",
                 "description": "If enabled, write an entry in the history event log for this IO",
+                "label": "History log",
                 "mandatory": "false",
                 "name": "log_history",
                 "readonly": "false",
@@ -9891,6 +10311,7 @@
             {
                 "default": "false",
                 "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "label": "InfluxDB",
                 "mandatory": "false",
                 "name": "logged",
                 "readonly": "false",
@@ -9898,6 +10319,7 @@
             },
             {
                 "description": "Name of Input/Output.",
+                "label": "Name",
                 "mandatory": "true",
                 "name": "name",
                 "readonly": "false",
@@ -9984,6 +10406,7 @@
             {
                 "default": "true",
                 "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
+                "label": "Enabled",
                 "mandatory": "false",
                 "name": "enabled",
                 "readonly": "false",
@@ -9991,6 +10414,7 @@
             },
             {
                 "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
+                "label": "Display type",
                 "mandatory": "false",
                 "name": "gui_type",
                 "readonly": "true",
@@ -10005,6 +10429,7 @@
             },
             {
                 "description": "Unique ID identifying the Input/Output in calaos-server",
+                "label": "Identifier",
                 "mandatory": "true",
                 "name": "id",
                 "readonly": "true",
@@ -10039,6 +10464,7 @@
             },
             {
                 "description": "IO type, can be \"input\", \"output\", \"inout\"",
+                "label": "IO type",
                 "mandatory": "true",
                 "name": "io_type",
                 "readonly": "true",
@@ -10047,6 +10473,7 @@
             {
                 "default": "false",
                 "description": "If enabled, write an entry in the history event log for this IO",
+                "label": "History log",
                 "mandatory": "false",
                 "name": "log_history",
                 "readonly": "false",
@@ -10055,6 +10482,7 @@
             {
                 "default": "false",
                 "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "label": "InfluxDB",
                 "mandatory": "false",
                 "name": "logged",
                 "readonly": "false",
@@ -10062,6 +10490,7 @@
             },
             {
                 "description": "Name of Input/Output.",
+                "label": "Name",
                 "mandatory": "true",
                 "name": "name",
                 "readonly": "false",
@@ -10121,6 +10550,7 @@
             {
                 "default": "true",
                 "description": "Display the Input/Output on all user interfaces if set. Default to true",
+                "label": "Visible",
                 "mandatory": "false",
                 "name": "visible",
                 "readonly": "false",
@@ -10196,6 +10626,7 @@
             {
                 "default": "true",
                 "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
+                "label": "Enabled",
                 "mandatory": "false",
                 "name": "enabled",
                 "readonly": "false",
@@ -10203,6 +10634,7 @@
             },
             {
                 "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
+                "label": "Display type",
                 "mandatory": "false",
                 "name": "gui_type",
                 "readonly": "true",
@@ -10217,6 +10649,7 @@
             },
             {
                 "description": "Unique ID identifying the Input/Output in calaos-server",
+                "label": "Identifier",
                 "mandatory": "true",
                 "name": "id",
                 "readonly": "true",
@@ -10243,6 +10676,7 @@
             },
             {
                 "description": "IO type, can be \"input\", \"output\", \"inout\"",
+                "label": "IO type",
                 "mandatory": "true",
                 "name": "io_type",
                 "readonly": "true",
@@ -10251,6 +10685,7 @@
             {
                 "default": "false",
                 "description": "If enabled, write an entry in the history event log for this IO",
+                "label": "History log",
                 "mandatory": "false",
                 "name": "log_history",
                 "readonly": "false",
@@ -10259,6 +10694,7 @@
             {
                 "default": "false",
                 "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "label": "InfluxDB",
                 "mandatory": "false",
                 "name": "logged",
                 "readonly": "false",
@@ -10266,6 +10702,7 @@
             },
             {
                 "description": "Name of Input/Output.",
+                "label": "Name",
                 "mandatory": "true",
                 "name": "name",
                 "readonly": "false",
@@ -10323,6 +10760,7 @@
             {
                 "default": "true",
                 "description": "Display the Input/Output on all user interfaces if set. Default to true",
+                "label": "Visible",
                 "mandatory": "false",
                 "name": "visible",
                 "readonly": "false",
@@ -10417,6 +10855,7 @@
             {
                 "default": "true",
                 "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
+                "label": "Enabled",
                 "mandatory": "false",
                 "name": "enabled",
                 "readonly": "false",
@@ -10444,6 +10883,7 @@
             },
             {
                 "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
+                "label": "Display type",
                 "mandatory": "false",
                 "name": "gui_type",
                 "readonly": "true",
@@ -10458,6 +10898,7 @@
             },
             {
                 "description": "Unique ID identifying the Input/Output in calaos-server",
+                "label": "Identifier",
                 "mandatory": "true",
                 "name": "id",
                 "readonly": "true",
@@ -10465,6 +10906,7 @@
             },
             {
                 "description": "IO type, can be \"input\", \"output\", \"inout\"",
+                "label": "IO type",
                 "mandatory": "true",
                 "name": "io_type",
                 "readonly": "true",
@@ -10481,6 +10923,7 @@
             {
                 "default": "false",
                 "description": "If enabled, write an entry in the history event log for this IO",
+                "label": "History log",
                 "mandatory": "false",
                 "name": "log_history",
                 "readonly": "false",
@@ -10489,6 +10932,7 @@
             {
                 "default": "false",
                 "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "label": "InfluxDB",
                 "mandatory": "false",
                 "name": "logged",
                 "readonly": "false",
@@ -10496,6 +10940,7 @@
             },
             {
                 "description": "Name of Input/Output.",
+                "label": "Name",
                 "mandatory": "true",
                 "name": "name",
                 "readonly": "false",
@@ -10514,6 +10959,7 @@
             {
                 "default": "true",
                 "description": "Display the Input/Output on all user interfaces if set. Default to true",
+                "label": "Visible",
                 "mandatory": "false",
                 "name": "visible",
                 "readonly": "false",
@@ -10644,6 +11090,7 @@
             {
                 "default": "true",
                 "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
+                "label": "Enabled",
                 "mandatory": "false",
                 "name": "enabled",
                 "readonly": "false",
@@ -10689,6 +11136,7 @@
             },
             {
                 "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
+                "label": "Display type",
                 "mandatory": "false",
                 "name": "gui_type",
                 "readonly": "true",
@@ -10703,6 +11151,7 @@
             },
             {
                 "description": "Unique ID identifying the Input/Output in calaos-server",
+                "label": "Identifier",
                 "mandatory": "true",
                 "name": "id",
                 "readonly": "true",
@@ -10710,6 +11159,7 @@
             },
             {
                 "description": "IO type, can be \"input\", \"output\", \"inout\"",
+                "label": "IO type",
                 "mandatory": "true",
                 "name": "io_type",
                 "readonly": "true",
@@ -10718,6 +11168,7 @@
             {
                 "default": "false",
                 "description": "If enabled, write an entry in the history event log for this IO",
+                "label": "History log",
                 "mandatory": "false",
                 "name": "log_history",
                 "readonly": "false",
@@ -10726,6 +11177,7 @@
             {
                 "default": "false",
                 "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "label": "InfluxDB",
                 "mandatory": "false",
                 "name": "logged",
                 "readonly": "false",
@@ -10733,6 +11185,7 @@
             },
             {
                 "description": "Name of Input/Output.",
+                "label": "Name",
                 "mandatory": "true",
                 "name": "name",
                 "readonly": "false",
@@ -10789,6 +11242,7 @@
             {
                 "default": "true",
                 "description": "Display the Input/Output on all user interfaces if set. Default to true",
+                "label": "Visible",
                 "mandatory": "false",
                 "name": "visible",
                 "readonly": "false",
@@ -10849,6 +11303,7 @@
             {
                 "default": "true",
                 "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
+                "label": "Enabled",
                 "mandatory": "false",
                 "name": "enabled",
                 "readonly": "false",
@@ -10856,6 +11311,7 @@
             },
             {
                 "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
+                "label": "Display type",
                 "mandatory": "false",
                 "name": "gui_type",
                 "readonly": "true",
@@ -10870,6 +11326,7 @@
             },
             {
                 "description": "Unique ID identifying the Input/Output in calaos-server",
+                "label": "Identifier",
                 "mandatory": "true",
                 "name": "id",
                 "readonly": "true",
@@ -10892,6 +11349,7 @@
             },
             {
                 "description": "IO type, can be \"input\", \"output\", \"inout\"",
+                "label": "IO type",
                 "mandatory": "true",
                 "name": "io_type",
                 "readonly": "true",
@@ -10907,6 +11365,7 @@
             {
                 "default": "false",
                 "description": "If enabled, write an entry in the history event log for this IO",
+                "label": "History log",
                 "mandatory": "false",
                 "name": "log_history",
                 "readonly": "false",
@@ -10915,6 +11374,7 @@
             {
                 "default": "false",
                 "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "label": "InfluxDB",
                 "mandatory": "false",
                 "name": "logged",
                 "readonly": "false",
@@ -10922,6 +11382,7 @@
             },
             {
                 "description": "Name of Input/Output.",
+                "label": "Name",
                 "mandatory": "true",
                 "name": "name",
                 "readonly": "false",
@@ -10950,6 +11411,7 @@
             {
                 "default": "true",
                 "description": "Display the Input/Output on all user interfaces if set. Default to true",
+                "label": "Visible",
                 "mandatory": "false",
                 "name": "visible",
                 "readonly": "false",
@@ -10986,6 +11448,7 @@
             {
                 "default": "true",
                 "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
+                "label": "Enabled",
                 "mandatory": "false",
                 "name": "enabled",
                 "readonly": "false",
@@ -10993,6 +11456,7 @@
             },
             {
                 "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
+                "label": "Display type",
                 "mandatory": "false",
                 "name": "gui_type",
                 "readonly": "true",
@@ -11000,6 +11464,7 @@
             },
             {
                 "description": "Unique ID identifying the Input/Output in calaos-server",
+                "label": "Identifier",
                 "mandatory": "true",
                 "name": "id",
                 "readonly": "true",
@@ -11015,6 +11480,7 @@
             },
             {
                 "description": "IO type, can be \"input\", \"output\", \"inout\"",
+                "label": "IO type",
                 "mandatory": "true",
                 "name": "io_type",
                 "readonly": "true",
@@ -11023,6 +11489,7 @@
             {
                 "default": "false",
                 "description": "If enabled, write an entry in the history event log for this IO",
+                "label": "History log",
                 "mandatory": "false",
                 "name": "log_history",
                 "readonly": "false",
@@ -11031,6 +11498,7 @@
             {
                 "default": "false",
                 "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "label": "InfluxDB",
                 "mandatory": "false",
                 "name": "logged",
                 "readonly": "false",
@@ -11038,6 +11506,7 @@
             },
             {
                 "description": "Name of Input/Output.",
+                "label": "Name",
                 "mandatory": "true",
                 "name": "name",
                 "readonly": "false",
@@ -11046,6 +11515,7 @@
             {
                 "default": "true",
                 "description": "Display the Input/Output on all user interfaces if set. Default to true",
+                "label": "Visible",
                 "mandatory": "false",
                 "name": "visible",
                 "readonly": "false",
@@ -11110,6 +11580,7 @@
             {
                 "default": "true",
                 "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
+                "label": "Enabled",
                 "mandatory": "false",
                 "name": "enabled",
                 "readonly": "false",
@@ -11117,6 +11588,7 @@
             },
             {
                 "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
+                "label": "Display type",
                 "mandatory": "false",
                 "name": "gui_type",
                 "readonly": "true",
@@ -11131,6 +11603,7 @@
             },
             {
                 "description": "Unique ID identifying the Input/Output in calaos-server",
+                "label": "Identifier",
                 "mandatory": "true",
                 "name": "id",
                 "readonly": "true",
@@ -11148,6 +11621,7 @@
             },
             {
                 "description": "IO type, can be \"input\", \"output\", \"inout\"",
+                "label": "IO type",
                 "mandatory": "true",
                 "name": "io_type",
                 "readonly": "true",
@@ -11163,6 +11637,7 @@
             {
                 "default": "false",
                 "description": "If enabled, write an entry in the history event log for this IO",
+                "label": "History log",
                 "mandatory": "false",
                 "name": "log_history",
                 "readonly": "false",
@@ -11171,6 +11646,7 @@
             {
                 "default": "false",
                 "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "label": "InfluxDB",
                 "mandatory": "false",
                 "name": "logged",
                 "readonly": "false",
@@ -11178,6 +11654,7 @@
             },
             {
                 "description": "Name of Input/Output.",
+                "label": "Name",
                 "mandatory": "true",
                 "name": "name",
                 "readonly": "false",
@@ -11233,6 +11710,7 @@
             {
                 "default": "true",
                 "description": "Display the Input/Output on all user interfaces if set. Default to true",
+                "label": "Visible",
                 "mandatory": "false",
                 "name": "visible",
                 "readonly": "false",
@@ -11317,6 +11795,7 @@
             {
                 "default": "true",
                 "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
+                "label": "Enabled",
                 "mandatory": "false",
                 "name": "enabled",
                 "readonly": "false",
@@ -11324,6 +11803,7 @@
             },
             {
                 "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
+                "label": "Display type",
                 "mandatory": "false",
                 "name": "gui_type",
                 "readonly": "true",
@@ -11338,6 +11818,7 @@
             },
             {
                 "description": "Unique ID identifying the Input/Output in calaos-server",
+                "label": "Identifier",
                 "mandatory": "true",
                 "name": "id",
                 "readonly": "true",
@@ -11355,6 +11836,7 @@
             },
             {
                 "description": "IO type, can be \"input\", \"output\", \"inout\"",
+                "label": "IO type",
                 "mandatory": "true",
                 "name": "io_type",
                 "readonly": "true",
@@ -11370,6 +11852,7 @@
             {
                 "default": "false",
                 "description": "If enabled, write an entry in the history event log for this IO",
+                "label": "History log",
                 "mandatory": "false",
                 "name": "log_history",
                 "readonly": "false",
@@ -11378,6 +11861,7 @@
             {
                 "default": "false",
                 "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "label": "InfluxDB",
                 "mandatory": "false",
                 "name": "logged",
                 "readonly": "false",
@@ -11385,6 +11869,7 @@
             },
             {
                 "description": "Name of Input/Output.",
+                "label": "Name",
                 "mandatory": "true",
                 "name": "name",
                 "readonly": "false",
@@ -11450,6 +11935,7 @@
             {
                 "default": "true",
                 "description": "Display the Input/Output on all user interfaces if set. Default to true",
+                "label": "Visible",
                 "mandatory": "false",
                 "name": "visible",
                 "readonly": "false",
@@ -11514,6 +12000,7 @@
             {
                 "default": "true",
                 "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
+                "label": "Enabled",
                 "mandatory": "false",
                 "name": "enabled",
                 "readonly": "false",
@@ -11528,6 +12015,7 @@
             },
             {
                 "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
+                "label": "Display type",
                 "mandatory": "false",
                 "name": "gui_type",
                 "readonly": "true",
@@ -11535,6 +12023,7 @@
             },
             {
                 "description": "Unique ID identifying the Input/Output in calaos-server",
+                "label": "Identifier",
                 "mandatory": "true",
                 "name": "id",
                 "readonly": "true",
@@ -11577,6 +12066,7 @@
             },
             {
                 "description": "IO type, can be \"input\", \"output\", \"inout\"",
+                "label": "IO type",
                 "mandatory": "true",
                 "name": "io_type",
                 "readonly": "true",
@@ -11585,6 +12075,7 @@
             {
                 "default": "false",
                 "description": "If enabled, write an entry in the history event log for this IO",
+                "label": "History log",
                 "mandatory": "false",
                 "name": "log_history",
                 "readonly": "false",
@@ -11593,6 +12084,7 @@
             {
                 "default": "false",
                 "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "label": "InfluxDB",
                 "mandatory": "false",
                 "name": "logged",
                 "readonly": "false",
@@ -11600,6 +12092,7 @@
             },
             {
                 "description": "Name of Input/Output.",
+                "label": "Name",
                 "mandatory": "true",
                 "name": "name",
                 "readonly": "false",
@@ -11653,6 +12146,7 @@
             {
                 "default": "true",
                 "description": "Display the Input/Output on all user interfaces if set. Default to true",
+                "label": "Visible",
                 "mandatory": "false",
                 "name": "visible",
                 "readonly": "false",
@@ -11669,6 +12163,7 @@
             {
                 "default": "true",
                 "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
+                "label": "Enabled",
                 "mandatory": "false",
                 "name": "enabled",
                 "readonly": "false",
@@ -11683,6 +12178,7 @@
             },
             {
                 "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
+                "label": "Display type",
                 "mandatory": "false",
                 "name": "gui_type",
                 "readonly": "true",
@@ -11690,6 +12186,7 @@
             },
             {
                 "description": "Unique ID identifying the Input/Output in calaos-server",
+                "label": "Identifier",
                 "mandatory": "true",
                 "name": "id",
                 "readonly": "true",
@@ -11705,6 +12202,7 @@
             },
             {
                 "description": "IO type, can be \"input\", \"output\", \"inout\"",
+                "label": "IO type",
                 "mandatory": "true",
                 "name": "io_type",
                 "readonly": "true",
@@ -11713,6 +12211,7 @@
             {
                 "default": "false",
                 "description": "If enabled, write an entry in the history event log for this IO",
+                "label": "History log",
                 "mandatory": "false",
                 "name": "log_history",
                 "readonly": "false",
@@ -11721,6 +12220,7 @@
             {
                 "default": "false",
                 "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "label": "InfluxDB",
                 "mandatory": "false",
                 "name": "logged",
                 "readonly": "false",
@@ -11728,6 +12228,7 @@
             },
             {
                 "description": "Name of Input/Output.",
+                "label": "Name",
                 "mandatory": "true",
                 "name": "name",
                 "readonly": "false",
@@ -11750,6 +12251,7 @@
             {
                 "default": "true",
                 "description": "Display the Input/Output on all user interfaces if set. Default to true",
+                "label": "Visible",
                 "mandatory": "false",
                 "name": "visible",
                 "readonly": "false",
@@ -11806,6 +12308,7 @@
             {
                 "default": "true",
                 "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
+                "label": "Enabled",
                 "mandatory": "false",
                 "name": "enabled",
                 "readonly": "false",
@@ -11820,6 +12323,7 @@
             },
             {
                 "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
+                "label": "Display type",
                 "mandatory": "false",
                 "name": "gui_type",
                 "readonly": "true",
@@ -11827,6 +12331,7 @@
             },
             {
                 "description": "Unique ID identifying the Input/Output in calaos-server",
+                "label": "Identifier",
                 "mandatory": "true",
                 "name": "id",
                 "readonly": "true",
@@ -11869,6 +12374,7 @@
             },
             {
                 "description": "IO type, can be \"input\", \"output\", \"inout\"",
+                "label": "IO type",
                 "mandatory": "true",
                 "name": "io_type",
                 "readonly": "true",
@@ -11877,6 +12383,7 @@
             {
                 "default": "false",
                 "description": "If enabled, write an entry in the history event log for this IO",
+                "label": "History log",
                 "mandatory": "false",
                 "name": "log_history",
                 "readonly": "false",
@@ -11885,6 +12392,7 @@
             {
                 "default": "false",
                 "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "label": "InfluxDB",
                 "mandatory": "false",
                 "name": "logged",
                 "readonly": "false",
@@ -11892,6 +12400,7 @@
             },
             {
                 "description": "Name of Input/Output.",
+                "label": "Name",
                 "mandatory": "true",
                 "name": "name",
                 "readonly": "false",
@@ -11945,6 +12454,7 @@
             {
                 "default": "true",
                 "description": "Display the Input/Output on all user interfaces if set. Default to true",
+                "label": "Visible",
                 "mandatory": "false",
                 "name": "visible",
                 "readonly": "false",
@@ -12018,6 +12528,7 @@
             {
                 "default": "true",
                 "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
+                "label": "Enabled",
                 "mandatory": "false",
                 "name": "enabled",
                 "readonly": "false",
@@ -12032,6 +12543,7 @@
             },
             {
                 "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
+                "label": "Display type",
                 "mandatory": "false",
                 "name": "gui_type",
                 "readonly": "true",
@@ -12039,6 +12551,7 @@
             },
             {
                 "description": "Unique ID identifying the Input/Output in calaos-server",
+                "label": "Identifier",
                 "mandatory": "true",
                 "name": "id",
                 "readonly": "true",
@@ -12073,6 +12586,7 @@
             },
             {
                 "description": "IO type, can be \"input\", \"output\", \"inout\"",
+                "label": "IO type",
                 "mandatory": "true",
                 "name": "io_type",
                 "readonly": "true",
@@ -12081,6 +12595,7 @@
             {
                 "default": "false",
                 "description": "If enabled, write an entry in the history event log for this IO",
+                "label": "History log",
                 "mandatory": "false",
                 "name": "log_history",
                 "readonly": "false",
@@ -12089,6 +12604,7 @@
             {
                 "default": "false",
                 "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "label": "InfluxDB",
                 "mandatory": "false",
                 "name": "logged",
                 "readonly": "false",
@@ -12096,6 +12612,7 @@
             },
             {
                 "description": "Name of Input/Output.",
+                "label": "Name",
                 "mandatory": "true",
                 "name": "name",
                 "readonly": "false",
@@ -12147,6 +12664,7 @@
             {
                 "default": "true",
                 "description": "Display the Input/Output on all user interfaces if set. Default to true",
+                "label": "Visible",
                 "mandatory": "false",
                 "name": "visible",
                 "readonly": "false",
@@ -12219,6 +12737,7 @@
             {
                 "default": "true",
                 "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
+                "label": "Enabled",
                 "mandatory": "false",
                 "name": "enabled",
                 "readonly": "false",
@@ -12226,6 +12745,7 @@
             },
             {
                 "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
+                "label": "Display type",
                 "mandatory": "false",
                 "name": "gui_type",
                 "readonly": "true",
@@ -12233,6 +12753,7 @@
             },
             {
                 "description": "Unique ID identifying the Input/Output in calaos-server",
+                "label": "Identifier",
                 "mandatory": "true",
                 "name": "id",
                 "readonly": "true",
@@ -12263,6 +12784,7 @@
             },
             {
                 "description": "IO type, can be \"input\", \"output\", \"inout\"",
+                "label": "IO type",
                 "mandatory": "true",
                 "name": "io_type",
                 "readonly": "true",
@@ -12271,6 +12793,7 @@
             {
                 "default": "false",
                 "description": "If enabled, write an entry in the history event log for this IO",
+                "label": "History log",
                 "mandatory": "false",
                 "name": "log_history",
                 "readonly": "false",
@@ -12279,6 +12802,7 @@
             {
                 "default": "false",
                 "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "label": "InfluxDB",
                 "mandatory": "false",
                 "name": "logged",
                 "readonly": "false",
@@ -12286,6 +12810,7 @@
             },
             {
                 "description": "Name of Input/Output.",
+                "label": "Name",
                 "mandatory": "true",
                 "name": "name",
                 "readonly": "false",
@@ -12301,6 +12826,7 @@
             {
                 "default": "true",
                 "description": "Display the Input/Output on all user interfaces if set. Default to true",
+                "label": "Visible",
                 "mandatory": "false",
                 "name": "visible",
                 "readonly": "false",
@@ -12405,6 +12931,7 @@
             {
                 "default": "true",
                 "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
+                "label": "Enabled",
                 "mandatory": "false",
                 "name": "enabled",
                 "readonly": "false",
@@ -12412,6 +12939,7 @@
             },
             {
                 "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
+                "label": "Display type",
                 "mandatory": "false",
                 "name": "gui_type",
                 "readonly": "true",
@@ -12419,6 +12947,7 @@
             },
             {
                 "description": "Unique ID identifying the Input/Output in calaos-server",
+                "label": "Identifier",
                 "mandatory": "true",
                 "name": "id",
                 "readonly": "true",
@@ -12434,6 +12963,7 @@
             },
             {
                 "description": "IO type, can be \"input\", \"output\", \"inout\"",
+                "label": "IO type",
                 "mandatory": "true",
                 "name": "io_type",
                 "readonly": "true",
@@ -12442,6 +12972,7 @@
             {
                 "default": "false",
                 "description": "If enabled, write an entry in the history event log for this IO",
+                "label": "History log",
                 "mandatory": "false",
                 "name": "log_history",
                 "readonly": "false",
@@ -12450,6 +12981,7 @@
             {
                 "default": "false",
                 "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "label": "InfluxDB",
                 "mandatory": "false",
                 "name": "logged",
                 "readonly": "false",
@@ -12457,6 +12989,7 @@
             },
             {
                 "description": "Name of Input/Output.",
+                "label": "Name",
                 "mandatory": "true",
                 "name": "name",
                 "readonly": "false",
@@ -12479,6 +13012,7 @@
             {
                 "default": "true",
                 "description": "Display the Input/Output on all user interfaces if set. Default to true",
+                "label": "Visible",
                 "mandatory": "false",
                 "name": "visible",
                 "readonly": "false",
@@ -12509,6 +13043,7 @@
             {
                 "default": "true",
                 "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
+                "label": "Enabled",
                 "mandatory": "false",
                 "name": "enabled",
                 "readonly": "false",
@@ -12523,6 +13058,7 @@
             },
             {
                 "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
+                "label": "Display type",
                 "mandatory": "false",
                 "name": "gui_type",
                 "readonly": "true",
@@ -12530,6 +13066,7 @@
             },
             {
                 "description": "Unique ID identifying the Input/Output in calaos-server",
+                "label": "Identifier",
                 "mandatory": "true",
                 "name": "id",
                 "readonly": "true",
@@ -12545,6 +13082,7 @@
             },
             {
                 "description": "IO type, can be \"input\", \"output\", \"inout\"",
+                "label": "IO type",
                 "mandatory": "true",
                 "name": "io_type",
                 "readonly": "true",
@@ -12553,6 +13091,7 @@
             {
                 "default": "false",
                 "description": "If enabled, write an entry in the history event log for this IO",
+                "label": "History log",
                 "mandatory": "false",
                 "name": "log_history",
                 "readonly": "false",
@@ -12561,6 +13100,7 @@
             {
                 "default": "false",
                 "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "label": "InfluxDB",
                 "mandatory": "false",
                 "name": "logged",
                 "readonly": "false",
@@ -12568,6 +13108,7 @@
             },
             {
                 "description": "Name of Input/Output.",
+                "label": "Name",
                 "mandatory": "true",
                 "name": "name",
                 "readonly": "false",
@@ -12590,6 +13131,7 @@
             {
                 "default": "true",
                 "description": "Display the Input/Output on all user interfaces if set. Default to true",
+                "label": "Visible",
                 "mandatory": "false",
                 "name": "visible",
                 "readonly": "false",
@@ -12682,68 +13224,90 @@
             "link_roles": [
                 {
                     "description": "Mode of the appliance. Needs a command_io unless its io is an output. Its availability is the appliance's: connected false in the state.",
+                    "label": "Mode",
                     "required": true,
                     "role": "mode",
+                    "value_type": "string",
                     "writable": true
                 },
                 {
                     "description": "Temperature the appliance measures.",
+                    "label": "Current temperature",
                     "required": false,
                     "role": "current_temp",
+                    "value_type": "number",
                     "writable": false
                 },
                 {
                     "description": "Setpoint used in heat and cool.",
+                    "label": "Setpoint",
                     "required": false,
                     "role": "target_temp",
+                    "value_type": "number",
                     "writable": true
                 },
                 {
                     "description": "Low bound of the auto range. Both bounds are needed for a range.",
+                    "label": "Low setpoint",
                     "required": false,
                     "role": "target_temp_low",
+                    "value_type": "number",
                     "writable": true
                 },
                 {
                     "description": "High bound of the auto range. Both bounds are needed for a range.",
+                    "label": "High setpoint",
                     "required": false,
                     "role": "target_temp_high",
+                    "value_type": "number",
                     "writable": true
                 },
                 {
                     "description": "What the appliance is doing: off, idle, heating, cooling, drying, fan.",
+                    "label": "Action",
                     "required": false,
                     "role": "action",
+                    "value_type": "string",
                     "writable": false
                 },
                 {
                     "description": "Fan mode. Needs the fan_modes param.",
+                    "label": "Fan mode",
                     "required": false,
                     "role": "fan_mode",
+                    "value_type": "string",
                     "writable": true
                 },
                 {
                     "description": "Swing mode. Needs the swing_modes param.",
+                    "label": "Swing mode",
                     "required": false,
                     "role": "swing_mode",
+                    "value_type": "string",
                     "writable": true
                 },
                 {
                     "description": "Where the temperature of another sensor is written, for appliances that take one. Needs remote_temp_source.",
+                    "label": "Remote temperature",
                     "required": false,
                     "role": "remote_temp",
+                    "value_type": "number",
                     "writable": true
                 },
                 {
                     "description": "Relative humidity the appliance, or a room sensor, reports: shown in the state.",
+                    "label": "Humidity sensor",
                     "required": false,
                     "role": "humidity",
+                    "value_type": "number",
                     "writable": false
                 },
                 {
                     "description": "The sensor relayed to remote_temp. Needs remote_temp. Not relayed before it has read since the start, nor while it has sent nothing for sensor_timeout or reports itself disconnected: the appliance then falls back to its own sensor.",
+                    "label": "Room sensor",
                     "required": false,
                     "role": "remote_temp_source",
+                    "value_type": "number",
                     "writable": false
                 }
             ],
@@ -12751,6 +13315,7 @@
                 {
                     "default": "",
                     "description": "What is written to the mode link for auto. Without it, the spelling the appliance last reported, else heat_cool.",
+                    "label": "Auto payload",
                     "list_value": {
                         "auto": "auto",
                         "heat_cool": "heat_cool"
@@ -12764,6 +13329,7 @@
                 {
                     "default": "true",
                     "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
+                    "label": "Enabled",
                     "mandatory": "false",
                     "name": "enabled",
                     "readonly": "false",
@@ -12771,6 +13337,7 @@
                 },
                 {
                     "description": "Comma separated fan modes the appliance accepts. Without it every fan_mode command is refused.",
+                    "label": "Fan modes",
                     "mandatory": "false",
                     "name": "fan_modes",
                     "readonly": "false",
@@ -12779,6 +13346,7 @@
                 },
                 {
                     "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
+                    "label": "Display type",
                     "mandatory": "false",
                     "name": "gui_type",
                     "readonly": "true",
@@ -12786,6 +13354,7 @@
                 },
                 {
                     "description": "Unique ID identifying the Input/Output in calaos-server",
+                    "label": "Identifier",
                     "mandatory": "true",
                     "name": "id",
                     "readonly": "true",
@@ -12793,6 +13362,7 @@
                 },
                 {
                     "description": "Implementation of the device family: the key of this document in devices.",
+                    "label": "Implementation",
                     "mandatory": "true",
                     "name": "impl",
                     "readonly": "true",
@@ -12800,6 +13370,7 @@
                 },
                 {
                     "description": "IO type, can be \"input\", \"output\", \"inout\"",
+                    "label": "IO type",
                     "mandatory": "true",
                     "name": "io_type",
                     "readonly": "true",
@@ -12808,6 +13379,7 @@
                 {
                     "default": "false",
                     "description": "If enabled, write an entry in the history event log for this IO",
+                    "label": "History log",
                     "mandatory": "false",
                     "name": "log_history",
                     "readonly": "false",
@@ -12816,6 +13388,7 @@
                 {
                     "default": "false",
                     "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                    "label": "InfluxDB",
                     "mandatory": "false",
                     "name": "logged",
                     "readonly": "false",
@@ -12824,6 +13397,7 @@
                 {
                     "default": "0",
                     "description": "Minimum gap in degrees between target_temp_low and target_temp_high. A range closer than that is refused.",
+                    "label": "Minimum range",
                     "mandatory": "false",
                     "name": "min_range",
                     "readonly": "false",
@@ -12832,6 +13406,7 @@
                 },
                 {
                     "description": "Comma separated modes the device offers (off, heat, cool, auto, dry, fan_only). Default to all of them.",
+                    "label": "Modes",
                     "mandatory": "false",
                     "name": "modes",
                     "readonly": "false",
@@ -12840,6 +13415,7 @@
                 },
                 {
                     "description": "Name of Input/Output.",
+                    "label": "Name",
                     "mandatory": "true",
                     "name": "name",
                     "readonly": "false",
@@ -12848,6 +13424,7 @@
                 {
                     "default": "10",
                     "description": "Seconds a range bound just commanded is trusted before its readback confirms it, so two quick partial commands are validated together. A number of seconds above 0, else the default is used.",
+                    "label": "Readback hold",
                     "mandatory": "false",
                     "name": "readback_hold",
                     "readonly": "false",
@@ -12857,6 +13434,7 @@
                 {
                     "default": "120",
                     "description": "Seconds between two relays of the remote_temp_source value to remote_temp, on top of each change. The appliance falls back to its own sensor when updates stop. A number of seconds above 0, else the default is used.",
+                    "label": "Remote temperature refresh",
                     "mandatory": "false",
                     "name": "remote_temp_keepalive",
                     "readonly": "false",
@@ -12866,6 +13444,7 @@
                 {
                     "default": "9000",
                     "description": "Seconds a linked sensor may go without a reading, a repeated value included, before it counts as stale. A positive number; the default outlasts one lost hourly Zigbee report. A sensor older than half of it is asked for a reading when its protocol can (KNX).",
+                    "label": "Sensor timeout",
                     "mandatory": "false",
                     "name": "sensor_timeout",
                     "readonly": "false",
@@ -12874,6 +13453,7 @@
                 },
                 {
                     "description": "Comma separated swing modes the appliance accepts. Without it every swing_mode command is refused.",
+                    "label": "Swing modes",
                     "mandatory": "false",
                     "name": "swing_modes",
                     "readonly": "false",
@@ -12883,6 +13463,7 @@
                 {
                     "default": "true",
                     "description": "Display the Input/Output on all user interfaces if set. Default to true",
+                    "label": "Visible",
                     "mandatory": "false",
                     "name": "visible",
                     "readonly": "false",
@@ -12964,48 +13545,63 @@
             "link_roles": [
                 {
                     "description": "Temperature the regulation reads. The outputs stay off until it has delivered a reading since the start (a cached or retained value does not count), and while it has sent nothing for sensor_timeout or reports itself disconnected.",
+                    "label": "Current temperature",
                     "required": true,
                     "role": "current_temp",
+                    "value_type": "number",
                     "writable": false
                 },
                 {
                     "description": "Setpoint used in heat and cool. Created when missing.",
+                    "label": "Setpoint",
                     "required": true,
                     "role": "target_temp",
+                    "value_type": "number",
                     "writable": true
                 },
                 {
                     "description": "Low bound of the auto range. Created when missing, with output_cool.",
+                    "label": "Low setpoint",
                     "required": false,
                     "role": "target_temp_low",
+                    "value_type": "number",
                     "writable": true
                 },
                 {
                     "description": "High bound of the auto range. Created when missing, with output_cool.",
+                    "label": "High setpoint",
                     "required": false,
                     "role": "target_temp_high",
+                    "value_type": "number",
                     "writable": true
                 },
                 {
                     "description": "Written by the thermostat: off, idle, heating or cooling. Created when missing.",
+                    "label": "Action",
                     "required": false,
                     "role": "action",
+                    "value_type": "string",
                     "writable": true
                 },
                 {
                     "description": "Output driven for heating. Enables heat. An output belongs to a single thermostat: a second one linking it ignores the link.",
+                    "label": "Heating output",
                     "required": true,
                     "role": "output_heat",
+                    "value_type": "bool",
                     "writable": true
                 },
                 {
                     "description": "Output driven for cooling. Enables cool and auto. An output belongs to a single thermostat: a second one linking it ignores the link.",
+                    "label": "Cooling output",
                     "required": false,
                     "role": "output_cool",
+                    "value_type": "bool",
                     "writable": true
                 },
                 {
                     "description": "Relative humidity of the room. With emitter=floor, cooling stops while it reads humidity_max or more, has not read, is stale or disconnected; without it, a floor offers neither cool nor auto.",
+                    "label": "Humidity sensor",
                     "required": false,
                     "required_when": {
                         "link": "output_cool",
@@ -13013,21 +13609,32 @@
                         "value": "floor"
                     },
                     "role": "humidity",
+                    "value_type": "number",
                     "writable": false
                 }
             ],
             "parameters": [
                 {
+                    "default": "",
                     "description": "What the outputs drive. Only floor has an effect: floor cooling then needs a humidity link and stops at humidity_max (dew point).",
+                    "label": "Emitter",
+                    "list_value": {
+                        "electric": "Electric heaters",
+                        "fan_coil": "Fan coils (valves on a water loop)",
+                        "floor": "Underfloor heating",
+                        "heat_pump": "Reversible heat pump on contacts",
+                        "water_radiator": "Water radiators (boiler, zone valve)"
+                    },
                     "mandatory": "false",
                     "name": "emitter",
                     "readonly": "false",
                     "storage": "calaos:param",
-                    "type": "string"
+                    "type": "list"
                 },
                 {
                     "default": "true",
                     "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
+                    "label": "Enabled",
                     "mandatory": "false",
                     "name": "enabled",
                     "readonly": "false",
@@ -13035,6 +13642,7 @@
                 },
                 {
                     "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
+                    "label": "Display type",
                     "mandatory": "false",
                     "name": "gui_type",
                     "readonly": "true",
@@ -13043,6 +13651,7 @@
                 {
                     "default": "65",
                     "description": "Relative humidity (%) from which floor cooling stops, with emitter=floor. Not negative.",
+                    "label": "Maximum humidity",
                     "mandatory": "false",
                     "name": "humidity_max",
                     "readonly": "false",
@@ -13052,6 +13661,7 @@
                 {
                     "default": "0.5",
                     "description": "Degrees past the setpoint before an output starts switching on: heat below the setpoint minus hysteresis, cool above the setpoint plus hysteresis. Switching off comes as soon as the setpoint is crossed.",
+                    "label": "Hysteresis",
                     "mandatory": "false",
                     "name": "hysteresis",
                     "readonly": "false",
@@ -13060,6 +13670,7 @@
                 },
                 {
                     "description": "Unique ID identifying the Input/Output in calaos-server",
+                    "label": "Identifier",
                     "mandatory": "true",
                     "name": "id",
                     "readonly": "true",
@@ -13067,6 +13678,7 @@
                 },
                 {
                     "description": "Implementation of the device family: the key of this document in devices.",
+                    "label": "Implementation",
                     "mandatory": "true",
                     "name": "impl",
                     "readonly": "true",
@@ -13074,6 +13686,7 @@
                 },
                 {
                     "description": "IO type, can be \"input\", \"output\", \"inout\"",
+                    "label": "IO type",
                     "mandatory": "true",
                     "name": "io_type",
                     "readonly": "true",
@@ -13082,6 +13695,7 @@
                 {
                     "default": "false",
                     "description": "If enabled, write an entry in the history event log for this IO",
+                    "label": "History log",
                     "mandatory": "false",
                     "name": "log_history",
                     "readonly": "false",
@@ -13090,6 +13704,7 @@
                 {
                     "default": "false",
                     "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                    "label": "InfluxDB",
                     "mandatory": "false",
                     "name": "logged",
                     "readonly": "false",
@@ -13098,6 +13713,7 @@
                 {
                     "default": "0",
                     "description": "Seconds an output stays off at least before it can start again.",
+                    "label": "Minimum off time",
                     "mandatory": "false",
                     "name": "min_off_time",
                     "readonly": "false",
@@ -13107,6 +13723,7 @@
                 {
                     "default": "0",
                     "description": "Seconds an output stays on at least, except when the mode is off or a safety cut stops it.",
+                    "label": "Minimum on time",
                     "mandatory": "false",
                     "name": "min_on_time",
                     "readonly": "false",
@@ -13116,6 +13733,7 @@
                 {
                     "default": "0",
                     "description": "Minimum gap in degrees between target_temp_low and target_temp_high. A range closer than that is refused.",
+                    "label": "Minimum range",
                     "mandatory": "false",
                     "name": "min_range",
                     "readonly": "false",
@@ -13124,6 +13742,7 @@
                 },
                 {
                     "description": "Name of Input/Output.",
+                    "label": "Name",
                     "mandatory": "true",
                     "name": "name",
                     "readonly": "false",
@@ -13132,6 +13751,7 @@
                 {
                     "default": "1",
                     "description": "Seconds before an output that something else keeps switching is put back; the wait doubles while the other writer keeps undoing it, up to put_back_delay_max. At least 0.001, else the default is used.",
+                    "label": "Put-back delay",
                     "mandatory": "false",
                     "name": "put_back_delay",
                     "readonly": "false",
@@ -13141,6 +13761,7 @@
                 {
                     "default": "60",
                     "description": "Longest wait between two put-backs, in seconds. Not below put_back_delay. It also sets the window of the log of writes from outside to an output: one line per source and output during that time.",
+                    "label": "Maximum put-back delay",
                     "mandatory": "false",
                     "name": "put_back_delay_max",
                     "readonly": "false",
@@ -13150,6 +13771,7 @@
                 {
                     "default": "9000",
                     "description": "Seconds a linked sensor may go without a reading, a repeated value included, before it counts as stale. A positive number; the default outlasts one lost hourly Zigbee report. A sensor older than half of it is asked for a reading when its protocol can (KNX).",
+                    "label": "Sensor timeout",
                     "mandatory": "false",
                     "name": "sensor_timeout",
                     "readonly": "false",
@@ -13159,6 +13781,7 @@
                 {
                     "default": "true",
                     "description": "Display the Input/Output on all user interfaces if set. Default to true",
+                    "label": "Visible",
                     "mandatory": "false",
                     "name": "visible",
                     "readonly": "false",
@@ -13176,6 +13799,7 @@
             {
                 "default": "true",
                 "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
+                "label": "Enabled",
                 "mandatory": "false",
                 "name": "enabled",
                 "readonly": "false",
@@ -13183,6 +13807,7 @@
             },
             {
                 "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
+                "label": "Display type",
                 "mandatory": "false",
                 "name": "gui_type",
                 "readonly": "true",
@@ -13190,6 +13815,7 @@
             },
             {
                 "description": "Unique ID identifying the Input/Output in calaos-server",
+                "label": "Identifier",
                 "mandatory": "true",
                 "name": "id",
                 "readonly": "true",
@@ -13205,6 +13831,7 @@
             },
             {
                 "description": "IO type, can be \"input\", \"output\", \"inout\"",
+                "label": "IO type",
                 "mandatory": "true",
                 "name": "io_type",
                 "readonly": "true",
@@ -13213,6 +13840,7 @@
             {
                 "default": "false",
                 "description": "If enabled, write an entry in the history event log for this IO",
+                "label": "History log",
                 "mandatory": "false",
                 "name": "log_history",
                 "readonly": "false",
@@ -13221,6 +13849,7 @@
             {
                 "default": "false",
                 "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "label": "InfluxDB",
                 "mandatory": "false",
                 "name": "logged",
                 "readonly": "false",
@@ -13228,6 +13857,7 @@
             },
             {
                 "description": "Name of Input/Output.",
+                "label": "Name",
                 "mandatory": "true",
                 "name": "name",
                 "readonly": "false",
@@ -13265,6 +13895,7 @@
             {
                 "default": "true",
                 "description": "Display the Input/Output on all user interfaces if set. Default to true",
+                "label": "Visible",
                 "mandatory": "false",
                 "name": "visible",
                 "readonly": "false",
