@@ -198,6 +198,11 @@
         <translation>%1 : « %2 » est déjà choisi pour %3.</translation>
     </message>
     <message>
+        <location filename="../src/DeviceTemplates.cpp" line="325"/>
+        <source>%1: &quot;%2&quot; is already an output of thermostat &quot;%3&quot;.</source>
+        <translation>%1 : « %2 » est déjà une sortie du thermostat « %3 ».</translation>
+    </message>
+    <message>
         <location filename="../src/DeviceTemplates.cpp" line="310"/>
         <source>%1: this installer does not know the field type &quot;%2&quot;.</source>
         <translation>%1 : cet installer ne connaît pas le type de champ « %2 ».</translation>
