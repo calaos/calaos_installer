@@ -95,6 +95,12 @@ QT_QPA_PLATFORM=offscreen ./tst_projectmanager/tst_projectmanager -v2 ioRoundTri
   from IODoc, changed and saved, rules and owned IOs untouched, refusals (decision 17, legacy
   types, IO kind), required roles; `CALAOS_SHOTS_DIR` writes its screenshots and
   `CALAOS_DEVICE_XML_DIR` the edited io.xml for `tests/server_load/run.sh`.
+- `tests/tst_esphomediscovery/` covers `MqttListener` (`src/MqttListener.*`, a read-only MQTT 3.1.1 client:
+  Qt MQTT is optional and absent from the PR CI) against `FakeMqttBroker`, an in-process broker written
+  apart from the client, and `EsphomeDiscovery` (`src/EsphomeDiscovery.*`): ESPHome climates read from
+  their state topics, their Home Assistant discovery config and `esphome/discover`, and the template
+  values they imply. `tst_dialognewdevice` drives the "Find it on the MQTT broker" panel
+  (`src/WidgetEsphomeDiscovery.*`) against the same fake broker.
 - `tests/tst_apptheme/` covers `AppTheme` (`src/AppTheme.*`, called from `main.cpp`): the installer is
   always light whatever the system scheme. The test starts from a dark GTK platform theme
   (`QT_QPA_PLATFORMTHEME=gtk3`, `GTK_THEME=Adwaita:dark`; offscreen ignores `setColorScheme`) and skips

@@ -7809,4 +7809,244 @@ Did you really press the link button on the bridge ?</source>
         <translation type="unfinished">Pièce</translation>
     </message>
 </context>
+<context>
+    <name>EsphomeDiscovery</name>
+    <message>
+        <location filename="../src/EsphomeDiscovery.cpp" line="239"/>
+        <source>Two setpoints (target_temperature_low and _high).</source>
+        <translation>Deux consignes (target_temperature_low et _high).</translation>
+    </message>
+    <message>
+        <location filename="../src/EsphomeDiscovery.cpp" line="240"/>
+        <source>One setpoint (target_temperature).</source>
+        <translation>Une consigne (target_temperature).</translation>
+    </message>
+    <message>
+        <location filename="../src/EsphomeDiscovery.cpp" line="245"/>
+        <source>Its mode was not read: modes, fan and swing are left as they are.</source>
+        <translation>Son mode n&apos;a pas été lu : modes, ventilation et oscillation restent tels quels.</translation>
+    </message>
+    <message>
+        <location filename="../src/EsphomeDiscovery.cpp" line="272"/>
+        <source>Mode read: %1.</source>
+        <translation>Mode lu : %1.</translation>
+    </message>
+    <message>
+        <location filename="../src/EsphomeDiscovery.cpp" line="273"/>
+        <source>Modes: %1.</source>
+        <translation>Modes : %1.</translation>
+    </message>
+    <message>
+        <location filename="../src/EsphomeDiscovery.cpp" line="297"/>
+        <source>Fan modes: %1.</source>
+        <translation>Ventilation : %1.</translation>
+    </message>
+    <message>
+        <location filename="../src/EsphomeDiscovery.cpp" line="297"/>
+        <source>Swing modes: %1.</source>
+        <translation>Oscillation : %1.</translation>
+    </message>
+    <message>
+        <location filename="../src/EsphomeDiscovery.cpp" line="316"/>
+        <source>Setpoint from %1 to %2 °C.</source>
+        <translation>Consigne de %1 à %2 °C.</translation>
+    </message>
+    <message>
+        <location filename="../src/EsphomeDiscovery.cpp" line="321"/>
+        <source>Not offered by this template: %1.</source>
+        <translation>Non proposé par ce modèle : %1.</translation>
+    </message>
+</context>
+<context>
+    <name>MqttListener</name>
+    <message>
+        <location filename="../src/MqttListener.cpp" line="17"/>
+        <source>No answer from the broker at %1 within %2 s.</source>
+        <translation>Pas de réponse du broker %1 en %2 s.</translation>
+    </message>
+    <message>
+        <location filename="../src/MqttListener.cpp" line="118"/>
+        <source>The broker at %1 does not let this user read those topics.</source>
+        <translation>Le broker %1 ne laisse pas cet utilisateur lire ces topics.</translation>
+    </message>
+    <message>
+        <location filename="../src/MqttListener.cpp" line="134"/>
+        <location filename="../src/MqttListener.cpp" line="173"/>
+        <source>The broker at %1 closed the connection.</source>
+        <translation>Le broker %1 a fermé la connexion.</translation>
+    </message>
+    <message>
+        <location filename="../src/MqttListener.cpp" line="137"/>
+        <source>The broker at %1 does not speak MQTT 3.1.1.</source>
+        <translation>Le broker %1 ne parle pas MQTT 3.1.1.</translation>
+    </message>
+    <message>
+        <location filename="../src/MqttListener.cpp" line="140"/>
+        <source>The broker at %1 refused the user name or the password.</source>
+        <translation>Le broker %1 a refusé le nom d&apos;utilisateur ou le mot de passe.</translation>
+    </message>
+    <message>
+        <location filename="../src/MqttListener.cpp" line="143"/>
+        <source>The broker at %1 does not let this user in: check the user and the password.</source>
+        <translation>Le broker %1 refuse cet utilisateur : vérifiez l&apos;utilisateur et le mot de passe.</translation>
+    </message>
+    <message>
+        <location filename="../src/MqttListener.cpp" line="147"/>
+        <source>The broker at %1 refused the connection (code %2).</source>
+        <translation>Le broker %1 a refusé la connexion (code %2).</translation>
+    </message>
+    <message>
+        <location filename="../src/MqttListener.cpp" line="150"/>
+        <source>The broker at %1 sent data that is not MQTT.</source>
+        <translation>Le broker %1 a envoyé des données qui ne sont pas du MQTT.</translation>
+    </message>
+    <message>
+        <location filename="../src/MqttListener.cpp" line="155"/>
+        <source>Could not reach the broker at %1 (error %2).</source>
+        <translation>Impossible de joindre le broker %1 (erreur %2).</translation>
+    </message>
+    <message>
+        <location filename="../src/MqttListener.cpp" line="164"/>
+        <source>The broker %1 was not found: check its address.</source>
+        <translation>Le broker %1 est introuvable : vérifiez son adresse.</translation>
+    </message>
+    <message>
+        <location filename="../src/MqttListener.cpp" line="167"/>
+        <source>Nothing answers on %1: check that the broker runs and listens on this port.</source>
+        <translation>Rien ne répond sur %1 : vérifiez que le broker tourne et écoute sur ce port.</translation>
+    </message>
+    <message>
+        <location filename="../src/MqttListener.cpp" line="171"/>
+        <source>The broker at %1 closed the connection: check the user and the password.</source>
+        <translation>Le broker %1 a fermé la connexion : vérifiez l&apos;utilisateur et le mot de passe.</translation>
+    </message>
+    <message>
+        <location filename="../src/MqttListener.cpp" line="176"/>
+        <source>Could not reach the broker at %1.</source>
+        <translation>Impossible de joindre le broker %1.</translation>
+    </message>
+</context>
+<context>
+    <name>WidgetEsphomeDiscovery</name>
+    <message>
+        <location filename="../src/WidgetEsphomeDiscovery.cpp" line="19"/>
+        <source>two setpoints</source>
+        <translation>deux consignes</translation>
+    </message>
+    <message>
+        <location filename="../src/WidgetEsphomeDiscovery.cpp" line="21"/>
+        <source>one setpoint</source>
+        <translation>une consigne</translation>
+    </message>
+    <message>
+        <location filename="../src/WidgetEsphomeDiscovery.cpp" line="23"/>
+        <source>fan</source>
+        <translation>ventilation</translation>
+    </message>
+    <message>
+        <location filename="../src/WidgetEsphomeDiscovery.cpp" line="25"/>
+        <source>swing</source>
+        <translation>oscillation</translation>
+    </message>
+    <message>
+        <location filename="../src/WidgetEsphomeDiscovery.cpp" line="27"/>
+        <source>action</source>
+        <translation>action</translation>
+    </message>
+    <message>
+        <location filename="../src/WidgetEsphomeDiscovery.cpp" line="29"/>
+        <source>now %1</source>
+        <translation>actuellement %1</translation>
+    </message>
+    <message>
+        <location filename="../src/WidgetEsphomeDiscovery.cpp" line="36"/>
+        <source>Find it on the MQTT broker</source>
+        <translation>Le trouver sur le broker MQTT</translation>
+    </message>
+    <message>
+        <location filename="../src/WidgetEsphomeDiscovery.cpp" line="44"/>
+        <source>Broker address from this computer:</source>
+        <translation>Adresse du broker depuis cet ordinateur :</translation>
+    </message>
+    <message>
+        <location filename="../src/WidgetEsphomeDiscovery.cpp" line="47"/>
+        <source>Address of the Calaos box</source>
+        <translation>Adresse de la box Calaos</translation>
+    </message>
+    <message>
+        <location filename="../src/WidgetEsphomeDiscovery.cpp" line="48"/>
+        <source>The form&apos;s broker address is the one the Calaos server uses; 127.0.0.1 there is the box itself. Port, user and password are the form&apos;s.</source>
+        <translation>L&apos;adresse du broker dans le formulaire est celle qu&apos;utilise le serveur Calaos ; 127.0.0.1 y désigne la box elle-même. Port, utilisateur et mot de passe sont ceux du formulaire.</translation>
+    </message>
+    <message>
+        <location filename="../src/WidgetEsphomeDiscovery.cpp" line="51"/>
+        <source>Search</source>
+        <translation>Rechercher</translation>
+    </message>
+    <message>
+        <location filename="../src/WidgetEsphomeDiscovery.cpp" line="60"/>
+        <source>Lists the ESPHome climates the broker knows; choosing one fills in the form.</source>
+        <translation>Liste les climats ESPHome que connaît le broker ; en choisir un remplit le formulaire.</translation>
+    </message>
+    <message>
+        <location filename="../src/WidgetEsphomeDiscovery.cpp" line="68"/>
+        <source>Name</source>
+        <translation>Nom</translation>
+    </message>
+    <message>
+        <location filename="../src/WidgetEsphomeDiscovery.cpp" line="68"/>
+        <source>Topic prefix</source>
+        <translation>Préfixe de topic</translation>
+    </message>
+    <message>
+        <location filename="../src/WidgetEsphomeDiscovery.cpp" line="68"/>
+        <source>Object id</source>
+        <translation>Identifiant objet</translation>
+    </message>
+    <message>
+        <location filename="../src/WidgetEsphomeDiscovery.cpp" line="68"/>
+        <source>Publishes</source>
+        <translation>Publie</translation>
+    </message>
+    <message>
+        <location filename="../src/WidgetEsphomeDiscovery.cpp" line="90"/>
+        <source>Listening to the broker...</source>
+        <translation>Écoute du broker...</translation>
+    </message>
+    <message>
+        <location filename="../src/WidgetEsphomeDiscovery.cpp" line="122"/>
+        <source>Type the address of the broker as this computer reaches it.</source>
+        <translation>Saisissez l&apos;adresse du broker telle que cet ordinateur la joint.</translation>
+    </message>
+    <message>
+        <location filename="../src/WidgetEsphomeDiscovery.cpp" line="133"/>
+        <source>Connecting to %1:%2...</source>
+        <translation>Connexion à %1:%2...</translation>
+    </message>
+    <message>
+        <location filename="../src/WidgetEsphomeDiscovery.cpp" line="160"/>
+        <source>%1 What was read before is listed.</source>
+        <translation>%1 Ce qui a été lu avant est listé.</translation>
+    </message>
+    <message>
+        <location filename="../src/WidgetEsphomeDiscovery.cpp" line="162"/>
+        <source>No ESPHome climate on this broker. Check that the node has an mqtt: block and is online, or fill in the form by hand.</source>
+        <translation>Aucun climat ESPHome sur ce broker. Vérifiez que le nœud a un bloc mqtt: et qu&apos;il est en ligne, ou remplissez le formulaire à la main.</translation>
+    </message>
+    <message>
+        <location filename="../src/WidgetEsphomeDiscovery.cpp" line="165"/>
+        <source>One climate found: choose it to fill in the form.</source>
+        <translation>Un climat trouvé : choisissez-le pour remplir le formulaire.</translation>
+    </message>
+    <message>
+        <location filename="../src/WidgetEsphomeDiscovery.cpp" line="166"/>
+        <source>%1 climates found: choose the one to fill in the form with.</source>
+        <translation>%1 climats trouvés : choisissez celui qui remplit le formulaire.</translation>
+    </message>
+    <message>
+        <location filename="../src/WidgetEsphomeDiscovery.cpp" line="174"/>
+        <source>Form filled in from %1.</source>
+        <translation>Formulaire rempli d&apos;après %1.</translation>
+    </message>
+</context>
 </TS>
