@@ -13,7 +13,6 @@ include($$PWD/../../calaos_model.pri)
 RESOURCES += deviceedit.qrc
 
 SOURCES += \
-    $$PWD/../../src/IODoc.cpp \
     $$PWD/../../src/DeviceEdit.cpp \
     $$PWD/../../src/DialogEditDevice.cpp \
     tst_deviceedit.cpp
@@ -21,7 +20,6 @@ SOURCES += \
 HEADERS += \
     $$PWD/../tst_devicetemplates/fixture.h \
     house.h \
-    $$PWD/../../src/IODoc.h \
     $$PWD/../../src/DeviceEdit.h \
     $$PWD/../../src/DialogEditDevice.h \
     $$PWD/../../src/WheelGuard.h

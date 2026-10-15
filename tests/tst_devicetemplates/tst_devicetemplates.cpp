@@ -166,6 +166,39 @@ QJsonObject synthetic()
 
 }
 
+namespace
+{
+
+QJsonObject withFilter(QJsonObject tpl, const QString &field, const QJsonObject &filter)
+{
+    QJsonArray fields = tpl["fields"].toArray();
+    for (int i = 0;i < fields.size();i++)
+        if (fields[i].toObject()["name"].toString() == field)
+        {
+            QJsonObject f = fields[i].toObject();
+            f["io_filter"] = filter;
+            fields[i] = f;
+        }
+    tpl["fields"] = fields;
+    return tpl;
+}
+
+//The IOs a field with this filter alone offers: a template without impl or links adds no role rule.
+std::vector<IOBase *> candidatesOf(const QJsonObject &filter)
+{
+    return DeviceTemplates::candidates(QJsonObject(), QJsonObject { { "name", "x" }, { "io_filter", filter } });
+}
+
+QStringList idsOf(const std::vector<IOBase *> &ios)
+{
+    QStringList l;
+    for (IOBase *io: ios)
+        l << u(io->get_param("id"));
+    return l;
+}
+
+}
+
 class tst_DeviceTemplates: public QObject
 {
     Q_OBJECT
@@ -214,6 +247,9 @@ private slots:
     void ioFieldsListTheIosThatFit();
     void linksTargetTheChosenIosInAnyRoom();
     void anIoTheServerDroppedIsNotOffered();
+    void theValueTypeOfTheRoleFiltersOnTopOfTheTemplate();
+    void aRoleWithoutValueTypeFiltersNothingMore();
+    void theDocumentationOfAFieldNamesItsRoleAndParam();
 
     void validation_data();
     void validation();
@@ -813,7 +849,7 @@ void tst_DeviceTemplates::ioFieldsListTheIosThatFit()
     QFETCH(QString, filter);
     QFETCH(QStringList, ids);
     QStringList got;
-    for (IOBase *io: DeviceTemplates::candidates(QJsonDocument::fromJson(filter.toUtf8()).object()))
+    for (IOBase *io: candidatesOf(QJsonDocument::fromJson(filter.toUtf8()).object()))
         got << u(io->get_param("id"));
     QCOMPARE(got, ids);
 }
@@ -856,7 +892,7 @@ void tst_DeviceTemplates::anIoTheServerDroppedIsNotOffered()
     QVERIFY(!DeviceTemplates::ioById("zibase_temp")->isSupportedByServer());
 
     QStringList ids;
-    for (IOBase *io: DeviceTemplates::candidates(QJsonObject { { "value", "number" }, { "writable", false } }))
+    for (IOBase *io: candidatesOf(QJsonObject { { "value", "number" }, { "writable", false } }))
         ids << u(io->get_param("id"));
     QCOMPARE(ids, QStringList({ "temp_salon", "hum_salon", "temp_cave", "other_temp" }));
 
@@ -866,6 +902,75 @@ void tst_DeviceTemplates::anIoTheServerDroppedIsNotOffered()
     const QList<DeviceTemplates::Problem> problems = DeviceTemplates::validate(t, v);
     QCOMPARE(problems.size(), 1);
     QCOMPARE(problems.first().message, QString("Temperature sensor: \"Old sensor\" is not an IO of the expected kind."));
+}
+
+void tst_DeviceTemplates::theValueTypeOfTheRoleFiltersOnTopOfTheTemplate()
+{
+    //A filter that lets a relay through for current_temp (IODoc: number) is not enough.
+    const QJsonObject loose = QJsonObject { { "value", "bool" }, { "writable", true } };
+    const QJsonObject tpl = withFilter(shippedTemplate("thermostat_heat"), "current_temp", loose);
+    const QJsonObject def = DeviceTemplates::field(tpl, "current_temp");
+
+    QVERIFY(!idsOf(candidatesOf(loose)).isEmpty());
+    QCOMPARE(idsOf(DeviceTemplates::candidates(tpl, def)), QStringList());
+    QVERIFY(!DeviceTemplates::fits(DeviceTemplates::ioById("relay_heat"), tpl, def));
+
+    QVariantMap v = filled(tpl);
+    v["current_temp"] = "relay_heat";
+    QStringList fields;
+    for (const DeviceTemplates::Problem &p: DeviceTemplates::validate(tpl, v))
+        fields << p.field;
+    QVERIFY2(fields.contains("current_temp"), qPrintable(fields.join(',')));
+
+    //And the shipped filters keep working: a relay for the heating output, a sensor not.
+    const QJsonObject heat = shippedTemplate("thermostat_heat");
+    const QJsonObject out = DeviceTemplates::field(heat, "output_heat");
+    QVERIFY(DeviceTemplates::fits(DeviceTemplates::ioById("relay_heat"), heat, out));
+    QVERIFY(!DeviceTemplates::fits(DeviceTemplates::ioById("temp_salon"), heat, out));
+}
+
+void tst_DeviceTemplates::aRoleWithoutValueTypeFiltersNothingMore()
+{
+    const QJsonObject loose = QJsonObject { { "value", "bool" }, { "writable", true } };
+    QJsonObject tpl = withFilter(shippedTemplate("thermostat_heat"), "current_temp", loose);
+
+    //An impl or a role IODoc does not know (older document): the template's filter alone.
+    tpl["impl"] = "no_such_impl";
+    QCOMPARE(idsOf(DeviceTemplates::candidates(tpl, DeviceTemplates::field(tpl, "current_temp"))),
+             idsOf(candidatesOf(loose)));
+
+    QJsonObject other = withFilter(shippedTemplate("thermostat_heat"), "current_temp", loose);
+    QJsonArray links = other["links"].toArray();
+    for (int i = 0;i < links.size();i++)
+        if (links[i].toObject()["role"].toString() == "current_temp")
+        {
+            QJsonObject l = links[i].toObject();
+            l["role"] = "no_such_role";
+            links[i] = l;
+        }
+    other["links"] = links;
+    QCOMPARE(idsOf(DeviceTemplates::candidates(other, DeviceTemplates::field(other, "current_temp"))),
+             idsOf(candidatesOf(loose)));
+
+    QCOMPARE(IODoc::valueTypeOf(QJsonObject { { "value_type", "any" } }), QString());
+    QCOMPARE(IODoc::valueTypeOf(QJsonObject()), QString());
+    QCOMPARE(IODoc::valueTypeOf(QJsonObject { { "value_type", "bool" } }), QString("bool"));
+}
+
+void tst_DeviceTemplates::theDocumentationOfAFieldNamesItsRoleAndParam()
+{
+    const QJsonObject tpl = shippedTemplate("thermostat_heat");
+    auto describe = [&](const QString &field)
+    {
+        QStringList l;
+        for (const DeviceTemplates::Documented &d: DeviceTemplates::documentation(tpl, field))
+            l << (d.kind == DeviceTemplates::Documented::Link ? "link " : "param ") + d.id + "=" + d.label;
+        return l;
+    };
+    QCOMPARE(describe("current_temp"), QStringList({ "link current_temp=Current temperature" }));
+    QCOMPARE(describe("output_heat"), QStringList({ "link output_heat=Heating output" }));
+    QCOMPARE(describe("emitter"), QStringList({ "param emitter=Emitter" }));
+    QCOMPARE(describe("name"), QStringList());
 }
 
 void tst_DeviceTemplates::validation_data()

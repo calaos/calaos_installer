@@ -123,7 +123,7 @@ inline QVariantMap filled(const QJsonObject &tpl)
             v[name] = name == "name" ? QString("Chauffage salon") : QString("tpl-%1").arg(name);
         if (type == "io")
         {
-            for (Calaos::IOBase *io: DeviceTemplates::candidates(f["io_filter"].toObject()))
+            for (Calaos::IOBase *io: DeviceTemplates::candidates(tpl, f))
             {
                 const QString id = u(io->get_param("id"));
                 if (!taken.contains(id))

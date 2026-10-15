@@ -1,6 +1,7 @@
 <RCC>
     <qresource prefix="/">
         <file alias="doc/en/io_doc.json">../../data/doc/en/io_doc.json</file>
+        <file alias="doc/fr/io_doc.json">../../data/doc/fr/io_doc.json</file>
         <file alias="doc/en/device_templates.json">../../data/doc/en/device_templates.json</file>
     </qresource>
 </RCC>
