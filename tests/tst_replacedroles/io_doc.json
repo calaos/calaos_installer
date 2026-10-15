@@ -1,0 +1,338 @@
+{
+    "devices": {
+        "thermostat": {
+            "actions": [],
+            "alias": [],
+            "command_fields": [
+                {
+                    "description": "Operating mode. The modes an instance accepts are published in its capabilities. Heat needs the output_heat link, cool needs output_cool and auto needs both; with the output link, the modes param says which ones.",
+                    "name": "mode",
+                    "requires_links": [],
+                    "type": "enum",
+                    "value_requires_links": {
+                        "auto": [
+                            "output_heat",
+                            "output_cool"
+                        ],
+                        "cool": [
+                            "output_cool"
+                        ],
+                        "heat": [
+                            "output_heat"
+                        ]
+                    },
+                    "values": [
+                        "off",
+                        "heat",
+                        "cool",
+                        "auto"
+                    ]
+                },
+                {
+                    "description": "The setpoint used in heat and cool. Bounds are those of the linked IO (value_min, value_max, step, unit), else 7 to 35 by 0.5 in °C. The effective ones are published in the capabilities.",
+                    "max": 35.0,
+                    "min": 7.0,
+                    "name": "target_temp",
+                    "requires_links": [
+                        "target_temp"
+                    ],
+                    "step": 0.5,
+                    "type": "number",
+                    "unit": "°C"
+                },
+                {
+                    "description": "Low bound of the range used in auto. Bounds are those of the linked IO (value_min, value_max, step, unit), else 7 to 35 by 0.5 in °C. The effective ones are published in the capabilities.",
+                    "max": 35.0,
+                    "min": 7.0,
+                    "name": "target_temp_low",
+                    "requires_links": [
+                        "target_temp_low",
+                        "target_temp_high"
+                    ],
+                    "step": 0.5,
+                    "type": "number",
+                    "unit": "°C"
+                },
+                {
+                    "description": "High bound of the range used in auto. Bounds are those of the linked IO (value_min, value_max, step, unit), else 7 to 35 by 0.5 in °C. The effective ones are published in the capabilities.",
+                    "max": 35.0,
+                    "min": 7.0,
+                    "name": "target_temp_high",
+                    "requires_links": [
+                        "target_temp_low",
+                        "target_temp_high"
+                    ],
+                    "step": 0.5,
+                    "type": "number",
+                    "unit": "°C"
+                }
+            ],
+            "command_format": "json",
+            "conditions": [],
+            "description": "A thermostat that regulates in Calaos: it switches output_heat and output_cool from current_temp and its setpoints. Its mode is stored by the device. Night setback, away mode and the like are rules writing the setpoints or the mode. Missing setpoint and action IOs are created at load.",
+            "family": "climate",
+            "link_roles": [
+                {
+                    "description": "Temperature the regulation reads. The outputs stay off until it has delivered a reading since the start (a cached or retained value does not count), and while it has sent nothing for sensor_timeout or reports itself disconnected.",
+                    "label": "Current temperature",
+                    "required": true,
+                    "role": "current_temp",
+                    "value_type": "number",
+                    "writable": false
+                },
+                {
+                    "description": "Setpoint used in heat and cool. Created when missing.",
+                    "label": "Setpoint",
+                    "required": true,
+                    "role": "target_temp",
+                    "value_type": "number",
+                    "writable": true
+                },
+                {
+                    "description": "Low bound of the auto range. Created when missing, with output_cool.",
+                    "label": "Low setpoint",
+                    "required": false,
+                    "role": "target_temp_low",
+                    "value_type": "number",
+                    "writable": true
+                },
+                {
+                    "description": "High bound of the auto range. Created when missing, with output_cool.",
+                    "label": "High setpoint",
+                    "required": false,
+                    "role": "target_temp_high",
+                    "value_type": "number",
+                    "writable": true
+                },
+                {
+                    "description": "Written by the thermostat: off, idle, heating or cooling. Created when missing.",
+                    "label": "Action",
+                    "required": false,
+                    "role": "action",
+                    "value_type": "string",
+                    "writable": true
+                },
+                {
+                    "description": "Output driven for heating. Enables heat. An output belongs to a single thermostat: a second one linking it ignores the link.",
+                    "label": "Heating output",
+                    "required": true,
+                    "role": "output_heat",
+                    "value_type": "bool",
+                    "writable": true
+                },
+                {
+                    "description": "Output driven for cooling. Enables cool and auto. An output belongs to a single thermostat: a second one linking it ignores the link.",
+                    "label": "Cooling output",
+                    "required": false,
+                    "role": "output_cool",
+                    "value_type": "bool",
+                    "writable": true
+                },
+                {
+                    "description": "Valve or relay of the zone, ON for any demand, heating or cooling: the mode gives the direction. Instead of output_heat and output_cool, which cannot be linked with it; the modes param says what it offers. An output belongs to a single thermostat: a second one linking it ignores the link.",
+                    "label": "Zone valve",
+                    "replaces": [
+                        "output_heat",
+                        "output_cool"
+                    ],
+                    "required": false,
+                    "role": "output",
+                    "value_type": "bool",
+                    "writable": true
+                },
+                {
+                    "description": "Relative humidity of the room. With emitter=floor, cooling stops while it reads humidity_max or more, has not read, is stale or disconnected. Without it, a floor cools with no dew-point cut.",
+                    "label": "Humidity sensor",
+                    "required": false,
+                    "role": "humidity",
+                    "value_type": "number",
+                    "writable": false
+                }
+            ],
+            "parameters": [
+                {
+                    "default": "",
+                    "description": "What the outputs drive. Only floor has an effect: with a humidity link, floor cooling then stops at humidity_max (dew point).",
+                    "label": "Emitter",
+                    "list_value": {
+                        "electric": "Electric heaters",
+                        "fan_coil": "Fan coils (valves on a water loop)",
+                        "floor": "Underfloor heating",
+                        "heat_pump": "Reversible heat pump on contacts",
+                        "water_radiator": "Water radiators (boiler, zone valve)"
+                    },
+                    "mandatory": "false",
+                    "name": "emitter",
+                    "readonly": "false",
+                    "storage": "calaos:param",
+                    "type": "list"
+                },
+                {
+                    "default": "true",
+                    "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
+                    "label": "Enabled",
+                    "mandatory": "false",
+                    "name": "enabled",
+                    "readonly": "false",
+                    "type": "bool"
+                },
+                {
+                    "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
+                    "label": "Display type",
+                    "mandatory": "false",
+                    "name": "gui_type",
+                    "readonly": "true",
+                    "type": "string"
+                },
+                {
+                    "default": "65",
+                    "description": "Relative humidity (%) from which floor cooling stops, with emitter=floor. Not negative.",
+                    "label": "Maximum humidity",
+                    "mandatory": "false",
+                    "name": "humidity_max",
+                    "readonly": "false",
+                    "storage": "calaos:param",
+                    "type": "float"
+                },
+                {
+                    "default": "0.5",
+                    "description": "Degrees past the setpoint before an output starts switching on: heat below the setpoint minus hysteresis, cool above the setpoint plus hysteresis. Switching off comes as soon as the setpoint is crossed.",
+                    "label": "Hysteresis",
+                    "mandatory": "false",
+                    "name": "hysteresis",
+                    "readonly": "false",
+                    "storage": "calaos:param",
+                    "type": "float"
+                },
+                {
+                    "description": "Unique ID identifying the Input/Output in calaos-server",
+                    "label": "Identifier",
+                    "mandatory": "true",
+                    "name": "id",
+                    "readonly": "true",
+                    "type": "string"
+                },
+                {
+                    "description": "Implementation of the device family: the key of this document in devices.",
+                    "label": "Implementation",
+                    "mandatory": "true",
+                    "name": "impl",
+                    "readonly": "true",
+                    "type": "string"
+                },
+                {
+                    "description": "IO type, can be \"input\", \"output\", \"inout\"",
+                    "label": "IO type",
+                    "mandatory": "true",
+                    "name": "io_type",
+                    "readonly": "true",
+                    "type": "string"
+                },
+                {
+                    "default": "false",
+                    "description": "If enabled, write an entry in the history event log for this IO",
+                    "label": "History log",
+                    "mandatory": "false",
+                    "name": "log_history",
+                    "readonly": "false",
+                    "type": "bool"
+                },
+                {
+                    "default": "false",
+                    "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                    "label": "InfluxDB",
+                    "mandatory": "false",
+                    "name": "logged",
+                    "readonly": "false",
+                    "type": "bool"
+                },
+                {
+                    "default": "0",
+                    "description": "Seconds an output stays off at least before it can start again.",
+                    "label": "Minimum off time",
+                    "mandatory": "false",
+                    "name": "min_off_time",
+                    "readonly": "false",
+                    "storage": "calaos:param",
+                    "type": "float"
+                },
+                {
+                    "default": "0",
+                    "description": "Seconds an output stays on at least, except when the mode is off or a safety cut stops it.",
+                    "label": "Minimum on time",
+                    "mandatory": "false",
+                    "name": "min_on_time",
+                    "readonly": "false",
+                    "storage": "calaos:param",
+                    "type": "float"
+                },
+                {
+                    "default": "0",
+                    "description": "Minimum gap in degrees between target_temp_low and target_temp_high. A range closer than that is refused.",
+                    "label": "Minimum range",
+                    "mandatory": "false",
+                    "name": "min_range",
+                    "readonly": "false",
+                    "storage": "calaos:param",
+                    "type": "float"
+                },
+                {
+                    "description": "Comma separated modes the thermostat offers, among heat, cool and auto; off is always offered. Without it, the outputs decide: heat with output_heat, cool with output_cool, auto with both, and heat alone with output. A mode the outputs cannot run, or an unknown one, is ignored.",
+                    "label": "Modes",
+                    "mandatory": "false",
+                    "name": "modes",
+                    "readonly": "false",
+                    "storage": "calaos:param",
+                    "type": "string"
+                },
+                {
+                    "description": "Name of Input/Output.",
+                    "label": "Name",
+                    "mandatory": "true",
+                    "name": "name",
+                    "readonly": "false",
+                    "type": "string"
+                },
+                {
+                    "default": "1",
+                    "description": "Seconds before an output that something else keeps switching is put back; the wait doubles while the other writer keeps undoing it, up to put_back_delay_max. At least 0.001, else the default is used.",
+                    "label": "Put-back delay",
+                    "mandatory": "false",
+                    "name": "put_back_delay",
+                    "readonly": "false",
+                    "storage": "calaos:param",
+                    "type": "float"
+                },
+                {
+                    "default": "60",
+                    "description": "Longest wait between two put-backs, in seconds. Not below put_back_delay. It also sets the window of the log of writes from outside to an output: one line per source and output during that time.",
+                    "label": "Maximum put-back delay",
+                    "mandatory": "false",
+                    "name": "put_back_delay_max",
+                    "readonly": "false",
+                    "storage": "calaos:param",
+                    "type": "float"
+                },
+                {
+                    "default": "9000",
+                    "description": "Seconds a linked sensor may go without a reading, a repeated value included, before it counts as stale. A positive number; the default outlasts one lost hourly Zigbee report. A sensor older than half of it is asked for a reading when its protocol can (KNX).",
+                    "label": "Sensor timeout",
+                    "mandatory": "false",
+                    "name": "sensor_timeout",
+                    "readonly": "false",
+                    "storage": "calaos:param",
+                    "type": "float"
+                },
+                {
+                    "default": "true",
+                    "description": "Display the Input/Output on all user interfaces if set. Default to true",
+                    "label": "Visible",
+                    "mandatory": "false",
+                    "name": "visible",
+                    "readonly": "false",
+                    "type": "bool"
+                }
+            ]
+        }
+    }
+}

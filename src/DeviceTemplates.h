@@ -77,7 +77,7 @@ public:
     static QList<Documented> documentation(const QJsonObject &tpl, const QString &fieldName);
     static Calaos::IOBase *ioById(const std::string &id);
 
-    //Decision 17: an output_heat or output_cool belongs to one thermostat.
+    //Decision 17: an output_heat, output_cool or output belongs to one thermostat.
     static bool isThermostatImpl(const QString &impl);
     static bool isThermostatOutput(const QString &role);
     //The thermostat, other than except, that has id as an output.

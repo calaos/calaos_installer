@@ -114,6 +114,8 @@ QList<DeviceEdit::Role> DeviceEdit::roles(Device *dev)
         r.description = o["description"].toString();
         r.required = o["required"].toBool();
         r.requiredWhen = o["required_when"].toObject();
+        for (const QJsonValue &x: o["replaces"].toArray())
+            r.replaces << x.toString();
         r.writable = o["writable"].toBool();
         r.valueType = IODoc::valueTypeOf(o);
         if (r.valueType.isEmpty())
@@ -220,6 +222,9 @@ DeviceEdit::State DeviceEdit::current(Device *dev)
 
 bool DeviceEdit::isRequired(Device *dev, const Role &role, const State &state)
 {
+    for (const QString &other: IODoc::replacersOf(IODoc::getDeviceObject(u(dev->impl())), role.name))
+        if (resolves(targetOf(dev, state, other)))
+            return false;
     if (role.required)
         return true;
     if (role.requiredWhen.isEmpty())
@@ -306,6 +311,24 @@ QList<DeviceEdit::Problem> DeviceEdit::validate(Device *dev, const State &state)
                                      DeviceTemplates::thermostatOwning(s8(id), dev) : nullptr)
             problem(tr("%1: \"%2\" is already an output of thermostat \"%3\".")
                         .arg(r.label, u(io->get_param("name")), u(owner->get_param("name"))));
+    }
+
+    //The server ignores the replacing link then. Both links held by the file are not refused.
+    const QList<Role> all = roles(dev);
+    for (const Role &r: all)
+    {
+        const QString id = targetOf(dev, state, r.name);
+        if (id.isEmpty())
+            continue;
+        for (const Role &other: all)
+        {
+            const QString otherId = targetOf(dev, state, other.name);
+            if (!r.replaces.contains(other.name) || otherId.isEmpty())
+                continue;
+            if (id != before.links.value(r.name) || otherId != before.links.value(other.name))
+                problems.append({ r.name, tr("%1 and %2 cannot both be linked: %1 replaces %2.")
+                                              .arg(r.label, other.label) });
+        }
     }
 
     for (const Param &p: params(dev))

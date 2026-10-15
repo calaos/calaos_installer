@@ -1,4 +1,5 @@
 #include "DeviceCommand.h"
+#include "IODoc.h"
 
 #include <QJsonArray>
 #include <QJsonDocument>
@@ -84,7 +85,16 @@ LinkState linkState(const QJsonArray &roles, const QJsonObject &deviceDoc,
     LinkState state = LinksOk;
     for (const QJsonValue &jr : roles)
     {
-        const QString r = jr.toString();
+        QString r = jr.toString();
+        // A role that replaces this one meets the requirement (a zone valve for output_heat).
+        if (!inst.links.contains(r))
+        {
+            for (const QString &other : IODoc::replacersOf(deviceDoc, jr.toString()))
+            {
+                if (inst.links.contains(other))
+                    r = other;
+            }
+        }
         if (!inst.links.contains(r))
         {
             state = LinksMissing;

@@ -254,6 +254,7 @@ private slots:
     void validation_data();
     void validation();
     void anOutputOfAnotherThermostatIsRefused();
+    void aZoneValveBelongsToOneThermostat();
     void aTemplateWithoutRoomOrWithAnUnknownKindIsRefused();
     void anInvalidSetCreatesNothing();
 
@@ -1054,6 +1055,43 @@ void tst_DeviceTemplates::anOutputOfAnotherThermostatIsRefused()
     //Another kind of device linking it, under the same role name, does not own it.
     v["output_heat"] = "relay_heat";
     QVERIFY(DeviceTemplates::validate(t, v).isEmpty());
+}
+
+void tst_DeviceTemplates::aZoneValveBelongsToOneThermostat()
+{
+    const QByteArray house = QByteArray(houseXml()).replace(
+        "<calaos:room name=\"Cave\" type=\"cave\" hits=\"0\">",
+        "<calaos:room name=\"Cave\" type=\"cave\" hits=\"0\">\n"
+        "  <calaos:device id=\"t1\" type=\"climate\" impl=\"thermostat\" name=\"Old zone\">\n"
+        "    <calaos:link name=\"output\" io=\"relay_cool\"/>\n"
+        "  </calaos:device>\n");
+    QVERIFY(loadIo(work("valve.xml"), house));
+
+    //A zone template: its valve field feeds the output role.
+    QJsonObject t = shippedTemplate("thermostat_heat");
+    QJsonArray links = t["links"].toArray();
+    for (int i = 0;i < links.size();i++)
+    {
+        QJsonObject l = links[i].toObject();
+        if (l["role"].toString() == "output_heat")
+            l["role"] = "output";
+        links[i] = l;
+    }
+    t["links"] = links;
+
+    QVariantMap v = filled(t);
+    v["output_heat"] = "relay_cool";
+    const QList<DeviceTemplates::Problem> problems = DeviceTemplates::validate(t, v);
+    QCOMPARE(problems.size(), 1);
+    QCOMPARE(problems.first().message,
+             QString("Heating output: \"Cooling relay\" is already an output of thermostat \"Old zone\"."));
+    v["output_heat"] = "relay_heat";
+    QVERIFY(DeviceTemplates::validate(t, v).isEmpty());
+
+    //And the valve of a zone is no output of a new heating thermostat.
+    QVariantMap h = filled(shippedTemplate("thermostat_heat"));
+    h["output_heat"] = "relay_cool";
+    QCOMPARE(DeviceTemplates::validate(shippedTemplate("thermostat_heat"), h).size(), 1);
 }
 
 void tst_DeviceTemplates::aTemplateWithoutRoomOrWithAnUnknownKindIsRefused()
