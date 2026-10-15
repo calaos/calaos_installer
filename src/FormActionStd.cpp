@@ -334,6 +334,7 @@ void FormActionStd::setDynamicValue(const std::string &ioId)
     if (!output) return;
 
     action->get_params_var().Add(output->get_param("id"), ioId);
+    updateModeButton();
     emit actionChanged(qitem, action);
 }
 

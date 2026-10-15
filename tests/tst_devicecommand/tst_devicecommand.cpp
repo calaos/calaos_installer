@@ -1075,6 +1075,8 @@ void tst_DeviceCommand::captureTheForms()
         {"proxy-bare", "bare", "{\"mode\":\"cool\"}"},
         {"text-plain-mode", "floor", "heat"},
         {"ordinary-io", "lamp", "toggle"},
+        {"thermostat-range-too-close", "floor", "{\"target_temp_low\":19,\"target_temp_high\":20}"},
+        {"proxy-read-only-links", "ro", "{\"mode\":\"heat\"}"},
     };
 
     for (const Shot &s : shots)

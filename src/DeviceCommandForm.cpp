@@ -144,6 +144,8 @@ void DeviceCommandForm::buildRows()
 
         connect(r.check, &QCheckBox::toggled, this, [this, index](bool on)
         {
+            if (!on)
+                m_rows[index].hasRaw = false;
             setRowSet(m_rows[index], on);
             if (!m_loading)
                 emitChanged();
@@ -152,6 +154,12 @@ void DeviceCommandForm::buildRows()
         if (QComboBox *c = qobject_cast<QComboBox *>(r.editor))
         {
             connect(c, QOverload<int>::of(&QComboBox::currentIndexChanged), this, [this, index]() { rowEdited(index); });
+            // Choosing the value the list already shows changes no index, and still means "send this".
+            connect(c, QOverload<int>::of(&QComboBox::activated), this, [this, index]()
+            {
+                if (!m_loading && !m_rows[index].check->isChecked())
+                    m_rows[index].check->setChecked(true);
+            });
         }
         else
         {
@@ -181,6 +189,7 @@ void DeviceCommandForm::rowEdited(int index)
         return;
 
     Row &row = m_rows[index];
+    row.hasRaw = false;
     // Editing a flagged value is the way to correct it.
     if (row.flagged)
     {
@@ -219,6 +228,7 @@ void DeviceCommandForm::setValue(const QString &text)
     for (Row &r : m_rows)
     {
         r.flagged = false;
+        r.hasRaw = false;
         r.editor->setToolTip(r.check->toolTip());
 
         bool consumed = false;
@@ -239,8 +249,7 @@ void DeviceCommandForm::setValue(const QString &text)
                 {
                     c->addItem(v.toString(), v.toString());
                     i = c->count() - 1;
-                    flag(r, tr("%1 is not available on this device (a link is missing). "
-                               "It is kept as is unless you change it.").arg(v.toString()));
+                    flag(r, whyOutside(r, v.toString()));
                 }
                 c->setCurrentIndex(i);
             }
@@ -255,6 +264,8 @@ void DeviceCommandForm::setValue(const QString &text)
             {
                 consumed = true;
                 const double d = v.toDouble();
+                r.hasRaw = true;
+                r.raw = d;
                 // QDoubleSpinBox clamps and rounds silently, which would rewrite the stored number.
                 s->setDecimals(decimalsNeeded(d, r.field.decimals));
                 s->setRange(qMin(r.field.min, d), qMax(r.field.max, d));
@@ -280,6 +291,27 @@ void DeviceCommandForm::setValue(const QString &text)
     updateLabels();
 }
 
+double DeviceCommandForm::numberOf(const Row &row)
+{
+    return row.hasRaw ? row.raw : static_cast<QDoubleSpinBox *>(row.editor)->value();
+}
+
+QString DeviceCommandForm::whyOutside(const Row &row, const QString &value) const
+{
+    const QString keep = tr("It is kept as is unless you change it.");
+    const DeviceCommand::Field &f = row.field;
+
+    if (f.excludedByParam.contains(value))
+        return tr("%1 is not in the %2 param of this device.").arg(value, f.excludedByParam.value(value)) + " " + keep;
+    if (f.excludedByLinks.contains(value))
+        return tr("%1 needs the link %2, which this device lacks or cannot write.")
+            .arg(value, f.excludedByLinks.value(value).join(", ")) + " " + keep;
+    if (!f.valuesParam.isEmpty())
+        return tr("%1 is not in the %2 param of this device.").arg(value, f.valuesParam) + " " + keep;
+
+    return tr("%1 is not a documented value of %2.").arg(value, f.name) + " " + keep;
+}
+
 QString DeviceCommandForm::value() const
 {
     QHash<QString, QJsonValue> values;
@@ -291,7 +323,7 @@ QString DeviceCommandForm::value() const
         if (r.field.type == DeviceCommand::Enum)
             values.insert(r.field.name, static_cast<QComboBox *>(r.editor)->currentData().toString());
         else
-            values.insert(r.field.name, static_cast<QDoubleSpinBox *>(r.editor)->value());
+            values.insert(r.field.name, numberOf(r));
     }
 
     QList<DeviceCommand::Field> fields;
@@ -319,7 +351,10 @@ void DeviceCommandForm::updateLabels()
     {
         QStringList names;
         for (const QString &h : m_offer.hidden)
-            names << labelOf(h);
+        {
+            names << (m_offer.unwritable.contains(h) ? tr("%1 (link not writable)").arg(labelOf(h))
+                                                     : labelOf(h));
+        }
         m_notice->setText(tr("%n more field(s) need a link on this device", "", m_offer.hidden.size()));
         m_notice->setToolTip(names.join(", "));
         m_notice->show();
@@ -338,6 +373,52 @@ void DeviceCommandForm::updateLabels()
         m_keptLabel->setText(tr("Sent as is: %1").arg(m_kept.keys().join(", ")));
         m_keptLabel->setToolTip(tr("These keys of the stored command have no field in this form."));
         m_keptLabel->show();
+    }
+
+    updateRangeFlag();
+}
+
+// The server refuses a pair closer than min_range, or inverted, as a whole.
+void DeviceCommandForm::updateRangeFlag()
+{
+    Row *low = nullptr, *high = nullptr;
+    for (Row &r : m_rows)
+    {
+        if (r.field.name == "target_temp_low")
+            low = &r;
+        else if (r.field.name == "target_temp_high")
+            high = &r;
+    }
+
+    bool bad = false;
+    double gap = 0;
+    if (low && high && low->check->isChecked() && high->check->isChecked())
+    {
+        bool ok = false;
+        gap = m_instance.params.value("min_range").toDouble(&ok);
+        if (!ok || gap < 0)
+            gap = 0;
+        const double l = numberOf(*low), h = numberOf(*high);
+        bad = l > h || h - l < gap - 1e-9;
+    }
+
+    for (Row *r : { low, high })
+    {
+        if (!r || r->flagged)
+            continue;
+        r->editor->setStyleSheet(bad ? QString(s_flaggedStyle)
+                                     : (r->check->isChecked() ? QString() : QString(s_unsetStyle)));
+    }
+
+    if (bad)
+    {
+        m_rangeLabel->setText(tr("Low and high must be at least %1 apart, low below high: the server refuses the pair otherwise.")
+                              .arg(gap));
+        m_rangeLabel->show();
+    }
+    else
+    {
+        m_rangeLabel->hide();
     }
 }
 

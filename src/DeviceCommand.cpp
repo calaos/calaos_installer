@@ -33,13 +33,22 @@ int decimalsOf(double step)
     return 3;
 }
 
-DeviceCommand::Bounds boundsOf(const std::string &ioId)
+IOBase *findIo(const std::string &id)
+{
+    IOBase *io = ListeRoom::Instance().get_output(id);
+    return io ? io : ListeRoom::Instance().get_input(id);
+}
+
+// What the server writes for a role: its command_io, else its io.
+IOBase *writeTarget(const DeviceLink &link)
+{
+    IOBase *io = link.commandIo.empty() ? nullptr : findIo(link.commandIo);
+    return io ? io : findIo(link.io);
+}
+
+DeviceCommand::Bounds boundsOf(IOBase *io)
 {
     DeviceCommand::Bounds b;
-
-    IOBase *io = ListeRoom::Instance().get_output(ioId);
-    if (!io)
-        io = ListeRoom::Instance().get_input(ioId);
     if (!io)
         return b;
 
@@ -56,47 +65,41 @@ DeviceCommand::Bounds boundsOf(const std::string &ioId)
     return b;
 }
 
-bool allLinks(const QJsonArray &roles, const QSet<QString> &links)
+enum LinkState { LinksOk, LinksMissing, LinksUnwritable };
+
+// A role the device only reads (current_temp, humidity) never needs to be writable.
+bool roleIsWritten(const QJsonObject &deviceDoc, const QString &role)
 {
-    for (const QJsonValue &r : roles)
+    for (const QJsonValue &r : deviceDoc["link_roles"].toArray())
     {
-        if (!links.contains(r.toString()))
-            return false;
+        if (r.toObject()["role"].toString() == role)
+            return r.toObject()["writable"].toBool(true);
     }
     return true;
 }
 
-QStringList modeValuesFor(const QJsonObject &fieldDoc, const QJsonObject &deviceDoc, const DeviceCommand::Instance &inst)
+LinkState linkState(const QJsonArray &roles, const QJsonObject &deviceDoc,
+                    const DeviceCommand::Instance &inst, QStringList *lacking = nullptr)
 {
-    QStringList values;
-    for (const QJsonValue &v : fieldDoc["values"].toArray())
-        values << v.toString();
-
-    // The modes param narrows the six modes of a proxy; a device that does not
-    // document it ignores it, and so does the form.
-    if (fieldDoc["name"].toString() != "mode")
-        return values;
-
-    bool documented = false;
-    for (const QJsonValue &p : deviceDoc["parameters"].toArray())
+    LinkState state = LinksOk;
+    for (const QJsonValue &jr : roles)
     {
-        if (p.toObject()["name"].toString() == "modes")
-            documented = true;
-    }
-
-    const QStringList subset = DeviceCommand::splitList(inst.params.value("modes"));
-    if (documented && !subset.isEmpty())
-    {
-        QStringList kept;
-        for (const QString &v : values)
+        const QString r = jr.toString();
+        if (!inst.links.contains(r))
         {
-            if (subset.contains(v))
-                kept << v;
+            state = LinksMissing;
+            if (lacking)
+                *lacking << r;
         }
-        return kept;
+        else if (!inst.writable.contains(r) && roleIsWritten(deviceDoc, r))
+        {
+            if (state == LinksOk)
+                state = LinksUnwritable;
+            if (lacking)
+                *lacking << r;
+        }
     }
-
-    return values;
+    return state;
 }
 
 }
@@ -112,8 +115,12 @@ DeviceCommand::Instance DeviceCommand::Instance::of(Device *device)
         if (link.io.empty())
             continue;
         const QString role = QString::fromStdString(link.name);
+        IOBase *target = writeTarget(link);
         inst.links.insert(role);
-        inst.linkBounds.insert(role, boundsOf(link.io));
+        // Proxy::isWritable: what is written has to be an output.
+        if (target && target->is_output())
+            inst.writable.insert(role);
+        inst.linkBounds.insert(role, boundsOf(target));
     }
 
     for (const auto &p : device->deviceParams())
@@ -156,9 +163,12 @@ DeviceCommand::Offer DeviceCommand::offer(const QJsonObject &deviceDoc, const In
         if (f.name.isEmpty() || (type != "enum" && type != "number"))
             continue;
 
-        if (!allLinks(jf["requires_links"].toArray(), instance.links))
+        const LinkState state = linkState(jf["requires_links"].toArray(), deviceDoc, instance);
+        if (state != LinksOk)
         {
             offer.hidden << f.name;
+            if (state == LinksUnwritable)
+                offer.unwritable << f.name;
             continue;
         }
 
@@ -167,16 +177,45 @@ DeviceCommand::Offer DeviceCommand::offer(const QJsonObject &deviceDoc, const In
             f.type = Enum;
 
             if (jf.contains("values_param"))
-                f.values = splitList(instance.params.value(jf["values_param"].toString()));
+            {
+                f.valuesParam = jf["values_param"].toString();
+                f.values = splitList(instance.params.value(f.valuesParam));
+            }
             else
-                f.values = modeValuesFor(jf, deviceDoc, instance);
+            {
+                for (const QJsonValue &v : jf["values"].toArray())
+                    f.values << v.toString();
+
+                // The modes param lists the modes of a proxy, none when it is empty. A device
+                // that does not document it ignores it, and so does the form.
+                bool documented = false;
+                for (const QJsonValue &p : deviceDoc["parameters"].toArray())
+                    documented = documented || p.toObject()["name"].toString() == "modes";
+
+                if (f.name == "mode" && documented && instance.params.contains("modes"))
+                {
+                    const QStringList subset = splitList(instance.params.value("modes"));
+                    QStringList kept;
+                    for (const QString &v : f.values)
+                    {
+                        if (subset.contains(v))
+                            kept << v;
+                        else
+                            f.excludedByParam.insert(v, "modes");
+                    }
+                    f.values = kept;
+                }
+            }
 
             const QJsonObject need = jf["value_requires_links"].toObject();
             QStringList allowed;
             for (const QString &v : f.values)
             {
-                if (allLinks(need[v].toArray(), instance.links))
+                QStringList lacking;
+                if (linkState(need[v].toArray(), deviceDoc, instance, &lacking) == LinksOk)
                     allowed << v;
+                else
+                    f.excludedByLinks.insert(v, lacking);
             }
             f.values = allowed;
 
@@ -226,8 +265,12 @@ DeviceCommand::Offer DeviceCommand::offer(const QJsonObject &deviceDoc, const In
 bool DeviceCommand::parse(const QString &text, QJsonObject &object)
 {
     object = QJsonObject();
-    if (text.trimmed().isEmpty())
+    if (text.isEmpty())
         return true;
+
+    // The server takes a JSON command only when the text starts with {.
+    if (!text.startsWith('{'))
+        return false;
 
     QJsonParseError err;
     const QJsonDocument doc = QJsonDocument::fromJson(text.toUtf8(), &err);
@@ -240,8 +283,7 @@ bool DeviceCommand::parse(const QString &text, QJsonObject &object)
 
 DeviceCommand::TextKind DeviceCommand::classify(const QString &text, const QJsonObject &deviceDoc)
 {
-    const QString t = text.trimmed();
-    if (t.isEmpty())
+    if (text.isEmpty())
         return Empty;
 
     QJsonObject obj;
@@ -249,7 +291,7 @@ DeviceCommand::TextKind DeviceCommand::classify(const QString &text, const QJson
         return Object;
 
     // A plain mode is a bare word: what starts a JSON text is never one.
-    if (!t.startsWith('{') && !t.startsWith('['))
+    if (!text.startsWith('{') && !text.startsWith('['))
     {
         for (const QJsonValue &jv : deviceDoc["command_fields"].toArray())
         {
@@ -258,7 +300,7 @@ DeviceCommand::TextKind DeviceCommand::classify(const QString &text, const QJson
                 continue;
             for (const QJsonValue &v : jf["values"].toArray())
             {
-                if (v.toString() == t)
+                if (v.toString() == text)
                     return PlainMode;
             }
         }

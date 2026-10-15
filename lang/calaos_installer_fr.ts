@@ -77,11 +77,6 @@
         <translation>Ventilation seule</translation>
     </message>
     <message>
-        <location filename="../src/DeviceCommandForm.cpp" line="241"/>
-        <source>%1 is not available on this device (a link is missing). It is kept as is unless you change it.</source>
-        <translation>%1 n&apos;est pas disponible sur ce device (un lien manque). La valeur est conservée telle quelle tant que vous ne la changez pas.</translation>
-    </message>
-    <message>
         <location filename="../src/DeviceCommandForm.cpp" line="263"/>
         <source>The value %1 is outside the bounds of this device (%2 to %3). It is kept as is unless you change it.</source>
         <translation>La valeur %1 est hors des bornes de ce device (%2 à %3). Elle est conservée telle quelle tant que vous ne la changez pas.</translation>
@@ -108,6 +103,36 @@
         <location filename="../src/DeviceCommandForm.cpp" line="338"/>
         <source>These keys of the stored command have no field in this form.</source>
         <translation>Ces clés de la commande enregistrée n&apos;ont pas de champ dans ce formulaire.</translation>
+    </message>
+    <message>
+        <location filename="../src/DeviceCommandForm.cpp" line="1"/>
+        <source>It is kept as is unless you change it.</source>
+        <translation>Elle est conservée telle quelle tant que vous ne la changez pas.</translation>
+    </message>
+    <message>
+        <location filename="../src/DeviceCommandForm.cpp" line="1"/>
+        <source>%1 is not in the %2 param of this device.</source>
+        <translation>%1 n&apos;est pas dans le param %2 de ce device.</translation>
+    </message>
+    <message>
+        <location filename="../src/DeviceCommandForm.cpp" line="1"/>
+        <source>%1 needs the link %2, which this device lacks or cannot write.</source>
+        <translation>%1 demande le lien %2, que ce device n&apos;a pas ou ne peut pas écrire.</translation>
+    </message>
+    <message>
+        <location filename="../src/DeviceCommandForm.cpp" line="1"/>
+        <source>%1 is not a documented value of %2.</source>
+        <translation>%1 n&apos;est pas une valeur documentée de %2.</translation>
+    </message>
+    <message>
+        <location filename="../src/DeviceCommandForm.cpp" line="1"/>
+        <source>%1 (link not writable)</source>
+        <translation>%1 (lien non inscriptible)</translation>
+    </message>
+    <message>
+        <location filename="../src/DeviceCommandForm.cpp" line="1"/>
+        <source>Low and high must be at least %1 apart, low below high: the server refuses the pair otherwise.</source>
+        <translation>Les bornes basse et haute doivent être distantes d&apos;au moins %1, la basse sous la haute : le serveur refuse la paire sinon.</translation>
     </message>
 </context>
 

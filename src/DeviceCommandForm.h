@@ -43,6 +43,9 @@ private:
         QCheckBox *check = nullptr;
         QWidget *editor = nullptr;
         bool flagged = false;
+        // A stored number nobody touched is sent as it was: the spin rounds.
+        bool hasRaw = false;
+        double raw = 0;
     };
 
     void buildRows();
@@ -52,6 +55,9 @@ private:
     void flag(Row &row, const QString &why);
     void emitChanged();
     void updateLabels();
+    void updateRangeFlag();
+    QString whyOutside(const Row &row, const QString &value) const;
+    static double numberOf(const Row &row);
 
     static QString labelOf(const QString &field);
     static QString valueLabel(const QString &value);

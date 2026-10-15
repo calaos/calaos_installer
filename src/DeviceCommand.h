@@ -32,6 +32,10 @@ public:
         double step = 1;
         int decimals = 0;
         QString unit;
+        // Why a value is not in the list, for one stored by an older version of the rule.
+        QString valuesParam;                          // the list is this param
+        QHash<QString, QString> excludedByParam;      // value -> param that leaves it out
+        QHash<QString, QStringList> excludedByLinks;  // value -> roles it lacks or cannot write
     };
 
     // Bounds a linked IO sets with value_min, value_max, step and unit.
@@ -46,6 +50,7 @@ public:
     struct Instance
     {
         QSet<QString> links;
+        QSet<QString> writable; // what the server's isWritable accepts
         QHash<QString, QString> params;
         QHash<QString, Bounds> linkBounds;
 
@@ -55,7 +60,8 @@ public:
     struct Offer
     {
         QList<Field> fields;
-        QStringList hidden; // documented fields whose link is missing
+        QStringList hidden;     // documented fields without a usable link
+        QStringList unwritable; // among them, those whose link exists but cannot be written
     };
 
     enum TextKind
