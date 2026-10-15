@@ -138,16 +138,17 @@ bool DeviceEdit::isOwnedRole(Device *dev, const QString &role)
     return io && io->getOwnerDevice() == dev;
 }
 
-bool DeviceEdit::fits(IOBase *io, const Role &role)
+bool DeviceEdit::fits(IOBase *io, const Role &role, Device *dev)
 {
-    if (!io || dynamic_cast<Device *>(io) || io->get_param("id").empty() || !io->isSupportedByServer())
+    if (!io || dynamic_cast<Device *>(io) || io->get_param("id").empty() || !io->isSupportedByServer() ||
+        io->getOwnerDevice() == dev)
         return false;
     if (!role.valueType.isEmpty() && valueTypeOf(io) != role.valueType)
         return false;
     return !role.writable || io->is_output();
 }
 
-std::vector<IOBase *> DeviceEdit::candidates(const Role &role)
+std::vector<IOBase *> DeviceEdit::candidates(const Role &role, Device *dev)
 {
     std::vector<IOBase *> res;
     std::set<IOBase *> seen;
@@ -157,7 +158,7 @@ std::vector<IOBase *> DeviceEdit::candidates(const Role &role)
         Room *room = lr.get_room(r);
         auto consider = [&](IOBase *io)
         {
-            if (seen.insert(io).second && fits(io, role))
+            if (seen.insert(io).second && fits(io, role, dev))
                 res.push_back(io);
         };
         for (int i = 0;i < room->get_size_in();i++)
@@ -273,7 +274,9 @@ QList<DeviceEdit::Problem> DeviceEdit::validate(Device *dev, const State &state)
             continue;
         if (!io)
             problem(tr("%1: no IO has the id \"%2\".").arg(r.name, id));
-        else if (!fits(io, r))
+        else if (io->getOwnerDevice() == dev)
+            problem(tr("%1: \"%2\" is one of this device's own IOs.").arg(r.name, u(io->get_param("name"))));
+        else if (!fits(io, r, dev))
             problem(tr("%1: \"%2\" is not an IO of the expected kind.").arg(r.name, u(io->get_param("name"))));
         else if (Device *owner = thermostat && DeviceTemplates::isThermostatOutput(r.name) ?
                                      DeviceTemplates::thermostatOwning(s8(id), dev) : nullptr)

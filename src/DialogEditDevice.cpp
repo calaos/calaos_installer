@@ -141,7 +141,7 @@ QWidget *DialogEditDevice::buildLinks(const DeviceEdit::State &start)
             e.box->setSizeAdjustPolicy(QComboBox::AdjustToMinimumContentsLengthWithIcon);
             e.box->setMinimumContentsLength(20);
             e.box->addItem(tr("None"), QString());
-            for (IOBase *io: DeviceEdit::candidates(role))
+            for (IOBase *io: DeviceEdit::candidates(role, m_device))
                 e.box->addItem(ioLabel(io), u(io->get_param("id")));
 
             const QString current = start.links.value(role.name);

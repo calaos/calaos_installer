@@ -353,10 +353,10 @@ void tst_DeviceEdit::ioFieldsOfferTheIosThatFit()
         "  <calaos:input id=\"zibase\" type=\"ZibaseTemp\" name=\"Old sensor\"/>\n");
     QVERIFY(loadIo(work("candidates.xml"), house));
 
-    auto ids = [](const DeviceEdit::Role &r)
+    auto ids = [this](const DeviceEdit::Role &r)
     {
         QStringList l;
-        for (IOBase *io: DeviceEdit::candidates(r))
+        for (IOBase *io: DeviceEdit::candidates(r, th()))
             l << u(io->get_param("id"));
         return l;
     };

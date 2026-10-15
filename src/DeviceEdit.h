@@ -67,8 +67,9 @@ public:
     //The role's link targets one of the device's own IOs: it is not offered for editing.
     static bool isOwnedRole(Calaos::Device *dev, const QString &role);
 
-    static bool fits(Calaos::IOBase *io, const Role &role);
-    static std::vector<Calaos::IOBase *> candidates(const Role &role);
+    //Never one of dev's own IOs: a thermostat would regulate on its own setpoint.
+    static bool fits(Calaos::IOBase *io, const Role &role, Calaos::Device *dev);
+    static std::vector<Calaos::IOBase *> candidates(const Role &role, Calaos::Device *dev);
 
     static State current(Calaos::Device *dev);
     static bool isRequired(Calaos::Device *dev, const Role &role, const State &state);
