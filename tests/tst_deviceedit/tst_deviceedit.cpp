@@ -313,6 +313,8 @@ void tst_DeviceEdit::refusals_data()
                                 << "current_temp: current_temp: \"Spare relay\" is not an IO of the expected kind.";
     QTest::newRow("heat and cool") << "output_cool" << "relay_heat"
                                    << "output_cool: output_cool: \"Heating relay\" is already linked as output_heat.";
+    QTest::newRow("own IO") << "current_temp" << "th_target_temp"
+                            << "current_temp: current_temp: \"Chauffage salon setpoint\" is one of this device's own IOs.";
     QTest::newRow("unknown id") << "humidity" << "ghost" << "humidity: humidity: no IO has the id \"ghost\".";
     QTest::newRow("float") << "param:hysteresis" << "abc" << "hysteresis: hysteresis must be a number.";
     QTest::newRow("bool") << "param:visible" << "yes" << "visible: visible must be true or false.";
@@ -358,10 +360,10 @@ void tst_DeviceEdit::ioFieldsOfferTheIosThatFit()
             l << u(io->get_param("id"));
         return l;
     };
-    //Never a device, nor a type the server dropped; an owned IO of a device is an IO like another.
+    //Never a device, nor a type the server dropped, nor one of its own IOs: a thermostat
+    //regulating on its own setpoint. An owned IO of another device is an IO like another.
     QCOMPARE(ids(roleNamed(th(), "current_temp")),
-             QStringList({ "temp_salon", "hum_salon", "th_target_temp", "th_target_temp_low", "th_target_temp_high",
-                           "temp_cave", "th2_target_temp" }));
+             QStringList({ "temp_salon", "hum_salon", "temp_cave", "th2_target_temp" }));
     QCOMPARE(ids(roleNamed(th(), "output_heat")),
              QStringList({ "flag", "relay_heat", "relay_cool", "relay_spare", "relay_cave" }));
 }
