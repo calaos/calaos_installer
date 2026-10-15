@@ -85,6 +85,11 @@ QT_QPA_PLATFORM=offscreen ./tst_projectmanager/tst_projectmanager -v2 ioRoundTri
   `tests/server_load/run.sh` (not in CI: it needs a calaos_base build) starts a real
   calaos_server on each device that `tst_devicetemplates` writes with `CALAOS_DEVICE_XML_DIR`, and
   fails on a loading warning or on an attribute the server's save drops.
+- `tests/tst_deviceedit/` covers `DeviceEdit` (`src/DeviceEdit.*`) and its dialog
+  `DialogEditDevice`, the properties of an existing device: links and documented params read
+  from IODoc, changed and saved, rules and owned IOs untouched, refusals (decision 17, legacy
+  types, IO kind), required roles; `CALAOS_SHOTS_DIR` writes its screenshots and
+  `CALAOS_DEVICE_XML_DIR` the edited io.xml for `tests/server_load/run.sh`.
 - `tests/tst_servertypes/` pins the IO types the installer may create to the ones the server
   registers (`server_io_types.txt`, regenerate it with the command in its header when the
   server adds or drops a type). A type the server dropped moves to a `REGISTER_LEGACY_*` line
