@@ -54,6 +54,8 @@ private:
 
     QWidget *buildLinks(const DeviceEdit::State &start);
     QWidget *buildParams(const DeviceEdit::State &start);
+    //Links and params IODoc does not describe, read-only; nullptr when there are none.
+    QWidget *buildUndocumented();
     QWidget *buildOwnedIos();
     static QString editorValue(const ParamEditor &e);
     void refresh();

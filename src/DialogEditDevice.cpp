@@ -75,6 +75,8 @@ DialogEditDevice::DialogEditDevice(Device *device, QWidget *parent):
     QVBoxLayout *bodyLayout = new QVBoxLayout(body);
     bodyLayout->addWidget(buildLinks(start));
     bodyLayout->addWidget(buildParams(start));
+    if (QWidget *other = buildUndocumented())
+        bodyLayout->addWidget(other);
     if (!device->ownedIos().empty())
         bodyLayout->addWidget(buildOwnedIos());
     bodyLayout->addStretch(1);
@@ -159,11 +161,12 @@ QWidget *DialogEditDevice::buildLinks(const DeviceEdit::State &start)
         editor->setObjectName("link_" + role.name);
         QString hint = role.description;
         for (const DeviceLink &l: m_device->links())
-            if (u(l.name) == role.name && !l.commandIo.empty() && e.box)
+            if (u(l.name) == role.name && !l.commandIo.empty())
             {
                 IOBase *cmd = DeviceTemplates::ioById(l.commandIo);
-                hint += "\n" + tr("Commands go to %1. Picking another IO drops it: commands then go to the IO picked.")
-                                    .arg(cmd ? ioLabel(cmd) : u(l.commandIo));
+                const QString target = cmd ? ioLabel(cmd) : u(l.commandIo);
+                hint += "\n" + (e.box ? tr("Commands go to %1. Picking another IO drops it: commands then go to the IO picked.")
+                                       : tr("Commands go to %1.")).arg(target);
             }
         form->addRow(e.label, withHint(editor, hint, group));
         m_links.append(e);
@@ -230,6 +233,46 @@ QWidget *DialogEditDevice::buildParams(const DeviceEdit::State &start)
         else
             connect(e.line, &QLineEdit::textChanged, this, &DialogEditDevice::refresh);
         m_params.append(e);
+    }
+    return group;
+}
+
+QWidget *DialogEditDevice::buildUndocumented()
+{
+    QStringList roles, params;
+    for (const DeviceEdit::Role &r: DeviceEdit::roles(m_device))
+        roles << r.name;
+    for (const DeviceEdit::Param &p: DeviceEdit::params(m_device))
+        params << p.name;
+
+    QStringList lines;
+    for (const DeviceLink &l: m_device->links())
+    {
+        if (roles.contains(u(l.name)))
+            continue;
+        IOBase *io = DeviceTemplates::ioById(l.io);
+        QString line = QStringLiteral("%1: %2").arg(u(l.name), io ? ioLabel(io) : tr("%1 (not found)").arg(u(l.io)));
+        if (!l.commandIo.empty())
+            line += tr(", commands: %1").arg(u(l.commandIo));
+        lines << line;
+    }
+    for (const auto &p: m_device->deviceParams())
+        if (!params.contains(u(p.first)))
+            lines << QStringLiteral("%1 = %2").arg(u(p.first), u(p.second));
+    if (lines.isEmpty())
+        return nullptr;
+
+    QGroupBox *group = new QGroupBox(tr("Not documented"));
+    QVBoxLayout *l = new QVBoxLayout(group);
+    QLabel *note = new QLabel(tr("IODoc does not describe these links and params: they are kept as they are."), group);
+    note->setWordWrap(true);
+    l->addWidget(note);
+    for (const QString &line: lines)
+    {
+        QLabel *label = new QLabel(line, group);
+        label->setWordWrap(true);
+        label->setTextInteractionFlags(Qt::TextSelectableByMouse);
+        l->addWidget(label);
     }
     return group;
 }
