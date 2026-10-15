@@ -44,8 +44,10 @@ const char *kIo = R"(<?xml version="1.0"?>
   <calaos:output id="relay_cave" type="WODigital" name="Cave relay" host="h" port="502" var="6"/>
   <calaos:device id="th2" type="climate" impl="thermostat" name="Cave thermostat">
     <calaos:internal id="th2_target_temp" type="InternalInt" name="Cave setpoint" save="true" value="12" visible="false"/>
+    <calaos:internal id="th2_action" type="InternalString" name="Cave action" visible="false"/>
     <calaos:link name="current_temp" io="temp_cave"/>
     <calaos:link name="target_temp" io="th2_target_temp"/>
+    <calaos:link name="action" io="th2_action"/>
     <calaos:link name="output_heat" io="relay_cave"/>
   </calaos:device>
 </calaos:room>

@@ -116,6 +116,7 @@ private slots:
     void refusals();
     void ioFieldsOfferTheIosThatFit();
     void whatTheFileAlreadyHeldIsNotRefused();
+    void itsOwnOutputsMaySwap();
     void requiredRolesAreReported();
     void theDialogChangesTheDevice();
     void theDialogRefusesAndSaysWhy();
@@ -381,6 +382,18 @@ void tst_DeviceEdit::whatTheFileAlreadyHeldIsNotRefused()
     QCOMPARE(problemTexts(DeviceEdit::validate(th3, s)), QStringList());
     QVERIFY(DeviceEdit::apply(th3, s));
     QVERIFY(paramsOf(th3).contains("min_on_time=60"));
+}
+
+void tst_DeviceEdit::itsOwnOutputsMaySwap()
+{
+    //Decision 17 is between thermostats: this one already owning both is no conflict.
+    DeviceEdit::State s = DeviceEdit::current(th());
+    s.links["output_heat"] = "relay_cool";
+    s.links["output_cool"] = "relay_heat";
+    QCOMPARE(problemTexts(DeviceEdit::validate(th(), s)), QStringList());
+    QVERIFY(DeviceEdit::apply(th(), s));
+    QCOMPARE(linksOf(th())["output_heat"], QString("relay_cool"));
+    QCOMPARE(linksOf(th())["output_cool"], QString("relay_heat"));
 }
 
 void tst_DeviceEdit::requiredRolesAreReported()
