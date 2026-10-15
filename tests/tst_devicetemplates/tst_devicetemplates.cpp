@@ -26,36 +26,6 @@ struct Variant
     QVariantMap values;
 };
 
-//What a user fills in: the defaults, a name, a value in every required text,
-//and for each io field the first IO that fits and that no other field took.
-QVariantMap filled(const QJsonObject &tpl)
-{
-    QVariantMap v = DeviceTemplates::defaults(tpl, roomNamed("Salon"));
-    QStringList taken;
-    for (const QJsonValue &e: tpl["fields"].toArray())
-    {
-        const QJsonObject f = e.toObject();
-        const QString name = f["name"].toString();
-        const QString type = f["type"].toString();
-        if (type == "string" && f["required"].toBool() && v.value(name).toString().isEmpty())
-            v[name] = name == "name" ? QString("Chauffage salon") : QString("tpl-%1").arg(name);
-        if (type == "io")
-        {
-            for (IOBase *io: DeviceTemplates::candidates(f["io_filter"].toObject()))
-            {
-                const QString id = u(io->get_param("id"));
-                if (!taken.contains(id))
-                {
-                    taken << id;
-                    v[name] = id;
-                    break;
-                }
-            }
-        }
-    }
-    return v;
-}
-
 //Each enum option, each bool both ways, each optional multi, io and text empty
 //and set: every `when` of the shipped templates is taken both ways (checked by
 //everyWhenIsTakenBothWays).
