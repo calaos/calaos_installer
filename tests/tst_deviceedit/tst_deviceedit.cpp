@@ -445,6 +445,12 @@ void tst_DeviceEdit::requiredRolesAreReported()
     QCOMPARE(DeviceEdit::missingRequired(th(), s), QStringList({ "current_temp" }));
     //Reported, not refused: the server loads the device without that capability.
     QVERIFY(DeviceEdit::validate(th(), s).isEmpty());
+
+    //A link to an IO the house no longer has gives nothing either.
+    QVERIFY(loadIo(work("ghost.xml"), QByteArray(kIo).replace("<calaos:link name=\"current_temp\" io=\"temp_salon\"/>",
+                                                                "<calaos:link name=\"current_temp\" io=\"ghost\"/>")));
+    QCOMPARE(DeviceEdit::missingRequired(th(), DeviceEdit::current(th())),
+             QStringList({ "current_temp (\"ghost\" not found)" }));
 }
 
 void tst_DeviceEdit::okWithoutAChangeChangesNothing()
