@@ -243,6 +243,7 @@ private slots:
 
     void validation_data();
     void validation();
+    void anOutputOfAnotherThermostatIsRefused();
     void aTemplateWithoutRoomOrWithAnUnknownKindIsRefused();
     void anInvalidSetCreatesNothing();
 
@@ -885,6 +886,35 @@ void tst_DeviceTemplates::validation()
     QCOMPARE(problems.size(), 1);
     QCOMPARE(problems.first().field, field);
     QCOMPARE(problems.first().message, message);
+}
+
+void tst_DeviceTemplates::anOutputOfAnotherThermostatIsRefused()
+{
+    //Decision 17: the server ignores the output link of the second thermostat.
+    const QByteArray house = QByteArray(houseXml()).replace(
+        "<calaos:room name=\"Cave\" type=\"cave\" hits=\"0\">",
+        "<calaos:room name=\"Cave\" type=\"cave\" hits=\"0\">\n"
+        "  <calaos:device id=\"t1\" type=\"climate\" impl=\"thermostat\" name=\"Old thermostat\">\n"
+        "    <calaos:link name=\"output_cool\" io=\"relay_cool\"/>\n"
+        "  </calaos:device>\n"
+        "  <calaos:device id=\"p1\" type=\"climate\" impl=\"proxy\" name=\"Proxy\">\n"
+        "    <calaos:link name=\"mode\" io=\"relay_heat\"/>\n"
+        "  </calaos:device>\n");
+    QVERIFY(loadIo(work("claimed.xml"), house));
+
+    const QJsonObject t = shippedTemplate("thermostat_heat_cool");
+    QVariantMap v = filled(t);
+    v["output_heat"] = "relay_cool";
+    v["output_cool"] = "flag";
+    const QList<DeviceTemplates::Problem> problems = DeviceTemplates::validate(t, v);
+    QCOMPARE(problems.size(), 1);
+    QCOMPARE(problems.first().field, QString("output_heat"));
+    QCOMPARE(problems.first().message,
+             QString("Heating output: \"Cooling relay\" is already an output of thermostat \"Old thermostat\"."));
+
+    //Another kind of device linking it does not own it.
+    v["output_heat"] = "relay_heat";
+    QVERIFY(DeviceTemplates::validate(t, v).isEmpty());
 }
 
 void tst_DeviceTemplates::aTemplateWithoutRoomOrWithAnUnknownKindIsRefused()
