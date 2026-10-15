@@ -219,6 +219,7 @@ private slots:
     void theShippedCatalogueIsRead();
     void theFrenchCatalogueIsReadWhenTheLanguageIsFrench();
     void anotherFormatIsNotRead();
+    void aTemplateWithoutFamilyOrImplIsSkipped();
 
     void everyVariantBuildsAValidDevice_data();
     void everyVariantBuildsAValidDevice();
@@ -308,7 +309,18 @@ void tst_DeviceTemplates::anotherFormatIsNotRead()
 {
     QVERIFY(DeviceTemplates::parse(R"({"format": 2, "templates": [{"id": "x"}]})").isEmpty());
     QVERIFY(DeviceTemplates::parse("not json").isEmpty());
-    QCOMPARE(DeviceTemplates::parse(R"({"format": 1, "templates": [{"id": "x"}]})").size(), 1);
+    QCOMPARE(DeviceTemplates::parse(R"({"format": 1, "templates": [{"id": "x", "family": "f", "impl": "i"}]})").size(), 1);
+}
+
+void tst_DeviceTemplates::aTemplateWithoutFamilyOrImplIsSkipped()
+{
+    QTest::ignoreMessage(QtWarningMsg, "Device template \"no_impl\" has no family or no impl: skipped");
+    QTest::ignoreMessage(QtWarningMsg, "Device template \"no_family\" has no family or no impl: skipped");
+    const QJsonArray kept = DeviceTemplates::parse(R"({"format": 1, "templates": [
+        {"id": "no_impl", "family": "climate"},
+        {"id": "ok", "family": "climate", "impl": "thermostat"},
+        {"id": "no_family", "family": "", "impl": "thermostat"}]})");
+    QCOMPARE(namesOf(kept, "id"), QStringList({ "ok" }));
 }
 
 void tst_DeviceTemplates::checkDocumentedDevice(Device *dev, const QJsonObject &tpl)
