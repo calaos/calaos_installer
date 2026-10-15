@@ -15,6 +15,8 @@
 #include "DialogRemoteUI.h"
 #include "DialogRemoteUIEditor.h"
 #include "DialogNewRemoteUIRelay.h"
+#include "DialogNewDevice.h"
+#include "DeviceTemplates.h"
 
 #include <QDebug>
 #ifdef QT_MQTT_AVAILABLE
@@ -473,6 +475,12 @@ FormRules::FormRules(QWidget *parent) :
                             { "io_type", "input" }};
                 addCalaosIO(p);
             });
+
+    add_menu->addSeparator();
+
+    action = add_menu->addAction(tr("Device from a template..."));
+    action->setIcon(QIcon(":/img/chip.png"));
+    connect(action, &QAction::triggered, this, [=]() { addCalaosItem(HW_NONE, ITEM_DEVICE_TEMPLATE); });
 
     add_menu->addSeparator();
 
@@ -1011,6 +1019,9 @@ void FormRules::addCalaosItem(int hw_type, int item)
     case ITEM_REMOTE_UI_RELAY:
         res = addCalaosItemRemoteUIRelay(item, hw_type);
         break;
+    case ITEM_DEVICE_TEMPLATE:
+        addDeviceFromTemplate();
+        return;
     default:
         QMessageBox::warning(this, tr("Calaos Installer"), QString(tr("Unknown type (%1)")).arg(item));
     }
@@ -1024,6 +1035,37 @@ void FormRules::addCalaosItem(int hw_type, int item)
             addItemOutput(ioRes, current_room, true);
         else if (ioRes->is_input())
             addItemInput(ioRes, current_room, true);
+    }
+}
+
+void FormRules::addDeviceFromTemplate()
+{
+    DialogNewDevice dialog(DeviceTemplates::load(Utils::GetLocale()), current_room, this);
+    if (dialog.exec() != QDialog::Accepted)
+        return;
+
+    //The room field may name another room than the selected one.
+    QTreeWidgetItemRoom *roomItem = nullptr;
+    for (QTreeWidgetItemIterator it(ui->tree_home);*it && !roomItem;++it)
+    {
+        QTreeWidgetItemRoom *r = dynamic_cast<QTreeWidgetItemRoom *>(*it);
+        if (r && r->getRoom() == dialog.room())
+            roomItem = r;
+    }
+    if (!roomItem)
+        return;
+
+    QTreeWidgetItemDevice *item = addDeviceItem(roomItem, dialog.device(), &FormRules::refreshItemInfos);
+    item->setExpanded(true);
+    ui->tree_home->setCurrentItem(item);
+    setProjectModified(true);
+
+    if (!dialog.notes().isEmpty())
+    {
+        QDialog *notes = DialogNewDevice::createNotesDialog(QString::fromUtf8(dialog.device()->get_param("name").c_str()),
+                                                            dialog.notes(), this);
+        notes->exec();
+        delete notes;
     }
 }
 
