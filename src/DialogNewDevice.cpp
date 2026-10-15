@@ -1,5 +1,10 @@
 #include "DialogNewDevice.h"
+#include "ConfigOptions.h"
 #include "DeviceTemplates.h"
+#include "EsphomeDiscovery.h"
+#ifdef QT_MQTT_AVAILABLE
+#include "WidgetEsphomeDiscovery.h"
+#endif
 #include "WheelGuard.h"
 
 #include <ListeRoom.h>
@@ -63,6 +68,26 @@ DialogNewDevice::DialogNewDevice(const QJsonArray &templates, Room *room, QWidge
     m_description->setObjectName("templateDescription");
     m_description->setWordWrap(true);
     layout->addWidget(m_description);
+
+#ifdef QT_MQTT_AVAILABLE
+    m_discovery = new WidgetEsphomeDiscovery([this]()
+    {
+        const QVariantMap v = values();
+        MqttListener::Settings s;
+        s.port = quint16(v.value("mqtt_port", 1883).toInt());
+        s.user = v.value("mqtt_user").toString();
+        s.password = v.value("mqtt_password").toString();
+        return s;
+    }, this);
+    m_discovery->hide();
+    connect(m_discovery, &WidgetEsphomeDiscovery::climateChosen, this, [this](const EsphomeDiscovery::Climate &c)
+    {
+        QStringList summary;
+        setValues(EsphomeDiscovery::prefill(currentTemplate(), c, values(), &summary));
+        m_discovery->showApplied(c, summary);
+    });
+    layout->addWidget(m_discovery);
+#endif
 
     m_scroll = new QScrollArea(this);
     m_scroll->setWidgetResizable(true);
@@ -137,6 +162,19 @@ void DialogNewDevice::buildForm()
     //What the user set for another template is kept when this one asks for the same
     //field; a default left alone is this template's.
     QVariantMap start = DeviceTemplates::defaults(tpl, m_startRoom);
+    const bool discoverable = EsphomeDiscovery::appliesTo(tpl);
+    if (discoverable)
+    {
+        //The new IOs talk to the broker the project's MQTT IOs already use, password included.
+        const EsphomeDiscovery::Broker b = EsphomeDiscovery::projectBroker();
+        if (b.found)
+        {
+            start["mqtt_host"] = b.host;
+            start["mqtt_port"] = double(b.port);
+            start["mqtt_user"] = b.user;
+            start["mqtt_password"] = b.password;
+        }
+    }
     for (auto it = m_changed.constBegin();it != m_changed.constEnd();++it)
     {
         const QJsonObject def = DeviceTemplates::field(tpl, it.key());
@@ -189,6 +227,56 @@ void DialogNewDevice::buildForm()
     QWidget *old = m_scroll->takeWidget();
     m_scroll->setWidget(form);
     delete old;
+
+#ifdef QT_MQTT_AVAILABLE
+    m_discovery->setVisible(discoverable);
+    if (discoverable)
+        updateDiscoveryHosts();
+#endif
+}
+
+#ifdef QT_MQTT_AVAILABLE
+void DialogNewDevice::updateDiscoveryHosts()
+{
+    QString calaosHost;
+    const QVector<CalaosAuth> auths = ConfigOptions::Instance().getAuthList();
+    const int current = ConfigOptions::Instance().getCurrentAuthIndex();
+    if (current >= 0 && current < auths.size())
+        calaosHost = auths.at(current).host;
+    ConfigOptions &opt = ConfigOptions::Instance();
+    const QString reached = opt.optionExists("calaos/mqtt_broker_host") ? opt.getMqttBrokerHost() : QString();
+    m_discovery->setHosts(values().value("mqtt_host").toString(), reached, calaosHost);
+}
+#endif
+
+void DialogNewDevice::setValues(const QVariantMap &v)
+{
+    for (FieldEditor &f: m_fields)
+    {
+        const QString name = f.def["name"].toString();
+        if (!v.contains(name) || v.value(name) == valueOf(f))
+            continue;
+        const QVariant value = v.value(name);
+
+        if (QDoubleSpinBox *sb = qobject_cast<QDoubleSpinBox *>(f.editor))
+            sb->setValue(value.toDouble());
+        else if (QCheckBox *cb = qobject_cast<QCheckBox *>(f.editor))
+            cb->setChecked(value.toBool());
+        else if (QComboBox *box = qobject_cast<QComboBox *>(f.editor))
+        {
+            const int i = f.def["type"].toString() == "room" ? box->findData(value) : box->findData(value.toString());
+            if (i >= 0)
+                box->setCurrentIndex(i);
+        }
+        else if (QLineEdit *le = qobject_cast<QLineEdit *>(f.editor))
+            le->setText(value.toString());
+        else
+        {
+            const QStringList picked = value.toStringList();
+            for (QCheckBox *choice: std::as_const(f.choices))
+                choice->setChecked(picked.contains(choice->property("choice").toString()));
+        }
+    }
 }
 
 QWidget *DialogNewDevice::createEditor(FieldEditor &f, const QVariant &value)
@@ -294,6 +382,10 @@ void DialogNewDevice::remember(const QString &name)
     for (const FieldEditor &f: m_fields)
         if (f.def["name"].toString() == name)
             m_changed[name] = valueOf(f);
+#ifdef QT_MQTT_AVAILABLE
+    if (name == "mqtt_host" && m_discovery->isVisibleTo(this))
+        updateDiscoveryHosts();
+#endif
 }
 
 QVariant DialogNewDevice::valueOf(const FieldEditor &f) const

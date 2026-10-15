@@ -21,6 +21,14 @@
 #include "DialogNewDevice.h"
 #include "DialogDeviceInfo.h"
 #include "DialogNewRemoteUIRelay.h"
+#include "ConfigOptions.h"
+#ifdef QT_MQTT_AVAILABLE
+#include "WidgetEsphomeDiscovery.h"
+#include "../tst_esphomediscovery/FakeMqttBroker.h"
+#endif
+
+#include <QTcpServer>
+#include <QTreeWidget>
 
 using namespace Calaos;
 using namespace Fixture;
@@ -107,6 +115,11 @@ private slots:
     void switchingTemplatesKeepsOnlyWhatTheUserChanged();
     void theNotesOfTheTemplateAreShownAfterCreation();
     void noTemplateNoCreate();
+    void theDiscoveryIsOfferedForEsphomeTemplates();
+    void theBrokerOfTheProjectFillsTheForm();
+    void aLoopbackBrokerIsSearchedThroughTheBox();
+    void searchingListsTheClimatesAndChoosingOneFillsTheForm();
+    void anUnreachableBrokerLeavesTheFormToFillByHand();
     void screenshots();
 };
 
@@ -325,7 +338,8 @@ void tst_DialogNewDevice::editorsFollowTheFieldTypes()
 
     QCOMPARE(field<QLineEdit>(&d, "mqtt_password")->echoMode(), QLineEdit::Password);
     QCOMPARE(field<QLineEdit>(&d, "mqtt_user")->echoMode(), QLineEdit::Normal);
-    QCOMPARE(field<QLineEdit>(&d, "mqtt_host")->text(), QString("127.0.0.1"));
+    //The broker of the MQTT IOs of the house.
+    QCOMPARE(field<QLineEdit>(&d, "mqtt_host")->text(), QString("h"));
 
     QDoubleSpinBox *port = field<QDoubleSpinBox>(&d, "mqtt_port");
     QCOMPARE(port->minimum(), 1.0);
@@ -442,6 +456,258 @@ void tst_DialogNewDevice::noTemplateNoCreate()
     QCOMPARE(d.findChild<QLabel *>("templateDescription")->text(), QString("No device template is available in this installer."));
 }
 
+namespace
+{
+
+const char *const NO_MQTT_HOUSE = R"(<?xml version="1.0"?>
+<calaos:ioconfig xmlns:calaos="http://www.calaos.fr"><calaos:home format="2">
+<calaos:room name="Salon" type="salon" hits="0">
+  <calaos:input id="temp_salon" type="WITemp" name="Salon temperature" host="10.0.0.5" port="502" var="1"/>
+</calaos:room></calaos:home></calaos:ioconfig>)";
+
+#ifdef QT_MQTT_AVAILABLE
+QList<QPair<QString, QByteArray>> twoClimates()
+{
+    const QString p = "clim-buanderie/climate/clim_mitsu_buanderie/";
+    return { { "esphome/discover/clim-buanderie",
+               R"({"name":"clim-buanderie","friendly_name":"Clim buanderie","ip":"192.168.1.42"})" },
+             { p + "mode/state", "heat" },
+             { p + "target_temperature_low/state", "19" },
+             { p + "target_temperature_high/state", "24" },
+             { p + "current_temperature/state", "21.5" },
+             { p + "action/state", "heating" },
+             { p + "fan_mode/state", "auto" },
+             { p + "swing_mode/state", "off" },
+             { "salon-ir/climate/clim_salon/mode/state", "cool" },
+             { "salon-ir/climate/clim_salon/target_temperature/state", "23" } };
+}
+
+WidgetEsphomeDiscovery *panel(DialogNewDevice &d)
+{
+    return d.findChild<WidgetEsphomeDiscovery *>("discoveryBox");
+}
+
+void searchOn(DialogNewDevice &d, quint16 port, const QString &host = "127.0.0.1")
+{
+    QDoubleSpinBox *portBox = field<QDoubleSpinBox>(&d, "mqtt_port");
+    portBox->setValue(port);
+    QLineEdit *hostEdit = d.findChild<QLineEdit *>("discoveryHost");
+    hostEdit->clear();
+    QTest::keyClicks(hostEdit, host);
+    panel(d)->setTimings(300, 2000);
+    QSignalSpy done(panel(d), &WidgetEsphomeDiscovery::searchFinished);
+    QTest::mouseClick(d.findChild<QPushButton *>("discoveryButton"), Qt::LeftButton);
+    QVERIFY(!d.findChild<QPushButton *>("discoveryButton")->isEnabled());
+    QTRY_COMPARE_WITH_TIMEOUT(done.count(), 1, 10000);
+}
+#endif
+
+// Built without Qt MQTT the wizard keeps manual entry only; CI builds with it.
+#ifdef QT_MQTT_AVAILABLE
+#define REQUIRE_MQTT() do {} while (0)
+#else
+#define REQUIRE_MQTT() do { \
+        if (qEnvironmentVariableIsSet("CALAOS_REQUIRE_MQTT")) \
+            QFAIL("Built without Qt MQTT while CALAOS_REQUIRE_MQTT is set"); \
+        QSKIP("Built without Qt MQTT"); \
+    } while (0)
+#endif
+
+}
+
+void tst_DialogNewDevice::theDiscoveryIsOfferedForEsphomeTemplates()
+{
+#ifdef QT_MQTT_AVAILABLE
+    DialogNewDevice d(shippedTemplates(), roomNamed("Salon"));
+    d.show();
+    QVERIFY(QTest::qWaitForWindowExposed(&d));
+    QVERIFY(d.selectTemplate("thermostat_heat"));
+    QVERIFY(!panel(d)->isVisible());
+    QVERIFY(d.selectTemplate("esphome_climate"));
+    QVERIFY(panel(d)->isVisible());
+    QVERIFY(d.selectTemplate("esphome_climate_ir"));
+    QVERIFY(panel(d)->isVisible());
+    QVERIFY(!d.findChild<QTreeWidget *>("discoveryList")->isVisible());
+#else
+    DialogNewDevice d(shippedTemplates(), roomNamed("Salon"));
+    QVERIFY(d.selectTemplate("esphome_climate"));
+    QVERIFY(!d.discovery());
+    QVERIFY(!d.findChild<QWidget *>("discoveryBox"));
+    QVERIFY(field<QLineEdit>(&d, "object_id"));
+#endif
+}
+
+void tst_DialogNewDevice::theBrokerOfTheProjectFillsTheForm()
+{
+    const QByteArray xml1 = R"(<?xml version="1.0"?>
+<calaos:ioconfig xmlns:calaos="http://www.calaos.fr"><calaos:home format="2">
+<calaos:room name="Salon" type="salon" hits="0">
+  <calaos:input id="t" type="MqttInputTemp" name="T" host="192.168.1.10" port="1884" user="calaos" password="s3cret" topic_sub="t"/>
+</calaos:room></calaos:home></calaos:ioconfig>)";
+    QVERIFY(loadIo(work("mqtt.xml"), xml1));
+    DialogNewDevice d(shippedTemplates(), roomNamed("Salon"));
+    QVERIFY(d.selectTemplate("esphome_climate"));
+    QCOMPARE(field<QLineEdit>(&d, "mqtt_host")->text(), QString("192.168.1.10"));
+    QCOMPARE(field<QDoubleSpinBox>(&d, "mqtt_port")->value(), 1884.0);
+    QCOMPARE(field<QLineEdit>(&d, "mqtt_user")->text(), QString("calaos"));
+    QCOMPARE(field<QLineEdit>(&d, "mqtt_password")->text(), QString("s3cret"));
+#ifdef QT_MQTT_AVAILABLE
+    QCOMPARE(d.findChild<QLineEdit *>("discoveryHost")->text(), QString("192.168.1.10"));
+#endif
+
+    //What the user typed wins over the project's broker on a template switch.
+    QLineEdit *host = field<QLineEdit>(&d, "mqtt_host");
+    host->clear();
+    QTest::keyClicks(host, "10.0.0.2");
+#ifdef QT_MQTT_AVAILABLE
+    QCOMPARE(d.findChild<QLineEdit *>("discoveryHost")->text(), QString("10.0.0.2"));
+#endif
+    QVERIFY(d.selectTemplate("esphome_climate_ir"));
+    QCOMPARE(field<QLineEdit>(&d, "mqtt_host")->text(), QString("10.0.0.2"));
+    QCOMPARE(field<QLineEdit>(&d, "mqtt_user")->text(), QString("calaos"));
+
+    //No MQTT IO: the template's default, to be completed by hand.
+    QVERIFY(loadIo(work("nomqtt.xml"), NO_MQTT_HOUSE));
+    DialogNewDevice bare(shippedTemplates(), roomNamed("Salon"));
+    QVERIFY(bare.selectTemplate("esphome_climate"));
+    QCOMPARE(field<QLineEdit>(&bare, "mqtt_host")->text(), QString("127.0.0.1"));
+    QCOMPARE(field<QLineEdit>(&bare, "mqtt_password")->text(), QString());
+}
+
+void tst_DialogNewDevice::aLoopbackBrokerIsSearchedThroughTheBox()
+{
+    REQUIRE_MQTT();
+#ifdef QT_MQTT_AVAILABLE
+    QVERIFY(loadIo(work("nomqtt.xml"), NO_MQTT_HOUSE));
+    ConfigOptions::Instance().addAuth({ "user", "pass", "192.168.1.10:5454" });
+    ConfigOptions::Instance().setCurrentAuthIndex(0);
+
+    DialogNewDevice d(shippedTemplates(), roomNamed("Salon"));
+    QVERIFY(d.selectTemplate("esphome_climate"));
+    QLineEdit *probeHost = d.findChild<QLineEdit *>("discoveryHost");
+    QCOMPARE(probeHost->text(), QString("192.168.1.10"));
+
+    //The broker the Zigbee2MQTT dialog reached from this computer comes first.
+    ConfigOptions::Instance().setMqttBrokerHost("10.0.0.7");
+    {
+        DialogNewDevice z(shippedTemplates(), roomNamed("Salon"));
+        QVERIFY(z.selectTemplate("esphome_climate"));
+        QCOMPARE(z.findChild<QLineEdit *>("discoveryHost")->text(), QString("10.0.0.7"));
+    }
+    QSettings().remove("calaos/mqtt_broker_host");
+
+    //Once typed, the address stays the user's.
+    probeHost->clear();
+    QTest::keyClicks(probeHost, "box.lan");
+    QTest::keyClicks(field<QLineEdit>(&d, "mqtt_host"), "x");
+    QCOMPARE(probeHost->text(), QString("box.lan"));
+    ConfigOptions::Instance().deleteAuth("192.168.1.10:5454");
+#endif
+}
+
+void tst_DialogNewDevice::searchingListsTheClimatesAndChoosingOneFillsTheForm()
+{
+    REQUIRE_MQTT();
+#ifdef QT_MQTT_AVAILABLE
+    FakeMqttBroker broker;
+    broker.retained = twoClimates();
+    broker.requiredUser = "calaos";
+    broker.requiredPassword = "s3cret";
+    const quint16 port = broker.start();
+
+    DialogNewDevice d(shippedTemplates(), roomNamed("Salon"));
+    d.show();
+    QVERIFY(QTest::qWaitForWindowExposed(&d));
+    QVERIFY(d.selectTemplate("esphome_climate"));
+    QTest::keyClicks(field<QLineEdit>(&d, "mqtt_user"), "calaos");
+    QTest::keyClicks(field<QLineEdit>(&d, "mqtt_password"), "s3cret");
+    field<QLineEdit>(&d, "mqtt_host")->setText("127.0.0.1");
+    searchOn(d, port);
+    QCOMPARE(broker.password, QString("s3cret"));
+
+    QTreeWidget *list = d.findChild<QTreeWidget *>("discoveryList");
+    QVERIFY(list->isVisible());
+    QCOMPARE(list->topLevelItemCount(), 2);
+    QCOMPARE(d.findChild<QLabel *>("discoveryStatus")->text(), QString("2 climates found: choose the one to fill in the form with."));
+    QTreeWidgetItem *buanderie = list->topLevelItem(0);
+    QCOMPARE(buanderie->text(0), QString("Clim buanderie"));
+    QCOMPARE(buanderie->text(1), QString("clim-buanderie"));
+    QCOMPARE(buanderie->text(2), QString("clim_mitsu_buanderie"));
+    QCOMPARE(buanderie->text(3), QString("two setpoints, fan, swing, action, now heat"));
+    QCOMPARE(list->topLevelItem(1)->text(3), QString("one setpoint, now cool"));
+    //Nothing chosen yet: the form is untouched.
+    QCOMPARE(field<QLineEdit>(&d, "object_id")->text(), QString());
+
+    list->setCurrentItem(buanderie);
+    QCOMPARE(field<QLineEdit>(&d, "topic_prefix")->text(), QString("clim-buanderie"));
+    QCOMPARE(field<QLineEdit>(&d, "object_id")->text(), QString("clim_mitsu_buanderie"));
+    QCOMPARE(field<QLineEdit>(&d, "name")->text(), QString("Clim buanderie"));
+    QVERIFY(field<QCheckBox>(&d, "two_point")->isChecked());
+    QVERIFY(d.findChild<QCheckBox *>("field_fan_modes_auto")->isChecked());
+    QVERIFY(d.findChild<QCheckBox *>("field_swing_modes_off")->isChecked());
+    QVERIFY(d.findChild<QLabel *>("discoveryApplied")->text().startsWith(
+        "Form filled in from clim-buanderie/climate/clim_mitsu_buanderie."));
+
+    //The other one: one setpoint, no fan; the name typed meanwhile stays.
+    field<QLineEdit>(&d, "name")->setText("Clim salon");
+    list->setCurrentItem(list->topLevelItem(1));
+    QCOMPARE(field<QLineEdit>(&d, "object_id")->text(), QString("clim_salon"));
+    QVERIFY(!field<QCheckBox>(&d, "two_point")->isChecked());
+    QVERIFY(!d.findChild<QCheckBox *>("field_fan_modes_auto")->isChecked());
+    QCOMPARE(field<QLineEdit>(&d, "name")->text(), QString("Clim salon"));
+
+    list->setCurrentItem(buanderie);
+    field<QLineEdit>(&d, "name")->setText("Clim buanderie");
+    field<QLineEdit>(&d, "mqtt_host")->setText("127.0.0.1");
+    clickCreate(&d);
+    QVERIFY2(d.device(), qPrintable(errorLabel(&d)->text()));
+    const QStringList dev = deviceElement(saveIo(work("found.xml")), "clim_buanderie");
+    const QString all = dev.join('\n');
+    QVERIFY2(all.contains("topic_sub=clim-buanderie/climate/clim_mitsu_buanderie/target_temperature_low/state"), qPrintable(all));
+    QVERIFY(!all.contains("target_temperature/state"));
+    QVERIFY(all.contains("password=s3cret"));
+    QVERIFY(all.contains("param name=fan_modes value=auto"));
+#endif
+}
+
+void tst_DialogNewDevice::anUnreachableBrokerLeavesTheFormToFillByHand()
+{
+    REQUIRE_MQTT();
+#ifdef QT_MQTT_AVAILABLE
+    QTcpServer closed;
+    QVERIFY(closed.listen(QHostAddress::LocalHost, 0));
+    const quint16 port = closed.serverPort();
+    closed.close();
+
+    DialogNewDevice d(shippedTemplates(), roomNamed("Salon"));
+    d.show();
+    QVERIFY(QTest::qWaitForWindowExposed(&d));
+    QVERIFY(d.selectTemplate("esphome_climate"));
+    searchOn(d, port);
+    QCOMPARE(d.findChild<QLabel *>("discoveryStatus")->text(),
+             QString("Nothing answers on 127.0.0.1:%1: check that the broker runs and listens on this port.").arg(port));
+    QVERIFY(!d.findChild<QTreeWidget *>("discoveryList")->isVisible());
+    QVERIFY(d.findChild<QPushButton *>("discoveryButton")->isEnabled());
+
+    //An empty broker says so.
+    FakeMqttBroker empty;
+    searchOn(d, empty.start());
+    QVERIFY(d.findChild<QLabel *>("discoveryStatus")->text().startsWith("No ESPHome climate on this broker."));
+
+    //No address: asked for, nothing sent.
+    d.findChild<QLineEdit *>("discoveryHost")->clear();
+    QTest::mouseClick(d.findChild<QPushButton *>("discoveryButton"), Qt::LeftButton);
+    QCOMPARE(d.findChild<QLabel *>("discoveryStatus")->text(), QString("Type the address of the broker as this computer reaches it."));
+    QCOMPARE(empty.connects, 1);
+
+    QTest::keyClicks(field<QLineEdit>(&d, "name"), "Clim");
+    QTest::keyClicks(field<QLineEdit>(&d, "topic_prefix"), "clim");
+    QTest::keyClicks(field<QLineEdit>(&d, "object_id"), "clim_salon");
+    clickCreate(&d);
+    QVERIFY(d.device());
+#endif
+}
+
 void tst_DialogNewDevice::screenshots()
 {
     if (m_shots.isEmpty())
@@ -472,6 +738,33 @@ void tst_DialogNewDevice::screenshots()
 
     DialogNewRemoteUIRelay existing(roomNamed("Salon"));
     shoot(&existing, lang + "_existing_relay_dialog");
+
+#ifdef QT_MQTT_AVAILABLE
+    FakeMqttBroker broker;
+    broker.retained = twoClimates();
+    const quint16 port = broker.start();
+    DialogNewDevice found(shippedTemplates(lang), roomNamed("Salon"));
+    found.resize(720, 820);
+    found.selectTemplate("esphome_climate");
+    found.show();
+    QVERIFY(QTest::qWaitForWindowExposed(&found));
+    searchOn(found, port);
+    shoot(&found, lang + "_discovery_found");
+    QTreeWidget *list = found.findChild<QTreeWidget *>("discoveryList");
+    list->setCurrentItem(list->topLevelItem(0));
+    shoot(&found, lang + "_discovery_filled");
+
+    QTcpServer closed;
+    QVERIFY(closed.listen(QHostAddress::LocalHost, 0));
+    const quint16 none = closed.serverPort();
+    closed.close();
+    DialogNewDevice failed(shippedTemplates(lang), roomNamed("Salon"));
+    failed.selectTemplate("esphome_climate");
+    failed.show();
+    QVERIFY(QTest::qWaitForWindowExposed(&failed));
+    searchOn(failed, none);
+    shoot(&failed, lang + "_discovery_unreachable");
+#endif
 }
 
 int main(int argc, char *argv[])
