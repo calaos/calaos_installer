@@ -2,6 +2,7 @@
 #include "ui_FormActionStd.h"
 
 #include <QJsonArray>
+#include <QHBoxLayout>
 #include <QMenu>
 #include <QPushButton>
 
@@ -21,6 +22,7 @@ FormActionStd::FormActionStd(QWidget *parent) :
     btMode(NULL)
 {
     ui->setupUi(this);
+    baseSize = size();
 
     setWindowFlags(Qt::Popup);
     setFocusPolicy(Qt::NoFocus);
@@ -41,7 +43,14 @@ FormActionStd::FormActionStd(QWidget *parent) :
     btMode->setObjectName("btMode");
     btMode->setProperty("class", QVariant("buttonStyled"));
     btMode->hide();
-    ui->gridLayout->addWidget(btMode, 2, 1);
+
+    // Beside "Dynamic value...": the text mode of a device is no taller than an ordinary IO.
+    QHBoxLayout *buttons = new QHBoxLayout;
+    buttons->setContentsMargins(0, 0, 0, 0);
+    ui->gridLayout->removeWidget(ui->btMore);
+    buttons->addWidget(ui->btMore);
+    buttons->addWidget(btMode);
+    ui->gridLayout->addLayout(buttons, 1, 1);
     connect(btMode, &QPushButton::clicked, this, &FormActionStd::onModeButtonClicked);
 }
 
@@ -63,7 +72,32 @@ void FormActionStd::changeEvent(QEvent *e)
     }
 }
 
+void FormActionStd::showEvent(QShowEvent *e)
+{
+    QWidget::showEvent(e);
+    fitToContent();
+}
+
 void FormActionStd::setAction(QTreeWidgetItem *item, Rule *_rule, Action *_action)
+{
+    fillAction(item, _rule, _action);
+    fitToContent();
+}
+
+// A top-level widget never shrinks by itself: it keeps the size of the biggest form it showed.
+void FormActionStd::fitToContent()
+{
+    layout()->activate();
+
+    const int w = qMax(baseSize.width(), layout()->totalMinimumSize().width());
+    int h = layout()->hasHeightForWidth() ? layout()->totalHeightForWidth(w)
+                                          : layout()->totalSizeHint().height();
+    h = qMax(h, layout()->totalMinimumSize().height());
+
+    resize(w, qMax(baseSize.height(), h));
+}
+
+void FormActionStd::fillAction(QTreeWidgetItem *item, Rule *_rule, Action *_action)
 {
     rule = _rule;
     action = _action;
@@ -391,6 +425,8 @@ void FormActionStd::onFormChanged(const QString &value)
     ui->editValue->setText(value);
 
     storeValue(value);
+    // a notice of the form may have appeared
+    fitToContent();
 }
 
 void FormActionStd::showCommandForm(bool form)
@@ -404,6 +440,7 @@ void FormActionStd::showCommandForm(bool form)
     btMode->setVisible(jsonDevice);
     btMode->setText(form ? tr("Edit as text") : tr("Use the form"));
     updateModeButton();
+    fitToContent();
 }
 
 void FormActionStd::updateModeButton()

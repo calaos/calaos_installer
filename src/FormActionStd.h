@@ -1,6 +1,8 @@
 #ifndef FORMACTIONSTD_H
 #define FORMACTIONSTD_H
 
+#include <QShowEvent>
+#include <QSize>
 #include <QWidget>
 #include <QTreeWidgetItem>
 #include <ListeRule.h>
@@ -41,6 +43,8 @@ private:
 
 protected:
     void changeEvent(QEvent *e);
+    // The style sheet is applied on the first show and moves the size hints.
+    void showEvent(QShowEvent *e);
 
     Rule *rule;
     Action *action;
@@ -54,6 +58,10 @@ protected:
     DeviceCommandForm *cmdForm;
     QPushButton *btMode;
     bool jsonDevice = false;
+    QSize baseSize;
+
+    void fillAction(QTreeWidgetItem *item, Rule *rule, Action *action);
+    void fitToContent();
 
     void storeValue(const QString &value);
     void showCommandForm(bool form);
