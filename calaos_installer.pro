@@ -28,6 +28,7 @@ include(calaos_model.pri)
 TARGET = calaos_installer
 TEMPLATE = app
 SOURCES += src/main.cpp \
+    src/AppTheme.cpp \
     src/TimezoneHelper.cpp \
     src/DialogRemoteUI.cpp \
     src/DialogRemoteUIEditor.cpp \
@@ -128,6 +129,7 @@ SOURCES += src/main.cpp \
     src/QAnsiTextEdit.cpp
 
 HEADERS += src/mainwindow.h \
+    src/AppTheme.h \
     src/TimezoneHelper.h \
     src/DialogRemoteUI.h \
     src/DialogRemoteUIEditor.h \

@@ -2,6 +2,7 @@
 #include <QStyleFactory>
 #include "mainwindow.h"
 #include "ConfigOptions.h"
+#include "AppTheme.h"
 
 static void echoVersion()
 {
@@ -25,6 +26,7 @@ int main(int argc, char *argv[])
     QCoreApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
 #endif
 
+    AppTheme::prepareEnvironment();
     QApplication app(argc, argv);
 
     QCoreApplication::setOrganizationName("Calaos");
@@ -43,6 +45,8 @@ int main(int argc, char *argv[])
         for (int i = 0;i < QStyleFactory::keys().size();i++)
             qDebug() << QStyleFactory::keys().at(i);
     }
+
+    AppTheme::forceLight();
 
     QStringList cmdline_args = QCoreApplication::arguments();
     if (cmdline_args.contains("--version") || cmdline_args.contains("-v"))
