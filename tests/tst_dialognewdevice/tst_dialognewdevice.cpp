@@ -120,6 +120,9 @@ private slots:
     void aLoopbackBrokerIsSearchedThroughTheBox();
     void searchingListsTheClimatesAndChoosingOneFillsTheForm();
     void anUnreachableBrokerLeavesTheFormToFillByHand();
+    void anOldEntityIsGreyedAtTheBottom();
+    void theProjectCredentialsOnlyGoToItsBroker();
+    void enterInTheBrokerAddressSearches();
     void screenshots();
 };
 
@@ -478,8 +481,10 @@ QList<QPair<QString, QByteArray>> twoClimates()
              { p + "action/state", "heating" },
              { p + "fan_mode/state", "auto" },
              { p + "swing_mode/state", "off" },
+             { "clim-buanderie/status", "online" },
              { "salon-ir/climate/clim_salon/mode/state", "cool" },
-             { "salon-ir/climate/clim_salon/target_temperature/state", "23" } };
+             { "salon-ir/climate/clim_salon/target_temperature/state", "23" },
+             { "salon-ir/status", "online" } };
 }
 
 WidgetEsphomeDiscovery *panel(DialogNewDevice &d)
@@ -705,6 +710,112 @@ void tst_DialogNewDevice::anUnreachableBrokerLeavesTheFormToFillByHand()
     QTest::keyClicks(field<QLineEdit>(&d, "object_id"), "clim_salon");
     clickCreate(&d);
     QVERIFY(d.device());
+#endif
+}
+
+void tst_DialogNewDevice::anOldEntityIsGreyedAtTheBottom()
+{
+    REQUIRE_MQTT();
+#ifdef QT_MQTT_AVAILABLE
+    FakeMqttBroker broker;
+    //Retained states of a former object id, on a node that no longer says it is online.
+    broker.retained = { { "old-clim/climate/clim_mitsu/mode/state", "cool" },
+                        { "old-clim/climate/clim_mitsu/target_temperature/state", "22" } };
+    broker.retained += twoClimates();
+    const quint16 port = broker.start();
+
+    DialogNewDevice d(shippedTemplates(), roomNamed("Salon"));
+    d.show();
+    QVERIFY(QTest::qWaitForWindowExposed(&d));
+    QVERIFY(d.selectTemplate("esphome_climate"));
+    searchOn(d, port);
+
+    QTreeWidget *list = d.findChild<QTreeWidget *>("discoveryList");
+    QCOMPARE(list->topLevelItemCount(), 3);
+    QCOMPARE(list->headerItem()->text(4), QString("Status"));
+    QCOMPARE(list->topLevelItem(0)->text(4), QString("online"));
+    QTreeWidgetItem *old = list->topLevelItem(2);
+    QCOMPARE(old->text(1), QString("old-clim"));
+    QCOMPARE(old->text(4), QString("old or offline"));
+    QCOMPARE(old->foreground(0).color(), d.palette().color(QPalette::Disabled, QPalette::Text));
+    QVERIFY(list->topLevelItem(0)->foreground(0).color() != old->foreground(0).color());
+#endif
+}
+
+void tst_DialogNewDevice::theProjectCredentialsOnlyGoToItsBroker()
+{
+    REQUIRE_MQTT();
+#ifdef QT_MQTT_AVAILABLE
+    const QByteArray xml = R"(<?xml version="1.0"?>
+<calaos:ioconfig xmlns:calaos="http://www.calaos.fr"><calaos:home format="2">
+<calaos:room name="Salon" type="salon" hits="0">
+  <calaos:input id="t" type="MqttInputTemp" name="T" host="192.168.1.10" user="calaos" password="s3cret" topic_sub="t"/>
+</calaos:room></calaos:home></calaos:ioconfig>)";
+    QVERIFY(loadIo(work("creds.xml"), xml));
+    FakeMqttBroker broker;
+    const quint16 port = broker.start();
+
+    DialogNewDevice d(shippedTemplates(), roomNamed("Salon"));
+    d.show();
+    QVERIFY(QTest::qWaitForWindowExposed(&d));
+    QVERIFY(d.selectTemplate("esphome_climate"));
+    QCOMPARE(field<QLineEdit>(&d, "mqtt_password")->text(), QString("s3cret"));
+    //Another host than the project's broker: its password stays home.
+    searchOn(d, port, "127.0.0.1");
+    QCOMPARE(broker.connects, 1);
+    QCOMPARE(broker.user, QString());
+    QVERIFY(!broker.hadPassword);
+
+    //Typed by the user for this search: sent.
+    QLineEdit *user = field<QLineEdit>(&d, "mqtt_user");
+    user->clear();
+    QTest::keyClicks(user, "probe");
+    searchOn(d, port, "127.0.0.1");
+    QCOMPARE(broker.user, QString("probe"));
+    QCOMPARE(broker.password, QString("s3cret"));
+
+    //The project's broker itself, reached as the box: its credentials go.
+    const QByteArray local = R"(<?xml version="1.0"?>
+<calaos:ioconfig xmlns:calaos="http://www.calaos.fr"><calaos:home format="2">
+<calaos:room name="Salon" type="salon" hits="0">
+  <calaos:input id="t" type="MqttInputTemp" name="T" host="127.0.0.1" user="calaos" password="s3cret" topic_sub="t"/>
+</calaos:room></calaos:home></calaos:ioconfig>)";
+    QVERIFY(loadIo(work("creds2.xml"), local));
+    ConfigOptions::Instance().addAuth({ "u", "p", "127.0.0.1" });
+    ConfigOptions::Instance().setCurrentAuthIndex(0);
+    DialogNewDevice box(shippedTemplates(), roomNamed("Salon"));
+    box.show();
+    QVERIFY(QTest::qWaitForWindowExposed(&box));
+    QVERIFY(box.selectTemplate("esphome_climate"));
+    searchOn(box, port, "127.0.0.1");
+    QCOMPARE(broker.user, QString("calaos"));
+    QCOMPARE(broker.password, QString("s3cret"));
+    ConfigOptions::Instance().deleteAuth("127.0.0.1");
+#endif
+}
+
+void tst_DialogNewDevice::enterInTheBrokerAddressSearches()
+{
+    REQUIRE_MQTT();
+#ifdef QT_MQTT_AVAILABLE
+    FakeMqttBroker broker;
+    const quint16 port = broker.start();
+    DialogNewDevice d(shippedTemplates(), roomNamed("Salon"));
+    d.show();
+    QVERIFY(QTest::qWaitForWindowExposed(&d));
+    QVERIFY(d.selectTemplate("esphome_climate"));
+    field<QDoubleSpinBox>(&d, "mqtt_port")->setValue(port);
+    panel(d)->setTimings(300, 2000);
+    QSignalSpy done(panel(d), &WidgetEsphomeDiscovery::searchFinished);
+    QLineEdit *host = d.findChild<QLineEdit *>("discoveryHost");
+    host->setText("127.0.0.1");
+    host->setFocus();
+    QTest::keyClick(host, Qt::Key_Return);
+    //Not Create: the dialog stays, without the form's errors.
+    QVERIFY(d.isVisible());
+    QVERIFY(errorLabel(&d)->isHidden());
+    QTRY_COMPARE_WITH_TIMEOUT(done.count(), 1, 10000);
+    QCOMPARE(broker.connects, 1);
 #endif
 }
 

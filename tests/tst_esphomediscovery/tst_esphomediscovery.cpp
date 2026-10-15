@@ -84,6 +84,7 @@ private slots:
     void aPrefixMayHoldSlashes();
     void otherTopicsAreNotClimates();
     void anEmptyRetainedMessageIsNoState();
+    void aClimateNeitherDiscoveredNorOnlineIsOld();
     void theDiscoveryConfigTellsModesAndRange();
     void aConfigBaseTopicIsExpanded();
     void theNodeGivesItsFriendlyName();
@@ -171,11 +172,57 @@ void tst_EsphomeDiscovery::otherTopicsAreNotClimates()
 
 void tst_EsphomeDiscovery::anEmptyRetainedMessageIsNoState()
 {
+    //An empty retained message deletes the topic: a setpoint removed from the YAML
+    //must not make the climate look dual.
     EsphomeDiscovery d;
+    for (const auto &m: buanderieStates())
+        d.feed(m.first, m.second);
+    d.feed(P + "target_temperature/state", "21");
+    d.feed(P + "target_temperature_low/state", "");
+    d.feed(P + "target_temperature_high/state", "");
+    QVERIFY(!only(d).topics.contains("target_temperature_low"));
+    QVERIFY(!only(d).states.contains("target_temperature_low"));
+    const QJsonObject tpl = shippedTemplate("esphome_climate");
+    QVariantMap start = DeviceTemplates::defaults(tpl, nullptr);
+    start["two_point"] = true;
+    QCOMPARE(EsphomeDiscovery::prefill(tpl, only(d), start)["two_point"].toBool(), false);
+
     d.feed(P + "mode/state", "");
-    QVERIFY(only(d).topics.contains("mode"));
-    QVERIFY(!only(d).states.contains("mode"));
+    QVERIFY(!only(d).topics.contains("mode"));
     QVERIFY(!only(d).complete());
+
+    //Nothing left but deletions: no climate at all.
+    EsphomeDiscovery gone;
+    gone.feed("old/climate/clim/mode/state", "");
+    QVERIFY(gone.climates().isEmpty());
+}
+
+void tst_EsphomeDiscovery::aClimateNeitherDiscoveredNorOnlineIsOld()
+{
+    QVERIFY(EsphomeDiscovery::filters().contains("+/status"));
+    QVERIFY(EsphomeDiscovery::filters().contains("+/+/status"));
+
+    //The user's broker: the states of the former object id are still retained.
+    EsphomeDiscovery d;
+    d.feed("clim-buanderie/climate/clim_mitsu/mode/state", "cool");
+    d.feed("clim-buanderie/climate/clim_mitsu/target_temperature/state", "22");
+    for (const auto &m: buanderieStates())
+        d.feed(m.first, m.second);
+    d.feed("homeassistant/climate/clim-buanderie/clim_mitsu_buanderie/config", buanderieConfig());
+    d.feed("garage/climate/clim/mode/state", "off");
+    d.feed("garage/status", "offline");
+    d.feed("bureau/climate/clim/mode/state", "heat");
+    d.feed("bureau/status", "online");
+
+    QStringList order, states;
+    for (const EsphomeDiscovery::Climate &c: d.climates())
+    {
+        order << c.key() + (c.stale ? " old" : "");
+        states << c.status;
+    }
+    QCOMPARE(order, QStringList({ "bureau/climate/clim", "clim-buanderie/climate/clim_mitsu_buanderie",
+                                  "clim-buanderie/climate/clim_mitsu old", "garage/climate/clim old" }));
+    QCOMPARE(states, QStringList({ "online", "online", "online", "offline" }));
 }
 
 void tst_EsphomeDiscovery::theDiscoveryConfigTellsModesAndRange()

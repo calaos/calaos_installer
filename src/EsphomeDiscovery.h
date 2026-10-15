@@ -33,6 +33,11 @@ public:
         bool configured = false; //a discovery config was read
         QStringList modes, fanModes, swingModes;
         double tempMin = qQNaN(), tempMax = qQNaN(), tempStep = qQNaN();
+        //Last <prefix>/status: "online", "offline" or empty.
+        QString status;
+        //Neither discovered nor online, or a sibling of a discovered one: likely the
+        //retained leftovers of a renamed entity.
+        bool stale = false;
 
         QString key() const { return prefix + "/climate/" + objectId; }
         //What it publishes tells which of its features exist.
