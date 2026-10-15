@@ -40,12 +40,10 @@ public:
     static QJsonObject field(const QJsonObject &tpl, const QString &name);
     static QVariantMap defaults(const QJsonObject &tpl, Calaos::Room *room);
 
-    //`when` of an IO, link, param, note or field: absent, or the named field is set
+    //`when` of an IO, link, param or note: absent, or the named field is set
     //(`!name` inverts it).
     static bool holds(const QJsonObject &entry, const QVariantMap &values);
     static bool isSet(const QVariant &value);
-    //Without the fields hidden by their own `when`, in field order.
-    static QVariantMap visibleValues(const QJsonObject &tpl, const QVariantMap &values);
 
     static QString render(const QJsonObject &fieldDef, const QVariant &value);
     static QString substitute(const QString &s, const QJsonObject &tpl, const QVariantMap &values,

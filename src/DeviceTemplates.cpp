@@ -4,7 +4,6 @@
 #include <QFile>
 #include <QJsonDocument>
 #include <QRegularExpression>
-#include <QSet>
 #include <map>
 #include <set>
 
@@ -31,24 +30,6 @@ QString formatNumber(double d)
 bool isRoom(const QVariant &v)
 {
     return v.userType() == qMetaTypeId<Room *>();
-}
-
-//Fields shown with the values given: a field hidden by its `when` counts as unset
-//for the fields after it.
-QSet<QString> visibleFieldNames(const QJsonObject &tpl, const QVariantMap &values)
-{
-    QSet<QString> names;
-    QVariantMap seen = values;
-    for (const QJsonValue &f: tpl["fields"].toArray())
-    {
-        const QJsonObject def = f.toObject();
-        const QString name = def["name"].toString();
-        if (DeviceTemplates::holds(def, seen))
-            names.insert(name);
-        else
-            seen.remove(name);
-    }
-    return names;
 }
 
 }
@@ -148,16 +129,6 @@ bool DeviceTemplates::holds(const QJsonObject &entry, const QVariantMap &values)
     return negated != isSet(values.value(name));
 }
 
-QVariantMap DeviceTemplates::visibleValues(const QJsonObject &tpl, const QVariantMap &values)
-{
-    const QSet<QString> visible = visibleFieldNames(tpl, values);
-    QVariantMap res;
-    for (auto it = values.constBegin();it != values.constEnd();++it)
-        if (visible.contains(it.key()))
-            res.insert(it.key(), it.value());
-    return res;
-}
-
 QString DeviceTemplates::render(const QJsonObject &fieldDef, const QVariant &value)
 {
     if (value.userType() == QMetaType::Bool)
@@ -214,7 +185,6 @@ QString DeviceTemplates::substitute(const QString &s, const QJsonObject &tpl, co
 QList<DeviceTemplates::Problem> DeviceTemplates::validate(const QJsonObject &tpl, const QVariantMap &values)
 {
     QList<Problem> problems;
-    const QSet<QString> visible = visibleFieldNames(tpl, values);
     bool hasRoom = false;
     std::map<QString, QString> writableTargets; //IO id -> label of the field that picked it
 
@@ -230,8 +200,6 @@ QList<DeviceTemplates::Problem> DeviceTemplates::validate(const QJsonObject &tpl
 
         if (type == "room")
             hasRoom = true;
-        if (!visible.contains(name))
-            continue;
 
         if (type == "string")
         {
@@ -424,7 +392,7 @@ std::string DeviceTemplates::idBaseFor(const QString &name)
 DeviceTemplates::Plan DeviceTemplates::plan(const QJsonObject &tpl, const QVariantMap &values, const IdTaken &taken)
 {
     Plan p;
-    const QVariantMap v = visibleValues(tpl, values);
+    const QVariantMap &v = values;
 
     std::set<std::string> assigned;
     IdTaken used = [&](const std::string &id) { return assigned.count(id) || (taken && taken(id)); };

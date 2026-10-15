@@ -106,7 +106,7 @@ DialogNewDevice::DialogNewDevice(const QJsonArray &templates, Room *room, QWidge
     connect(m_templateBox, QOverload<int>::of(&QComboBox::currentIndexChanged), this, [this]()
     {
         //m_fields still holds the editors of the template left.
-        buildForm(allValues());
+        buildForm(values());
     });
 
     if (m_templates.isEmpty())
@@ -133,17 +133,12 @@ QJsonObject DialogNewDevice::currentTemplate() const
     return i < 0 ? QJsonObject() : m_templates.at(i).toObject();
 }
 
-QVariantMap DialogNewDevice::allValues() const
+QVariantMap DialogNewDevice::values() const
 {
     QVariantMap all;
     for (const FieldEditor &f: m_fields)
         all[f.def["name"].toString()] = valueOf(f);
     return all;
-}
-
-QVariantMap DialogNewDevice::values() const
-{
-    return DeviceTemplates::visibleValues(currentTemplate(), allValues());
 }
 
 void DialogNewDevice::buildForm(const QVariantMap &previous)
@@ -155,8 +150,8 @@ void DialogNewDevice::buildForm(const QVariantMap &previous)
     m_fields.clear();
     QWidget *form = new QWidget();
     form->setObjectName("templateForm");
-    m_form = new QFormLayout(form);
-    m_form->setFieldGrowthPolicy(QFormLayout::AllNonFixedFieldsGrow);
+    QFormLayout *layout = new QFormLayout(form);
+    layout->setFieldGrowthPolicy(QFormLayout::AllNonFixedFieldsGrow);
 
     //A value typed for the template left is kept when this one asks for the same field.
     QVariantMap start = DeviceTemplates::defaults(tpl, m_startRoom);
@@ -195,17 +190,15 @@ void DialogNewDevice::buildForm(const QVariantMap &previous)
             cellLayout->addWidget(hint);
         }
 
-        f.label = new QLabel(type == "bool" ? QString() : tr("%1:").arg(f.def["label"].toString()), form);
-        f.label->setBuddy(f.editor);
-        m_form->addRow(f.label, cell);
+        QLabel *label = new QLabel(type == "bool" ? QString() : tr("%1:").arg(f.def["label"].toString()), form);
+        label->setBuddy(f.editor);
+        layout->addRow(label, cell);
         m_fields.append(f);
     }
 
     QWidget *old = m_scroll->takeWidget();
     m_scroll->setWidget(form);
     delete old;
-
-    updateVisibility();
 }
 
 QWidget *DialogNewDevice::createEditor(FieldEditor &f, const QVariant &value)
@@ -231,14 +224,12 @@ QWidget *DialogNewDevice::createEditor(FieldEditor &f, const QVariant &value)
             sb->setSuffix(" " + f.def["unit"].toString());
         sb->setValue(value.toDouble());
         guarded(sb);
-        connect(sb, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this, &DialogNewDevice::updateVisibility);
         f.editor = sb;
     }
     else if (type == "bool")
     {
         QCheckBox *cb = new QCheckBox(f.def["label"].toString());
         cb->setChecked(value.toBool());
-        connect(cb, &QCheckBox::toggled, this, &DialogNewDevice::updateVisibility);
         f.editor = cb;
     }
     else if (type == "enum" || type == "room" || type == "io")
@@ -272,7 +263,6 @@ QWidget *DialogNewDevice::createEditor(FieldEditor &f, const QVariant &value)
             }
             box->setCurrentIndex(qMax(0, box->findData(value.toString())));
         }
-        connect(box, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &DialogNewDevice::updateVisibility);
         f.editor = box;
     }
     else if (type == "multi")
@@ -289,7 +279,6 @@ QWidget *DialogNewDevice::createEditor(FieldEditor &f, const QVariant &value)
             cb->setObjectName(QStringLiteral("field_%1_%2").arg(name, o["value"].toString()));
             cb->setProperty("choice", o["value"].toString());
             cb->setChecked(picked.contains(o["value"].toString()));
-            connect(cb, &QCheckBox::toggled, this, &DialogNewDevice::updateVisibility);
             grid->addWidget(cb, i / 3, i % 3);
             f.choices.append(cb);
         }
@@ -301,7 +290,6 @@ QWidget *DialogNewDevice::createEditor(FieldEditor &f, const QVariant &value)
         QLineEdit *le = new QLineEdit(value.toString());
         if (f.def["secret"].toBool())
             le->setEchoMode(QLineEdit::Password);
-        connect(le, &QLineEdit::textChanged, this, &DialogNewDevice::updateVisibility);
         f.editor = le;
     }
 
@@ -328,22 +316,6 @@ QVariant DialogNewDevice::valueOf(const FieldEditor &f) const
         if (cb->isChecked())
             picked << cb->property("choice").toString();
     return picked;
-}
-
-void DialogNewDevice::updateVisibility()
-{
-    const QVariantMap shown = values();
-    for (const FieldEditor &f: m_fields)
-    {
-        const bool visible = shown.contains(f.def["name"].toString());
-        QWidget *cell = f.editor->parentWidget();
-#if QT_VERSION >= QT_VERSION_CHECK(6, 4, 0)
-        m_form->setRowVisible(cell, visible);
-#else
-        cell->setVisible(visible);
-        f.label->setVisible(visible);
-#endif
-    }
 }
 
 void DialogNewDevice::create()

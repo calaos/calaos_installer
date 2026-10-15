@@ -73,29 +73,6 @@ QLabel *errorLabel(QDialog *d)
     return d->findChild<QLabel *>("labelError");
 }
 
-bool rowShown(QDialog *d, const QString &name)
-{
-    QWidget *row = d->findChild<QWidget *>("row_" + name);
-    return row && !row->isHidden();
-}
-
-QJsonArray withWhenTemplate()
-{
-    return QJsonDocument::fromJson(R"([{
-      "id": "when", "family": "fam", "impl": "imp", "name": "With a when", "description": "A field shown on demand.",
-      "attributes": { "name": "{name}" },
-      "fields": [
-        { "name": "name", "type": "string", "label": "Name", "required": true },
-        { "name": "room", "type": "room", "label": "Room", "required": true },
-        { "name": "advanced", "type": "bool", "label": "Advanced", "required": false, "default": false },
-        { "name": "tuning", "type": "number", "label": "Tuning", "required": true, "min": 1, "max": 5, "default": 3, "when": "advanced" },
-        { "name": "basic", "type": "string", "label": "Basic", "required": true, "default": "b", "when": "!advanced" }
-      ],
-      "ios": [], "links": [],
-      "params": [ { "name": "tuning", "value": "{tuning}" }, { "name": "basic", "value": "{basic}" } ]
-    }])").array();
-}
-
 }
 
 class tst_DialogNewDevice: public QObject
@@ -122,7 +99,6 @@ private slots:
     void aRequiredMultiNeedsOneBoxChecked();
     void ioFieldsOfferTheIosThatFit();
     void editorsFollowTheFieldTypes();
-    void aWhenShowsAndHidesItsField();
     void switchingTemplatesKeepsTheCommonValues();
     void theNotesOfTheTemplateAreShownAfterCreation();
     void noTemplateNoCreate();
@@ -342,28 +318,6 @@ void tst_DialogNewDevice::editorsFollowTheFieldTypes()
     QComboBox *emitter = field<QComboBox>(&d, "emitter");
     QCOMPARE(itemTexts(emitter), QStringList({ "Electric heaters", "Water radiators (boiler, zone valve)", "Underfloor heating" }));
     QCOMPARE(emitter->currentData().toString(), QString("electric"));
-}
-
-void tst_DialogNewDevice::aWhenShowsAndHidesItsField()
-{
-    DialogNewDevice d(withWhenTemplate(), roomNamed("Salon"));
-    d.show();
-    QVERIFY(QTest::qWaitForWindowExposed(&d));
-    QVERIFY(!rowShown(&d, "tuning"));
-    QVERIFY(rowShown(&d, "basic"));
-    QVERIFY(!d.values().contains("tuning"));
-
-    tick(field<QCheckBox>(&d, "advanced"));
-    QVERIFY(rowShown(&d, "tuning"));
-    QVERIFY(!rowShown(&d, "basic"));
-    QCOMPARE(d.values()["tuning"].toDouble(), 3.0);
-    QVERIFY(!d.values().contains("basic"));
-
-    QTest::keyClicks(field<QLineEdit>(&d, "name"), "n");
-    clickCreate(&d);
-    QVERIFY(d.device());
-    QCOMPARE(int(d.device()->deviceParams().size()), 1);
-    QCOMPARE(u(d.device()->deviceParams()[0].first), QString("tuning"));
 }
 
 void tst_DialogNewDevice::switchingTemplatesKeepsTheCommonValues()

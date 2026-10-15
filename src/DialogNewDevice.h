@@ -15,7 +15,6 @@
 class QCheckBox;
 class QComboBox;
 class QDialogButtonBox;
-class QFormLayout;
 class QLabel;
 class QScrollArea;
 
@@ -32,7 +31,7 @@ public:
 
     bool selectTemplate(const QString &id);
     QJsonObject currentTemplate() const;
-    //Values of the shown fields, as DeviceTemplates takes them.
+    //Values of the fields, as DeviceTemplates takes them.
     QVariantMap values() const;
 
     //Set once Create succeeded.
@@ -48,7 +47,6 @@ private:
     {
         QJsonObject def;
         QWidget *editor = nullptr;
-        QLabel *label = nullptr;
         QList<QCheckBox *> choices; //multi
     };
 
@@ -58,7 +56,6 @@ private:
     QComboBox *m_templateBox;
     QLabel *m_description;
     QScrollArea *m_scroll;
-    QFormLayout *m_form = nullptr;
     QLabel *m_error;
     QDialogButtonBox *m_buttons;
 
@@ -68,11 +65,9 @@ private:
     Calaos::Room *m_room = nullptr;
     QStringList m_notes;
 
-    QVariantMap allValues() const;
     void buildForm(const QVariantMap &previous);
     QWidget *createEditor(FieldEditor &f, const QVariant &value);
     QVariant valueOf(const FieldEditor &f) const;
-    void updateVisibility();
     void create();
 };
 

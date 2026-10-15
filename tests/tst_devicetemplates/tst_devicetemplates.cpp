@@ -168,7 +168,7 @@ QJsonObject synthetic()
         { "name": "flags", "type": "multi", "label": "Flags", "required": false,
           "values": [ { "value": "a", "label": "A" }, { "value": "b", "label": "B" }, { "value": "c", "label": "C" } ] },
         { "name": "advanced", "type": "bool", "label": "Advanced", "required": false, "default": false },
-        { "name": "tuning", "type": "number", "label": "Tuning", "required": true, "min": 1, "max": 5, "default": 3, "when": "advanced" },
+        { "name": "tuning", "type": "number", "label": "Tuning", "required": true, "min": 1, "max": 5, "default": 3 },
         { "name": "target", "type": "io", "label": "Target", "required": false, "io_filter": { "value": "string", "writable": true } },
         { "name": "kind", "type": "enum", "label": "Kind", "required": true, "default": "x",
           "values": [ { "value": "x", "label": "X", "params": { "p": "1" } }, { "value": "y", "label": "Y", "params": { "p": "2" } } ] }
@@ -229,7 +229,6 @@ private slots:
     void theDocumentedExampleIsWrittenAsDocumented();
 
     void substitutionFollowsTheRules();
-    void aFieldHiddenByItsWhenIsNotUsed();
     void anEnumOptionSetsItsParams();
 
     void aTakenIdGetsTheFirstFreeSuffix();
@@ -659,32 +658,15 @@ void tst_DeviceTemplates::substitutionFollowsTheRules()
     QCOMPARE(int(q.ios.size()), 2);
     QCOMPARE(u(q.ios[1].key), QString("var"));
     QVERIFY(!q.ios[0].params.Exists("user"));
-    QVERIFY(!q.ios[1].params.Exists("value")); //tuning is hidden with advanced
+    QCOMPARE(u(q.ios[1].params["value"]), QString("3"));
     QCOMPARE(int(q.links.size()), 1);
     QCOMPARE(u(q.links[0].name), QString("var"));
     QStringList names;
     for (const auto &e: q.params)
         names << u(e.first);
-    QCOMPARE(names, QStringList({ "count", "advanced", "p", "kept" }));
+    QCOMPARE(names, QStringList({ "count", "advanced", "p", "tuning", "kept" }));
     QCOMPARE(q.notes, QStringList({ "Topic t/ete_2/state of Été 2" }));
     QVERIFY(!q.device.Exists("lbl"));
-}
-
-void tst_DeviceTemplates::aFieldHiddenByItsWhenIsNotUsed()
-{
-    const QJsonObject t = synthetic();
-    QVariantMap v = DeviceTemplates::defaults(t, roomNamed("Salon"));
-    v["name"] = "n";
-    v["tuning"] = 99.0; //out of its bounds, but hidden
-
-    QVERIFY(!DeviceTemplates::visibleValues(t, v).contains("tuning"));
-    QVERIFY(DeviceTemplates::validate(t, v).isEmpty());
-
-    v["advanced"] = true;
-    QVERIFY(DeviceTemplates::visibleValues(t, v).contains("tuning"));
-    const QList<DeviceTemplates::Problem> problems = DeviceTemplates::validate(t, v);
-    QCOMPARE(problems.size(), 1);
-    QCOMPARE(problems.first().field, QString("tuning"));
 }
 
 void tst_DeviceTemplates::anEnumOptionSetsItsParams()
