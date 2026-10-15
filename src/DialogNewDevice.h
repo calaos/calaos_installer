@@ -17,6 +17,7 @@ class QComboBox;
 class QDialogButtonBox;
 class QLabel;
 class QScrollArea;
+class WidgetEsphomeDiscovery;
 
 // "New device from a template": one form per template, built from its fields
 // (DeviceTemplates). On Create, the values are validated and the device, its
@@ -33,6 +34,11 @@ public:
     QJsonObject currentTemplate() const;
     //Values of the fields, as DeviceTemplates takes them.
     QVariantMap values() const;
+    //Sets the editors of the current template, as if the user did.
+    void setValues(const QVariantMap &values);
+
+    //Shown for the templates EsphomeDiscovery fills; nullptr without Qt MQTT.
+    WidgetEsphomeDiscovery *discovery() const { return m_discovery; }
 
     //Set once Create succeeded.
     Calaos::Device *device() const { return m_device; }
@@ -55,6 +61,7 @@ private:
 
     QComboBox *m_templateBox;
     QLabel *m_description;
+    WidgetEsphomeDiscovery *m_discovery = nullptr;
     QScrollArea *m_scroll;
     QLabel *m_error;
     QDialogButtonBox *m_buttons;
@@ -72,6 +79,7 @@ private:
     QWidget *createEditor(FieldEditor &f, const QVariant &value);
     QVariant valueOf(const FieldEditor &f) const;
     void create();
+    void updateDiscoveryHosts();
 };
 
 #endif // DIALOGNEWDEVICE_H

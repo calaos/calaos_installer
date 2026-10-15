@@ -3,8 +3,8 @@ QT += core gui network widgets xml printsupport quick qml quickwidgets quickcont
 qtHaveModule(mqtt) {
     QT += mqtt
     DEFINES += QT_MQTT_AVAILABLE
-    SOURCES += src/DialogZigbee2mqtt.cpp
-    HEADERS += src/DialogZigbee2mqtt.h
+    SOURCES += src/DialogZigbee2mqtt.cpp src/MqttListener.cpp src/WidgetEsphomeDiscovery.cpp
+    HEADERS += src/DialogZigbee2mqtt.h src/MqttListener.h src/WidgetEsphomeDiscovery.h
 }
 
 equals(QT_MAJOR_VERSION, 6) {
@@ -48,6 +48,7 @@ SOURCES += src/main.cpp \
     src/DialogDeleteImpact.cpp \
     src/DialogDeviceInfo.cpp \
     src/DialogNewDevice.cpp \
+    src/EsphomeDiscovery.cpp \
     src/DialogEditDevice.cpp \
     src/DeviceEdit.cpp \
     src/detectip.cpp \
@@ -147,6 +148,7 @@ HEADERS += src/mainwindow.h \
     src/DialogDeleteImpact.h \
     src/DialogDeviceInfo.h \
     src/DialogNewDevice.h \
+    src/EsphomeDiscovery.h \
     src/DialogEditDevice.h \
     src/DeviceEdit.h \
     src/WheelGuard.h \
