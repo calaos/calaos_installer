@@ -31,6 +31,7 @@ public:
     QWidget *editor(const QString &field) const;
     QLabel *notice() const { return m_notice; }
     QLabel *kept() const { return m_keptLabel; }
+    QLabel *rangeNotice() const { return m_rangeLabel; }
 
 signals:
     void valueChanged(const QString &value);
@@ -65,6 +66,7 @@ private:
     QGridLayout *m_grid;
     QLabel *m_notice;
     QLabel *m_keptLabel;
+    QLabel *m_rangeLabel;
 };
 
 #endif // DEVICECOMMANDFORM_H

@@ -37,7 +37,8 @@ DeviceCommandForm::DeviceCommandForm(QWidget *parent) :
     QWidget(parent),
     m_grid(new QGridLayout),
     m_notice(new QLabel),
-    m_keptLabel(new QLabel)
+    m_keptLabel(new QLabel),
+    m_rangeLabel(new QLabel)
 {
     QVBoxLayout *main = new QVBoxLayout(this);
     main->setContentsMargins(0, 0, 0, 0);
@@ -49,7 +50,7 @@ DeviceCommandForm::DeviceCommandForm(QWidget *parent) :
     m_grid->setColumnStretch(1, 1);
     main->addLayout(m_grid);
 
-    for (QLabel *l : { m_notice, m_keptLabel })
+    for (QLabel *l : { m_notice, m_keptLabel, m_rangeLabel })
     {
         l->setWordWrap(true);
         l->setStyleSheet(s_noteStyle);

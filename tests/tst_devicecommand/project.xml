@@ -60,6 +60,7 @@
     <calaos:link name="target_temp_high" io="floor_target_high"/>
     <calaos:link name="output_heat"      io="floor_heat"/>
     <calaos:link name="output_cool"      io="floor_cool"/>
+    <calaos:param name="min_range" value="2"/>
   </calaos:device>
 
   <calaos:device id="half" type="climate" impl="thermostat" name="Half range">
@@ -76,6 +77,22 @@
   <calaos:device id="cool_only" type="climate" impl="thermostat" name="Cool only">
     <calaos:output id="cool_only_cool" type="WODigital" visible="false" host="10.0.0.5" var="6"/>
     <calaos:link name="output_cool" io="cool_only_cool"/>
+  </calaos:device>
+
+  <calaos:device id="ro" type="climate" impl="proxy" name="Read only">
+    <calaos:output id="ro_mode" type="MqttOutputString" visible="false" name="mode"/>
+    <calaos:input  id="ro_fan" type="MqttInputString" visible="false" name="fan"/>
+    <calaos:input  id="ro_fan_cmd" type="MqttInputString" visible="false" name="fan_cmd"/>
+    <calaos:link name="mode" io="ro_mode"/>
+    <calaos:link name="target_temp" io="salon_temp"/>
+    <calaos:link name="fan_mode" io="ro_fan" command_io="ro_fan_cmd"/>
+    <calaos:param name="fan_modes" value="auto,low"/>
+  </calaos:device>
+
+  <calaos:device id="cmdb" type="climate" impl="proxy" name="Command bounds">
+    <calaos:input  id="cmdb_read" type="MqttInputTemp" visible="false" name="read" value_min="1" value_max="2" step="0.1" unit="K"/>
+    <calaos:output id="cmdb_target" type="MqttOutputAnalog" visible="false" value_min="10" value_max="20" step="1" unit="C" name="target"/>
+    <calaos:link name="target_temp" io="cmdb_read" command_io="cmdb_target"/>
   </calaos:device>
 
   <calaos:device id="mystery" type="widget" impl="unheard_of" name="Mystery"/>

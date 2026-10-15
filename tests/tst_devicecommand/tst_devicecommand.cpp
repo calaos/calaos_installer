@@ -141,6 +141,10 @@ private slots:
     void anEnumIsAListAndANumberHasBoundsStepAndUnit();
     void aFieldWithoutItsLinkIsHidden();
     void aLinkWithoutIoIsNotALink();
+    void aLinkThatCannotBeWrittenIsNotOffered();
+    void aCommandIoMustBeAnOutputToo();
+    void theBoundsComeFromTheIoThatIsWritten();
+    void anEmptyModesParamOffersNoMode();
     void aProxyWithoutModeLinkOffersNoMode();
     void aRangeNeedsBothBounds();
     void enumValuesAreFilteredByValueRequiresLinks();
@@ -150,6 +154,7 @@ private slots:
     void invertedBoundsOfTheLinkedIoAreIgnored();
     void aDeviceWithoutJsonCommandOffersNothing();
     void textKindsAreTold();
+    void aTextWithALeadingSpaceIsNotAnObject();
 
     // JSON
     void theJsonIsCompactWithRealNumbers_data();
@@ -170,6 +175,10 @@ private slots:
     void aValueOutsideTheOfferedListIsKeptAndFlagged();
     void aNumberOutsideTheBoundsIsKeptAndFlagged();
     void aNumberKeepsItsDecimals();
+    void aNumberKeepsMoreThanSixDecimals();
+    void choosingTheDisplayedValueChecksTheRow();
+    void aValueOutsideTheListSaysWhy();
+    void aRangeCloserThanMinRangeIsFlagged();
     void editingAFlaggedFieldClearsTheFlag();
     void uncheckingAFlaggedFieldDropsIt();
     void aPlainModeFillsTheModeField();
@@ -186,6 +195,8 @@ private slots:
     void theFormCanBeOpenedOnAPlainMode();
     void theTextCanBeEditedAsBefore();
     void aDynamicValueStaysInTheTextField();
+    void aDynamicValueChosenInTheTextDisablesTheForm();
+    void aTextWithALeadingSpaceStaysInTheTextField();
     void thePopupIsResetBetweenActions();
     void aDeviceWithoutJsonDocKeepsTheTextField();
 
@@ -270,6 +281,54 @@ void tst_DeviceCommand::aLinkWithoutIoIsNotALink()
             l.io.clear();
     }
     const DeviceCommand::Offer o = offerOf("ac");
+    QVERIFY(!names(o).contains("mode"));
+    QVERIFY(o.hidden.contains("mode"));
+}
+
+void tst_DeviceCommand::aLinkThatCannotBeWrittenIsNotOffered()
+{
+    // target_temp has no command_io and its io is an input; fan_mode has a
+    // command_io that is an input: the server refuses both.
+    const DeviceCommand::Offer o = offerOf("ro");
+    QCOMPARE(names(o), QStringList({"mode"}));
+    QVERIFY(o.hidden.contains("target_temp"));
+    QVERIFY(o.hidden.contains("fan_mode"));
+
+    DeviceCommandForm form;
+    fill(form, "ro");
+    QVERIFY(form.notice()->isVisibleTo(&form));
+    QVERIFY(form.notice()->toolTip().contains("not writable"));
+    QVERIFY(form.notice()->toolTip().contains("Target temperature"));
+}
+
+void tst_DeviceCommand::aCommandIoMustBeAnOutputToo()
+{
+    // an input io is fine when its command_io is an output (ac: fan_mode)
+    QVERIFY(names(offerOf("ac")).contains("fan_mode"));
+    QVERIFY(names(offerOf("cmdb")).contains("target_temp"));
+}
+
+void tst_DeviceCommand::theBoundsComeFromTheIoThatIsWritten()
+{
+    // io says 1 to 2 by 0.1 in K, the command_io 10 to 20 by 1 in C
+    const DeviceCommand::Field t = field(offerOf("cmdb"), "target_temp");
+    QCOMPARE(t.min, 10.0);
+    QCOMPARE(t.max, 20.0);
+    QCOMPARE(t.step, 1.0);
+    QCOMPARE(t.decimals, 0);
+    QCOMPARE(t.unit, QString("C"));
+}
+
+void tst_DeviceCommand::anEmptyModesParamOffersNoMode()
+{
+    // The server offers the modes the param lists: none when it lists none.
+    Device *d = device("narrow");
+    for (auto &p : d->deviceParams())
+    {
+        if (p.first == "modes")
+            p.second = "";
+    }
+    const DeviceCommand::Offer o = offerOf("narrow");
     QVERIFY(!names(o).contains("mode"));
     QVERIFY(o.hidden.contains("mode"));
 }
@@ -361,7 +420,6 @@ void tst_DeviceCommand::textKindsAreTold()
 {
     const QJsonObject doc = docOf(device("ac"));
     QCOMPARE(DeviceCommand::classify("", doc), DeviceCommand::Empty);
-    QCOMPARE(DeviceCommand::classify("  ", doc), DeviceCommand::Empty);
     QCOMPARE(DeviceCommand::classify("{}", doc), DeviceCommand::Object);
     QCOMPARE(DeviceCommand::classify("{\"mode\":\"off\"}", doc), DeviceCommand::Object);
     QCOMPARE(DeviceCommand::classify("off", doc), DeviceCommand::PlainMode);
@@ -371,6 +429,20 @@ void tst_DeviceCommand::textKindsAreTold()
     QCOMPARE(DeviceCommand::classify("[\"off\"]", doc), DeviceCommand::Other);
     QCOMPARE(DeviceCommand::classify("\"off\"", doc), DeviceCommand::Other);
     QCOMPARE(DeviceCommand::classify("12", doc), DeviceCommand::Other);
+}
+
+void tst_DeviceCommand::aTextWithALeadingSpaceIsNotAnObject()
+{
+    // The server takes a JSON command only when the text starts with {.
+    const QJsonObject doc = docOf(device("ac"));
+    QCOMPARE(DeviceCommand::classify(" {\"mode\":\"off\"}", doc), DeviceCommand::Other);
+    QCOMPARE(DeviceCommand::classify("\n{}", doc), DeviceCommand::Other);
+    QCOMPARE(DeviceCommand::classify(" off", doc), DeviceCommand::Other);
+    QCOMPARE(DeviceCommand::classify("  ", doc), DeviceCommand::Other);
+    QCOMPARE(DeviceCommand::classify("{\"mode\":\"off\"} ", doc), DeviceCommand::Object);
+
+    QJsonObject o;
+    QVERIFY(!DeviceCommand::parse(" {}", o));
 }
 
 void tst_DeviceCommand::theJsonIsCompactWithRealNumbers_data()
@@ -612,6 +684,102 @@ void tst_DeviceCommand::aNumberKeepsItsDecimals()
     QCOMPARE(json(form.value())["target_temp"].toDouble(), 21.125);
 }
 
+void tst_DeviceCommand::aNumberKeepsMoreThanSixDecimals()
+{
+    DeviceCommandForm form;
+    fill(form, "ac");
+    form.setValue("{\"target_temp\":21.1234567}");
+    QCOMPARE(form.value(), QString("{\"target_temp\":21.1234567}"));
+
+    // a number nobody touched comes back as it was, whatever else is edited
+    pick(combo(form, "mode"), "heat");
+    QCOMPARE(json(form.value())["target_temp"].toDouble(), 21.1234567);
+
+    // once edited, the number is the one of the spin
+    spin(form, "target_temp")->setValue(22);
+    QCOMPARE(json(form.value())["target_temp"].toDouble(), 22.0);
+}
+
+void tst_DeviceCommand::choosingTheDisplayedValueChecksTheRow()
+{
+    DeviceCommandForm form;
+    fill(form, "floor");
+    QSignalSpy spy(&form, &DeviceCommandForm::valueChanged);
+
+    // The list shows its first item: choosing it again changes nothing for the
+    // combo, and still means "send this".
+    QVERIFY(!form.checkBox("mode")->isChecked());
+    QComboBox *c = combo(form, "mode");
+    QMetaObject::invokeMethod(c, "activated", Q_ARG(int, c->currentIndex()));
+    QVERIFY(form.checkBox("mode")->isChecked());
+    QCOMPARE(spy.count(), 1);
+    QCOMPARE(spy.last().at(0).toString(), QString("{\"mode\":\"off\"}"));
+
+    // already sent: nothing more to say
+    QMetaObject::invokeMethod(c, "activated", Q_ARG(int, c->currentIndex()));
+    QCOMPARE(spy.count(), 1);
+}
+
+void tst_DeviceCommand::aValueOutsideTheListSaysWhy()
+{
+    // a list that comes from a param
+    DeviceCommandForm fan;
+    fill(fan, "ac");
+    fan.setValue("{\"fan_mode\":\"turbo\"}");
+    QVERIFY(combo(fan, "fan_mode")->toolTip().contains("fan_modes"));
+    QVERIFY(!combo(fan, "fan_mode")->toolTip().contains("link"));
+
+    // a mode the modes param leaves out
+    DeviceCommandForm narrow;
+    fill(narrow, "narrow");
+    narrow.setValue("{\"mode\":\"auto\"}");
+    QVERIFY(combo(narrow, "mode")->toolTip().contains("modes"));
+    QVERIFY(!combo(narrow, "mode")->toolTip().contains("link"));
+
+    // a mode that needs a link the device lacks
+    DeviceCommandForm heat;
+    fill(heat, "heat");
+    heat.setValue("{\"mode\":\"cool\"}");
+    QVERIFY(combo(heat, "mode")->toolTip().contains("output_cool"));
+    QVERIFY(combo(heat, "mode")->toolTip().contains("link"));
+
+    // a word the documentation does not know
+    heat.setValue("{\"mode\":\"banana\"}");
+    QVERIFY(!combo(heat, "mode")->toolTip().contains("link"));
+    QVERIFY(!combo(heat, "mode")->toolTip().contains("param"));
+    QCOMPARE(heat.value(), QString("{\"mode\":\"banana\"}"));
+}
+
+void tst_DeviceCommand::aRangeCloserThanMinRangeIsFlagged()
+{
+    DeviceCommandForm form; // min_range is 2
+    fill(form, "floor");
+
+    form.setValue("{\"target_temp_low\":19,\"target_temp_high\":20}");
+    QVERIFY(form.rangeNotice()->isVisibleTo(&form));
+    QVERIFY(spin(form, "target_temp_low")->styleSheet().contains("#ffe8b3"));
+    QVERIFY(spin(form, "target_temp_high")->styleSheet().contains("#ffe8b3"));
+    QCOMPARE(form.value(), QString("{\"target_temp_low\":19,\"target_temp_high\":20}")); // flagged, not changed
+
+    spin(form, "target_temp_high")->setValue(21);
+    QVERIFY(!form.rangeNotice()->isVisibleTo(&form));
+    QVERIFY(!spin(form, "target_temp_low")->styleSheet().contains("#ffe8b3"));
+
+    // low above high
+    spin(form, "target_temp_low")->setValue(25);
+    QVERIFY(form.rangeNotice()->isVisibleTo(&form));
+
+    // one bound alone: the other one is not known here
+    form.setValue("{\"target_temp_low\":19}");
+    QVERIFY(!form.rangeNotice()->isVisibleTo(&form));
+
+    // unchecking one bound clears it
+    form.setValue("{\"target_temp_low\":19,\"target_temp_high\":20}");
+    form.checkBox("target_temp_high")->setChecked(false);
+    QVERIFY(!form.rangeNotice()->isVisibleTo(&form));
+    QVERIFY(!spin(form, "target_temp_low")->styleSheet().contains("#ffe8b3"));
+}
+
 void tst_DeviceCommand::editingAFlaggedFieldClearsTheFlag()
 {
     DeviceCommandForm form;
@@ -820,6 +988,39 @@ void tst_DeviceCommand::aDynamicValueStaysInTheTextField()
     QVERIFY(!formOf(w)->isVisibleTo(&w));
     QVERIFY(!modeButton(w)->isEnabled());
     QVERIFY(a.action->get_params_var().Exists("floor"));
+}
+
+void tst_DeviceCommand::aDynamicValueChosenInTheTextDisablesTheForm()
+{
+    ActionOn a("floor", QString("{\"mode\":\"heat\"}"));
+    FormActionStd w;
+    w.setAction(&a.item, a.rule.get(), a.action.get());
+
+    modeButton(w)->click(); // Edit as text
+    QVERIFY(textOf(w)->isVisibleTo(&w));
+    QVERIFY(modeButton(w)->isEnabled());
+
+    w.setDynamicValue("floor_heat");
+    QVERIFY(a.action->get_params_var().Exists("floor"));
+    QVERIFY(!modeButton(w)->isEnabled());
+
+    // the disabled button does nothing: the dynamic value is still there
+    modeButton(w)->click();
+    QVERIFY(!formOf(w)->isVisibleTo(&w));
+    QVERIFY(a.action->get_params_var().Exists("floor"));
+}
+
+void tst_DeviceCommand::aTextWithALeadingSpaceStaysInTheTextField()
+{
+    const QString stored = " {\"mode\":\"heat\"}";
+    ActionOn a("floor", stored);
+    FormActionStd w;
+    w.setAction(&a.item, a.rule.get(), a.action.get());
+
+    QVERIFY(!formOf(w)->isVisibleTo(&w));
+    QCOMPARE(textOf(w)->text(), stored);
+    QVERIFY(!modeButton(w)->isEnabled());
+    QCOMPARE(a.stored(), stored);
 }
 
 void tst_DeviceCommand::thePopupIsResetBetweenActions()
