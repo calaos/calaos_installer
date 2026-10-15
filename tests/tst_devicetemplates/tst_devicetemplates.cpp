@@ -240,6 +240,7 @@ private slots:
     void ioFieldsListTheIosThatFit_data();
     void ioFieldsListTheIosThatFit();
     void linksTargetTheChosenIosInAnyRoom();
+    void anIoTheServerDroppedIsNotOffered();
 
     void validation_data();
     void validation();
@@ -834,6 +835,29 @@ void tst_DeviceTemplates::linksTargetTheChosenIosInAnyRoom()
 
     const QByteArray saved = saveIo(work("links.xml"));
     QVERIFY(deviceElement(saved, "chauffage_salon").contains("  link io=temp_cave name=current_temp"));
+}
+
+void tst_DeviceTemplates::anIoTheServerDroppedIsNotOffered()
+{
+    //The server would not create it: a link to it would stay unresolved.
+    const QByteArray house = QByteArray(houseXml()).replace(
+        "<calaos:room name=\"Cave\" type=\"cave\" hits=\"0\">",
+        "<calaos:room name=\"Cave\" type=\"cave\" hits=\"0\">\n"
+        "  <calaos:input id=\"zibase_temp\" type=\"ZibaseTemp\" name=\"Old sensor\"/>\n");
+    QVERIFY(loadIo(work("legacy.xml"), house));
+    QVERIFY(!DeviceTemplates::ioById("zibase_temp")->isSupportedByServer());
+
+    QStringList ids;
+    for (IOBase *io: DeviceTemplates::candidates(QJsonObject { { "value", "number" }, { "writable", false } }))
+        ids << u(io->get_param("id"));
+    QCOMPARE(ids, QStringList({ "temp_salon", "hum_salon", "temp_cave", "other_temp" }));
+
+    const QJsonObject t = shippedTemplate("thermostat_heat");
+    QVariantMap v = filled(t);
+    v["current_temp"] = "zibase_temp";
+    const QList<DeviceTemplates::Problem> problems = DeviceTemplates::validate(t, v);
+    QCOMPARE(problems.size(), 1);
+    QCOMPARE(problems.first().message, QString("Temperature sensor: \"Old sensor\" is not an IO of the expected kind."));
 }
 
 void tst_DeviceTemplates::validation_data()
