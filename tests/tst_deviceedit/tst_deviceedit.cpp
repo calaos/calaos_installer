@@ -187,6 +187,8 @@ void tst_DeviceEdit::rolesAndParamsComeFromIODoc()
     QVERIFY(roleNamed(th(), "output_heat").writable);
     QVERIFY(roleNamed(th(), "output_heat").required);
     QCOMPARE(roleNamed(th(), "humidity").requiredWhen["param"].toString(), QString("emitter"));
+    //Unlinked: only the templates tell its kind.
+    QCOMPARE(roleNamed(th(), "humidity").valueType, QString("number"));
 
     QStringList params;
     for (const DeviceEdit::Param &p: DeviceEdit::params(th()))
@@ -430,6 +432,8 @@ void tst_DeviceEdit::theDialogChangesTheDevice()
     hyst->selectAll();
     QTest::keyClicks(hyst, "0.8");
     QCOMPARE(d.findChild<QLineEdit *>("param_humidity_max")->placeholderText(), QString("Default: 65"));
+    //Emptied: back to the server's default, not written.
+    d.findChild<QLineEdit *>("param_min_range")->clear();
     //A bool the file does not hold is not written unless it is clicked.
     QVERIFY(d.findChild<QCheckBox *>("param_visible")->isChecked());
     QVERIFY(!d.state().params.contains("visible"));
@@ -438,6 +442,7 @@ void tst_DeviceEdit::theDialogChangesTheDevice()
     QCOMPARE(d.result(), int(QDialog::Accepted));
     QCOMPARE(linksOf(th())["current_temp"], QString("temp_cave"));
     QVERIFY(paramsOf(th()).contains("hysteresis=0.8"));
+    QVERIFY(!paramsOf(th()).join(' ').contains("min_range"));
     QVERIFY(!th()->get_params().Exists("visible"));
 }
 
