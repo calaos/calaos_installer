@@ -29,7 +29,8 @@ public:
         //{link: role, param: name, value: v}: required while every given key holds.
         QJsonObject requiredWhen;
         bool writable = false;
-        //number, bool or string; empty when nothing tells it.
+        //number, bool or string: IODoc's value_type, else the templates', else the linked IO's;
+        //empty when nothing tells it.
         QString valueType;
     };
 
@@ -60,7 +61,7 @@ public:
         QString message;
     };
 
-    //The `label` of an IODoc entry, else one made from its name (current_temp: Current temp).
+    //The `label` of an IODoc entry, else its name made readable (current_temp: Current temp).
     static QString labelFor(const QJsonObject &entry, const QString &name);
 
     //Documented roles, in IODoc order; empty for an impl IODoc does not know.

@@ -94,3 +94,37 @@ QJsonObject IODoc::getDeviceObject(const QString &impl)
 
     return QJsonObject();
 }
+
+QJsonObject IODoc::getLinkRole(const QString &impl, const QString &role)
+{
+    for (const QJsonValue &v: getDeviceObject(impl)["link_roles"].toArray())
+        if (v.toObject()["role"].toString() == role)
+            return v.toObject();
+    return QJsonObject();
+}
+
+QJsonObject IODoc::getDeviceParam(const QString &impl, const QString &name)
+{
+    for (const QJsonValue &v: getDeviceObject(impl)["parameters"].toArray())
+        if (v.toObject()["name"].toString() == name)
+            return v.toObject();
+    return QJsonObject();
+}
+
+QString IODoc::labelOf(const QJsonObject &entry, const QString &id)
+{
+    const QString label = entry["label"].toString();
+    if (!label.isEmpty())
+        return label;
+    QString made = id;
+    made.replace('_', ' ');
+    if (!made.isEmpty())
+        made[0] = made[0].toUpper();
+    return made;
+}
+
+QString IODoc::valueTypeOf(const QJsonObject &linkRole)
+{
+    const QString t = linkRole["value_type"].toString();
+    return (t == "number" || t == "bool" || t == "string") ? t : QString();
+}

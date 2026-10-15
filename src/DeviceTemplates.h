@@ -60,8 +60,21 @@ public:
 
     //IOs of the house an `io` field may target, in room order: never a device, nor a
     //type the server no longer creates (the link would not resolve).
-    static std::vector<Calaos::IOBase *> candidates(const QJsonObject &ioFilter);
     static bool fits(Calaos::IOBase *io, const QJsonObject &ioFilter);
+    //The same, and the IO must also have the value_type IODoc gives each link role the
+    //field feeds: the template's io_filter alone would not stop a relay for a setpoint.
+    static std::vector<Calaos::IOBase *> candidates(const QJsonObject &tpl, const QJsonObject &fieldDef);
+    static bool fits(Calaos::IOBase *io, const QJsonObject &tpl, const QJsonObject &fieldDef);
+
+    //What IODoc says of the link roles and params a field feeds, for display.
+    struct Documented
+    {
+        enum Kind { Link, Param };
+        Kind kind;
+        QString id;
+        QString label; //translated, else id
+    };
+    static QList<Documented> documentation(const QJsonObject &tpl, const QString &fieldName);
     static Calaos::IOBase *ioById(const std::string &id);
 
     //Decision 17: an output_heat or output_cool belongs to one thermostat.

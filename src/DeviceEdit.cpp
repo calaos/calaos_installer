@@ -93,14 +93,7 @@ bool isNumber(const QString &v, bool integer)
 
 QString DeviceEdit::labelFor(const QJsonObject &entry, const QString &name)
 {
-    const QString label = entry["label"].toString();
-    if (!label.isEmpty())
-        return label;
-    QString made = name;
-    made.replace('_', ' ');
-    if (!made.isEmpty())
-        made[0] = made[0].toUpper();
-    return made;
+    return IODoc::labelOf(entry, name);
 }
 
 bool DeviceEdit::isDocumented(Device *dev)
@@ -122,7 +115,9 @@ QList<DeviceEdit::Role> DeviceEdit::roles(Device *dev)
         r.required = o["required"].toBool();
         r.requiredWhen = o["required_when"].toObject();
         r.writable = o["writable"].toBool();
-        r.valueType = templateValueType(impl, r.name);
+        r.valueType = IODoc::valueTypeOf(o);
+        if (r.valueType.isEmpty())
+            r.valueType = templateValueType(impl, r.name);
         if (r.valueType.isEmpty())
         {
             const DeviceLink *l = linkOf(dev, r.name);

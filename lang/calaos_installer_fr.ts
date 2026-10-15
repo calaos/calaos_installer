@@ -807,6 +807,16 @@ p, li { white-space: pre-wrap; }
         <translation>Aucun IO du projet ne convient : créez-le d'abord.</translation>
     </message>
     <message>
+        <location filename="../src/DialogNewDevice.cpp" line="168"/>
+        <source>Link: %1</source>
+        <translation>Lien : %1</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogNewDevice.cpp" line="168"/>
+        <source>Parameter: %1</source>
+        <translation>Paramètre : %1</translation>
+    </message>
+    <message>
         <location filename="../src/DialogNewDevice.cpp" line="198"/>
         <source>%1:</source>
         <translation>%1 :</translation>
