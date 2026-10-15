@@ -82,6 +82,9 @@ QT_QPA_PLATFORM=offscreen ./tst_projectmanager/tst_projectmanager -v2 ioRoundTri
   substitution, insertion in the tree. `tests/tst_dialognewdevice/` drives the "New device from a
   template" dialog offscreen; `CALAOS_SHOTS_DIR=<dir>` (and `CALAOS_SHOTS_LANG=fr`,
   `CALAOS_SHOTS_QM=<compiled calaos_installer_fr.qm>`) writes its screenshots.
+  `tests/server_load/run.sh` (not in CI: it needs a calaos_base build) starts a real
+  calaos_server on each device that `tst_devicetemplates` writes with `CALAOS_DEVICE_XML_DIR`, and
+  fails on a loading warning or on an attribute the server's save drops.
 - `tests/tst_servertypes/` pins the IO types the installer may create to the ones the server
   registers (`server_io_types.txt`, regenerate it with the command in its header when the
   server adds or drops a type). A type the server dropped moves to a `REGISTER_LEGACY_*` line
