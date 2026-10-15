@@ -75,6 +75,13 @@ QT_QPA_PLATFORM=offscreen ./tst_projectmanager/tst_projectmanager -v2 ioRoundTri
   tree (`src/HomeTree.*`), cascade delete without double delete, drag and drop onto a room and
   the delete confirmation dialog.
 - `tests/tst_onlineconfig/` covers the `config get`/`put` JSON helper (`src/OnlineConfig.*`): `io_format` declared in every put, announced format parsing, the server's refusal text, the per-host format memory behind the devices gate in `DialogSaveOnline`.
+- `tests/tst_devicetemplates/` covers `DeviceTemplates` (`src/DeviceTemplates.*`), the device
+  templates of calaos_base applied to the model: for every shipped template, each enum option and
+  each `when` both ways builds a device whose roles, params and IO params are documented in
+  `io_doc.json`, whose links resolve, and which survives a save and reload; free ids, validation,
+  substitution, insertion in the tree. `tests/tst_dialognewdevice/` drives the "New device from a
+  template" dialog offscreen; `CALAOS_SHOTS_DIR=<dir>` (and `CALAOS_SHOTS_LANG=fr`,
+  `CALAOS_SHOTS_QM=<compiled calaos_installer_fr.qm>`) writes its screenshots.
 - `tests/tst_servertypes/` pins the IO types the installer may create to the ones the server
   registers (`server_io_types.txt`, regenerate it with the command in its header when the
   server adds or drops a type). A type the server dropped moves to a `REGISTER_LEGACY_*` line
