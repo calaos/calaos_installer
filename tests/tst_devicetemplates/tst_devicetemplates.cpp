@@ -230,6 +230,8 @@ private slots:
     void theDocumentedExampleIsWrittenAsDocumented();
 
     void substitutionFollowsTheRules();
+    void numbersAreWrittenInDecimal_data();
+    void numbersAreWrittenInDecimal();
     void anEnumOptionSetsItsParams();
 
     void aTakenIdGetsTheFirstFreeSuffix();
@@ -681,6 +683,27 @@ void tst_DeviceTemplates::substitutionFollowsTheRules()
     QCOMPARE(names, QStringList({ "count", "advanced", "p", "tuning", "kept" }));
     QCOMPARE(q.notes, QStringList({ "Topic t/ete_2/state of Été 2" }));
     QVERIFY(!q.device.Exists("lbl"));
+}
+
+void tst_DeviceTemplates::numbersAreWrittenInDecimal_data()
+{
+    QTest::addColumn<double>("value");
+    QTest::addColumn<QString>("text");
+    QTest::newRow("integer") << 16.0 << "16";
+    QTest::newRow("half") << 0.5 << "0.5";
+    QTest::newRow("float noise") << 0.1 + 0.2 << "0.3";
+    QTest::newRow("small") << 1e-05 << "0.00001";
+    QTest::newRow("large") << 1e21 << "1000000000000000000000";
+    QTest::newRow("long") << 123456789.125 << "123456789.125";
+    QTest::newRow("negative") << -2.5 << "-2.5";
+    QTest::newRow("negative zero") << -0.0 << "0";
+}
+
+void tst_DeviceTemplates::numbersAreWrittenInDecimal()
+{
+    QFETCH(double, value);
+    QFETCH(QString, text);
+    QCOMPARE(DeviceTemplates::render(QJsonObject(), value), text);
 }
 
 void tst_DeviceTemplates::anEnumOptionSetsItsParams()

@@ -99,6 +99,7 @@ private slots:
     void aRequiredMultiNeedsOneBoxChecked();
     void ioFieldsOfferTheIosThatFit();
     void editorsFollowTheFieldTypes();
+    void aSmallStepGetsItsDecimals();
     void switchingTemplatesKeepsTheCommonValues();
     void switchingTemplatesKeepsOnlyWhatTheUserChanged();
     void theNotesOfTheTemplateAreShownAfterCreation();
@@ -319,6 +320,20 @@ void tst_DialogNewDevice::editorsFollowTheFieldTypes()
     QComboBox *emitter = field<QComboBox>(&d, "emitter");
     QCOMPARE(itemTexts(emitter), QStringList({ "Electric heaters", "Water radiators (boiler, zone valve)", "Underfloor heating" }));
     QCOMPARE(emitter->currentData().toString(), QString("electric"));
+}
+
+void tst_DialogNewDevice::aSmallStepGetsItsDecimals()
+{
+    const QJsonArray templates = QJsonDocument::fromJson(R"([{
+      "id": "fine", "family": "fam", "impl": "imp", "name": "Fine", "description": "d",
+      "attributes": { "name": "{name}" }, "ios": [], "links": [], "params": [],
+      "fields": [ { "name": "room", "type": "room", "label": "Room", "required": true },
+                  { "name": "gain", "type": "number", "label": "Gain", "required": true,
+                    "min": 0, "max": 1, "step": 0.00001, "default": 0.00002 } ] }])").array();
+    DialogNewDevice d(templates, roomNamed("Salon"));
+    QDoubleSpinBox *gain = field<QDoubleSpinBox>(&d, "gain");
+    QCOMPARE(gain->decimals(), 5);
+    QCOMPARE(gain->value(), 0.00002);
 }
 
 void tst_DialogNewDevice::switchingTemplatesKeepsTheCommonValues()
