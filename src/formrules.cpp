@@ -8,6 +8,8 @@
 #include "HomeTree.h"
 #include "DialogDeleteImpact.h"
 #include "DialogDeviceInfo.h"
+#include "DialogEditDevice.h"
+#include "DeviceEdit.h"
 #include <DeletionImpact.h>
 #include "DialogEditTimeRange.h"
 #include "DialogNewAVReceiver.h"
@@ -2040,11 +2042,24 @@ void FormRules::showPropertiesItem()
     int type = OBJ_NONE;
     IOBase *io = nullptr;
 
-    //Read-only until the device wizard can edit one coherently.
+    //Shown only when there is nothing it could edit: a project open read-only, or an
+    //impl IODoc does not document.
     if (QTreeWidgetItemDevice *itdevice = dynamic_cast<QTreeWidgetItemDevice *>(treeItem))
     {
-        DialogDeviceInfo info(itdevice->getDevice(), this);
-        info.exec();
+        Device *dev = itdevice->getDevice();
+        if (ListeRoom::Instance().isReadOnly() || !DeviceEdit::isDocumented(dev))
+        {
+            DialogDeviceInfo info(dev, this);
+            info.exec();
+            return;
+        }
+
+        DialogEditDevice dialog(dev, this);
+        if (dialog.exec() == QDialog::Accepted && dialog.changed())
+        {
+            updateItemInfos(itdevice);
+            setProjectModified(true);
+        }
         return;
     }
 

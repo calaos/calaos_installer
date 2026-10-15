@@ -1,5 +1,6 @@
 #include "DialogNewDevice.h"
 #include "DeviceTemplates.h"
+#include "WheelGuard.h"
 
 #include <ListeRoom.h>
 #include <QCheckBox>
@@ -32,25 +33,6 @@ int decimalsOf(double step)
     const int dot = s.indexOf('.');
     return dot < 0 ? 0 : s.size() - dot - 1;
 }
-
-//A wheel over a scrolled form scrolls it, it does not change the value under the mouse.
-class WheelGuard: public QObject
-{
-public:
-    using QObject::QObject;
-
-protected:
-    bool eventFilter(QObject *o, QEvent *e) override
-    {
-        QWidget *w = qobject_cast<QWidget *>(o);
-        if (e->type() == QEvent::Wheel && w && !w->hasFocus())
-        {
-            e->ignore();
-            return true;
-        }
-        return QObject::eventFilter(o, e);
-    }
-};
 
 }
 
@@ -206,11 +188,7 @@ QWidget *DialogNewDevice::createEditor(FieldEditor &f, const QVariant &value)
     const QString name = f.def["name"].toString();
     const QString type = f.def["type"].toString();
     const QString tip = f.def["description"].toString();
-    auto guarded = [](QWidget *w)
-    {
-        w->setFocusPolicy(Qt::StrongFocus);
-        w->installEventFilter(new WheelGuard(w));
-    };
+    auto guarded = &WheelGuard::install;
 
     if (type == "number")
     {
