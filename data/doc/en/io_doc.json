@@ -28,7 +28,7 @@
         "parameters": [
             {
                 "default": "true",
-                "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
+                "description": "Enable the Input/Output (edited by hand). The default value is true. This parameter is added if it's not found in the configuration.",
                 "mandatory": "false",
                 "name": "enabled",
                 "readonly": "false",
