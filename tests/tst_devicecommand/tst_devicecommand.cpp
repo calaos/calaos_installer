@@ -5,6 +5,7 @@
 #include <QDoubleSpinBox>
 #include <QJsonDocument>
 #include <QLabel>
+#include <QLayout>
 #include <QLineEdit>
 #include <QPushButton>
 #include <QSettings>
@@ -200,7 +201,14 @@ private slots:
     void thePopupIsResetBetweenActions();
     void aDeviceWithoutJsonDocKeepsTheTextField();
 
+    void anOrdinaryIoHasTheSameSizeWhateverCameBefore();
+    void theTextModeOfADeviceHasTheSizeOfAnOrdinaryIo();
+    void theTextModeShrinksBackAfterTheForm();
+    void theFormGrowsAgainAfterTheText();
+    void aNoticeThatAppearsGrowsThePopup();
+
     void captureTheForms();
+    void captureThePopupSizes();
 };
 
 void tst_DeviceCommand::initTestCase()
@@ -1054,6 +1062,97 @@ void tst_DeviceCommand::thePopupIsResetBetweenActions()
     QVERIFY(!formOf(w)->checkBox("mode")->isChecked());
 }
 
+namespace
+{
+
+// What FormRules does with the popup before it moves it by its width.
+QSize shown(FormActionStd &w, ActionOn &a)
+{
+    w.setAction(&a.item, a.rule.get(), a.action.get());
+    w.layout()->update();
+    w.show();
+    QCoreApplication::processEvents();
+    return w.size();
+}
+
+QSize ordinarySize()
+{
+    ActionOn lamp("lamp", QString("toggle"));
+    FormActionStd fresh;
+    return shown(fresh, lamp);
+}
+
+}
+
+void tst_DeviceCommand::anOrdinaryIoHasTheSameSizeWhateverCameBefore()
+{
+    const QSize reference = ordinarySize();
+
+    ActionOn dev("ac", QString("{\"mode\":\"heat\",\"target_temp\":21.5}"));
+    ActionOn lamp("lamp", QString("toggle"));
+    FormActionStd w;
+    QVERIFY(shown(w, dev).height() > reference.height());
+    QCOMPARE(shown(w, lamp), reference);
+
+    // and an ordinary IO is never taller than the popup was before the form existed
+    QVERIFY(reference.height() <= 192);
+}
+
+void tst_DeviceCommand::theTextModeOfADeviceHasTheSizeOfAnOrdinaryIo()
+{
+    const QSize reference = ordinarySize();
+
+    ActionOn plain("floor", QString("heat"));
+    FormActionStd w;
+    QCOMPARE(shown(w, plain), reference);
+    QVERIFY(modeButton(w)->isVisibleTo(&w));
+}
+
+void tst_DeviceCommand::theTextModeShrinksBackAfterTheForm()
+{
+    const QSize reference = ordinarySize();
+
+    ActionOn a("floor", QString("{\"mode\":\"heat\",\"target_temp\":21.5}"));
+    FormActionStd w;
+    const QSize form = shown(w, a);
+    QVERIFY(form.height() > reference.height());
+
+    // the user flips to the text: the popup is what a text popup is
+    modeButton(w)->click();
+    QVERIFY(textOf(w)->isVisibleTo(&w));
+    QCoreApplication::processEvents();
+    QVERIFY(w.size().height() < form.height());
+    QCOMPARE(w.size(), reference);
+}
+
+void tst_DeviceCommand::theFormGrowsAgainAfterTheText()
+{
+    ActionOn a("floor", QString("{\"mode\":\"heat\",\"target_temp\":21.5}"));
+    FormActionStd w;
+    const QSize form = shown(w, a);
+
+    modeButton(w)->click();
+    QVERIFY(w.height() < form.height());
+    modeButton(w)->click();
+    QCoreApplication::processEvents();
+    QVERIFY(formOf(w)->isVisibleTo(&w));
+    QCOMPARE(w.size(), form);
+}
+
+void tst_DeviceCommand::aNoticeThatAppearsGrowsThePopup()
+{
+    ActionOn a("floor", QString(""));
+    FormActionStd w;
+    const QSize before = shown(w, a);
+
+    // two bounds closer than min_range show a notice under the form
+    spin(*formOf(w), "target_temp_low")->setValue(19);
+    spin(*formOf(w), "target_temp_high")->setValue(20);
+    QCoreApplication::processEvents();
+    QVERIFY(w.height() > before.height());
+    QVERIFY(w.height() >= w.sizeHint().height());
+}
+
 void tst_DeviceCommand::aDeviceWithoutJsonDocKeepsTheTextField()
 {
     ActionOn a("mystery", QString("anything"));
@@ -1097,6 +1196,37 @@ void tst_DeviceCommand::captureTheForms()
         QVERIFY(QTest::qWaitForWindowExposed(&w));
         QVERIFY(w.grab().save(QDir(dir).filePath(QString("%1.png").arg(s.file))));
     }
+}
+
+// Real size of the popup, as the user sees it, when INST8_SHOTS names a folder.
+void tst_DeviceCommand::captureThePopupSizes()
+{
+    const QString dir = qEnvironmentVariable("INST8_SHOTS");
+    if (dir.isEmpty())
+        QSKIP("INST8_SHOTS not set");
+
+    ActionOn form("floor", QString("{\"mode\":\"auto\",\"target_temp_low\":19,\"target_temp_high\":23.5}"));
+    ActionOn plain("floor", QString("heat"));
+    ActionOn lamp("lamp", QString("toggle"));
+    FormActionStd w;
+
+    auto snap = [&](const char *name)
+    {
+        QCoreApplication::processEvents();
+        QVERIFY(w.grab().save(QDir(dir).filePath(QString("%1.png").arg(name))));
+        qInfo() << name << w.size();
+    };
+
+    shown(w, lamp);
+    snap("1-ordinary-fresh");
+    shown(w, form);
+    snap("2-form");
+    modeButton(w)->click();
+    snap("3-text-after-the-form");
+    shown(w, lamp);
+    snap("4-ordinary-after-the-form");
+    shown(w, plain);
+    snap("5-plain-mode-after-the-form");
 }
 
 QTEST_MAIN(tst_DeviceCommand)
