@@ -43,6 +43,21 @@ const DeviceLink *linkOf(Device *dev, const QString &role)
     return nullptr;
 }
 
+//The IO id a role targets in the state, or in the device for a role the state leaves out.
+QString targetOf(Device *dev, const DeviceEdit::State &state, const QString &role)
+{
+    if (state.links.contains(role))
+        return state.links.value(role);
+    const DeviceLink *l = linkOf(dev, role);
+    return l ? u(l->io) : QString();
+}
+
+//An unresolved link gives the server nothing, like a missing one.
+bool resolves(const QString &id)
+{
+    return !id.isEmpty() && DeviceTemplates::ioById(s8(id));
+}
+
 //The io_filter the templates of this impl give a role picked from the house.
 QString templateValueType(const QString &impl, const QString &role)
 {
@@ -204,8 +219,7 @@ bool DeviceEdit::isRequired(Device *dev, const Role &role, const State &state)
     if (role.requiredWhen.contains("link"))
     {
         const QString other = role.requiredWhen["link"].toString();
-        const bool linked = state.links.contains(other) ? !state.links.value(other).isEmpty() : linkOf(dev, other) != nullptr;
-        if (!linked)
+        if (!resolves(targetOf(dev, state, other)))
             return false;
     }
     if (role.requiredWhen.contains("param"))
@@ -227,9 +241,10 @@ QStringList DeviceEdit::missingRequired(Device *dev, const State &state)
     QStringList res;
     for (const Role &r: roles(dev))
     {
-        const bool linked = state.links.contains(r.name) ? !state.links.value(r.name).isEmpty() : linkOf(dev, r.name) != nullptr;
-        if (!linked && isRequired(dev, r, state))
-            res << r.name;
+        const QString id = targetOf(dev, state, r.name);
+        if (resolves(id) || !isRequired(dev, r, state))
+            continue;
+        res << (id.isEmpty() ? r.name : tr("%1 (\"%2\" not found)").arg(r.name, id));
     }
     return res;
 }
