@@ -3,7 +3,8 @@
     "templates": [
         {
             "attributes": {
-                "name": "{name}"
+                "name": "{name}",
+                "visible": "true"
             },
             "description": "A heat pump or an air conditioner run by ESPHome, which regulates by itself: Calaos reads its state over MQTT and sends the commands. Optionally, Calaos relays the temperature of a room sensor to it.",
             "family": "climate",
@@ -533,7 +534,8 @@
         },
         {
             "attributes": {
-                "name": "{name}"
+                "name": "{name}",
+                "visible": "true"
             },
             "description": "An air conditioner driven by infrared from ESPHome (climate_ir platforms). It reports no action and cannot take a remote temperature.",
             "family": "climate",
@@ -914,7 +916,8 @@
         },
         {
             "attributes": {
-                "name": "{name}"
+                "name": "{name}",
+                "visible": "true"
             },
             "description": "Calaos switches a heating output from a room sensor and a setpoint.",
             "family": "climate",
@@ -1081,7 +1084,8 @@
         },
         {
             "attributes": {
-                "name": "{name}"
+                "name": "{name}",
+                "visible": "true"
             },
             "description": "Calaos switches a heating and a cooling output from a room sensor: one setpoint in heat and cool, a range in auto.",
             "family": "climate",
@@ -1304,7 +1308,8 @@
         },
         {
             "attributes": {
-                "name": "{name}"
+                "name": "{name}",
+                "visible": "true"
             },
             "description": "Calaos heats and cools through the floor, and stops cooling before the dew point.",
             "family": "climate",

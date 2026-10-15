@@ -3,7 +3,8 @@
     "templates": [
         {
             "attributes": {
-                "name": "{name}"
+                "name": "{name}",
+                "visible": "true"
             },
             "description": "Une pompe \u00e0 chaleur ou un climatiseur pilot\u00e9 par ESPHome, qui r\u00e9gule seul : Calaos lit son \u00e9tat par MQTT et envoie les commandes. En option, Calaos lui relaie la temp\u00e9rature d'une sonde de la pi\u00e8ce.",
             "family": "climate",
@@ -533,7 +534,8 @@
         },
         {
             "attributes": {
-                "name": "{name}"
+                "name": "{name}",
+                "visible": "true"
             },
             "description": "Un climatiseur pilot\u00e9 en infrarouge par ESPHome (plateformes climate_ir). Il ne remonte pas son action et ne peut pas recevoir de temp\u00e9rature distante.",
             "family": "climate",
@@ -914,7 +916,8 @@
         },
         {
             "attributes": {
-                "name": "{name}"
+                "name": "{name}",
+                "visible": "true"
             },
             "description": "Calaos commute une sortie de chauffage \u00e0 partir d'une sonde de la pi\u00e8ce et d'une consigne.",
             "family": "climate",
@@ -1081,7 +1084,8 @@
         },
         {
             "attributes": {
-                "name": "{name}"
+                "name": "{name}",
+                "visible": "true"
             },
             "description": "Calaos commute une sortie de chauffage et une sortie de refroidissement \u00e0 partir d'une sonde de la pi\u00e8ce : une consigne en chauffage et en refroidissement, une plage en auto.",
             "family": "climate",
@@ -1304,7 +1308,8 @@
         },
         {
             "attributes": {
-                "name": "{name}"
+                "name": "{name}",
+                "visible": "true"
             },
             "description": "Calaos chauffe et refroidit par le sol, et arr\u00eate le refroidissement avant le point de ros\u00e9e.",
             "family": "climate",

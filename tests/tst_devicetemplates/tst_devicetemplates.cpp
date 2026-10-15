@@ -565,7 +565,7 @@ void tst_DeviceTemplates::theDocumentedExampleIsWrittenAsDocumented()
 {
     //docs/17_device_templates.md of calaos_base, with the id this installer gives it.
     const QString documented = R"(
-<calaos:device id="chauffage_salon" type="climate" impl="thermostat" name="Chauffage salon">
+<calaos:device id="chauffage_salon" type="climate" impl="thermostat" name="Chauffage salon" visible="true">
   <calaos:internal id="chauffage_salon_target_temp" type="InternalInt" name="Chauffage salon setpoint"
                    save="true" step="0.5" unit="°C" value="20" value_max="30" value_min="7" visible="false"/>
   <calaos:internal id="chauffage_salon_action" type="InternalString" name="Chauffage salon action" visible="false"/>

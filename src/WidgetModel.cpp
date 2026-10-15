@@ -1,4 +1,5 @@
 #include "WidgetModel.h"
+#include <ListeRoom.h>
 
 const QStringList WidgetModel::s_knownAttributes = {
     "io_id", "type", "name", "x", "y", "w", "h",
@@ -20,6 +21,15 @@ void WidgetModel::loadFromXmlElement(const QDomElement &element)
     m_y = element.attribute("y", "0").toInt();
     m_w = element.attribute("w", "1").toInt();
     m_h = element.attribute("h", "1").toInt();
+
+    // Older editors saved the fallback type for IOs they had no widget for (climate
+    // devices), and the panel draws that as Unsupported.
+    if (m_type == QLatin1String("Generic") && !m_ioId.isEmpty())
+    {
+        const QString t = widgetTypeForGuiType(guiTypeOfIo(m_ioId));
+        if (availableWidgetTypes().contains(t))
+            m_type = t;
+    }
 
     // Load clock-specific attributes
     if (categoryForType(m_type) == "Clock")
@@ -276,6 +286,7 @@ QStringList WidgetModel::availableWidgetTypes()
         "LightSwitch",
         "Temperature",
         "Scenario",
+        "Climate",
     };
 }
 
@@ -299,6 +310,9 @@ QString WidgetModel::widgetTypeForGuiType(const QString &guiType)
 
         // Scenarios
         {"scenario", "Scenario"},
+
+        // Devices: the family, whatever its case in older files
+        {"climate", "Climate"},
 
         // Shutters (future)
         {"shutter", "Shutter"},
@@ -325,5 +339,14 @@ QString WidgetModel::widgetTypeForGuiType(const QString &guiType)
         {"avreceiver", "AVReceiver"},
     };
 
-    return mapping.value(guiType, "Generic");
+    return mapping.value(guiType.toLower(), "Generic");
+}
+
+QString WidgetModel::guiTypeOfIo(const QString &ioId)
+{
+    const std::string id = ioId.toStdString();
+    Calaos::IOBase *io = Calaos::ListeRoom::Instance().get_input(id);
+    if (!io)
+        io = Calaos::ListeRoom::Instance().get_output(id);
+    return io ? QString::fromStdString(io->get_gui_type()) : QString();
 }
