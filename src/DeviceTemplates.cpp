@@ -414,7 +414,12 @@ std::string DeviceTemplates::idBaseFor(const QString &name)
 {
     std::string id;
     bool gap = false;
-    for (const QChar c: name.normalized(QString::NormalizationForm_KD))
+    //NFKD leaves these letters whole: spelled out first.
+    QString spelled = name;
+    spelled.replace(QChar(0x0153), "oe").replace(QChar(0x0152), "OE")
+           .replace(QChar(0x00E6), "ae").replace(QChar(0x00C6), "AE")
+           .replace(QChar(0x00DF), "ss").replace(QChar(0x1E9E), "SS");
+    for (const QChar c: spelled.normalized(QString::NormalizationForm_KD))
     {
         if (c.category() == QChar::Mark_NonSpacing)
             continue;
