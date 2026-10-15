@@ -698,6 +698,13 @@ void tst_DeviceCommand::aNumberKeepsMoreThanSixDecimals()
     // once edited, the number is the one of the spin
     spin(form, "target_temp")->setValue(22);
     QCOMPARE(json(form.value())["target_temp"].toDouble(), 22.0);
+
+    // dropped and sent again, it is what the spin shows
+    form.setValue("{\"target_temp\":21.1234567}");
+    form.checkBox("target_temp")->setChecked(false);
+    form.checkBox("target_temp")->setChecked(true);
+    QCOMPARE(json(form.value())["target_temp"].toDouble(), spin(form, "target_temp")->value());
+    QVERIFY(json(form.value())["target_temp"].toDouble() != 21.1234567);
 }
 
 void tst_DeviceCommand::choosingTheDisplayedValueChecksTheRow()

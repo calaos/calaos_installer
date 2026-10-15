@@ -399,7 +399,7 @@ void DeviceCommandForm::updateRangeFlag()
         if (!ok || gap < 0)
             gap = 0;
         const double l = numberOf(*low), h = numberOf(*high);
-        bad = l > h || h - l < gap - 1e-9;
+        bad = h - l < gap - 1e-9; // also true when inverted
     }
 
     for (Row *r : { low, high })
