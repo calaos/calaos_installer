@@ -47,7 +47,8 @@ enum { ITEM_ROOM=0, ITEM_INPUT_SWITCH, ITEM_LIGHT, ITEM_SHUTTER, ITEM_DALI,
        ITEM_SCENARIO, ITEM_TIME, ITEM_ANALOG, ITEM_AVR, ITEM_STRINGIN, ITEM_STRINGOUT,
        ITEM_ANALOG_IN, ITEM_ANALOG_OUT, ITEM_BOOL_OUT,
        ITEM_REMOTE_UI,
-       ITEM_REMOTE_UI_RELAY
+       ITEM_REMOTE_UI_RELAY,
+       ITEM_DEVICE_TEMPLATE
      };
 
 namespace Ui
@@ -108,6 +109,7 @@ public:
 
     //new version
     void addCalaosIO(Params &params);
+    void addDeviceFromTemplate();
 
 protected:
     void changeEvent(QEvent *e);

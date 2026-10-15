@@ -135,7 +135,89 @@
         <translation>Les bornes basse et haute doivent être distantes d&apos;au moins %1, la basse sous la haute : le serveur refuse la paire sinon.</translation>
     </message>
 </context>
-
+<context>
+    <name>DeviceTemplates</name>
+    <message>
+        <location filename="../src/DeviceTemplates.cpp" line="239"/>
+        <source>%1 is required.</source>
+        <translation>%1 est obligatoire.</translation>
+    </message>
+    <message>
+        <location filename="../src/DeviceTemplates.cpp" line="252"/>
+        <source>%1 must be a number.</source>
+        <translation>%1 doit être un nombre.</translation>
+    </message>
+    <message>
+        <location filename="../src/DeviceTemplates.cpp" line="256"/>
+        <source>%1 must be between %2 and %3.</source>
+        <translation>%1 doit être compris entre %2 et %3.</translation>
+    </message>
+    <message>
+        <location filename="../src/DeviceTemplates.cpp" line="258"/>
+        <source>%1 must be %2 or more.</source>
+        <translation>%1 doit valoir au moins %2.</translation>
+    </message>
+    <message>
+        <location filename="../src/DeviceTemplates.cpp" line="260"/>
+        <source>%1 must be %2 or less.</source>
+        <translation>%1 doit valoir au plus %2.</translation>
+    </message>
+    <message>
+        <location filename="../src/DeviceTemplates.cpp" line="274"/>
+        <source>%1: choose one at least.</source>
+        <translation>%1 : cochez-en au moins un.</translation>
+    </message>
+    <message>
+        <location filename="../src/DeviceTemplates.cpp" line="277"/>
+        <source>%1: &quot;%2&quot; is not one of the choices.</source>
+        <translation>%1 : « %2 » ne fait pas partie des choix.</translation>
+    </message>
+    <message>
+        <location filename="../src/DeviceTemplates.cpp" line="283"/>
+        <source>%1: choose a room.</source>
+        <translation>%1 : choisissez une pièce.</translation>
+    </message>
+    <message>
+        <location filename="../src/DeviceTemplates.cpp" line="293"/>
+        <source>%1: choose an IO.</source>
+        <translation>%1 : choisissez un IO.</translation>
+    </message>
+    <message>
+        <location filename="../src/DeviceTemplates.cpp" line="296"/>
+        <source>%1: no IO has the id &quot;%2&quot;.</source>
+        <translation>%1 : aucun IO n'a l'id « %2 ».</translation>
+    </message>
+    <message>
+        <location filename="../src/DeviceTemplates.cpp" line="298"/>
+        <source>%1: &quot;%2&quot; is not an IO of the expected kind.</source>
+        <translation>%1 : « %2 » n'est pas un IO du type attendu.</translation>
+    </message>
+    <message>
+        <location filename="../src/DeviceTemplates.cpp" line="304"/>
+        <source>%1: &quot;%2&quot; is already chosen for %3.</source>
+        <translation>%1 : « %2 » est déjà choisi pour %3.</translation>
+    </message>
+    <message>
+        <location filename="../src/DeviceTemplates.cpp" line="325"/>
+        <source>%1: &quot;%2&quot; is already an output of thermostat &quot;%3&quot;.</source>
+        <translation>%1 : « %2 » est déjà une sortie du thermostat « %3 ».</translation>
+    </message>
+    <message>
+        <location filename="../src/DeviceTemplates.cpp" line="310"/>
+        <source>%1: this installer does not know the field type &quot;%2&quot;.</source>
+        <translation>%1 : cet installer ne connaît pas le type de champ « %2 ».</translation>
+    </message>
+    <message>
+        <location filename="../src/DeviceTemplates.cpp" line="314"/>
+        <source>The template has no room field.</source>
+        <translation>Le template n'a pas de champ pièce.</translation>
+    </message>
+    <message>
+        <location filename="../src/DeviceTemplates.cpp" line="320"/>
+        <source>The template declares an IO of unknown kind &quot;%1&quot;.</source>
+        <translation>Le template déclare un IO de genre inconnu « %1 ».</translation>
+    </message>
+</context>
 <context>
     <name>DialogAutoDetect</name>
     <message>
@@ -508,6 +590,64 @@ p, li { white-space: pre-wrap; }
         <location filename="../src/DialogDaliMasterItem.cpp" line="147"/>
         <source>Buttons_address: %1</source>
         <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>DialogNewDevice</name>
+    <message>
+        <location filename="../src/DialogNewDevice.cpp" line="62"/>
+        <source>New device from a template</source>
+        <translation>Nouveau device depuis un template</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogNewDevice.cpp" line="77"/>
+        <source>Template:</source>
+        <translation>Template :</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogNewDevice.cpp" line="101"/>
+        <source>Create</source>
+        <translation>Créer</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogNewDevice.cpp" line="114"/>
+        <source>No device template is available in this installer.</source>
+        <translation>Aucun template de device n'est disponible dans cet installer.</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogNewDevice.cpp" line="185"/>
+        <source>No IO of this project fits: create it first.</source>
+        <translation>Aucun IO du projet ne convient : créez-le d'abord.</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogNewDevice.cpp" line="198"/>
+        <source>%1:</source>
+        <translation>%1 :</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogNewDevice.cpp" line="266"/>
+        <source>Choose an IO</source>
+        <translation>Choisir un IO</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogNewDevice.cpp" line="266"/>
+        <source>None</source>
+        <translation>Aucun</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogNewDevice.cpp" line="377"/>
+        <source>The device could not be created.</source>
+        <translation>Le device n'a pas pu être créé.</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogNewDevice.cpp" line="389"/>
+        <source>Device created</source>
+        <translation>Device créé</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogNewDevice.cpp" line="394"/>
+        <source>%1 is created. Its setup needs a few more steps:</source>
+        <translation>%1 est créé. Sa mise en service demande encore quelques étapes :</translation>
     </message>
 </context>
 <context>
@@ -5478,6 +5618,11 @@ p, li { white-space: pre-wrap; }
 </context>
 <context>
     <name>FormRules</name>
+    <message>
+        <location filename="../src/formrules.cpp" line="479"/>
+        <source>Device from a template...</source>
+        <translation>Device depuis un template...</translation>
+    </message>
     <message>
         <location filename="../data/FormRules.ui" line="20"/>
         <source>Form</source>
