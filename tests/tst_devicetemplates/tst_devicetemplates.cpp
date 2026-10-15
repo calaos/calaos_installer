@@ -810,7 +810,7 @@ void tst_DeviceTemplates::theDeviceIdComesFromItsName_data()
     QTest::newRow("accents") << "Clim chambre d'Élise" << "clim_chambre_d_elise";
     QTest::newRow("punctuation") << "  --Salon (RDC) #2-- " << "salon_rdc_2";
     QTest::newRow("nothing left") << "° — °" << "device";
-    QTest::newRow("ligatures") << "Œuvre Cæsar Straße ŒÆ" << "oeuvre_caesar_strasse_oeae";
+    QTest::newRow("ligatures") << "Cœur Œuvre Cæsar Straße ŒÆ" << "coeur_oeuvre_caesar_strasse_oeae";
 }
 
 void tst_DeviceTemplates::theDeviceIdComesFromItsName()
@@ -960,7 +960,7 @@ void tst_DeviceTemplates::anOutputOfAnotherThermostatIsRefused()
         "    <calaos:link name=\"output_cool\" io=\"relay_cool\"/>\n"
         "  </calaos:device>\n"
         "  <calaos:device id=\"p1\" type=\"climate\" impl=\"proxy\" name=\"Proxy\">\n"
-        "    <calaos:link name=\"mode\" io=\"relay_heat\"/>\n"
+        "    <calaos:link name=\"output_heat\" io=\"relay_heat\"/>\n"
         "  </calaos:device>\n");
     QVERIFY(loadIo(work("claimed.xml"), house));
 
@@ -974,7 +974,7 @@ void tst_DeviceTemplates::anOutputOfAnotherThermostatIsRefused()
     QCOMPARE(problems.first().message,
              QString("Heating output: \"Cooling relay\" is already an output of thermostat \"Old thermostat\"."));
 
-    //Another kind of device linking it does not own it.
+    //Another kind of device linking it, under the same role name, does not own it.
     v["output_heat"] = "relay_heat";
     QVERIFY(DeviceTemplates::validate(t, v).isEmpty());
 }
