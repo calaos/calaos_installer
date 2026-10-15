@@ -1,7 +1,14 @@
 #include "FormActionStd.h"
 #include "ui_FormActionStd.h"
 
-#include "formrules.h"
+#include <QJsonArray>
+#include <QMenu>
+#include <QPushButton>
+
+#include <Device.h>
+
+#include "DeviceCommand.h"
+#include "DeviceCommandForm.h"
 #include "IODoc.h"
 
 FormActionStd::FormActionStd(QWidget *parent) :
@@ -9,7 +16,9 @@ FormActionStd::FormActionStd(QWidget *parent) :
     ui(new Ui::FormActionStd),
     rule(NULL),
     action(NULL),
-    actionMenu(NULL)
+    actionMenu(NULL),
+    cmdForm(NULL),
+    btMode(NULL)
 {
     ui->setupUi(this);
 
@@ -20,6 +29,20 @@ FormActionStd::FormActionStd(QWidget *parent) :
 
     actionMenu = new QMenu(this);
     actionMenu->setProperty("class", QVariant("ActionMenu"));
+
+    // Same cell as the text field, which it replaces for a device with a JSON command.
+    cmdForm = new DeviceCommandForm(this);
+    cmdForm->setObjectName("cmdForm");
+    cmdForm->hide();
+    ui->gridLayout->addWidget(cmdForm, 0, 1);
+    connect(cmdForm, &DeviceCommandForm::valueChanged, this, &FormActionStd::onFormChanged);
+
+    btMode = new QPushButton(this);
+    btMode->setObjectName("btMode");
+    btMode->setProperty("class", QVariant("buttonStyled"));
+    btMode->hide();
+    ui->gridLayout->addWidget(btMode, 2, 1);
+    connect(btMode, &QPushButton::clicked, this, &FormActionStd::onModeButtonClicked);
 }
 
 FormActionStd::~FormActionStd()
@@ -108,6 +131,34 @@ void FormActionStd::setAction(QTreeWidgetItem *item, Rule *_rule, Action *_actio
 
     actionMenu->clear();
     ui->buttonMore->setEnabled(true);
+
+    jsonDevice = false;
+    showCommandForm(false);
+    btMode->hide();
+
+    if (Device *device = dynamic_cast<Device *>(output))
+    {
+        QJsonObject jdevice = IODoc::getDeviceObject(QString::fromStdString(device->impl()));
+        if (DeviceCommand::isJson(jdevice))
+        {
+            jsonDevice = true;
+            cmdForm->setDevice(jdevice, DeviceCommand::Instance::of(device));
+
+            const QString text = ui->editValue->text();
+            const DeviceCommand::TextKind kind = DeviceCommand::classify(text, jdevice);
+            const bool dynamic = action->get_params_var().Exists(id);
+
+            // A plain mode or a text the form cannot read stays in the text field.
+            const bool form = !dynamic && (kind == DeviceCommand::Empty || kind == DeviceCommand::Object);
+            if (form)
+                cmdForm->setValue(text);
+            showCommandForm(form);
+
+            ui->buttonMore->setEnabled(false);
+            onStart = false;
+            return;
+        }
+    }
 
     // Try to populate the action menu from io_doc.json.
     // avreceiver keeps its hardcoded logic because it needs dynamic source names.
@@ -268,16 +319,23 @@ void FormActionStd::on_btMore_clicked()
 
     if (!output) return;
 
-    string type = output->get_param("type");
-    string id = output->get_param("id");
     DialogIOList dio(NULL, output);
 
     if (dio.exec() == QDialog::Accepted)
-    {
-        string var_id = dio.getOutput()->get_param("id");
-        action->get_params_var().Add(id, var_id);
-        FormRules::updateItemAction(qitem, action);
-    }
+        setDynamicValue(dio.getOutput()->get_param("id"));
+}
+
+void FormActionStd::setDynamicValue(const std::string &ioId)
+{
+    IOBase *output = NULL;
+    if (action->get_size() > 0)
+        output = action->get_output(0);
+
+    if (!output) return;
+
+    action->get_params_var().Add(output->get_param("id"), ioId);
+    updateModeButton();
+    emit actionChanged(qitem, action);
 }
 
 RuleActionMenu *FormActionStd::addActionMenu(QString action, QString help, QString cmd)
@@ -302,21 +360,83 @@ void FormActionStd::menuAction(RuleActionMenu *action)
 
 void FormActionStd::on_editValue_textChanged(const QString &arg1)
 {
-    Q_UNUSED(arg1);
     if (onStart) return;
 
+    storeValue(arg1);
+    updateModeButton();
+}
+
+void FormActionStd::storeValue(const QString &value)
+{
     IOBase *output = NULL;
     if (action->get_size() > 0)
         output = action->get_output(0);
 
     if (!output) return;
 
-    string type = output->get_param("type");
     string id = output->get_param("id");
-    string value = ui->editValue->text().toUtf8().constData();
 
-    action->get_params().Add(id, value);
+    action->get_params().Add(id, value.toUtf8().constData());
     action->get_params_var().Delete(id);
 
-    FormRules::updateItemAction(qitem, action);
+    emit actionChanged(qitem, action);
+}
+
+void FormActionStd::onFormChanged(const QString &value)
+{
+    if (onStart) return;
+
+    // The text field follows without storing twice.
+    QSignalBlocker block(ui->editValue);
+    ui->editValue->setText(value);
+
+    storeValue(value);
+}
+
+void FormActionStd::showCommandForm(bool form)
+{
+    cmdForm->setVisible(form);
+    ui->editValue->setVisible(!form);
+    ui->buttonMore->setVisible(!form);
+    ui->btMore->setVisible(!form);
+    ui->gridLayout->setAlignment(ui->label_11, form ? Qt::AlignTop : Qt::Alignment());
+
+    btMode->setVisible(jsonDevice);
+    btMode->setText(form ? tr("Edit as text") : tr("Use the form"));
+    updateModeButton();
+}
+
+void FormActionStd::updateModeButton()
+{
+    if (!jsonDevice || cmdForm->isVisibleTo(this))
+    {
+        btMode->setEnabled(true);
+        return;
+    }
+
+    IOBase *output = action && action->get_size() > 0 ? action->get_output(0) : NULL;
+    Device *device = dynamic_cast<Device *>(output);
+    if (!device)
+        return;
+
+    // A dynamic value comes from another IO: the form could not show it.
+    const bool dynamic = action->get_params_var().Exists(device->get_param("id"));
+    const QJsonObject jdevice = IODoc::getDeviceObject(QString::fromStdString(device->impl()));
+    const bool readable = DeviceCommand::classify(ui->editValue->text(), jdevice) != DeviceCommand::Other;
+
+    btMode->setEnabled(!dynamic && readable);
+    btMode->setToolTip(btMode->isEnabled() ? QString() :
+                       tr("The form only reads a JSON command of this device or a mode."));
+}
+
+void FormActionStd::onModeButtonClicked()
+{
+    if (cmdForm->isVisibleTo(this))
+    {
+        showCommandForm(false);
+        return;
+    }
+
+    cmdForm->setValue(ui->editValue->text());
+    showCommandForm(true);
 }

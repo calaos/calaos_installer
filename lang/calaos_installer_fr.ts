@@ -15,6 +15,128 @@
     </message>
 </context>
 <context>
+    <name>DeviceCommandForm</name>
+    <message>
+        <location filename="../src/DeviceCommandForm.cpp" line="63"/>
+        <source>Mode</source>
+        <translation>Mode</translation>
+    </message>
+    <message>
+        <location filename="../src/DeviceCommandForm.cpp" line="64"/>
+        <source>Target temperature</source>
+        <translation>Température cible</translation>
+    </message>
+    <message>
+        <location filename="../src/DeviceCommandForm.cpp" line="65"/>
+        <source>Low target</source>
+        <translation>Cible basse</translation>
+    </message>
+    <message>
+        <location filename="../src/DeviceCommandForm.cpp" line="66"/>
+        <source>High target</source>
+        <translation>Cible haute</translation>
+    </message>
+    <message>
+        <location filename="../src/DeviceCommandForm.cpp" line="67"/>
+        <source>Fan mode</source>
+        <translation>Ventilation</translation>
+    </message>
+    <message>
+        <location filename="../src/DeviceCommandForm.cpp" line="68"/>
+        <source>Swing mode</source>
+        <translation>Oscillation</translation>
+    </message>
+    <message>
+        <location filename="../src/DeviceCommandForm.cpp" line="77"/>
+        <source>Off</source>
+        <translation>Arrêt</translation>
+    </message>
+    <message>
+        <location filename="../src/DeviceCommandForm.cpp" line="78"/>
+        <source>Heat</source>
+        <translation>Chaud</translation>
+    </message>
+    <message>
+        <location filename="../src/DeviceCommandForm.cpp" line="79"/>
+        <source>Cool</source>
+        <translation>Froid</translation>
+    </message>
+    <message>
+        <location filename="../src/DeviceCommandForm.cpp" line="80"/>
+        <source>Auto</source>
+        <translation>Auto</translation>
+    </message>
+    <message>
+        <location filename="../src/DeviceCommandForm.cpp" line="81"/>
+        <source>Dry</source>
+        <translation>Déshumidification</translation>
+    </message>
+    <message>
+        <location filename="../src/DeviceCommandForm.cpp" line="82"/>
+        <source>Fan only</source>
+        <translation>Ventilation seule</translation>
+    </message>
+    <message>
+        <location filename="../src/DeviceCommandForm.cpp" line="263"/>
+        <source>The value %1 is outside the bounds of this device (%2 to %3). It is kept as is unless you change it.</source>
+        <translation>La valeur %1 est hors des bornes de ce device (%2 à %3). Elle est conservée telle quelle tant que vous ne la changez pas.</translation>
+    </message>
+    <message>
+        <location filename="../src/DeviceCommandForm.cpp" line="313"/>
+        <source>No field to offer: this device has no linked IO to command yet.</source>
+        <translation>Aucun champ à proposer : ce device n&apos;a pas encore d&apos;IO lié à commander.</translation>
+    </message>
+    <message numerus="yes">
+        <location filename="../src/DeviceCommandForm.cpp" line="322"/>
+        <source>%n more field(s) need a link on this device</source>
+        <translation>
+            <numerusform>%n champ de plus a besoin d&apos;un lien sur ce device</numerusform>
+            <numerusform>%n champs de plus ont besoin d&apos;un lien sur ce device</numerusform>
+        </translation>
+    </message>
+    <message>
+        <location filename="../src/DeviceCommandForm.cpp" line="337"/>
+        <source>Sent as is: %1</source>
+        <translation>Envoyé tel quel : %1</translation>
+    </message>
+    <message>
+        <location filename="../src/DeviceCommandForm.cpp" line="338"/>
+        <source>These keys of the stored command have no field in this form.</source>
+        <translation>Ces clés de la commande enregistrée n&apos;ont pas de champ dans ce formulaire.</translation>
+    </message>
+    <message>
+        <location filename="../src/DeviceCommandForm.cpp" line="1"/>
+        <source>It is kept as is unless you change it.</source>
+        <translation>Elle est conservée telle quelle tant que vous ne la changez pas.</translation>
+    </message>
+    <message>
+        <location filename="../src/DeviceCommandForm.cpp" line="1"/>
+        <source>%1 is not in the %2 param of this device.</source>
+        <translation>%1 n&apos;est pas dans le param %2 de ce device.</translation>
+    </message>
+    <message>
+        <location filename="../src/DeviceCommandForm.cpp" line="1"/>
+        <source>%1 needs the link %2, which this device lacks or cannot write.</source>
+        <translation>%1 demande le lien %2, que ce device n&apos;a pas ou ne peut pas écrire.</translation>
+    </message>
+    <message>
+        <location filename="../src/DeviceCommandForm.cpp" line="1"/>
+        <source>%1 is not a documented value of %2.</source>
+        <translation>%1 n&apos;est pas une valeur documentée de %2.</translation>
+    </message>
+    <message>
+        <location filename="../src/DeviceCommandForm.cpp" line="1"/>
+        <source>%1 (link not writable)</source>
+        <translation>%1 (lien non inscriptible)</translation>
+    </message>
+    <message>
+        <location filename="../src/DeviceCommandForm.cpp" line="1"/>
+        <source>Low and high must be at least %1 apart, low below high: the server refuses the pair otherwise.</source>
+        <translation>Les bornes basse et haute doivent être distantes d&apos;au moins %1, la basse sous la haute : le serveur refuse la paire sinon.</translation>
+    </message>
+</context>
+
+<context>
     <name>DialogAutoDetect</name>
     <message>
         <location filename="../data/dialogautodetect.ui" line="14"/>
@@ -4647,6 +4769,21 @@ p, li { white-space: pre-wrap; }
         <location filename="../src/FormActionStd.cpp" line="253"/>
         <source>Send directly a custom command to the receiver</source>
         <translation>Envoyer une commande directe à l&apos;ampli</translation>
+    </message>
+    <message>
+        <location filename="../src/FormActionStd.cpp" line="398"/>
+        <source>Edit as text</source>
+        <translation>Éditer en texte</translation>
+    </message>
+    <message>
+        <location filename="../src/FormActionStd.cpp" line="398"/>
+        <source>Use the form</source>
+        <translation>Utiliser le formulaire</translation>
+    </message>
+    <message>
+        <location filename="../src/FormActionStd.cpp" line="422"/>
+        <source>The form only reads a JSON command of this device or a mode.</source>
+        <translation>Le formulaire ne lit qu&apos;une commande JSON de ce device ou un mode.</translation>
     </message>
 </context>
 <context>

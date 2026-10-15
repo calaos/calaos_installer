@@ -77,6 +77,8 @@ SOURCES += src/main.cpp \
     src/formrules.cpp \
     src/FormConditionStd.cpp \
     src/FormActionStd.cpp \
+    src/DeviceCommand.cpp \
+    src/DeviceCommandForm.cpp \
     src/IODoc.cpp \
     src/FormConditionStart.cpp \
     src/FormActionMail.cpp \
@@ -171,6 +173,8 @@ HEADERS += src/mainwindow.h \
     src/formrules.h \
     src/FormConditionStd.h \
     src/FormActionStd.h \
+    src/DeviceCommand.h \
+    src/DeviceCommandForm.h \
     src/IODoc.h \
     src/FormConditionStart.h \
     src/FormActionMail.h \

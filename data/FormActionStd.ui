@@ -28,7 +28,7 @@
 	border: 1px solid black;
 	border-radius: 8px;
 }
-#FormActionStd QLabel
+#FormActionStd QLabel, #FormActionStd QCheckBox
 {
 	color: white;
 }
@@ -68,13 +68,13 @@
 {
 	background: qradialgradient(cx: 0.4, cy: -0.1, fx: 0.4, fy: -0.1, radius: 1.35, stop: 0 #fff, stop: 1 #ddd);
 }
-#frameContent QComboBox, #frameContent QLineEdit
+#frameContent QComboBox, #frameContent QLineEdit, #frameContent QDoubleSpinBox
 {
 	border: none;
 	background: rgb(120, 120, 120);
 	padding: 3px;
 }
-#frameContent QComboBox:hover, #frameContent QLineEdit:hover
+#frameContent QComboBox:hover, #frameContent QLineEdit:hover, #frameContent QDoubleSpinBox:hover
 {
 	background: rgb(170, 170, 170);
 }
@@ -92,9 +92,28 @@
     border-top-right-radius: 3px;
     border-bottom-right-radius: 3px;
 }
-#frameContent QComboBox::down-arrow
+#frameContent QComboBox::down-arrow, #frameContent QDoubleSpinBox::down-arrow
 {
 	image: url(:/img/1downarrow.png);
+}
+#frameContent QDoubleSpinBox::up-arrow
+{
+	image: url(:/img/1uparrow.png);
+}
+#frameContent QDoubleSpinBox::up-button, #frameContent QDoubleSpinBox::down-button
+{
+	subcontrol-origin: border;
+	width: 18px;
+	border: none;
+	border-left: 1px solid darkgray;
+}
+#frameContent QDoubleSpinBox::up-button
+{
+	subcontrol-position: top right;
+}
+#frameContent QDoubleSpinBox::down-button
+{
+	subcontrol-position: bottom right;
 }
 
 .ActionMenu 
