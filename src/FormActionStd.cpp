@@ -319,16 +319,22 @@ void FormActionStd::on_btMore_clicked()
 
     if (!output) return;
 
-    string type = output->get_param("type");
-    string id = output->get_param("id");
     DialogIOList dio(NULL, output);
 
     if (dio.exec() == QDialog::Accepted)
-    {
-        string var_id = dio.getOutput()->get_param("id");
-        action->get_params_var().Add(id, var_id);
-        emit actionChanged(qitem, action);
-    }
+        setDynamicValue(dio.getOutput()->get_param("id"));
+}
+
+void FormActionStd::setDynamicValue(const std::string &ioId)
+{
+    IOBase *output = NULL;
+    if (action->get_size() > 0)
+        output = action->get_output(0);
+
+    if (!output) return;
+
+    action->get_params_var().Add(output->get_param("id"), ioId);
+    emit actionChanged(qitem, action);
 }
 
 RuleActionMenu *FormActionStd::addActionMenu(QString action, QString help, QString cmd)

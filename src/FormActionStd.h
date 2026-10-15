@@ -29,6 +29,9 @@ public:
 
     void setAction(QTreeWidgetItem *item, Rule *rule, Action *action);
 
+    // The action takes the value of another IO instead of its own text.
+    void setDynamicValue(const std::string &ioId);
+
 signals:
     // The value of the action was edited: the rule tree has to redraw its line.
     void actionChanged(QTreeWidgetItem *item, Calaos::Action *action);
