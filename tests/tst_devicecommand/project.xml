@@ -1,0 +1,84 @@
+<?xml version="1.0"?>
+<calaos:ioconfig xmlns:calaos="http://www.calaos.fr">
+<calaos:home format="2">
+<calaos:room name="Salon" type="livingroom" hits="0">
+  <calaos:input id="salon_temp" type="MqttInputTemp" name="Temp" topic_sub="salon/temp"/>
+  <calaos:output id="lamp" type="WODigital" name="Lamp" host="10.0.0.5" var="9"/>
+
+  <calaos:device id="ac" type="climate" impl="proxy" name="Clim salon">
+    <calaos:input  id="ac_mode"     type="MqttInputString"  visible="false" name="mode"/>
+    <calaos:output id="ac_mode_cmd" type="MqttOutputString" visible="false" name="mode_cmd"/>
+    <calaos:output id="ac_target"   type="MqttOutputAnalog" visible="false" value_min="16" value_max="30" step="0.25" name="target"/>
+    <calaos:input  id="ac_fan"      type="MqttInputString"  visible="false" name="fan"/>
+    <calaos:output id="ac_fan_cmd"  type="MqttOutputString" visible="false" name="fan_cmd"/>
+    <calaos:link name="mode"      io="ac_mode" command_io="ac_mode_cmd"/>
+    <calaos:link name="target_temp" io="ac_target"/>
+    <calaos:link name="fan_mode"  io="ac_fan" command_io="ac_fan_cmd"/>
+    <calaos:param name="fan_modes" value="auto, low ,high,"/>
+  </calaos:device>
+
+  <calaos:device id="bare" type="climate" impl="proxy" name="Bare">
+    <calaos:output id="bare_mode" type="MqttOutputString" visible="false" name="mode"/>
+    <calaos:link name="mode" io="bare_mode"/>
+  </calaos:device>
+
+  <calaos:device id="nomode" type="climate" impl="proxy" name="No mode">
+    <calaos:output id="nomode_target" type="MqttOutputAnalog" visible="false" value_min="30" value_max="10" unit="F" name="target"/>
+    <calaos:link name="target_temp" io="nomode_target"/>
+  </calaos:device>
+
+  <calaos:device id="narrow" type="climate" impl="proxy" name="Narrow">
+    <calaos:output id="narrow_mode" type="MqttOutputString" visible="false" name="mode"/>
+    <calaos:link name="mode" io="narrow_mode"/>
+    <calaos:param name="modes" value="off, heat ,cool"/>
+  </calaos:device>
+
+  <calaos:device id="nofan" type="climate" impl="proxy" name="No fan list">
+    <calaos:output id="nofan_mode" type="MqttOutputString" visible="false" name="mode"/>
+    <calaos:output id="nofan_fan" type="MqttOutputString" visible="false" name="fan"/>
+    <calaos:link name="mode" io="nofan_mode"/>
+    <calaos:link name="fan_mode" io="nofan_fan"/>
+  </calaos:device>
+
+  <calaos:device id="heat" type="climate" impl="thermostat" name="Heat only">
+    <calaos:internal id="heat_target" type="InternalInt" save="true" visible="false"/>
+    <calaos:output   id="heat_out" type="WODigital" visible="false" host="10.0.0.5" var="1"/>
+    <calaos:link name="current_temp" io="salon_temp"/>
+    <calaos:link name="target_temp"  io="heat_target"/>
+    <calaos:link name="output_heat"  io="heat_out"/>
+  </calaos:device>
+
+  <calaos:device id="floor" type="climate" impl="thermostat" name="Floor">
+    <calaos:internal id="floor_target"      type="InternalInt" save="true" visible="false"/>
+    <calaos:internal id="floor_target_low"  type="InternalInt" save="true" visible="false"/>
+    <calaos:internal id="floor_target_high" type="InternalInt" save="true" visible="false"/>
+    <calaos:output   id="floor_heat" type="WODigital" visible="false" host="10.0.0.5" var="2"/>
+    <calaos:output   id="floor_cool" type="WODigital" visible="false" host="10.0.0.5" var="3"/>
+    <calaos:link name="current_temp"     io="salon_temp"/>
+    <calaos:link name="target_temp"      io="floor_target"/>
+    <calaos:link name="target_temp_low"  io="floor_target_low"/>
+    <calaos:link name="target_temp_high" io="floor_target_high"/>
+    <calaos:link name="output_heat"      io="floor_heat"/>
+    <calaos:link name="output_cool"      io="floor_cool"/>
+  </calaos:device>
+
+  <calaos:device id="half" type="climate" impl="thermostat" name="Half range">
+    <calaos:internal id="half_target"     type="InternalInt" save="true" visible="false"/>
+    <calaos:internal id="half_target_low" type="InternalInt" save="true" visible="false"/>
+    <calaos:output   id="half_heat" type="WODigital" visible="false" host="10.0.0.5" var="4"/>
+    <calaos:output   id="half_cool" type="WODigital" visible="false" host="10.0.0.5" var="5"/>
+    <calaos:link name="target_temp"     io="half_target"/>
+    <calaos:link name="target_temp_low" io="half_target_low"/>
+    <calaos:link name="output_heat"     io="half_heat"/>
+    <calaos:link name="output_cool"     io="half_cool"/>
+  </calaos:device>
+
+  <calaos:device id="cool_only" type="climate" impl="thermostat" name="Cool only">
+    <calaos:output id="cool_only_cool" type="WODigital" visible="false" host="10.0.0.5" var="6"/>
+    <calaos:link name="output_cool" io="cool_only_cool"/>
+  </calaos:device>
+
+  <calaos:device id="mystery" type="widget" impl="unheard_of" name="Mystery"/>
+</calaos:room>
+</calaos:home>
+</calaos:ioconfig>

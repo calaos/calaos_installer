@@ -37,6 +37,8 @@ FormRules::FormRules(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    connect(popupActionStd, &FormActionStd::actionChanged, this, &FormRules::updateItemAction);
+
     add_menu = new QMenu(parent);
     ui->ioexplorer_add->setMenu(add_menu);
 
