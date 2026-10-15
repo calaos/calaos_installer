@@ -9,6 +9,7 @@ SOURCES += \
     $$PWD/src/ConfigOptions.cpp \
     $$PWD/src/OnlineConfig.cpp \
     $$PWD/src/DeviceTemplates.cpp \
+    $$PWD/src/IODoc.cpp \
     $$PWD/src/projectmanager.cpp \
     $$PWD/Calaos/Rule.cpp \
     $$PWD/Calaos/Room.cpp \
@@ -27,6 +28,7 @@ HEADERS += \
     $$PWD/src/ConfigOptions.h \
     $$PWD/src/OnlineConfig.h \
     $$PWD/src/DeviceTemplates.h \
+    $$PWD/src/IODoc.h \
     $$PWD/src/projectmanager.h \
     $$PWD/src/common/Utils.h \
     $$PWD/src/common/base64.h \

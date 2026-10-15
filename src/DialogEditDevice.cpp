@@ -160,6 +160,7 @@ QWidget *DialogEditDevice::buildLinks(const DeviceEdit::State &start)
         }
 
         editor->setObjectName("link_" + role.name);
+        editor->setToolTip(role.name);
         QString hint = role.description;
         for (const DeviceLink &l: m_device->links())
             if (u(l.name) == role.name && !l.commandIo.empty())
@@ -220,6 +221,7 @@ QWidget *DialogEditDevice::buildParams(const DeviceEdit::State &start)
         }
 
         editor->setObjectName("param_" + param.name);
+        editor->setToolTip(param.name);
         QString hint = param.description;
         if (!param.min.isEmpty() || !param.max.isEmpty())
             hint += (hint.isEmpty() ? "" : " ") + tr("(%1 to %2)").arg(param.min.isEmpty() ? "-" : param.min,

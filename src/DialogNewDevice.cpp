@@ -160,9 +160,17 @@ void DialogNewDevice::buildForm()
         QString help = f.def["description"].toString();
         if (type == "io" && qobject_cast<QComboBox *>(f.editor)->count() <= 1)
             help += (help.isEmpty() ? "" : "\n") + tr("No IO of this project fits: create it first.");
+        //The link role or param the field feeds, as IODoc names it, with its id.
+        for (const DeviceTemplates::Documented &d: DeviceTemplates::documentation(tpl, f.def["name"].toString()))
+        {
+            const QString what = d.label == d.id ? d.id : QStringLiteral("%1 (%2)").arg(d.label, d.id);
+            help += (help.isEmpty() ? "" : "\n") +
+                    (d.kind == DeviceTemplates::Documented::Link ? tr("Link: %1") : tr("Parameter: %1")).arg(what);
+        }
         if (!help.isEmpty())
         {
             QLabel *hint = new QLabel(help, cell);
+            hint->setObjectName("hint_" + f.def["name"].toString());
             hint->setWordWrap(true);
             hint->setForegroundRole(QPalette::PlaceholderText);
             QFont hf = hint->font();
@@ -235,7 +243,7 @@ QWidget *DialogNewDevice::createEditor(FieldEditor &f, const QVariant &value)
         else
         {
             box->addItem(f.def["required"].toBool() ? tr("Choose an IO") : tr("None"), QString());
-            for (IOBase *io: DeviceTemplates::candidates(f.def["io_filter"].toObject()))
+            for (IOBase *io: DeviceTemplates::candidates(currentTemplate(), f.def))
             {
                 Room *room = ListeRoom::Instance().get_room(ListeRoom::Instance().searchIO(io));
                 const QString id = u(io->get_param("id"));

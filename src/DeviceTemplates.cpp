@@ -1,5 +1,7 @@
 #include "DeviceTemplates.h"
 
+#include "IODoc.h"
+
 #include <ListeRoom.h>
 #include <QDebug>
 #include <QFile>
@@ -313,7 +315,6 @@ QList<DeviceTemplates::Problem> DeviceTemplates::validate(const QJsonObject &tpl
         else if (type == "io")
         {
             const QString id = v.toString();
-            const QJsonObject filter = def["io_filter"].toObject();
             IOBase *io = id.isEmpty() ? nullptr : ioById(s8(id));
             if (id.isEmpty())
             {
@@ -322,12 +323,12 @@ QList<DeviceTemplates::Problem> DeviceTemplates::validate(const QJsonObject &tpl
             }
             else if (!io)
                 problem(tr("%1: no IO has the id \"%2\".").arg(label, id));
-            else if (!fits(io, filter))
+            else if (!fits(io, tpl, def))
                 problem(tr("%1: \"%2\" is not an IO of the expected kind.").arg(label, u(io->get_param("name"))));
             else if (Device *owner = thermostatOutputs.contains(name) ? thermostatOwning(s8(id)) : nullptr)
                 problem(tr("%1: \"%2\" is already an output of thermostat \"%3\".")
                             .arg(label, u(io->get_param("name")), u(owner->get_param("name"))));
-            else if (filter["writable"].toBool())
+            else if (def["io_filter"].toObject()["writable"].toBool())
             {
                 //A device writes an IO through one link: two would fight over it.
                 auto taken = writableTargets.find(id);
@@ -354,23 +355,26 @@ QList<DeviceTemplates::Problem> DeviceTemplates::validate(const QJsonObject &tpl
     return problems;
 }
 
-bool DeviceTemplates::fits(IOBase *io, const QJsonObject &ioFilter)
+namespace
 {
-    if (!io || dynamic_cast<Device *>(io) || io->get_param("id").empty() || !io->isSupportedByServer())
-        return false;
 
-    const QString value = ioFilter["value"].toString();
+bool hasValueType(IOBase *io, const QString &value)
+{
     const DATA_TYPE t = io->get_type();
-    const bool typeFits = (value == "number" && t == TINT) ||
-                          (value == "bool" && t == TBOOL) ||
-                          (value == "string" && t == TSTRING);
-    if (!typeFits)
-        return false;
-
-    return !ioFilter["writable"].toBool() || io->is_output();
+    return (value == "number" && t == TINT) || (value == "bool" && t == TBOOL) || (value == "string" && t == TSTRING);
 }
 
-std::vector<IOBase *> DeviceTemplates::candidates(const QJsonObject &ioFilter)
+//Roles of the template fed by this field.
+QStringList rolesOfField(const QJsonObject &tpl, const QString &fieldName)
+{
+    QStringList roles;
+    for (const QJsonValue &l: tpl["links"].toArray())
+        if (l.toObject()["io"].toObject()["field"].toString() == fieldName)
+            roles << l.toObject()["role"].toString();
+    return roles;
+}
+
+std::vector<IOBase *> collect(const std::function<bool(IOBase *)> &keep)
 {
     std::vector<IOBase *> res;
     std::set<IOBase *> seen;
@@ -380,7 +384,7 @@ std::vector<IOBase *> DeviceTemplates::candidates(const QJsonObject &ioFilter)
         Room *room = lr.get_room(r);
         auto consider = [&](IOBase *io)
         {
-            if (seen.insert(io).second && fits(io, ioFilter))
+            if (seen.insert(io).second && keep(io))
                 res.push_back(io);
         };
         for (int i = 0;i < room->get_size_in();i++)
@@ -389,6 +393,61 @@ std::vector<IOBase *> DeviceTemplates::candidates(const QJsonObject &ioFilter)
             consider(room->get_output(i));
     }
     return res;
+}
+
+}
+
+bool DeviceTemplates::fits(IOBase *io, const QJsonObject &ioFilter)
+{
+    if (!io || dynamic_cast<Device *>(io) || io->get_param("id").empty() || !io->isSupportedByServer())
+        return false;
+
+    if (!hasValueType(io, ioFilter["value"].toString()))
+        return false;
+
+    return !ioFilter["writable"].toBool() || io->is_output();
+}
+
+bool DeviceTemplates::fits(IOBase *io, const QJsonObject &tpl, const QJsonObject &fieldDef)
+{
+    if (!fits(io, fieldDef["io_filter"].toObject()))
+        return false;
+
+    for (const QString &role: rolesOfField(tpl, fieldDef["name"].toString()))
+    {
+        const QString type = IODoc::valueTypeOf(IODoc::getLinkRole(tpl["impl"].toString(), role));
+        if (!type.isEmpty() && !hasValueType(io, type))
+            return false;
+    }
+    return true;
+}
+
+QList<DeviceTemplates::Documented> DeviceTemplates::documentation(const QJsonObject &tpl, const QString &fieldName)
+{
+    QList<Documented> res;
+    const QString impl = tpl["impl"].toString();
+
+    for (const QString &role: rolesOfField(tpl, fieldName))
+    {
+        const QJsonObject doc = IODoc::getLinkRole(impl, role);
+        if (!doc.isEmpty())
+            res.append({ Documented::Link, role, IODoc::labelOf(doc, role) });
+    }
+    for (const QJsonValue &p: tpl["params"].toArray())
+    {
+        const QString name = p.toObject()["name"].toString();
+        if (p.toObject()["value"].toString() != "{" + fieldName + "}")
+            continue;
+        const QJsonObject doc = IODoc::getDeviceParam(impl, name);
+        if (!doc.isEmpty())
+            res.append({ Documented::Param, name, IODoc::labelOf(doc, name) });
+    }
+    return res;
+}
+
+std::vector<IOBase *> DeviceTemplates::candidates(const QJsonObject &tpl, const QJsonObject &fieldDef)
+{
+    return collect([&](IOBase *io) { return fits(io, tpl, fieldDef); });
 }
 
 IOBase *DeviceTemplates::ioById(const std::string &id)

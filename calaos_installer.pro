@@ -83,7 +83,6 @@ SOURCES += src/main.cpp \
     src/FormActionStd.cpp \
     src/DeviceCommand.cpp \
     src/DeviceCommandForm.cpp \
-    src/IODoc.cpp \
     src/FormConditionStart.cpp \
     src/FormActionMail.cpp \
     src/DialogMailMessage.cpp \
@@ -184,7 +183,6 @@ HEADERS += src/mainwindow.h \
     src/FormActionStd.h \
     src/DeviceCommand.h \
     src/DeviceCommandForm.h \
-    src/IODoc.h \
     src/FormConditionStart.h \
     src/FormActionMail.h \
     src/DialogMailMessage.h \

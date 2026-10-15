@@ -17,6 +17,7 @@
 #include <QTranslator>
 
 #include "../tst_devicetemplates/fixture.h"
+#include "ConfigOptions.h"
 #include "DialogNewDevice.h"
 #include "DialogDeviceInfo.h"
 #include "DialogNewRemoteUIRelay.h"
@@ -98,6 +99,8 @@ private slots:
     void createIsRefusedUntilTheFieldsAreValid();
     void aRequiredMultiNeedsOneBoxChecked();
     void ioFieldsOfferTheIosThatFit();
+    void fieldsNameTheLinkRoleAndTheParamTheyFeed();
+    void anIoFieldDoesNotOfferWhatItsRoleRefuses();
     void editorsFollowTheFieldTypes();
     void aSmallStepGetsItsDecimals();
     void switchingTemplatesKeepsTheCommonValues();
@@ -116,6 +119,8 @@ void tst_DialogNewDevice::initTestCase()
     QCoreApplication::setApplicationName("tst_dialognewdevice");
     QSettings::setDefaultFormat(QSettings::IniFormat);
     QSettings::setPath(QSettings::IniFormat, QSettings::UserScope, m_settingsDir.path());
+    //IODoc follows ui/lang, not the locale of the machine running the tests.
+    ConfigOptions::Instance().setOption("ui/lang", qEnvironmentVariable("CALAOS_SHOTS_LANG", "en"));
 
     connect(&m_dialogKiller, &QTimer::timeout, this, [this]()
     {
@@ -275,6 +280,40 @@ void tst_DialogNewDevice::ioFieldsOfferTheIosThatFit()
     QComboBox *source = field<QComboBox>(&d, "remote_temp_source");
     QCOMPARE(source->itemText(0), QString("None"));
     QCOMPARE(source->currentIndex(), 0);
+}
+
+void tst_DialogNewDevice::fieldsNameTheLinkRoleAndTheParamTheyFeed()
+{
+    DialogNewDevice d(shippedTemplates(), roomNamed("Salon"));
+    QVERIFY(d.selectTemplate("thermostat_heat"));
+    auto hint = [&](const QString &name)
+    {
+        QLabel *l = d.findChild<QLabel *>("hint_" + name);
+        return l ? l->text() : QString();
+    };
+    QVERIFY2(hint("current_temp").contains("Link: Current temperature (current_temp)"), qPrintable(hint("current_temp")));
+    QVERIFY2(hint("output_heat").contains("Link: Heating output (output_heat)"), qPrintable(hint("output_heat")));
+    QVERIFY2(hint("emitter").contains("Parameter: Emitter (emitter)"), qPrintable(hint("emitter")));
+    QVERIFY(!hint("name").contains("Link:"));
+}
+
+void tst_DialogNewDevice::anIoFieldDoesNotOfferWhatItsRoleRefuses()
+{
+    //A template whose filter alone would offer the relays for the room sensor (a number).
+    QJsonObject tpl = shippedTemplate("thermostat_heat");
+    QJsonArray fields = tpl["fields"].toArray();
+    for (int i = 0;i < fields.size();i++)
+        if (fields[i].toObject()["name"].toString() == "current_temp")
+        {
+            QJsonObject f = fields[i].toObject();
+            f["io_filter"] = QJsonObject { { "value", "bool" }, { "writable", true } };
+            fields[i] = f;
+        }
+    tpl["fields"] = fields;
+
+    DialogNewDevice d(QJsonArray { tpl }, roomNamed("Salon"));
+    QCOMPARE(itemData(field<QComboBox>(&d, "current_temp")), QStringList({ "" }));
+    QCOMPARE(itemData(field<QComboBox>(&d, "output_heat")), QStringList({ "", "flag", "relay_heat", "relay_cool" }));
 }
 
 void tst_DialogNewDevice::editorsFollowTheFieldTypes()

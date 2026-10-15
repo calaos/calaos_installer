@@ -15,6 +15,17 @@ public:
     // that takes a JSON command, command_format and command_fields. Empty if unknown.
     static QJsonObject getDeviceObject(const QString &impl);
 
+    // Entry of devices[impl].link_roles / .parameters; empty when the impl or the entry is unknown.
+    static QJsonObject getLinkRole(const QString &impl, const QString &role);
+    static QJsonObject getDeviceParam(const QString &impl, const QString &name);
+
+    // `label` of an entry (already translated by the server), the id made readable (put_back_delay: Put back delay) when it has none.
+    static QString labelOf(const QJsonObject &entry, const QString &id);
+
+    // value_type of a link role: number, bool or string. Empty when absent or anything
+    // else, so that an older or unknown document filters nothing.
+    static QString valueTypeOf(const QJsonObject &linkRole);
+
 private:
     static const QJsonObject &rootObject();
 };

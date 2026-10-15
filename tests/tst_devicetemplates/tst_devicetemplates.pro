@@ -13,14 +13,12 @@ include($$PWD/../../calaos_model.pri)
 RESOURCES += devicetemplates.qrc
 
 SOURCES += \
-    $$PWD/../../src/IODoc.cpp \
     $$PWD/../../src/HomeTree.cpp \
     $$PWD/../../src/HomeTreeMove.cpp \
     tst_devicetemplates.cpp
 
 HEADERS += \
     fixture.h \
-    $$PWD/../../src/IODoc.h \
     $$PWD/../../src/HomeTree.h \
     $$PWD/../../src/HomeTreeMove.h \
     $$PWD/../../src/qtreewidget_addition.h

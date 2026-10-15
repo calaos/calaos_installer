@@ -15,6 +15,7 @@
 #include <QTranslator>
 
 #include "../tst_devicetemplates/fixture.h"
+#include "ConfigOptions.h"
 #include "DeviceEdit.h"
 #include "DialogEditDevice.h"
 #include "house.h"
@@ -109,6 +110,11 @@ private slots:
 
     void rolesAndParamsComeFromIODoc();
     void labelsComeFromIODocOrFromTheName();
+    void theDialogLabelsRolesAndParamsAndKeepsTheirIds();
+    void aRoleTakesItsValueTypeFromIODoc();
+    void aRoleWithoutValueTypeOffersEveryWritableIo();
+    void anExistingLinkOfTheWrongTypeDoesNotChangeTheFilter();
+    void theEmitterIsAComboBoxOfItsChoices();
     void linksToTheDevicesOwnIosAreNotEditable();
     void aLinkAndAParamChangedSurviveASave();
     void rulesAndOwnedIosAreUntouched();
@@ -138,6 +144,8 @@ void tst_DeviceEdit::initTestCase()
     QCoreApplication::setApplicationName("tst_deviceedit");
     QSettings::setDefaultFormat(QSettings::IniFormat);
     QSettings::setPath(QSettings::IniFormat, QSettings::UserScope, m_settingsDir.path());
+    //IODoc follows ui/lang, not the locale of the machine running the tests.
+    ConfigOptions::Instance().setOption("ui/lang", qEnvironmentVariable("CALAOS_SHOTS_LANG", "en"));
 
     connect(&m_dialogKiller, &QTimer::timeout, this, [this]()
     {
@@ -213,7 +221,116 @@ void tst_DeviceEdit::labelsComeFromIODocOrFromTheName()
 {
     QCOMPARE(DeviceEdit::labelFor(QJsonObject { { "label", "Room sensor" } }, "current_temp"), QString("Room sensor"));
     QCOMPARE(DeviceEdit::labelFor(QJsonObject(), "put_back_delay_max"), QString("Put back delay max"));
-    QCOMPARE(roleNamed(th(), "output_heat").label, QString("Output heat"));
+    QCOMPARE(roleNamed(th(), "output_heat").label, QString("Heating output"));
+}
+
+void tst_DeviceEdit::theDialogLabelsRolesAndParamsAndKeepsTheirIds()
+{
+    DialogEditDevice d(th());
+    auto labelOf = [&](const QString &editor)
+    {
+        QWidget *w = d.findChild<QWidget *>(editor);
+        QFormLayout *form = qobject_cast<QFormLayout *>(w->parentWidget()->parentWidget()->layout());
+        QLabel *l = qobject_cast<QLabel *>(form->labelForField(w->parentWidget()));
+        return l;
+    };
+    QLabel *role = labelOf("link_output_heat");
+    QVERIFY(role);
+    QVERIFY2(role->text().startsWith("Heating output"), qPrintable(role->text()));
+    QCOMPARE(role->toolTip(), QString("output_heat"));
+    QCOMPARE(d.findChild<QWidget *>("link_output_heat")->toolTip(), QString("output_heat"));
+
+    QLabel *param = labelOf("param_hysteresis");
+    QVERIFY(param);
+    QCOMPARE(param->text(), QString("Hysteresis:"));
+    QCOMPARE(param->toolTip(), QString("hysteresis"));
+    QCOMPARE(d.findChild<QWidget *>("param_hysteresis")->toolTip(), QString("hysteresis"));
+}
+
+void tst_DeviceEdit::aRoleTakesItsValueTypeFromIODoc()
+{
+    //The proxy's low setpoint has no template field and no link in the file: only
+    //IODoc says it is a number, and a relay must not be offered for it.
+    Device *px = ListeRoom::Instance().get_device("px");
+    const DeviceEdit::Role low = roleNamed(px, "target_temp_low");
+    QCOMPARE(low.valueType, QString("number"));
+    QVERIFY(low.writable);
+
+    QStringList ids;
+    for (IOBase *io: DeviceEdit::candidates(low, px))
+        ids << u(io->get_param("id"));
+    for (const char *notNumber: { "relay_heat", "relay_cool", "relay_spare", "relay_cave", "flag", "mode_cmd" })
+        QVERIFY2(!ids.contains(notNumber), notNumber);
+    QVERIFY(ids.contains("th_target_temp"));
+
+    QCOMPARE(roleNamed(px, "mode").valueType, QString("string"));
+    QCOMPARE(roleNamed(th(), "output_cool").valueType, QString("bool"));
+}
+
+void tst_DeviceEdit::aRoleWithoutValueTypeOffersEveryWritableIo()
+{
+    //A document older than value_type, or a type this installer does not know.
+    DeviceEdit::Role legacy;
+    legacy.name = "x";
+    legacy.writable = true;
+    QStringList ids;
+    for (IOBase *io: DeviceEdit::candidates(legacy, th()))
+        ids << u(io->get_param("id"));
+    for (const char *id: { "relay_heat", "flag", "mode_cmd", "th2_target_temp" })
+        QVERIFY2(ids.contains(id), id);
+    QVERIFY(!ids.contains("temp_salon"));
+}
+
+void tst_DeviceEdit::anExistingLinkOfTheWrongTypeDoesNotChangeTheFilter()
+{
+    //The file links target_temp_low to a relay: IODoc still says number, so no relay is
+    //offered, and the link is shown as it is and survives an OK.
+    const QByteArray house = QByteArray(kIo).replace(
+        "<calaos:link name=\"mode\" io=\"mode_state\" command_io=\"mode_cmd\"/>",
+        "<calaos:link name=\"mode\" io=\"mode_state\" command_io=\"mode_cmd\"/>\n"
+        "    <calaos:link name=\"target_temp_low\" io=\"relay_cave\"/>");
+    QVERIFY(loadIo(work("wrongtype.xml"), house));
+    Device *px = ListeRoom::Instance().get_device("px");
+    QVERIFY(px);
+
+    const DeviceEdit::Role low = roleNamed(px, "target_temp_low");
+    QCOMPARE(low.valueType, QString("number"));
+    for (IOBase *io: DeviceEdit::candidates(low, px))
+        QVERIFY2(u(io->get_param("id")) != "relay_cave", "relay offered");
+
+    DialogEditDevice d(px);
+    QComboBox *box = d.findChild<QComboBox *>("link_target_temp_low");
+    QVERIFY(box);
+    QCOMPARE(box->currentData().toString(), QString("relay_cave"));
+    QVERIFY2(box->currentText().contains("of another kind"), qPrintable(box->currentText()));
+    for (int i = 0;i < box->count();i++)
+        if (box->itemData(i).toString() != "relay_cave")
+            QVERIFY2(!box->itemText(i).contains("relay", Qt::CaseInsensitive), qPrintable(box->itemText(i)));
+
+    clickOk(&d);
+    QCOMPARE(linksOf(px)["target_temp_low"], QString("relay_cave"));
+}
+
+void tst_DeviceEdit::theEmitterIsAComboBoxOfItsChoices()
+{
+    QStringList keys;
+    for (const DeviceEdit::Param &p: DeviceEdit::params(th()))
+        if (p.name == "emitter")
+        {
+            QCOMPARE(p.type, QString("list"));
+            keys = p.listValues.keys();
+        }
+    QCOMPARE(keys, QStringList({ "electric", "fan_coil", "floor", "heat_pump", "water_radiator" }));
+
+    DialogEditDevice d(th());
+    QComboBox *emitter = d.findChild<QComboBox *>("param_emitter");
+    QVERIFY(emitter);
+    QCOMPARE(emitter->currentData().toString(), QString("heat_pump"));
+    QVERIFY(emitter->findData("floor") >= 0);
+
+    choose(emitter, "floor");
+    clickOk(&d);
+    QVERIFY(paramsOf(th()).contains("emitter=floor"));
 }
 
 void tst_DeviceEdit::linksToTheDevicesOwnIosAreNotEditable()
@@ -369,18 +486,18 @@ void tst_DeviceEdit::refusals_data()
     QTest::addColumn<QString>("message");
 
     QTest::newRow("decision 17") << "output_heat" << "relay_cave"
-                                 << "output_heat: Output heat: \"Cave relay\" is already an output of thermostat \"Cave thermostat\".";
+                                 << "output_heat: Heating output: \"Cave relay\" is already an output of thermostat \"Cave thermostat\".";
     QTest::newRow("legacy") << "current_temp" << "zibase"
-                            << "current_temp: Current temp: \"Old sensor\" is not an IO of the expected kind.";
+                            << "current_temp: Current temperature: \"Old sensor\" is not an IO of the expected kind.";
     QTest::newRow("not writable") << "output_cool" << "switch_salon"
-                                  << "output_cool: Output cool: \"Salon switch\" is not an IO of the expected kind.";
+                                  << "output_cool: Cooling output: \"Salon switch\" is not an IO of the expected kind.";
     QTest::newRow("value type") << "current_temp" << "relay_spare"
-                                << "current_temp: Current temp: \"Spare relay\" is not an IO of the expected kind.";
+                                << "current_temp: Current temperature: \"Spare relay\" is not an IO of the expected kind.";
     QTest::newRow("heat and cool") << "output_cool" << "relay_heat"
-                                   << "output_cool: Output cool: \"Heating relay\" is already linked as Output heat.";
+                                   << "output_cool: Cooling output: \"Heating relay\" is already linked as Heating output.";
     QTest::newRow("own IO") << "current_temp" << "th_target_temp"
-                            << "current_temp: Current temp: \"Chauffage salon setpoint\" is one of this device's own IOs.";
-    QTest::newRow("unknown id") << "humidity" << "ghost" << "humidity: Humidity: no IO has the id \"ghost\".";
+                            << "current_temp: Current temperature: \"Chauffage salon setpoint\" is one of this device's own IOs.";
+    QTest::newRow("unknown id") << "humidity" << "ghost" << "humidity: Humidity sensor: no IO has the id \"ghost\".";
     QTest::newRow("float") << "param:hysteresis" << "abc" << "hysteresis: Hysteresis must be a number.";
     QTest::newRow("bool") << "param:visible" << "yes" << "visible: Visible must be true or false.";
     QTest::newRow("name") << "param:name" << " " << "name: Name is required.";
@@ -473,11 +590,11 @@ void tst_DeviceEdit::requiredRolesAreReported()
 
     //humidity: required_when output_cool is linked and emitter is floor.
     s.params["emitter"] = "floor";
-    QCOMPARE(DeviceEdit::missingRequired(th(), s), QStringList({ "Humidity" }));
+    QCOMPARE(DeviceEdit::missingRequired(th(), s), QStringList({ "Humidity sensor" }));
     s.links["output_cool"] = QString();
     QCOMPARE(DeviceEdit::missingRequired(th(), s), QStringList());
     s.links["current_temp"] = QString();
-    QCOMPARE(DeviceEdit::missingRequired(th(), s), QStringList({ "Current temp" }));
+    QCOMPARE(DeviceEdit::missingRequired(th(), s), QStringList({ "Current temperature" }));
     //Reported, not refused: the server loads the device without that capability.
     QVERIFY(DeviceEdit::validate(th(), s).isEmpty());
 
@@ -485,7 +602,7 @@ void tst_DeviceEdit::requiredRolesAreReported()
     QVERIFY(loadIo(work("ghost.xml"), QByteArray(kIo).replace("<calaos:link name=\"current_temp\" io=\"temp_salon\"/>",
                                                                 "<calaos:link name=\"current_temp\" io=\"ghost\"/>")));
     QCOMPARE(DeviceEdit::missingRequired(th(), DeviceEdit::current(th())),
-             QStringList({ "Current temp (\"ghost\" not found)" }));
+             QStringList({ "Current temperature (\"ghost\" not found)" }));
 }
 
 void tst_DeviceEdit::okWithoutAChangeChangesNothing()
@@ -557,7 +674,7 @@ void tst_DeviceEdit::theDialogRefusesAndSaysWhy()
     QVERIFY(d.result() != QDialog::Accepted);
     QLabel *error = d.findChild<QLabel *>("labelError");
     QVERIFY(!error->isHidden());
-    QCOMPARE(error->text(), QString("Output heat: \"Cave relay\" is already an output of thermostat \"Cave thermostat\".\n"
+    QCOMPARE(error->text(), QString("Heating output: \"Cave relay\" is already an output of thermostat \"Cave thermostat\".\n"
                                     "Hysteresis must be a number."));
     QCOMPARE(d.focusWidget(), heat);
     QCOMPARE(linksOf(th())["output_heat"], QString("relay_heat"));
@@ -576,17 +693,14 @@ void tst_DeviceEdit::theDialogMarksTheRequiredRoles()
         QFormLayout *form = qobject_cast<QFormLayout *>(editor->parentWidget()->parentWidget()->layout());
         return qobject_cast<QLabel *>(form->labelForField(editor->parentWidget()))->text();
     };
-    //IODoc has no label yet: one is made from the name.
-    QCOMPARE(labelOf("current_temp"), QString("Current temp (required):"));
-    QCOMPARE(labelOf("humidity"), QString("Humidity:"));
+    QCOMPARE(labelOf("current_temp"), QString("Current temperature (required):"));
+    QCOMPARE(labelOf("humidity"), QString("Humidity sensor:"));
 
-    QLineEdit *emitter = d.findChild<QLineEdit *>("param_emitter");
-    emitter->selectAll();
-    QTest::keyClicks(emitter, "floor");
-    QCOMPARE(labelOf("humidity"), QString("Humidity (required):"));
+    choose(d.findChild<QComboBox *>("param_emitter"), "floor");
+    QCOMPARE(labelOf("humidity"), QString("Humidity sensor (required):"));
     QVERIFY(!warning->isHidden());
-    QCOMPARE(warning->text(), QString("No IO for Humidity: the device loads without what this link gives."));
-    QCOMPARE(labelOf("param_put_back_delay_max"), QString("Put back delay max:"));
+    QCOMPARE(warning->text(), QString("No IO for Humidity sensor: the device loads without what this link gives."));
+    QCOMPARE(labelOf("param_put_back_delay_max"), QString("Maximum put-back delay:"));
 
     choose(d.findChild<QComboBox *>("link_humidity"), "hum_salon");
     QVERIFY(warning->isHidden());
@@ -597,18 +711,17 @@ void tst_DeviceEdit::screenshots()
     if (m_shots.isEmpty())
         QSKIP("CALAOS_SHOTS_DIR is not set");
 
+    const QString lang = qEnvironmentVariable("CALAOS_SHOTS_LANG", "en");
     DialogEditDevice d(th());
-    shoot(&d, "edit_device");
+    shoot(&d, lang + "_edit_device");
     choose(d.findChild<QComboBox *>("link_output_heat"), "relay_cave");
-    QLineEdit *emitter = d.findChild<QLineEdit *>("param_emitter");
-    emitter->selectAll();
-    QTest::keyClicks(emitter, "floor");
+    choose(d.findChild<QComboBox *>("param_emitter"), "floor");
     clickOk(&d);
-    shoot(&d, "edit_device_refused");
+    shoot(&d, lang + "_edit_device_refused");
 
     Device *th2 = ListeRoom::Instance().get_device("th2");
     DialogEditDevice other(th2);
-    shoot(&other, "edit_device_without_options");
+    shoot(&other, lang + "_edit_device_without_options");
 }
 
 int main(int argc, char *argv[])

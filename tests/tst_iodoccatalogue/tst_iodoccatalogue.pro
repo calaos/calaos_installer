@@ -13,7 +13,6 @@ include($$PWD/../../calaos_model.pri)
 RESOURCES += iodoc_shipped.qrc
 
 SOURCES += \
-    $$PWD/../../src/IODoc.cpp \
     $$PWD/../../src/WidgetIOProperties.cpp \
     $$PWD/../../src/BalloonTip.cpp \
     $$PWD/../../src/dialogioproperties.cpp \
@@ -21,7 +20,6 @@ SOURCES += \
     tst_iodoccatalogue.cpp
 
 HEADERS += \
-    $$PWD/../../src/IODoc.h \
     $$PWD/../../src/WidgetIOProperties.h \
     $$PWD/../../src/BalloonTip.h \
     $$PWD/../../src/dialogioproperties.h \
