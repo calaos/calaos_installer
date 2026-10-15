@@ -430,6 +430,7 @@ void tst_DeviceEdit::okWithoutAChangeChangesNothing()
     QVERIFY(QTest::qWaitForWindowExposed(&d));
     clickOk(&d);
     QCOMPARE(d.result(), int(QDialog::Accepted));
+    QVERIFY(!d.changed());
     QCOMPARE(QString::fromUtf8(saveIo(work("raw_after.xml"))), QString::fromUtf8(before));
 }
 
@@ -459,6 +460,7 @@ void tst_DeviceEdit::theDialogChangesTheDevice()
 
     clickOk(&d);
     QCOMPARE(d.result(), int(QDialog::Accepted));
+    QVERIFY(d.changed());
     QCOMPARE(linksOf(th())["current_temp"], QString("temp_cave"));
     QVERIFY(paramsOf(th()).contains("hysteresis=0.8"));
     QVERIFY(!paramsOf(th()).join(' ').contains("min_range"));

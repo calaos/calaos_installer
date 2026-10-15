@@ -23,6 +23,8 @@ public:
 
     //What the editors hold, as DeviceEdit takes it.
     DeviceEdit::State state() const;
+    //Accepted with a change written to the device.
+    bool changed() const { return m_changed; }
 
 private:
     struct LinkEditor
@@ -38,7 +40,8 @@ private:
         QCheckBox *check = nullptr;
         QComboBox *list = nullptr;
         bool wasSet = false;
-        bool touched = false;
+        QString raw;     //the value in the file
+        QString initial; //editorValue() when the dialog opened
     };
 
     Calaos::Device *m_device;
@@ -47,10 +50,12 @@ private:
     QLabel *m_error;
     QList<LinkEditor> m_links;
     QList<ParamEditor> m_params;
+    bool m_changed = false;
 
     QWidget *buildLinks(const DeviceEdit::State &start);
     QWidget *buildParams(const DeviceEdit::State &start);
     QWidget *buildOwnedIos();
+    static QString editorValue(const ParamEditor &e);
     void refresh();
     void save();
 };

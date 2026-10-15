@@ -213,22 +213,15 @@ QWidget *DialogEditDevice::buildParams(const DeviceEdit::State &start)
             hint += (hint.isEmpty() ? "" : " ") + tr("(%1 to %2)").arg(param.min.isEmpty() ? "-" : param.min,
                                                                          param.max.isEmpty() ? "-" : param.max);
         form->addRow(param.name + ":", withHint(editor, hint, group));
-        m_params.append(e);
-
-        //A bool shows a value even when the file has none: only a click writes it.
-        ParamEditor *stored = &m_params.last();
-        if (stored->check)
-            connect(stored->check, &QCheckBox::toggled, this, [this, name = param.name]()
-            {
-                for (ParamEditor &p: m_params)
-                    if (p.param.name == name)
-                        p.touched = true;
-                refresh();
-            });
-        else if (stored->list)
-            connect(stored->list, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &DialogEditDevice::refresh);
+        e.raw = value;
+        e.initial = editorValue(e);
+        if (e.check)
+            connect(e.check, &QCheckBox::toggled, this, &DialogEditDevice::refresh);
+        else if (e.list)
+            connect(e.list, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &DialogEditDevice::refresh);
         else
-            connect(stored->line, &QLineEdit::textChanged, this, &DialogEditDevice::refresh);
+            connect(e.line, &QLineEdit::textChanged, this, &DialogEditDevice::refresh);
+        m_params.append(e);
     }
     return group;
 }
@@ -255,11 +248,14 @@ DeviceEdit::State DialogEditDevice::state() const
 
     for (const ParamEditor &e: m_params)
     {
-        if (e.check)
+        //An editor left as it opened keeps the file's text, whatever it is (" 0.5", "", "1").
+        if (editorValue(e) == e.initial)
         {
-            if (e.wasSet || e.touched)
-                s.params[e.param.name] = e.check->isChecked() ? "true" : "false";
+            if (e.wasSet)
+                s.params[e.param.name] = e.raw;
         }
+        else if (e.check)
+            s.params[e.param.name] = e.check->isChecked() ? "true" : "false";
         else if (e.list)
         {
             if (!e.list->currentData().toString().isEmpty())
@@ -289,9 +285,24 @@ void DialogEditDevice::refresh()
     m_warning->setVisible(!missing.isEmpty());
 }
 
+QString DialogEditDevice::editorValue(const ParamEditor &e)
+{
+    if (e.check)
+        return e.check->isChecked() ? "true" : "false";
+    if (e.list)
+        return QString::number(e.list->currentIndex());
+    return e.line->text();
+}
+
 void DialogEditDevice::save()
 {
     const DeviceEdit::State s = state();
+    if (DeviceEdit::isUnchanged(m_device, s))
+    {
+        accept();
+        return;
+    }
+
     const QList<DeviceEdit::Problem> problems = DeviceEdit::validate(m_device, s);
     if (!problems.isEmpty())
     {
@@ -311,5 +322,6 @@ void DialogEditDevice::save()
     }
 
     DeviceEdit::apply(m_device, s);
+    m_changed = true;
     accept();
 }

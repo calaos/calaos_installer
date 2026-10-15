@@ -77,6 +77,7 @@ public:
     //Required roles left without an IO: the device loads, without that capability.
     static QStringList missingRequired(Calaos::Device *dev, const State &state);
 
+    static bool isUnchanged(Calaos::Device *dev, const State &state);
     //Writes a validated state; false (nothing changed) when it does not validate.
     static bool apply(Calaos::Device *dev, const State &state);
 };

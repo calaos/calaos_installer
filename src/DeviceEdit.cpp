@@ -316,6 +316,12 @@ QList<DeviceEdit::Problem> DeviceEdit::validate(Device *dev, const State &state)
     return problems;
 }
 
+bool DeviceEdit::isUnchanged(Device *dev, const State &state)
+{
+    const State now = current(dev);
+    return now.links == state.links && now.params == state.params;
+}
+
 bool DeviceEdit::apply(Device *dev, const State &state)
 {
     if (!validate(dev, state).isEmpty())

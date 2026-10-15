@@ -2055,7 +2055,7 @@ void FormRules::showPropertiesItem()
         }
 
         DialogEditDevice dialog(dev, this);
-        if (dialog.exec() == QDialog::Accepted)
+        if (dialog.exec() == QDialog::Accepted && dialog.changed())
         {
             updateItemInfos(itdevice);
             setProjectModified(true);
