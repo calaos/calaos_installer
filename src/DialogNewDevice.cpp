@@ -105,8 +105,7 @@ DialogNewDevice::DialogNewDevice(const QJsonArray &templates, Room *room, QWidge
 
     connect(m_templateBox, QOverload<int>::of(&QComboBox::currentIndexChanged), this, [this]()
     {
-        //m_fields still holds the editors of the template left.
-        buildForm(values());
+        buildForm();
     });
 
     if (m_templates.isEmpty())
@@ -115,7 +114,7 @@ DialogNewDevice::DialogNewDevice(const QJsonArray &templates, Room *room, QWidge
         m_buttons->button(QDialogButtonBox::Ok)->setEnabled(false);
     }
     else
-        buildForm(QVariantMap());
+        buildForm();
 }
 
 bool DialogNewDevice::selectTemplate(const QString &id)
@@ -141,7 +140,7 @@ QVariantMap DialogNewDevice::values() const
     return all;
 }
 
-void DialogNewDevice::buildForm(const QVariantMap &previous)
+void DialogNewDevice::buildForm()
 {
     const QJsonObject tpl = currentTemplate();
     m_description->setText(tpl["description"].toString());
@@ -153,9 +152,10 @@ void DialogNewDevice::buildForm(const QVariantMap &previous)
     QFormLayout *layout = new QFormLayout(form);
     layout->setFieldGrowthPolicy(QFormLayout::AllNonFixedFieldsGrow);
 
-    //A value typed for the template left is kept when this one asks for the same field.
+    //What the user set for another template is kept when this one asks for the same
+    //field; a default left alone is this template's.
     QVariantMap start = DeviceTemplates::defaults(tpl, m_startRoom);
-    for (auto it = previous.constBegin();it != previous.constEnd();++it)
+    for (auto it = m_changed.constBegin();it != m_changed.constEnd();++it)
     {
         const QJsonObject def = DeviceTemplates::field(tpl, it.key());
         if (!def.isEmpty() && start.contains(it.key()) && start.value(it.key()).userType() == it.value().userType())
@@ -224,12 +224,14 @@ QWidget *DialogNewDevice::createEditor(FieldEditor &f, const QVariant &value)
             sb->setSuffix(" " + f.def["unit"].toString());
         sb->setValue(value.toDouble());
         guarded(sb);
+        connect(sb, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this, [this, name]() { remember(name); });
         f.editor = sb;
     }
     else if (type == "bool")
     {
         QCheckBox *cb = new QCheckBox(f.def["label"].toString());
         cb->setChecked(value.toBool());
+        connect(cb, &QCheckBox::toggled, this, [this, name]() { remember(name); });
         f.editor = cb;
     }
     else if (type == "enum" || type == "room" || type == "io")
@@ -263,6 +265,7 @@ QWidget *DialogNewDevice::createEditor(FieldEditor &f, const QVariant &value)
             }
             box->setCurrentIndex(qMax(0, box->findData(value.toString())));
         }
+        connect(box, QOverload<int>::of(&QComboBox::currentIndexChanged), this, [this, name]() { remember(name); });
         f.editor = box;
     }
     else if (type == "multi")
@@ -279,6 +282,7 @@ QWidget *DialogNewDevice::createEditor(FieldEditor &f, const QVariant &value)
             cb->setObjectName(QStringLiteral("field_%1_%2").arg(name, o["value"].toString()));
             cb->setProperty("choice", o["value"].toString());
             cb->setChecked(picked.contains(o["value"].toString()));
+            connect(cb, &QCheckBox::toggled, this, [this, name]() { remember(name); });
             grid->addWidget(cb, i / 3, i % 3);
             f.choices.append(cb);
         }
@@ -290,12 +294,20 @@ QWidget *DialogNewDevice::createEditor(FieldEditor &f, const QVariant &value)
         QLineEdit *le = new QLineEdit(value.toString());
         if (f.def["secret"].toBool())
             le->setEchoMode(QLineEdit::Password);
+        connect(le, &QLineEdit::textChanged, this, [this, name]() { remember(name); });
         f.editor = le;
     }
 
     f.editor->setObjectName("field_" + name);
     f.editor->setToolTip(tip);
     return f.editor;
+}
+
+void DialogNewDevice::remember(const QString &name)
+{
+    for (const FieldEditor &f: m_fields)
+        if (f.def["name"].toString() == name)
+            m_changed[name] = valueOf(f);
 }
 
 QVariant DialogNewDevice::valueOf(const FieldEditor &f) const

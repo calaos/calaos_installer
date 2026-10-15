@@ -60,12 +60,15 @@ private:
     QDialogButtonBox *m_buttons;
 
     QList<FieldEditor> m_fields;
+    //Values the user set, by field name, whatever template they were set in.
+    QVariantMap m_changed;
 
     Calaos::Device *m_device = nullptr;
     Calaos::Room *m_room = nullptr;
     QStringList m_notes;
 
-    void buildForm(const QVariantMap &previous);
+    void buildForm();
+    void remember(const QString &name);
     QWidget *createEditor(FieldEditor &f, const QVariant &value);
     QVariant valueOf(const FieldEditor &f) const;
     void create();
