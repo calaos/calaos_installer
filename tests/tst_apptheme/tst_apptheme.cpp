@@ -116,19 +116,19 @@ void TestAppTheme::remoteUiEditorShots()
     IOBase *io = ListeRoom::Instance().createOutput(p, room);
     QVERIFY(io);
 
-    const auto shot = [&](const char *name)
-    {
-        DialogRemoteUIEditor dlg(io);
-        dlg.resize(1280, 800);
-        dlg.show();
-        QVERIFY(QTest::qWaitForWindowExposed(&dlg));
-        QTest::qWait(500);
-        QVERIFY(dlg.grab().save(dir + "/" + name));
-    };
+    // One scheme per process: a dialog created before forceLight() keeps stale button
+    // palettes, which the real application never has. CALAOS_SHOTS_FIX=1 applies the fix.
+    const bool fixed = qEnvironmentVariableIntValue("CALAOS_SHOTS_FIX") == 1;
+    if (fixed)
+        AppTheme::forceLight();
 
-    shot("remoteui_dark_system_before.png");
-    AppTheme::forceLight();
-    shot("remoteui_dark_system_after.png");
+    DialogRemoteUIEditor dlg(io);
+    dlg.resize(1280, 800);
+    dlg.show();
+    QVERIFY(QTest::qWaitForWindowExposed(&dlg));
+    QTest::qWait(500);
+    const QString name = fixed ? "remoteui_dark_system_after.png" : "remoteui_dark_system_before.png";
+    QVERIFY(dlg.grab().save(dir + "/" + name));
 }
 
 int main(int argc, char *argv[])

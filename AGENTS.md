@@ -95,6 +95,11 @@ QT_QPA_PLATFORM=offscreen ./tst_projectmanager/tst_projectmanager -v2 ioRoundTri
   from IODoc, changed and saved, rules and owned IOs untouched, refusals (decision 17, legacy
   types, IO kind), required roles; `CALAOS_SHOTS_DIR` writes its screenshots and
   `CALAOS_DEVICE_XML_DIR` the edited io.xml for `tests/server_load/run.sh`.
+- `tests/tst_apptheme/` covers `AppTheme` (`src/AppTheme.*`, called from `main.cpp`): the installer is
+  always light whatever the system scheme. The test starts from a dark GTK platform theme
+  (`QT_QPA_PLATFORMTHEME=gtk3`, `GTK_THEME=Adwaita:dark`; offscreen ignores `setColorScheme`) and skips
+  when the plugin is missing unless `CALAOS_REQUIRE_DARK_SYSTEM` is set (CI). `CALAOS_SHOTS_DIR=<dir>`
+  with `CALAOS_SHOTS_FIX=0|1` writes the Remote UI editor screenshots, one scheme per process.
 - `tests/tst_servertypes/` pins the IO types the installer may create to the ones the server
   registers (`server_io_types.txt`, regenerate it with the command in its header when the
   server adds or drops a type). A type the server dropped moves to a `REGISTER_LEGACY_*` line
