@@ -109,8 +109,13 @@ private slots:
 
         QStringList missing;
         for (const QString &type: doc.keys())
+        {
+            // Reserved key holding the devices by impl; they are not IO types.
+            if (type == "devices")
+                continue;
             if (!server.contains(type.toLower()))
                 missing << type;
+        }
         QVERIFY2(missing.isEmpty(), qPrintable(missing.join(", ")));
     }
 

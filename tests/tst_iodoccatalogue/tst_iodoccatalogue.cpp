@@ -8,6 +8,12 @@
 #include <QStandardPaths>
 #include <QTemporaryDir>
 
+#include <QFile>
+#include <QJsonArray>
+#include <QJsonDocument>
+#include <QJsonObject>
+
+#include "IODoc.h"
 #include "dialogioproperties.h"
 
 namespace
@@ -185,6 +191,71 @@ private slots:
         QVERIFY(d.validationError().isEmpty());
         hi->clear();
         QVERIFY(d.validationError().isEmpty());
+    }
+
+    void aDeviceIsReadByItsImpl()
+    {
+        const QJsonObject proxy = IODoc::getDeviceObject("proxy");
+        QCOMPARE(proxy["family"].toString(), QString("climate"));
+        QCOMPARE(proxy["command_format"].toString(), QString("json"));
+
+        QHash<QString, QJsonObject> roles;
+        for (const QJsonValue &r: proxy["link_roles"].toArray())
+            roles[r.toObject()["role"].toString()] = r.toObject();
+        QVERIFY(roles["mode"]["required"].toBool());
+        QVERIFY(roles["mode"]["writable"].toBool());
+        QVERIFY(!roles["current_temp"]["required"].toBool());
+        QVERIFY(!roles["current_temp"]["writable"].toBool());
+
+        QStringList fields;
+        for (const QJsonValue &f: proxy["command_fields"].toArray())
+            fields << f.toObject()["name"].toString();
+        QCOMPARE(fields.first(), QString("mode"));
+        QVERIFY(fields.contains("target_temp"));
+
+        // Another impl, not the first one of the file: the lookup is by key.
+        const QJsonObject thermostat = IODoc::getDeviceObject("thermostat");
+        QCOMPARE(thermostat["family"].toString(), QString("climate"));
+        bool outputHeat = false;
+        for (const QJsonValue &r: thermostat["link_roles"].toArray())
+            outputHeat |= r.toObject()["role"].toString() == "output_heat" && r.toObject()["required"].toBool();
+        QVERIFY(outputHeat);
+    }
+
+    void aDeviceImplIsFoundWhateverItsCaseAndAnUnknownOneIsEmpty()
+    {
+        QCOMPARE(IODoc::getDeviceObject("Proxy"), IODoc::getDeviceObject("proxy"));
+        QVERIFY(!IODoc::getDeviceObject("Proxy").isEmpty());
+        QVERIFY(IODoc::getDeviceObject("MqttInputTemp").isEmpty());
+        QVERIFY(IODoc::getDeviceObject("").isEmpty());
+    }
+
+    // The devices live under a reserved key of the file the IO types are read from.
+    void devicesAreNeverTakenForAnIoType()
+    {
+        QVERIFY(IODoc::getIOObject("devices").isEmpty());
+        QVERIFY(IODoc::getIOObject("proxy").isEmpty());
+        QVERIFY(IODoc::getIOObject("thermostat").isEmpty());
+        QVERIFY(!IODoc::getIOObject("MqttInputTemp").isEmpty());
+        QVERIFY(IODoc::getDeviceObject("MqttInputTemp").isEmpty());
+    }
+
+    void everyShippedTemplateBuildsADocumentedDevice()
+    {
+        QFile f(":/doc/en/device_templates.json");
+        QVERIFY(f.open(QIODevice::ReadOnly));
+        const QJsonObject doc = QJsonDocument::fromJson(f.readAll()).object();
+        QCOMPARE(doc["format"].toInt(), 1);
+
+        const QJsonArray templates = doc["templates"].toArray();
+        QCOMPARE(templates.size(), 5);
+        for (const QJsonValue &t: templates)
+        {
+            const QJsonObject tpl = t.toObject();
+            const QJsonObject device = IODoc::getDeviceObject(tpl["impl"].toString());
+            QVERIFY2(!device.isEmpty(), qPrintable(tpl["id"].toString()));
+            QCOMPARE(tpl["family"].toString(), device["family"].toString());
+        }
     }
 
     void shippedCatalogueDropsTheOldDaliBound()

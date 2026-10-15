@@ -6,6 +6,14 @@
 
 #include "common/Utils.h"
 
+namespace
+{
+
+// Reserved key of io_doc.json: it holds the devices by impl and is not an IO type.
+const char *kDevicesKey = "devices";
+
+}
+
 const QJsonObject &IODoc::rootObject()
 {
     static QJsonObject root;
@@ -50,6 +58,8 @@ QJsonObject IODoc::getIOObject(const QString &type)
         return QJsonObject();
 
     QString ltype = type.toLower();
+    if (ltype == kDevicesKey)
+        return QJsonObject();
 
     if (root.contains(ltype))
         return root[ltype].toObject();
@@ -64,6 +74,20 @@ QJsonObject IODoc::getIOObject(const QString &type)
             if (jalias.at(i).toString().toLower() == ltype)
                 return o;
         }
+    }
+
+    return QJsonObject();
+}
+
+QJsonObject IODoc::getDeviceObject(const QString &impl)
+{
+    const QJsonObject devices = rootObject()[kDevicesKey].toObject();
+
+    const QString limpl = impl.toLower();
+    for (auto it = devices.constBegin(); it != devices.constEnd(); it++)
+    {
+        if (it.key().toLower() == limpl)
+            return it.value().toObject();
     }
 
     return QJsonObject();

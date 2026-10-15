@@ -1,23 +1,31 @@
 #!/bin/bash
+#
+# Refreshes data/doc (io_doc.json, io_doc.md, device_templates.json; en and fr)
+# from calaos_base. The CI fails when they differ from the server's.
+#
+#   ./generate_iodoc.sh                downloads the io-doc artifact of the latest
+#                                      green calaos_base master (needs gh; set
+#                                      CALAOS_BASE_BRANCH to follow another branch)
+#   ./generate_iodoc.sh <dir>          <dir>: the output of calaos_base/scripts/create_iodoc
+#                                      or an unpacked io-doc artifact (en/, fr/)
 
-rm -fr docpath
-mkdir -p docpath/fr
-mkdir -p docpath/en
+set -euo pipefail
 
-export LC_ALL=C
-export LANG=C
-export LANGUAGE=C
-calaos_server --help
-calaos_server --gendoc docpath/en
-cp docpath/en/io_doc.json  data/doc/en/io_doc.json
-cp docpath/en/io_doc.md  data/doc/en/io_doc.md
+root=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 
-export LC_ALL=fr_FR.UTF-8
-export LANGUAGE=fr_FR.UTF-8
-export LANG=fr_FR.UTF-8
-calaos_server --help
-calaos_server --gendoc docpath/fr
-cp docpath/fr/io_doc.json  data/doc/fr/io_doc.json
-cp docpath/fr/io_doc.md  data/doc/fr/io_doc.md
+if [ $# -ge 1 ]; then
+    src=$1
+else
+    src=$(mktemp -d)
+    trap 'rm -rf "$src"' EXIT
+    "$root/scripts/fetch_iodoc_artifact.sh" "$src"
+fi
 
-rm -fr docpath
+for lang in en fr; do
+    mkdir -p "$root/data/doc/$lang"
+    for f in io_doc.json io_doc.md device_templates.json; do
+        cp "$src/$lang/$f" "$root/data/doc/$lang/$f"
+    done
+done
+
+"$root/scripts/check_iodoc_sync.py" "$src"

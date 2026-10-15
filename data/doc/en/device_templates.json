@@ -1,0 +1,1532 @@
+{
+    "format": 1,
+    "templates": [
+        {
+            "attributes": {
+                "name": "{name}"
+            },
+            "description": "A heat pump or an air conditioner run by ESPHome, which regulates by itself: Calaos reads its state over MQTT and sends the commands. Optionally, Calaos relays the temperature of a room sensor to it.",
+            "family": "climate",
+            "fields": [
+                {
+                    "description": "Name of the device, shown in the interfaces.",
+                    "label": "Name",
+                    "name": "name",
+                    "required": true,
+                    "type": "string"
+                },
+                {
+                    "description": "Room the device is created in.",
+                    "label": "Room",
+                    "name": "room",
+                    "required": true,
+                    "type": "room"
+                },
+                {
+                    "description": "topic_prefix of the mqtt: block of the ESPHome node; its node name by default.",
+                    "label": "ESPHome topic prefix",
+                    "name": "topic_prefix",
+                    "required": true,
+                    "type": "string"
+                },
+                {
+                    "description": "Object id of the climate entity: its name in lower case, spaces and punctuation turned into underscores (Clim salon gives clim_salon).",
+                    "label": "Climate object id",
+                    "name": "object_id",
+                    "required": true,
+                    "type": "string"
+                },
+                {
+                    "default": "127.0.0.1",
+                    "description": "Address of the MQTT broker the node publishes to.",
+                    "label": "MQTT broker",
+                    "name": "mqtt_host",
+                    "required": true,
+                    "type": "string"
+                },
+                {
+                    "default": 1883.0,
+                    "description": "TCP port of the MQTT broker.",
+                    "label": "MQTT port",
+                    "max": 65535.0,
+                    "min": 1.0,
+                    "name": "mqtt_port",
+                    "required": true,
+                    "step": 1.0,
+                    "type": "number",
+                    "unit": ""
+                },
+                {
+                    "description": "User of the MQTT broker, if it asks for one.",
+                    "label": "MQTT user",
+                    "name": "mqtt_user",
+                    "required": false,
+                    "type": "string"
+                },
+                {
+                    "description": "Password of that user.",
+                    "label": "MQTT password",
+                    "name": "mqtt_password",
+                    "required": false,
+                    "secret": true,
+                    "type": "string"
+                },
+                {
+                    "default": [
+                        "off",
+                        "heat",
+                        "cool",
+                        "auto",
+                        "dry",
+                        "fan_only"
+                    ],
+                    "description": "Modes the climate offers. One at least.",
+                    "label": "Modes",
+                    "name": "modes",
+                    "required": true,
+                    "type": "multi",
+                    "values": [
+                        {
+                            "label": "Off",
+                            "value": "off"
+                        },
+                        {
+                            "label": "Heat",
+                            "value": "heat"
+                        },
+                        {
+                            "label": "Cool",
+                            "value": "cool"
+                        },
+                        {
+                            "label": "Auto",
+                            "value": "auto"
+                        },
+                        {
+                            "label": "Dry",
+                            "value": "dry"
+                        },
+                        {
+                            "label": "Fan only",
+                            "value": "fan_only"
+                        }
+                    ]
+                },
+                {
+                    "default": false,
+                    "description": "The climate takes a low and a high setpoint (target_temperature_low and _high) instead of a single one, as a dual setpoint ESPHome thermostat does.",
+                    "label": "Two setpoints",
+                    "name": "two_point",
+                    "required": false,
+                    "type": "bool"
+                },
+                {
+                    "default": 16.0,
+                    "description": "Lowest setpoint the climate accepts.",
+                    "label": "Lowest setpoint",
+                    "max": 50.0,
+                    "min": 0.0,
+                    "name": "temp_min",
+                    "required": true,
+                    "step": 0.5,
+                    "type": "number",
+                    "unit": "\u00b0C"
+                },
+                {
+                    "default": 30.0,
+                    "description": "Highest setpoint the climate accepts.",
+                    "label": "Highest setpoint",
+                    "max": 50.0,
+                    "min": 0.0,
+                    "name": "temp_max",
+                    "required": true,
+                    "step": 0.5,
+                    "type": "number",
+                    "unit": "\u00b0C"
+                },
+                {
+                    "default": 0.5,
+                    "description": "Step of the setpoint.",
+                    "label": "Setpoint step",
+                    "max": 5.0,
+                    "min": 0.1,
+                    "name": "temp_step",
+                    "required": true,
+                    "step": 0.1,
+                    "type": "number",
+                    "unit": "\u00b0C"
+                },
+                {
+                    "default": true,
+                    "description": "The climate publishes what it is doing (heating, cooling, idle). Not every platform does.",
+                    "label": "Reports its action",
+                    "name": "with_action",
+                    "required": false,
+                    "type": "bool"
+                },
+                {
+                    "default": [],
+                    "description": "Fan modes the climate accepts. None: no fan control.",
+                    "label": "Fan modes",
+                    "name": "fan_modes",
+                    "required": false,
+                    "type": "multi",
+                    "values": [
+                        {
+                            "label": "Auto",
+                            "value": "auto"
+                        },
+                        {
+                            "label": "On",
+                            "value": "on"
+                        },
+                        {
+                            "label": "Off",
+                            "value": "off"
+                        },
+                        {
+                            "label": "Low",
+                            "value": "low"
+                        },
+                        {
+                            "label": "Medium",
+                            "value": "medium"
+                        },
+                        {
+                            "label": "High",
+                            "value": "high"
+                        },
+                        {
+                            "label": "Middle",
+                            "value": "middle"
+                        },
+                        {
+                            "label": "Focus",
+                            "value": "focus"
+                        },
+                        {
+                            "label": "Diffuse",
+                            "value": "diffuse"
+                        },
+                        {
+                            "label": "Quiet",
+                            "value": "quiet"
+                        }
+                    ]
+                },
+                {
+                    "default": [],
+                    "description": "Swing modes the climate accepts. None: no swing control.",
+                    "label": "Swing modes",
+                    "name": "swing_modes",
+                    "required": false,
+                    "type": "multi",
+                    "values": [
+                        {
+                            "label": "Off",
+                            "value": "off"
+                        },
+                        {
+                            "label": "Both",
+                            "value": "both"
+                        },
+                        {
+                            "label": "Vertical",
+                            "value": "vertical"
+                        },
+                        {
+                            "label": "Horizontal",
+                            "value": "horizontal"
+                        }
+                    ]
+                },
+                {
+                    "description": "A sensor whose temperature Calaos relays to the climate, which then regulates on it. ESPHome needs a few lines of YAML to take it (see the notes): Calaos publishes it on <topic_prefix>/calaos/remote_temp.",
+                    "io_filter": {
+                        "value": "number",
+                        "writable": false
+                    },
+                    "label": "Room sensor",
+                    "name": "remote_temp_source",
+                    "required": false,
+                    "type": "io"
+                }
+            ],
+            "id": "esphome_climate",
+            "impl": "proxy",
+            "ios": [
+                {
+                    "element": "output",
+                    "key": "mode",
+                    "params": {
+                        "connected_status_expr": "value == 'online'",
+                        "connected_status_topic": "{topic_prefix}/status",
+                        "data": "__##VALUE##__",
+                        "host": "{mqtt_host}",
+                        "name": "{name} mode",
+                        "password": "{mqtt_password}",
+                        "port": "{mqtt_port}",
+                        "topic_pub": "{topic_prefix}/climate/{object_id}/mode/command",
+                        "topic_sub": "{topic_prefix}/climate/{object_id}/mode/state",
+                        "user": "{mqtt_user}",
+                        "visible": "false"
+                    },
+                    "type": "MqttOutputString"
+                },
+                {
+                    "element": "input",
+                    "key": "current_temp",
+                    "params": {
+                        "connected_status_expr": "value == 'online'",
+                        "connected_status_topic": "{topic_prefix}/status",
+                        "host": "{mqtt_host}",
+                        "name": "{name} temperature",
+                        "password": "{mqtt_password}",
+                        "port": "{mqtt_port}",
+                        "topic_sub": "{topic_prefix}/climate/{object_id}/current_temperature/state",
+                        "user": "{mqtt_user}",
+                        "visible": "false"
+                    },
+                    "type": "MqttInputTemp"
+                },
+                {
+                    "element": "output",
+                    "key": "target_temp",
+                    "params": {
+                        "connected_status_expr": "value == 'online'",
+                        "connected_status_topic": "{topic_prefix}/status",
+                        "data": "__##VALUE##__",
+                        "host": "{mqtt_host}",
+                        "name": "{name} setpoint",
+                        "password": "{mqtt_password}",
+                        "port": "{mqtt_port}",
+                        "step": "{temp_step}",
+                        "topic_pub": "{topic_prefix}/climate/{object_id}/target_temperature/command",
+                        "topic_sub": "{topic_prefix}/climate/{object_id}/target_temperature/state",
+                        "unit": "\u00b0C",
+                        "user": "{mqtt_user}",
+                        "value_max": "{temp_max}",
+                        "value_min": "{temp_min}",
+                        "visible": "false"
+                    },
+                    "type": "MqttOutputAnalog",
+                    "when": "!two_point"
+                },
+                {
+                    "element": "output",
+                    "key": "target_temp_low",
+                    "params": {
+                        "connected_status_expr": "value == 'online'",
+                        "connected_status_topic": "{topic_prefix}/status",
+                        "data": "__##VALUE##__",
+                        "host": "{mqtt_host}",
+                        "name": "{name} low setpoint",
+                        "password": "{mqtt_password}",
+                        "port": "{mqtt_port}",
+                        "step": "{temp_step}",
+                        "topic_pub": "{topic_prefix}/climate/{object_id}/target_temperature_low/command",
+                        "topic_sub": "{topic_prefix}/climate/{object_id}/target_temperature_low/state",
+                        "unit": "\u00b0C",
+                        "user": "{mqtt_user}",
+                        "value_max": "{temp_max}",
+                        "value_min": "{temp_min}",
+                        "visible": "false"
+                    },
+                    "type": "MqttOutputAnalog",
+                    "when": "two_point"
+                },
+                {
+                    "element": "output",
+                    "key": "target_temp_high",
+                    "params": {
+                        "connected_status_expr": "value == 'online'",
+                        "connected_status_topic": "{topic_prefix}/status",
+                        "data": "__##VALUE##__",
+                        "host": "{mqtt_host}",
+                        "name": "{name} high setpoint",
+                        "password": "{mqtt_password}",
+                        "port": "{mqtt_port}",
+                        "step": "{temp_step}",
+                        "topic_pub": "{topic_prefix}/climate/{object_id}/target_temperature_high/command",
+                        "topic_sub": "{topic_prefix}/climate/{object_id}/target_temperature_high/state",
+                        "unit": "\u00b0C",
+                        "user": "{mqtt_user}",
+                        "value_max": "{temp_max}",
+                        "value_min": "{temp_min}",
+                        "visible": "false"
+                    },
+                    "type": "MqttOutputAnalog",
+                    "when": "two_point"
+                },
+                {
+                    "element": "input",
+                    "key": "action",
+                    "params": {
+                        "connected_status_expr": "value == 'online'",
+                        "connected_status_topic": "{topic_prefix}/status",
+                        "host": "{mqtt_host}",
+                        "name": "{name} action",
+                        "password": "{mqtt_password}",
+                        "port": "{mqtt_port}",
+                        "topic_sub": "{topic_prefix}/climate/{object_id}/action/state",
+                        "user": "{mqtt_user}",
+                        "visible": "false"
+                    },
+                    "type": "MqttInputString",
+                    "when": "with_action"
+                },
+                {
+                    "element": "output",
+                    "key": "fan_mode",
+                    "params": {
+                        "connected_status_expr": "value == 'online'",
+                        "connected_status_topic": "{topic_prefix}/status",
+                        "data": "__##VALUE##__",
+                        "host": "{mqtt_host}",
+                        "name": "{name} fan",
+                        "password": "{mqtt_password}",
+                        "port": "{mqtt_port}",
+                        "topic_pub": "{topic_prefix}/climate/{object_id}/fan_mode/command",
+                        "topic_sub": "{topic_prefix}/climate/{object_id}/fan_mode/state",
+                        "user": "{mqtt_user}",
+                        "visible": "false"
+                    },
+                    "type": "MqttOutputString",
+                    "when": "fan_modes"
+                },
+                {
+                    "element": "output",
+                    "key": "swing_mode",
+                    "params": {
+                        "connected_status_expr": "value == 'online'",
+                        "connected_status_topic": "{topic_prefix}/status",
+                        "data": "__##VALUE##__",
+                        "host": "{mqtt_host}",
+                        "name": "{name} swing",
+                        "password": "{mqtt_password}",
+                        "port": "{mqtt_port}",
+                        "topic_pub": "{topic_prefix}/climate/{object_id}/swing_mode/command",
+                        "topic_sub": "{topic_prefix}/climate/{object_id}/swing_mode/state",
+                        "user": "{mqtt_user}",
+                        "visible": "false"
+                    },
+                    "type": "MqttOutputString",
+                    "when": "swing_modes"
+                },
+                {
+                    "element": "output",
+                    "key": "remote_temp",
+                    "params": {
+                        "connected_status_expr": "value == 'online'",
+                        "connected_status_topic": "{topic_prefix}/status",
+                        "data": "__##VALUE##__",
+                        "host": "{mqtt_host}",
+                        "name": "{name} remote temperature",
+                        "password": "{mqtt_password}",
+                        "port": "{mqtt_port}",
+                        "topic_pub": "{topic_prefix}/calaos/remote_temp",
+                        "topic_sub": "{topic_prefix}/calaos/remote_temp",
+                        "user": "{mqtt_user}",
+                        "visible": "false"
+                    },
+                    "type": "MqttOutputAnalog",
+                    "when": "remote_temp_source"
+                }
+            ],
+            "links": [
+                {
+                    "io": {
+                        "owned": "mode"
+                    },
+                    "role": "mode"
+                },
+                {
+                    "io": {
+                        "owned": "current_temp"
+                    },
+                    "role": "current_temp"
+                },
+                {
+                    "io": {
+                        "owned": "target_temp"
+                    },
+                    "role": "target_temp"
+                },
+                {
+                    "io": {
+                        "owned": "target_temp_low"
+                    },
+                    "role": "target_temp_low"
+                },
+                {
+                    "io": {
+                        "owned": "target_temp_high"
+                    },
+                    "role": "target_temp_high"
+                },
+                {
+                    "io": {
+                        "owned": "action"
+                    },
+                    "role": "action"
+                },
+                {
+                    "io": {
+                        "owned": "fan_mode"
+                    },
+                    "role": "fan_mode"
+                },
+                {
+                    "io": {
+                        "owned": "swing_mode"
+                    },
+                    "role": "swing_mode"
+                },
+                {
+                    "io": {
+                        "owned": "remote_temp"
+                    },
+                    "role": "remote_temp"
+                },
+                {
+                    "io": {
+                        "field": "remote_temp_source"
+                    },
+                    "role": "remote_temp_source"
+                }
+            ],
+            "name": "ESPHome climate (MQTT)",
+            "notes": [
+                {
+                    "text": "ESPHome takes no remote temperature over MQTT out of the box. For a Mitsubishi CN105 climate (its id being hp), add to the YAML of the node:\n\n```yaml\nmqtt:\n  on_message:\n    - topic: {topic_prefix}/calaos/remote_temp\n      then:\n        - lambda: |-\n            auto t = parse_number<float>(x);\n            if (t.has_value()) id(hp).set_remote_temperature(*t);\n```\n\nFor a climate that regulates on a sensor of its own (thermostat platform), make the relayed temperature that sensor; the timeout turns it into NaN, and the thermostat off, when Calaos stops relaying:\n\n```yaml\nsensor:\n  - platform: mqtt_subscribe\n    id: calaos_temp\n    topic: {topic_prefix}/calaos/remote_temp\n    filters:\n      - timeout: 5min\nclimate:\n  - platform: thermostat\n    sensor: calaos_temp\n```\n",
+                    "when": "remote_temp_source"
+                }
+            ],
+            "params": [
+                {
+                    "name": "modes",
+                    "value": "{modes}"
+                },
+                {
+                    "name": "auto_payload",
+                    "value": "heat_cool"
+                },
+                {
+                    "name": "fan_modes",
+                    "value": "{fan_modes}"
+                },
+                {
+                    "name": "swing_modes",
+                    "value": "{swing_modes}"
+                },
+                {
+                    "name": "remote_temp_keepalive",
+                    "value": "120",
+                    "when": "remote_temp_source"
+                },
+                {
+                    "name": "sensor_timeout",
+                    "value": "9000",
+                    "when": "remote_temp_source"
+                }
+            ]
+        },
+        {
+            "attributes": {
+                "name": "{name}"
+            },
+            "description": "An air conditioner driven by infrared from ESPHome (climate_ir platforms). It reports no action and cannot take a remote temperature.",
+            "family": "climate",
+            "fields": [
+                {
+                    "description": "Name of the device, shown in the interfaces.",
+                    "label": "Name",
+                    "name": "name",
+                    "required": true,
+                    "type": "string"
+                },
+                {
+                    "description": "Room the device is created in.",
+                    "label": "Room",
+                    "name": "room",
+                    "required": true,
+                    "type": "room"
+                },
+                {
+                    "description": "topic_prefix of the mqtt: block of the ESPHome node; its node name by default.",
+                    "label": "ESPHome topic prefix",
+                    "name": "topic_prefix",
+                    "required": true,
+                    "type": "string"
+                },
+                {
+                    "description": "Object id of the climate entity: its name in lower case, spaces and punctuation turned into underscores (Clim salon gives clim_salon).",
+                    "label": "Climate object id",
+                    "name": "object_id",
+                    "required": true,
+                    "type": "string"
+                },
+                {
+                    "default": "127.0.0.1",
+                    "description": "Address of the MQTT broker the node publishes to.",
+                    "label": "MQTT broker",
+                    "name": "mqtt_host",
+                    "required": true,
+                    "type": "string"
+                },
+                {
+                    "default": 1883.0,
+                    "description": "TCP port of the MQTT broker.",
+                    "label": "MQTT port",
+                    "max": 65535.0,
+                    "min": 1.0,
+                    "name": "mqtt_port",
+                    "required": true,
+                    "step": 1.0,
+                    "type": "number",
+                    "unit": ""
+                },
+                {
+                    "description": "User of the MQTT broker, if it asks for one.",
+                    "label": "MQTT user",
+                    "name": "mqtt_user",
+                    "required": false,
+                    "type": "string"
+                },
+                {
+                    "description": "Password of that user.",
+                    "label": "MQTT password",
+                    "name": "mqtt_password",
+                    "required": false,
+                    "secret": true,
+                    "type": "string"
+                },
+                {
+                    "default": [
+                        "off",
+                        "heat",
+                        "cool",
+                        "auto"
+                    ],
+                    "description": "Modes the climate offers. One at least.",
+                    "label": "Modes",
+                    "name": "modes",
+                    "required": true,
+                    "type": "multi",
+                    "values": [
+                        {
+                            "label": "Off",
+                            "value": "off"
+                        },
+                        {
+                            "label": "Heat",
+                            "value": "heat"
+                        },
+                        {
+                            "label": "Cool",
+                            "value": "cool"
+                        },
+                        {
+                            "label": "Auto",
+                            "value": "auto"
+                        },
+                        {
+                            "label": "Dry",
+                            "value": "dry"
+                        },
+                        {
+                            "label": "Fan only",
+                            "value": "fan_only"
+                        }
+                    ]
+                },
+                {
+                    "default": false,
+                    "description": "The IR climate has a sensor: option and publishes current_temperature.",
+                    "label": "Room temperature",
+                    "name": "with_current_temp",
+                    "required": false,
+                    "type": "bool"
+                },
+                {
+                    "default": 16.0,
+                    "description": "Lowest setpoint the climate accepts.",
+                    "label": "Lowest setpoint",
+                    "max": 50.0,
+                    "min": 0.0,
+                    "name": "temp_min",
+                    "required": true,
+                    "step": 0.5,
+                    "type": "number",
+                    "unit": "\u00b0C"
+                },
+                {
+                    "default": 30.0,
+                    "description": "Highest setpoint the climate accepts.",
+                    "label": "Highest setpoint",
+                    "max": 50.0,
+                    "min": 0.0,
+                    "name": "temp_max",
+                    "required": true,
+                    "step": 0.5,
+                    "type": "number",
+                    "unit": "\u00b0C"
+                },
+                {
+                    "default": 1.0,
+                    "description": "Step of the setpoint.",
+                    "label": "Setpoint step",
+                    "max": 5.0,
+                    "min": 0.1,
+                    "name": "temp_step",
+                    "required": true,
+                    "step": 0.1,
+                    "type": "number",
+                    "unit": "\u00b0C"
+                },
+                {
+                    "default": [],
+                    "description": "Fan modes the climate accepts. None: no fan control.",
+                    "label": "Fan modes",
+                    "name": "fan_modes",
+                    "required": false,
+                    "type": "multi",
+                    "values": [
+                        {
+                            "label": "Auto",
+                            "value": "auto"
+                        },
+                        {
+                            "label": "On",
+                            "value": "on"
+                        },
+                        {
+                            "label": "Off",
+                            "value": "off"
+                        },
+                        {
+                            "label": "Low",
+                            "value": "low"
+                        },
+                        {
+                            "label": "Medium",
+                            "value": "medium"
+                        },
+                        {
+                            "label": "High",
+                            "value": "high"
+                        },
+                        {
+                            "label": "Middle",
+                            "value": "middle"
+                        },
+                        {
+                            "label": "Focus",
+                            "value": "focus"
+                        },
+                        {
+                            "label": "Diffuse",
+                            "value": "diffuse"
+                        },
+                        {
+                            "label": "Quiet",
+                            "value": "quiet"
+                        }
+                    ]
+                },
+                {
+                    "default": [],
+                    "description": "Swing modes the climate accepts. None: no swing control.",
+                    "label": "Swing modes",
+                    "name": "swing_modes",
+                    "required": false,
+                    "type": "multi",
+                    "values": [
+                        {
+                            "label": "Off",
+                            "value": "off"
+                        },
+                        {
+                            "label": "Both",
+                            "value": "both"
+                        },
+                        {
+                            "label": "Vertical",
+                            "value": "vertical"
+                        },
+                        {
+                            "label": "Horizontal",
+                            "value": "horizontal"
+                        }
+                    ]
+                }
+            ],
+            "id": "esphome_climate_ir",
+            "impl": "proxy",
+            "ios": [
+                {
+                    "element": "output",
+                    "key": "mode",
+                    "params": {
+                        "connected_status_expr": "value == 'online'",
+                        "connected_status_topic": "{topic_prefix}/status",
+                        "data": "__##VALUE##__",
+                        "host": "{mqtt_host}",
+                        "name": "{name} mode",
+                        "password": "{mqtt_password}",
+                        "port": "{mqtt_port}",
+                        "topic_pub": "{topic_prefix}/climate/{object_id}/mode/command",
+                        "topic_sub": "{topic_prefix}/climate/{object_id}/mode/state",
+                        "user": "{mqtt_user}",
+                        "visible": "false"
+                    },
+                    "type": "MqttOutputString"
+                },
+                {
+                    "element": "input",
+                    "key": "current_temp",
+                    "params": {
+                        "connected_status_expr": "value == 'online'",
+                        "connected_status_topic": "{topic_prefix}/status",
+                        "host": "{mqtt_host}",
+                        "name": "{name} temperature",
+                        "password": "{mqtt_password}",
+                        "port": "{mqtt_port}",
+                        "topic_sub": "{topic_prefix}/climate/{object_id}/current_temperature/state",
+                        "user": "{mqtt_user}",
+                        "visible": "false"
+                    },
+                    "type": "MqttInputTemp",
+                    "when": "with_current_temp"
+                },
+                {
+                    "element": "output",
+                    "key": "target_temp",
+                    "params": {
+                        "connected_status_expr": "value == 'online'",
+                        "connected_status_topic": "{topic_prefix}/status",
+                        "data": "__##VALUE##__",
+                        "host": "{mqtt_host}",
+                        "name": "{name} setpoint",
+                        "password": "{mqtt_password}",
+                        "port": "{mqtt_port}",
+                        "step": "{temp_step}",
+                        "topic_pub": "{topic_prefix}/climate/{object_id}/target_temperature/command",
+                        "topic_sub": "{topic_prefix}/climate/{object_id}/target_temperature/state",
+                        "unit": "\u00b0C",
+                        "user": "{mqtt_user}",
+                        "value_max": "{temp_max}",
+                        "value_min": "{temp_min}",
+                        "visible": "false"
+                    },
+                    "type": "MqttOutputAnalog"
+                },
+                {
+                    "element": "output",
+                    "key": "fan_mode",
+                    "params": {
+                        "connected_status_expr": "value == 'online'",
+                        "connected_status_topic": "{topic_prefix}/status",
+                        "data": "__##VALUE##__",
+                        "host": "{mqtt_host}",
+                        "name": "{name} fan",
+                        "password": "{mqtt_password}",
+                        "port": "{mqtt_port}",
+                        "topic_pub": "{topic_prefix}/climate/{object_id}/fan_mode/command",
+                        "topic_sub": "{topic_prefix}/climate/{object_id}/fan_mode/state",
+                        "user": "{mqtt_user}",
+                        "visible": "false"
+                    },
+                    "type": "MqttOutputString",
+                    "when": "fan_modes"
+                },
+                {
+                    "element": "output",
+                    "key": "swing_mode",
+                    "params": {
+                        "connected_status_expr": "value == 'online'",
+                        "connected_status_topic": "{topic_prefix}/status",
+                        "data": "__##VALUE##__",
+                        "host": "{mqtt_host}",
+                        "name": "{name} swing",
+                        "password": "{mqtt_password}",
+                        "port": "{mqtt_port}",
+                        "topic_pub": "{topic_prefix}/climate/{object_id}/swing_mode/command",
+                        "topic_sub": "{topic_prefix}/climate/{object_id}/swing_mode/state",
+                        "user": "{mqtt_user}",
+                        "visible": "false"
+                    },
+                    "type": "MqttOutputString",
+                    "when": "swing_modes"
+                }
+            ],
+            "links": [
+                {
+                    "io": {
+                        "owned": "mode"
+                    },
+                    "role": "mode"
+                },
+                {
+                    "io": {
+                        "owned": "current_temp"
+                    },
+                    "role": "current_temp"
+                },
+                {
+                    "io": {
+                        "owned": "target_temp"
+                    },
+                    "role": "target_temp"
+                },
+                {
+                    "io": {
+                        "owned": "fan_mode"
+                    },
+                    "role": "fan_mode"
+                },
+                {
+                    "io": {
+                        "owned": "swing_mode"
+                    },
+                    "role": "swing_mode"
+                }
+            ],
+            "name": "ESPHome IR climate (MQTT)",
+            "params": [
+                {
+                    "name": "modes",
+                    "value": "{modes}"
+                },
+                {
+                    "name": "auto_payload",
+                    "value": "heat_cool"
+                },
+                {
+                    "name": "fan_modes",
+                    "value": "{fan_modes}"
+                },
+                {
+                    "name": "swing_modes",
+                    "value": "{swing_modes}"
+                }
+            ]
+        },
+        {
+            "attributes": {
+                "name": "{name}"
+            },
+            "description": "Calaos switches a heating output from a room sensor and a setpoint.",
+            "family": "climate",
+            "fields": [
+                {
+                    "description": "Name of the device, shown in the interfaces.",
+                    "label": "Name",
+                    "name": "name",
+                    "required": true,
+                    "type": "string"
+                },
+                {
+                    "description": "Room the device is created in.",
+                    "label": "Room",
+                    "name": "room",
+                    "required": true,
+                    "type": "room"
+                },
+                {
+                    "description": "The room temperature the thermostat regulates on. A sensor that only reports its changes may be taken for a silent one.",
+                    "io_filter": {
+                        "value": "number",
+                        "writable": false
+                    },
+                    "label": "Temperature sensor",
+                    "name": "current_temp",
+                    "required": true,
+                    "type": "io"
+                },
+                {
+                    "description": "Relay or contact the thermostat switches. It belongs to this thermostat alone: rules must not write it.",
+                    "io_filter": {
+                        "value": "bool",
+                        "writable": true
+                    },
+                    "label": "Heating output",
+                    "name": "output_heat",
+                    "required": true,
+                    "type": "io"
+                },
+                {
+                    "default": "electric",
+                    "description": "What the output drives: it sets the hysteresis and the minimum on and off times.",
+                    "label": "Emitter",
+                    "name": "emitter",
+                    "required": true,
+                    "type": "enum",
+                    "values": [
+                        {
+                            "label": "Electric heaters",
+                            "params": {
+                                "hysteresis": "0.3",
+                                "min_off_time": "120",
+                                "min_on_time": "120"
+                            },
+                            "value": "electric"
+                        },
+                        {
+                            "label": "Water radiators (boiler, zone valve)",
+                            "params": {
+                                "hysteresis": "0.5",
+                                "min_off_time": "300",
+                                "min_on_time": "300"
+                            },
+                            "value": "water_radiator"
+                        },
+                        {
+                            "label": "Underfloor heating",
+                            "params": {
+                                "hysteresis": "0.5",
+                                "min_off_time": "900",
+                                "min_on_time": "900"
+                            },
+                            "value": "floor"
+                        }
+                    ]
+                }
+            ],
+            "id": "thermostat_heat",
+            "impl": "thermostat",
+            "ios": [
+                {
+                    "element": "internal",
+                    "key": "target_temp",
+                    "params": {
+                        "name": "{name} setpoint",
+                        "save": "true",
+                        "step": "0.5",
+                        "unit": "\u00b0C",
+                        "value": "20",
+                        "value_max": "30",
+                        "value_min": "7",
+                        "visible": "false"
+                    },
+                    "type": "InternalInt"
+                },
+                {
+                    "element": "internal",
+                    "key": "action",
+                    "params": {
+                        "name": "{name} action",
+                        "visible": "false"
+                    },
+                    "type": "InternalString"
+                }
+            ],
+            "links": [
+                {
+                    "io": {
+                        "field": "current_temp"
+                    },
+                    "role": "current_temp"
+                },
+                {
+                    "io": {
+                        "owned": "target_temp"
+                    },
+                    "role": "target_temp"
+                },
+                {
+                    "io": {
+                        "owned": "action"
+                    },
+                    "role": "action"
+                },
+                {
+                    "io": {
+                        "field": "output_heat"
+                    },
+                    "role": "output_heat"
+                }
+            ],
+            "name": "Heating thermostat",
+            "params": [
+                {
+                    "name": "emitter",
+                    "value": "{emitter}"
+                },
+                {
+                    "name": "hysteresis",
+                    "value": "0.3"
+                },
+                {
+                    "name": "min_on_time",
+                    "value": "120"
+                },
+                {
+                    "name": "min_off_time",
+                    "value": "120"
+                },
+                {
+                    "name": "sensor_timeout",
+                    "value": "9000"
+                },
+                {
+                    "name": "put_back_delay",
+                    "value": "1"
+                },
+                {
+                    "name": "put_back_delay_max",
+                    "value": "60"
+                }
+            ]
+        },
+        {
+            "attributes": {
+                "name": "{name}"
+            },
+            "description": "Calaos switches a heating and a cooling output from a room sensor: one setpoint in heat and cool, a range in auto.",
+            "family": "climate",
+            "fields": [
+                {
+                    "description": "Name of the device, shown in the interfaces.",
+                    "label": "Name",
+                    "name": "name",
+                    "required": true,
+                    "type": "string"
+                },
+                {
+                    "description": "Room the device is created in.",
+                    "label": "Room",
+                    "name": "room",
+                    "required": true,
+                    "type": "room"
+                },
+                {
+                    "description": "The room temperature the thermostat regulates on. A sensor that only reports its changes may be taken for a silent one.",
+                    "io_filter": {
+                        "value": "number",
+                        "writable": false
+                    },
+                    "label": "Temperature sensor",
+                    "name": "current_temp",
+                    "required": true,
+                    "type": "io"
+                },
+                {
+                    "description": "Relay or contact the thermostat switches. It belongs to this thermostat alone: rules must not write it.",
+                    "io_filter": {
+                        "value": "bool",
+                        "writable": true
+                    },
+                    "label": "Heating output",
+                    "name": "output_heat",
+                    "required": true,
+                    "type": "io"
+                },
+                {
+                    "description": "Relay or contact the thermostat switches. It belongs to this thermostat alone: rules must not write it.",
+                    "io_filter": {
+                        "value": "bool",
+                        "writable": true
+                    },
+                    "label": "Cooling output",
+                    "name": "output_cool",
+                    "required": true,
+                    "type": "io"
+                },
+                {
+                    "default": "heat_pump",
+                    "description": "What the outputs drive: it sets the hysteresis, the minimum on and off times and the minimum range.",
+                    "label": "Emitter",
+                    "name": "emitter",
+                    "required": true,
+                    "type": "enum",
+                    "values": [
+                        {
+                            "label": "Reversible heat pump on contacts",
+                            "params": {
+                                "hysteresis": "0.5",
+                                "min_off_time": "300",
+                                "min_on_time": "600",
+                                "min_range": "2"
+                            },
+                            "value": "heat_pump"
+                        },
+                        {
+                            "label": "Fan coils (valves on a water loop)",
+                            "params": {
+                                "hysteresis": "0.5",
+                                "min_off_time": "120",
+                                "min_on_time": "120",
+                                "min_range": "1"
+                            },
+                            "value": "fan_coil"
+                        }
+                    ]
+                }
+            ],
+            "id": "thermostat_heat_cool",
+            "impl": "thermostat",
+            "ios": [
+                {
+                    "element": "internal",
+                    "key": "target_temp",
+                    "params": {
+                        "name": "{name} setpoint",
+                        "save": "true",
+                        "step": "0.5",
+                        "unit": "\u00b0C",
+                        "value": "20",
+                        "value_max": "30",
+                        "value_min": "7",
+                        "visible": "false"
+                    },
+                    "type": "InternalInt"
+                },
+                {
+                    "element": "internal",
+                    "key": "target_temp_low",
+                    "params": {
+                        "name": "{name} low setpoint",
+                        "save": "true",
+                        "step": "0.5",
+                        "unit": "\u00b0C",
+                        "value": "19",
+                        "value_max": "30",
+                        "value_min": "7",
+                        "visible": "false"
+                    },
+                    "type": "InternalInt"
+                },
+                {
+                    "element": "internal",
+                    "key": "target_temp_high",
+                    "params": {
+                        "name": "{name} high setpoint",
+                        "save": "true",
+                        "step": "0.5",
+                        "unit": "\u00b0C",
+                        "value": "25",
+                        "value_max": "30",
+                        "value_min": "7",
+                        "visible": "false"
+                    },
+                    "type": "InternalInt"
+                },
+                {
+                    "element": "internal",
+                    "key": "action",
+                    "params": {
+                        "name": "{name} action",
+                        "visible": "false"
+                    },
+                    "type": "InternalString"
+                }
+            ],
+            "links": [
+                {
+                    "io": {
+                        "field": "current_temp"
+                    },
+                    "role": "current_temp"
+                },
+                {
+                    "io": {
+                        "owned": "target_temp"
+                    },
+                    "role": "target_temp"
+                },
+                {
+                    "io": {
+                        "owned": "target_temp_low"
+                    },
+                    "role": "target_temp_low"
+                },
+                {
+                    "io": {
+                        "owned": "target_temp_high"
+                    },
+                    "role": "target_temp_high"
+                },
+                {
+                    "io": {
+                        "owned": "action"
+                    },
+                    "role": "action"
+                },
+                {
+                    "io": {
+                        "field": "output_heat"
+                    },
+                    "role": "output_heat"
+                },
+                {
+                    "io": {
+                        "field": "output_cool"
+                    },
+                    "role": "output_cool"
+                }
+            ],
+            "name": "Heating and cooling thermostat",
+            "params": [
+                {
+                    "name": "emitter",
+                    "value": "{emitter}"
+                },
+                {
+                    "name": "hysteresis",
+                    "value": "0.5"
+                },
+                {
+                    "name": "min_on_time",
+                    "value": "600"
+                },
+                {
+                    "name": "min_off_time",
+                    "value": "300"
+                },
+                {
+                    "name": "min_range",
+                    "value": "2"
+                },
+                {
+                    "name": "sensor_timeout",
+                    "value": "9000"
+                },
+                {
+                    "name": "put_back_delay",
+                    "value": "1"
+                },
+                {
+                    "name": "put_back_delay_max",
+                    "value": "60"
+                }
+            ]
+        },
+        {
+            "attributes": {
+                "name": "{name}"
+            },
+            "description": "Calaos heats and cools through the floor, and stops cooling before the dew point.",
+            "family": "climate",
+            "fields": [
+                {
+                    "description": "Name of the device, shown in the interfaces.",
+                    "label": "Name",
+                    "name": "name",
+                    "required": true,
+                    "type": "string"
+                },
+                {
+                    "description": "Room the device is created in.",
+                    "label": "Room",
+                    "name": "room",
+                    "required": true,
+                    "type": "room"
+                },
+                {
+                    "description": "The room temperature the thermostat regulates on. A sensor that only reports its changes may be taken for a silent one.",
+                    "io_filter": {
+                        "value": "number",
+                        "writable": false
+                    },
+                    "label": "Temperature sensor",
+                    "name": "current_temp",
+                    "required": true,
+                    "type": "io"
+                },
+                {
+                    "description": "Relative humidity of the room. Cooling stops while it reads humidity_max or more, has not read, or is silent: the floor would sweat.",
+                    "io_filter": {
+                        "value": "number",
+                        "writable": false
+                    },
+                    "label": "Humidity sensor",
+                    "name": "humidity",
+                    "required": true,
+                    "type": "io"
+                },
+                {
+                    "default": 60.0,
+                    "description": "Relative humidity from which cooling stops. At 60 % and 25 \u00b0C the dew point is about 17 \u00b0C, under the surface of a floor fed with water at 16 \u00b0C.",
+                    "label": "Maximum humidity",
+                    "max": 90.0,
+                    "min": 40.0,
+                    "name": "humidity_max",
+                    "required": true,
+                    "step": 1.0,
+                    "type": "number",
+                    "unit": "%"
+                },
+                {
+                    "description": "Relay or contact the thermostat switches. It belongs to this thermostat alone: rules must not write it.",
+                    "io_filter": {
+                        "value": "bool",
+                        "writable": true
+                    },
+                    "label": "Heating output",
+                    "name": "output_heat",
+                    "required": true,
+                    "type": "io"
+                },
+                {
+                    "description": "Relay or contact the thermostat switches. It belongs to this thermostat alone: rules must not write it.",
+                    "io_filter": {
+                        "value": "bool",
+                        "writable": true
+                    },
+                    "label": "Cooling output",
+                    "name": "output_cool",
+                    "required": true,
+                    "type": "io"
+                }
+            ],
+            "id": "thermostat_floor_heat_cool",
+            "impl": "thermostat",
+            "ios": [
+                {
+                    "element": "internal",
+                    "key": "target_temp",
+                    "params": {
+                        "name": "{name} setpoint",
+                        "save": "true",
+                        "step": "0.5",
+                        "unit": "\u00b0C",
+                        "value": "20",
+                        "value_max": "30",
+                        "value_min": "7",
+                        "visible": "false"
+                    },
+                    "type": "InternalInt"
+                },
+                {
+                    "element": "internal",
+                    "key": "target_temp_low",
+                    "params": {
+                        "name": "{name} low setpoint",
+                        "save": "true",
+                        "step": "0.5",
+                        "unit": "\u00b0C",
+                        "value": "19",
+                        "value_max": "30",
+                        "value_min": "7",
+                        "visible": "false"
+                    },
+                    "type": "InternalInt"
+                },
+                {
+                    "element": "internal",
+                    "key": "target_temp_high",
+                    "params": {
+                        "name": "{name} high setpoint",
+                        "save": "true",
+                        "step": "0.5",
+                        "unit": "\u00b0C",
+                        "value": "25",
+                        "value_max": "30",
+                        "value_min": "7",
+                        "visible": "false"
+                    },
+                    "type": "InternalInt"
+                },
+                {
+                    "element": "internal",
+                    "key": "action",
+                    "params": {
+                        "name": "{name} action",
+                        "visible": "false"
+                    },
+                    "type": "InternalString"
+                }
+            ],
+            "links": [
+                {
+                    "io": {
+                        "field": "current_temp"
+                    },
+                    "role": "current_temp"
+                },
+                {
+                    "io": {
+                        "owned": "target_temp"
+                    },
+                    "role": "target_temp"
+                },
+                {
+                    "io": {
+                        "owned": "target_temp_low"
+                    },
+                    "role": "target_temp_low"
+                },
+                {
+                    "io": {
+                        "owned": "target_temp_high"
+                    },
+                    "role": "target_temp_high"
+                },
+                {
+                    "io": {
+                        "owned": "action"
+                    },
+                    "role": "action"
+                },
+                {
+                    "io": {
+                        "field": "output_heat"
+                    },
+                    "role": "output_heat"
+                },
+                {
+                    "io": {
+                        "field": "output_cool"
+                    },
+                    "role": "output_cool"
+                },
+                {
+                    "io": {
+                        "field": "humidity"
+                    },
+                    "role": "humidity"
+                }
+            ],
+            "name": "Reversible floor thermostat",
+            "params": [
+                {
+                    "name": "emitter",
+                    "value": "floor"
+                },
+                {
+                    "name": "hysteresis",
+                    "value": "0.5"
+                },
+                {
+                    "name": "min_on_time",
+                    "value": "900"
+                },
+                {
+                    "name": "min_off_time",
+                    "value": "900"
+                },
+                {
+                    "name": "min_range",
+                    "value": "2"
+                },
+                {
+                    "name": "sensor_timeout",
+                    "value": "9000"
+                },
+                {
+                    "name": "put_back_delay",
+                    "value": "1"
+                },
+                {
+                    "name": "put_back_delay_max",
+                    "value": "60"
+                },
+                {
+                    "name": "humidity_max",
+                    "value": "{humidity_max}"
+                }
+            ]
+        }
+    ]
+}
