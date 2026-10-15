@@ -328,7 +328,7 @@ QList<DeviceTemplates::Problem> DeviceTemplates::validate(const QJsonObject &tpl
 
 bool DeviceTemplates::fits(IOBase *io, const QJsonObject &ioFilter)
 {
-    if (!io || dynamic_cast<Device *>(io) || io->get_param("id").empty())
+    if (!io || dynamic_cast<Device *>(io) || io->get_param("id").empty() || !io->isSupportedByServer())
         return false;
 
     const QString value = ioFilter["value"].toString();

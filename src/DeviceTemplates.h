@@ -56,7 +56,8 @@ public:
     };
     static QList<Problem> validate(const QJsonObject &tpl, const QVariantMap &values);
 
-    //IOs of the house an `io` field may target, in room order.
+    //IOs of the house an `io` field may target, in room order: never a device, nor a
+    //type the server no longer creates (the link would not resolve).
     static std::vector<Calaos::IOBase *> candidates(const QJsonObject &ioFilter);
     static bool fits(Calaos::IOBase *io, const QJsonObject &ioFilter);
     static Calaos::IOBase *ioById(const std::string &id);
