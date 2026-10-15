@@ -49,7 +49,7 @@ def diff(a, b, path, out):
 
 def label(item, index):
     if isinstance(item, dict):
-        for key in ("name", "id", "role"):
+        for key in ("id", "name", "role"):
             if key in item:
                 return item[key]
     return index
