@@ -122,6 +122,7 @@ QWidget *DialogEditDevice::buildLinks(const DeviceEdit::State &start)
         LinkEditor e;
         e.role = role;
         e.label = new QLabel(group);
+        e.label->setToolTip(role.name);
         QWidget *editor;
 
         if (!start.links.contains(role.name))
@@ -223,7 +224,9 @@ QWidget *DialogEditDevice::buildParams(const DeviceEdit::State &start)
         if (!param.min.isEmpty() || !param.max.isEmpty())
             hint += (hint.isEmpty() ? "" : " ") + tr("(%1 to %2)").arg(param.min.isEmpty() ? "-" : param.min,
                                                                          param.max.isEmpty() ? "-" : param.max);
-        form->addRow(param.name + ":", withHint(editor, hint, group));
+        QLabel *label = new QLabel(tr("%1:").arg(param.label), group);
+        label->setToolTip(param.name);
+        form->addRow(label, withHint(editor, hint, group));
         e.raw = value;
         e.initial = editorValue(e);
         if (e.check)
@@ -326,8 +329,8 @@ void DialogEditDevice::refresh()
 {
     const DeviceEdit::State s = state();
     for (LinkEditor &e: m_links)
-        e.label->setText(DeviceEdit::isRequired(m_device, e.role, s) ? tr("%1 (required):").arg(e.role.name)
-                                                                      : tr("%1:").arg(e.role.name));
+        e.label->setText(DeviceEdit::isRequired(m_device, e.role, s) ? tr("%1 (required):").arg(e.role.label)
+                                                                      : tr("%1:").arg(e.role.label));
 
     const QStringList missing = DeviceEdit::missingRequired(m_device, s);
     m_warning->setText(missing.isEmpty() ? QString()

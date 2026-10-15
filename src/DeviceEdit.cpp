@@ -91,6 +91,18 @@ bool isNumber(const QString &v, bool integer)
 
 }
 
+QString DeviceEdit::labelFor(const QJsonObject &entry, const QString &name)
+{
+    const QString label = entry["label"].toString();
+    if (!label.isEmpty())
+        return label;
+    QString made = name;
+    made.replace('_', ' ');
+    if (!made.isEmpty())
+        made[0] = made[0].toUpper();
+    return made;
+}
+
 bool DeviceEdit::isDocumented(Device *dev)
 {
     return !IODoc::getDeviceObject(u(dev->impl())).isEmpty();
@@ -105,6 +117,7 @@ QList<DeviceEdit::Role> DeviceEdit::roles(Device *dev)
         const QJsonObject o = v.toObject();
         Role r;
         r.name = o["role"].toString();
+        r.label = labelFor(o, r.name);
         r.description = o["description"].toString();
         r.required = o["required"].toBool();
         r.requiredWhen = o["required_when"].toObject();
@@ -131,6 +144,7 @@ QList<DeviceEdit::Param> DeviceEdit::params(Device *dev)
             continue;
         Param p;
         p.name = o["name"].toString();
+        p.label = labelFor(o, p.name);
         p.type = o["type"].toString();
         p.description = o["description"].toString();
         p.defaultValue = o["default"].toString();
@@ -244,7 +258,7 @@ QStringList DeviceEdit::missingRequired(Device *dev, const State &state)
         const QString id = targetOf(dev, state, r.name);
         if (resolves(id) || !isRequired(dev, r, state))
             continue;
-        res << (id.isEmpty() ? r.name : tr("%1 (\"%2\" not found)").arg(r.name, id));
+        res << (id.isEmpty() ? r.label : tr("%1 (\"%2\" not found)").arg(r.label, id));
     }
     return res;
 }
@@ -258,7 +272,7 @@ QList<DeviceEdit::Problem> DeviceEdit::validate(Device *dev, const State &state)
     std::map<QString, std::pair<QString, bool>> writableTargets;
     for (const Role &r: roles(dev))
         if (r.writable && isOwnedRole(dev, r.name))
-            writableTargets[u(linkOf(dev, r.name)->io)] = { r.name, false };
+            writableTargets[u(linkOf(dev, r.name)->io)] = { r.label, false };
 
     for (const Role &r: roles(dev))
     {
@@ -279,24 +293,24 @@ QList<DeviceEdit::Problem> DeviceEdit::validate(Device *dev, const State &state)
             {
                 if (changed || taken->second.second)
                     problem(tr("%1: \"%2\" is already linked as %3.")
-                                .arg(r.name, io ? u(io->get_param("name")) : id, taken->second.first));
+                                .arg(r.label, io ? u(io->get_param("name")) : id, taken->second.first));
                 continue;
             }
-            writableTargets[id] = { r.name, changed };
+            writableTargets[id] = { r.label, changed };
         }
 
         if (!changed)
             continue;
         if (!io)
-            problem(tr("%1: no IO has the id \"%2\".").arg(r.name, id));
+            problem(tr("%1: no IO has the id \"%2\".").arg(r.label, id));
         else if (io->getOwnerDevice() == dev)
-            problem(tr("%1: \"%2\" is one of this device's own IOs.").arg(r.name, u(io->get_param("name"))));
+            problem(tr("%1: \"%2\" is one of this device's own IOs.").arg(r.label, u(io->get_param("name"))));
         else if (!fits(io, r, dev))
-            problem(tr("%1: \"%2\" is not an IO of the expected kind.").arg(r.name, u(io->get_param("name"))));
+            problem(tr("%1: \"%2\" is not an IO of the expected kind.").arg(r.label, u(io->get_param("name"))));
         else if (Device *owner = thermostat && DeviceTemplates::isThermostatOutput(r.name) ?
                                      DeviceTemplates::thermostatOwning(s8(id), dev) : nullptr)
             problem(tr("%1: \"%2\" is already an output of thermostat \"%3\".")
-                        .arg(r.name, u(io->get_param("name")), u(owner->get_param("name"))));
+                        .arg(r.label, u(io->get_param("name")), u(owner->get_param("name"))));
     }
 
     for (const Param &p: params(dev))
@@ -306,7 +320,7 @@ QList<DeviceEdit::Problem> DeviceEdit::validate(Device *dev, const State &state)
 
         if (p.mandatory && v.trimmed().isEmpty())
         {
-            problem(tr("%1 is required.").arg(p.name));
+            problem(tr("%1 is required.").arg(p.label));
             continue;
         }
         if (!state.params.contains(p.name) || v == before.params.value(p.name))
@@ -316,19 +330,19 @@ QList<DeviceEdit::Problem> DeviceEdit::validate(Device *dev, const State &state)
         {
             if (!isNumber(v, p.type == "int"))
             {
-                problem(p.type == "int" ? tr("%1 must be a whole number.").arg(p.name)
-                                        : tr("%1 must be a number.").arg(p.name));
+                problem(p.type == "int" ? tr("%1 must be a whole number.").arg(p.label)
+                                        : tr("%1 must be a number.").arg(p.label));
                 continue;
             }
             const double d = v.toDouble();
             if ((!p.min.isEmpty() && d < p.min.toDouble()) || (!p.max.isEmpty() && d > p.max.toDouble()))
-                problem(tr("%1 must be between %2 and %3.").arg(p.name, p.min.isEmpty() ? "-" : p.min,
+                problem(tr("%1 must be between %2 and %3.").arg(p.label, p.min.isEmpty() ? "-" : p.min,
                                                                   p.max.isEmpty() ? "-" : p.max));
         }
         else if (p.type == "bool" && v != "true" && v != "false")
-            problem(tr("%1 must be true or false.").arg(p.name));
+            problem(tr("%1 must be true or false.").arg(p.label));
         else if (p.type == "list" && !p.listValues.isEmpty() && !p.listValues.contains(v))
-            problem(tr("%1: \"%2\" is not one of the choices.").arg(p.name, v));
+            problem(tr("%1: \"%2\" is not one of the choices.").arg(p.label, v));
     }
 
     return problems;

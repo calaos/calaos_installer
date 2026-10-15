@@ -108,6 +108,7 @@ private slots:
     void cleanup();
 
     void rolesAndParamsComeFromIODoc();
+    void labelsComeFromIODocOrFromTheName();
     void linksToTheDevicesOwnIosAreNotEditable();
     void aLinkAndAParamChangedSurviveASave();
     void rulesAndOwnedIosAreUntouched();
@@ -206,6 +207,13 @@ void tst_DeviceEdit::rolesAndParamsComeFromIODoc()
     Device unknown(p);
     QVERIFY(!DeviceEdit::isDocumented(&unknown));
     QVERIFY(DeviceEdit::roles(&unknown).isEmpty());
+}
+
+void tst_DeviceEdit::labelsComeFromIODocOrFromTheName()
+{
+    QCOMPARE(DeviceEdit::labelFor(QJsonObject { { "label", "Room sensor" } }, "current_temp"), QString("Room sensor"));
+    QCOMPARE(DeviceEdit::labelFor(QJsonObject(), "put_back_delay_max"), QString("Put back delay max"));
+    QCOMPARE(roleNamed(th(), "output_heat").label, QString("Output heat"));
 }
 
 void tst_DeviceEdit::linksToTheDevicesOwnIosAreNotEditable()
@@ -361,21 +369,21 @@ void tst_DeviceEdit::refusals_data()
     QTest::addColumn<QString>("message");
 
     QTest::newRow("decision 17") << "output_heat" << "relay_cave"
-                                 << "output_heat: output_heat: \"Cave relay\" is already an output of thermostat \"Cave thermostat\".";
+                                 << "output_heat: Output heat: \"Cave relay\" is already an output of thermostat \"Cave thermostat\".";
     QTest::newRow("legacy") << "current_temp" << "zibase"
-                            << "current_temp: current_temp: \"Old sensor\" is not an IO of the expected kind.";
+                            << "current_temp: Current temp: \"Old sensor\" is not an IO of the expected kind.";
     QTest::newRow("not writable") << "output_cool" << "switch_salon"
-                                  << "output_cool: output_cool: \"Salon switch\" is not an IO of the expected kind.";
+                                  << "output_cool: Output cool: \"Salon switch\" is not an IO of the expected kind.";
     QTest::newRow("value type") << "current_temp" << "relay_spare"
-                                << "current_temp: current_temp: \"Spare relay\" is not an IO of the expected kind.";
+                                << "current_temp: Current temp: \"Spare relay\" is not an IO of the expected kind.";
     QTest::newRow("heat and cool") << "output_cool" << "relay_heat"
-                                   << "output_cool: output_cool: \"Heating relay\" is already linked as output_heat.";
+                                   << "output_cool: Output cool: \"Heating relay\" is already linked as Output heat.";
     QTest::newRow("own IO") << "current_temp" << "th_target_temp"
-                            << "current_temp: current_temp: \"Chauffage salon setpoint\" is one of this device's own IOs.";
-    QTest::newRow("unknown id") << "humidity" << "ghost" << "humidity: humidity: no IO has the id \"ghost\".";
-    QTest::newRow("float") << "param:hysteresis" << "abc" << "hysteresis: hysteresis must be a number.";
-    QTest::newRow("bool") << "param:visible" << "yes" << "visible: visible must be true or false.";
-    QTest::newRow("name") << "param:name" << " " << "name: name is required.";
+                            << "current_temp: Current temp: \"Chauffage salon setpoint\" is one of this device's own IOs.";
+    QTest::newRow("unknown id") << "humidity" << "ghost" << "humidity: Humidity: no IO has the id \"ghost\".";
+    QTest::newRow("float") << "param:hysteresis" << "abc" << "hysteresis: Hysteresis must be a number.";
+    QTest::newRow("bool") << "param:visible" << "yes" << "visible: Visible must be true or false.";
+    QTest::newRow("name") << "param:name" << " " << "name: Name is required.";
 }
 
 void tst_DeviceEdit::refusals()
@@ -465,11 +473,11 @@ void tst_DeviceEdit::requiredRolesAreReported()
 
     //humidity: required_when output_cool is linked and emitter is floor.
     s.params["emitter"] = "floor";
-    QCOMPARE(DeviceEdit::missingRequired(th(), s), QStringList({ "humidity" }));
+    QCOMPARE(DeviceEdit::missingRequired(th(), s), QStringList({ "Humidity" }));
     s.links["output_cool"] = QString();
     QCOMPARE(DeviceEdit::missingRequired(th(), s), QStringList());
     s.links["current_temp"] = QString();
-    QCOMPARE(DeviceEdit::missingRequired(th(), s), QStringList({ "current_temp" }));
+    QCOMPARE(DeviceEdit::missingRequired(th(), s), QStringList({ "Current temp" }));
     //Reported, not refused: the server loads the device without that capability.
     QVERIFY(DeviceEdit::validate(th(), s).isEmpty());
 
@@ -477,7 +485,7 @@ void tst_DeviceEdit::requiredRolesAreReported()
     QVERIFY(loadIo(work("ghost.xml"), QByteArray(kIo).replace("<calaos:link name=\"current_temp\" io=\"temp_salon\"/>",
                                                                 "<calaos:link name=\"current_temp\" io=\"ghost\"/>")));
     QCOMPARE(DeviceEdit::missingRequired(th(), DeviceEdit::current(th())),
-             QStringList({ "current_temp (\"ghost\" not found)" }));
+             QStringList({ "Current temp (\"ghost\" not found)" }));
 }
 
 void tst_DeviceEdit::okWithoutAChangeChangesNothing()
@@ -549,8 +557,8 @@ void tst_DeviceEdit::theDialogRefusesAndSaysWhy()
     QVERIFY(d.result() != QDialog::Accepted);
     QLabel *error = d.findChild<QLabel *>("labelError");
     QVERIFY(!error->isHidden());
-    QCOMPARE(error->text(), QString("output_heat: \"Cave relay\" is already an output of thermostat \"Cave thermostat\".\n"
-                                    "hysteresis must be a number."));
+    QCOMPARE(error->text(), QString("Output heat: \"Cave relay\" is already an output of thermostat \"Cave thermostat\".\n"
+                                    "Hysteresis must be a number."));
     QCOMPARE(d.focusWidget(), heat);
     QCOMPARE(linksOf(th())["output_heat"], QString("relay_heat"));
     QVERIFY(paramsOf(th()).contains("hysteresis=0.5"));

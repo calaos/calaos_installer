@@ -138,6 +138,16 @@
 <context>
     <name>DeviceEdit</name>
     <message>
+        <location filename="../src/DeviceEdit.cpp" line="307"/>
+        <source>%1: &quot;%2&quot; is one of this device's own IOs.</source>
+        <translation>%1 : « %2 » est un des IOs de ce device.</translation>
+    </message>
+    <message>
+        <location filename="../src/DeviceEdit.cpp" line="261"/>
+        <source>%1 (&quot;%2&quot; not found)</source>
+        <translation>%1 (« %2 » introuvable)</translation>
+    </message>
+    <message>
         <location filename="../src/DeviceEdit.cpp" line="265"/>
         <source>%1: &quot;%2&quot; is already linked as %3.</source>
         <translation>%1 : « %2 » est déjà lié comme %3.</translation>
@@ -647,6 +657,31 @@ p, li { white-space: pre-wrap; }
 </context>
 <context>
     <name>DialogEditDevice</name>
+    <message>
+        <location filename="../src/DialogEditDevice.cpp" line="270"/>
+        <source>IODoc does not describe these links and params: they are kept as they are.</source>
+        <translation>IODoc ne décrit pas ces liens et params : ils sont gardés tels quels.</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogEditDevice.cpp" line="268"/>
+        <source>Not documented</source>
+        <translation>Non documenté</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogEditDevice.cpp" line="259"/>
+        <source>, commands: %1</source>
+        <translation>, commandes : %1</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogEditDevice.cpp" line="170"/>
+        <source>Commands go to %1.</source>
+        <translation>Les commandes vont à %1.</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogEditDevice.cpp" line="169"/>
+        <source>Commands go to %1. Picking another IO drops it: commands then go to the IO picked.</source>
+        <translation>Les commandes vont à %1. Choisir un autre IO le retire : les commandes vont alors à l'IO choisi.</translation>
+    </message>
     <message>
         <location filename="../src/DialogEditDevice.cpp" line="62"/>
         <source>Device: %1</source>

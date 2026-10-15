@@ -23,6 +23,7 @@ public:
     struct Role
     {
         QString name;
+        QString label;
         QString description;
         bool required = false;
         //{link: role, param: name, value: v}: required while every given key holds.
@@ -35,6 +36,7 @@ public:
     struct Param
     {
         QString name;
+        QString label;
         QString type; //string, bool, int, float, list
         QString description;
         QString defaultValue;
@@ -57,6 +59,9 @@ public:
         QString field; //a role or a param name
         QString message;
     };
+
+    //The `label` of an IODoc entry, else one made from its name (current_temp: Current temp).
+    static QString labelFor(const QJsonObject &entry, const QString &name);
 
     //Documented roles, in IODoc order; empty for an impl IODoc does not know.
     static QList<Role> roles(Calaos::Device *dev);
