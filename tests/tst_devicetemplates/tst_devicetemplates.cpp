@@ -741,9 +741,11 @@ void tst_DeviceTemplates::idsAssignedByTheWizardAreTakenToo()
 
 void tst_DeviceTemplates::aSecondDeviceFromTheSameTemplateGetsItsOwnIds()
 {
-    const QJsonObject t = shippedTemplate("thermostat_heat_cool");
+    //Same sensor; each its own output (decision 17).
+    const QJsonObject t = shippedTemplate("thermostat_heat");
     QVariantMap v = filled(t);
     Device *a = DeviceTemplates::create(t, v);
+    v["output_heat"] = "relay_cool";
     Device *b = DeviceTemplates::create(t, v);
     QVERIFY(a && b);
     QCOMPARE(u(a->get_param("id")), QString("chauffage_salon"));
@@ -761,7 +763,7 @@ void tst_DeviceTemplates::aSecondDeviceFromTheSameTemplateGetsItsOwnIds()
     const QByteArray saved = saveIo(work("two.xml"));
     QVERIFY(loadIo(work("two_reload.xml"), saved));
     QCOMPARE(m_dialogs, QStringList());
-    QCOMPARE(int(ListeRoom::Instance().get_device("chauffage_salon_0")->ownedIos().size()), 4);
+    QCOMPARE(int(ListeRoom::Instance().get_device("chauffage_salon_0")->ownedIos().size()), 2);
 }
 
 void tst_DeviceTemplates::theDeviceIdComesFromItsName_data()

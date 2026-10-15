@@ -4,6 +4,7 @@
 #include <QFile>
 #include <QJsonDocument>
 #include <QRegularExpression>
+#include <QSet>
 #include <map>
 #include <set>
 
@@ -30,6 +31,31 @@ QString formatNumber(double d)
 bool isRoom(const QVariant &v)
 {
     return v.userType() == qMetaTypeId<Room *>();
+}
+
+//Decision 17, as the server applies it (InternalThermostat::claimOutputs): an IO
+//linked as output_heat or output_cool belongs to one thermostat, the server ignores
+//the link of any other. The only family rule here, because the server enforces it.
+const char *const kThermostatImpl = "thermostat";
+
+bool isThermostatOutput(const QString &role)
+{
+    return role == "output_heat" || role == "output_cool";
+}
+
+Device *thermostatOwning(const std::string &id)
+{
+    ListeRoom &lr = ListeRoom::Instance();
+    for (int r = 0;r < lr.size();r++)
+        for (Device *dev: lr.get_room(r)->get_devices())
+        {
+            if (u(dev->impl()).toLower() != kThermostatImpl)
+                continue;
+            for (const DeviceLink &l: dev->links())
+                if (l.io == id && isThermostatOutput(u(l.name)))
+                    return dev;
+        }
+    return nullptr;
 }
 
 }
@@ -188,6 +214,12 @@ QList<DeviceTemplates::Problem> DeviceTemplates::validate(const QJsonObject &tpl
     bool hasRoom = false;
     std::map<QString, QString> writableTargets; //IO id -> label of the field that picked it
 
+    QSet<QString> thermostatOutputs; //fields whose IO becomes an output of this thermostat
+    if (tpl["impl"].toString().toLower() == kThermostatImpl)
+        for (const QJsonValue &l: tpl["links"].toArray())
+            if (isThermostatOutput(l.toObject()["role"].toString()))
+                thermostatOutputs.insert(l.toObject()["io"].toObject()["field"].toString());
+
     for (const QJsonValue &f: tpl["fields"].toArray())
     {
         const QJsonObject def = f.toObject();
@@ -264,6 +296,9 @@ QList<DeviceTemplates::Problem> DeviceTemplates::validate(const QJsonObject &tpl
                 problem(tr("%1: no IO has the id \"%2\".").arg(label, id));
             else if (!fits(io, filter))
                 problem(tr("%1: \"%2\" is not an IO of the expected kind.").arg(label, u(io->get_param("name"))));
+            else if (Device *owner = thermostatOutputs.contains(name) ? thermostatOwning(s8(id)) : nullptr)
+                problem(tr("%1: \"%2\" is already an output of thermostat \"%3\".")
+                            .arg(label, u(io->get_param("name")), u(owner->get_param("name"))));
             else if (filter["writable"].toBool())
             {
                 //A device writes an IO through one link: two would fight over it.
