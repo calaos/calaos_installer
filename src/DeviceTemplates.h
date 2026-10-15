@@ -45,6 +45,8 @@ public:
     static bool holds(const QJsonObject &entry, const QVariantMap &values);
     static bool isSet(const QVariant &value);
 
+    //Decimal, without exponent nor useless zeros (16, 0.5, 0.00001).
+    static QString formatNumber(double d);
     static QString render(const QJsonObject &fieldDef, const QVariant &value);
     static QString substitute(const QString &s, const QJsonObject &tpl, const QVariantMap &values,
                               const QString &deviceId);

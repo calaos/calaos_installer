@@ -6,6 +6,7 @@
 #include <QJsonDocument>
 #include <QRegularExpression>
 #include <QSet>
+#include <cmath>
 #include <map>
 #include <set>
 
@@ -22,11 +23,6 @@ QString u(const std::string &s)
 std::string s8(const QString &s)
 {
     return s.toUtf8().toStdString();
-}
-
-QString formatNumber(double d)
-{
-    return QString::number(d, 'g', 15);
 }
 
 bool isRoom(const QVariant &v)
@@ -164,6 +160,24 @@ bool DeviceTemplates::holds(const QJsonObject &entry, const QVariantMap &values)
         name = name.mid(1);
 
     return negated != isSet(values.value(name));
+}
+
+QString DeviceTemplates::formatNumber(double d)
+{
+    if (d == 0 || !std::isfinite(d))
+        return d == 0 ? QStringLiteral("0") : QString::number(d);
+
+    //The 15 significant digits of a double, never an exponent: 1e-05 is no value for a param.
+    const int exponent = int(std::floor(std::log10(std::fabs(d))));
+    QString s = QString::number(d, 'f', qMax(0, 14 - exponent));
+    if (s.contains('.'))
+    {
+        while (s.endsWith('0'))
+            s.chop(1);
+        if (s.endsWith('.'))
+            s.chop(1);
+    }
+    return s;
 }
 
 QString DeviceTemplates::render(const QJsonObject &fieldDef, const QVariant &value)

@@ -28,7 +28,7 @@ QString u(const std::string &s)
 
 int decimalsOf(double step)
 {
-    const QString s = QString::number(step, 'g', 15);
+    const QString s = DeviceTemplates::formatNumber(step);
     const int dot = s.indexOf('.');
     return dot < 0 ? 0 : s.size() - dot - 1;
 }
