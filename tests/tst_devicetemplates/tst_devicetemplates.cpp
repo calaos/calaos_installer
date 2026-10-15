@@ -395,6 +395,8 @@ void tst_DeviceTemplates::everyVariantBuildsAValidDevice()
     QCOMPARE(u(dev->family()), t["family"].toString());
     QCOMPARE(u(dev->impl()), t["impl"].toString());
     QCOMPARE(u(dev->get_param("name")), values["name"].toString());
+    //Clients list only the items whose visible is "true"; the owned IOs stay hidden.
+    QCOMPARE(u(dev->get_param("visible")), QString("true"));
     QCOMPARE(DeviceTemplates::roomOf(t, values), roomNamed("Salon"));
     QVERIFY(roomNamed("Salon")->get_devices().back() == dev);
 
