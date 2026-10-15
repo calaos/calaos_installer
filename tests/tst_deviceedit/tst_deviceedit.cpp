@@ -112,6 +112,7 @@ private slots:
     void aLinkAndAParamChangedSurviveASave();
     void rulesAndOwnedIosAreUntouched();
     void anotherIoDropsTheCommandIo();
+    void theDialogSaysACommandIoGoes();
     void aLinkOrAParamClearedIsRemoved();
     void refusals_data();
     void refusals();
@@ -299,6 +300,15 @@ void tst_DeviceEdit::anotherIoDropsTheCommandIo()
     QCOMPARE(u(px->links()[0].io), QString("mode_other"));
     QCOMPARE(u(px->links()[0].commandIo), QString());
     QVERIFY(!deviceElement(saveIo(work("command.xml")), "px").join('\n').contains("command_io"));
+}
+
+void tst_DeviceEdit::theDialogSaysACommandIoGoes()
+{
+    DialogEditDevice d(ListeRoom::Instance().get_device("px"));
+    bool said = false;
+    for (QLabel *l: d.findChild<QWidget *>("link_mode")->parentWidget()->findChildren<QLabel *>())
+        said |= l->text().contains("Commands go to AC mode command (mode_cmd) - Cave. Picking another IO drops it");
+    QVERIFY(said);
 }
 
 void tst_DeviceEdit::aLinkOrAParamClearedIsRemoved()

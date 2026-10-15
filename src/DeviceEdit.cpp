@@ -344,7 +344,12 @@ bool DeviceEdit::apply(Device *dev, const State &state)
                 links.erase(it);
         }
         else if (it != links.end())
+        {
+            //The commands went to the old IO's partner, not to the new one.
+            if (it->io != id)
+                it->commandIo.clear();
             it->io = id;
+        }
         else
             links.push_back({ role, id, std::string() });
     }

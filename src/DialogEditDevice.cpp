@@ -157,7 +157,15 @@ QWidget *DialogEditDevice::buildLinks(const DeviceEdit::State &start)
         }
 
         editor->setObjectName("link_" + role.name);
-        form->addRow(e.label, withHint(editor, role.description, group));
+        QString hint = role.description;
+        for (const DeviceLink &l: m_device->links())
+            if (u(l.name) == role.name && !l.commandIo.empty() && e.box)
+            {
+                IOBase *cmd = DeviceTemplates::ioById(l.commandIo);
+                hint += "\n" + tr("Commands go to %1. Picking another IO drops it: commands then go to the IO picked.")
+                                    .arg(cmd ? ioLabel(cmd) : u(l.commandIo));
+            }
+        form->addRow(e.label, withHint(editor, hint, group));
         m_links.append(e);
     }
 
