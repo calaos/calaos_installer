@@ -100,6 +100,7 @@ private slots:
     void ioFieldsOfferTheIosThatFit();
     void editorsFollowTheFieldTypes();
     void switchingTemplatesKeepsTheCommonValues();
+    void switchingTemplatesKeepsOnlyWhatTheUserChanged();
     void theNotesOfTheTemplateAreShownAfterCreation();
     void noTemplateNoCreate();
     void screenshots();
@@ -334,6 +335,28 @@ void tst_DialogNewDevice::switchingTemplatesKeepsTheCommonValues()
     //Not one of this template's options: its default.
     QCOMPARE(field<QComboBox>(&d, "emitter")->currentData().toString(), QString("heat_pump"));
     QCOMPARE(d.findChildren<QWidget *>("field_emitter").size(), 1);
+}
+
+void tst_DialogNewDevice::switchingTemplatesKeepsOnlyWhatTheUserChanged()
+{
+    DialogNewDevice d(shippedTemplates(), roomNamed("Salon"));
+    QVERIFY(d.selectTemplate("esphome_climate"));
+    QLineEdit *host = field<QLineEdit>(&d, "mqtt_host");
+    host->clear();
+    QTest::keyClicks(host, "10.0.0.2");
+    field<QDoubleSpinBox>(&d, "temp_max")->setValue(28);
+
+    QVERIFY(d.selectTemplate("esphome_climate_ir"));
+    QCOMPARE(field<QLineEdit>(&d, "mqtt_host")->text(), QString("10.0.0.2"));
+    QCOMPARE(field<QDoubleSpinBox>(&d, "temp_max")->value(), 28.0);
+    //Defaults the user left alone are this template's.
+    QCOMPARE(field<QDoubleSpinBox>(&d, "temp_step")->value(), 1.0);
+    QCOMPARE(d.values()["modes"].toStringList(), QStringList({ "off", "heat", "cool", "auto" }));
+
+    //A value carried over stays the user's for the next switch.
+    QVERIFY(d.selectTemplate("esphome_climate"));
+    QCOMPARE(field<QLineEdit>(&d, "mqtt_host")->text(), QString("10.0.0.2"));
+    QCOMPARE(field<QDoubleSpinBox>(&d, "temp_step")->value(), 0.5);
 }
 
 void tst_DialogNewDevice::theNotesOfTheTemplateAreShownAfterCreation()
