@@ -564,19 +564,21 @@ void tst_DeviceEdit::theDialogMarksTheRequiredRoles()
 
     auto labelOf = [&](const QString &role)
     {
-        QWidget *editor = d.findChild<QWidget *>("link_" + role);
+        QWidget *editor = d.findChild<QWidget *>(role.startsWith("param_") ? role : "link_" + role);
         QFormLayout *form = qobject_cast<QFormLayout *>(editor->parentWidget()->parentWidget()->layout());
         return qobject_cast<QLabel *>(form->labelForField(editor->parentWidget()))->text();
     };
-    QCOMPARE(labelOf("current_temp"), QString("current_temp (required):"));
-    QCOMPARE(labelOf("humidity"), QString("humidity:"));
+    //IODoc has no label yet: one is made from the name.
+    QCOMPARE(labelOf("current_temp"), QString("Current temp (required):"));
+    QCOMPARE(labelOf("humidity"), QString("Humidity:"));
 
     QLineEdit *emitter = d.findChild<QLineEdit *>("param_emitter");
     emitter->selectAll();
     QTest::keyClicks(emitter, "floor");
-    QCOMPARE(labelOf("humidity"), QString("humidity (required):"));
+    QCOMPARE(labelOf("humidity"), QString("Humidity (required):"));
     QVERIFY(!warning->isHidden());
-    QCOMPARE(warning->text(), QString("No IO for humidity: the device loads without what this link gives."));
+    QCOMPARE(warning->text(), QString("No IO for Humidity: the device loads without what this link gives."));
+    QCOMPARE(labelOf("param_put_back_delay_max"), QString("Put back delay max:"));
 
     choose(d.findChild<QComboBox *>("link_humidity"), "hum_salon");
     QVERIFY(warning->isHidden());
