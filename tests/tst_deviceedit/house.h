@@ -42,6 +42,12 @@ const char *kIo = R"(<?xml version="1.0"?>
 <calaos:room name="Cave" type="cave" hits="0">
   <calaos:input id="temp_cave" type="WITemp" name="Cave temperature" host="h" port="502" var="5"/>
   <calaos:output id="relay_cave" type="WODigital" name="Cave relay" host="h" port="502" var="6"/>
+  <calaos:input id="mode_state" type="MqttInputString" name="AC mode" host="h" port="1883" topic_sub="ac/mode"/>
+  <calaos:output id="mode_cmd" type="MqttOutputString" name="AC mode command" host="h" port="1883" topic_pub="ac/set" topic_sub="ac/set"/>
+  <calaos:output id="mode_other" type="MqttOutputString" name="Other mode" host="h" port="1883" topic_pub="o/set" topic_sub="o/mode"/>
+  <calaos:device id="px" type="climate" impl="proxy" name="Cave AC">
+    <calaos:link name="mode" io="mode_state" command_io="mode_cmd"/>
+  </calaos:device>
   <calaos:device id="th2" type="climate" impl="thermostat" name="Cave thermostat">
     <calaos:internal id="th2_target_temp" type="InternalInt" name="Cave setpoint" save="true" value="12" visible="false"/>
     <calaos:internal id="th2_action" type="InternalString" name="Cave action" visible="false"/>

@@ -111,6 +111,7 @@ private slots:
     void linksToTheDevicesOwnIosAreNotEditable();
     void aLinkAndAParamChangedSurviveASave();
     void rulesAndOwnedIosAreUntouched();
+    void anotherIoDropsTheCommandIo();
     void aLinkOrAParamClearedIsRemoved();
     void refusals_data();
     void refusals();
@@ -279,6 +280,25 @@ void tst_DeviceEdit::rulesAndOwnedIosAreUntouched()
     QCOMPARE(u(th()->get_param("id")), QString("th"));
     for (IOBase *io: owned)
         QCOMPARE(io->getOwnerDevice(), th());
+}
+
+void tst_DeviceEdit::anotherIoDropsTheCommandIo()
+{
+    //The server would go on writing the commands to the old IO.
+    Device *px = ListeRoom::Instance().get_device("px");
+    DeviceEdit::State s = DeviceEdit::current(px);
+    QCOMPARE(s.links["mode"], QString("mode_state"));
+
+    //Unchanged, it stays.
+    s.params["sensor_timeout"] = "600";
+    QVERIFY(DeviceEdit::apply(px, s));
+    QCOMPARE(u(px->links()[0].commandIo), QString("mode_cmd"));
+
+    s.links["mode"] = "mode_other";
+    QVERIFY(DeviceEdit::apply(px, s));
+    QCOMPARE(u(px->links()[0].io), QString("mode_other"));
+    QCOMPARE(u(px->links()[0].commandIo), QString());
+    QVERIFY(!deviceElement(saveIo(work("command.xml")), "px").join('\n').contains("command_io"));
 }
 
 void tst_DeviceEdit::aLinkOrAParamClearedIsRemoved()
