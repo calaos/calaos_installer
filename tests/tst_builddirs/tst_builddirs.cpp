@@ -17,6 +17,8 @@ private slots:
     void initTestCase();
     void intermediatesArePerQtVersion_data();
     void intermediatesArePerQtVersion();
+    void formerLayoutIsRefused_data();
+    void formerLayoutIsRefused();
 
 private:
     bool runQmake(const QStringList &args, const QString &workDir, QString *output = nullptr);
@@ -93,6 +95,35 @@ void TstBuildDirs::intermediatesArePerQtVersion()
         QVERIFY2(path.contains(dir), qPrintable(path));
     }
     QVERIFY(seen > 0);
+}
+
+void TstBuildDirs::formerLayoutIsRefused_data()
+{
+    QTest::addColumn<QString>("leftover");
+    QTest::newRow("moc of a header") << QStringLiteral("moc_qftp.cpp");
+    QTest::newRow("moc of a source") << QStringLiteral("qftp.moc");
+    QTest::newRow("uic") << QStringLiteral("ui_mainwindow.h");
+    QTest::newRow("rcc") << QStringLiteral("qrc_qml.cpp");
+}
+
+// A build directory of the former layout would compile stale generated files that
+// shadow the new ones: qmake must stop with a message rather than build.
+void TstBuildDirs::formerLayoutIsRefused()
+{
+    QFETCH(QString, leftover);
+
+    QTemporaryDir build;
+    QVERIFY(build.isValid());
+    QFile f(build.filePath(leftover));
+    QVERIFY(f.open(QIODevice::WriteOnly));
+    f.close();
+
+    QString output;
+    QVERIFY(!runQmake({QStringLiteral(CALAOS_SOURCE_DIR "/calaos_installer.pro")}, build.path(), &output));
+    QVERIFY2(output.contains(QStringLiteral("holds files of a build made before")), qPrintable(output));
+
+    QVERIFY(QFile::remove(build.filePath(leftover)));
+    QVERIFY(runQmake({QStringLiteral(CALAOS_SOURCE_DIR "/calaos_installer.pro")}, build.path()));
 }
 
 QTEST_GUILESS_MAIN(TstBuildDirs)

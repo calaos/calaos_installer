@@ -12,3 +12,4 @@ machine_creator/build
 flatpak-build
 flatpak-repo
 *.flatpak
+build-qt*/

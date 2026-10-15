@@ -29,6 +29,11 @@ make -j$(nproc)
 cd build && make clean
 # or remove build/ entirely: rm -rf build/
 
+# Intermediate files (objects, moc, uic, rcc) go to build-qt<Qt version>/ inside the
+# build directory (.qmake.conf): a Qt update rebuilds everything instead of linking
+# objects compiled against the previous Qt headers. qmake refuses a build directory
+# that still holds generated files at its top (layout before this rule): empty it.
+
 # Rebuild translations (.ts -> .qm)
 # Handled automatically by qmake via lrelease during build
 ```
@@ -106,6 +111,9 @@ QT_QPA_PLATFORM=offscreen ./tst_projectmanager/tst_projectmanager -v2 ioRoundTri
 - The model and (de)serialisation sources are listed once in `calaos_model.pri`, shared by
   the application and the tests. A new file that the tests need goes there; one that only
   the GUI needs stays in `calaos_installer.pro`.
+- `tests/tst_builddirs/` runs qmake on the projects and checks that every intermediate file
+  lands in `build-qt<Qt version>/` and that a build directory of the former layout is refused;
+  `tests/tst_timezonehelper/` covers the timezone list and builds the Remote UI editor offscreen.
 - To add a suite: create `tests/tst_<name>/tst_<name>.pro` (copy `tst_projectmanager`) and
   add it to `SUBDIRS` in `tests/tests.pro`.
 - CI (`.github/workflows/pr_ci.yml`) builds the application and runs these tests on every
