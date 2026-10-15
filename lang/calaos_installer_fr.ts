@@ -136,6 +136,59 @@
     </message>
 </context>
 <context>
+    <name>DeviceEdit</name>
+    <message>
+        <location filename="../src/DeviceEdit.cpp" line="265"/>
+        <source>%1: &quot;%2&quot; is already linked as %3.</source>
+        <translation>%1 : « %2 » est déjà lié comme %3.</translation>
+    </message>
+    <message>
+        <location filename="../src/DeviceEdit.cpp" line="275"/>
+        <source>%1: no IO has the id &quot;%2&quot;.</source>
+        <translation>%1 : aucun IO n'a l'id « %2 ».</translation>
+    </message>
+    <message>
+        <location filename="../src/DeviceEdit.cpp" line="277"/>
+        <source>%1: &quot;%2&quot; is not an IO of the expected kind.</source>
+        <translation>%1 : « %2 » n'est pas un IO du type attendu.</translation>
+    </message>
+    <message>
+        <location filename="../src/DeviceEdit.cpp" line="280"/>
+        <source>%1: &quot;%2&quot; is already an output of thermostat &quot;%3&quot;.</source>
+        <translation>%1 : « %2 » est déjà une sortie du thermostat « %3 ».</translation>
+    </message>
+    <message>
+        <location filename="../src/DeviceEdit.cpp" line="291"/>
+        <source>%1 is required.</source>
+        <translation>%1 est obligatoire.</translation>
+    </message>
+    <message>
+        <location filename="../src/DeviceEdit.cpp" line="301"/>
+        <source>%1 must be a whole number.</source>
+        <translation>%1 doit être un nombre entier.</translation>
+    </message>
+    <message>
+        <location filename="../src/DeviceEdit.cpp" line="302"/>
+        <source>%1 must be a number.</source>
+        <translation>%1 doit être un nombre.</translation>
+    </message>
+    <message>
+        <location filename="../src/DeviceEdit.cpp" line="307"/>
+        <source>%1 must be between %2 and %3.</source>
+        <translation>%1 doit être compris entre %2 et %3.</translation>
+    </message>
+    <message>
+        <location filename="../src/DeviceEdit.cpp" line="311"/>
+        <source>%1 must be true or false.</source>
+        <translation>%1 doit valoir true ou false.</translation>
+    </message>
+    <message>
+        <location filename="../src/DeviceEdit.cpp" line="313"/>
+        <source>%1: &quot;%2&quot; is not one of the choices.</source>
+        <translation>%1 : « %2 » ne fait pas partie des choix.</translation>
+    </message>
+</context>
+<context>
     <name>DeviceTemplates</name>
     <message>
         <location filename="../src/DeviceTemplates.cpp" line="239"/>
@@ -590,6 +643,105 @@ p, li { white-space: pre-wrap; }
         <location filename="../src/DialogDaliMasterItem.cpp" line="147"/>
         <source>Buttons_address: %1</source>
         <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>DialogEditDevice</name>
+    <message>
+        <location filename="../src/DialogEditDevice.cpp" line="62"/>
+        <source>Device: %1</source>
+        <translation>Device : %1</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogEditDevice.cpp" line="69"/>
+        <source>Id:</source>
+        <translation>Id :</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogEditDevice.cpp" line="70"/>
+        <source>Family:</source>
+        <translation>Famille :</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogEditDevice.cpp" line="113"/>
+        <source>Links</source>
+        <translation>Liens</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogEditDevice.cpp" line="131"/>
+        <source>%1, owned by this device</source>
+        <translation>%1, possédé par ce device</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogEditDevice.cpp" line="137"/>
+        <source>None</source>
+        <translation>Aucun</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogEditDevice.cpp" line="146"/>
+        <source>%1, of another kind</source>
+        <translation>%1, d'un autre type</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogEditDevice.cpp" line="146"/>
+        <source>%1 (not found)</source>
+        <translation>%1 (introuvable)</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogEditDevice.cpp" line="159"/>
+        <source>IODoc documents no link for this device.</source>
+        <translation>IODoc ne documente aucun lien pour ce device.</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogEditDevice.cpp" line="165"/>
+        <source>Parameters</source>
+        <translation>Paramètres</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogEditDevice.cpp" line="187"/>
+        <location filename="../src/DialogEditDevice.cpp" line="199"/>
+        <source>Not set</source>
+        <translation>Non défini</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogEditDevice.cpp" line="187"/>
+        <source>Default (%1)</source>
+        <translation>Par défaut (%1)</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogEditDevice.cpp" line="200"/>
+        <source>Default: %1</source>
+        <translation>Par défaut : %1</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogEditDevice.cpp" line="207"/>
+        <source>(%1 to %2)</source>
+        <translation>(%1 à %2)</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogEditDevice.cpp" line="232"/>
+        <source>Owned IOs</source>
+        <translation>IOs possédés</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogEditDevice.cpp" line="234"/>
+        <source>Created with the device and deleted with it; edit each one from the tree.</source>
+        <translation>Créés avec le device et supprimés avec lui ; chacun se modifie depuis l'arbre.</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogEditDevice.cpp" line="276"/>
+        <source>%1 (required):</source>
+        <translation>%1 (requis) :</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogEditDevice.cpp" line="277"/>
+        <source>%1:</source>
+        <translation>%1 :</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogEditDevice.cpp" line="281"/>
+        <source>No IO for %1: the device loads without what this link gives.</source>
+        <translation>Aucun IO pour %1 : le device se charge sans ce que ce lien apporte.</translation>
     </message>
 </context>
 <context>

@@ -64,6 +64,12 @@ public:
     static bool fits(Calaos::IOBase *io, const QJsonObject &ioFilter);
     static Calaos::IOBase *ioById(const std::string &id);
 
+    //Decision 17: an output_heat or output_cool belongs to one thermostat.
+    static bool isThermostatImpl(const QString &impl);
+    static bool isThermostatOutput(const QString &role);
+    //The thermostat, other than except, that has id as an output.
+    static Calaos::Device *thermostatOwning(const std::string &id, Calaos::Device *except = nullptr);
+
     using IdTaken = std::function<bool(const std::string &)>;
     //Held by an IO or a device of the house, still referenced by a rule, or the
     //target of a device link.

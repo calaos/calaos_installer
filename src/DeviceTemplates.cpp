@@ -30,31 +30,34 @@ bool isRoom(const QVariant &v)
     return v.userType() == qMetaTypeId<Room *>();
 }
 
+}
+
 //Decision 17, as the server applies it (InternalThermostat::claimOutputs): an IO
 //linked as output_heat or output_cool belongs to one thermostat, the server ignores
 //the link of any other. The only family rule here, because the server enforces it.
-const char *const kThermostatImpl = "thermostat";
+bool DeviceTemplates::isThermostatImpl(const QString &impl)
+{
+    return impl.toLower() == "thermostat";
+}
 
-bool isThermostatOutput(const QString &role)
+bool DeviceTemplates::isThermostatOutput(const QString &role)
 {
     return role == "output_heat" || role == "output_cool";
 }
 
-Device *thermostatOwning(const std::string &id)
+Device *DeviceTemplates::thermostatOwning(const std::string &id, Device *except)
 {
     ListeRoom &lr = ListeRoom::Instance();
     for (int r = 0;r < lr.size();r++)
         for (Device *dev: lr.get_room(r)->get_devices())
         {
-            if (u(dev->impl()).toLower() != kThermostatImpl)
+            if (dev == except || !isThermostatImpl(u(dev->impl())))
                 continue;
             for (const DeviceLink &l: dev->links())
                 if (l.io == id && isThermostatOutput(u(l.name)))
                     return dev;
         }
     return nullptr;
-}
-
 }
 
 QJsonArray DeviceTemplates::load(const QString &lang)
@@ -240,7 +243,7 @@ QList<DeviceTemplates::Problem> DeviceTemplates::validate(const QJsonObject &tpl
     std::map<QString, QString> writableTargets; //IO id -> label of the field that picked it
 
     QSet<QString> thermostatOutputs; //fields whose IO becomes an output of this thermostat
-    if (tpl["impl"].toString().toLower() == kThermostatImpl)
+    if (isThermostatImpl(tpl["impl"].toString()))
         for (const QJsonValue &l: tpl["links"].toArray())
             if (isThermostatOutput(l.toObject()["role"].toString()))
                 thermostatOutputs.insert(l.toObject()["io"].toObject()["field"].toString());

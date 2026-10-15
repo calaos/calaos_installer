@@ -47,6 +47,8 @@ SOURCES += src/main.cpp \
     src/DialogDeleteImpact.cpp \
     src/DialogDeviceInfo.cpp \
     src/DialogNewDevice.cpp \
+    src/DialogEditDevice.cpp \
+    src/DeviceEdit.cpp \
     src/detectip.cpp \
     src/dialognewrule.cpp \
     src/conditiontreewidget.cpp \
@@ -144,6 +146,9 @@ HEADERS += src/mainwindow.h \
     src/DialogDeleteImpact.h \
     src/DialogDeviceInfo.h \
     src/DialogNewDevice.h \
+    src/DialogEditDevice.h \
+    src/DeviceEdit.h \
+    src/WheelGuard.h \
     src/detectip.h \
     src/dialognewrule.h \
     src/conditiontreewidget.h \
