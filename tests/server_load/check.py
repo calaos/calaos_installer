@@ -13,6 +13,9 @@ def device(path):
             return d
 bad = 0
 names = sorted(os.path.basename(p)[:-4] for p in glob.glob(os.path.join(here, 'xml', '*.xml')))
+if not names:
+    print('no device to check in %s/xml' % here)
+    sys.exit(1)
 for n in names:
     log = open(os.path.join(here, 'out', n + '.log'), errors='replace').read()
     loading = log.split('All services started')[0]
