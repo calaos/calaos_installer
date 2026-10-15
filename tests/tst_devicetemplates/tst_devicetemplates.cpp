@@ -724,8 +724,10 @@ void tst_DeviceTemplates::aTakenIdGetsTheFirstFreeSuffix()
     Device *dev = DeviceTemplates::create(t, v);
     QVERIFY(dev);
     QCOMPARE(u(dev->get_param("id")), QString("heat_0"));
-    QCOMPARE(u(ownedIo(dev, "target_temp_1")->get_param("id")), QString("heat_0_target_temp_1"));
-    QCOMPARE(u(ownedIo(dev, "action_0")->get_param("id")), QString("heat_0_action_0"));
+    QStringList owned;
+    for (IOBase *io: dev->ownedIos())
+        owned << u(io->get_param("id"));
+    QCOMPARE(owned, QStringList({ "heat_0_target_temp_1", "heat_0_action_0" }));
     QCOMPARE(u(dev->links()[1].io), QString("heat_0_target_temp_1"));
     QCOMPARE(u(dev->links()[2].io), QString("heat_0_action_0"));
     ListeRoom::clearPendingIOIds();
