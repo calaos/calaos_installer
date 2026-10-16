@@ -800,6 +800,164 @@ p, li { white-space: pre-wrap; }
     </message>
 </context>
 <context>
+    <name>DialogHomeAssistantMqtt</name>
+    <message>
+        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="33"/>
+        <source>Home Assistant MQTT discovery</source>
+        <translation>Découverte MQTT Home Assistant</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="37"/>
+        <source>Lists the entities that Home Assistant MQTT discovery announces on the broker (ESPHome, Zigbee2MQTT, Tasmota...). The checked ones are added to the project: an MQTT IO each, a climate device for a climate.</source>
+        <translation>Liste les entités que la découverte MQTT Home Assistant annonce sur le broker (ESPHome, Zigbee2MQTT, Tasmota...). Celles cochées sont ajoutées au projet : une IO MQTT chacune, un appareil climat pour un climat.</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="44"/>
+        <source>Broker used by the Calaos server</source>
+        <translation>Broker utilisé par le serveur Calaos</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="49"/>
+        <source>Written in the imported IOs. 127.0.0.1 is the Calaos box itself.</source>
+        <translation>Écrit dans les IO importées. 127.0.0.1 est la box Calaos elle-même.</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="59"/>
+        <source>Address:</source>
+        <translation>Adresse :</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="60"/>
+        <source>Port:</source>
+        <translation>Port :</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="61"/>
+        <source>User:</source>
+        <translation>Utilisateur :</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="62"/>
+        <source>Password:</source>
+        <translation>Mot de passe :</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="66"/>
+        <source>Broker address from this computer:</source>
+        <translation>Adresse du broker depuis cet ordinateur :</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="69"/>
+        <source>Address of the Calaos box</source>
+        <translation>Adresse de la box Calaos</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="70"/>
+        <source>Port, user and password are the ones above; the user and the password of the project&apos;s broker are only sent to that broker.</source>
+        <translation>Port, utilisateur et mot de passe sont ceux ci-dessus ; l&apos;utilisateur et le mot de passe du broker du projet ne sont envoyés qu&apos;à ce broker.</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="73"/>
+        <source>Discovery prefix:</source>
+        <translation>Préfixe de découverte :</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="78"/>
+        <source>Search</source>
+        <translation>Rechercher</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="95"/>
+        <source>Search the broker to list its entities.</source>
+        <translation>Interrogez le broker pour lister ses entités.</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="99"/>
+        <source>Name</source>
+        <translation>Nom</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="99"/>
+        <source>Home Assistant</source>
+        <translation>Home Assistant</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="99"/>
+        <source>Calaos</source>
+        <translation>Calaos</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="99"/>
+        <source>Status</source>
+        <translation>État</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="116"/>
+        <source>Import into the room:</source>
+        <translation>Importer dans la pièce :</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="128"/>
+        <source>Import</source>
+        <translation>Importer</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="146"/>
+        <source>Listening to the broker...</source>
+        <translation>Écoute du broker...</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="203"/>
+        <source>Type the address of the broker as this computer reaches it.</source>
+        <translation>Saisissez l&apos;adresse du broker telle que cet ordinateur le joint.</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="221"/>
+        <source>Connecting to %1:%2...</source>
+        <translation>Connexion à %1:%2...</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="233"/>
+        <source>%1 What was read before is listed.</source>
+        <translation>%1 Ce qui a été lu avant est listé.</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="235"/>
+        <source>No Home Assistant discovery config under %1/ on this broker. Check the discovery prefix, and that the devices have discovery on.</source>
+        <translation>Aucune config de découverte Home Assistant sous %1/ sur ce broker. Vérifiez le préfixe de découverte, et que la découverte est activée sur les appareils.</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="238"/>
+        <source>Entities found: %1. Check the ones to import.</source>
+        <translation>Entités trouvées : %1. Cochez celles à importer.</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="241"/>
+        <source>Discovery configs that could not be read: %1.</source>
+        <translation>Configs de découverte illisibles : %1.</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="284"/>
+        <source>not imported: %1</source>
+        <translation>non importé : %1</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="286"/>
+        <source>already in the project</source>
+        <translation>déjà dans le projet</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="288"/>
+        <source>offline</source>
+        <translation>hors ligne</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="290"/>
+        <source>online</source>
+        <translation>en ligne</translation>
+    </message>
+</context>
+<context>
     <name>DialogNewDevice</name>
     <message>
         <location filename="../src/DialogNewDevice.cpp" line="62"/>
@@ -865,6 +1023,152 @@ p, li { white-space: pre-wrap; }
         <location filename="../src/DialogNewDevice.cpp" line="394"/>
         <source>%1 is created. Its setup needs a few more steps:</source>
         <translation>%1 est créé. Sa mise en service demande encore quelques étapes :</translation>
+    </message>
+</context>
+<context>
+    <name>HomeAssistantDiscovery</name>
+    <message>
+        <location filename="../src/HomeAssistantDiscovery.cpp" line="269"/>
+        <source>its temperatures are in °F, Calaos climates in °C</source>
+        <translation>ses températures sont en °F, les climats Calaos en °C</translation>
+    </message>
+    <message>
+        <location filename="../src/HomeAssistantDiscovery.cpp" line="286"/>
+        <source>its %1 goes through a template Calaos cannot follow</source>
+        <translation>son %1 passe par un template que Calaos ne sait pas suivre</translation>
+    </message>
+    <message>
+        <location filename="../src/HomeAssistantDiscovery.cpp" line="287"/>
+        <source>it does not report its %1</source>
+        <translation>il ne remonte pas son %1</translation>
+    </message>
+    <message>
+        <location filename="../src/HomeAssistantDiscovery.cpp" line="294"/>
+        <source>Not imported: %1 (%2).</source>
+        <translation>Non importé : %1 (%2).</translation>
+    </message>
+    <message>
+        <location filename="../src/HomeAssistantDiscovery.cpp" line="302"/>
+        <source>it has no mode topics</source>
+        <translation>il n&apos;a pas de topics de mode</translation>
+    </message>
+    <message>
+        <location filename="../src/HomeAssistantDiscovery.cpp" line="315"/>
+        <source>it has no setpoint topics</source>
+        <translation>il n&apos;a pas de topics de consigne</translation>
+    </message>
+    <message>
+        <location filename="../src/HomeAssistantDiscovery.cpp" line="322"/>
+        <source>two setpoints without a current temperature: no template takes that</source>
+        <translation>deux consignes sans température ambiante : aucun modèle ne le prend</translation>
+    </message>
+    <message>
+        <location filename="../src/HomeAssistantDiscovery.cpp" line="329"/>
+        <source>the device template %1 is missing from this installer</source>
+        <translation>le modèle d&apos;appareil %1 manque dans cet installeur</translation>
+    </message>
+    <message>
+        <location filename="../src/HomeAssistantDiscovery.cpp" line="333"/>
+        <source>Not imported: action (the template without room temperature has none).</source>
+        <translation>Non importé : action (le modèle sans température ambiante n&apos;en a pas).</translation>
+    </message>
+    <message>
+        <location filename="../src/HomeAssistantDiscovery.cpp" line="656"/>
+        <location filename="../src/HomeAssistantDiscovery.cpp" line="676"/>
+        <source>it has no state topic</source>
+        <translation>il n&apos;a pas de topic d&apos;état</translation>
+    </message>
+    <message>
+        <location filename="../src/HomeAssistantDiscovery.cpp" line="658"/>
+        <location filename="../src/HomeAssistantDiscovery.cpp" line="678"/>
+        <location filename="../src/HomeAssistantDiscovery.cpp" line="717"/>
+        <location filename="../src/HomeAssistantDiscovery.cpp" line="857"/>
+        <source>its value goes through a template Calaos cannot follow</source>
+        <translation>sa valeur passe par un template que Calaos ne sait pas suivre</translation>
+    </message>
+    <message>
+        <location filename="../src/HomeAssistantDiscovery.cpp" line="713"/>
+        <location filename="../src/HomeAssistantDiscovery.cpp" line="745"/>
+        <location filename="../src/HomeAssistantDiscovery.cpp" line="808"/>
+        <location filename="../src/HomeAssistantDiscovery.cpp" line="830"/>
+        <location filename="../src/HomeAssistantDiscovery.cpp" line="851"/>
+        <source>it has no command topic</source>
+        <translation>il n&apos;a pas de topic de commande</translation>
+    </message>
+    <message>
+        <location filename="../src/HomeAssistantDiscovery.cpp" line="715"/>
+        <location filename="../src/HomeAssistantDiscovery.cpp" line="747"/>
+        <location filename="../src/HomeAssistantDiscovery.cpp" line="810"/>
+        <source>it does not report its state</source>
+        <translation>il ne remonte pas son état</translation>
+    </message>
+    <message>
+        <location filename="../src/HomeAssistantDiscovery.cpp" line="721"/>
+        <source>it reports other values than the ones it takes</source>
+        <translation>il remonte d&apos;autres valeurs que celles qu&apos;il reçoit</translation>
+    </message>
+    <message>
+        <location filename="../src/HomeAssistantDiscovery.cpp" line="772"/>
+        <location filename="../src/HomeAssistantDiscovery.cpp" line="822"/>
+        <source>Its colour is not imported: Calaos reads colours as x and y on a 0 to 255 brightness.</source>
+        <translation>Sa couleur n&apos;est pas importée : Calaos lit les couleurs en x et y avec une luminosité de 0 à 255.</translation>
+    </message>
+    <message>
+        <location filename="../src/HomeAssistantDiscovery.cpp" line="792"/>
+        <source>it does not report its brightness</source>
+        <translation>il ne remonte pas sa luminosité</translation>
+    </message>
+    <message>
+        <location filename="../src/HomeAssistantDiscovery.cpp" line="796"/>
+        <source>its brightness goes through a template Calaos cannot follow</source>
+        <translation>sa luminosité passe par un template que Calaos ne sait pas suivre</translation>
+    </message>
+    <message>
+        <location filename="../src/HomeAssistantDiscovery.cpp" line="803"/>
+        <source>Driven by its brightness topic: off is brightness 0.</source>
+        <translation>Piloté par son topic de luminosité : éteint correspond à la luminosité 0.</translation>
+    </message>
+    <message>
+        <location filename="../src/HomeAssistantDiscovery.cpp" line="812"/>
+        <location filename="../src/HomeAssistantDiscovery.cpp" line="832"/>
+        <source>its state goes through a template Calaos cannot follow</source>
+        <translation>son état passe par un template que Calaos ne sait pas suivre</translation>
+    </message>
+    <message>
+        <location filename="../src/HomeAssistantDiscovery.cpp" line="825"/>
+        <source>lights of the %1 schema are not imported</source>
+        <translation>les lumières du schéma %1 ne sont pas importées</translation>
+    </message>
+    <message>
+        <location filename="../src/HomeAssistantDiscovery.cpp" line="846"/>
+        <source>It reports no state: Calaos times its travel.</source>
+        <translation>Il ne remonte pas d&apos;état : Calaos chronomètre sa course.</translation>
+    </message>
+    <message>
+        <location filename="../src/HomeAssistantDiscovery.cpp" line="853"/>
+        <source>it does not report its value</source>
+        <translation>il ne remonte pas sa valeur</translation>
+    </message>
+    <message>
+        <location filename="../src/HomeAssistantDiscovery.cpp" line="871"/>
+        <source>a climate is a device</source>
+        <translation>un climat est un appareil</translation>
+    </message>
+    <message>
+        <location filename="../src/HomeAssistantDiscovery.cpp" line="873"/>
+        <source>Calaos does not import %1 entities</source>
+        <translation>Calaos n&apos;importe pas les entités %1</translation>
+    </message>
+    <message>
+        <location filename="../src/HomeAssistantDiscovery.cpp" line="1006"/>
+        <source>%1: already in the project, skipped.</source>
+        <translation>%1 : déjà dans le projet, ignoré.</translation>
+    </message>
+    <message>
+        <location filename="../src/HomeAssistantDiscovery.cpp" line="1024"/>
+        <location filename="../src/HomeAssistantDiscovery.cpp" line="1035"/>
+        <source>%1: not imported, %2.</source>
+        <translation>%1 : non importé, %2.</translation>
     </message>
 </context>
 <context>
@@ -6537,6 +6841,16 @@ p, li { white-space: pre-wrap; }
         <location filename="../src/formrules.cpp" line="3604"/>
         <source>Are you sure to delete the item &quot;%1&quot;</source>
         <translation>Etes vous sûr de vouloir supprimer l&apos;élément &quot;%1&quot;</translation>
+    </message>
+    <message>
+        <location filename="../src/formrules.cpp" line="469"/>
+        <source>Home Assistant MQTT discovery...</source>
+        <translation>Découverte MQTT Home Assistant...</translation>
+    </message>
+    <message>
+        <location filename="../src/formrules.cpp" line="1116"/>
+        <source>Home Assistant MQTT discovery</source>
+        <translation>Découverte MQTT Home Assistant</translation>
     </message>
 </context>
 <context>
