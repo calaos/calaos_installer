@@ -5899,6 +5899,16 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../src/FormConditionStd.cpp" line="266"/>
+        <source>Event on playlist change</source>
+        <translation>Évènement lors du changement de liste de lecture</translation>
+    </message>
+    <message>
+        <location filename="../src/FormConditionStd.cpp" line="267"/>
+        <source>Event on volume change</source>
+        <translation>Évènement lors du changement de volume</translation>
+    </message>
+    <message>
+        <location filename="../src/FormConditionStd.cpp" line="266"/>
         <source>Event on error</source>
         <translation>Evennement lors d&apos;erreur</translation>
     </message>

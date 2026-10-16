@@ -257,12 +257,14 @@ void FormConditionStd::setCondition(QTreeWidgetItem *item, Rule *_rule, Conditio
     {
         addActionMenu("changed", tr("Event when value changes"), "changed");
     }
-    else if (gtype == "audio")
+    else if (gtype == "audio" || gtype == "audio_player")
     {
         addActionMenu("onplay", tr("Event on play"), "onplay");
         addActionMenu("onpause", tr("Event on pause"), "onpause");
         addActionMenu("onstop", tr("Event on stop"), "onstop");
         addActionMenu("onsongchange", tr("Event on song change"), "onsongchange");
+        addActionMenu("onplaylistchange", tr("Event on playlist change"), "onplaylistchange");
+        addActionMenu("onvolumechange", tr("Event on volume change"), "onvolumechange");
         addActionMenu("onerror", tr("Event on error"), "onerror");
     }
     else
