@@ -185,6 +185,7 @@ DeviceCommand::Offer DeviceCommand::offer(const QJsonObject &deviceDoc, const In
         if (type == "enum")
         {
             f.type = Enum;
+            QJsonObject valueNeeds;
 
             if (jf.contains("values_param"))
             {
@@ -196,24 +197,51 @@ DeviceCommand::Offer DeviceCommand::offer(const QJsonObject &deviceDoc, const In
                 for (const QJsonValue &v : jf["values"].toArray())
                     f.values << v.toString();
 
-                // The modes param lists the modes of a proxy, none when it is empty. A device
-                // that does not document it ignores it, and so does the form.
+                // A device that does not document the modes param ignores it, and so does the form.
+                QJsonObject modesParam;
                 bool documented = false;
                 for (const QJsonValue &p : deviceDoc["parameters"].toArray())
-                    documented = documented || p.toObject()["name"].toString() == "modes";
-
-                if (f.name == "mode" && documented && instance.params.contains("modes"))
                 {
-                    const QStringList subset = splitList(instance.params.value("modes"));
-                    QStringList kept;
-                    for (const QString &v : f.values)
+                    if (p.toObject()["name"].toString() == "modes")
                     {
-                        if (subset.contains(v))
-                            kept << v;
-                        else
-                            f.excludedByParam.insert(v, "modes");
+                        modesParam = p.toObject();
+                        documented = true;
                     }
-                    f.values = kept;
+                }
+
+                // list_rule is what the server does with the list; without it, the list is the whole list.
+                const QJsonObject rule = modesParam["list_rule"].toObject();
+                if (f.name == "mode" && documented)
+                {
+                    bool narrowed = instance.params.contains("modes");
+                    QStringList subset = splitList(instance.params.value("modes"));
+                    if (!narrowed)
+                    {
+                        const QJsonObject defaults = rule["default_when_linked"].toObject();
+                        for (const QString &role : defaults.keys())
+                        {
+                            if (!instance.links.contains(role))
+                                continue;
+                            narrowed = true;
+                            for (const QJsonValue &v : defaults[role].toArray())
+                                subset << v.toString();
+                        }
+                    }
+                    if (narrowed)
+                    {
+                        for (const QJsonValue &v : rule["always_includes"].toArray())
+                            subset << v.toString();
+                        QStringList kept;
+                        for (const QString &v : f.values)
+                        {
+                            if (subset.contains(v))
+                                kept << v;
+                            else
+                                f.excludedByParam.insert(v, "modes");
+                        }
+                        f.values = kept;
+                    }
+                    valueNeeds = rule["value_requires_values"].toObject();
                 }
             }
 
@@ -226,6 +254,15 @@ DeviceCommand::Offer DeviceCommand::offer(const QJsonObject &deviceDoc, const In
                     allowed << v;
                 else
                     f.excludedByLinks.insert(v, lacking);
+            }
+            // A value that needs others is judged on what is offered, as the server does.
+            for (const QString &v : valueNeeds.keys())
+            {
+                bool met = true;
+                for (const QJsonValue &n : valueNeeds[v].toArray())
+                    met = met && allowed.contains(n.toString());
+                if (!met && allowed.removeAll(v))
+                    f.excludedByParam.insert(v, "modes");
             }
             f.values = allowed;
 
