@@ -1,23 +1,13 @@
 #include "EsphomeDiscovery.h"
 #include "DeviceTemplates.h"
 
-#include <ListeRoom.h>
-#include <QHostAddress>
 #include <QJsonArray>
 #include <QJsonDocument>
-#include <QUrl>
 #include <algorithm>
 #include <cmath>
 
-using namespace Calaos;
-
 namespace
 {
-
-QString u(const std::string &s)
-{
-    return QString::fromUtf8(s.c_str());
-}
 
 //<prefix>/climate/<object_id>/<what>/(state|command); the prefix may hold slashes.
 bool parseClimateTopic(const QString &topic, QString *prefix, QString *objectId, QString *what, QString *way)
@@ -75,14 +65,6 @@ QStringList pick(const QJsonObject &fieldDef, const QStringList &wanted, QString
     return res;
 }
 
-bool isLoopback(const QString &host)
-{
-    const QString h = host.trimmed().toLower();
-    if (h == "localhost")
-        return true;
-    QHostAddress a;
-    return a.setAddress(h) && a.isLoopback();
-}
 
 }
 
@@ -351,78 +333,4 @@ QVariantMap EsphomeDiscovery::prefill(const QJsonObject &tpl, const Climate &c, 
     if (summary)
         *summary = said;
     return v;
-}
-
-EsphomeDiscovery::Broker EsphomeDiscovery::projectBroker()
-{
-    struct Seen
-    {
-        Broker b;
-        int count = 0;
-        int order = 0;
-    };
-    QMap<QString, Seen> seen;
-    ListeRoom &lr = ListeRoom::Instance();
-    for (int r = 0;r < lr.size();r++)
-    {
-        Room *room = lr.get_room(r);
-        auto consider = [&](IOBase *io)
-        {
-            if (!u(io->get_param("type")).startsWith("Mqtt") || io->get_param("host").empty())
-                return;
-            Broker b;
-            b.host = u(io->get_param("host"));
-            b.port = io->get_param("port").empty() ? 1883 : u(io->get_param("port")).toInt();
-            b.user = u(io->get_param("user"));
-            b.password = u(io->get_param("password"));
-            b.found = true;
-            const QString key = QStringLiteral("%1:%2@%3").arg(b.host).arg(b.port).arg(b.user);
-            Seen &s = seen[key];
-            if (s.count++ == 0)
-            {
-                s.b = b;
-                s.order = seen.size();
-            }
-        };
-        for (int i = 0;i < room->get_size_in();i++)
-            consider(room->get_input(i));
-        for (int i = 0;i < room->get_size_out();i++)
-            consider(room->get_output(i));
-    }
-
-    const Seen *best = nullptr;
-    for (const Seen &s: seen)
-        if (!best || s.count > best->count || (s.count == best->count && s.order < best->order))
-            best = &s;
-    return best ? best->b : Broker();
-}
-
-QString EsphomeDiscovery::hostOf(const QString &calaosHost)
-{
-    const QString h = calaosHost.trimmed();
-    if (h.contains("://"))
-        return QUrl(h).host();
-    //host:port, but not an IPv6 address.
-    if (h.count(':') == 1)
-        return h.section(':', 0, 0);
-    return h;
-}
-
-bool EsphomeDiscovery::sameBroker(const QString &probeHost, const QString &brokerHost, const QString &calaosHost)
-{
-    const QString probe = probeHost.trimmed().toLower();
-    if (probe.isEmpty())
-        return false;
-    if (isLoopback(brokerHost))
-        return probe == hostOf(calaosHost).toLower();
-    return probe == brokerHost.trimmed().toLower();
-}
-
-QString EsphomeDiscovery::probeHost(const QString &brokerHost, const QString &reachedBroker, const QString &calaosHost)
-{
-    if (!isLoopback(brokerHost))
-        return brokerHost.trimmed();
-    if (!reachedBroker.trimmed().isEmpty() && !isLoopback(reachedBroker))
-        return reachedBroker.trimmed();
-    return hostOf(calaosHost);
 }

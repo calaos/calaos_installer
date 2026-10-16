@@ -5,6 +5,7 @@
 
 #include "../tst_devicetemplates/fixture.h"
 #include "EsphomeDiscovery.h"
+#include "MqttBroker.h"
 #ifdef QT_MQTT_AVAILABLE
 #include "FakeMqttBroker.h"
 #include "MqttListener.h"
@@ -454,7 +455,7 @@ void tst_EsphomeDiscovery::theBrokerOfTheProjectIsTheMostUsedOne()
   <calaos:input id="t" type="WITemp" name="T" host="10.0.0.5" port="502" var="1"/>
 </calaos:room></calaos:home></calaos:ioconfig>)";
     QVERIFY(loadIo(m_workDir.filePath("none.xml"), xml1));
-    QVERIFY(!EsphomeDiscovery::projectBroker().found);
+    QVERIFY(!MqttBroker::ofProject().found);
 
     const QByteArray xml2 = R"(<?xml version="1.0"?>
 <calaos:ioconfig xmlns:calaos="http://www.calaos.fr"><calaos:home>
@@ -467,7 +468,7 @@ void tst_EsphomeDiscovery::theBrokerOfTheProjectIsTheMostUsedOne()
   <calaos:output id="c" type="MqttOutputAnalog" name="C" host="127.0.0.1" user="calaos" password="s3cret" topic_sub="c" topic_pub="c"/>
 </calaos:room></calaos:home></calaos:ioconfig>)";
     QVERIFY(loadIo(m_workDir.filePath("mqtt.xml"), xml2));
-    const EsphomeDiscovery::Broker b = EsphomeDiscovery::projectBroker();
+    const MqttBroker b = MqttBroker::ofProject();
     QVERIFY(b.found);
     QCOMPARE(b.host, QString("127.0.0.1"));
     QCOMPARE(b.port, 1883);
@@ -477,15 +478,15 @@ void tst_EsphomeDiscovery::theBrokerOfTheProjectIsTheMostUsedOne()
 
 void tst_EsphomeDiscovery::aLoopbackBrokerIsReachedThroughTheBox()
 {
-    QCOMPARE(EsphomeDiscovery::probeHost("127.0.0.1", "", "192.168.1.10"), QString("192.168.1.10"));
-    QCOMPARE(EsphomeDiscovery::probeHost(" localhost", "", "calaos.local:5454"), QString("calaos.local"));
-    QCOMPARE(EsphomeDiscovery::probeHost("::1", "", "https://box.lan:443/api"), QString("box.lan"));
-    QCOMPARE(EsphomeDiscovery::probeHost("127.0.0.1", "", ""), QString());
-    QCOMPARE(EsphomeDiscovery::probeHost("10.0.0.9 ", "10.0.0.7", "192.168.1.10"), QString("10.0.0.9"));
+    QCOMPARE(MqttBroker::probeHost("127.0.0.1", "", "192.168.1.10"), QString("192.168.1.10"));
+    QCOMPARE(MqttBroker::probeHost(" localhost", "", "calaos.local:5454"), QString("calaos.local"));
+    QCOMPARE(MqttBroker::probeHost("::1", "", "https://box.lan:443/api"), QString("box.lan"));
+    QCOMPARE(MqttBroker::probeHost("127.0.0.1", "", ""), QString());
+    QCOMPARE(MqttBroker::probeHost("10.0.0.9 ", "10.0.0.7", "192.168.1.10"), QString("10.0.0.9"));
     //The broker the Zigbee2MQTT dialog reached from here comes before the box.
-    QCOMPARE(EsphomeDiscovery::probeHost("127.0.0.1", "10.0.0.7", "192.168.1.10"), QString("10.0.0.7"));
-    QCOMPARE(EsphomeDiscovery::probeHost("127.0.0.1", "localhost", "192.168.1.10"), QString("192.168.1.10"));
-    QCOMPARE(EsphomeDiscovery::hostOf("fe80::1"), QString("fe80::1"));
+    QCOMPARE(MqttBroker::probeHost("127.0.0.1", "10.0.0.7", "192.168.1.10"), QString("10.0.0.7"));
+    QCOMPARE(MqttBroker::probeHost("127.0.0.1", "localhost", "192.168.1.10"), QString("192.168.1.10"));
+    QCOMPARE(MqttBroker::hostOf("fe80::1"), QString("fe80::1"));
 }
 
 #ifdef QT_MQTT_AVAILABLE

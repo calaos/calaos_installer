@@ -1,7 +1,7 @@
 #include "DialogNewDevice.h"
-#include "ConfigOptions.h"
 #include "DeviceTemplates.h"
 #include "EsphomeDiscovery.h"
+#include "MqttBroker.h"
 #ifdef QT_MQTT_AVAILABLE
 #include "WidgetEsphomeDiscovery.h"
 #endif
@@ -26,14 +26,6 @@ using namespace Calaos;
 
 namespace
 {
-
-//The box last opened online.
-QString currentCalaosHost()
-{
-    const QVector<CalaosAuth> auths = ConfigOptions::Instance().getAuthList();
-    const int current = ConfigOptions::Instance().getCurrentAuthIndex();
-    return current >= 0 && current < auths.size() ? auths.at(current).host : QString();
-}
 
 QString u(const std::string &s)
 {
@@ -86,7 +78,7 @@ DialogNewDevice::DialogNewDevice(const QJsonArray &templates, Room *room, QWidge
         //The credentials of the project's broker go to that broker only, unless the
         //user typed them for this search.
         const bool typed = m_changed.contains("mqtt_user") || m_changed.contains("mqtt_password");
-        if (typed || EsphomeDiscovery::sameBroker(host, v.value("mqtt_host").toString(), currentCalaosHost()))
+        if (typed || MqttBroker::sameBroker(host, v.value("mqtt_host").toString(), MqttBroker::calaosHost()))
         {
             s.user = v.value("mqtt_user").toString();
             s.password = v.value("mqtt_password").toString();
@@ -180,7 +172,7 @@ void DialogNewDevice::buildForm()
     if (discoverable)
     {
         //The new IOs talk to the broker the project's MQTT IOs already use, password included.
-        const EsphomeDiscovery::Broker b = EsphomeDiscovery::projectBroker();
+        const MqttBroker b = MqttBroker::ofProject();
         if (b.found)
         {
             start["mqtt_host"] = b.host;
@@ -252,10 +244,7 @@ void DialogNewDevice::buildForm()
 #ifdef QT_MQTT_AVAILABLE
 void DialogNewDevice::updateDiscoveryHosts()
 {
-    const QString calaosHost = currentCalaosHost();
-    ConfigOptions &opt = ConfigOptions::Instance();
-    const QString reached = opt.optionExists("calaos/mqtt_broker_host") ? opt.getMqttBrokerHost() : QString();
-    m_discovery->setHosts(values().value("mqtt_host").toString(), reached, calaosHost);
+    m_discovery->setHosts(values().value("mqtt_host").toString(), MqttBroker::reachedHost(), MqttBroker::calaosHost());
 }
 #endif
 

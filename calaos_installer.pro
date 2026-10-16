@@ -54,6 +54,7 @@ SOURCES += src/main.cpp \
     src/DialogDeviceInfo.cpp \
     src/DialogNewDevice.cpp \
     src/EsphomeDiscovery.cpp \
+    src/MqttBroker.cpp \
     src/DialogEditDevice.cpp \
     src/DeviceEdit.cpp \
     src/detectip.cpp \
@@ -154,6 +155,7 @@ HEADERS += src/mainwindow.h \
     src/DialogDeviceInfo.h \
     src/DialogNewDevice.h \
     src/EsphomeDiscovery.h \
+    src/MqttBroker.h \
     src/DialogEditDevice.h \
     src/DeviceEdit.h \
     src/WheelGuard.h \

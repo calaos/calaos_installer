@@ -13,10 +13,12 @@ RESOURCES += ../tst_dialognewdevice/dialognewdevice.qrc
 
 SOURCES += \
     $$PWD/../../src/EsphomeDiscovery.cpp \
+    $$PWD/../../src/MqttBroker.cpp \
     tst_esphomediscovery.cpp
 
 HEADERS += \
     $$PWD/../tst_devicetemplates/fixture.h \
+    $$PWD/../../src/MqttBroker.h \
     $$PWD/../../src/EsphomeDiscovery.h
 
 qtHaveModule(mqtt) {

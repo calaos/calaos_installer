@@ -61,25 +61,6 @@ public:
     static QVariantMap prefill(const QJsonObject &tpl, const Climate &c, const QVariantMap &current,
                                QStringList *summary = nullptr);
 
-    struct Broker
-    {
-        QString host;
-        int port = 1883;
-        QString user;
-        QString password;
-        bool found = false;
-    };
-    //The broker most MQTT IOs of the project use: the server's view of it.
-    static Broker projectBroker();
-
-    //The host to reach the broker from this computer. A loopback address names the
-    //box as the server sees it: the broker this computer last reached (Zigbee2MQTT
-    //dialog), else the box last opened online.
-    static QString probeHost(const QString &brokerHost, const QString &reachedBroker, const QString &calaosHost);
-    //Host part of what the "open online" dialog keeps (an address, host:port or a URL).
-    static QString hostOf(const QString &calaosHost);
-    //Whether probeHost is the broker the project's IOs name brokerHost (from the server).
-    static bool sameBroker(const QString &probeHost, const QString &brokerHost, const QString &calaosHost);
 
 private:
     QMap<QString, Climate> m_climates;

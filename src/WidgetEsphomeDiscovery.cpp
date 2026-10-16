@@ -1,4 +1,5 @@
 #include "WidgetEsphomeDiscovery.h"
+#include "MqttBroker.h"
 
 #include <QHBoxLayout>
 #include <QKeyEvent>
@@ -112,7 +113,7 @@ WidgetEsphomeDiscovery::WidgetEsphomeDiscovery(std::function<MqttListener::Setti
 void WidgetEsphomeDiscovery::setHosts(const QString &brokerHost, const QString &reachedBroker, const QString &calaosHost)
 {
     if (!m_hostTyped)
-        m_host->setText(EsphomeDiscovery::probeHost(brokerHost, reachedBroker, calaosHost));
+        m_host->setText(MqttBroker::probeHost(brokerHost, reachedBroker, calaosHost));
 }
 
 bool WidgetEsphomeDiscovery::eventFilter(QObject *watched, QEvent *event)
