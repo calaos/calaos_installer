@@ -127,6 +127,10 @@ QT_QPA_PLATFORM=offscreen ./tst_projectmanager/tst_projectmanager -v2 ioRoundTri
 - The model and (de)serialisation sources are listed once in `calaos_model.pri`, shared by
   the application and the tests. A new file that the tests need goes there; one that only
   the GUI needs stays in `calaos_installer.pro`.
+- `tests/tst_devicecommand/` covers the JSON command form (`src/DeviceCommand.*`). The `list_rule`
+  of a param (`always_includes`, `default_when_linked`, `value_requires_values`, published by
+  calaos_base) is applied to the `mode` field and the `modes` param pair only: no other field
+  or param reads it. A param without `list_rule` (the proxy `modes`) is the whole list.
 - `tests/tst_builddirs/` runs qmake on the projects and checks that every intermediate file
   lands in `build-qt<Qt version>/` and that a build directory of the former layout is refused;
   `tests/tst_timezonehelper/` covers the timezone list and builds the Remote UI editor offscreen.

@@ -3115,6 +3115,8 @@ valid_max (calaos:param) | Température valide maximale | float | no | Plus haut
 valid_min (calaos:param) | Température valide minimale | float | no | Plus basse lecture plausible de current_temp, dans l'unité de la sonde. Une lecture en dessous est traitée comme une absence de lecture : les sorties passent OFF aussitôt, quel que soit min_on_time, jusqu'à ce qu'une lecture revienne dans les bornes. Pas de contrôle si vide.
 visible | Visible | bool | no | Afficher l'entrée/sortie sur toutes les interfaces utilisateur si activé. Vrai par défautAffichez l'entrée/sortie sur toutes les interfaces utilisateur. Vrai par défaut
 
+List `modes`: always offers off. Without it and with output linked: heat. auto needs heat, cool.
+
 ## Link roles of Thermostat
 Writable: the device writes this link.
 

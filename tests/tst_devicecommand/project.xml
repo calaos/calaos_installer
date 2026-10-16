@@ -79,6 +79,14 @@
     <calaos:link name="output_cool" io="cool_only_cool"/>
   </calaos:device>
 
+  <calaos:device id="zone" type="climate" impl="thermostat" name="Zone valve">
+    <calaos:internal id="zone_target" type="InternalInt" save="true" visible="false"/>
+    <calaos:output   id="zone_valve" type="WODigital" visible="false" host="10.0.0.5" var="7"/>
+    <calaos:link name="current_temp" io="salon_temp"/>
+    <calaos:link name="target_temp"  io="zone_target"/>
+    <calaos:link name="output"       io="zone_valve"/>
+  </calaos:device>
+
   <calaos:device id="ro" type="climate" impl="proxy" name="Read only">
     <calaos:output id="ro_mode" type="MqttOutputString" visible="false" name="mode"/>
     <calaos:input  id="ro_fan" type="MqttInputString" visible="false" name="fan"/>

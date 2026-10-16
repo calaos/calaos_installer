@@ -35,6 +35,8 @@ public:
         // Why a value is not in the list, for one stored by an older version of the rule.
         QString valuesParam;                          // the list is this param
         QHash<QString, QString> excludedByParam;      // value -> param that leaves it out
+        QHash<QString, QString> excludedByDefault;    // value -> linked role whose default list leaves it out
+        QHash<QString, QStringList> excludedByNeeds;  // value -> values it needs and the device does not offer
         QHash<QString, QStringList> excludedByLinks;  // value -> roles it lacks or cannot write
     };
 
