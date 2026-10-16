@@ -116,6 +116,21 @@
     </message>
     <message>
         <location filename="../src/DeviceCommandForm.cpp" line="1"/>
+        <source>%1 is not offered by default with the %2 link and no modes param.</source>
+        <translation>%1 n&apos;est pas offert par défaut avec le lien %2 et sans param modes.</translation>
+    </message>
+    <message>
+        <location filename="../src/DeviceCommandForm.cpp" line="1"/>
+        <source>%1 needs %2, which this device does not offer.</source>
+        <translation>%1 demande %2, que ce device n&apos;offre pas.</translation>
+    </message>
+    <message>
+        <location filename="../src/DeviceCommandForm.cpp" line="1"/>
+        <source> and </source>
+        <translation> et </translation>
+    </message>
+    <message>
+        <location filename="../src/DeviceCommandForm.cpp" line="1"/>
         <source>%1 needs the link %2, which this device lacks or cannot write.</source>
         <translation>%1 demande le lien %2, que ce device n&apos;a pas ou ne peut pas écrire.</translation>
     </message>

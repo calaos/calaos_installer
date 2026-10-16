@@ -17,6 +17,7 @@
 
 #include "DeviceCommand.h"
 #include "DeviceCommandForm.h"
+#include <QDomDocument>
 #include "FormActionStd.h"
 #include "IODoc.h"
 #include "projectmanager.h"
@@ -183,6 +184,8 @@ private slots:
     void aNumberKeepsMoreThanSixDecimals();
     void choosingTheDisplayedValueChecksTheRow();
     void aValueOutsideTheListSaysWhy();
+    void aModeLeftOutSaysWhichRuleLeftItOut();
+    void theFrenchTextsOfTheReasonsExist();
     void aRangeCloserThanMinRangeIsFlagged();
     void editingAFlaggedFieldClearsTheFlag();
     void uncheckingAFlaggedFieldDropsIt();
@@ -414,8 +417,9 @@ void tst_DeviceCommand::aZoneValveWithoutModesOnlyHeats()
 {
     const DeviceCommand::Field f = field(offerOf("zone"), "mode");
     QCOMPARE(f.values, QStringList({"off", "heat"}));
-    QCOMPARE(f.excludedByParam.value("cool"), QString("modes"));
-    QCOMPARE(f.excludedByParam.value("auto"), QString("modes"));
+    QCOMPARE(f.excludedByDefault.value("cool"), QString("output"));
+    QCOMPARE(f.excludedByDefault.value("auto"), QString("output"));
+    QVERIFY(f.excludedByParam.isEmpty());
 
     // the same valve with a list offers what the list says
     device("zone")->deviceParams().push_back({"modes", "heat,cool"});
@@ -440,7 +444,8 @@ void tst_DeviceCommand::autoNeedsHeatAndCoolAmongTheOfferedModes()
     z->deviceParams().push_back({"modes", "heat,auto"});
     const DeviceCommand::Field f = field(offerOf("zone"), "mode");
     QCOMPARE(f.values, QStringList({"off", "heat"}));
-    QVERIFY(f.excludedByParam.contains("auto"));
+    QCOMPARE(f.excludedByNeeds.value("auto"), QStringList({"heat", "cool"}));
+    QVERIFY(!f.excludedByParam.contains("auto"));
 
     for (auto &p : z->deviceParams())
     {
@@ -866,6 +871,63 @@ void tst_DeviceCommand::aValueOutsideTheListSaysWhy()
     QVERIFY(!combo(heat, "mode")->toolTip().contains("link"));
     QVERIFY(!combo(heat, "mode")->toolTip().contains("param"));
     QCOMPARE(heat.value(), QString("{\"mode\":\"banana\"}"));
+}
+
+void tst_DeviceCommand::aModeLeftOutSaysWhichRuleLeftItOut()
+{
+    // the default of a zone valve without modes
+    DeviceCommandForm valve;
+    fill(valve, "zone");
+    valve.setValue("{\"mode\":\"cool\"}");
+    const QString byDefault = combo(valve, "mode")->toolTip();
+    QVERIFY(byDefault.contains("is not offered by default with the output link"));
+    QVERIFY(!byDefault.contains("is not in the modes param"));
+
+    // auto needs heat and cool among the offered modes
+    device("zone")->deviceParams().push_back({"modes", "heat,auto"});
+    DeviceCommandForm needs;
+    fill(needs, "zone");
+    needs.setValue("{\"mode\":\"auto\"}");
+    const QString byNeeds = combo(needs, "mode")->toolTip();
+    QVERIFY(byNeeds.contains("auto needs heat and cool, which this device does not offer."));
+    QVERIFY(!byNeeds.contains("by default"));
+
+    // a mode the list leaves out
+    device("floor")->deviceParams().push_back({"modes", "heat"});
+    DeviceCommandForm listed;
+    fill(listed, "floor");
+    listed.setValue("{\"mode\":\"cool\"}");
+    const QString byList = combo(listed, "mode")->toolTip();
+    QVERIFY(byList.contains("cool is not in the modes param of this device."));
+    QVERIFY(!byList.contains("by default"));
+    QVERIFY(!byList.contains("needs"));
+}
+
+void tst_DeviceCommand::theFrenchTextsOfTheReasonsExist()
+{
+    QFile f(QFINDTESTDATA("../../lang/calaos_installer_fr.ts"));
+    QVERIFY(f.open(QIODevice::ReadOnly));
+    QDomDocument ts;
+    QVERIFY(ts.setContent(&f));
+
+    QHash<QString, QString> fr;
+    const QDomNodeList messages = ts.elementsByTagName("message");
+    for (int i = 0; i < messages.size(); i++)
+    {
+        const QDomElement m = messages.at(i).toElement();
+        const QDomElement tr = m.firstChildElement("translation");
+        if (tr.attribute("type") != "unfinished" && !tr.text().isEmpty())
+            fr.insert(m.firstChildElement("source").text(), tr.text());
+    }
+    for (const char *source : {"%1 is not offered by default with the %2 link and no modes param.",
+                               "%1 needs %2, which this device does not offer.",
+                               "%1 is not in the %2 param of this device."})
+    {
+        QVERIFY2(fr.contains(source), source);
+        QVERIFY2(fr.value(source).contains("%1") && fr.value(source).contains("%2"), source);
+        QVERIFY2(fr.value(source) != source, source);
+    }
+    QCOMPARE(fr.value(" and "), QString(" et "));
 }
 
 void tst_DeviceCommand::aRangeCloserThanMinRangeIsFlagged()

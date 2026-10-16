@@ -213,6 +213,7 @@ DeviceCommand::Offer DeviceCommand::offer(const QJsonObject &deviceDoc, const In
                 const QJsonObject rule = modesParam["list_rule"].toObject();
                 if (f.name == "mode" && documented)
                 {
+                    QString defaultRole;
                     bool narrowed = instance.params.contains("modes");
                     QStringList subset = splitList(instance.params.value("modes"));
                     if (!narrowed)
@@ -223,6 +224,7 @@ DeviceCommand::Offer DeviceCommand::offer(const QJsonObject &deviceDoc, const In
                             if (!instance.links.contains(role))
                                 continue;
                             narrowed = true;
+                            defaultRole = role;
                             for (const QJsonValue &v : defaults[role].toArray())
                                 subset << v.toString();
                         }
@@ -236,6 +238,8 @@ DeviceCommand::Offer DeviceCommand::offer(const QJsonObject &deviceDoc, const In
                         {
                             if (subset.contains(v))
                                 kept << v;
+                            else if (!defaultRole.isEmpty())
+                                f.excludedByDefault.insert(v, defaultRole);
                             else
                                 f.excludedByParam.insert(v, "modes");
                         }
@@ -258,11 +262,15 @@ DeviceCommand::Offer DeviceCommand::offer(const QJsonObject &deviceDoc, const In
             // A value that needs others is judged on what is offered, as the server does.
             for (const QString &v : valueNeeds.keys())
             {
+                QStringList needed;
                 bool met = true;
                 for (const QJsonValue &n : valueNeeds[v].toArray())
+                {
+                    needed << n.toString();
                     met = met && allowed.contains(n.toString());
+                }
                 if (!met && allowed.removeAll(v))
-                    f.excludedByParam.insert(v, "modes");
+                    f.excludedByNeeds.insert(v, needed);
             }
             f.values = allowed;
 

@@ -303,6 +303,12 @@ QString DeviceCommandForm::whyOutside(const Row &row, const QString &value) cons
 
     if (f.excludedByParam.contains(value))
         return tr("%1 is not in the %2 param of this device.").arg(value, f.excludedByParam.value(value)) + " " + keep;
+    if (f.excludedByDefault.contains(value))
+        return tr("%1 is not offered by default with the %2 link and no modes param.")
+                   .arg(value, f.excludedByDefault.value(value)) + " " + keep;
+    if (f.excludedByNeeds.contains(value))
+        return tr("%1 needs %2, which this device does not offer.")
+                   .arg(value, f.excludedByNeeds.value(value).join(tr(" and "))) + " " + keep;
     if (f.excludedByLinks.contains(value))
         return tr("%1 needs the link %2, which this device lacks or cannot write.")
             .arg(value, f.excludedByLinks.value(value).join(", ")) + " " + keep;
