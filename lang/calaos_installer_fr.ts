@@ -1073,100 +1073,116 @@ p, li { white-space: pre-wrap; }
         <translation>Non importé : action (le modèle sans température ambiante n&apos;en a pas).</translation>
     </message>
     <message>
-        <location filename="../src/HomeAssistantDiscovery.cpp" line="656"/>
-        <location filename="../src/HomeAssistantDiscovery.cpp" line="676"/>
-        <source>it has no state topic</source>
-        <translation>il n&apos;a pas de topic d&apos;état</translation>
+        <location filename="../src/HomeAssistantDiscovery.cpp" line="349"/>
+        <source>No room sensor relay: Calaos publishes it on the topics of an ESPHome node only.</source>
+        <translation>Pas de relais de sonde d&apos;ambiance : Calaos ne le publie que sur les topics d&apos;un nœud ESPHome.</translation>
     </message>
     <message>
         <location filename="../src/HomeAssistantDiscovery.cpp" line="658"/>
         <location filename="../src/HomeAssistantDiscovery.cpp" line="678"/>
-        <location filename="../src/HomeAssistantDiscovery.cpp" line="717"/>
-        <location filename="../src/HomeAssistantDiscovery.cpp" line="857"/>
+        <source>it has no state topic</source>
+        <translation>il n&apos;a pas de topic d&apos;état</translation>
+    </message>
+    <message>
+        <location filename="../src/HomeAssistantDiscovery.cpp" line="660"/>
+        <location filename="../src/HomeAssistantDiscovery.cpp" line="680"/>
+        <location filename="../src/HomeAssistantDiscovery.cpp" line="719"/>
+        <location filename="../src/HomeAssistantDiscovery.cpp" line="865"/>
         <source>its value goes through a template Calaos cannot follow</source>
         <translation>sa valeur passe par un template que Calaos ne sait pas suivre</translation>
     </message>
     <message>
-        <location filename="../src/HomeAssistantDiscovery.cpp" line="713"/>
-        <location filename="../src/HomeAssistantDiscovery.cpp" line="745"/>
-        <location filename="../src/HomeAssistantDiscovery.cpp" line="808"/>
-        <location filename="../src/HomeAssistantDiscovery.cpp" line="830"/>
-        <location filename="../src/HomeAssistantDiscovery.cpp" line="851"/>
+        <location filename="../src/HomeAssistantDiscovery.cpp" line="715"/>
+        <location filename="../src/HomeAssistantDiscovery.cpp" line="747"/>
+        <location filename="../src/HomeAssistantDiscovery.cpp" line="814"/>
+        <location filename="../src/HomeAssistantDiscovery.cpp" line="836"/>
+        <location filename="../src/HomeAssistantDiscovery.cpp" line="859"/>
         <source>it has no command topic</source>
         <translation>il n&apos;a pas de topic de commande</translation>
     </message>
     <message>
-        <location filename="../src/HomeAssistantDiscovery.cpp" line="715"/>
-        <location filename="../src/HomeAssistantDiscovery.cpp" line="747"/>
-        <location filename="../src/HomeAssistantDiscovery.cpp" line="810"/>
+        <location filename="../src/HomeAssistantDiscovery.cpp" line="717"/>
+        <location filename="../src/HomeAssistantDiscovery.cpp" line="749"/>
+        <location filename="../src/HomeAssistantDiscovery.cpp" line="816"/>
         <source>it does not report its state</source>
         <translation>il ne remonte pas son état</translation>
     </message>
     <message>
-        <location filename="../src/HomeAssistantDiscovery.cpp" line="721"/>
+        <location filename="../src/HomeAssistantDiscovery.cpp" line="723"/>
         <source>it reports other values than the ones it takes</source>
         <translation>il remonte d&apos;autres valeurs que celles qu&apos;il reçoit</translation>
     </message>
     <message>
-        <location filename="../src/HomeAssistantDiscovery.cpp" line="772"/>
-        <location filename="../src/HomeAssistantDiscovery.cpp" line="822"/>
+        <location filename="../src/HomeAssistantDiscovery.cpp" line="766"/>
+        <location filename="../src/HomeAssistantDiscovery.cpp" line="775"/>
+        <source>Calaos turns it off with brightness 0: switched off elsewhere with its brightness kept, it still shows on.</source>
+        <translation>Calaos l&apos;éteint avec une luminosité de 0 : éteinte ailleurs en gardant sa luminosité, elle reste affichée allumée.</translation>
+    </message>
+    <message>
+        <location filename="../src/HomeAssistantDiscovery.cpp" line="778"/>
+        <location filename="../src/HomeAssistantDiscovery.cpp" line="828"/>
         <source>Its colour is not imported: Calaos reads colours as x and y on a 0 to 255 brightness.</source>
         <translation>Sa couleur n&apos;est pas importée : Calaos lit les couleurs en x et y avec une luminosité de 0 à 255.</translation>
     </message>
     <message>
-        <location filename="../src/HomeAssistantDiscovery.cpp" line="792"/>
+        <location filename="../src/HomeAssistantDiscovery.cpp" line="798"/>
         <source>it does not report its brightness</source>
         <translation>il ne remonte pas sa luminosité</translation>
     </message>
     <message>
-        <location filename="../src/HomeAssistantDiscovery.cpp" line="796"/>
+        <location filename="../src/HomeAssistantDiscovery.cpp" line="802"/>
         <source>its brightness goes through a template Calaos cannot follow</source>
         <translation>sa luminosité passe par un template que Calaos ne sait pas suivre</translation>
     </message>
     <message>
-        <location filename="../src/HomeAssistantDiscovery.cpp" line="803"/>
+        <location filename="../src/HomeAssistantDiscovery.cpp" line="809"/>
         <source>Driven by its brightness topic: off is brightness 0.</source>
         <translation>Piloté par son topic de luminosité : éteint correspond à la luminosité 0.</translation>
     </message>
     <message>
-        <location filename="../src/HomeAssistantDiscovery.cpp" line="812"/>
-        <location filename="../src/HomeAssistantDiscovery.cpp" line="832"/>
+        <location filename="../src/HomeAssistantDiscovery.cpp" line="818"/>
+        <location filename="../src/HomeAssistantDiscovery.cpp" line="838"/>
         <source>its state goes through a template Calaos cannot follow</source>
         <translation>son état passe par un template que Calaos ne sait pas suivre</translation>
     </message>
     <message>
-        <location filename="../src/HomeAssistantDiscovery.cpp" line="825"/>
+        <location filename="../src/HomeAssistantDiscovery.cpp" line="831"/>
         <source>lights of the %1 schema are not imported</source>
         <translation>les lumières du schéma %1 ne sont pas importées</translation>
     </message>
     <message>
-        <location filename="../src/HomeAssistantDiscovery.cpp" line="846"/>
-        <source>It reports no state: Calaos times its travel.</source>
-        <translation>Il ne remonte pas d&apos;état : Calaos chronomètre sa course.</translation>
+        <location filename="../src/HomeAssistantDiscovery.cpp" line="854"/>
+        <source>It reports no state: Calaos times its travel, 60 s until set in its properties.</source>
+        <translation>Il ne remonte pas d&apos;état : Calaos chronomètre sa course, 60 s tant que ce n&apos;est pas réglé dans ses propriétés.</translation>
     </message>
     <message>
-        <location filename="../src/HomeAssistantDiscovery.cpp" line="853"/>
+        <location filename="../src/HomeAssistantDiscovery.cpp" line="1033"/>
+        <source>the device could not be created</source>
+        <translation>l&apos;appareil n&apos;a pas pu être créé</translation>
+    </message>
+    <message>
+        <location filename="../src/HomeAssistantDiscovery.cpp" line="861"/>
         <source>it does not report its value</source>
         <translation>il ne remonte pas sa valeur</translation>
     </message>
     <message>
-        <location filename="../src/HomeAssistantDiscovery.cpp" line="871"/>
+        <location filename="../src/HomeAssistantDiscovery.cpp" line="879"/>
         <source>a climate is a device</source>
         <translation>un climat est un appareil</translation>
     </message>
     <message>
-        <location filename="../src/HomeAssistantDiscovery.cpp" line="873"/>
+        <location filename="../src/HomeAssistantDiscovery.cpp" line="881"/>
         <source>Calaos does not import %1 entities</source>
         <translation>Calaos n&apos;importe pas les entités %1</translation>
     </message>
     <message>
-        <location filename="../src/HomeAssistantDiscovery.cpp" line="1006"/>
+        <location filename="../src/HomeAssistantDiscovery.cpp" line="1014"/>
         <source>%1: already in the project, skipped.</source>
         <translation>%1 : déjà dans le projet, ignoré.</translation>
     </message>
     <message>
-        <location filename="../src/HomeAssistantDiscovery.cpp" line="1024"/>
-        <location filename="../src/HomeAssistantDiscovery.cpp" line="1035"/>
+        <location filename="../src/HomeAssistantDiscovery.cpp" line="1032"/>
+        <location filename="../src/HomeAssistantDiscovery.cpp" line="1044"/>
         <source>%1: not imported, %2.</source>
         <translation>%1 : non importé, %2.</translation>
     </message>

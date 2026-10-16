@@ -101,7 +101,7 @@ QString withBase(const QString &topic, const QString &base)
     return topic;
 }
 
-//Home Assistant takes numbers and booleans for its payloads, as their Python text.
+//Payloads may be numbers or booleans: as calaos_server reads them in JSON (true, false).
 QString text(const QJsonValue &v, const QString &def = QString())
 {
     if (v.isString())
@@ -112,7 +112,7 @@ QString text(const QJsonValue &v, const QString &def = QString())
         return d == std::floor(d) && std::fabs(d) < 1e15 ? QString::number(qint64(d)) : QString::number(d, 'g', 15);
     }
     if (v.isBool())
-        return v.toBool() ? "True" : "False";
+        return v.toBool() ? "true" : "false";
     return def;
 }
 
@@ -344,6 +344,9 @@ bool climateShape(const HomeAssistantDiscovery::Entity &e, const QJsonArray &tem
     {
         c->prefix = e.nodeId.isEmpty() ? e.deviceKey : e.nodeId;
         c->objectId = e.objectId;
+        //The template's remote_temp IO publishes on <topic_prefix>/calaos/remote_temp.
+        if (notes)
+            *notes << HomeAssistantDiscovery::tr("No room sensor relay: Calaos publishes it on the topics of an ESPHome node only.");
     }
     c->name = e.ownName();
     c->configured = true;
@@ -540,7 +543,7 @@ void HomeAssistantDiscovery::feed(const QString &topic, const QByteArray &payloa
         const QJsonObject dev = c["device"].toObject();
         e.deviceName = dev["name"].toString().trimmed();
         const QJsonValue ids = dev["identifiers"];
-        e.deviceKey = ids.isArray() ? text(ids.toArray().first()) : text(ids);
+        e.deviceKey = ids.isArray() ? text(ids.toArray().isEmpty() ? QJsonValue() : ids.toArray().first()) : text(ids);
         if (e.deviceKey.isEmpty() && !dev["connections"].toArray().isEmpty())
         {
             QStringList l;
@@ -565,14 +568,13 @@ void HomeAssistantDiscovery::feed(const QString &topic, const QByteArray &payloa
     for (auto it = cmps.begin();it != cmps.end();++it)
     {
         QJsonObject c = shared;
-        const QJsonObject own = expand(it.value().toObject());
+        //~ of the device applies to its components, their availability lists included.
+        QJsonObject raw = it.value().toObject();
+        if (!raw.contains("~") && shared.contains("~"))
+            raw["~"] = shared.value("~");
+        const QJsonObject own = expand(raw);
         for (auto o = own.begin();o != own.end();++o)
             c[o.key()] = o.value();
-        //~ of the device applies to its components.
-        const QString base = c.value("~").toString();
-        for (auto t = c.begin();t != c.end();++t)
-            if (t.key().endsWith("_topic") && t.value().isString())
-                t.value() = withBase(t.value().toString(), base);
         add(topic + "#" + it.key(), c.value("platform").toString(), it.key(), c);
     }
 }
@@ -761,6 +763,8 @@ bool HomeAssistantDiscovery::ioParams(const Entity &e, const MqttBroker &broker,
                 p.Add("path_x", "color/x");
                 p.Add("path_y", "color/y");
                 p.Add("path_brightness", "brightness");
+                said << tr("Calaos turns it off with brightness 0: switched off elsewhere with its brightness kept, "
+                           "it still shows on.");
             }
             else if (dims)
             {
@@ -768,6 +772,8 @@ bool HomeAssistantDiscovery::ioParams(const Entity &e, const MqttBroker &broker,
                 p.Add("data", R"({"state":"ON","brightness":__##VALUE##__})");
                 p.Add("path", "brightness");
                 scaled();
+                said << tr("Calaos turns it off with brightness 0: switched off elsewhere with its brightness kept, "
+                           "it still shows on.");
                 if (modes.contains("rgb") || modes.contains("hs") || modes.contains("xy"))
                     said << tr("Its colour is not imported: Calaos reads colours as x and y on a 0 to 255 brightness.");
             }
@@ -835,6 +841,8 @@ bool HomeAssistantDiscovery::ioParams(const Entity &e, const MqttBroker &broker,
         p.Add("payload_open", s8(text(c["payload_open"], "OPEN")));
         p.Add("payload_close", s8(text(c["payload_close"], "CLOSE")));
         p.Add("payload_stop", s8(text(c["payload_stop"], "STOP")));
+        //Mandatory: at 0 the server stops the shutter as soon as it starts.
+        p.Add("time", "60");
         if (!state.isEmpty())
         {
             p.Add("topic_sub", s8(state));
@@ -843,7 +851,7 @@ bool HomeAssistantDiscovery::ioParams(const Entity &e, const MqttBroker &broker,
             p.Add("state_close", s8(text(c["state_closed"], "closed")));
         }
         else
-            said << tr("It reports no state: Calaos times its travel.");
+            said << tr("It reports no state: Calaos times its travel, 60 s until set in its properties.");
     }
     else if (comp == "number")
     {
@@ -1013,19 +1021,20 @@ HomeAssistantDiscovery::Imported HomeAssistantDiscovery::import(const QList<Enti
         {
             ClimatePlan plan;
             Device *dev = nullptr;
+            QStringList tplNotes;
             if (climatePlan(e, templates, broker, room, &plan, &reason))
             {
-                QStringList tplNotes;
                 dev = DeviceTemplates::create(plan.tpl, plan.values, &tplNotes,
                                               [&e](DeviceTemplates::Plan &p) { adjustClimate(e, p); });
             }
             if (!dev)
             {
-                res.notes << tr("%1: not imported, %2.").arg(e.displayName(), reason);
+                res.notes << tr("%1: not imported, %2.").arg(e.displayName(),
+                                                             reason.isEmpty() ? tr("the device could not be created") : reason);
                 continue;
             }
             res.devices.push_back(dev);
-            said = plan.summary;
+            said = plan.summary + tplNotes;
         }
         else
         {
