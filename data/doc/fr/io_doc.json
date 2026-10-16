@@ -13800,6 +13800,22 @@
                 {
                     "description": "Modes propos\u00e9s par le thermostat, s\u00e9par\u00e9s par des virgules, parmi heat, cool et auto ; off est toujours propos\u00e9. Sans lui, les sorties d\u00e9cident : heat avec output_heat, cool avec output_cool, auto avec les deux, et heat seul avec output. Un mode que les sorties ne peuvent pas assurer, ou inconnu, est ignor\u00e9.",
                     "label": "Modes",
+                    "list_rule": {
+                        "always_includes": [
+                            "off"
+                        ],
+                        "default_when_linked": {
+                            "output": [
+                                "heat"
+                            ]
+                        },
+                        "value_requires_values": {
+                            "auto": [
+                                "heat",
+                                "cool"
+                            ]
+                        }
+                    },
                     "mandatory": "false",
                     "name": "modes",
                     "readonly": "false",

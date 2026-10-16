@@ -13800,6 +13800,22 @@
                 {
                     "description": "Comma separated modes the thermostat offers, among heat, cool and auto; off is always offered. Without it, the outputs decide: heat with output_heat, cool with output_cool, auto with both, and heat alone with output. A mode the outputs cannot run, or an unknown one, is ignored.",
                     "label": "Modes",
+                    "list_rule": {
+                        "always_includes": [
+                            "off"
+                        ],
+                        "default_when_linked": {
+                            "output": [
+                                "heat"
+                            ]
+                        },
+                        "value_requires_values": {
+                            "auto": [
+                                "heat",
+                                "cool"
+                            ]
+                        }
+                    },
                     "mandatory": "false",
                     "name": "modes",
                     "readonly": "false",

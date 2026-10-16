@@ -3115,6 +3115,8 @@ valid_max (calaos:param) | Highest valid temperature | float | no | Highest plau
 valid_min (calaos:param) | Lowest valid temperature | float | no | Lowest plausible reading of current_temp, in the unit of the sensor. A reading below it is treated as no reading: the outputs go OFF at once, whatever min_on_time, until a reading is back within the bounds. No check when empty.
 visible | Visible | bool | no | Display the Input/Output on all user interfaces if set. Default to true
 
+List `modes`: always offers off. Without it and with output linked: heat. auto needs heat, cool.
+
 ## Link roles of Climate thermostat
 Writable: the device writes this link.
 
