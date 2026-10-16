@@ -6,6 +6,8 @@ CHECK = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'check.py')
 DEVICE = ('<calaos:ioconfig xmlns:calaos="http://www.calaos.fr"><calaos:home><calaos:room name="r">'
           '<calaos:device id="d" type="climate" impl="thermostat" name="D">'
           '<calaos:link name="current_temp" io="t"/></calaos:device></calaos:room></calaos:home></calaos:ioconfig>')
+IOS = ('<calaos:ioconfig xmlns:calaos="http://www.calaos.fr"><calaos:home><calaos:room name="r">'
+       '<calaos:input id="porte" type="MqttInputSwitch" on_value="false"/></calaos:room></calaos:home></calaos:ioconfig>')
 
 
 def run(work):
@@ -22,8 +24,8 @@ class CheckTest(unittest.TestCase):
     def tearDown(self):
         self.tmp.cleanup()
 
-    def variant(self, name, log, saved=DEVICE):
-        for path, text in ((('xml', name + '.xml'), DEVICE), (('out', name + '.log'), log),
+    def variant(self, name, log, saved=DEVICE, mine=DEVICE):
+        for path, text in ((('xml', name + '.xml'), mine), (('out', name + '.log'), log),
                            (('out', name + '.saved.xml'), saved)):
             with open(os.path.join(self.work, *path), 'w') as f:
                 f.write(text)
@@ -48,6 +50,16 @@ class CheckTest(unittest.TestCase):
         r = run(self.work)
         self.assertEqual(r.returncode, 1)
         self.assertIn("name='D' became None", r.stdout)
+
+    def test_ios_without_a_device_pass(self):
+        self.variant('a', 'All services started\n', IOS, IOS)
+        self.assertEqual(run(self.work).returncode, 0)
+
+    def test_a_dropped_attribute_of_a_standalone_io_fails(self):
+        self.variant('a', 'All services started\n', IOS.replace(' on_value="false"', ''), IOS)
+        r = run(self.work)
+        self.assertEqual(r.returncode, 1)
+        self.assertIn("on_value='false' became None", r.stdout)
 
 
 if __name__ == '__main__':

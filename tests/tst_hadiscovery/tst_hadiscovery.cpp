@@ -135,6 +135,20 @@ QString deviceParam(Device *dev, const char *name)
     return QString();
 }
 
+//What calaos_server reads at path in payload (IO/JsonPath.h): booleans as true/false,
+//strings as they are, numbers in its decimal form.
+QString serverValue(const QByteArray &payload, const QString &path)
+{
+    QJsonValue v = QJsonDocument::fromJson(payload).object();
+    for (const QString &k: path.split('/', Qt::SkipEmptyParts))
+        v = v.toObject().value(k);
+    if (v.isBool())
+        return v.toBool() ? "true" : "false";
+    if (v.isDouble())
+        return QString::number(v.toDouble());
+    return v.toString();
+}
+
 const QString P = "clim-buanderie/climate/clim_mitsu_buanderie/";
 
 //What ESPHome publishes for a dual setpoint climate (see tst_esphomediscovery).
@@ -189,7 +203,8 @@ QByteArray trvConfig()
       "mode_state_topic":"zigbee2mqtt/Vanne chambre",
       "mode_state_template":"{{ value_json.system_mode }}",
       "modes":["off","heat","auto"],
-      "action_topic":"zigbee2mqtt/Vanne chambre","action_template":"{{ value_json.running_state }}",
+      "action_topic":"zigbee2mqtt/Vanne chambre",
+      "action_template":"{% set values = {None:None,'idle':'idle','heat':'heating','cool':'cooling','fan_only':'fan'} %}{{ values[value_json.running_state] }}",
       "min_temp":"5","max_temp":"30","temp_step":0.5,
       "device":{"identifiers":["zigbee2mqtt_0x1234"],"name":"Vanne chambre","model":"TRV"}})";
 }
@@ -217,6 +232,7 @@ private slots:
     void aNumberKeepsItsRange();
     void aDimmerIsScaledToItsBrightness();
     void numericPayloadsAreKept();
+    void aZigbeeContactIsReadAsTheServerReadsIt();
     void entitiesWithoutUniqueIdOfTwoNodesStayApart();
     void aPrefixMayHoldSlashes();
     void theBaseTopicIsExpandedInTheAvailabilityList();
@@ -320,7 +336,9 @@ void tst_HaDiscovery::aCoverIsWrittenWithTheParamsOfAShutter()
     QCOMPARE(undocumented(p), QStringList());
     QVERIFY(!p.Exists("topic_sub"));
     QCOMPARE(u(p["payload_open"]), QString("OPEN"));
-    QCOMPARE(notes, QStringList({ "It reports no state: Calaos times its travel." }));
+    //Mandatory: without it the server stops the shutter as soon as it starts.
+    QCOMPARE(u(p["time"]), QString("60"));
+    QCOMPARE(notes, QStringList({ "It reports no state: Calaos times its travel, 60 s until set in its properties." }));
 }
 
 void tst_HaDiscovery::aNumberKeepsItsRange()
@@ -354,6 +372,11 @@ void tst_HaDiscovery::aDimmerIsScaledToItsBrightness()
     QCOMPARE(u(p["out_expr"]), QString("x * 2.55"));
     QCOMPARE(u(p["in_expr"]), QString("x / 2.55"));
     QCOMPARE(u(p["path"]), QString("brightness"));
+    QStringList notes;
+    paramsOf("homeassistant/light/node/l/config", R"({"name":"L","schema":"json","brightness":true,"cmd_t":"l/set","stat_t":"l"})",
+             nullptr, &notes);
+    QCOMPARE(notes, QStringList({ "Calaos turns it off with brightness 0: switched off elsewhere with its brightness kept, "
+                                  "it still shows on." }));
 
     p = paramsOf("homeassistant/light/node/l/config",
                  R"({"name":"L","schema":"json","sup_clrm":["brightness"],"bri_scl":100,"cmd_t":"l/set","stat_t":"l"})");
@@ -367,8 +390,21 @@ void tst_HaDiscovery::numericPayloadsAreKept()
     QCOMPARE(u(p["on_value"]), QString("1"));
     QCOMPARE(u(p["off_value"]), QString("0"));
     p = paramsOf("homeassistant/binary_sensor/node/c/config", R"({"name":"C","stat_t":"node/c","pl_on":true,"pl_off":false})");
-    QCOMPARE(u(p["on_value"]), QString("True"));
-    QCOMPARE(u(p["off_value"]), QString("False"));
+    QCOMPARE(u(p["on_value"]), QString("true"));
+    QCOMPARE(u(p["off_value"]), QString("false"));
+}
+
+void tst_HaDiscovery::aZigbeeContactIsReadAsTheServerReadsIt()
+{
+    //Zigbee2MQTT: {"contact":false} is an open door, payload_on false.
+    Params p = paramsOf("homeassistant/binary_sensor/0x1/contact/config",
+                        R"({"name":"Porte","stat_t":"zigbee2mqtt/Porte","val_tpl":"{{ value_json.contact }}",
+                            "pl_on":false,"pl_off":true,"dev_cla":"door"})");
+    QCOMPARE(u(p["on_value"]), serverValue(R"({"contact":false,"battery":90})", u(p["path"])));
+    QCOMPARE(u(p["off_value"]), serverValue(R"({"contact":true,"battery":90})", u(p["path"])));
+    //A switch whose payload is a boolean publishes what the device takes.
+    p = paramsOf("homeassistant/switch/n/s/config", R"({"name":"S","stat_t":"s","cmd_t":"s/set","pl_on":true,"pl_off":false})");
+    QCOMPARE(u(p["on_value"]), QString("true"));
 }
 
 void tst_HaDiscovery::entitiesWithoutUniqueIdOfTwoNodesStayApart()
@@ -431,6 +467,8 @@ void tst_HaDiscovery::abbreviationsAreExpanded()
     QCOMPARE(one("homeassistant/light/n/l/config", R"({"name":"Lampe salon","dev":{"name":"Lampe"}})").displayName(),
              QString("Lampe salon"));
     QCOMPARE(one("homeassistant/light/n/l/config", R"({"stat_t":"x"})").displayName(), QString("l"));
+    //No identifier: the device name groups.
+    QCOMPARE(one("homeassistant/light/n/l/config", R"({"name":"L","dev":{"ids":[],"name":"Lampe"}})").deviceKey, QString("Lampe"));
 }
 
 void tst_HaDiscovery::anEmptyRetainedConfigDeletesTheEntity()
@@ -502,13 +540,14 @@ void tst_HaDiscovery::aDeviceConfigHoldsSeveralEntities()
     HomeAssistantDiscovery d;
     d.feed("homeassistant/device/plug/config",
            R"({"dev":{"ids":"plug-1","name":"Plug"},"~":"plug","avty_t":"~/status",
-               "cmps":{"relay":{"p":"switch","name":"Relay","stat_t":"~/relay","cmd_t":"~/relay/set"},
+               "cmps":{"relay":{"p":"switch","name":"Relay","stat_t":"~/relay","cmd_t":"~/relay/set","avty":[{"t":"~/relay/up"}]},
                        "power":{"p":"sensor","name":"Power","stat_t":"~/power","unit_of_meas":"W","dev_cla":"power"}}})");
     const QList<Entity> l = d.entities();
     QCOMPARE(l.size(), 2);
     QCOMPARE(l.at(0).displayName(), QString("Plug Power"));
     QCOMPARE(l.at(0).component, QString("sensor"));
     QCOMPARE(l.at(1).config["command_topic"].toString(), QString("plug/relay/set"));
+    QCOMPARE(l.at(1).config["availability"].toArray().first().toObject()["topic"].toString(), QString("plug/relay/up"));
     Params p;
     QVERIFY(HomeAssistantDiscovery::ioParams(l.at(0), localBroker(), p, nullptr));
     QCOMPARE(u(p["io_style"]), QString("watt"));
@@ -563,7 +602,7 @@ void tst_HaDiscovery::everyKindIsADocumentedIo_data()
 
     QTest::newRow("binary_sensor") << "binary_sensor"
         << QByteArray(R"({"name":"Porte","stat_t":"z/porte","val_tpl":"{{ value_json.contact }}","pl_on":false,"pl_off":true,"dev_cla":"door"})")
-        << "MqttInputSwitch" << "topic_sub=z/porte path=contact on_value=False off_value=True io_style=door";
+        << "MqttInputSwitch" << "topic_sub=z/porte path=contact on_value=false off_value=true io_style=door";
     QTest::newRow("binary_sensor window") << "binary_sensor"
         << QByteArray(R"({"name":"F","stat_t":"f","dev_cla":"window"})") << "MqttInputSwitch" << "io_style=door on_value=ON";
     QTest::newRow("binary_sensor other class") << "binary_sensor"
@@ -715,6 +754,7 @@ void tst_HaDiscovery::anEsphomeClimateIsTheDeviceOfTheEsphomePanel()
     QVERIFY(importClimate(BUANDERIE_TOPIC, buanderieConfig(), &notes));
     QCOMPARE(deviceElement(saveIo(work("ha.xml")), "clim_mitsu_buanderie"), panel);
     QVERIFY2(notes.join(' ').contains("Two setpoints (target_temperature_low and _high)."), qPrintable(notes.join(' ')));
+    QVERIFY(!notes.join(' ').contains("room sensor"));
     checkRoundTrip("esphome_dual");
 }
 
@@ -756,7 +796,13 @@ void tst_HaDiscovery::aZigbeeThermostatKeepsItsTopicsAndPaths()
     QCOMPARE(param(setpoint, "path"), QString("current_heating_setpoint"));
     QCOMPARE(param(setpoint, "value_min"), QString("5"));
     QCOMPARE(param(linked(dev, "current_temp"), "path"), QString("local_temperature"));
-    QCOMPARE(param(linked(dev, "action"), "path"), QString("running_state"));
+    //Its action maps the valve's values in a template: left out, said.
+    QVERIFY(!linked(dev, "action"));
+    QVERIFY2(notes.join(' ').contains("Not imported: action (its action goes through a template Calaos cannot follow)."),
+             qPrintable(notes.join(' ')));
+    //The relay of a room sensor publishes on the ESPHome layout only.
+    QVERIFY2(notes.join(' ').contains("No room sensor relay: Calaos publishes it on the topics of an ESPHome node only."),
+             qPrintable(notes.join(' ')));
     //Home Assistant's auto is a schedule of the valve: not a Calaos mode.
     QCOMPARE(deviceParam(dev, "modes"), QString("off,heat"));
     QVERIFY2(notes.join(' ').contains("Not offered by this template: auto."), qPrintable(notes.join(' ')));
