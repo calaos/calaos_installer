@@ -1,16 +1,32 @@
 #!/usr/bin/env python3
 """usage: check.py <dir>. Reads what load-all.sh left in <dir>: a warning or an error while loading (before the main loop)
 other than the fixture's own device, a device the server did not keep, or an attribute of
-the installer's device that the server's save dropped or changed, fails."""
+the installer's device or of a standalone IO that the server's save dropped or changed, fails."""
 import glob, os, re, sys
 import xml.etree.ElementTree as ET
 NS = '{http://www.calaos.fr}'
 here = sys.argv[1]
+IO_TAGS = (NS + 'input', NS + 'output', NS + 'internal')
 def device(path):
     root = ET.parse(path).getroot()
     for d in root.iter(NS + 'device'):
         if d.get('id') != 'other':
             return d
+def standalone(path):
+    """IOs of the rooms outside any device, the ones an import adds without a device."""
+    root = ET.parse(path).getroot()
+    return [c for room in root.iter(NS + 'room') for c in room if c.tag in IO_TAGS]
+def compare(mine, saved, issues):
+    b = {(c.tag, c.get('id') or c.get('name')): dict(c.attrib) for c in saved}
+    for c in mine:
+        tag, attrs = c.tag, dict(c.attrib)
+        got = b.get((tag, attrs.get('id') or attrs.get('name')))
+        if got is None:
+            issues.append('dropped %s %s' % (tag, attrs))
+            continue
+        for k, v in attrs.items():
+            if got.get(k) != v:
+                issues.append('%s %s: %s=%r became %r' % (tag, attrs.get('id') or attrs.get('name'), k, v, got.get(k)))
 bad = 0
 names = sorted(os.path.basename(p)[:-4] for p in glob.glob(os.path.join(here, 'xml', '*.xml')))
 if not names:
@@ -24,20 +40,14 @@ for n in names:
     issues = [l for l in loading.splitlines() if re.match(r'\[(WRN|ERR|CRI)\]', l) and not any(x in l for x in noise)]
     if 'All services started' not in log:
         issues.append('server did not start')
-    mine, saved = device(os.path.join(here, 'xml', n + '.xml')), device(os.path.join(here, 'out', n + '.saved.xml'))
-    if saved is None:
-        issues.append('device not saved back')
-    else:
-        a = [(c.tag, dict(c.attrib)) for c in [mine] + list(mine)]
-        b = {(c.tag, c.get('id') or c.get('name')): dict(c.attrib) for c in [saved] + list(saved)}
-        for tag, attrs in a:
-            got = b.get((tag, attrs.get('id') or attrs.get('name')))
-            if got is None:
-                issues.append('dropped %s %s' % (tag, attrs))
-                continue
-            for k, v in attrs.items():
-                if got.get(k) != v:
-                    issues.append('%s %s: %s=%r became %r' % (tag, attrs.get('id') or attrs.get('name'), k, v, got.get(k)))
+    xml, out = os.path.join(here, 'xml', n + '.xml'), os.path.join(here, 'out', n + '.saved.xml')
+    mine, saved = device(xml), device(out)
+    if mine is not None:
+        if saved is None:
+            issues.append('device not saved back')
+        else:
+            compare([mine] + list(mine), [saved] + list(saved), issues)
+    compare(standalone(xml), standalone(out), issues)
     print(('OK   ' if not issues else 'FAIL ') + n)
     for i in issues:
         print('     ' + i)

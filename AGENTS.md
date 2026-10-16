@@ -103,6 +103,12 @@ QT_QPA_PLATFORM=offscreen ./tst_projectmanager/tst_projectmanager -v2 ioRoundTri
   against the same fake broker. Both are built with Qt MQTT only (`qtHaveModule(mqtt)`, as the
   application): without it those cases skip, and the PR CI, which installs `qt6-mqtt`, sets
   `CALAOS_REQUIRE_MQTT` to make them fail instead.
+- `tests/tst_hadiscovery/` covers `HomeAssistantDiscovery` (`src/HomeAssistantDiscovery.*`), Home Assistant
+  MQTT discovery read from `<prefix>/#` (abbreviations, `~`, availability, device discovery) and imported: an MQTT
+  IO per sensor, switch, light, cover or number, with the params IODoc documents; a climate device of the ESPHome
+  climate templates (filled by `EsphomeDiscovery::prefill`, then given the entity's own topics) for a climate.
+  The dialog (`src/DialogHomeAssistantMqtt.*`, Qt MQTT only) is driven against `FakeMqttBroker`;
+  `CALAOS_DEVICE_XML_DIR` writes the io.xml it imports (`ha_*.xml`) for `tests/server_load/run.sh`.
 - `tests/tst_replacedroles/` covers IODoc's `replaces` (a thermostat's zone valve `output` for
   `output_heat`/`output_cool`) in the editor, its dialog and the command form, against its own
   `io_doc.json` fixture (the thermostat of a server that publishes it), not the shipped one.

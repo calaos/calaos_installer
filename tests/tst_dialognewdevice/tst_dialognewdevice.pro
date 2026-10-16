@@ -14,6 +14,7 @@ RESOURCES += dialognewdevice.qrc
 SOURCES += \
     $$PWD/../../src/DialogNewDevice.cpp \
     $$PWD/../../src/EsphomeDiscovery.cpp \
+    $$PWD/../../src/MqttBroker.cpp \
     $$PWD/../../src/DialogDeviceInfo.cpp \
     $$PWD/../../src/DialogNewRemoteUIRelay.cpp \
     tst_dialognewdevice.cpp
@@ -21,6 +22,7 @@ SOURCES += \
 HEADERS += \
     $$PWD/../tst_devicetemplates/fixture.h \
     $$PWD/../../src/DialogNewDevice.h \
+    $$PWD/../../src/MqttBroker.h \
     $$PWD/../../src/EsphomeDiscovery.h \
     $$PWD/../../src/DialogDeviceInfo.h \
     $$PWD/../../src/DialogNewRemoteUIRelay.h

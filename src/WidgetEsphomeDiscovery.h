@@ -23,7 +23,7 @@ public:
     explicit WidgetEsphomeDiscovery(std::function<MqttListener::Settings(const QString &host)> settings,
                                     QWidget *parent = nullptr);
 
-    //EsphomeDiscovery::probeHost() of these, until the user types another address.
+    //MqttBroker::probeHost() of these, until the user types another address.
     void setHosts(const QString &brokerHost, const QString &reachedBroker, const QString &calaosHost);
     void setTimings(int listenMs, int answerTimeoutMs);
     void search();

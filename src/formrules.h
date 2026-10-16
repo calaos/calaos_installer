@@ -110,6 +110,10 @@ public:
     //new version
     void addCalaosIO(Params &params);
     void addDeviceFromTemplate();
+#ifdef QT_MQTT_AVAILABLE
+    void importHomeAssistant();
+#endif
+    QTreeWidgetItemRoom *treeItemOfRoom(Room *room);
 
 protected:
     void changeEvent(QEvent *e);
