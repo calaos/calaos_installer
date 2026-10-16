@@ -649,13 +649,16 @@ Room *DeviceTemplates::roomOf(const QJsonObject &tpl, const QVariantMap &values)
     return nullptr;
 }
 
-Device *DeviceTemplates::create(const QJsonObject &tpl, const QVariantMap &values, QStringList *notes)
+Device *DeviceTemplates::create(const QJsonObject &tpl, const QVariantMap &values, QStringList *notes,
+                                const std::function<void(Plan &)> &adjust)
 {
     Room *room = roomOf(tpl, values);
     if (!room || !validate(tpl, values).isEmpty())
         return nullptr;
 
-    const Plan p = plan(tpl, values, &DeviceTemplates::isTakenInHouse);
+    Plan p = plan(tpl, values, &DeviceTemplates::isTakenInHouse);
+    if (adjust)
+        adjust(p);
     ListeRoom &lr = ListeRoom::Instance();
 
     Device *dev = lr.createDevice(p.device, room);

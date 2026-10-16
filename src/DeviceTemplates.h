@@ -111,9 +111,11 @@ public:
 
     static Calaos::Room *roomOf(const QJsonObject &tpl, const QVariantMap &values);
     //Adds the device and its owned IOs to the room of the room field; nullptr
-    //when the values do not validate.
+    //when the values do not validate. adjust may change the plan before it is added
+    //(a discovery that knows the real topics of the IOs).
     static Calaos::Device *create(const QJsonObject &tpl, const QVariantMap &values,
-                                  QStringList *notes = nullptr);
+                                  QStringList *notes = nullptr,
+                                  const std::function<void(Plan &)> &adjust = {});
 };
 
 #endif // DEVICETEMPLATES_H
