@@ -103,6 +103,9 @@ QT_QPA_PLATFORM=offscreen ./tst_projectmanager/tst_projectmanager -v2 ioRoundTri
   against the same fake broker. Both are built with Qt MQTT only (`qtHaveModule(mqtt)`, as the
   application): without it those cases skip, and the PR CI, which installs `qt6-mqtt`, sets
   `CALAOS_REQUIRE_MQTT` to make them fail instead.
+- `tests/tst_replacedroles/` covers IODoc's `replaces` (a thermostat's zone valve `output` for
+  `output_heat`/`output_cool`) in the editor, its dialog and the command form, against its own
+  `io_doc.json` fixture (the thermostat of a server that publishes it), not the shipped one.
 - `tests/tst_apptheme/` covers `AppTheme` (`src/AppTheme.*`, called from `main.cpp`): the installer is
   always light whatever the system scheme. The test starts from a dark GTK platform theme
   (`QT_QPA_PLATFORMTHEME=gtk3`, `GTK_THEME=Adwaita:dark`; offscreen ignores `setColorScheme`) and skips

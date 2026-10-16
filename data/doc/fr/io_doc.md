@@ -3030,14 +3030,19 @@ Device of family `climate`, impl `proxy`.
 Name | Label | Type | Mandatory | Description
 ---- | ----- | ---- | --------- | -----------
 auto_payload (calaos:param) | Valeur pour auto | list | no | Ce qui est écrit sur le lien du mode pour auto. À défaut, la graphie que l'appareil a rapportée en dernier, sinon heat_cool.
+changeover_delay (calaos:param) | Délai de bascule chaud/froid | float | no | Avec emulate_range : secondes entre la fin du chauffage et le début du froid, ou l'inverse, au moins min_off_time.
+emulate_range (calaos:param) | Double consigne émulée | bool | no | Pour une unité à consigne unique : l'équipement garde lui-même target_temp_low et target_temp_high (IOs internes, créés s'ils manquent) et propose auto. En auto, l'unité passe en chauffage sur la consigne basse sous la plage, en froid sur la consigne haute au-dessus, et s'arrête entre les deux. Demande un lien target_temp, et le chauffage et le froid parmi les modes. La température de la pièce est remote_temp_source, sinon current_temp ; tant qu'elle n'est pas à jour, l'unité reste telle quelle. Un mode changé sur l'unité elle-même suspend auto jusqu'à ce qu'il soit choisi de nouveau. auto n'est jamais envoyé à l'unité.
 enabled | Activé | bool | no | Activez l'entrée/sortie. Vrai par défaut. Ce paramètre est ajouté s'il n'est pas trouvé dans la configuration.
 fan_modes (calaos:param) | Modes de ventilation | string | no | Modes de ventilation acceptés par l'appareil, séparés par des virgules. Sans eux, toute commande fan_mode est refusée.
 gui_type | Type d'affichage | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
+hysteresis (calaos:param) | Hystérésis | float | no | Avec emulate_range : écart en degrés hors de la plage avant que l'unité démarre, en chauffage sous la consigne basse moins l'hystérésis, en froid au-dessus de la consigne haute plus l'hystérésis. Elle s'arrête dès que la pièce revient dans la plage.
 id | Identifiant | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
 impl | Implémentation | string | yes | Implémentation de la famille d'équipement : la clé de ce document dans devices.
 io_type | Type d'IO | string | yes | Type d'entrée/sortie (input, output, inout)
 log_history | Journal d'historique | bool | no | Si activé, écrit une entrée dans l'historique pour cet IO
 logged | InfluxDB | bool | no | Si activé, et si influxdb est activé dans local_config, envoie la valeur à influxdb pour cet IO
+min_off_time (calaos:param) | Durée minimale d'arrêt | float | no | Avec emulate_range : durée minimale en secondes d'arrêt de l'unité avant qu'auto la redémarre.
+min_on_time (calaos:param) | Durée minimale de marche | float | no | Avec emulate_range : durée minimale en secondes de marche de l'unité en chauffage ou en froid avant qu'auto l'arrête. Un mode choisi par l'utilisateur s'applique tout de suite.
 min_range (calaos:param) | Plage minimale | float | no | Écart minimal en degrés entre target_temp_low et target_temp_high. Une plage plus étroite est refusée.
 modes (calaos:param) | Modes | string | no | Modes proposés par l'équipement, séparés par des virgules (off, heat, cool, auto, dry, fan_only). Tous par défaut.
 name | Nom | string | yes | Nom de l'entrée/sortie.
@@ -3088,7 +3093,7 @@ Device of family `climate`, impl `thermostat`.
 ## Parameters of Thermostat
 Name | Label | Type | Mandatory | Description
 ---- | ----- | ---- | --------- | -----------
-emitter (calaos:param) | Émetteur | list | no | Ce que les sorties commandent. Seul floor a un effet : le refroidissement par le sol demande alors un lien humidity et s'arrête à humidity_max (point de rosée).
+emitter (calaos:param) | Émetteur | list | no | Ce que les sorties commandent. Seul floor a un effet : avec un lien humidity, le refroidissement par le sol s'arrête alors à humidity_max (point de rosée).
 enabled | Activé | bool | no | Activez l'entrée/sortie. Vrai par défaut. Ce paramètre est ajouté s'il n'est pas trouvé dans la configuration.
 gui_type | Type d'affichage | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
 humidity_max (calaos:param) | Humidité maximale | float | no | Humidité relative (%) à partir de laquelle le refroidissement par le sol s'arrête, avec emitter=floor. Pas négative.
@@ -3101,10 +3106,13 @@ logged | InfluxDB | bool | no | Si activé, et si influxdb est activé dans loca
 min_off_time (calaos:param) | Durée minimale d'arrêt | float | no | Secondes pendant lesquelles une sortie reste arrêtée au minimum avant de pouvoir redémarrer.
 min_on_time (calaos:param) | Durée minimale de marche | float | no | Secondes pendant lesquelles une sortie reste enclenchée au minimum, sauf si le mode est off ou si une coupure de sécurité l'arrête.
 min_range (calaos:param) | Plage minimale | float | no | Écart minimal en degrés entre target_temp_low et target_temp_high. Une plage plus étroite est refusée.
+modes (calaos:param) | Modes | string | no | Modes proposés par le thermostat, séparés par des virgules, parmi heat, cool et auto ; off est toujours proposé. Sans lui, les sorties décident : heat avec output_heat, cool avec output_cool, auto avec les deux, et heat seul avec output. Un mode que les sorties ne peuvent pas assurer, ou inconnu, est ignoré.
 name | Nom | string | yes | Nom de l'entrée/sortie.
 put_back_delay (calaos:param) | Délai de reprise de la sortie | float | no | Secondes avant de reprendre la main sur une sortie que quelque chose d'autre continue de commuter ; l'attente double tant que l'autre source la défait, jusqu'à put_back_delay_max. Au moins 0,001, sinon la valeur par défaut est utilisée.
 put_back_delay_max (calaos:param) | Délai maximal de reprise de la sortie | float | no | Attente la plus longue entre deux reprises de la sortie, en secondes. Pas en dessous de put_back_delay. Elle fixe aussi la fenêtre du journal des écritures extérieures sur une sortie : une ligne par source et par sortie pendant ce temps.
 sensor_timeout (calaos:param) | Délai de la sonde | float | no | Secondes pendant lesquelles une sonde liée peut rester sans relevé, valeur répétée comprise, avant d'être jugée périmée. Un nombre positif ; la valeur par défaut survit à la perte d'un rapport Zigbee horaire. Une sonde dont le dernier relevé a plus de la moitié de ce délai est interrogée quand son protocole le permet (KNX).
+valid_max (calaos:param) | Température valide maximale | float | no | Plus haute lecture plausible de current_temp, dans l'unité de la sonde. Une lecture au-dessus est traitée comme une absence de lecture, comme valid_min. Pas de contrôle si vide. Pas en dessous de valid_min.
+valid_min (calaos:param) | Température valide minimale | float | no | Plus basse lecture plausible de current_temp, dans l'unité de la sonde. Une lecture en dessous est traitée comme une absence de lecture : les sorties passent OFF aussitôt, quel que soit min_on_time, jusqu'à ce qu'une lecture revienne dans les bornes. Pas de contrôle si vide.
 visible | Visible | bool | no | Afficher l'entrée/sortie sur toutes les interfaces utilisateur si activé. Vrai par défautAffichez l'entrée/sortie sur toutes les interfaces utilisateur. Vrai par défaut
 
 ## Link roles of Thermostat
@@ -3112,21 +3120,22 @@ Writable: the device writes this link.
 
 Role | Label | Value | Required | Writable | Description
 ---- | ----- | ----- | -------- | -------- | -----------
-current_temp | Température actuelle | number | yes | no | Température lue par la régulation. Les sorties restent arrêtées tant qu'elle n'a pas fourni de relevé depuis le démarrage (une valeur en cache ou retenue ne compte pas), et tant qu'elle n'a rien envoyé pendant sensor_timeout ou se déclare déconnectée.
+current_temp | Température actuelle | number | yes | no | Température lue par la régulation. Les sorties restent arrêtées tant qu'elle n'a pas fourni de relevé depuis le démarrage (une valeur en cache ou retenue ne compte pas), tant qu'elle n'a rien envoyé pendant sensor_timeout, se déclare déconnectée ou lit hors de valid_min..valid_max.
 target_temp | Consigne | number | yes | yes | Consigne utilisée en chauffage et en refroidissement. Créée si elle manque.
 target_temp_low | Consigne basse | number | no | yes | Borne basse de la plage en auto. Créée si elle manque, avec output_cool.
 target_temp_high | Consigne haute | number | no | yes | Borne haute de la plage en auto. Créée si elle manque, avec output_cool.
 action | Action | string | no | yes | Écrite par le thermostat : off, idle, heating ou cooling. Créée si elle manque.
-output_heat | Sortie chauffage | bool | yes | yes | Sortie commandée pour le chauffage. Active le mode chauffage. Une sortie appartient à un seul thermostat : un second qui la lie ignore le lien.
+output_heat | Sortie chauffage | bool | yes, or output | yes | Sortie commandée pour le chauffage. Active le mode chauffage. Une sortie appartient à un seul thermostat : un second qui la lie ignore le lien.
 output_cool | Sortie refroidissement | bool | no | yes | Sortie commandée pour le refroidissement. Active les modes refroidissement et auto. Une sortie appartient à un seul thermostat : un second qui la lie ignore le lien.
-humidity | Sonde d'humidité | number | when emitter=floor and output_cool | no | Humidité relative de la pièce. Avec emitter=floor, le refroidissement s'arrête tant qu'elle indique humidity_max ou plus, qu'elle n'a pas de valeur, qu'elle est périmée ou déconnectée ; sans elle, un sol ne propose ni le mode refroidissement ni le mode auto.
+output | Vanne de zone | bool | no | yes | Vanne ou relais de la zone, active pour toute demande, chauffage ou refroidissement : le mode donne le sens. À la place d'output_heat et d'output_cool, qui ne peuvent pas être liés avec elle ; le param modes dit ce qu'elle propose. Une sortie appartient à un seul thermostat : un second qui la lie ignore le lien. Replaces output_heat, output_cool.
+humidity | Sonde d'humidité | number | no | no | Humidité relative de la pièce. Avec emitter=floor, le refroidissement s'arrête tant qu'elle indique humidity_max ou plus, qu'elle n'a pas de valeur, qu'elle est périmée ou déconnectée. Sans elle, un sol refroidit sans coupure au point de rosée.
 
 ## Command of Thermostat
 The value is a mode (`off`) or a JSON object holding any of these fields, e.g. `{"mode":"heat","target_temp":21.5}`. A field is only applied when all its links exist and are writable on the instance.
 
 Name | Type | Values or bounds | Requires links | Description
 ---- | ---- | ---------------- | -------------- | -----------
-mode | enum | off, heat (needs output_heat), cool (needs output_cool), auto (needs output_heat + output_cool) |  | Mode de fonctionnement. Les modes acceptés par une instance sont publiés dans ses capacités. Le mode chauffage demande le lien output_heat, le mode refroidissement demande output_cool et le mode auto demande les deux.
+mode | enum | off, heat (needs output_heat), cool (needs output_cool), auto (needs output_heat + output_cool) |  | Mode de fonctionnement. Les modes acceptés par une instance sont publiés dans ses capacités. Le mode chauffage demande le lien output_heat, le mode refroidissement demande output_cool et le mode auto demande les deux ; avec le lien output, le param modes dit lesquels.
 target_temp | number | 7 to 35, step 0.5 °C | target_temp | La consigne utilisée en chauffage et en refroidissement. Les bornes sont celles de l'IO lié (value_min, value_max, step, unit), sinon 7 à 35 par pas de 0,5 en °C. Les bornes effectives sont publiées dans les capacités.
 target_temp_low | number | 7 to 35, step 0.5 °C | target_temp_low, target_temp_high | Borne basse de la plage utilisée en auto. Les bornes sont celles de l'IO lié (value_min, value_max, step, unit), sinon 7 à 35 par pas de 0,5 en °C. Les bornes effectives sont publiées dans les capacités.
 target_temp_high | number | 7 to 35, step 0.5 °C | target_temp_low, target_temp_high | Borne haute de la plage utilisée en auto. Les bornes sont celles de l'IO lié (value_min, value_max, step, unit), sinon 7 à 35 par pas de 0,5 en °C. Les bornes effectives sont publiées dans les capacités.

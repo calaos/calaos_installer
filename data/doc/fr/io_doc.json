@@ -13327,6 +13327,26 @@
                     "type": "list"
                 },
                 {
+                    "default": "600",
+                    "description": "Avec emulate_range : secondes entre la fin du chauffage et le d\u00e9but du froid, ou l'inverse, au moins min_off_time.",
+                    "label": "D\u00e9lai de bascule chaud/froid",
+                    "mandatory": "false",
+                    "name": "changeover_delay",
+                    "readonly": "false",
+                    "storage": "calaos:param",
+                    "type": "float"
+                },
+                {
+                    "default": "false",
+                    "description": "Pour une unit\u00e9 \u00e0 consigne unique : l'\u00e9quipement garde lui-m\u00eame target_temp_low et target_temp_high (IOs internes, cr\u00e9\u00e9s s'ils manquent) et propose auto. En auto, l'unit\u00e9 passe en chauffage sur la consigne basse sous la plage, en froid sur la consigne haute au-dessus, et s'arr\u00eate entre les deux. Demande un lien target_temp, et le chauffage et le froid parmi les modes. La temp\u00e9rature de la pi\u00e8ce est remote_temp_source, sinon current_temp ; tant qu'elle n'est pas \u00e0 jour, l'unit\u00e9 reste telle quelle. Un mode chang\u00e9 sur l'unit\u00e9 elle-m\u00eame suspend auto jusqu'\u00e0 ce qu'il soit choisi de nouveau. auto n'est jamais envoy\u00e9 \u00e0 l'unit\u00e9.",
+                    "label": "Double consigne \u00e9mul\u00e9e",
+                    "mandatory": "false",
+                    "name": "emulate_range",
+                    "readonly": "false",
+                    "storage": "calaos:param",
+                    "type": "bool"
+                },
+                {
                     "default": "true",
                     "description": "Activez l'entr\u00e9e/sortie. Vrai par d\u00e9faut. Ce param\u00e8tre est ajout\u00e9 s'il n'est pas trouv\u00e9 dans la configuration.",
                     "label": "Activ\u00e9",
@@ -13351,6 +13371,16 @@
                     "name": "gui_type",
                     "readonly": "true",
                     "type": "string"
+                },
+                {
+                    "default": "0.5",
+                    "description": "Avec emulate_range : \u00e9cart en degr\u00e9s hors de la plage avant que l'unit\u00e9 d\u00e9marre, en chauffage sous la consigne basse moins l'hyst\u00e9r\u00e9sis, en froid au-dessus de la consigne haute plus l'hyst\u00e9r\u00e9sis. Elle s'arr\u00eate d\u00e8s que la pi\u00e8ce revient dans la plage.",
+                    "label": "Hyst\u00e9r\u00e9sis",
+                    "mandatory": "false",
+                    "name": "hysteresis",
+                    "readonly": "false",
+                    "storage": "calaos:param",
+                    "type": "float"
                 },
                 {
                     "description": "Identifiant unique de l'entr\u00e9e/sortie dans calaos-server",
@@ -13393,6 +13423,26 @@
                     "name": "logged",
                     "readonly": "false",
                     "type": "bool"
+                },
+                {
+                    "default": "300",
+                    "description": "Avec emulate_range : dur\u00e9e minimale en secondes d'arr\u00eat de l'unit\u00e9 avant qu'auto la red\u00e9marre.",
+                    "label": "Dur\u00e9e minimale d'arr\u00eat",
+                    "mandatory": "false",
+                    "name": "min_off_time",
+                    "readonly": "false",
+                    "storage": "calaos:param",
+                    "type": "float"
+                },
+                {
+                    "default": "300",
+                    "description": "Avec emulate_range : dur\u00e9e minimale en secondes de marche de l'unit\u00e9 en chauffage ou en froid avant qu'auto l'arr\u00eate. Un mode choisi par l'utilisateur s'applique tout de suite.",
+                    "label": "Dur\u00e9e minimale de marche",
+                    "mandatory": "false",
+                    "name": "min_on_time",
+                    "readonly": "false",
+                    "storage": "calaos:param",
+                    "type": "float"
                 },
                 {
                     "default": "0",
@@ -13476,7 +13526,7 @@
             "alias": [],
             "command_fields": [
                 {
-                    "description": "Mode de fonctionnement. Les modes accept\u00e9s par une instance sont publi\u00e9s dans ses capacit\u00e9s. Le mode chauffage demande le lien output_heat, le mode refroidissement demande output_cool et le mode auto demande les deux.",
+                    "description": "Mode de fonctionnement. Les modes accept\u00e9s par une instance sont publi\u00e9s dans ses capacit\u00e9s. Le mode chauffage demande le lien output_heat, le mode refroidissement demande output_cool et le mode auto demande les deux ; avec le lien output, le param modes dit lesquels.",
                     "name": "mode",
                     "requires_links": [],
                     "type": "enum",
@@ -13544,7 +13594,7 @@
             "family": "climate",
             "link_roles": [
                 {
-                    "description": "Temp\u00e9rature lue par la r\u00e9gulation. Les sorties restent arr\u00eat\u00e9es tant qu'elle n'a pas fourni de relev\u00e9 depuis le d\u00e9marrage (une valeur en cache ou retenue ne compte pas), et tant qu'elle n'a rien envoy\u00e9 pendant sensor_timeout ou se d\u00e9clare d\u00e9connect\u00e9e.",
+                    "description": "Temp\u00e9rature lue par la r\u00e9gulation. Les sorties restent arr\u00eat\u00e9es tant qu'elle n'a pas fourni de relev\u00e9 depuis le d\u00e9marrage (une valeur en cache ou retenue ne compte pas), tant qu'elle n'a rien envoy\u00e9 pendant sensor_timeout, se d\u00e9clare d\u00e9connect\u00e9e ou lit hors de valid_min..valid_max.",
                     "label": "Temp\u00e9rature actuelle",
                     "required": true,
                     "role": "current_temp",
@@ -13600,14 +13650,21 @@
                     "writable": true
                 },
                 {
-                    "description": "Humidit\u00e9 relative de la pi\u00e8ce. Avec emitter=floor, le refroidissement s'arr\u00eate tant qu'elle indique humidity_max ou plus, qu'elle n'a pas de valeur, qu'elle est p\u00e9rim\u00e9e ou d\u00e9connect\u00e9e ; sans elle, un sol ne propose ni le mode refroidissement ni le mode auto.",
+                    "description": "Vanne ou relais de la zone, active pour toute demande, chauffage ou refroidissement : le mode donne le sens. \u00c0 la place d'output_heat et d'output_cool, qui ne peuvent pas \u00eatre li\u00e9s avec elle ; le param modes dit ce qu'elle propose. Une sortie appartient \u00e0 un seul thermostat : un second qui la lie ignore le lien.",
+                    "label": "Vanne de zone",
+                    "replaces": [
+                        "output_heat",
+                        "output_cool"
+                    ],
+                    "required": false,
+                    "role": "output",
+                    "value_type": "bool",
+                    "writable": true
+                },
+                {
+                    "description": "Humidit\u00e9 relative de la pi\u00e8ce. Avec emitter=floor, le refroidissement s'arr\u00eate tant qu'elle indique humidity_max ou plus, qu'elle n'a pas de valeur, qu'elle est p\u00e9rim\u00e9e ou d\u00e9connect\u00e9e. Sans elle, un sol refroidit sans coupure au point de ros\u00e9e.",
                     "label": "Sonde d'humidit\u00e9",
                     "required": false,
-                    "required_when": {
-                        "link": "output_cool",
-                        "param": "emitter",
-                        "value": "floor"
-                    },
                     "role": "humidity",
                     "value_type": "number",
                     "writable": false
@@ -13616,7 +13673,7 @@
             "parameters": [
                 {
                     "default": "",
-                    "description": "Ce que les sorties commandent. Seul floor a un effet : le refroidissement par le sol demande alors un lien humidity et s'arr\u00eate \u00e0 humidity_max (point de ros\u00e9e).",
+                    "description": "Ce que les sorties commandent. Seul floor a un effet : avec un lien humidity, le refroidissement par le sol s'arr\u00eate alors \u00e0 humidity_max (point de ros\u00e9e).",
                     "label": "\u00c9metteur",
                     "list_value": {
                         "electric": "Radiateurs \u00e9lectriques",
@@ -13741,6 +13798,15 @@
                     "type": "float"
                 },
                 {
+                    "description": "Modes propos\u00e9s par le thermostat, s\u00e9par\u00e9s par des virgules, parmi heat, cool et auto ; off est toujours propos\u00e9. Sans lui, les sorties d\u00e9cident : heat avec output_heat, cool avec output_cool, auto avec les deux, et heat seul avec output. Un mode que les sorties ne peuvent pas assurer, ou inconnu, est ignor\u00e9.",
+                    "label": "Modes",
+                    "mandatory": "false",
+                    "name": "modes",
+                    "readonly": "false",
+                    "storage": "calaos:param",
+                    "type": "string"
+                },
+                {
                     "description": "Nom de l'entr\u00e9e/sortie.",
                     "label": "Nom",
                     "mandatory": "true",
@@ -13774,6 +13840,24 @@
                     "label": "D\u00e9lai de la sonde",
                     "mandatory": "false",
                     "name": "sensor_timeout",
+                    "readonly": "false",
+                    "storage": "calaos:param",
+                    "type": "float"
+                },
+                {
+                    "description": "Plus haute lecture plausible de current_temp, dans l'unit\u00e9 de la sonde. Une lecture au-dessus est trait\u00e9e comme une absence de lecture, comme valid_min. Pas de contr\u00f4le si vide. Pas en dessous de valid_min.",
+                    "label": "Temp\u00e9rature valide maximale",
+                    "mandatory": "false",
+                    "name": "valid_max",
+                    "readonly": "false",
+                    "storage": "calaos:param",
+                    "type": "float"
+                },
+                {
+                    "description": "Plus basse lecture plausible de current_temp, dans l'unit\u00e9 de la sonde. Une lecture en dessous est trait\u00e9e comme une absence de lecture : les sorties passent OFF aussit\u00f4t, quel que soit min_on_time, jusqu'\u00e0 ce qu'une lecture revienne dans les bornes. Pas de contr\u00f4le si vide.",
+                    "label": "Temp\u00e9rature valide minimale",
+                    "mandatory": "false",
+                    "name": "valid_min",
                     "readonly": "false",
                     "storage": "calaos:param",
                     "type": "float"

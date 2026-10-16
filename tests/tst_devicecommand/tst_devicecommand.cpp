@@ -149,7 +149,7 @@ private slots:
     void aProxyWithoutModeLinkOffersNoMode();
     void aRangeNeedsBothBounds();
     void enumValuesAreFilteredByValueRequiresLinks();
-    void theModesParamNarrowsTheModesOfAProxyOnly();
+    void theModesParamNarrowsTheModesOfTheDevicesDocumentingIt();
     void aValuesParamComesFromTheInstance();
     void theLinkedIoSetsTheBoundsAndTheUnit();
     void invertedBoundsOfTheLinkedIoAreIgnored();
@@ -367,16 +367,16 @@ void tst_DeviceCommand::enumValuesAreFilteredByValueRequiresLinks()
     QCOMPARE(field(offerOf("cool_only"), "mode").values, QStringList({"off", "cool"}));
 }
 
-void tst_DeviceCommand::theModesParamNarrowsTheModesOfAProxyOnly()
+void tst_DeviceCommand::theModesParamNarrowsTheModesOfTheDevicesDocumentingIt()
 {
     QCOMPARE(field(offerOf("bare"), "mode").values,
              QStringList({"off", "heat", "cool", "auto", "dry", "fan_only"}));
     QCOMPARE(field(offerOf("narrow"), "mode").values, QStringList({"off", "heat", "cool"}));
 
-    // The thermostat does not document modes: a stray param does not narrow it.
+    // The thermostat documents modes since decision 22: it narrows it too.
     Device *d = device("floor");
-    d->deviceParams().push_back({"modes", "off"});
-    QCOMPARE(field(offerOf("floor"), "mode").values, QStringList({"off", "heat", "cool", "auto"}));
+    d->deviceParams().push_back({"modes", "off,heat"});
+    QCOMPARE(field(offerOf("floor"), "mode").values, QStringList({"off", "heat"}));
 }
 
 void tst_DeviceCommand::aValuesParamComesFromTheInstance()

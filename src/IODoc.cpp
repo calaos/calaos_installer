@@ -128,3 +128,15 @@ QString IODoc::valueTypeOf(const QJsonObject &linkRole)
     const QString t = linkRole["value_type"].toString();
     return (t == "number" || t == "bool" || t == "string") ? t : QString();
 }
+
+QStringList IODoc::replacersOf(const QJsonObject &deviceDoc, const QString &role)
+{
+    QStringList res;
+    for (const QJsonValue &v: deviceDoc["link_roles"].toArray())
+    {
+        const QJsonObject r = v.toObject();
+        if (r["replaces"].toArray().contains(role))
+            res << r["role"].toString();
+    }
+    return res;
+}

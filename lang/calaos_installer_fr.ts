@@ -168,6 +168,11 @@
         <translation>%1 : « %2 » est déjà une sortie du thermostat « %3 ».</translation>
     </message>
     <message>
+        <location filename="../src/DeviceEdit.cpp" line="329"/>
+        <source>%1 and %2 cannot both be linked: %1 replaces %2.</source>
+        <translation>%1 et %2 ne peuvent pas être liés ensemble : %1 remplace %2.</translation>
+    </message>
+    <message>
         <location filename="../src/DeviceEdit.cpp" line="291"/>
         <source>%1 is required.</source>
         <translation>%1 est obligatoire.</translation>

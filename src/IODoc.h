@@ -3,6 +3,7 @@
 
 #include <QJsonObject>
 #include <QString>
+#include <QStringList>
 
 class IODoc
 {
@@ -25,6 +26,10 @@ public:
     // value_type of a link role: number, bool or string. Empty when absent or anything
     // else, so that an older or unknown document filters nothing.
     static QString valueTypeOf(const QJsonObject &linkRole);
+
+    // Roles of deviceDoc whose `replaces` lists role (a zone valve for output_heat): linking
+    // one of them meets a requirement on role, linking both is a configuration error.
+    static QStringList replacersOf(const QJsonObject &deviceDoc, const QString &role);
 
 private:
     static const QJsonObject &rootObject();

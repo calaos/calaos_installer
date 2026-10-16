@@ -13327,6 +13327,26 @@
                     "type": "list"
                 },
                 {
+                    "default": "600",
+                    "description": "With emulate_range: seconds between the end of heat and the start of cool, or the reverse, at least min_off_time.",
+                    "label": "Changeover delay",
+                    "mandatory": "false",
+                    "name": "changeover_delay",
+                    "readonly": "false",
+                    "storage": "calaos:param",
+                    "type": "float"
+                },
+                {
+                    "default": "false",
+                    "description": "For a unit with a single setpoint: the device keeps target_temp_low and target_temp_high itself (internal IOs, created when missing) and offers auto. In auto the unit runs in heat on the low setpoint below the range, in cool on the high setpoint above it, and is off in between. Needs a target_temp link and heat and cool among the modes. The room temperature is remote_temp_source, else current_temp; while it is stale the unit is left as it is. A mode changed on the unit itself suspends auto until it is selected again. auto is never sent to the unit.",
+                    "label": "Emulated dual setpoint",
+                    "mandatory": "false",
+                    "name": "emulate_range",
+                    "readonly": "false",
+                    "storage": "calaos:param",
+                    "type": "bool"
+                },
+                {
                     "default": "true",
                     "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
                     "label": "Enabled",
@@ -13351,6 +13371,16 @@
                     "name": "gui_type",
                     "readonly": "true",
                     "type": "string"
+                },
+                {
+                    "default": "0.5",
+                    "description": "With emulate_range: degrees past the range before the unit starts, in heat below the low setpoint minus hysteresis, in cool above the high setpoint plus hysteresis. It stops as soon as the room is back in the range.",
+                    "label": "Hysteresis",
+                    "mandatory": "false",
+                    "name": "hysteresis",
+                    "readonly": "false",
+                    "storage": "calaos:param",
+                    "type": "float"
                 },
                 {
                     "description": "Unique ID identifying the Input/Output in calaos-server",
@@ -13393,6 +13423,26 @@
                     "name": "logged",
                     "readonly": "false",
                     "type": "bool"
+                },
+                {
+                    "default": "300",
+                    "description": "With emulate_range: seconds the unit stays off at least before auto starts it again.",
+                    "label": "Minimum off time",
+                    "mandatory": "false",
+                    "name": "min_off_time",
+                    "readonly": "false",
+                    "storage": "calaos:param",
+                    "type": "float"
+                },
+                {
+                    "default": "300",
+                    "description": "With emulate_range: seconds the unit runs at least in heat or cool before auto stops it. A mode selected by the user is applied at once.",
+                    "label": "Minimum on time",
+                    "mandatory": "false",
+                    "name": "min_on_time",
+                    "readonly": "false",
+                    "storage": "calaos:param",
+                    "type": "float"
                 },
                 {
                     "default": "0",
@@ -13476,7 +13526,7 @@
             "alias": [],
             "command_fields": [
                 {
-                    "description": "Operating mode. The modes an instance accepts are published in its capabilities. Heat needs the output_heat link, cool needs output_cool and auto needs both.",
+                    "description": "Operating mode. The modes an instance accepts are published in its capabilities. Heat needs the output_heat link, cool needs output_cool and auto needs both; with the output link, the modes param says which ones.",
                     "name": "mode",
                     "requires_links": [],
                     "type": "enum",
@@ -13544,7 +13594,7 @@
             "family": "climate",
             "link_roles": [
                 {
-                    "description": "Temperature the regulation reads. The outputs stay off until it has delivered a reading since the start (a cached or retained value does not count), and while it has sent nothing for sensor_timeout or reports itself disconnected.",
+                    "description": "Temperature the regulation reads. The outputs stay off until it has delivered a reading since the start (a cached or retained value does not count), while it has sent nothing for sensor_timeout, reports itself disconnected or reads outside valid_min..valid_max.",
                     "label": "Current temperature",
                     "required": true,
                     "role": "current_temp",
@@ -13600,14 +13650,21 @@
                     "writable": true
                 },
                 {
-                    "description": "Relative humidity of the room. With emitter=floor, cooling stops while it reads humidity_max or more, has not read, is stale or disconnected; without it, a floor offers neither cool nor auto.",
+                    "description": "Valve or relay of the zone, ON for any demand, heating or cooling: the mode gives the direction. Instead of output_heat and output_cool, which cannot be linked with it; the modes param says what it offers. An output belongs to a single thermostat: a second one linking it ignores the link.",
+                    "label": "Zone valve",
+                    "replaces": [
+                        "output_heat",
+                        "output_cool"
+                    ],
+                    "required": false,
+                    "role": "output",
+                    "value_type": "bool",
+                    "writable": true
+                },
+                {
+                    "description": "Relative humidity of the room. With emitter=floor, cooling stops while it reads humidity_max or more, has not read, is stale or disconnected. Without it, a floor cools with no dew-point cut.",
                     "label": "Humidity sensor",
                     "required": false,
-                    "required_when": {
-                        "link": "output_cool",
-                        "param": "emitter",
-                        "value": "floor"
-                    },
                     "role": "humidity",
                     "value_type": "number",
                     "writable": false
@@ -13616,7 +13673,7 @@
             "parameters": [
                 {
                     "default": "",
-                    "description": "What the outputs drive. Only floor has an effect: floor cooling then needs a humidity link and stops at humidity_max (dew point).",
+                    "description": "What the outputs drive. Only floor has an effect: with a humidity link, floor cooling then stops at humidity_max (dew point).",
                     "label": "Emitter",
                     "list_value": {
                         "electric": "Electric heaters",
@@ -13741,6 +13798,15 @@
                     "type": "float"
                 },
                 {
+                    "description": "Comma separated modes the thermostat offers, among heat, cool and auto; off is always offered. Without it, the outputs decide: heat with output_heat, cool with output_cool, auto with both, and heat alone with output. A mode the outputs cannot run, or an unknown one, is ignored.",
+                    "label": "Modes",
+                    "mandatory": "false",
+                    "name": "modes",
+                    "readonly": "false",
+                    "storage": "calaos:param",
+                    "type": "string"
+                },
+                {
                     "description": "Name of Input/Output.",
                     "label": "Name",
                     "mandatory": "true",
@@ -13774,6 +13840,24 @@
                     "label": "Sensor timeout",
                     "mandatory": "false",
                     "name": "sensor_timeout",
+                    "readonly": "false",
+                    "storage": "calaos:param",
+                    "type": "float"
+                },
+                {
+                    "description": "Highest plausible reading of current_temp, in the unit of the sensor. A reading above it is treated as no reading, like valid_min. No check when empty. Not below valid_min.",
+                    "label": "Highest valid temperature",
+                    "mandatory": "false",
+                    "name": "valid_max",
+                    "readonly": "false",
+                    "storage": "calaos:param",
+                    "type": "float"
+                },
+                {
+                    "description": "Lowest plausible reading of current_temp, in the unit of the sensor. A reading below it is treated as no reading: the outputs go OFF at once, whatever min_on_time, until a reading is back within the bounds. No check when empty.",
+                    "label": "Lowest valid temperature",
+                    "mandatory": "false",
+                    "name": "valid_min",
                     "readonly": "false",
                     "storage": "calaos:param",
                     "type": "float"

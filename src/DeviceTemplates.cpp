@@ -35,7 +35,7 @@ bool isRoom(const QVariant &v)
 }
 
 //Decision 17, as the server applies it (InternalThermostat::claimOutputs): an IO
-//linked as output_heat or output_cool belongs to one thermostat, the server ignores
+//linked as output_heat, output_cool or output belongs to one thermostat, the server ignores
 //the link of any other. The only family rule here, because the server enforces it.
 bool DeviceTemplates::isThermostatImpl(const QString &impl)
 {
@@ -44,7 +44,7 @@ bool DeviceTemplates::isThermostatImpl(const QString &impl)
 
 bool DeviceTemplates::isThermostatOutput(const QString &role)
 {
-    return role == "output_heat" || role == "output_cool";
+    return role == "output_heat" || role == "output_cool" || role == "output";
 }
 
 Device *DeviceTemplates::thermostatOwning(const std::string &id, Device *except)

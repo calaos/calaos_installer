@@ -28,6 +28,8 @@ public:
         bool required = false;
         //{link: role, param: name, value: v}: required while every given key holds.
         QJsonObject requiredWhen;
+        //IODoc's `replaces`: roles this one stands for, never linked with it.
+        QStringList replaces;
         bool writable = false;
         //number, bool or string: IODoc's value_type, else the templates', else the linked IO's;
         //empty when nothing tells it.

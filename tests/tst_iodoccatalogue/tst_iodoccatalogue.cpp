@@ -267,7 +267,7 @@ private slots:
         QCOMPARE(doc["format"].toInt(), 1);
 
         const QJsonArray templates = doc["templates"].toArray();
-        QCOMPARE(templates.size(), 5);
+        QCOMPARE(templates.size(), 6);
         for (const QJsonValue &t: templates)
         {
             const QJsonObject tpl = t.toObject();
