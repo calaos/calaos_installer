@@ -466,45 +466,9 @@ FormRules::FormRules(QWidget *parent) :
         }
     });
 
-    action = add_menu->addAction(tr("Home Assistant MQTT discovery"));
+    action = add_menu->addAction(tr("Home Assistant MQTT discovery..."));
     action->setIcon(QIcon(":/img/mqtt.png"));
-    connect(action, &QAction::triggered, this, [=]()
-    {
-        if (ListeRoom::Instance().size() <= 0)
-        {
-            QMessageBox::warning(this, tr("Calaos Installer"), tr("You need to add one room at least!"));
-            return;
-        }
-
-        DialogHomeAssistantMqtt d(this);
-        if (d.exec() != QDialog::Accepted)
-            return;
-
-        for (const auto &item : d.getImportItems())
-        {
-            Params p = item.params;
-            p.Add("id", ListeRoom::get_new_id("io_"));
-            IOBase *io = nullptr;
-            if (p["io_type"] == "input")
-            {
-                io = ListeRoom::Instance().createInput(p, item.room);
-                addItemInput(io, item.room, true);
-            }
-            else
-            {
-                io = ListeRoom::Instance().createOutput(p, item.room);
-                addItemOutput(io, item.room, true);
-            }
-        }
-        setProjectModified(true);
-
-        auto warnings = d.getWarnings();
-        if (!warnings.isEmpty())
-            QMessageBox::information(this, tr("Import complete"),
-                tr("Imported %1 entit(y/ies).\n\nNotes:\n%2")
-                    .arg(d.getImportItems().size())
-                    .arg(warnings.join('\n')));
-    });
+    connect(action, &QAction::triggered, this, &FormRules::importHomeAssistant);
 #endif
 
     //Reolink Events from camera
@@ -1085,6 +1049,17 @@ void FormRules::addCalaosItem(int hw_type, int item)
     }
 }
 
+QTreeWidgetItemRoom *FormRules::treeItemOfRoom(Room *room)
+{
+    for (QTreeWidgetItemIterator it(ui->tree_home);*it;++it)
+    {
+        QTreeWidgetItemRoom *r = dynamic_cast<QTreeWidgetItemRoom *>(*it);
+        if (r && r->getRoom() == room)
+            return r;
+    }
+    return nullptr;
+}
+
 void FormRules::addDeviceFromTemplate()
 {
     DialogNewDevice dialog(DeviceTemplates::load(Utils::GetLocale()), current_room, this);
@@ -1092,13 +1067,7 @@ void FormRules::addDeviceFromTemplate()
         return;
 
     //The room field may name another room than the selected one.
-    QTreeWidgetItemRoom *roomItem = nullptr;
-    for (QTreeWidgetItemIterator it(ui->tree_home);*it && !roomItem;++it)
-    {
-        QTreeWidgetItemRoom *r = dynamic_cast<QTreeWidgetItemRoom *>(*it);
-        if (r && r->getRoom() == dialog.room())
-            roomItem = r;
-    }
+    QTreeWidgetItemRoom *roomItem = treeItemOfRoom(dialog.room());
     if (!roomItem)
         return;
 
@@ -1115,6 +1084,38 @@ void FormRules::addDeviceFromTemplate()
         delete notes;
     }
 }
+
+#ifdef QT_MQTT_AVAILABLE
+void FormRules::importHomeAssistant()
+{
+    if (ListeRoom::Instance().size() <= 0)
+    {
+        QMessageBox::warning(this, tr("Calaos Installer"), tr("You need to add one room at least!"));
+        return;
+    }
+
+    DialogHomeAssistantMqtt dialog(DeviceTemplates::load(Utils::GetLocale()), current_room, this);
+    if (dialog.exec() != QDialog::Accepted)
+        return;
+
+    const HomeAssistantDiscovery::Imported &imported = dialog.imported();
+    for (IOBase *io: imported.ios)
+    {
+        if (io->is_output())
+            addItemOutput(io, dialog.room(), true);
+        else
+            addItemInput(io, dialog.room(), true);
+    }
+    QTreeWidgetItemRoom *roomItem = treeItemOfRoom(dialog.room());
+    for (Device *dev: imported.devices)
+        if (roomItem)
+            addDeviceItem(roomItem, dev, &FormRules::refreshItemInfos)->setExpanded(true);
+    setProjectModified(true);
+
+    if (!imported.notes.isEmpty())
+        QMessageBox::information(this, tr("Home Assistant MQTT discovery"), imported.notes.join('\n'));
+}
+#endif
 
 void FormRules::addCalaosIO(Params &params)
 {

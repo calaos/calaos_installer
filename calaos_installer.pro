@@ -9,7 +9,6 @@ qtHaveModule(mqtt) {
     HEADERS += src/DialogZigbee2mqtt.h src/MqttListener.h src/WidgetEsphomeDiscovery.h \
         src/DialogHomeAssistantMqtt.h \
         src/HomeAssistantDiscovery.h
-    FORMS += src/DialogHomeAssistantMqtt.ui
 }
 
 equals(QT_MAJOR_VERSION, 6) {

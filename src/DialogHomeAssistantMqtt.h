@@ -2,62 +2,75 @@
 #define DIALOGHOMEASSISTANTMQTT_H
 
 #include <QDialog>
-#include <QPointer>
-#include <QStandardItemModel>
-#include <QtMqtt/QMqttClient>
-#include "Params.h"
+#include <QJsonArray>
+
 #include "HomeAssistantDiscovery.h"
-#include "qanimationlabel.h"
+#include "MqttListener.h"
 
-namespace Calaos { class Room; }
+class QComboBox;
+class QLabel;
+class QLineEdit;
+class QPushButton;
+class QSpinBox;
+class QTreeWidget;
+class QTreeWidgetItem;
 
-namespace Ui {
-class DialogHomeAssistantMqtt;
-}
-
-class DialogHomeAssistantMqtt : public QDialog
+// Lists the entities Home Assistant MQTT discovery announces on a broker and
+// imports the checked ones: an IO each, a device for a climate.
+class DialogHomeAssistantMqtt: public QDialog
 {
     Q_OBJECT
+
 public:
-    explicit DialogHomeAssistantMqtt(QWidget *parent = nullptr);
-    ~DialogHomeAssistantMqtt();
+    //templates: where climates take their device from; room: the one offered first.
+    DialogHomeAssistantMqtt(const QJsonArray &templates, Calaos::Room *room, QWidget *parent = nullptr);
 
-    struct ImportItem {
-        Params params;
-        Calaos::Room *room;
-    };
+    void setTimings(int listenMs, int answerTimeoutMs);
+    void search();
+    QList<HomeAssistantDiscovery::Entity> entities() const { return m_found; }
 
-    // Items the user selected for import (after Accepted).
-    QList<ImportItem> getImportItems() const { return importItems; }
+    //Set once Import succeeded.
+    const HomeAssistantDiscovery::Imported &imported() const { return m_imported; }
+    Calaos::Room *room() const;
 
-    // Skipped duplicates / errors collected during accept().
-    QStringList getWarnings() const { return warnings; }
+protected:
+    bool eventFilter(QObject *watched, QEvent *event) override;
 
-private slots:
-    void on_pushButtonConnect_clicked();
-    void on_buttonBox_accepted();
-    void brokerDisconnected();
-    void stateChanged(QMqttClient::ClientState state);
+signals:
+    void searchFinished();
 
 private:
-    Ui::DialogHomeAssistantMqtt *ui;
-    QPointer<QAnimationLabel> spinner;
-    QMqttClient *mqttClient = nullptr;
+    QJsonArray m_templates;
+    MqttListener *m_listener;
+    HomeAssistantDiscovery m_discovery;
+    QList<HomeAssistantDiscovery::Entity> m_found;
+    HomeAssistantDiscovery::Imported m_imported;
+    int m_listenMs = 3000;
+    int m_answerTimeoutMs = 5000;
+    bool m_probeTyped = false;
+    bool m_credentialsTyped = false;
 
-    HomeAssistantDiscovery discovery;
-    QStandardItemModel model;
-    // Map deviceKey -> root QStandardItem
-    QHash<QString, QStandardItem*> deviceItems;
-    // Map uniqueId -> child QStandardItem
-    QHash<QString, QStandardItem*> entityItems;
+    QLineEdit *m_serverHost;
+    QSpinBox *m_serverPort;
+    QLineEdit *m_serverUser;
+    QLineEdit *m_serverPassword;
+    QLineEdit *m_probeHost;
+    QLineEdit *m_prefix;
+    QPushButton *m_searchButton;
+    QLabel *m_status;
+    QTreeWidget *m_list;
+    QComboBox *m_room;
+    QLabel *m_error;
+    QPushButton *m_importButton;
 
-    QList<ImportItem> importItems;
-    QStringList warnings;
-
-    void onEntity(const HomeAssistantDiscovery::Entity &e);
-    void onEntityRemoved(const QString &uniqueId);
-    void subscribeDiscovery();
-    QString currentPrefix() const;
+    MqttBroker serverBroker() const;
+    void updateProbeHost();
+    void finished(const QString &error);
+    void fillList();
+    QList<HomeAssistantDiscovery::Entity> checkedEntities() const;
+    void updateImportButton();
+    void importChecked();
+    void setStatus(const QString &text, bool error);
 };
 
 #endif // DIALOGHOMEASSISTANTMQTT_H
