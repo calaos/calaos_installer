@@ -278,3 +278,12 @@ GitHub Actions workflows (manual trigger via `workflow_dispatch`):
 - Vendored code (Lua 5.1.4, qftp, drivelist, BLAKE2) should not be modified
 - `using namespace std;` and `using namespace Calaos;` appear in older headers —
   avoid adding new `using namespace` directives in headers
+
+## Pitfalls
+
+Cross-repo notes (IODoc chain, merge order, rules, ESPHome): [calaos_base/docs/18_stack_notes.md](https://github.com/calaos/calaos_base/blob/master/docs/18_stack_notes.md) (in French).
+
+- **Per-Qt build dirs.** Objects go to `build-qt<Qt version>/` (`.qmake.conf:8`), because qmake does not track Qt headers and a Qt update otherwise links stale objects with fresh ones (reason in `.qmake.conf:3-7`). Do not reuse an object dir across Qt versions.
+- **Forced light theme.** `AppTheme::forceLight` (`src/AppTheme.cpp:43-51`) sets `ColorScheme::Light` from Qt 6.8 and pins a light palette before that. Hardcoded dark-theme assumptions in QML/widgets will break in the system dark mode.
+- **`data/doc` is generated** by `generate_iodoc.sh` from the calaos_base CI artifact; never edit it by hand, and merge calaos_base first (see the linked notes).
+- **QtMqtt is optional.** `calaos_installer.pro:3-7` defines `QT_MQTT_AVAILABLE` only when the module exists; the Zigbee2mqtt menu (`src/formrules.cpp:446`) and the ESPHome discovery (`src/DialogNewDevice.cpp`) sit behind it. Reuse `MqttListener` for any MQTT feature, never hand-roll a client. PR CI installs `qt6-mqtt` (`.github/workflows/pr_ci.yml:45`) and sets `CALAOS_REQUIRE_MQTT=1` (`:89`) so the MQTT tests fail instead of skipping.
