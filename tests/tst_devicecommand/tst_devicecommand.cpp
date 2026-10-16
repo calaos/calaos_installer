@@ -150,6 +150,10 @@ private slots:
     void aRangeNeedsBothBounds();
     void enumValuesAreFilteredByValueRequiresLinks();
     void theModesParamNarrowsTheModesOfTheDevicesDocumentingIt();
+    void theThermostatAlwaysOffersOffWhateverItsModesParamSays();
+    void aZoneValveWithoutModesOnlyHeats();
+    void autoNeedsHeatAndCoolAmongTheOfferedModes();
+    void aListRuleOfTheDocIsFollowedWhateverTheDevice();
     void aValuesParamComesFromTheInstance();
     void theLinkedIoSetsTheBoundsAndTheUnit();
     void invertedBoundsOfTheLinkedIoAreIgnored();
@@ -377,6 +381,97 @@ void tst_DeviceCommand::theModesParamNarrowsTheModesOfTheDevicesDocumentingIt()
     Device *d = device("floor");
     d->deviceParams().push_back({"modes", "off,heat"});
     QCOMPARE(field(offerOf("floor"), "mode").values, QStringList({"off", "heat"}));
+}
+
+void tst_DeviceCommand::theThermostatAlwaysOffersOffWhateverItsModesParamSays()
+{
+    Device *d = device("floor");
+    d->deviceParams().push_back({"modes", "heat,cool"});
+    QCOMPARE(field(offerOf("floor"), "mode").values, QStringList({"off", "heat", "cool"}));
+
+    // an empty list leaves off alone, which the server accepts too
+    for (auto &p : d->deviceParams())
+    {
+        if (p.first == "modes")
+            p.second = "";
+    }
+    const DeviceCommand::Field f = field(offerOf("floor"), "mode");
+    QCOMPARE(f.values, QStringList({"off"}));
+    QCOMPARE(f.excludedByParam.value("heat"), QString("modes"));
+    QVERIFY(!f.excludedByParam.contains("off"));
+
+    // a proxy has no such rule: its list is the whole list
+    Device *p = device("narrow");
+    for (auto &q : p->deviceParams())
+    {
+        if (q.first == "modes")
+            q.second = "heat";
+    }
+    QCOMPARE(field(offerOf("narrow"), "mode").values, QStringList({"heat"}));
+}
+
+void tst_DeviceCommand::aZoneValveWithoutModesOnlyHeats()
+{
+    const DeviceCommand::Field f = field(offerOf("zone"), "mode");
+    QCOMPARE(f.values, QStringList({"off", "heat"}));
+    QCOMPARE(f.excludedByParam.value("cool"), QString("modes"));
+    QCOMPARE(f.excludedByParam.value("auto"), QString("modes"));
+
+    // the same valve with a list offers what the list says
+    device("zone")->deviceParams().push_back({"modes", "heat,cool"});
+    QCOMPARE(field(offerOf("zone"), "mode").values, QStringList({"off", "heat", "cool"}));
+
+    // a thermostat with outputs has no default
+    QCOMPARE(field(offerOf("floor"), "mode").values, QStringList({"off", "heat", "cool", "auto"}));
+}
+
+void tst_DeviceCommand::autoNeedsHeatAndCoolAmongTheOfferedModes()
+{
+    // The valve could run auto, but the list leaves cool out: the server drops it.
+    Device *z = device("zone");
+    z->deviceParams().push_back({"modes", "heat,auto"});
+    const DeviceCommand::Field f = field(offerOf("zone"), "mode");
+    QCOMPARE(f.values, QStringList({"off", "heat"}));
+    QVERIFY(f.excludedByParam.contains("auto"));
+
+    for (auto &p : z->deviceParams())
+    {
+        if (p.first == "modes")
+            p.second = "heat,cool,auto";
+    }
+    QCOMPARE(field(offerOf("zone"), "mode").values, QStringList({"off", "heat", "cool", "auto"}));
+}
+
+void tst_DeviceCommand::aListRuleOfTheDocIsFollowedWhateverTheDevice()
+{
+    // The rule is read from the document, not from a device name: a made-up
+    // one gives made-up modes.
+    QJsonObject doc = docOf(device("zone"));
+    QJsonArray params;
+    for (const QJsonValue &pv : doc["parameters"].toArray())
+    {
+        QJsonObject p = pv.toObject();
+        if (p["name"].toString() == "modes")
+        {
+            QJsonObject rule;
+            rule["always_includes"] = QJsonArray({"heat"});
+            rule["default_when_linked"] = QJsonObject({{"output", QJsonArray({"cool"})}});
+            rule["value_requires_values"] = QJsonObject({{"cool", QJsonArray({"auto"})}});
+            p["list_rule"] = rule;
+        }
+        params.append(p);
+    }
+    doc["parameters"] = params;
+
+    const DeviceCommand::Instance inst = DeviceCommand::Instance::of(device("zone"));
+    DeviceCommand::Field f;
+    for (const DeviceCommand::Field &x : DeviceCommand::offer(doc, inst).fields)
+    {
+        if (x.name == "mode")
+            f = x;
+    }
+    // default cool and always heat; cool needs auto, which is not offered
+    QCOMPARE(f.values, QStringList({"heat"}));
 }
 
 void tst_DeviceCommand::aValuesParamComesFromTheInstance()
