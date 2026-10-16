@@ -421,6 +421,14 @@ void tst_DeviceCommand::aZoneValveWithoutModesOnlyHeats()
     device("zone")->deviceParams().push_back({"modes", "heat,cool"});
     QCOMPARE(field(offerOf("zone"), "mode").values, QStringList({"off", "heat", "cool"}));
 
+    // the default is for a missing param only
+    for (auto &p : device("zone")->deviceParams())
+    {
+        if (p.first == "modes")
+            p.second = "cool";
+    }
+    QCOMPARE(field(offerOf("zone"), "mode").values, QStringList({"off", "cool"}));
+
     // a thermostat with outputs has no default
     QCOMPARE(field(offerOf("floor"), "mode").values, QStringList({"off", "heat", "cool", "auto"}));
 }
