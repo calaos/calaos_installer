@@ -1,16 +1,5 @@
 QT += core gui network widgets xml printsupport quick qml quickwidgets quickcontrols2 serialport
 
-qtHaveModule(mqtt) {
-    QT += mqtt
-    DEFINES += QT_MQTT_AVAILABLE
-    SOURCES += src/DialogZigbee2mqtt.cpp src/MqttListener.cpp src/WidgetEsphomeDiscovery.cpp \
-        src/DialogHomeAssistantMqtt.cpp \
-        src/HomeAssistantDiscovery.cpp
-    HEADERS += src/DialogZigbee2mqtt.h src/MqttListener.h src/WidgetEsphomeDiscovery.h \
-        src/DialogHomeAssistantMqtt.h \
-        src/HomeAssistantDiscovery.h
-}
-
 equals(QT_MAJOR_VERSION, 6) {
    QT += core5compat
 }
@@ -54,6 +43,13 @@ SOURCES += src/main.cpp \
     src/DialogNewDevice.cpp \
     src/EsphomeDiscovery.cpp \
     src/MqttBroker.cpp \
+    src/MqttPacket.cpp \
+    src/MqttClient.cpp \
+    src/MqttListener.cpp \
+    src/DialogZigbee2mqtt.cpp \
+    src/WidgetEsphomeDiscovery.cpp \
+    src/DialogHomeAssistantMqtt.cpp \
+    src/HomeAssistantDiscovery.cpp \
     src/DialogEditDevice.cpp \
     src/DeviceEdit.cpp \
     src/detectip.cpp \
@@ -155,6 +151,13 @@ HEADERS += src/mainwindow.h \
     src/DialogNewDevice.h \
     src/EsphomeDiscovery.h \
     src/MqttBroker.h \
+    src/MqttPacket.h \
+    src/MqttClient.h \
+    src/MqttListener.h \
+    src/DialogZigbee2mqtt.h \
+    src/WidgetEsphomeDiscovery.h \
+    src/DialogHomeAssistantMqtt.h \
+    src/HomeAssistantDiscovery.h \
     src/DialogEditDevice.h \
     src/DeviceEdit.h \
     src/WheelGuard.h \

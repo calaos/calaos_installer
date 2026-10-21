@@ -37,7 +37,7 @@ public:
     //Sets the editors of the current template, as if the user did.
     void setValues(const QVariantMap &values);
 
-    //Shown for the templates EsphomeDiscovery fills; nullptr without Qt MQTT.
+    //Shown for the templates EsphomeDiscovery fills.
     WidgetEsphomeDiscovery *discovery() const { return m_discovery; }
 
     //Set once Create succeeded.

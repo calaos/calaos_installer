@@ -9,7 +9,7 @@
 
 class QTcpSocket;
 
-// The broker side of MQTT 3.1.1, written apart from MqttListener so that a mistake
+// The broker side of MQTT 3.1.1, written apart from MqttClient so that a mistake
 // in one is not repeated in the other. Serves retained messages on SUBSCRIBE.
 class FakeMqttBroker: public QTcpServer
 {
@@ -26,8 +26,14 @@ public:
     int connackCode = 0;
     bool answerConnect = true;
     bool closeAfterConnect = false;
+    bool closeAfterConnack = false;
     bool refuseSubscriptions = false;
+    QStringList refusedFilters;
     bool deliverAtQos1 = false;
+    bool deliverAtQos2 = false;
+    //QoS 2: each PUBLISH sent twice, the second with DUP, before PUBREL.
+    bool duplicateQos2 = false;
+    bool answerPings = true;
     bool byteByByte = false;
 
     //What the client did.
@@ -38,9 +44,12 @@ public:
     int keepAlive = -1;
     QStringList filters;
     int pubacks = 0;
+    int pubrecs = 0;
+    int pubcomps = 0;
+    int pings = 0;
     int disconnects = 0;
 
-    void publish(const QString &topic, const QByteArray &payload);
+    void publish(const QString &topic, const QByteArray &payload, bool retain = false);
     //Sends raw bytes to the connected client.
     void sendRaw(const QByteArray &bytes);
 

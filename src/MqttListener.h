@@ -3,16 +3,14 @@
 
 #include <QByteArray>
 #include <QObject>
-#include <QPointer>
 #include <QString>
 #include <QStringList>
 #include <QTimer>
 
-class QMqttClient;
+class MqttClient;
 
-// Listens to an MQTT broker for a few seconds: connect, subscribe, collect what
-// is published (retained messages first), disconnect. QMqttClient reports every
-// network failure as TransportInvalid; the socket underneath says which one.
+// Listens to an MQTT broker for a few seconds or until stopped: connect, subscribe, collect what
+// is published (retained messages first), disconnect. Says in words why it failed.
 class MqttListener: public QObject
 {
     Q_OBJECT
@@ -28,6 +26,7 @@ public:
 
     explicit MqttListener(QObject *parent = nullptr);
 
+    //listenMs <= 0 listens until stop().
     void start(const Settings &settings, const QStringList &filters, int listenMs = 3000,
                int answerTimeoutMs = 5000);
     //Ends the listening now, without finished().
@@ -44,19 +43,18 @@ signals:
 private:
     enum State { IDLE, CONNECTING, SUBSCRIBING, LISTENING };
 
-    QPointer<QMqttClient> m_client;
+    MqttClient *m_client;
     QTimer m_timer;
     State m_state = IDLE;
     Settings m_settings;
     QStringList m_filters;
     int m_listenMs = 0;
     int m_answerTimeoutMs = 0;
-    int m_pending = 0;
-    int m_granted = 0;
+    quint16 m_subscription = 0;
 
     void connected();
-    void subscriptionSettled(bool granted);
-    void clientError(int error);
+    void subscribed(quint16 id, const QList<bool> &granted);
+    void clientError();
     void finish(const QString &error);
     QString where() const;
 };

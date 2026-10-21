@@ -2,9 +2,7 @@
 #include "DeviceTemplates.h"
 #include "EsphomeDiscovery.h"
 #include "MqttBroker.h"
-#ifdef QT_MQTT_AVAILABLE
 #include "WidgetEsphomeDiscovery.h"
-#endif
 #include "WheelGuard.h"
 
 #include <ListeRoom.h>
@@ -69,7 +67,6 @@ DialogNewDevice::DialogNewDevice(const QJsonArray &templates, Room *room, QWidge
     m_description->setWordWrap(true);
     layout->addWidget(m_description);
 
-#ifdef QT_MQTT_AVAILABLE
     m_discovery = new WidgetEsphomeDiscovery([this](const QString &host)
     {
         const QVariantMap v = values();
@@ -93,7 +90,6 @@ DialogNewDevice::DialogNewDevice(const QJsonArray &templates, Room *room, QWidge
         m_discovery->showApplied(c, summary);
     });
     layout->addWidget(m_discovery);
-#endif
 
     m_scroll = new QScrollArea(this);
     m_scroll->setWidgetResizable(true);
@@ -234,19 +230,15 @@ void DialogNewDevice::buildForm()
     m_scroll->setWidget(form);
     delete old;
 
-#ifdef QT_MQTT_AVAILABLE
     m_discovery->setVisible(discoverable);
     if (discoverable)
         updateDiscoveryHosts();
-#endif
 }
 
-#ifdef QT_MQTT_AVAILABLE
 void DialogNewDevice::updateDiscoveryHosts()
 {
     m_discovery->setHosts(values().value("mqtt_host").toString(), MqttBroker::reachedHost(), MqttBroker::calaosHost());
 }
-#endif
 
 void DialogNewDevice::setValues(const QVariantMap &v)
 {
@@ -381,10 +373,8 @@ void DialogNewDevice::remember(const QString &name)
     for (const FieldEditor &f: m_fields)
         if (f.def["name"].toString() == name)
             m_changed[name] = valueOf(f);
-#ifdef QT_MQTT_AVAILABLE
     if (name == "mqtt_host" && m_discovery->isVisibleTo(this))
         updateDiscoveryHosts();
-#endif
 }
 
 QVariant DialogNewDevice::valueOf(const FieldEditor &f) const

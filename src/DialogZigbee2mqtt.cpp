@@ -16,20 +16,14 @@ DialogZigbee2mqtt::DialogZigbee2mqtt(QWidget *parent)
     ui->spinBoxPort->setMinimum(1);
     ui->spinBoxPort->setMaximum(65535);
 
-    mqttClient = new QMqttClient(this);
-    mqttClient->setPort(static_cast<quint16>(ui->spinBoxPort->value()));
-
-    connect(ui->lineEditHost, &QLineEdit::textChanged, mqttClient, &QMqttClient::setHostname);
-    connect(ui->spinBoxPort, QOverload<int>::of(&QSpinBox::valueChanged), this,
-            [this](int p)
-            {
-                mqttClient->setPort(static_cast<quint16>(p));
-            }
-    );
-    connect(ui->lineEditUsername, &QLineEdit::textChanged, mqttClient, &QMqttClient::setUsername);
-    connect(ui->lineEditPassword, &QLineEdit::textChanged, mqttClient, &QMqttClient::setPassword);
-    connect(mqttClient, &QMqttClient::disconnected, this, &DialogZigbee2mqtt::brokerDisconnected);
-    connect(mqttClient, &QMqttClient::stateChanged, this, &DialogZigbee2mqtt::stateChanged);
+    listener = new MqttListener(this);
+    connect(listener, &MqttListener::listening, this, &DialogZigbee2mqtt::listening);
+    connect(listener, &MqttListener::finished, this, &DialogZigbee2mqtt::listenerFinished);
+    connect(listener, &MqttListener::message, this, [this](const QString &topic, const QByteArray &payload)
+    {
+        if (topic == QLatin1String(kDevicesTopic))
+            messageReceived(payload);
+    });
 
     ui->spinBoxPort->setValue(ConfigOptions::Instance().getMqttBrokerPort());
     ui->lineEditHost->setText(ConfigOptions::Instance().getMqttBrokerHost());
@@ -56,7 +50,7 @@ Params DialogZigbee2mqtt::getIOParam()
 
 void DialogZigbee2mqtt::on_pushButtonConnect_clicked()
 {
-    if (mqttClient->state() == QMqttClient::Disconnected)
+    if (!listener->isRunning())
     {
         ui->lineEditHost->setEnabled(false);
         ui->spinBoxPort->setEnabled(false);
@@ -69,11 +63,18 @@ void DialogZigbee2mqtt::on_pushButtonConnect_clicked()
 
         ui->pushButtonConnect->setEnabled(false);
 
-        mqttClient->connectToHost();
+        MqttListener::Settings s;
+        s.host = ui->lineEditHost->text();
+        s.port = static_cast<quint16>(ui->spinBoxPort->value());
+        s.user = ui->lineEditUsername->text();
+        s.password = ui->lineEditPassword->text();
+        //The bridge republishes its devices on changes: listen until disconnected.
+        listener->start(s, { QLatin1String(kDevicesTopic) }, 0, 10000);
     }
     else
     {
-        mqttClient->disconnectFromHost();
+        listener->stop();
+        showDisconnected();
     }
 }
 
@@ -242,64 +243,43 @@ void DialogZigbee2mqtt::on_buttonBox_accepted()
     accept();
 }
 
-void DialogZigbee2mqtt::brokerDisconnected()
+void DialogZigbee2mqtt::listening()
+{
+    ui->pushButtonConnect->setText(tr("Disconnect"));
+    ui->pushButtonConnect->setEnabled(true);
+
+    if (spinner)
+    {
+        spinner->stop();
+        delete spinner;
+    }
+
+    ConfigOptions::Instance().setMqttBrokerHost(ui->lineEditHost->text());
+    ConfigOptions::Instance().setMqttBrokerPort(ui->spinBoxPort->value());
+    ConfigOptions::Instance().setMqttBrokerUser(ui->lineEditUsername->text());
+    ConfigOptions::Instance().setMqttBrokerPass(ui->lineEditPassword->text());
+}
+
+void DialogZigbee2mqtt::listenerFinished(const QString &error)
+{
+    showDisconnected();
+    if (!error.isEmpty())
+        QMessageBox::critical(this, tr("Error"), error);
+}
+
+void DialogZigbee2mqtt::showDisconnected()
 {
     ui->lineEditHost->setEnabled(true);
     ui->spinBoxPort->setEnabled(true);
     ui->lineEditUsername->setEnabled(true);
     ui->lineEditPassword->setEnabled(true);
-    ui->pushButtonConnect->show();
-}
+    ui->pushButtonConnect->setText(tr("Connect"));
+    ui->pushButtonConnect->setEnabled(true);
 
-void DialogZigbee2mqtt::stateChanged(QMqttClient::ClientState state)
-{
-    qDebug() << "stateChanged: " << state;
-
-    if (state == QMqttClient::Connected)
+    if (spinner)
     {
-        ui->pushButtonConnect->setText(tr("Disconnect"));
-        ui->pushButtonConnect->setEnabled(true);
-
-        if (spinner)
-        {
-            spinner->stop();
-            delete spinner;
-        }
-
-        ConfigOptions::Instance().setMqttBrokerHost(ui->lineEditHost->text());
-        ConfigOptions::Instance().setMqttBrokerPort(ui->spinBoxPort->value());
-        ConfigOptions::Instance().setMqttBrokerUser(ui->lineEditUsername->text());
-        ConfigOptions::Instance().setMqttBrokerPass(ui->lineEditPassword->text());
-
-        //Register to the topic
-        auto subscription = mqttClient->subscribe({kDevicesTopic});
-        if (!subscription)
-        {
-            QMessageBox::critical(this, tr("Error"), tr("Could not subscribe. Is there a valid connection?"));
-            return;
-        }
-
-        connect(subscription, &QMqttSubscription::messageReceived, this, [this](QMqttMessage msg)
-        {
-            messageReceived(msg.payload());
-        });
-    }
-    else if (state == QMqttClient::Disconnected)
-    {
-        ui->lineEditHost->setEnabled(true);
-        ui->spinBoxPort->setEnabled(true);
-        ui->lineEditUsername->setEnabled(true);
-        ui->lineEditPassword->setEnabled(true);
-        ui->pushButtonConnect->setText(tr("Connect"));
-        ui->pushButtonConnect->setEnabled(true);
-
-        ui->pushButtonConnect->setEnabled(true);
-
-        if (spinner)
-        {
-            spinner->stop();
-            delete spinner;
-        }
+        spinner->stop();
+        delete spinner;
     }
 }
 

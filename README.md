@@ -76,8 +76,6 @@ To build it yourself, read on.
 - **Qt 6** (recommended) or Qt 5 — modules: `core gui network widgets xml printsupport
   quick qml quickwidgets quickcontrols2 serialport`, plus `core5compat` on Qt 6
 - **KArchive** (KF6)
-- **Qt MQTT** *(optional)* — enables Zigbee2MQTT support when present, detected
-  automatically by qmake
 - Linux: `libdl`; Calaos Machine Creator additionally needs `libudev` and Qt DBus
 
 Lua 5.1.4, the FTP client and a few other third-party pieces are vendored in-tree; nothing

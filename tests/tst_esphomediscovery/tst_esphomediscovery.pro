@@ -14,16 +14,17 @@ RESOURCES += ../tst_dialognewdevice/dialognewdevice.qrc
 SOURCES += \
     $$PWD/../../src/EsphomeDiscovery.cpp \
     $$PWD/../../src/MqttBroker.cpp \
+    $$PWD/../../src/MqttPacket.cpp \
+    $$PWD/../../src/MqttClient.cpp \
+    $$PWD/../../src/MqttListener.cpp \
+    FakeMqttBroker.cpp \
     tst_esphomediscovery.cpp
 
 HEADERS += \
     $$PWD/../tst_devicetemplates/fixture.h \
     $$PWD/../../src/MqttBroker.h \
+    $$PWD/../../src/MqttPacket.h \
+    $$PWD/../../src/MqttClient.h \
+    $$PWD/../../src/MqttListener.h \
+    FakeMqttBroker.h \
     $$PWD/../../src/EsphomeDiscovery.h
-
-qtHaveModule(mqtt) {
-    QT += mqtt
-    DEFINES += QT_MQTT_AVAILABLE
-    SOURCES += $$PWD/../../src/MqttListener.cpp FakeMqttBroker.cpp
-    HEADERS += $$PWD/../../src/MqttListener.h FakeMqttBroker.h
-}

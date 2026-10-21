@@ -15,20 +15,20 @@ SOURCES += \
     $$PWD/../../src/HomeAssistantDiscovery.cpp \
     $$PWD/../../src/EsphomeDiscovery.cpp \
     $$PWD/../../src/MqttBroker.cpp \
+    $$PWD/../../src/MqttPacket.cpp \
+    $$PWD/../../src/MqttClient.cpp \
+    $$PWD/../../src/MqttListener.cpp \
+    $$PWD/../../src/DialogHomeAssistantMqtt.cpp \
+    $$PWD/../tst_esphomediscovery/FakeMqttBroker.cpp \
     tst_hadiscovery.cpp
 
 HEADERS += \
     $$PWD/../tst_devicetemplates/fixture.h \
     $$PWD/../../src/HomeAssistantDiscovery.h \
     $$PWD/../../src/MqttBroker.h \
+    $$PWD/../../src/MqttPacket.h \
+    $$PWD/../../src/MqttClient.h \
+    $$PWD/../../src/MqttListener.h \
+    $$PWD/../../src/DialogHomeAssistantMqtt.h \
+    $$PWD/../tst_esphomediscovery/FakeMqttBroker.h \
     $$PWD/../../src/EsphomeDiscovery.h
-
-# The dialog needs Qt MQTT, as in the application.
-qtHaveModule(mqtt) {
-    QT += mqtt
-    DEFINES += QT_MQTT_AVAILABLE
-    SOURCES += $$PWD/../../src/MqttListener.cpp $$PWD/../../src/DialogHomeAssistantMqtt.cpp \
-        $$PWD/../tst_esphomediscovery/FakeMqttBroker.cpp
-    HEADERS += $$PWD/../../src/MqttListener.h $$PWD/../../src/DialogHomeAssistantMqtt.h \
-        $$PWD/../tst_esphomediscovery/FakeMqttBroker.h
-}
