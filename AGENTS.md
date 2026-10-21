@@ -42,7 +42,6 @@ cd build && make clean
 
 - Qt 5 or Qt 6 (with core5compat for Qt 6)
 - Qt modules: core gui network widgets xml printsupport quick qml quickwidgets quickcontrols2
-- Optional: Qt MQTT module (enables Zigbee2MQTT support, defines `QT_MQTT_AVAILABLE`)
 - Linux: libdl
 - Machine Creator additionally requires: KArchive (KF5/KF6), libudev (Linux)
 
@@ -95,19 +94,21 @@ QT_QPA_PLATFORM=offscreen ./tst_projectmanager/tst_projectmanager -v2 ioRoundTri
   from IODoc, changed and saved, rules and owned IOs untouched, refusals (decision 17, legacy
   types, IO kind), required roles; `CALAOS_SHOTS_DIR` writes its screenshots and
   `CALAOS_DEVICE_XML_DIR` the edited io.xml for `tests/server_load/run.sh`.
-- `tests/tst_esphomediscovery/` covers `MqttListener` (`src/MqttListener.*`, QMqttClient listening to a
-  broker for a few seconds) against `FakeMqttBroker`, an in-process broker independent of QMqttClient, and
+- `tests/tst_mqttclient/` covers the MQTT 3.1.1 client (`src/MqttPacket.*` packets and stream reader,
+  `src/MqttClient.*` on `QTcpSocket`) against `FakeMqttBroker` and scripted byte streams, and against a real
+  `eclipse-mosquitto:2.0.22` container that the test starts itself (skipped when `docker` is missing or does not
+  answer). `tests/tst_zigbee2mqtt/` drives the Zigbee2MQTT dialog against the fake broker.
+- `tests/tst_esphomediscovery/` covers `MqttListener` (`src/MqttListener.*`, `MqttClient` listening to a
+  broker for a few seconds) against `FakeMqttBroker`, an in-process broker independent of `MqttClient`, and
   `EsphomeDiscovery` (`src/EsphomeDiscovery.*`): ESPHome climates read from their state topics, their Home
   Assistant discovery config, `esphome/discover` and `<prefix>/status`, and the template values they imply.
   `tst_dialognewdevice` drives the "Find it on the MQTT broker" panel (`src/WidgetEsphomeDiscovery.*`)
-  against the same fake broker. Both are built with Qt MQTT only (`qtHaveModule(mqtt)`, as the
-  application): without it those cases skip, and the PR CI, which installs `qt6-mqtt`, sets
-  `CALAOS_REQUIRE_MQTT` to make them fail instead.
+  against the same fake broker.
 - `tests/tst_hadiscovery/` covers `HomeAssistantDiscovery` (`src/HomeAssistantDiscovery.*`), Home Assistant
   MQTT discovery read from `<prefix>/#` (abbreviations, `~`, availability, device discovery) and imported: an MQTT
   IO per sensor, switch, light, cover or number, with the params IODoc documents; a climate device of the ESPHome
   climate templates (filled by `EsphomeDiscovery::prefill`, then given the entity's own topics) for a climate.
-  The dialog (`src/DialogHomeAssistantMqtt.*`, Qt MQTT only) is driven against `FakeMqttBroker`;
+  The dialog (`src/DialogHomeAssistantMqtt.*`) is driven against `FakeMqttBroker`;
   `CALAOS_DEVICE_XML_DIR` writes the io.xml it imports (`ha_*.xml`) for `tests/server_load/run.sh`.
 - `tests/tst_replacedroles/` covers IODoc's `replaces` (a thermostat's zone valve `output` for
   `output_heat`/`output_cool`) in the editor, its dialog and the command form, against its own
@@ -292,4 +293,4 @@ Cross-repo notes (IODoc chain, merge order, rules, ESPHome): [calaos_base/docs/1
 - **Per-Qt build dirs.** Objects go to `build-qt<Qt version>/` (`.qmake.conf:8`), because qmake does not track Qt headers and a Qt update otherwise links stale objects with fresh ones (reason in `.qmake.conf:3-7`). Do not reuse an object dir across Qt versions.
 - **Forced light theme.** `AppTheme::forceLight` (`src/AppTheme.cpp:43-51`) sets `ColorScheme::Light` from Qt 6.8 and pins a light palette before that. Hardcoded dark-theme assumptions in QML/widgets will break in the system dark mode.
 - **`data/doc` is generated** by `generate_iodoc.sh` from the calaos_base CI artifact; never edit it by hand, and merge calaos_base first (see the linked notes).
-- **QtMqtt is optional.** `calaos_installer.pro:3-7` defines `QT_MQTT_AVAILABLE` only when the module exists; the Zigbee2mqtt menu (`src/formrules.cpp:446`) and the ESPHome discovery (`src/DialogNewDevice.cpp`) sit behind it. Reuse `MqttListener` for any MQTT feature, never hand-roll a client. PR CI installs `qt6-mqtt` (`.github/workflows/pr_ci.yml:45`) and sets `CALAOS_REQUIRE_MQTT=1` (`:89`) so the MQTT tests fail instead of skipping.
+- **MQTT is in-house.** `src/MqttClient.*` speaks MQTT 3.1.1 over `QTcpSocket` (no TLS, no MQTT 5): QtMqtt uses Qt private APIs, and a KDE runtime update made the Flatpak crash at startup until it was rebuilt. Reuse `MqttListener` (or `MqttClient`) for any MQTT feature, never add another client. Its slots may run modal dialogs: closed sockets are deleted only once the socket callback returns (`SocketCallback` in `MqttClient.cpp`).

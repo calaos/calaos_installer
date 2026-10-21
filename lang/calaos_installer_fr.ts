@@ -802,157 +802,162 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>DialogHomeAssistantMqtt</name>
     <message>
-        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="33"/>
+        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="34"/>
         <source>Home Assistant MQTT discovery</source>
         <translation>Découverte MQTT Home Assistant</translation>
     </message>
     <message>
-        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="37"/>
+        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="38"/>
         <source>Lists the entities that Home Assistant MQTT discovery announces on the broker (ESPHome, Zigbee2MQTT, Tasmota...). The checked ones are added to the project: an MQTT IO each, a climate device for a climate.</source>
         <translation>Liste les entités que la découverte MQTT Home Assistant annonce sur le broker (ESPHome, Zigbee2MQTT, Tasmota...). Celles cochées sont ajoutées au projet : une IO MQTT chacune, un appareil climat pour un climat.</translation>
     </message>
     <message>
-        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="44"/>
+        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="45"/>
         <source>Broker used by the Calaos server</source>
         <translation>Broker utilisé par le serveur Calaos</translation>
     </message>
     <message>
-        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="49"/>
+        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="50"/>
         <source>Written in the imported IOs. 127.0.0.1 is the Calaos box itself.</source>
         <translation>Écrit dans les IO importées. 127.0.0.1 est la box Calaos elle-même.</translation>
     </message>
     <message>
-        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="59"/>
+        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="60"/>
         <source>Address:</source>
         <translation>Adresse :</translation>
     </message>
     <message>
-        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="60"/>
+        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="61"/>
         <source>Port:</source>
         <translation>Port :</translation>
     </message>
     <message>
-        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="61"/>
+        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="62"/>
         <source>User:</source>
         <translation>Utilisateur :</translation>
     </message>
     <message>
-        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="62"/>
+        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="63"/>
         <source>Password:</source>
         <translation>Mot de passe :</translation>
     </message>
     <message>
-        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="66"/>
+        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="67"/>
         <source>Broker address from this computer:</source>
         <translation>Adresse du broker depuis cet ordinateur :</translation>
     </message>
     <message>
-        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="69"/>
+        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="70"/>
         <source>Address of the Calaos box</source>
         <translation>Adresse de la box Calaos</translation>
     </message>
     <message>
-        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="70"/>
+        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="71"/>
         <source>Port, user and password are the ones above; the user and the password of the project&apos;s broker are only sent to that broker.</source>
         <translation>Port, utilisateur et mot de passe sont ceux ci-dessus ; l&apos;utilisateur et le mot de passe du broker du projet ne sont envoyés qu&apos;à ce broker.</translation>
     </message>
     <message>
-        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="73"/>
+        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="74"/>
         <source>Discovery prefix:</source>
         <translation>Préfixe de découverte :</translation>
     </message>
     <message>
-        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="78"/>
+        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="79"/>
         <source>Search</source>
         <translation>Rechercher</translation>
     </message>
     <message>
-        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="95"/>
+        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="96"/>
         <source>Search the broker to list its entities.</source>
         <translation>Interrogez le broker pour lister ses entités.</translation>
     </message>
     <message>
-        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="99"/>
+        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="100"/>
         <source>Name</source>
         <translation>Nom</translation>
     </message>
     <message>
-        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="99"/>
+        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="100"/>
         <source>Home Assistant</source>
         <translation>Home Assistant</translation>
     </message>
     <message>
-        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="99"/>
+        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="100"/>
         <source>Calaos</source>
         <translation>Calaos</translation>
     </message>
     <message>
-        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="99"/>
+        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="100"/>
         <source>Status</source>
         <translation>État</translation>
     </message>
     <message>
-        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="116"/>
+        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="117"/>
         <source>Import into the room:</source>
         <translation>Importer dans la pièce :</translation>
     </message>
     <message>
-        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="128"/>
+        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="129"/>
         <source>Import</source>
         <translation>Importer</translation>
     </message>
     <message>
-        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="146"/>
+        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="147"/>
         <source>Listening to the broker...</source>
         <translation>Écoute du broker...</translation>
     </message>
     <message>
-        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="203"/>
+        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="204"/>
         <source>Type the address of the broker as this computer reaches it.</source>
         <translation>Saisissez l&apos;adresse du broker telle que cet ordinateur le joint.</translation>
     </message>
     <message>
-        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="221"/>
+        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="212"/>
+        <source>The discovery prefix %1 cannot contain + or #: it is the start of the topics, homeassistant by default.</source>
+        <translation>Le préfixe de découverte %1 ne peut pas contenir + ni # : c&apos;est le début des topics, homeassistant par défaut.</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="231"/>
         <source>Connecting to %1:%2...</source>
         <translation>Connexion à %1:%2...</translation>
     </message>
     <message>
-        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="233"/>
+        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="243"/>
         <source>%1 What was read before is listed.</source>
         <translation>%1 Ce qui a été lu avant est listé.</translation>
     </message>
     <message>
-        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="235"/>
+        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="245"/>
         <source>No Home Assistant discovery config under %1/ on this broker. Check the discovery prefix, and that the devices have discovery on.</source>
         <translation>Aucune config de découverte Home Assistant sous %1/ sur ce broker. Vérifiez le préfixe de découverte, et que la découverte est activée sur les appareils.</translation>
     </message>
     <message>
-        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="238"/>
+        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="248"/>
         <source>Entities found: %1. Check the ones to import.</source>
         <translation>Entités trouvées : %1. Cochez celles à importer.</translation>
     </message>
     <message>
-        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="241"/>
+        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="251"/>
         <source>Discovery configs that could not be read: %1.</source>
         <translation>Configs de découverte illisibles : %1.</translation>
     </message>
     <message>
-        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="284"/>
+        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="294"/>
         <source>not imported: %1</source>
         <translation>non importé : %1</translation>
     </message>
     <message>
-        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="286"/>
+        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="296"/>
         <source>already in the project</source>
         <translation>déjà dans le projet</translation>
     </message>
     <message>
-        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="288"/>
+        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="298"/>
         <source>offline</source>
         <translation>hors ligne</translation>
     </message>
     <message>
-        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="290"/>
+        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="300"/>
         <source>online</source>
         <translation>en ligne</translation>
     </message>
@@ -4818,7 +4823,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../src/DialogZigbee2mqtt.ui" line="72"/>
-        <location filename="../src/DialogZigbee2mqtt.cpp" line="293"/>
+        <location filename="../src/DialogZigbee2mqtt.cpp" line="280"/>
         <source>Connect</source>
         <translation type="unfinished">Connecter</translation>
     </message>
@@ -4828,55 +4833,50 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/DialogZigbee2mqtt.cpp" line="86"/>
-        <location filename="../src/DialogZigbee2mqtt.cpp" line="94"/>
-        <location filename="../src/DialogZigbee2mqtt.cpp" line="278"/>
-        <location filename="../src/DialogZigbee2mqtt.cpp" line="449"/>
+        <location filename="../src/DialogZigbee2mqtt.cpp" line="88"/>
+        <location filename="../src/DialogZigbee2mqtt.cpp" line="96"/>
+        <location filename="../src/DialogZigbee2mqtt.cpp" line="271"/>
+        <location filename="../src/DialogZigbee2mqtt.cpp" line="433"/>
         <source>Error</source>
         <translation type="unfinished">Erreur</translation>
     </message>
     <message>
-        <location filename="../src/DialogZigbee2mqtt.cpp" line="86"/>
+        <location filename="../src/DialogZigbee2mqtt.cpp" line="88"/>
         <source>Please select a device</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/DialogZigbee2mqtt.cpp" line="94"/>
+        <location filename="../src/DialogZigbee2mqtt.cpp" line="96"/>
         <source>Please select a parameter from a device, not the full device item</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/DialogZigbee2mqtt.cpp" line="140"/>
+        <location filename="../src/DialogZigbee2mqtt.cpp" line="142"/>
         <source>Choose</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/DialogZigbee2mqtt.cpp" line="140"/>
+        <location filename="../src/DialogZigbee2mqtt.cpp" line="142"/>
         <source>Select action from device:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/DialogZigbee2mqtt.cpp" line="260"/>
+        <location filename="../src/DialogZigbee2mqtt.cpp" line="249"/>
         <source>Disconnect</source>
         <translation type="unfinished">Déconnecter</translation>
     </message>
     <message>
-        <location filename="../src/DialogZigbee2mqtt.cpp" line="278"/>
-        <source>Could not subscribe. Is there a valid connection?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/DialogZigbee2mqtt.cpp" line="446"/>
+        <location filename="../src/DialogZigbee2mqtt.cpp" line="430"/>
         <source>Open zigbee2mqtt json file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/DialogZigbee2mqtt.cpp" line="446"/>
+        <location filename="../src/DialogZigbee2mqtt.cpp" line="430"/>
         <source>JSON files (*.*)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/DialogZigbee2mqtt.cpp" line="449"/>
+        <location filename="../src/DialogZigbee2mqtt.cpp" line="433"/>
         <source>Could not open json file</source>
         <translation type="unfinished"></translation>
     </message>
@@ -8220,68 +8220,78 @@ Did you really press the link button on the bridge ?</source>
 <context>
     <name>MqttListener</name>
     <message>
-        <location filename="../src/MqttListener.cpp" line="18"/>
+        <location filename="../src/MqttListener.cpp" line="15"/>
         <source>No answer from the broker at %1 within %2 s.</source>
         <translation>Pas de réponse du broker %1 en %2 s.</translation>
     </message>
     <message>
-        <location filename="../src/MqttListener.cpp" line="119"/>
+        <location filename="../src/MqttListener.cpp" line="84"/>
+        <location filename="../src/MqttListener.cpp" line="93"/>
         <source>The broker at %1 does not let this user read those topics.</source>
         <translation>Le broker %1 ne laisse pas cet utilisateur lire ces topics.</translation>
     </message>
     <message>
-        <location filename="../src/MqttListener.cpp" line="135"/>
-        <location filename="../src/MqttListener.cpp" line="174"/>
+        <location filename="../src/MqttListener.cpp" line="154"/>
         <source>The broker at %1 closed the connection.</source>
         <translation>Le broker %1 a fermé la connexion.</translation>
     </message>
     <message>
-        <location filename="../src/MqttListener.cpp" line="138"/>
+        <location filename="../src/MqttListener.cpp" line="115"/>
         <source>The broker at %1 does not speak MQTT 3.1.1.</source>
         <translation>Le broker %1 ne parle pas MQTT 3.1.1.</translation>
     </message>
     <message>
-        <location filename="../src/MqttListener.cpp" line="141"/>
+        <location filename="../src/MqttListener.cpp" line="79"/>
+        <source>%1 is not a valid MQTT topic filter.</source>
+        <translation>%1 n&apos;est pas un filtre de topic MQTT valide.</translation>
+    </message>
+    <message>
+        <location filename="../src/MqttListener.cpp" line="118"/>
         <source>The broker at %1 refused the user name or the password.</source>
         <translation>Le broker %1 a refusé le nom d&apos;utilisateur ou le mot de passe.</translation>
     </message>
     <message>
-        <location filename="../src/MqttListener.cpp" line="144"/>
+        <location filename="../src/MqttListener.cpp" line="121"/>
         <source>The broker at %1 does not let this user in: check the user and the password.</source>
         <translation>Le broker %1 refuse cet utilisateur : vérifiez l&apos;utilisateur et le mot de passe.</translation>
     </message>
     <message>
-        <location filename="../src/MqttListener.cpp" line="148"/>
+        <location filename="../src/MqttListener.cpp" line="124"/>
         <source>The broker at %1 refused the connection (code %2).</source>
         <translation>Le broker %1 a refusé la connexion (code %2).</translation>
     </message>
     <message>
-        <location filename="../src/MqttListener.cpp" line="151"/>
+        <location filename="../src/MqttListener.cpp" line="128"/>
         <source>The broker at %1 sent data that is not MQTT.</source>
         <translation>Le broker %1 a envoyé des données qui ne sont pas du MQTT.</translation>
     </message>
     <message>
-        <location filename="../src/MqttListener.cpp" line="156"/>
-        <source>Could not reach the broker at %1 (error %2).</source>
-        <translation>Impossible de joindre le broker %1 (erreur %2).</translation>
+        <location filename="../src/MqttListener.cpp" line="131"/>
+        <source>The broker at %1 sent a message too large to be read.</source>
+        <translation>Le broker %1 a envoyé un message trop gros pour être lu.</translation>
     </message>
     <message>
-        <location filename="../src/MqttListener.cpp" line="165"/>
+        <location filename="../src/MqttListener.cpp" line="135"/>
+        <source>The broker at %1 stopped answering.</source>
+        <translation>Le broker %1 ne répond plus.</translation>
+    </message>
+    <message>
+        <location filename="../src/MqttListener.cpp" line="145"/>
         <source>The broker %1 was not found: check its address.</source>
         <translation>Le broker %1 est introuvable : vérifiez son adresse.</translation>
     </message>
     <message>
-        <location filename="../src/MqttListener.cpp" line="168"/>
+        <location filename="../src/MqttListener.cpp" line="148"/>
         <source>Nothing answers on %1: check that the broker runs and listens on this port.</source>
         <translation>Rien ne répond sur %1 : vérifiez que le broker tourne et écoute sur ce port.</translation>
     </message>
     <message>
-        <location filename="../src/MqttListener.cpp" line="172"/>
+        <location filename="../src/MqttListener.cpp" line="152"/>
         <source>The broker at %1 closed the connection: check the user and the password.</source>
         <translation>Le broker %1 a fermé la connexion : vérifiez l&apos;utilisateur et le mot de passe.</translation>
     </message>
     <message>
-        <location filename="../src/MqttListener.cpp" line="177"/>
+        <location filename="../src/MqttListener.cpp" line="157"/>
         <source>Could not reach the broker at %1.</source>
         <translation>Impossible de joindre le broker %1.</translation>
     </message>

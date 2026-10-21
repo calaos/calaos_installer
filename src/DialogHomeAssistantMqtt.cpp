@@ -1,5 +1,6 @@
 #include "DialogHomeAssistantMqtt.h"
 #include "ConfigOptions.h"
+#include "MqttPacket.h"
 
 #include <ListeRoom.h>
 #include <QComboBox>
@@ -202,6 +203,15 @@ void DialogHomeAssistantMqtt::search()
     {
         setStatus(tr("Type the address of the broker as this computer reaches it."), true);
         m_probeHost->setFocus();
+        return;
+    }
+    const QString prefix = HomeAssistantDiscovery::normalizedPrefix(m_prefix->text());
+    //The prefix starts topic names: a wildcard in it would also match other topics.
+    if (prefix.contains('+') || prefix.contains('#') || !MqttPacket::isValidFilter(prefix + "/#"))
+    {
+        setStatus(tr("The discovery prefix %1 cannot contain + or #: it is the start of the topics, "
+                     "homeassistant by default.").arg(prefix), true);
+        m_prefix->setFocus();
         return;
     }
     //The credentials of the project's broker go to that broker only, unless typed for this search.

@@ -108,25 +108,6 @@ foreach ($dll in $msys2Dlls) {
     }
 }
 
-# --- Copy QtMqtt DLL ---
-Write-Host "`n=== Copying QtMqtt DLL ===" -ForegroundColor Cyan
-$QTMQTT_PREFIX = "C:/qtmqtt"
-$qtmqttDll = $null
-foreach ($name in @("Qt6Mqtt.dll", "libQt6Mqtt.dll")) {
-    $candidate = Join-Path $QTMQTT_PREFIX "bin/$name"
-    if (Test-Path $candidate) { $qtmqttDll = $candidate; break }
-}
-if (-not $qtmqttDll) {
-    $qtmqttDll = Get-ChildItem -Recurse $QTMQTT_PREFIX -Filter "*Mqtt*.dll" | Select-Object -First 1
-    if ($qtmqttDll) { $qtmqttDll = $qtmqttDll.FullName }
-}
-if ($qtmqttDll) {
-    Write-Host "QtMqtt DLL: $qtmqttDll"
-    Copy-Item $qtmqttDll -Destination $STAGING_DIR
-} else {
-    Write-Warning "QtMqtt DLL not found in $QTMQTT_PREFIX - Zigbee2MQTT support may be missing"
-}
-
 # --- Build Inno Setup installer ---
 Write-Host "`n=== Building Inno Setup installer ===" -ForegroundColor Cyan
 $ISS_DIR = Join-Path $ROOT_DIR "win32"

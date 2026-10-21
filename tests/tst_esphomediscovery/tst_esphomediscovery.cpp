@@ -6,10 +6,8 @@
 #include "../tst_devicetemplates/fixture.h"
 #include "EsphomeDiscovery.h"
 #include "MqttBroker.h"
-#ifdef QT_MQTT_AVAILABLE
 #include "FakeMqttBroker.h"
 #include "MqttListener.h"
-#endif
 
 using namespace Fixture;
 
@@ -102,7 +100,6 @@ private slots:
     void theBrokerOfTheProjectIsTheMostUsedOne();
     void aLoopbackBrokerIsReachedThroughTheBox();
 
-#ifdef QT_MQTT_AVAILABLE
     void theListenerReadsRetainedMessages();
     void packetsSplitAnywhereAreRead();
     void aQos1DeliveryIsAcknowledged();
@@ -111,11 +108,10 @@ private slots:
     void aBrokerThatIsNotThereIsSaid();
     void aSilentBrokerTimesOut();
     void aRefusedSubscriptionIsSaid();
+    void anInvalidFilterIsSaid();
+    void aDestroyedListenerSaysDisconnect();
     void aBrokerClosingTheConnectionIsSaid();
     void somethingElseThanMqttIsSaid();
-#else
-    void theListenerNeedsQtMqtt();
-#endif
 };
 
 void tst_EsphomeDiscovery::initTestCase()
@@ -489,7 +485,6 @@ void tst_EsphomeDiscovery::aLoopbackBrokerIsReachedThroughTheBox()
     QCOMPARE(MqttBroker::hostOf("fe80::1"), QString("fe80::1"));
 }
 
-#ifdef QT_MQTT_AVAILABLE
 
 namespace
 {
@@ -549,7 +544,7 @@ void tst_EsphomeDiscovery::theListenerReadsRetainedMessages()
     QCOMPARE(broker.user, QString("calaos"));
     QCOMPARE(broker.password, QString("s3cret"));
     QVERIFY(broker.cleanSession);
-    QVERIFY(broker.clientId.startsWith("calaos-installer-"));
+    QVERIFY(broker.clientId.startsWith("calaosinst"));
     QCOMPARE(broker.filters, EsphomeDiscovery::filters());
     QCOMPARE(broker.disconnects, 1);
     //zigbee2mqtt: not subscribed.
@@ -670,6 +665,33 @@ void tst_EsphomeDiscovery::aRefusedSubscriptionIsSaid()
     QVERIFY(!r.listened);
 }
 
+void tst_EsphomeDiscovery::anInvalidFilterIsSaid()
+{
+    FakeMqttBroker broker;
+    const quint16 port = broker.start();
+    MqttListener p;
+    QString error;
+    bool done = false;
+    connect(&p, &MqttListener::finished, this, [&](const QString &e) { error = e; done = true; });
+    p.start(local(port), { "ok/#", "home+assistant/#" }, 300, 2000);
+    QTRY_VERIFY(done);
+    QCOMPARE(error, QString("home+assistant/# is not a valid MQTT topic filter."));
+    QVERIFY(broker.filters.isEmpty());
+}
+
+void tst_EsphomeDiscovery::aDestroyedListenerSaysDisconnect()
+{
+    FakeMqttBroker broker;
+    const quint16 port = broker.start();
+    auto *p = new MqttListener;
+    bool listening = false;
+    connect(p, &MqttListener::listening, this, [&]() { listening = true; });
+    p->start(local(port), EsphomeDiscovery::filters(), 0, 2000);
+    QTRY_VERIFY(listening);
+    delete p;
+    QTRY_COMPARE(broker.disconnects, 1);
+}
+
 void tst_EsphomeDiscovery::aBrokerClosingTheConnectionIsSaid()
 {
     FakeMqttBroker broker;
@@ -694,17 +716,6 @@ void tst_EsphomeDiscovery::somethingElseThanMqttIsSaid()
     QCOMPARE(r.error, QString("The broker at 127.0.0.1:%1 sent data that is not MQTT.").arg(http.serverPort()));
 }
 
-#else
-
-void tst_EsphomeDiscovery::theListenerNeedsQtMqtt()
-{
-    //CI builds with Qt MQTT: there, a build without it is a broken setup, not a skip.
-    if (qEnvironmentVariableIsSet("CALAOS_REQUIRE_MQTT"))
-        QFAIL("Built without Qt MQTT while CALAOS_REQUIRE_MQTT is set");
-    QSKIP("Built without Qt MQTT: the broker discovery is not part of this build");
-}
-
-#endif
 
 QTEST_GUILESS_MAIN(tst_EsphomeDiscovery)
 

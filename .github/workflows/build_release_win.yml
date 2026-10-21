@@ -58,18 +58,6 @@ jobs:
             shell: pwsh
             run: ./win32/scripts/build_karchive.ps1
 
-          - name: Cache QtMqtt build
-            uses: actions/cache@v4
-            id: qtmqtt-cache
-            with:
-                path: C:/qtmqtt
-                key: qtmqtt-mingw64-${{ hashFiles('win32/scripts/build_qtmqtt.ps1') }}
-
-          - name: Build QtMqtt from source
-            if: steps.qtmqtt-cache.outputs.cache-hit != 'true'
-            shell: pwsh
-            run: ./win32/scripts/build_qtmqtt.ps1
-
           - name: Compile
             shell: pwsh
             run: ./win32/scripts/build_installer.ps1

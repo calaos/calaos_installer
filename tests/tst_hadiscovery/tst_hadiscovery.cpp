@@ -20,10 +20,8 @@
 #include "HomeAssistantDiscovery.h"
 #include "IODoc.h"
 #include <IOFactory.h>
-#ifdef QT_MQTT_AVAILABLE
 #include "DialogHomeAssistantMqtt.h"
 #include "../tst_esphomediscovery/FakeMqttBroker.h"
-#endif
 
 using namespace Calaos;
 using namespace Fixture;
@@ -260,15 +258,14 @@ private slots:
     void whatTheProjectHasIsSkipped();
     void importedIosAndDevicesSurviveASaveAndReload();
 
-    void theDialogNeedsQtMqtt();
-#ifdef QT_MQTT_AVAILABLE
+    void theDialogStartsOnTheChosenRoom();
     void searchingListsTheEntitiesByDevice();
     void theProjectCredentialsOnlyGoToItsBroker();
     void brokerErrorsAreShown();
     void anEmptyBrokerSaysSo();
+    void aPrefixWithAWildcardIsRefused();
     void importingCreatesTheCheckedEntities();
     void enterInTheAddressSearches();
-#endif
 };
 
 void tst_HaDiscovery::initTestCase()
@@ -917,22 +914,13 @@ void tst_HaDiscovery::importedIosAndDevicesSurviveASaveAndReload()
     QVERIFY(DeviceTemplates::ioById("prise"));
 }
 
-void tst_HaDiscovery::theDialogNeedsQtMqtt()
+void tst_HaDiscovery::theDialogStartsOnTheChosenRoom()
 {
-#ifdef QT_MQTT_AVAILABLE
     DialogHomeAssistantMqtt d(shippedTemplates(), roomNamed("Cave"));
     QCOMPARE(d.room(), roomNamed("Cave"));
     QCOMPARE(d.findChild<QComboBox *>("room")->count(), 2);
     QCOMPARE(d.findChild<QLineEdit *>("prefix")->text(), QString("homeassistant"));
-#else
-    //Built without Qt MQTT the menu entry is not there; CI builds with it.
-    if (qEnvironmentVariableIsSet("CALAOS_REQUIRE_MQTT"))
-        QFAIL("Built without Qt MQTT while CALAOS_REQUIRE_MQTT is set");
-    QSKIP("Built without Qt MQTT");
-#endif
 }
-
-#ifdef QT_MQTT_AVAILABLE
 
 namespace
 {
@@ -1127,6 +1115,26 @@ void tst_HaDiscovery::anEmptyBrokerSaysSo()
     QCOMPARE(broker.filters.first(), QString("ha/#"));
 }
 
+void tst_HaDiscovery::aPrefixWithAWildcardIsRefused()
+{
+    FakeMqttBroker broker;
+    const quint16 port = broker.start();
+    DialogHomeAssistantMqtt d(shippedTemplates(), roomNamed("Salon"));
+    d.show();
+    QVERIFY(QTest::qWaitForWindowExposed(&d));
+    d.findChild<QSpinBox *>("serverPort")->setValue(port);
+    d.findChild<QLineEdit *>("probeHost")->setText("127.0.0.1");
+    for (const QString &prefix: { QString("home+assistant"), QString("ha/#"), QString("+") })
+    {
+        d.findChild<QLineEdit *>("prefix")->setText(prefix);
+        QTest::mouseClick(d.findChild<QPushButton *>("searchButton"), Qt::LeftButton);
+        QVERIFY2(statusText(d).contains("cannot contain + or #"), qPrintable(statusText(d)));
+        QVERIFY(d.findChild<QPushButton *>("searchButton")->isEnabled());
+    }
+    QTest::qWait(100);
+    QCOMPARE(broker.connects, 0);
+}
+
 void tst_HaDiscovery::importingCreatesTheCheckedEntities()
 {
     FakeMqttBroker broker;
@@ -1176,7 +1184,6 @@ void tst_HaDiscovery::enterInTheAddressSearches()
     QCOMPARE(broker.connects, 1);
 }
 
-#endif
 
 QTEST_MAIN(tst_HaDiscovery)
 

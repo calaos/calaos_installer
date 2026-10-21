@@ -25,6 +25,8 @@ FakeMqttBroker::FakeMqttBroker(QObject *parent):
 {
     connect(this, &QTcpServer::newConnection, this, [this]()
     {
+        if (m_client)
+            m_client->disconnect(this);
         m_client = nextPendingConnection();
         m_in.clear();
         connect(m_client, &QTcpSocket::readyRead, this, &FakeMqttBroker::onData);
@@ -81,18 +83,25 @@ void FakeMqttBroker::send(quint8 header, const QByteArray &body)
     sendRaw(out + body);
 }
 
-void FakeMqttBroker::publish(const QString &topic, const QByteArray &payload)
+void FakeMqttBroker::publish(const QString &topic, const QByteArray &payload, bool retain)
 {
     static quint16 nextId = 1;
     QByteArray body = lengthPrefixed(topic.toUtf8());
     quint8 header = 0x30;
-    if (deliverAtQos1)
+    if (retain)
+        header |= 0x01;
+    if (deliverAtQos1 || deliverAtQos2)
     {
-        header |= 0x02;
-        body.append(char(0));
-        body.append(char(nextId++));
+        header |= deliverAtQos2 ? 0x04 : 0x02;
+        const quint16 id = nextId++;
+        if (!nextId)
+            nextId = 1;
+        body.append(char(id >> 8));
+        body.append(char(id & 0xFF));
     }
     send(header, body + payload);
+    if (deliverAtQos2 && duplicateQos2)
+        send(header | 0x08, body + payload);
 }
 
 void FakeMqttBroker::onData()
@@ -149,6 +158,7 @@ void FakeMqttBroker::handle(quint8 header, const QByteArray &body)
             return;
         if (closeAfterConnect)
         {
+            connect(m_client, &QTcpSocket::disconnected, m_client, &QObject::deleteLater);
             m_client->disconnectFromHost();
             m_client = nullptr;
             return;
@@ -157,6 +167,12 @@ void FakeMqttBroker::handle(quint8 header, const QByteArray &body)
         if (code == 0 && !requiredUser.isEmpty() && (user != requiredUser || password != requiredPassword))
             code = 4;
         send(0x20, QByteArray("\x00", 1) + char(code));
+        if (closeAfterConnack)
+        {
+            connect(m_client, &QTcpSocket::disconnected, m_client, &QObject::deleteLater);
+            m_client->disconnectFromHost();
+            m_client = nullptr;
+        }
         return;
     }
     case 8: //SUBSCRIBE
@@ -168,25 +184,40 @@ void FakeMqttBroker::handle(quint8 header, const QByteArray &body)
         QStringList added;
         while (pos < body.size())
         {
-            added << takeString(body, pos);
+            const QString f = takeString(body, pos);
             pos++; //requested QoS
-            codes.append(char(refuseSubscriptions ? 0x80 : 0x00));
+            const bool refused = refuseSubscriptions || refusedFilters.contains(f);
+            codes.append(char(refused ? 0x80 : 0x00));
+            if (!refused)
+                added << f;
+            filters << f;
         }
-        filters += added;
         send(0x90, body.left(2) + codes);
-        if (refuseSubscriptions)
-            return;
         for (const auto &m: std::as_const(retained))
-            for (const QString &f: added)
+            for (const QString &f: std::as_const(added))
                 if (matches(f, m.first))
                 {
-                    publish(m.first, m.second);
+                    publish(m.first, m.second, true);
                     break;
                 }
         return;
     }
     case 4: //PUBACK
         pubacks++;
+        return;
+    case 5: //PUBREC
+        pubrecs++;
+        //The duplicate's PUBREC comes second: one PUBREL for both.
+        if (!duplicateQos2 || pubrecs % 2 == 0)
+            send(0x62, body);
+        return;
+    case 7: //PUBCOMP
+        pubcomps++;
+        return;
+    case 12: //PINGREQ
+        pings++;
+        if (answerPings)
+            send(0xD0, QByteArray());
         return;
     case 14: //DISCONNECT
         disconnects++;

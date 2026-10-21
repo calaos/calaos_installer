@@ -21,10 +21,8 @@
 #include "DeviceTemplates.h"
 
 #include <QDebug>
-#ifdef QT_MQTT_AVAILABLE
 #include "DialogZigbee2mqtt.h"
 #include "DialogHomeAssistantMqtt.h"
-#endif
 
 FormRules::FormRules(QWidget *parent) :
     QWidget(parent),
@@ -444,7 +442,6 @@ FormRules::FormRules(QWidget *parent) :
                 addCalaosIO(p);
             });
 
-#ifdef QT_MQTT_AVAILABLE
     action = add_menu->addAction(tr("Zigbee2mqtt device"));
     action->setIcon(QIcon(":/img/zigbee2mqtt.png"));
     connect(action, &QAction::triggered, this, [=]()
@@ -469,7 +466,6 @@ FormRules::FormRules(QWidget *parent) :
     action = add_menu->addAction(tr("Home Assistant MQTT discovery..."));
     action->setIcon(QIcon(":/img/mqtt.png"));
     connect(action, &QAction::triggered, this, &FormRules::importHomeAssistant);
-#endif
 
     //Reolink Events from camera
     QMenu *reolink_menu = add_menu->addMenu(QIcon("://img/reolink.png"), "Reolink");
@@ -1085,7 +1081,6 @@ void FormRules::addDeviceFromTemplate()
     }
 }
 
-#ifdef QT_MQTT_AVAILABLE
 void FormRules::importHomeAssistant()
 {
     if (ListeRoom::Instance().size() <= 0)
@@ -1115,7 +1110,6 @@ void FormRules::importHomeAssistant()
     if (!imported.notes.isEmpty())
         QMessageBox::information(this, tr("Home Assistant MQTT discovery"), imported.notes.join('\n'));
 }
-#endif
 
 void FormRules::addCalaosIO(Params &params)
 {

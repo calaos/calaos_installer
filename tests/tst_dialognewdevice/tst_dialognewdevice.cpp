@@ -22,10 +22,8 @@
 #include "DialogDeviceInfo.h"
 #include "DialogNewRemoteUIRelay.h"
 #include "ConfigOptions.h"
-#ifdef QT_MQTT_AVAILABLE
 #include "WidgetEsphomeDiscovery.h"
 #include "../tst_esphomediscovery/FakeMqttBroker.h"
-#endif
 
 #include <QTcpServer>
 #include <QTreeWidget>
@@ -468,7 +466,6 @@ const char *const NO_MQTT_HOUSE = R"(<?xml version="1.0"?>
   <calaos:input id="temp_salon" type="WITemp" name="Salon temperature" host="10.0.0.5" port="502" var="1"/>
 </calaos:room></calaos:home></calaos:ioconfig>)";
 
-#ifdef QT_MQTT_AVAILABLE
 QList<QPair<QString, QByteArray>> twoClimates()
 {
     const QString p = "clim-buanderie/climate/clim_mitsu_buanderie/";
@@ -505,24 +502,11 @@ void searchOn(DialogNewDevice &d, quint16 port, const QString &host = "127.0.0.1
     QVERIFY(!d.findChild<QPushButton *>("discoveryButton")->isEnabled());
     QTRY_COMPARE_WITH_TIMEOUT(done.count(), 1, 10000);
 }
-#endif
-
-// Built without Qt MQTT the wizard keeps manual entry only; CI builds with it.
-#ifdef QT_MQTT_AVAILABLE
-#define REQUIRE_MQTT() do {} while (0)
-#else
-#define REQUIRE_MQTT() do { \
-        if (qEnvironmentVariableIsSet("CALAOS_REQUIRE_MQTT")) \
-            QFAIL("Built without Qt MQTT while CALAOS_REQUIRE_MQTT is set"); \
-        QSKIP("Built without Qt MQTT"); \
-    } while (0)
-#endif
 
 }
 
 void tst_DialogNewDevice::theDiscoveryIsOfferedForEsphomeTemplates()
 {
-#ifdef QT_MQTT_AVAILABLE
     DialogNewDevice d(shippedTemplates(), roomNamed("Salon"));
     d.show();
     QVERIFY(QTest::qWaitForWindowExposed(&d));
@@ -533,13 +517,6 @@ void tst_DialogNewDevice::theDiscoveryIsOfferedForEsphomeTemplates()
     QVERIFY(d.selectTemplate("esphome_climate_ir"));
     QVERIFY(panel(d)->isVisible());
     QVERIFY(!d.findChild<QTreeWidget *>("discoveryList")->isVisible());
-#else
-    DialogNewDevice d(shippedTemplates(), roomNamed("Salon"));
-    QVERIFY(d.selectTemplate("esphome_climate"));
-    QVERIFY(!d.discovery());
-    QVERIFY(!d.findChild<QWidget *>("discoveryBox"));
-    QVERIFY(field<QLineEdit>(&d, "object_id"));
-#endif
 }
 
 void tst_DialogNewDevice::theBrokerOfTheProjectFillsTheForm()
@@ -556,17 +533,13 @@ void tst_DialogNewDevice::theBrokerOfTheProjectFillsTheForm()
     QCOMPARE(field<QDoubleSpinBox>(&d, "mqtt_port")->value(), 1884.0);
     QCOMPARE(field<QLineEdit>(&d, "mqtt_user")->text(), QString("calaos"));
     QCOMPARE(field<QLineEdit>(&d, "mqtt_password")->text(), QString("s3cret"));
-#ifdef QT_MQTT_AVAILABLE
     QCOMPARE(d.findChild<QLineEdit *>("discoveryHost")->text(), QString("192.168.1.10"));
-#endif
 
     //What the user typed wins over the project's broker on a template switch.
     QLineEdit *host = field<QLineEdit>(&d, "mqtt_host");
     host->clear();
     QTest::keyClicks(host, "10.0.0.2");
-#ifdef QT_MQTT_AVAILABLE
     QCOMPARE(d.findChild<QLineEdit *>("discoveryHost")->text(), QString("10.0.0.2"));
-#endif
     QVERIFY(d.selectTemplate("esphome_climate_ir"));
     QCOMPARE(field<QLineEdit>(&d, "mqtt_host")->text(), QString("10.0.0.2"));
     QCOMPARE(field<QLineEdit>(&d, "mqtt_user")->text(), QString("calaos"));
@@ -581,8 +554,6 @@ void tst_DialogNewDevice::theBrokerOfTheProjectFillsTheForm()
 
 void tst_DialogNewDevice::aLoopbackBrokerIsSearchedThroughTheBox()
 {
-    REQUIRE_MQTT();
-#ifdef QT_MQTT_AVAILABLE
     QVERIFY(loadIo(work("nomqtt.xml"), NO_MQTT_HOUSE));
     ConfigOptions::Instance().addAuth({ "user", "pass", "192.168.1.10:5454" });
     ConfigOptions::Instance().setCurrentAuthIndex(0);
@@ -607,13 +578,10 @@ void tst_DialogNewDevice::aLoopbackBrokerIsSearchedThroughTheBox()
     QTest::keyClicks(field<QLineEdit>(&d, "mqtt_host"), "x");
     QCOMPARE(probeHost->text(), QString("box.lan"));
     ConfigOptions::Instance().deleteAuth("192.168.1.10:5454");
-#endif
 }
 
 void tst_DialogNewDevice::searchingListsTheClimatesAndChoosingOneFillsTheForm()
 {
-    REQUIRE_MQTT();
-#ifdef QT_MQTT_AVAILABLE
     FakeMqttBroker broker;
     broker.retained = twoClimates();
     broker.requiredUser = "calaos";
@@ -672,13 +640,10 @@ void tst_DialogNewDevice::searchingListsTheClimatesAndChoosingOneFillsTheForm()
     QVERIFY(!all.contains("target_temperature/state"));
     QVERIFY(all.contains("password=s3cret"));
     QVERIFY(all.contains("param name=fan_modes value=auto"));
-#endif
 }
 
 void tst_DialogNewDevice::anUnreachableBrokerLeavesTheFormToFillByHand()
 {
-    REQUIRE_MQTT();
-#ifdef QT_MQTT_AVAILABLE
     QTcpServer closed;
     QVERIFY(closed.listen(QHostAddress::LocalHost, 0));
     const quint16 port = closed.serverPort();
@@ -710,13 +675,10 @@ void tst_DialogNewDevice::anUnreachableBrokerLeavesTheFormToFillByHand()
     QTest::keyClicks(field<QLineEdit>(&d, "object_id"), "clim_salon");
     clickCreate(&d);
     QVERIFY(d.device());
-#endif
 }
 
 void tst_DialogNewDevice::anOldEntityIsGreyedAtTheBottom()
 {
-    REQUIRE_MQTT();
-#ifdef QT_MQTT_AVAILABLE
     FakeMqttBroker broker;
     //Retained states of a former object id, on a node that no longer says it is online.
     broker.retained = { { "old-clim/climate/clim_mitsu/mode/state", "cool" },
@@ -739,13 +701,10 @@ void tst_DialogNewDevice::anOldEntityIsGreyedAtTheBottom()
     QCOMPARE(old->text(4), QString("old or offline"));
     QCOMPARE(old->foreground(0).color(), d.palette().color(QPalette::Disabled, QPalette::Text));
     QVERIFY(list->topLevelItem(0)->foreground(0).color() != old->foreground(0).color());
-#endif
 }
 
 void tst_DialogNewDevice::theProjectCredentialsOnlyGoToItsBroker()
 {
-    REQUIRE_MQTT();
-#ifdef QT_MQTT_AVAILABLE
     const QByteArray xml = R"(<?xml version="1.0"?>
 <calaos:ioconfig xmlns:calaos="http://www.calaos.fr"><calaos:home format="2">
 <calaos:room name="Salon" type="salon" hits="0">
@@ -791,13 +750,10 @@ void tst_DialogNewDevice::theProjectCredentialsOnlyGoToItsBroker()
     QCOMPARE(broker.user, QString("calaos"));
     QCOMPARE(broker.password, QString("s3cret"));
     ConfigOptions::Instance().deleteAuth("127.0.0.1");
-#endif
 }
 
 void tst_DialogNewDevice::enterInTheBrokerAddressSearches()
 {
-    REQUIRE_MQTT();
-#ifdef QT_MQTT_AVAILABLE
     FakeMqttBroker broker;
     const quint16 port = broker.start();
     DialogNewDevice d(shippedTemplates(), roomNamed("Salon"));
@@ -816,7 +772,6 @@ void tst_DialogNewDevice::enterInTheBrokerAddressSearches()
     QVERIFY(errorLabel(&d)->isHidden());
     QTRY_COMPARE_WITH_TIMEOUT(done.count(), 1, 10000);
     QCOMPARE(broker.connects, 1);
-#endif
 }
 
 void tst_DialogNewDevice::screenshots()
@@ -850,7 +805,6 @@ void tst_DialogNewDevice::screenshots()
     DialogNewRemoteUIRelay existing(roomNamed("Salon"));
     shoot(&existing, lang + "_existing_relay_dialog");
 
-#ifdef QT_MQTT_AVAILABLE
     FakeMqttBroker broker;
     broker.retained = twoClimates();
     //The former object id of the user's unit, next to its discovered successor.
@@ -879,7 +833,6 @@ void tst_DialogNewDevice::screenshots()
     QVERIFY(QTest::qWaitForWindowExposed(&failed));
     searchOn(failed, none);
     shoot(&failed, lang + "_discovery_unreachable");
-#endif
 }
 
 int main(int argc, char *argv[])
