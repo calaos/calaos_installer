@@ -44,6 +44,7 @@ if [ "$?" -ne "0" ]; then
  #   security delete-keychain osx-build.keychain
     exit 1
 fi
+bash $SCRIPTDIR/prune_bundle.sh build/$APP.app
 
 #Call fix to change all rpath
 #python3 ./scripts/macos/macdeployqtfix.py build/$APP.app/Contents/MacOS/calaos_installer /usr/local/Cellar/qt6/6.*/

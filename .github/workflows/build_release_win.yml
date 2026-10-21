@@ -6,16 +6,18 @@ jobs:
     compile:
         name: Build
         runs-on: windows-latest
+        env:
+            QT_VERSION: '6.12.0'
         steps:
           - name: Check out the repo
             uses: actions/checkout@v4
             with:
                 fetch-depth: 0
 
-          - name: Install Qt 6.12.0 (MinGW 64-bit)
+          - name: Install Qt ${{ env.QT_VERSION }} (MinGW 64-bit)
             uses: jurplel/install-qt-action@v4
             with:
-                version: '6.12.0'
+                version: ${{ env.QT_VERSION }}
                 host: 'windows'
                 target: 'desktop'
                 arch: 'win64_mingw'
@@ -23,6 +25,7 @@ jobs:
                 tools: 'tools_mingw1310'
                 # aqtinstall 3.3.0 cannot read the per-toolchain repository layout of
                 # Qt 6.12 on Windows ("Failed to locate XML data"); its master can.
+                # TODO: back to a PyPI release (drop aqtsource) once aqtinstall PR #1048 ships.
                 aqtsource: 'git+https://github.com/miurahr/aqtinstall.git@076e1659807d0b362a3ed684d54c2e9c775eb9c7'
                 cache: true
 
@@ -55,7 +58,7 @@ jobs:
             with:
                 path: C:/karchive
                 # Built against Qt's headers: a Qt update rebuilds it.
-                key: karchive-kf6-mingw64-qt6.12.0-${{ hashFiles('win32/scripts/build_karchive.ps1') }}
+                key: karchive-kf6-mingw64-qt${{ env.QT_VERSION }}-${{ hashFiles('win32/scripts/build_karchive.ps1') }}
 
           - name: Build KArchive from source
             if: steps.karchive-cache.outputs.cache-hit != 'true'
