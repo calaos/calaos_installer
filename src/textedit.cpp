@@ -504,7 +504,7 @@ void TextEdit::textItalic()
 void TextEdit::textFamily(const QString &f)
 {
     QTextCharFormat fmt;
-    fmt.setFontFamily(f);
+    fmt.setFontFamilies({ f });
     mergeFormatOnWordOrSelection(fmt);
 }
 
