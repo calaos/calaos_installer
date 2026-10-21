@@ -43,7 +43,7 @@ public:
     Config
   };
 Q_DECLARE_FLAGS( TipButtonRole, TipButtonRoles )
-Q_ENUMS( TipButtonRoles )
+Q_ENUM( TipButtonRoles )
 
 protected:
   TipButtonRole my_role;
@@ -100,7 +100,7 @@ public:
     BottomRight = 3
   };
 Q_DECLARE_FLAGS( ArrowPosition, ArrowPositions )
-Q_ENUMS( ArrowPositions )
+Q_ENUM( ArrowPositions )
 
 protected:
   QPixmap my_icon;

@@ -4,7 +4,7 @@
 #include "UsbMonitor_win.h"
 #elif defined(Q_OS_LINUX)
 #include "UsbMonitor_linux.h"
-#elif defined(Q_OS_MAC)
+#elif defined(Q_OS_MACOS)
 #include "UsbMonitor_mac.h"
 #endif
 
@@ -20,7 +20,7 @@ Platform::Platform(QObject *parent):
 #elif defined(Q_OS_LINUX)
     connect(UsbMonitor_linux::Instance(), &UsbMonitor_linux::usbDeviceChanged,
             this, &Platform::usbChanged);
-#elif defined(Q_OS_MAC)
+#elif defined(Q_OS_MACOS)
     connect(UsbMonitor_mac::Instance(), &UsbMonitor_mac::usbDeviceChanged,
             this, &Platform::usbChanged);
 #endif
@@ -78,7 +78,7 @@ QVector<UsbDisk *> Platform::enumUsbDisk()
 
         auto d = new UsbDisk();
 
-#ifdef Q_OS_MAC
+#ifdef Q_OS_MACOS
         // Write to RAW device, this is MUCH faster
         QString rawdev(QString::fromStdString(i.device));
         if (!rawdev.startsWith("/dev/r"))
