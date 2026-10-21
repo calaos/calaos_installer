@@ -74,7 +74,7 @@ protected:
     virtual qint64 writeData(const char *data, qint64 len) override;
 #endif
 
-#if defined(Q_OS_MAC)
+#if defined(Q_OS_MACOS)
     /* Prevent that Qt thinks /dev/rdisk does not permit seeks because it does not report size */
     virtual bool isSequential() const override { return false; }
 

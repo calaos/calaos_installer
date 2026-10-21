@@ -1,6 +1,7 @@
 app-id: fr.calaos.CalaosInstaller
 runtime: org.kde.Platform
-runtime-version: '6.10'
+# Qt 6.11. KDE's 6.12 runtime is only on flathub-beta (6.12-beta) so far.
+runtime-version: '6.11'
 sdk: org.kde.Sdk
 command: calaos_installer
 

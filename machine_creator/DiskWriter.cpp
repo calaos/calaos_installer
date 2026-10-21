@@ -48,7 +48,7 @@ typedef struct _SET_DISK_ATTRIBUTES {
 #include <QDBusUnixFileDescriptor>
 #endif
 
-#ifdef Q_OS_MAC
+#ifdef Q_OS_MACOS
 #include <sys/socket.h>
 #include <security/Authorization.h>
 #endif
@@ -212,7 +212,7 @@ bool PhysicalDevice::open(OpenMode flags)
         return false;
     }
 
-#elif defined(Q_OS_MAC)
+#elif defined(Q_OS_MACOS)
     //auto ret = QFile::open(flags);
     auto ret = authOpen(fileName().toUtf8());
     if (!ret)
@@ -303,7 +303,7 @@ bool PhysicalDevice::syncToDisk()
     {
 #if defined(Q_OS_WIN)
         return m_fileHandle != INVALID_HANDLE_VALUE && FlushFileBuffers(m_fileHandle);
-#elif defined(Q_OS_LINUX) || defined(Q_OS_MAC)
+#elif defined(Q_OS_LINUX) || defined(Q_OS_MACOS)
         return fsync(handle()) == 0;
 #endif
     }
@@ -698,7 +698,7 @@ qint64 PhysicalDevice::writeData(const char *data, qint64 len)
 
 #endif
 
-#if defined(Q_OS_MAC)
+#if defined(Q_OS_MACOS)
 //Code from https://github.com/raspberrypi/rpi-imager/blob/qml/mac/macfile.cpp
 bool PhysicalDevice::authOpen(const QByteArray &filename)
 {
@@ -945,7 +945,7 @@ void DiskWriter::writeToRemovableDevice(const QString &filename, UsbDisk *d)
     }
 
     qDebug() << "Unmounting device...";
-#if defined(Q_OS_MAC)
+#if defined(Q_OS_MACOS)
     for (QString vol: disk->get_volumes())
     {
         QProcess unmount;
@@ -1139,7 +1139,7 @@ void DiskWriter::writeToRemovableDevice(const QString &filename, UsbDisk *d)
             // and the buffer leaks
             if (b->buffer)
                 VirtualFree(b->buffer, 0, MEM_RELEASE);
-#elif defined(Q_OS_LINUX) || defined(Q_OS_MAC)
+#elif defined(Q_OS_LINUX) || defined(Q_OS_MACOS)
             qFreeAligned(b->buffer);
 #endif
             delete b;
@@ -1158,7 +1158,7 @@ void DiskWriter::writeToRemovableDevice(const QString &filename, UsbDisk *d)
         emit error(Utils::formatErrorMessageFromCode(tr("Failed to allocate memory for buffer:"), GetLastError()));
         return;
     }
-#elif defined(Q_OS_LINUX) || defined(Q_OS_MAC)
+#elif defined(Q_OS_LINUX) || defined(Q_OS_MACOS)
     buffer->buffer = qMallocAligned(BLOCK_SIZE, 4096);
     if (buffer->buffer == nullptr)
     {
@@ -1334,7 +1334,7 @@ void DiskWriter::writeToRemovableDevice(const QString &filename, UsbDisk *d)
             QString flushError;
             if (!flushWithRetry(phyDev, writtenBytes, flushError))
             {
-#if defined(Q_OS_MAC)
+#if defined(Q_OS_MACOS)
                 // On macOS a flush failure must NOT abort the write: fsync()
                 // on the authopen'd raw-device fd has never been exercised
                 // for failure here (historically macOS had no flush at all),
@@ -1377,7 +1377,7 @@ void DiskWriter::writeToRemovableDevice(const QString &filename, UsbDisk *d)
         QString flushError;
         if (!flushWithRetry(phyDev, writtenBytes, flushError))
         {
-#if defined(Q_OS_MAC)
+#if defined(Q_OS_MACOS)
             // See the periodic flush above: fsync() failure on the authopen'd
             // raw device is unexercised territory on macOS and must not fail
             // an otherwise fully successful write. Verification follows.

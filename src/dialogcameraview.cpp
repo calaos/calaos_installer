@@ -66,7 +66,7 @@ void DialogCameraView::DownloadPicture()
 
         if (reply->error() != QNetworkReply::NoError)
         {
-            QMessageBox::warning(this, "Calaos Installer", tr("Calaos Installer: Erreur !"), reply->errorString());
+            QMessageBox::warning(this, "Calaos Installer", tr("Calaos Installer: Erreur !") + "\n" + reply->errorString());
 
             return;
         }

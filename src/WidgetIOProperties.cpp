@@ -185,10 +185,15 @@ void WidgetIOProperties::createIOProperties()
             uiObject.checkBox = w;
             uiObjectMap[prop] = uiObject;
 
-            connect(w, &QCheckBox::stateChanged, this, [=]()
+            auto checkChanged = [=]()
             {
                 updateChangedParam(prop, w->isChecked()?"true":"false", pvalue, title, revert);
-            });
+            };
+#if QT_VERSION >= QT_VERSION_CHECK(6, 7, 0)
+            connect(w, &QCheckBox::checkStateChanged, this, checkChanged);
+#else
+            connect(w, &QCheckBox::stateChanged, this, checkChanged);
+#endif
 
             connect(revert, &QPushButton::clicked, this, [=]()
             {

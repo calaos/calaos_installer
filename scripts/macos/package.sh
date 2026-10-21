@@ -11,7 +11,7 @@ source $SCRIPTDIR/../funcs.sh
 
 VERSION="$(get_version .)"
 
-QTDIR="$(brew --prefix qt6)"
+QTDIR="${QT_ROOT_DIR:-$(brew --prefix qt6)}"
 APP=calaos_installer
 
 # copy icon
@@ -44,6 +44,7 @@ if [ "$?" -ne "0" ]; then
  #   security delete-keychain osx-build.keychain
     exit 1
 fi
+bash $SCRIPTDIR/prune_bundle.sh build/$APP.app
 
 #Call fix to change all rpath
 #python3 ./scripts/macos/macdeployqtfix.py build/$APP.app/Contents/MacOS/calaos_installer /usr/local/Cellar/qt6/6.*/

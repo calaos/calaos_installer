@@ -387,6 +387,9 @@ unix:!macx {
     LIBS += -lKF6Archive
 }
 macx {
+    # install_deps.sh installs KArchive next to Qt, whichever Qt that is.
+    INCLUDEPATH += $$[QT_INSTALL_PREFIX]/include/KF6/KArchive
+    LIBS += -L$$[QT_INSTALL_LIBS]
     INCLUDEPATH += /usr/local/opt/karchive/include/KF5/KArchive \
         /opt/homebrew/opt/qt/include/KF6/KArchive \
         /usr/local/opt/karchive/include/KF6/KArchive \

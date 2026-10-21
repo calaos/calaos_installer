@@ -33,7 +33,7 @@ DialogCreateNewImage::DialogCreateNewImage(QWidget *parent) :
 
     QStringList names;
     QStringList friendlyNames;
-#if defined Q_OS_MAC
+#if defined Q_OS_MACOS
     QProcess lsblk;
     lsblk.start("diskutil list", {}, QIODevice::ReadOnly);
     lsblk.waitForStarted();

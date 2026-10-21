@@ -27,6 +27,13 @@ using namespace Calaos;
 namespace
 {
 
+//Qt 6.12 deprecates the drag event constructors taking a QPoint.
+#if QT_VERSION >= QT_VERSION_CHECK(6, 12, 0)
+using DragPos = QPointF;
+#else
+using DragPos = QPoint;
+#endif
+
 QString u(const std::string &s)
 {
     return QString::fromUtf8(s.c_str());
@@ -526,11 +533,11 @@ void tst_HomeTree::aDragFromOutsideIsIgnored()
     tree.dropEvent(&drop);
     QVERIFY(!drop.isAccepted());
 
-    QDragEnterEvent enter(onC, Qt::MoveAction, &mime, Qt::LeftButton, Qt::NoModifier);
+    QDragEnterEvent enter(DragPos(onC), Qt::MoveAction, &mime, Qt::LeftButton, Qt::NoModifier);
     tree.dragEnterEvent(&enter);
     QVERIFY(!enter.isAccepted());
 
-    QDragMoveEvent hover(onC, Qt::MoveAction, &mime, Qt::LeftButton, Qt::NoModifier);
+    QDragMoveEvent hover(DragPos(onC), Qt::MoveAction, &mime, Qt::LeftButton, Qt::NoModifier);
     tree.dragMoveEvent(&hover);
     QVERIFY(!hover.isAccepted());
 
@@ -538,13 +545,13 @@ void tst_HomeTree::aDragFromOutsideIsIgnored()
 
     // With a drag of ours in progress, hovering another room is accepted, its own room is not.
     tree.setDragged(io("out_light"));
-    QDragEnterEvent enter2(onC, Qt::MoveAction, &mime, Qt::LeftButton, Qt::NoModifier);
+    QDragEnterEvent enter2(DragPos(onC), Qt::MoveAction, &mime, Qt::LeftButton, Qt::NoModifier);
     tree.dragEnterEvent(&enter2);
     QVERIFY(enter2.isAccepted());
-    QDragMoveEvent over(onC, Qt::MoveAction, &mime, Qt::LeftButton, Qt::NoModifier);
+    QDragMoveEvent over(DragPos(onC), Qt::MoveAction, &mime, Qt::LeftButton, Qt::NoModifier);
     tree.dragMoveEvent(&over);
     QVERIFY(over.isAccepted());
-    QDragMoveEvent ownRoom(tree.visualItemRect(tree.topLevelItem(0)).center(), Qt::MoveAction, &mime,
+    QDragMoveEvent ownRoom(DragPos(tree.visualItemRect(tree.topLevelItem(0)).center()), Qt::MoveAction, &mime,
                            Qt::LeftButton, Qt::NoModifier);
     tree.dragMoveEvent(&ownRoom);
     QVERIFY(!ownRoom.isAccepted());
@@ -598,7 +605,7 @@ void tst_HomeTree::ownedIoIsNotDroppedOnARoom()
     QMimeData mime;
     const QPoint onC = tree.visualItemRect(tree.topLevelItem(2)).center();
 
-    QDragMoveEvent over(onC, Qt::MoveAction, &mime, Qt::LeftButton, Qt::NoModifier);
+    QDragMoveEvent over(DragPos(onC), Qt::MoveAction, &mime, Qt::LeftButton, Qt::NoModifier);
     tree.dragMoveEvent(&over);
     QVERIFY(!over.isAccepted());
 
@@ -714,7 +721,7 @@ void tst_HomeTree::dropStopsTheAutoScroll()
     const QPoint nearEdge(20, tree.viewport()->height() - 2);
     // doAutoScroll reads the real cursor: away from the edge the timer gives up by itself.
     QCursor::setPos(tree.viewport()->mapToGlobal(nearEdge));
-    QDragMoveEvent hover(nearEdge, Qt::MoveAction, &mime, Qt::LeftButton, Qt::NoModifier);
+    QDragMoveEvent hover(DragPos(nearEdge), Qt::MoveAction, &mime, Qt::LeftButton, Qt::NoModifier);
     tree.dragMoveEvent(&hover);
 
     // The timer gives up after a few ticks, so the window to observe it is short.

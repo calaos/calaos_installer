@@ -6,6 +6,8 @@ jobs:
     compile:
         name: Build
         runs-on: macos-latest
+        env:
+            QT_VERSION: '6.12.0'
         steps:
           - name: Check out the repo
             uses: actions/checkout@v3
@@ -19,6 +21,16 @@ jobs:
               p12-password: ${{ secrets.MACOS_CERT_PASS }}
               keychain: "build"
               keychain-password: ${{ secrets.MACOS_KEYCHAIN_PASS }}
+
+          - name: Install Qt ${{ env.QT_VERSION }} (macOS)
+            uses: jurplel/install-qt-action@v4
+            with:
+                version: ${{ env.QT_VERSION }}
+                host: 'mac'
+                target: 'desktop'
+                arch: 'clang_64'
+                modules: 'qt5compat qtserialport'
+                cache: true
 
           - name: Install deps
             run: bash scripts/macos/install_deps.sh

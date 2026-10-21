@@ -88,7 +88,7 @@ void TwoLineItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &o
     if (!(opt.state & QStyle::State_Selected))
     {
         QColor penColor = painter->pen().color();
-        penColor.setNamedColor("#A0A0A0");
+        penColor = QColor(0xA0, 0xA0, 0xA0);
         painter->setPen(penColor);
     }
 
