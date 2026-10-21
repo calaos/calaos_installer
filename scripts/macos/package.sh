@@ -11,7 +11,7 @@ source $SCRIPTDIR/../funcs.sh
 
 VERSION="$(get_version .)"
 
-QTDIR="$(brew --prefix qt6)"
+QTDIR="${QT_ROOT_DIR:-$(brew --prefix qt6)}"
 APP=calaos_installer
 
 # copy icon

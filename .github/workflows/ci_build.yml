@@ -17,15 +17,18 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Install Qt 6.10.3 (MinGW 64-bit)
+      - name: Install Qt 6.12.0 (MinGW 64-bit)
         uses: jurplel/install-qt-action@v4
         with:
-          version: '6.10.3'
+          version: '6.12.0'
           host: 'windows'
           target: 'desktop'
           arch: 'win64_mingw'
-          modules: 'qt5compat qtserialport qtwebsockets'
+          modules: 'qt5compat qtserialport'
           tools: 'tools_mingw1310'
+          # aqtinstall 3.3.0 cannot read the per-toolchain repository layout of
+          # Qt 6.12 on Windows ("Failed to locate XML data"); its master can.
+          aqtsource: 'git+https://github.com/miurahr/aqtinstall.git@076e1659807d0b362a3ed684d54c2e9c775eb9c7'
           cache: true
 
       - name: Add MinGW to PATH
@@ -54,7 +57,8 @@ jobs:
         id: karchive-cache
         with:
           path: C:/karchive
-          key: karchive-kf6-mingw64-${{ hashFiles('win32/scripts/build_karchive.ps1') }}
+          # Built against Qt's headers: a Qt update rebuilds it.
+          key: karchive-kf6-mingw64-qt6.12.0-${{ hashFiles('win32/scripts/build_karchive.ps1') }}
 
       - name: Build KArchive from source
         if: steps.karchive-cache.outputs.cache-hit != 'true'
@@ -77,7 +81,7 @@ jobs:
           retention-days: 5
 
   # ──────────────────────────────────────────────
-  # macOS (brew Qt6, unsigned .app bundle)
+  # macOS (Qt from aqt, unsigned .app bundle)
   # ──────────────────────────────────────────────
   build-macos:
     name: macOS
@@ -87,6 +91,16 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+
+      - name: Install Qt 6.12.0 (macOS)
+        uses: jurplel/install-qt-action@v4
+        with:
+          version: '6.12.0'
+          host: 'mac'
+          target: 'desktop'
+          arch: 'clang_64'
+          modules: 'qt5compat qtserialport'
+          cache: true
 
       - name: Install deps
         run: bash scripts/macos/install_deps.sh
@@ -98,7 +112,7 @@ jobs:
         run: |
           source scripts/funcs.sh
           VERSION="$(get_version .)"
-          QTDIR="$(brew --prefix qt6)"
+          QTDIR="$QT_ROOT_DIR"
           APP=calaos_installer
 
           # Prepare bundle resources
@@ -132,7 +146,7 @@ jobs:
           retention-days: 5
 
   # ──────────────────────────────────────────────
-  # Flatpak (KDE 6.10 runtime)
+  # Flatpak (KDE 6.11 runtime)
   # ──────────────────────────────────────────────
   build-flatpak:
     name: Flatpak
@@ -171,7 +185,7 @@ jobs:
 
       - name: Install KDE SDK and Platform runtime
         run: |
-          flatpak install --user -y --noninteractive flathub org.kde.Sdk//6.10 org.kde.Platform//6.10
+          flatpak install --user -y --noninteractive flathub org.kde.Sdk//6.11 org.kde.Platform//6.11
 
       - name: Build Flatpak
         run: |

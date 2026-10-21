@@ -48,7 +48,7 @@ jobs:
 
       - name: Install KDE SDK and Platform runtime
         run: |
-          flatpak install --user -y --noninteractive flathub org.kde.Sdk//6.10 org.kde.Platform//6.10
+          flatpak install --user -y --noninteractive flathub org.kde.Sdk//6.11 org.kde.Platform//6.11
 
       - name: Build Flatpak
         run: |

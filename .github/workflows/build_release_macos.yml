@@ -20,6 +20,16 @@ jobs:
               keychain: "build"
               keychain-password: ${{ secrets.MACOS_KEYCHAIN_PASS }}
 
+          - name: Install Qt 6.12.0 (macOS)
+            uses: jurplel/install-qt-action@v4
+            with:
+                version: '6.12.0'
+                host: 'mac'
+                target: 'desktop'
+                arch: 'clang_64'
+                modules: 'qt5compat qtserialport'
+                cache: true
+
           - name: Install deps
             run: bash scripts/macos/install_deps.sh
 

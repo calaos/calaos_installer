@@ -7,7 +7,7 @@ source $SCRIPTDIR/../funcs.sh
 rm -fr build && mkdir -p build
 pushd build
 
-QTDIR="$(brew --prefix qt6)"
+QTDIR="${QT_ROOT_DIR:-$(brew --prefix qt6)}"
 PATH="$QTDIR/bin:$PATH"
 LDFLAGS=-L$QTDIR/lib
 CPPFLAGS=-I$QTDIR/include

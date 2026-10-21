@@ -89,7 +89,9 @@ mac {
     #To fix macdeployqt that is not copying QtDBUS, add dbus as a dependency
     QT += dbus
 
-    #KArchive
+    #KArchive, installed next to Qt by install_deps.sh
+    INCLUDEPATH += $$[QT_INSTALL_PREFIX]/include/KF6/KArchive
+    LIBS += -L$$[QT_INSTALL_LIBS]
     INCLUDEPATH += /usr/local/opt/karchive/include/KF5/KArchive
     INCLUDEPATH += /opt/homebrew/opt/qt/include/KF6/KArchive
     INCLUDEPATH += /usr/local/opt/karchive/include/KF6/KArchive
