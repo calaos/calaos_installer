@@ -4818,7 +4818,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../src/DialogZigbee2mqtt.ui" line="72"/>
-        <location filename="../src/DialogZigbee2mqtt.cpp" line="293"/>
+        <location filename="../src/DialogZigbee2mqtt.cpp" line="276"/>
         <source>Connect</source>
         <translation type="unfinished">Connecter</translation>
     </message>
@@ -4828,55 +4828,50 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/DialogZigbee2mqtt.cpp" line="86"/>
-        <location filename="../src/DialogZigbee2mqtt.cpp" line="94"/>
-        <location filename="../src/DialogZigbee2mqtt.cpp" line="278"/>
-        <location filename="../src/DialogZigbee2mqtt.cpp" line="449"/>
+        <location filename="../src/DialogZigbee2mqtt.cpp" line="87"/>
+        <location filename="../src/DialogZigbee2mqtt.cpp" line="95"/>
+        <location filename="../src/DialogZigbee2mqtt.cpp" line="267"/>
+        <location filename="../src/DialogZigbee2mqtt.cpp" line="429"/>
         <source>Error</source>
         <translation type="unfinished">Erreur</translation>
     </message>
     <message>
-        <location filename="../src/DialogZigbee2mqtt.cpp" line="86"/>
+        <location filename="../src/DialogZigbee2mqtt.cpp" line="87"/>
         <source>Please select a device</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/DialogZigbee2mqtt.cpp" line="94"/>
+        <location filename="../src/DialogZigbee2mqtt.cpp" line="95"/>
         <source>Please select a parameter from a device, not the full device item</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/DialogZigbee2mqtt.cpp" line="140"/>
+        <location filename="../src/DialogZigbee2mqtt.cpp" line="141"/>
         <source>Choose</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/DialogZigbee2mqtt.cpp" line="140"/>
+        <location filename="../src/DialogZigbee2mqtt.cpp" line="141"/>
         <source>Select action from device:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/DialogZigbee2mqtt.cpp" line="260"/>
+        <location filename="../src/DialogZigbee2mqtt.cpp" line="248"/>
         <source>Disconnect</source>
         <translation type="unfinished">Déconnecter</translation>
     </message>
     <message>
-        <location filename="../src/DialogZigbee2mqtt.cpp" line="278"/>
-        <source>Could not subscribe. Is there a valid connection?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/DialogZigbee2mqtt.cpp" line="446"/>
+        <location filename="../src/DialogZigbee2mqtt.cpp" line="426"/>
         <source>Open zigbee2mqtt json file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/DialogZigbee2mqtt.cpp" line="446"/>
+        <location filename="../src/DialogZigbee2mqtt.cpp" line="426"/>
         <source>JSON files (*.*)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/DialogZigbee2mqtt.cpp" line="449"/>
+        <location filename="../src/DialogZigbee2mqtt.cpp" line="429"/>
         <source>Could not open json file</source>
         <translation type="unfinished"></translation>
     </message>
@@ -8220,68 +8215,74 @@ Did you really press the link button on the bridge ?</source>
 <context>
     <name>MqttListener</name>
     <message>
-        <location filename="../src/MqttListener.cpp" line="18"/>
+        <location filename="../src/MqttListener.cpp" line="15"/>
         <source>No answer from the broker at %1 within %2 s.</source>
         <translation>Pas de réponse du broker %1 en %2 s.</translation>
     </message>
     <message>
-        <location filename="../src/MqttListener.cpp" line="119"/>
+        <location filename="../src/MqttListener.cpp" line="74"/>
+        <location filename="../src/MqttListener.cpp" line="83"/>
         <source>The broker at %1 does not let this user read those topics.</source>
         <translation>Le broker %1 ne laisse pas cet utilisateur lire ces topics.</translation>
     </message>
     <message>
-        <location filename="../src/MqttListener.cpp" line="135"/>
-        <location filename="../src/MqttListener.cpp" line="174"/>
+        <location filename="../src/MqttListener.cpp" line="26"/>
+        <location filename="../src/MqttListener.cpp" line="144"/>
         <source>The broker at %1 closed the connection.</source>
         <translation>Le broker %1 a fermé la connexion.</translation>
     </message>
     <message>
-        <location filename="../src/MqttListener.cpp" line="138"/>
+        <location filename="../src/MqttListener.cpp" line="105"/>
         <source>The broker at %1 does not speak MQTT 3.1.1.</source>
         <translation>Le broker %1 ne parle pas MQTT 3.1.1.</translation>
     </message>
     <message>
-        <location filename="../src/MqttListener.cpp" line="141"/>
+        <location filename="../src/MqttListener.cpp" line="108"/>
         <source>The broker at %1 refused the user name or the password.</source>
         <translation>Le broker %1 a refusé le nom d&apos;utilisateur ou le mot de passe.</translation>
     </message>
     <message>
-        <location filename="../src/MqttListener.cpp" line="144"/>
+        <location filename="../src/MqttListener.cpp" line="111"/>
         <source>The broker at %1 does not let this user in: check the user and the password.</source>
         <translation>Le broker %1 refuse cet utilisateur : vérifiez l&apos;utilisateur et le mot de passe.</translation>
     </message>
     <message>
-        <location filename="../src/MqttListener.cpp" line="148"/>
+        <location filename="../src/MqttListener.cpp" line="114"/>
         <source>The broker at %1 refused the connection (code %2).</source>
         <translation>Le broker %1 a refusé la connexion (code %2).</translation>
     </message>
     <message>
-        <location filename="../src/MqttListener.cpp" line="151"/>
+        <location filename="../src/MqttListener.cpp" line="118"/>
         <source>The broker at %1 sent data that is not MQTT.</source>
         <translation>Le broker %1 a envoyé des données qui ne sont pas du MQTT.</translation>
     </message>
     <message>
-        <location filename="../src/MqttListener.cpp" line="156"/>
-        <source>Could not reach the broker at %1 (error %2).</source>
-        <translation>Impossible de joindre le broker %1 (erreur %2).</translation>
+        <location filename="../src/MqttListener.cpp" line="121"/>
+        <source>The broker at %1 sent a message too large to be read.</source>
+        <translation>Le broker %1 a envoyé un message trop gros pour être lu.</translation>
     </message>
     <message>
-        <location filename="../src/MqttListener.cpp" line="165"/>
+        <location filename="../src/MqttListener.cpp" line="125"/>
+        <source>The broker at %1 stopped answering.</source>
+        <translation>Le broker %1 ne répond plus.</translation>
+    </message>
+    <message>
+        <location filename="../src/MqttListener.cpp" line="135"/>
         <source>The broker %1 was not found: check its address.</source>
         <translation>Le broker %1 est introuvable : vérifiez son adresse.</translation>
     </message>
     <message>
-        <location filename="../src/MqttListener.cpp" line="168"/>
+        <location filename="../src/MqttListener.cpp" line="138"/>
         <source>Nothing answers on %1: check that the broker runs and listens on this port.</source>
         <translation>Rien ne répond sur %1 : vérifiez que le broker tourne et écoute sur ce port.</translation>
     </message>
     <message>
-        <location filename="../src/MqttListener.cpp" line="172"/>
+        <location filename="../src/MqttListener.cpp" line="142"/>
         <source>The broker at %1 closed the connection: check the user and the password.</source>
         <translation>Le broker %1 a fermé la connexion : vérifiez l&apos;utilisateur et le mot de passe.</translation>
     </message>
     <message>
-        <location filename="../src/MqttListener.cpp" line="177"/>
+        <location filename="../src/MqttListener.cpp" line="147"/>
         <source>Could not reach the broker at %1.</source>
         <translation>Impossible de joindre le broker %1.</translation>
     </message>
