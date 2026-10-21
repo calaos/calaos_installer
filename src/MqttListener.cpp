@@ -18,13 +18,9 @@ MqttListener::MqttListener(QObject *parent):
     //One client for the listener's life: a slot of finished() may open a modal
     //dialog, whose event loop would run a deleteLater() of the client under its feet.
     m_client = new MqttClient(this);
-    connect(m_client, &MqttClient::connected, this, &MqttListener::connected);
+    connect(m_client, &MqttClient::connected, this, &MqttListener::onConnected);
     connect(m_client, &MqttClient::subscribed, this, &MqttListener::subscribed);
     connect(m_client, &MqttClient::errorOccurred, this, &MqttListener::clientError);
-    connect(m_client, &MqttClient::disconnected, this, [this]()
-    {
-        finish(tr("The broker at %1 closed the connection.").arg(where()));
-    });
     connect(m_client, &MqttClient::messageReceived, this, [this](const QString &topic, const QByteArray &payload)
     {
         if (m_state != IDLE)
@@ -63,12 +59,26 @@ void MqttListener::stop()
     m_client->disconnectFromHost();
 }
 
-void MqttListener::connected()
+MqttListener::~MqttListener()
+{
+    stop();
+}
+
+void MqttListener::onConnected()
 {
     if (m_state != CONNECTING)
         return;
     m_state = SUBSCRIBING;
     m_timer.start(m_answerTimeoutMs);
+    emit connected();
+    if (m_state != SUBSCRIBING)
+        return;
+    for (const QString &f: std::as_const(m_filters))
+        if (!MqttPacket::isValidFilter(f))
+        {
+            finish(tr("%1 is not a valid MQTT topic filter.").arg(f));
+            return;
+        }
     m_subscription = m_client->subscribe(m_filters);
     if (!m_subscription)
         finish(tr("The broker at %1 does not let this user read those topics.").arg(where()));

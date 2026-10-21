@@ -61,7 +61,8 @@ public:
     bool readConnack(bool &sessionPresent, int &code) const;
     //codes: 0, 1 or 2 is the granted QoS, 0x80 a refusal.
     bool readSuback(quint16 &id, QList<int> &codes) const;
-    bool readPublish(Publish &p) const;
+    //Moves the body into p.payload: the packet is spent.
+    bool takePublish(Publish &p);
     bool readAck(quint16 &id) const;
 };
 

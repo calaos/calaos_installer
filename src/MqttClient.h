@@ -35,6 +35,7 @@ public:
     };
 
     explicit MqttClient(QObject *parent = nullptr);
+    ~MqttClient() override;
 
     void setHost(const QString &host) { m_host = host; }
     void setPort(quint16 port) { m_port = port; }
@@ -105,7 +106,7 @@ private:
     void onTransportReady();
     void onReadyRead();
     void onSocketError(QAbstractSocket::SocketError e);
-    void handle(const MqttPacket &p);
+    void handle(MqttPacket &p);
     void send(const QByteArray &packet);
     void armKeepAlive();
     void setState(State s);

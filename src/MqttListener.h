@@ -25,6 +25,7 @@ public:
     };
 
     explicit MqttListener(QObject *parent = nullptr);
+    ~MqttListener() override;
 
     //listenMs <= 0 listens until stop().
     void start(const Settings &settings, const QStringList &filters, int listenMs = 3000,
@@ -34,6 +35,8 @@ public:
     bool isRunning() const { return m_state != IDLE; }
 
 signals:
+    //CONNACK accepted the user: subscriptions follow.
+    void connected();
     //The broker took the subscriptions: messages follow.
     void listening();
     void message(const QString &topic, const QByteArray &payload);
@@ -52,7 +55,7 @@ private:
     int m_answerTimeoutMs = 0;
     quint16 m_subscription = 0;
 
-    void connected();
+    void onConnected();
     void subscribed(quint16 id, const QList<bool> &granted);
     void clientError();
     void finish(const QString &error);

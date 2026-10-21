@@ -23,6 +23,14 @@ private:
     MqttClient *m_client;
 };
 
+MqttClient::~MqttClient()
+{
+    //No signal from a destructor: only the DISCONNECT and the socket's close.
+    if (m_state == CONNECTED)
+        send(MqttPacket::disconnect());
+    closeSocket(true);
+}
+
 MqttClient::MqttClient(QObject *parent):
     QObject(parent)
 {
@@ -77,8 +85,6 @@ void MqttClient::connectToHost()
 
 void MqttClient::openTransport()
 {
-    //TLS would go here: a QSslSocket (a QTcpSocket) with connectToHostEncrypted(),
-    //sending CONNECT on encrypted() instead of connected().
     m_socket = new QTcpSocket(this);
     connect(m_socket, &QTcpSocket::connected, this, [this]()
     {
@@ -203,7 +209,7 @@ void MqttClient::onReadyRead()
     }
 }
 
-void MqttClient::handle(const MqttPacket &p)
+void MqttClient::handle(MqttPacket &p)
 {
     if (!p.isValidFromBroker())
     {
@@ -263,7 +269,7 @@ void MqttClient::handle(const MqttPacket &p)
     case MqttPacket::PUBLISH:
     {
         MqttPacket::Publish m;
-        if (!p.readPublish(m))
+        if (!p.takePublish(m))
         {
             fail(PROTOCOL_VIOLATION);
             return;
@@ -369,13 +375,24 @@ void MqttClient::closeSocket(bool graceful)
         retire(s);
         return;
     }
+    //Still looking up or connecting, it would never emit disconnected(): a failed
+    //connect only emits errorOccurred().
+    if (s->state() != QAbstractSocket::ConnectedState)
+    {
+        s->abort();
+        retire(s);
+        return;
+    }
     //Flushed now: deleting the client right after must not lose the DISCONNECT.
     s->flush();
     s->disconnectFromHost();
     if (s->state() == QAbstractSocket::UnconnectedState)
+    {
         retire(s);
-    else
-        connect(s, &QTcpSocket::disconnected, this, [this, s]() { retire(s); });
+        return;
+    }
+    connect(s, &QTcpSocket::disconnected, this, [this, s]() { retire(s); });
+    connect(s, &QTcpSocket::errorOccurred, this, [this, s]() { retire(s); });
 }
 
 void MqttClient::retire(QTcpSocket *s)

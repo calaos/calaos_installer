@@ -38,6 +38,7 @@ private slots:
     void initTestCase();
     void theDevicesOfTheBridgeAreListed();
     void aBrokerErrorIsShown();
+    void theBrokerIsRememberedOnceItTakesTheUser();
 
 private:
     QTemporaryDir m_settingsDir;
@@ -129,6 +130,34 @@ void tst_Zigbee2mqtt::aBrokerErrorIsShown()
     QCOMPARE(button->text(), QString("Connect"));
     QVERIFY(button->isEnabled());
     QVERIFY(d.findChild<QLineEdit *>("lineEditPassword")->isEnabled());
+}
+
+void tst_Zigbee2mqtt::theBrokerIsRememberedOnceItTakesTheUser()
+{
+    //Refused topics: the broker and the user are right all the same.
+    FakeMqttBroker broker;
+    broker.refuseSubscriptions = true;
+    const quint16 port = broker.start();
+    ConfigOptions::Instance().setMqttBrokerHost("elsewhere");
+
+    DialogZigbee2mqtt d;
+    d.show();
+    fill(d, port, "zb", "pw");
+    QString shown;
+    QTimer closer;
+    connect(&closer, &QTimer::timeout, this, [&]()
+    {
+        if (auto *box = qobject_cast<QMessageBox *>(QApplication::activeModalWidget()))
+        {
+            shown = box->text();
+            box->close();
+        }
+    });
+    closer.start(20);
+    QTest::mouseClick(d.findChild<QPushButton *>("pushButtonConnect"), Qt::LeftButton);
+    QTRY_COMPARE(shown, QString("The broker at 127.0.0.1:%1 does not let this user read those topics.").arg(port));
+    QCOMPARE(ConfigOptions::Instance().getMqttBrokerHost(), QString("127.0.0.1"));
+    QCOMPARE(ConfigOptions::Instance().getMqttBrokerUser(), QString("zb"));
 }
 
 QTEST_MAIN(tst_Zigbee2mqtt)

@@ -108,6 +108,8 @@ private slots:
     void aBrokerThatIsNotThereIsSaid();
     void aSilentBrokerTimesOut();
     void aRefusedSubscriptionIsSaid();
+    void anInvalidFilterIsSaid();
+    void aDestroyedListenerSaysDisconnect();
     void aBrokerClosingTheConnectionIsSaid();
     void somethingElseThanMqttIsSaid();
 };
@@ -661,6 +663,33 @@ void tst_EsphomeDiscovery::aRefusedSubscriptionIsSaid()
     const Run r = probe(broker, local(port));
     QCOMPARE(r.error, QString("The broker at 127.0.0.1:%1 does not let this user read those topics.").arg(port));
     QVERIFY(!r.listened);
+}
+
+void tst_EsphomeDiscovery::anInvalidFilterIsSaid()
+{
+    FakeMqttBroker broker;
+    const quint16 port = broker.start();
+    MqttListener p;
+    QString error;
+    bool done = false;
+    connect(&p, &MqttListener::finished, this, [&](const QString &e) { error = e; done = true; });
+    p.start(local(port), { "ok/#", "home+assistant/#" }, 300, 2000);
+    QTRY_VERIFY(done);
+    QCOMPARE(error, QString("home+assistant/# is not a valid MQTT topic filter."));
+    QVERIFY(broker.filters.isEmpty());
+}
+
+void tst_EsphomeDiscovery::aDestroyedListenerSaysDisconnect()
+{
+    FakeMqttBroker broker;
+    const quint16 port = broker.start();
+    auto *p = new MqttListener;
+    bool listening = false;
+    connect(p, &MqttListener::listening, this, [&]() { listening = true; });
+    p->start(local(port), EsphomeDiscovery::filters(), 0, 2000);
+    QTRY_VERIFY(listening);
+    delete p;
+    QTRY_COMPARE(broker.disconnects, 1);
 }
 
 void tst_EsphomeDiscovery::aBrokerClosingTheConnectionIsSaid()

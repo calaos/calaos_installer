@@ -31,6 +31,7 @@ private slots:
     void on_buttonBox_accepted();
     void on_pushButtonLoadDemo_clicked();
 
+    void brokerAccepted();
     void listening();
     void listenerFinished(const QString &error);
     void messageReceived(const QByteArray &message);

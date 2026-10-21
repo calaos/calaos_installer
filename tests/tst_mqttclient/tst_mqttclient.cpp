@@ -146,6 +146,9 @@ private slots:
     void subscribingNeedsAConnection();
     void theClientConnectsAgain();
     void anUnreachableBrokerIsASocketError();
+    void stoppingWhileConnectingLeavesNoSocket();
+    void aDestroyedClientSaysDisconnect();
+    void aSlotMayRunANestedEventLoop();
 
     void aRealMosquittoIsRead();
 };
@@ -308,7 +311,7 @@ void tst_MqttClient::packetsAreReadWhateverTheSplit()
         for (int i = 0;i < got.size();i++)
             QCOMPARE(got.at(i).type(), types.at(i));
         MqttPacket::Publish m;
-        QVERIFY(got.at(3).readPublish(m));
+        QVERIFY(got[3].takePublish(m));
         QCOMPARE(m.topic, QString("t/2"));
         QCOMPARE(m.payload, big);
         QCOMPARE(r.buffered(), 0);
@@ -334,7 +337,7 @@ void tst_MqttClient::aLargePayloadIsRead()
     }
     QCOMPARE(r.next(p), MqttStreamReader::PACKET);
     MqttPacket::Publish m;
-    QVERIFY(p.readPublish(m));
+    QVERIFY(p.takePublish(m));
     QVERIFY(m.retain);
     QCOMPARE(m.payload.size(), payload.size());
     QVERIFY(m.payload == payload);
@@ -358,14 +361,14 @@ void tst_MqttClient::publishIsRead()
 
     r.append(publishPacket("a/b", "x", 0x01));
     QCOMPARE(r.next(p), MqttStreamReader::PACKET);
-    QVERIFY(p.readPublish(m));
+    QVERIFY(p.takePublish(m));
     QCOMPARE(m.qos, 0);
     QVERIFY(m.retain);
     QCOMPARE(m.id, quint16(0));
 
     r.append(publishPacket("a/b", "", 0x02, 0x0A0B));
     QCOMPARE(r.next(p), MqttStreamReader::PACKET);
-    QVERIFY(p.readPublish(m));
+    QVERIFY(p.takePublish(m));
     QCOMPARE(m.qos, 1);
     QVERIFY(!m.retain);
     QCOMPARE(m.id, quint16(0x0A0B));
@@ -373,7 +376,7 @@ void tst_MqttClient::publishIsRead()
 
     r.append(publishPacket("é/ü", "y", 0x0C, 9));
     QCOMPARE(r.next(p), MqttStreamReader::PACKET);
-    QVERIFY(p.readPublish(m));
+    QVERIFY(p.takePublish(m));
     QCOMPARE(m.qos, 2);
     QVERIFY(m.dup);
     QCOMPARE(m.topic, QString("é/ü"));
@@ -383,15 +386,15 @@ void tst_MqttClient::publishIsRead()
 void tst_MqttClient::malformedPublishIsRefused()
 {
     MqttPacket::Publish m;
-    QVERIFY(!packetOf(0x30, bytes({ 0 })).readPublish(m));
-    QVERIFY(!packetOf(0x30, bytes({ 0, 5, 'a' })).readPublish(m));
-    QVERIFY(!packetOf(0x30, bytes({ 0, 0, 'x' })).readPublish(m));
-    QVERIFY(!packetOf(0x30, bytes({ 0, 3, 'a', '/', '#' })).readPublish(m));
-    QVERIFY(!packetOf(0x30, bytes({ 0, 1, '+' })).readPublish(m));
-    QVERIFY(!packetOf(0x36, bytes({ 0, 1, 'a', 0, 1 })).readPublish(m));
+    QVERIFY(!packetOf(0x30, bytes({ 0 })).takePublish(m));
+    QVERIFY(!packetOf(0x30, bytes({ 0, 5, 'a' })).takePublish(m));
+    QVERIFY(!packetOf(0x30, bytes({ 0, 0, 'x' })).takePublish(m));
+    QVERIFY(!packetOf(0x30, bytes({ 0, 3, 'a', '/', '#' })).takePublish(m));
+    QVERIFY(!packetOf(0x30, bytes({ 0, 1, '+' })).takePublish(m));
+    QVERIFY(!packetOf(0x36, bytes({ 0, 1, 'a', 0, 1 })).takePublish(m));
     //QoS 1 without packet id, or with id 0.
-    QVERIFY(!packetOf(0x32, bytes({ 0, 1, 'a', 0 })).readPublish(m));
-    QVERIFY(!packetOf(0x32, bytes({ 0, 1, 'a', 0, 0 })).readPublish(m));
+    QVERIFY(!packetOf(0x32, bytes({ 0, 1, 'a', 0 })).takePublish(m));
+    QVERIFY(!packetOf(0x32, bytes({ 0, 1, 'a', 0, 0 })).takePublish(m));
 }
 
 void tst_MqttClient::subackCodesAreRead()
@@ -876,6 +879,103 @@ void tst_MqttClient::anUnreachableBrokerIsASocketError()
 namespace
 {
 
+int sockets(const MqttClient &c)
+{
+    //What deleteLater() left is deleted here, as by the event loop.
+    QCoreApplication::sendPostedEvents(nullptr, QEvent::DeferredDelete);
+    return int(c.findChildren<QTcpSocket *>(QString(), Qt::FindDirectChildrenOnly).size());
+}
+
+}
+
+void tst_MqttClient::stoppingWhileConnectingLeavesNoSocket()
+{
+    QTcpServer closed;
+    QVERIFY(closed.listen(QHostAddress::LocalHost, 0));
+    const quint16 refused = closed.serverPort();
+    closed.close();
+
+    //A refused port, and TEST-NET-1 where nothing answers (or the route is refused at once).
+    for (const QString &host: { QString("127.0.0.1"), QString("192.0.2.1") })
+    {
+        MqttClient c;
+        c.setHost(host);
+        c.setPort(host == "127.0.0.1" ? refused : 1883);
+        for (int i = 0;i < 5;i++)
+        {
+            c.connectToHost();
+            QTest::qWait(i * 10);
+            c.disconnectFromHost();
+        }
+        QTest::qWait(200);
+        QCOMPARE(sockets(c), 0);
+
+        //The same after a connect timeout.
+        c.setConnectTimeout(100);
+        c.connectToHost();
+        QTRY_COMPARE(c.state(), MqttClient::UNCONNECTED);
+        QTest::qWait(100);
+        QCOMPARE(sockets(c), 0);
+    }
+}
+
+void tst_MqttClient::aDestroyedClientSaysDisconnect()
+{
+    FakeMqttBroker broker;
+    auto *c = new MqttClient;
+    aim(*c, broker.start());
+    c->connectToHost();
+    QTRY_COMPARE(c->state(), MqttClient::CONNECTED);
+    delete c;
+    QTRY_COMPARE(broker.disconnects, 1);
+}
+
+void tst_MqttClient::aSlotMayRunANestedEventLoop()
+{
+    //A modal error box in a slot: its event loop runs the deferred deletes while
+    //the socket that emitted is still below on the stack.
+    auto nested = []()
+    {
+        QEventLoop loop;
+        QTimer::singleShot(100, &loop, &QEventLoop::quit);
+        loop.exec();
+    };
+
+    FakeMqttBroker refusing;
+    refusing.connackCode = 5;
+    MqttClient c;
+    aim(c, refusing.start());
+    int errors = 0;
+    connect(&c, &MqttClient::errorOccurred, this, [&]() { errors++; nested(); });
+    c.connectToHost();
+    QTRY_COMPARE(errors, 1);
+    QTest::qWait(50);
+    QCOMPARE(sockets(c), 0);
+
+    //The same from a message, with the session closed by the slot itself.
+    FakeMqttBroker broker;
+    broker.retained << qMakePair(QString("a/1"), QByteArray("1")) << qMakePair(QString("a/2"), QByteArray("2"));
+    MqttClient m;
+    aim(m, broker.start());
+    int messages = 0;
+    connect(&m, &MqttClient::connected, this, [&]() { m.subscribe({ "a/+" }); });
+    connect(&m, &MqttClient::messageReceived, this, [&]()
+    {
+        messages++;
+        m.disconnectFromHost();
+        nested();
+    });
+    m.connectToHost();
+    QTRY_COMPARE(messages, 1);
+    QTRY_COMPARE(broker.disconnects, 1);
+    QTest::qWait(50);
+    QCOMPARE(messages, 1);
+    QCOMPARE(sockets(m), 0);
+}
+
+namespace
+{
+
 //A Mosquitto container of its own, removed when the test ends.
 class Mosquitto
 {
@@ -902,9 +1002,10 @@ public:
             "printf 'listener 1883\\nallow_anonymous false\\npassword_file /tmp/pw\\n' > /tmp/test.conf"
             " && mosquitto_passwd -b -c /tmp/pw calaos s3cret && chown mosquitto:mosquitto /tmp/pw"
             " && chmod 0700 /tmp/pw && exec mosquitto -c /tmp/test.conf";
+        //Named before the run: a run that times out may still leave the container.
+        m_name = name;
         if (docker({ "run", "-d", "--rm", "--name", name, "-p", "127.0.0.1::1883", IMAGE, "sh", "-c", script }, 300000) != 0)
             return "could not start " + QString(IMAGE) + ": " + QString::fromUtf8(m_err);
-        m_name = name;
         if (docker({ "port", m_name, "1883/tcp" }, 20000) != 0)
             return "no port for the container";
         const QString mapped = QString::fromUtf8(m_out).trimmed().split('\n').first();

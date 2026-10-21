@@ -168,7 +168,7 @@ bool MqttPacket::readSuback(quint16 &id, QList<int> &codes) const
     return true;
 }
 
-bool MqttPacket::readPublish(Publish &p) const
+bool MqttPacket::takePublish(Publish &p)
 {
     if (type() != PUBLISH || body.size() < 2)
         return false;
@@ -193,7 +193,9 @@ bool MqttPacket::readPublish(Publish &p) const
         if (p.id == 0)
             return false;
     }
-    p.payload = body.mid(pos);
+    p.payload = std::move(body);
+    p.payload.remove(0, pos);
+    body = QByteArray();
     return true;
 }
 

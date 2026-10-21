@@ -263,6 +263,7 @@ private slots:
     void theProjectCredentialsOnlyGoToItsBroker();
     void brokerErrorsAreShown();
     void anEmptyBrokerSaysSo();
+    void aPrefixWithAWildcardIsRefused();
     void importingCreatesTheCheckedEntities();
     void enterInTheAddressSearches();
 };
@@ -1112,6 +1113,26 @@ void tst_HaDiscovery::anEmptyBrokerSaysSo()
                                     "and that the devices have discovery on."));
     QVERIFY(!d.findChild<QTreeWidget *>("entityList")->isVisible());
     QCOMPARE(broker.filters.first(), QString("ha/#"));
+}
+
+void tst_HaDiscovery::aPrefixWithAWildcardIsRefused()
+{
+    FakeMqttBroker broker;
+    const quint16 port = broker.start();
+    DialogHomeAssistantMqtt d(shippedTemplates(), roomNamed("Salon"));
+    d.show();
+    QVERIFY(QTest::qWaitForWindowExposed(&d));
+    d.findChild<QSpinBox *>("serverPort")->setValue(port);
+    d.findChild<QLineEdit *>("probeHost")->setText("127.0.0.1");
+    for (const QString &prefix: { QString("home+assistant"), QString("ha/#"), QString("+") })
+    {
+        d.findChild<QLineEdit *>("prefix")->setText(prefix);
+        QTest::mouseClick(d.findChild<QPushButton *>("searchButton"), Qt::LeftButton);
+        QVERIFY2(statusText(d).contains("cannot contain + or #"), qPrintable(statusText(d)));
+        QVERIFY(d.findChild<QPushButton *>("searchButton")->isEnabled());
+    }
+    QTest::qWait(100);
+    QCOMPARE(broker.connects, 0);
 }
 
 void tst_HaDiscovery::importingCreatesTheCheckedEntities()

@@ -17,6 +17,7 @@ DialogZigbee2mqtt::DialogZigbee2mqtt(QWidget *parent)
     ui->spinBoxPort->setMaximum(65535);
 
     listener = new MqttListener(this);
+    connect(listener, &MqttListener::connected, this, &DialogZigbee2mqtt::brokerAccepted);
     connect(listener, &MqttListener::listening, this, &DialogZigbee2mqtt::listening);
     connect(listener, &MqttListener::finished, this, &DialogZigbee2mqtt::listenerFinished);
     connect(listener, &MqttListener::message, this, [this](const QString &topic, const QByteArray &payload)
@@ -253,7 +254,10 @@ void DialogZigbee2mqtt::listening()
         spinner->stop();
         delete spinner;
     }
+}
 
+void DialogZigbee2mqtt::brokerAccepted()
+{
     ConfigOptions::Instance().setMqttBrokerHost(ui->lineEditHost->text());
     ConfigOptions::Instance().setMqttBrokerPort(ui->spinBoxPort->value());
     ConfigOptions::Instance().setMqttBrokerUser(ui->lineEditUsername->text());
