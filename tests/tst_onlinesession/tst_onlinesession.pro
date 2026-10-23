@@ -17,4 +17,5 @@ SOURCES += \
     tst_onlinesession.cpp
 
 HEADERS += \
+    FakeApi.h \
     $$PWD/../../src/OnlineSession.h

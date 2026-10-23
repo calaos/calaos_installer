@@ -59,6 +59,9 @@ void DialogOpenOnline::on_buttonBox_accepted()
     ui->spinnerLayout->addWidget(spinner, 0, Qt::AlignCenter);
     spinner->start();
 
+    // Selecting the new host below clears the field; the password was typed for this host.
+    const QString adminPass = ui->editAdminPass->text();
+
     //save the current auth
     CalaosAuth auth;
     auth.username = ui->editUsername->text();
@@ -74,6 +77,7 @@ void DialogOpenOnline::on_buttonBox_accepted()
     }
 
     ConfigOptions::Instance().setCurrentAuthIndex(ui->comboIP->currentIndex());
+    ui->editAdminPass->setText(adminPass);
 
     loadXmlFiles(ui->comboIP->currentText());
 }
