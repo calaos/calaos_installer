@@ -1255,6 +1255,10 @@ p, li { white-space: pre-wrap; }
         <translation>Erreur interne du serveur. Le détail est dans le journal de calaos_server.</translation>
     </message>
     <message>
+        <source>The server accepted the admin password but returned no admin session. Try again.</source>
+        <translation>Le serveur a accepté le mot de passe admin mais n&apos;a renvoyé aucune session admin. Réessayez.</translation>
+    </message>
+    <message>
         <location filename="../src/OnlineConfig.cpp" line="166"/>
         <source>Too many attempts, try again later.</source>
         <translation>Trop d&apos;essais, réessayez plus tard.</translation>

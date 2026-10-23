@@ -153,6 +153,9 @@ static QString refusalText(const QJsonObject &o)
           "Someone has just set the admin password of this box.") },
         { "internal", QT_TRANSLATE_NOOP("OnlineConfig",
           "Internal server error. The details are in the calaos_server log.") },
+        // Not a server code: an admin_unlock answer that says success without a session.
+        { "no_admin_session", QT_TRANSLATE_NOOP("OnlineConfig",
+          "The server accepted the admin password but returned no admin session. Try again.") },
     };
 
     const QString code = o.value("error").toString();
@@ -192,21 +195,14 @@ QUrl serverUrl(const QString &host)
 
 QUrl httpsRetryUrl(const QUrl &url, int httpsPort)
 {
+    if (url.scheme() != "http" || url.host().isEmpty())
+        return QUrl();
     QUrl u;
     u.setScheme("https");
     u.setHost(url.host());
     u.setPort(httpsPort);
     u.setPath("/api.php");
-    if (u.host().isEmpty() || u == url)
-        return QUrl();
     return u;
-}
-
-bool shouldRetryOverHttps(const QUrl &url, const QString &code)
-{
-    if (code == "https_required")
-        return true;
-    return code == "bad_session" && url.scheme() == "http" && url.port() == 5454;
 }
 
 PutResult parsePutResponse(const QByteArray &body)

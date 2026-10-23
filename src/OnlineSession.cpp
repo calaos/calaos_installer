@@ -5,6 +5,8 @@
 #include <QNetworkReply>
 #include <QNetworkRequest>
 
+const int OnlineSession::kUnlockTimeoutMs;
+
 OnlineSession::OnlineSession(QObject *parent):
     QObject(parent)
 {
@@ -63,8 +65,24 @@ void OnlineSession::send(Step step)
     else
         body = OnlineConfig::buildGetRequest(m_user, m_pass, m_session);
 
-    QNetworkReply *reply = m_network.post(QNetworkRequest(m_url), body);
+    QNetworkRequest request(m_url);
+    // The contract bounds the unlock answer; config keeps today's behaviour (a put may be slow).
+    if (step == STEP_UNLOCK)
+        request.setTransferTimeout(kUnlockTimeoutMs);
+    QNetworkReply *reply = m_network.post(request, body);
     connect(reply, &QNetworkReply::finished, this, [this, reply, step]() { replied(reply, step); });
+}
+
+bool OnlineSession::moveToHttps()
+{
+    if (m_httpsRetried)
+        return false;
+    const QUrl https = OnlineConfig::httpsRetryUrl(m_url, m_httpsPort);
+    if (!https.isValid())
+        return false;
+    m_httpsRetried = true;
+    m_url = https;
+    return true;
 }
 
 void OnlineSession::replied(QNetworkReply *reply, Step step)
@@ -80,27 +98,29 @@ void OnlineSession::replied(QNetworkReply *reply, Step step)
         return;
     }
 
+    // Only a retry that could not connect falls back to the refusal it replaced.
+    m_refusalBeforeRetry.clear();
+
     const QByteArray body = reply->readAll();
     const QString code = OnlineConfig::refusalCode(body);
 
-    if (!code.isEmpty() && !m_httpsRetried && OnlineConfig::shouldRetryOverHttps(m_url, code))
+    if (code == "https_required" && moveToHttps())
     {
-        const QUrl https = OnlineConfig::httpsRetryUrl(m_url, m_httpsPort);
-        if (https.isValid())
-        {
-            m_httpsRetried = true;
-            m_refusalBeforeRetry = body;
-            m_url = https;
-            send(step);
-            return;
-        }
+        m_refusalBeforeRetry = body;
+        send(step);
+        return;
     }
 
     if (step == STEP_UNLOCK)
     {
+        if (!code.isEmpty())
+        {
+            finish(true, body);
+            return;
+        }
         m_session = OnlineConfig::parseUnlockResponse(body);
         if (m_session.isEmpty())
-            finish(true, body);
+            finish(true, R"({"success":"false","error":"no_admin_session"})");
         else
             send(STEP_CONFIG);
         return;
@@ -113,7 +133,11 @@ void OnlineSession::replied(QNetworkReply *reply, Step step)
         if (m_session.isEmpty() && !m_adminPass.isEmpty() && !m_unlockTried)
         {
             m_unlockTried = true;
-            send(STEP_UNLOCK);
+            // The admin password never travels in clear.
+            if (m_url.scheme() == "https" || moveToHttps())
+                send(STEP_UNLOCK);
+            else
+                finish(true, R"({"success":"false","error":"https_required"})");
             return;
         }
         m_session.clear();
@@ -125,5 +149,8 @@ void OnlineSession::replied(QNetworkReply *reply, Step step)
 void OnlineSession::finish(bool reached, const QByteArray &body, const QString &networkError)
 {
     m_refusalBeforeRetry.clear();
-    emit finished(reached, body, networkError);
+    if (m_put)
+        emit putFinished(reached, body, networkError);
+    else
+        emit getFinished(reached, body, networkError);
 }

@@ -98,6 +98,8 @@ void TstOnlineConfig::refusalTexts()
     QCOMPARE(text("{\"success\":\"false\",\"error\":\"invalid_request\",\"msg\":\"admin_pass missing\"}"),
              QString("admin_pass missing"));
     QCOMPARE(text("{\"success\":\"false\",\"error\":\"not_allowed\"}"), QString("not_allowed"));
+    QCOMPARE(text("{\"success\":\"false\",\"error\":\"no_admin_session\"}"),
+             QString("The server accepted the admin password but returned no admin session. Try again."));
 
     const QStringList codes = { "bad_session", "https_required", "admin_not_set", "admin_unavailable",
                                 "daemon_unreachable", "daemon_too_old", "upgrade_in_progress",
@@ -129,15 +131,11 @@ void TstOnlineConfig::httpsRetry()
     const QUrl clear("http://192.168.1.10:5454/api.php");
     QCOMPARE(httpsRetryUrl(clear), QUrl("https://192.168.1.10/api.php"));
     QCOMPARE(httpsRetryUrl(clear, 8443), QUrl("https://192.168.1.10:8443/api.php"));
+    QCOMPARE(httpsRetryUrl(QUrl("http://box.local/other.php")), QUrl("https://box.local/api.php"));
+    // Already https: the user's port and path stay, so there is nothing to retry on.
     QVERIFY(!httpsRetryUrl(QUrl("https://192.168.1.10/api.php")).isValid());
-    QCOMPARE(httpsRetryUrl(QUrl("https://box.local/other.php")), QUrl("https://box.local/api.php"));
-
-    QVERIFY(shouldRetryOverHttps(QUrl("https://box/api.php"), "https_required"));
-    QVERIFY(shouldRetryOverHttps(clear, "bad_session"));
-    QVERIFY(!shouldRetryOverHttps(QUrl("http://192.168.1.10:8080/api.php"), "bad_session"));
-    QVERIFY(!shouldRetryOverHttps(clear, "bad_password"));
-    // An old server's own refusal: retrying elsewhere would hide it.
-    QVERIFY(!shouldRetryOverHttps(clear, "update calaos_installer: this io.xml would drop 2 device(s)"));
+    QVERIFY(!httpsRetryUrl(QUrl("https://192.168.1.10:8443/x/api.php")).isValid());
+    QVERIFY(!httpsRetryUrl(QUrl("https://192.168.1.10:8443/x/api.php"), 443).isValid());
 }
 
 void TstOnlineConfig::putDeclaresFormat2()

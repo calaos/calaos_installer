@@ -26,10 +26,13 @@ public:
 
     QUrl url() const { return m_url; }
 
+    static const int kUnlockTimeoutMs = 5000;
+
 signals:
-    // reached: body is the server's answer to config, or the refusal of admin_unlock in its place.
-    // Otherwise networkError says why no answer came.
-    void finished(bool reached, const QByteArray &body, const QString &networkError);
+    // reached: body is the server's answer to config, or a refusal in its place (admin_unlock
+    // refused, or refused by the installer itself). Otherwise networkError says why no answer came.
+    void getFinished(bool reached, const QByteArray &body, const QString &networkError);
+    void putFinished(bool reached, const QByteArray &body, const QString &networkError);
 
 private:
     enum Step { STEP_CONFIG, STEP_UNLOCK };
@@ -37,6 +40,7 @@ private:
     void start();
     void send(Step step);
     void replied(QNetworkReply *reply, Step step);
+    bool moveToHttps();
     void finish(bool reached, const QByteArray &body, const QString &networkError = QString());
 
     QNetworkAccessManager m_network;

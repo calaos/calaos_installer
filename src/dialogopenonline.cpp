@@ -16,7 +16,7 @@ DialogOpenOnline::DialogOpenOnline(QString temp, QWidget *parent):
     ui->setupUi(this);
 
     online = new OnlineSession(this);
-    connect(online, &OnlineSession::finished, this, &DialogOpenOnline::downloadFinished);
+    connect(online, &OnlineSession::getFinished, this, &DialogOpenOnline::downloadFinished);
 
     auths = ConfigOptions::Instance().getAuthList();
     int curr = ConfigOptions::Instance().getCurrentAuthIndex();
@@ -175,4 +175,6 @@ void DialogOpenOnline::on_comboIP_currentIndexChanged(int index)
         return;
     ui->editUsername->setText(auths[index].username);
     ui->editPass->setText(auths[index].password);
+    // Another box has its own admin password.
+    ui->editAdminPass->clear();
 }

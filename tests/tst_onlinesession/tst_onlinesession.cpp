@@ -1,4 +1,5 @@
 #include <QtTest>
+#include <QElapsedTimer>
 #include <QFile>
 #include <QJsonDocument>
 #include <QJsonObject>
@@ -19,8 +20,13 @@ const QString kSession = QString(64, 'a');
 struct Request
 {
     QByteArray requestLine;
+    QByteArray raw;
     QJsonObject body;
 };
+
+// Handler answers that are not JSON: drop the connection, or never answer.
+const QJsonObject kAbort{ { "__fake", "abort" } };
+const QJsonObject kHang{ { "__fake", "hang" } };
 
 // Minimal /api.php: one request per connection, JSON answers from the test's handler.
 class FakeApi: public QObject
@@ -77,10 +83,19 @@ private:
 
         Request r;
         r.requestLine = head.left(head.indexOf("\r\n"));
-        r.body = QJsonDocument::fromJson(buffer.mid(end + 4, length)).object();
+        r.raw = buffer.mid(end + 4, length);
+        r.body = QJsonDocument::fromJson(r.raw).object();
         requests << r;
 
-        const QByteArray answer = QJsonDocument(m_handler(r.body)).toJson(QJsonDocument::Compact);
+        const QJsonObject reply = m_handler(r.body);
+        if (reply == kHang)
+            return;
+        if (reply == kAbort)
+        {
+            s->abort();
+            return;
+        }
+        const QByteArray answer = QJsonDocument(reply).toJson(QJsonDocument::Compact);
         s->write("HTTP/1.1 200 OK\r\nContent-Type: application/json\r\nConnection: close\r\nContent-Length: " +
                  QByteArray::number(answer.size()) + "\r\n\r\n" + answer);
         s->disconnectFromHost();
@@ -129,18 +144,20 @@ struct Outcome
 Outcome run(OnlineSession &session, const std::function<void()> &call)
 {
     Outcome o;
-    QMetaObject::Connection c = QObject::connect(&session, &OnlineSession::finished,
-        [&o](bool reached, const QByteArray &body, const QString &networkError)
+    auto done = [&o](bool reached, const QByteArray &body, const QString &networkError)
     {
         o.done = true;
         o.reached = reached;
         o.body = body;
         o.networkError = networkError;
-    });
+    };
+    QMetaObject::Connection g = QObject::connect(&session, &OnlineSession::getFinished, done);
+    QMetaObject::Connection p = QObject::connect(&session, &OnlineSession::putFinished, done);
     call();
-    if (!QTest::qWaitFor([&o]() { return o.done; }, 10000))
+    if (!QTest::qWaitFor([&o]() { return o.done; }, 15000))
         qWarning() << "no answer from the session";
-    QObject::disconnect(c);
+    QObject::disconnect(g);
+    QObject::disconnect(p);
     return o;
 }
 
@@ -167,6 +184,12 @@ private slots:
     void httpsRequiredRetriesOnce();
     void httpsRetryNotLooped();
     void httpsUnreachableKeepsRefusal();
+    void noAdminBodiesUnchanged();
+    void failureAfterRetryIsNotTheOldRefusal();
+    void unlockWithoutSessionIsAnError();
+    void adminPasswordNeverInClear();
+    void adminPasswordRefusedWithoutHttps();
+    void unlockTimesOut();
 
 private:
     QSslServer *newHttpsServer();
@@ -402,6 +425,144 @@ void TstOnlineSession::httpsUnreachableKeepsRefusal()
 
     QVERIFY(o.reached);
     QCOMPARE(OnlineConfig::refusalCode(o.body), QString("https_required"));
+}
+
+void TstOnlineSession::noAdminBodiesUnchanged()
+{
+    FakeApi api(new QTcpServer(this), configAnswer);
+    QVERIFY(api.listen());
+
+    OnlineSession session;
+    session.setServer(local(api.port()));
+    session.setCredentials("user", "pass", "correct horse battery");
+    run(session, [&]() { session.getConfig(); });
+    run(session, [&]() { session.putConfig("<io/>", "<rules/>"); });
+
+    // What the dialogs sent before the admin password existed.
+    QCOMPARE(api.requests.size(), 2);
+    QCOMPARE(api.requests[0].raw, QByteArray("{\n"
+                                             "    \"action\": \"config\",\n"
+                                             "    \"cn_pass\": \"pass\",\n"
+                                             "    \"cn_user\": \"user\",\n"
+                                             "    \"type\": \"get\"\n"
+                                             "}\n"));
+    QCOMPARE(api.requests[1].raw, QByteArray("{\n"
+                                             "    \"action\": \"config\",\n"
+                                             "    \"cn_pass\": \"pass\",\n"
+                                             "    \"cn_user\": \"user\",\n"
+                                             "    \"config_files\": {\n"
+                                             "        \"io.xml\": \"<io/>\",\n"
+                                             "        \"rules.xml\": \"<rules/>\"\n"
+                                             "    },\n"
+                                             "    \"io_format\": 2,\n"
+                                             "    \"type\": \"put\"\n"
+                                             "}\n"));
+}
+
+void TstOnlineSession::failureAfterRetryIsNotTheOldRefusal()
+{
+    FakeApi plain(new QTcpServer(this), [](const QJsonObject &) { return refusal("https_required"); });
+    QVERIFY(plain.listen());
+    FakeApi https(newHttpsServer(), [](const QJsonObject &req)
+    {
+        if (req.value("action").toString() == "admin_unlock")
+            return kAbort;
+        return adminServer(req);
+    });
+    QVERIFY(https.listen());
+
+    OnlineSession session;
+    session.setHttpsPort(https.port());
+    session.setServer(local(plain.port()));
+    session.setCredentials("user", "pass", "correct horse battery");
+    const Outcome o = run(session, [&]() { session.getConfig(); });
+
+    QCOMPARE(https.count("admin_unlock"), 1);
+    QVERIFY(!o.reached);
+    QVERIFY(!o.networkError.isEmpty());
+}
+
+void TstOnlineSession::unlockWithoutSessionIsAnError()
+{
+    FakeApi api(newHttpsServer(), [](const QJsonObject &req)
+    {
+        if (req.value("action").toString() == "admin_unlock")
+            return QJsonObject{ { "success", "true" }, { "admin_session", "" } };
+        return adminServer(req);
+    });
+    QVERIFY(api.listen());
+
+    OnlineSession session;
+    session.setServer(local(api.port(), "https"));
+    session.setCredentials("user", "pass", "correct horse battery");
+    const Outcome o = run(session, [&]() { session.getConfig(); });
+
+    QVERIFY(o.reached);
+    const OnlineConfig::GetResult r = OnlineConfig::parseGetResponse(o.body);
+    QVERIFY(!r.ok);
+    QCOMPARE(OnlineConfig::refusalCode(o.body), QString("no_admin_session"));
+    QCOMPARE(api.count("config"), 1);
+}
+
+void TstOnlineSession::adminPasswordNeverInClear()
+{
+    // A server that does not say https_required first: the unlock still goes over https.
+    FakeApi plain(new QTcpServer(this), [](const QJsonObject &) { return refusal("bad_session"); });
+    QVERIFY(plain.listen());
+    FakeApi https(newHttpsServer(), adminServer);
+    QVERIFY(https.listen());
+
+    OnlineSession session;
+    session.setHttpsPort(https.port());
+    session.setServer(local(plain.port()));
+    session.setCredentials("user", "pass", "correct horse battery");
+    QVERIFY(OnlineConfig::parseGetResponse(run(session, [&]() { session.getConfig(); }).body).ok);
+
+    QCOMPARE(plain.requests.size(), 1);
+    QVERIFY(!plain.requests[0].body.contains("admin_pass"));
+    QCOMPARE(https.count("admin_unlock"), 1);
+}
+
+void TstOnlineSession::adminPasswordRefusedWithoutHttps()
+{
+    // https cannot be reached: the admin password is not sent in clear instead.
+    FakeApi plain(new QTcpServer(this), [](const QJsonObject &) { return refusal("bad_session"); });
+    QVERIFY(plain.listen());
+
+    OnlineSession session;
+    session.setServer(local(plain.port()));
+    session.setCredentials("user", "pass", "correct horse battery");
+    QTcpServer closed;
+    QVERIFY(closed.listen(QHostAddress::LocalHost, 0));
+    session.setHttpsPort(closed.serverPort());
+    closed.close();
+    const Outcome o = run(session, [&]() { session.getConfig(); });
+
+    QCOMPARE(plain.count("admin_unlock"), 0);
+    QVERIFY(!o.reached);
+}
+
+void TstOnlineSession::unlockTimesOut()
+{
+    FakeApi api(newHttpsServer(), [](const QJsonObject &req)
+    {
+        if (req.value("action").toString() == "admin_unlock")
+            return kHang;
+        return adminServer(req);
+    });
+    QVERIFY(api.listen());
+
+    OnlineSession session;
+    session.setServer(local(api.port(), "https"));
+    session.setCredentials("user", "pass", "correct horse battery");
+    QElapsedTimer t;
+    t.start();
+    const Outcome o = run(session, [&]() { session.getConfig(); });
+
+    QVERIFY(o.done);
+    QVERIFY(!o.reached);
+    QVERIFY(t.elapsed() >= OnlineSession::kUnlockTimeoutMs - 500);
+    QVERIFY(t.elapsed() < OnlineSession::kUnlockTimeoutMs + 5000);
 }
 
 QTEST_GUILESS_MAIN(TstOnlineSession)

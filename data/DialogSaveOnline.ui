@@ -150,7 +150,7 @@
         <item row="2" column="1">
          <widget class="QLineEdit" name="editAdminPass">
           <property name="echoMode">
-           <enum>QLineEdit::PasswordEchoOnEdit</enum>
+           <enum>QLineEdit::Password</enum>
           </property>
           <property name="placeholderText">
            <string>Only if this box has an admin password</string>

@@ -30,17 +30,14 @@ QString refusalCode(const QByteArray &body);
 QString parseUnlockResponse(const QByteArray &body);
 
 // Readable text of a refusal: the admin codes of calaos_server are translated, any other
-// error is the server's own text, empty when it gave none.
+// error code is returned as is, empty when the server gave none.
 QString refusalText(const QByteArray &body);
 
 // Server address as typed in the dialogs: a bare host means https://host/api.php.
 QUrl serverUrl(const QString &host);
-// https://host/api.php (httpsPort < 0: the default port), or an empty URL when that is
-// already the URL tried: a refusal there would only come back.
+// https://host/api.php (httpsPort < 0: the default port) for an http:// URL. Empty for an
+// https:// URL: its port and path were chosen by the user, another one may be another service.
 QUrl httpsRetryUrl(const QUrl &url, int httpsPort = -1);
-// https_required, or an admin session refused on the clear port 5454, which can never
-// carry one. Other refusals are not retried: an old server has no https to retry on.
-bool shouldRetryOverHttps(const QUrl &url, const QString &code);
 
 struct GetResult
 {

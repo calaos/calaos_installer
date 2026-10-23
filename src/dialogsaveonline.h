@@ -32,7 +32,6 @@ private:
 
     QPointer<QAnimationLabel> spinner;
     OnlineSession *online;
-    bool putting = false;
 
     QString currentDir, currentIP;
 
@@ -41,7 +40,7 @@ private:
     void uploadXmlFiles(QString ip);
     void probeServerFormat();
     void probeFinished(bool reached, const QByteArray &body, const QString &networkError);
-    void putFiles();
+    void putFiles(const QString &ioXml);
     void uploadFinished(bool reached, const QByteArray &body, const QString &networkError);
     void fail(const QString &message);
     QString readFileContent(QString fileName);

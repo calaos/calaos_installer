@@ -15,14 +15,8 @@ DialogSaveOnline::DialogSaveOnline(QString temp, QWidget *parent):
     ui->setupUi(this);
 
     online = new OnlineSession(this);
-    connect(online, &OnlineSession::finished, this,
-            [this](bool reached, const QByteArray &body, const QString &networkError)
-    {
-        if (putting)
-            uploadFinished(reached, body, networkError);
-        else
-            probeFinished(reached, body, networkError);
-    });
+    connect(online, &OnlineSession::getFinished, this, &DialogSaveOnline::probeFinished);
+    connect(online, &OnlineSession::putFinished, this, &DialogSaveOnline::uploadFinished);
 
     auths = ConfigOptions::Instance().getAuthList();
     int curr = ConfigOptions::Instance().getCurrentAuthIndex();
@@ -116,15 +110,13 @@ void DialogSaveOnline::uploadXmlFiles(QString ip)
         reject();
 }
 
-void DialogSaveOnline::putFiles()
+void DialogSaveOnline::putFiles(const QString &ioXml)
 {
-    putting = true;
-    online->putConfig(readFileContent("io.xml"), readFileContent("rules.xml"));
+    online->putConfig(ioXml, readFileContent("rules.xml"));
 }
 
 void DialogSaveOnline::probeServerFormat()
 {
-    putting = false;
     online->getConfig();
 }
 
@@ -171,7 +163,7 @@ void DialogSaveOnline::probeFinished(bool reached, const QByteArray &body, const
         }
     }
 
-    putFiles();
+    putFiles(sentIo);
 }
 
 void DialogSaveOnline::fail(const QString &message)
@@ -237,4 +229,6 @@ void DialogSaveOnline::on_comboIP_currentIndexChanged(int index)
         return;
     ui->editUsername->setText(auths[index].username);
     ui->editPass->setText(auths[index].password);
+    // Another box has its own admin password.
+    ui->editAdminPass->clear();
 }
