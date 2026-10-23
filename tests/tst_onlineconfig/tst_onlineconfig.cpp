@@ -43,7 +43,102 @@ private slots:
     void lostDevices();
     void getRefusalKeepsError();
     void lostIdlessDevices();
+
+    void sessionOnlyInBodyWhenGiven();
+    void unlockRequestShape();
+    void unlockResponse();
+    void refusalTexts();
+    void unknownRefusalKeepsServerText();
+    void serverUrls();
+    void httpsRetry();
 };
+
+void TstOnlineConfig::sessionOnlyInBodyWhenGiven()
+{
+    QVERIFY(!obj(buildGetRequest("u", "p")).contains("admin_session"));
+    QVERIFY(!obj(buildPutRequest("u", "p", "a", "b")).contains("admin_session"));
+    QCOMPARE(obj(buildGetRequest("u", "p", "s1"))["admin_session"].toString(), QString("s1"));
+    const QJsonObject put = obj(buildPutRequest("u", "p", "a", "b", "s2"));
+    QCOMPARE(put["admin_session"].toString(), QString("s2"));
+    QVERIFY(!put.contains("admin_pass"));
+}
+
+void TstOnlineConfig::unlockRequestShape()
+{
+    const QJsonObject o = obj(buildUnlockRequest("user", "pw", "admin secret"));
+    QCOMPARE(o["action"].toString(), QString("admin_unlock"));
+    QCOMPARE(o["cn_user"].toString(), QString("user"));
+    QCOMPARE(o["cn_pass"].toString(), QString("pw"));
+    QCOMPARE(o["admin_pass"].toString(), QString("admin secret"));
+}
+
+void TstOnlineConfig::unlockResponse()
+{
+    QCOMPARE(parseUnlockResponse("{\"success\":\"true\",\"admin_session\":\"abc\",\"expires_in\":\"900\"}"),
+             QString("abc"));
+    QVERIFY(parseUnlockResponse("{\"success\":\"false\",\"error\":\"bad_password\"}").isEmpty());
+    QVERIFY(parseUnlockResponse("garbage").isEmpty());
+    QCOMPARE(refusalCode("{\"success\":\"false\",\"error\":\"bad_password\"}"), QString("bad_password"));
+    QVERIFY(refusalCode("{\"success\":\"true\",\"error\":\"x\"}").isEmpty());
+    QVERIFY(refusalCode("<html/>").isEmpty());
+}
+
+void TstOnlineConfig::refusalTexts()
+{
+    auto text = [](const QString &json) { return parseGetResponse(json.toUtf8()).error; };
+
+    QCOMPARE(text("{\"success\":\"false\",\"error\":\"bad_password\",\"msg\":\"Wrong admin password\"}"),
+             QString("Wrong admin password."));
+    QCOMPARE(text("{\"success\":\"false\",\"error\":\"rate_limited\",\"retry_after\":\"42\"}"),
+             QString("Too many attempts, try again in 42 s."));
+    QCOMPARE(text("{\"success\":\"false\",\"error\":\"rate_limited\"}"),
+             QString("Too many attempts, try again later."));
+    QCOMPARE(text("{\"success\":\"false\",\"error\":\"password_too_short\",\"min_length\":\"10\"}"),
+             QString("The admin password must have at least 10 characters."));
+    QCOMPARE(text("{\"success\":\"false\",\"error\":\"invalid_request\",\"msg\":\"admin_pass missing\"}"),
+             QString("admin_pass missing"));
+    QCOMPARE(text("{\"success\":\"false\",\"error\":\"not_allowed\"}"), QString("not_allowed"));
+
+    const QStringList codes = { "bad_session", "https_required", "admin_not_set", "admin_unavailable",
+                                "daemon_unreachable", "daemon_too_old", "upgrade_in_progress",
+                                "household_password_required", "admin_already_set", "internal" };
+    for (const QString &c : codes)
+    {
+        const QString t = text("{\"success\":\"false\",\"error\":\"" + c + "\",\"msg\":\"server text\"}");
+        QVERIFY2(!t.isEmpty() && t != c && !t.contains("server text"), qPrintable(c + ": " + t));
+    }
+    QCOMPARE(parsePutResponse("{\"success\":\"false\",\"error\":\"bad_password\"}").error,
+             QString("Wrong admin password."));
+}
+
+void TstOnlineConfig::unknownRefusalKeepsServerText()
+{
+    QCOMPARE(refusalText("{\"success\":\"false\",\"error\":\"unknown action\"}"), QString("unknown action"));
+    QVERIFY(refusalText("{\"success\":\"false\"}").isEmpty());
+    QVERIFY(refusalText("not json").isEmpty());
+}
+
+void TstOnlineConfig::serverUrls()
+{
+    QCOMPARE(serverUrl("192.168.1.10"), QUrl("https://192.168.1.10/api.php"));
+    QCOMPARE(serverUrl("http://192.168.1.10:5454/api.php"), QUrl("http://192.168.1.10:5454/api.php"));
+}
+
+void TstOnlineConfig::httpsRetry()
+{
+    const QUrl clear("http://192.168.1.10:5454/api.php");
+    QCOMPARE(httpsRetryUrl(clear), QUrl("https://192.168.1.10/api.php"));
+    QCOMPARE(httpsRetryUrl(clear, 8443), QUrl("https://192.168.1.10:8443/api.php"));
+    QVERIFY(!httpsRetryUrl(QUrl("https://192.168.1.10/api.php")).isValid());
+    QCOMPARE(httpsRetryUrl(QUrl("https://box.local/other.php")), QUrl("https://box.local/api.php"));
+
+    QVERIFY(shouldRetryOverHttps(QUrl("https://box/api.php"), "https_required"));
+    QVERIFY(shouldRetryOverHttps(clear, "bad_session"));
+    QVERIFY(!shouldRetryOverHttps(QUrl("http://192.168.1.10:8080/api.php"), "bad_session"));
+    QVERIFY(!shouldRetryOverHttps(clear, "bad_password"));
+    // An old server's own refusal: retrying elsewhere would hide it.
+    QVERIFY(!shouldRetryOverHttps(clear, "update calaos_installer: this io.xml would drop 2 device(s)"));
+}
 
 void TstOnlineConfig::putDeclaresFormat2()
 {

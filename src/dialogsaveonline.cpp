@@ -4,6 +4,7 @@
 #include "ConfigOptions.h"
 #include <Utils.h>
 #include "OnlineConfig.h"
+#include "OnlineSession.h"
 #include <QMessageBox>
 
 DialogSaveOnline::DialogSaveOnline(QString temp, QWidget *parent):
@@ -13,8 +14,15 @@ DialogSaveOnline::DialogSaveOnline(QString temp, QWidget *parent):
     setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
     ui->setupUi(this);
 
-    connect(&networkAccess, &QNetworkAccessManager::sslErrors,
-            this, &DialogSaveOnline::sslErrors);
+    online = new OnlineSession(this);
+    connect(online, &OnlineSession::finished, this,
+            [this](bool reached, const QByteArray &body, const QString &networkError)
+    {
+        if (putting)
+            uploadFinished(reached, body, networkError);
+        else
+            probeFinished(reached, body, networkError);
+    });
 
     auths = ConfigOptions::Instance().getAuthList();
     int curr = ConfigOptions::Instance().getCurrentAuthIndex();
@@ -97,79 +105,73 @@ void DialogSaveOnline::uploadXmlFiles(QString ip)
     if (reply == QMessageBox::Yes)
     {
         currentIP = ip;
-        QUrl url(QString("https://" + currentIP + "/api.php"));
-
-        if (ip.startsWith("http"))
-            url = QUrl(ip);
+        online->setServer(ip);
+        online->setCredentials(ui->editUsername->text(), ui->editPass->text(), ui->editAdminPass->text());
 
         // Always read the server first: its devices may differ from what this project was loaded
         // with, and a put declaring format 2 deletes them without a refusal.
-        probeServerFormat(url);
+        probeServerFormat();
     }
     else
         reject();
 }
 
-void DialogSaveOnline::putFiles(const QUrl &url)
+void DialogSaveOnline::putFiles()
 {
-    const QByteArray body = OnlineConfig::buildPutRequest(ui->editUsername->text(), ui->editPass->text(),
-                                                          readFileContent("io.xml"), readFileContent("rules.xml"));
-
-    QNetworkReply *reply = networkAccess.post(QNetworkRequest(url), body);
-    connect(reply, &QNetworkReply::finished, this, [this, reply]() { uploadFinished(reply); });
+    putting = true;
+    online->putConfig(readFileContent("io.xml"), readFileContent("rules.xml"));
 }
 
-void DialogSaveOnline::probeServerFormat(const QUrl &url)
+void DialogSaveOnline::probeServerFormat()
 {
-    const QByteArray body = OnlineConfig::buildGetRequest(ui->editUsername->text(), ui->editPass->text());
+    putting = false;
+    online->getConfig();
+}
 
-    QNetworkReply *reply = networkAccess.post(QNetworkRequest(url), body);
-    connect(reply, &QNetworkReply::finished, this, [this, reply, url]() {
-        reply->deleteLater();
+void DialogSaveOnline::probeFinished(bool reached, const QByteArray &body, const QString &networkError)
+{
+    if (!reached)
+    {
+        fail(tr("Failed to connect!\nPlease check your credentials.\nHTTP error: ") + networkError);
+        return;
+    }
 
-        if (reply->error() != QNetworkReply::NoError)
+    const OnlineConfig::GetResult res = OnlineConfig::parseGetResponse(body);
+    if (!res.ok)
+    {
+        fail(res.error.isEmpty() ? tr("Error when loading config files!")
+                                 : tr("The server refused the request:\n%1").arg(res.error));
+        return;
+    }
+
+    OnlineConfig::rememberServerFormat(currentIP, res.ioFormat);
+
+    const QString sentIo = readFileContent("io.xml");
+    if (!OnlineConfig::deviceIds(sentIo).isEmpty() &&
+        !OnlineConfig::serverAcceptsDevices(res.ioFormat))
+    {
+        fail(tr("This server is too old to store devices: update calaos_server, "
+                "or remove the devices from this project."));
+        return;
+    }
+
+    const QStringList lost = OnlineConfig::devicesLostByPut(res.ioXml, sentIo);
+    if (!lost.isEmpty())
+    {
+        const auto answer = QMessageBox::warning(
+            this, tr("Calaos Installer"),
+            tr("This will delete %n device(s) on the server: %1\n\nContinue?", nullptr, lost.size())
+                .arg(lost.join(", ")),
+            QMessageBox::Yes | QMessageBox::Cancel, QMessageBox::Cancel);
+        if (answer != QMessageBox::Yes)
         {
-            fail(tr("Failed to connect!\nPlease check your credentials.\nHTTP error: ") + reply->errorString());
+            this->setEnabled(true);
+            delete spinner;
             return;
         }
+    }
 
-        const OnlineConfig::GetResult res = OnlineConfig::parseGetResponse(reply->readAll());
-        if (!res.ok)
-        {
-            fail(res.error.isEmpty() ? tr("Error when loading config files!")
-                                     : tr("The server refused the request:\n%1").arg(res.error));
-            return;
-        }
-
-        OnlineConfig::rememberServerFormat(currentIP, res.ioFormat);
-
-        const QString sentIo = readFileContent("io.xml");
-        if (!OnlineConfig::deviceIds(sentIo).isEmpty() &&
-            !OnlineConfig::serverAcceptsDevices(res.ioFormat))
-        {
-            fail(tr("This server is too old to store devices: update calaos_server, "
-                    "or remove the devices from this project."));
-            return;
-        }
-
-        const QStringList lost = OnlineConfig::devicesLostByPut(res.ioXml, sentIo);
-        if (!lost.isEmpty())
-        {
-            const auto answer = QMessageBox::warning(
-                this, tr("Calaos Installer"),
-                tr("This will delete %n device(s) on the server: %1\n\nContinue?", nullptr, lost.size())
-                    .arg(lost.join(", ")),
-                QMessageBox::Yes | QMessageBox::Cancel, QMessageBox::Cancel);
-            if (answer != QMessageBox::Yes)
-            {
-                this->setEnabled(true);
-                delete spinner;
-                return;
-            }
-        }
-
-        putFiles(url);
-    });
+    putFiles();
 }
 
 void DialogSaveOnline::fail(const QString &message)
@@ -180,33 +182,27 @@ void DialogSaveOnline::fail(const QString &message)
     delete spinner;
 }
 
-void DialogSaveOnline::uploadFinished(QNetworkReply *reply)
+void DialogSaveOnline::uploadFinished(bool reached, const QByteArray &body, const QString &networkError)
 {
-    reply->deleteLater();
-
-    if (reply->error() == QNetworkReply::NoError)
+    if (!reached)
     {
-        const OnlineConfig::PutResult res = OnlineConfig::parsePutResponse(reply->readAll());
-
-        if (res.ok)
-        {
-            QMessageBox::information(this, tr("Calaos Installer"),
-                                     tr("Configuration successfully uploaded."));
-
-            accept();
-        }
-        else if (!res.error.isEmpty())
-            fail(tr("The server refused the configuration:\n%1").arg(res.error));
-        else
-            fail(tr("Error when loading config files!"));
+        fail(tr("Failed to connect!\nPlease check your credentials.\nHTTP error: ") + networkError);
+        return;
     }
-    else
-        fail(tr("Failed to connect!\nPlease check your credentials.\nHTTP error: ") + reply->errorString());
-}
 
-void DialogSaveOnline::sslErrors(QNetworkReply *reply, const QList<QSslError> &)
-{
-    reply->ignoreSslErrors();
+    const OnlineConfig::PutResult res = OnlineConfig::parsePutResponse(body);
+
+    if (res.ok)
+    {
+        QMessageBox::information(this, tr("Calaos Installer"),
+                                 tr("Configuration successfully uploaded."));
+
+        accept();
+    }
+    else if (!res.error.isEmpty())
+        fail(tr("The server refused the configuration:\n%1").arg(res.error));
+    else
+        fail(tr("Error when loading config files!"));
 }
 
 void DialogSaveOnline::on_buttonBox_rejected()
@@ -216,10 +212,9 @@ void DialogSaveOnline::on_buttonBox_rejected()
 
 void DialogSaveOnline::on_checkShowPass_toggled(bool checked)
 {
-    if (checked)
-        ui->editPass->setEchoMode(QLineEdit::Normal);
-    else
-        ui->editPass->setEchoMode(QLineEdit::Password);
+    const QLineEdit::EchoMode mode = checked ? QLineEdit::Normal : QLineEdit::Password;
+    ui->editPass->setEchoMode(mode);
+    ui->editAdminPass->setEchoMode(mode);
 }
 
 void DialogSaveOnline::on_pushButtonDelPref_clicked()

@@ -6,6 +6,8 @@
 #include <qanimationlabel.h>
 #include "ConfigOptions.h"
 
+class OnlineSession;
+
 #include <iostream>
 using namespace std;
 
@@ -29,15 +31,18 @@ private:
     Ui::DialogSaveOnline *ui;
 
     QPointer<QAnimationLabel> spinner;
-    QNetworkAccessManager networkAccess;
+    OnlineSession *online;
+    bool putting = false;
 
     QString currentDir, currentIP;
 
     QVector<CalaosAuth> auths;
 
     void uploadXmlFiles(QString ip);
-    void probeServerFormat(const QUrl &url);
-    void putFiles(const QUrl &url);
+    void probeServerFormat();
+    void probeFinished(bool reached, const QByteArray &body, const QString &networkError);
+    void putFiles();
+    void uploadFinished(bool reached, const QByteArray &body, const QString &networkError);
     void fail(const QString &message);
     QString readFileContent(QString fileName);
 
@@ -45,9 +50,6 @@ private slots:
     void on_checkShowPass_toggled(bool checked);
     void on_buttonBox_rejected();
     void on_buttonBox_accepted();
-
-    void uploadFinished(QNetworkReply *reply);
-    void sslErrors(QNetworkReply *reply, const QList<QSslError> &errors);
     void on_pushButtonDelPref_clicked();
     void on_comboIP_currentIndexChanged(int index);
 };

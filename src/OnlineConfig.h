@@ -4,6 +4,7 @@
 #include <QByteArray>
 #include <QString>
 #include <QStringList>
+#include <QUrl>
 
 // JSON side of "config get" / "config put" against calaos_server, kept free of widgets and network.
 namespace OnlineConfig
@@ -16,9 +17,30 @@ const int kDevicesMinFormat = 2;
 // Marks a server whose format was never read in this session.
 const int kFormatUnknown = 0;
 
-QByteArray buildGetRequest(const QString &user, const QString &pass);
+// An empty adminSession leaves the key out, so a server without an admin sees today's request.
+QByteArray buildGetRequest(const QString &user, const QString &pass, const QString &adminSession = QString());
 QByteArray buildPutRequest(const QString &user, const QString &pass,
-                           const QString &ioXml, const QString &rulesXml);
+                           const QString &ioXml, const QString &rulesXml,
+                           const QString &adminSession = QString());
+QByteArray buildUnlockRequest(const QString &user, const QString &pass, const QString &adminPass);
+
+// Error code of a refusal ({"success":"false","error":<code>}), empty for a success or a non-JSON body.
+QString refusalCode(const QByteArray &body);
+// Session of a successful admin_unlock answer, empty otherwise.
+QString parseUnlockResponse(const QByteArray &body);
+
+// Readable text of a refusal: the admin codes of calaos_server are translated, any other
+// error is the server's own text, empty when it gave none.
+QString refusalText(const QByteArray &body);
+
+// Server address as typed in the dialogs: a bare host means https://host/api.php.
+QUrl serverUrl(const QString &host);
+// https://host/api.php (httpsPort < 0: the default port), or an empty URL when that is
+// already the URL tried: a refusal there would only come back.
+QUrl httpsRetryUrl(const QUrl &url, int httpsPort = -1);
+// https_required, or an admin session refused on the clear port 5454, which can never
+// carry one. Other refusals are not retried: an old server has no https to retry on.
+bool shouldRetryOverHttps(const QUrl &url, const QString &code);
 
 struct GetResult
 {

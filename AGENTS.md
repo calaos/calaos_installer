@@ -79,6 +79,7 @@ QT_QPA_PLATFORM=offscreen ./tst_projectmanager/tst_projectmanager -v2 ioRoundTri
   tree (`src/HomeTree.*`), cascade delete without double delete, drag and drop onto a room and
   the delete confirmation dialog.
 - `tests/tst_onlineconfig/` covers the `config get`/`put` JSON helper (`src/OnlineConfig.*`): `io_format` declared in every put, announced format parsing, the server's refusal text, the per-host format memory behind the devices gate in `DialogSaveOnline`.
+- `tests/tst_onlinesession/` drives `OnlineSession` (`src/OnlineSession.*`, the requests of the online open/save dialogs) against a fake `/api.php` over http and https (`QSslServer`, a self-signed certificate for 127.0.0.1): one `admin_unlock` when the server answers `bad_session`, `admin_session` in the body of `config get`/`put` only, one https retry on `https_required`, requests unchanged against a server without admin.
 - `tests/tst_devicetemplates/` covers `DeviceTemplates` (`src/DeviceTemplates.*`), the device
   templates of calaos_base applied to the model: for every shipped template, each enum option and
   each `when` both ways builds a device whose roles, params and IO params are documented in

@@ -1199,6 +1199,76 @@ p, li { white-space: pre-wrap; }
         <source>(device without id)</source>
         <translation>(device sans identifiant)</translation>
     </message>
+    <message>
+        <location filename="../src/OnlineConfig.cpp" line="130"/>
+        <source>This server has an admin password. Enter it in the &quot;Admin password&quot; field (again if the previous admin session expired).</source>
+        <translation>Ce serveur a un mot de passe admin. Saisissez-le dans le champ « Mot de passe admin » (à nouveau si la session admin précédente a expiré).</translation>
+    </message>
+    <message>
+        <location filename="../src/OnlineConfig.cpp" line="133"/>
+        <source>Wrong admin password.</source>
+        <translation>Mot de passe admin incorrect.</translation>
+    </message>
+    <message>
+        <location filename="../src/OnlineConfig.cpp" line="134"/>
+        <source>This server only accepts this request over https. Use its address alone (or https://address/api.php) instead of http://.</source>
+        <translation>Ce serveur n&apos;accepte cette requête qu&apos;en https. Utilisez son adresse seule (ou https://adresse/api.php) au lieu de http://.</translation>
+    </message>
+    <message>
+        <location filename="../src/OnlineConfig.cpp" line="137"/>
+        <source>No admin password is set on this server: leave the &quot;Admin password&quot; field empty.</source>
+        <translation>Aucun mot de passe admin n&apos;est défini sur ce serveur : laissez le champ « Mot de passe admin » vide.</translation>
+    </message>
+    <message>
+        <location filename="../src/OnlineConfig.cpp" line="139"/>
+        <source>Administration is unavailable (calaos-container cannot be reached; it is only available on Calaos OS). Try again in a moment.</source>
+        <translation>Administration indisponible (calaos-container injoignable ; disponible seulement sur Calaos OS). Réessayez dans un instant.</translation>
+    </message>
+    <message>
+        <location filename="../src/OnlineConfig.cpp" line="142"/>
+        <source>The server cannot reach its system service (calaos-container) to check the admin password. Try again in a moment.</source>
+        <translation>Le serveur ne joint pas son service système (calaos-container) pour vérifier le mot de passe admin. Réessayez dans un instant.</translation>
+    </message>
+    <message>
+        <location filename="../src/OnlineConfig.cpp" line="145"/>
+        <source>Administration is being enabled on this box. Try again in a moment; restart the box if this lasts more than 2 minutes.</source>
+        <translation>Activation de l&apos;administration en cours sur cette box. Réessayez dans un instant ; redémarrez la box si cela dure plus de 2 minutes.</translation>
+    </message>
+    <message>
+        <location filename="../src/OnlineConfig.cpp" line="148"/>
+        <source>An update is already in progress on this box.</source>
+        <translation>Une mise à jour est déjà en cours sur cette box.</translation>
+    </message>
+    <message>
+        <location filename="../src/OnlineConfig.cpp" line="150"/>
+        <source>Change the household password of this box first.</source>
+        <translation>Changez d&apos;abord le mot de passe foyer de cette box.</translation>
+    </message>
+    <message>
+        <location filename="../src/OnlineConfig.cpp" line="152"/>
+        <source>Someone has just set the admin password of this box.</source>
+        <translation>Quelqu&apos;un vient de définir le mot de passe admin de cette box.</translation>
+    </message>
+    <message>
+        <location filename="../src/OnlineConfig.cpp" line="154"/>
+        <source>Internal server error. The details are in the calaos_server log.</source>
+        <translation>Erreur interne du serveur. Le détail est dans le journal de calaos_server.</translation>
+    </message>
+    <message>
+        <location filename="../src/OnlineConfig.cpp" line="166"/>
+        <source>Too many attempts, try again later.</source>
+        <translation>Trop d&apos;essais, réessayez plus tard.</translation>
+    </message>
+    <message>
+        <location filename="../src/OnlineConfig.cpp" line="167"/>
+        <source>Too many attempts, try again in %1 s.</source>
+        <translation>Trop d&apos;essais, réessayez dans %1 s.</translation>
+    </message>
+    <message>
+        <location filename="../src/OnlineConfig.cpp" line="170"/>
+        <source>The admin password must have at least %1 characters.</source>
+        <translation>Le mot de passe admin doit avoir au moins %1 caractères.</translation>
+    </message>
 </context>
 <context>
     <name>DialogDeleteImpact</name>
@@ -4368,6 +4438,21 @@ HTTP error: </translation>
         <translation>Le serveur a refusé la requête :
 %1</translation>
     </message>
+    <message>
+        <location filename="../data/DialogOpenOnline.ui" line="129"/>
+        <source>Admin password:</source>
+        <translation>Mot de passe admin :</translation>
+    </message>
+    <message>
+        <location filename="../data/DialogOpenOnline.ui" line="139"/>
+        <source>Only if this box has an admin password</source>
+        <translation>Seulement si cette box a un mot de passe admin</translation>
+    </message>
+    <message>
+        <location filename="../data/DialogOpenOnline.ui" line="142"/>
+        <source>Never saved: asked once each time this window opens</source>
+        <translation>Jamais enregistré : demandé une fois à chaque ouverture de cette fenêtre</translation>
+    </message>
 </context>
 <context>
     <name>DialogOptions</name>
@@ -4700,6 +4785,21 @@ Continuer ?</numerusform>
         <location filename="../src/dialogsaveonline.cpp" line="191"/>
         <source>Are you sure you want to delete this saved host (%1) ?</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../data/DialogSaveOnline.ui" line="146"/>
+        <source>Admin password:</source>
+        <translation>Mot de passe admin :</translation>
+    </message>
+    <message>
+        <location filename="../data/DialogSaveOnline.ui" line="156"/>
+        <source>Only if this box has an admin password</source>
+        <translation>Seulement si cette box a un mot de passe admin</translation>
+    </message>
+    <message>
+        <location filename="../data/DialogSaveOnline.ui" line="159"/>
+        <source>Never saved: asked once each time this window opens</source>
+        <translation>Jamais enregistré : demandé une fois à chaque ouverture de cette fenêtre</translation>
     </message>
 </context>
 <context>

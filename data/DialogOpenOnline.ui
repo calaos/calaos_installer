@@ -123,6 +123,26 @@
           </property>
          </widget>
         </item>
+        <item row="2" column="0">
+         <widget class="QLabel" name="labelAdminPass">
+          <property name="text">
+           <string>Admin password:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="1">
+         <widget class="QLineEdit" name="editAdminPass">
+          <property name="echoMode">
+           <enum>QLineEdit::Password</enum>
+          </property>
+          <property name="placeholderText">
+           <string>Only if this box has an admin password</string>
+          </property>
+          <property name="toolTip">
+           <string>Never saved: asked once each time this window opens</string>
+          </property>
+         </widget>
+        </item>
        </layout>
       </item>
      </layout>

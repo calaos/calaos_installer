@@ -3,6 +3,7 @@
 
 #include "ConfigOptions.h"
 #include "OnlineConfig.h"
+#include "OnlineSession.h"
 #include <Utils.h>
 #include <QJsonDocument>
 #include <QMessageBox>
@@ -14,8 +15,8 @@ DialogOpenOnline::DialogOpenOnline(QString temp, QWidget *parent):
     setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
     ui->setupUi(this);
 
-    connect(&networkAccess, &QNetworkAccessManager::sslErrors,
-            this, &DialogOpenOnline::sslErrors);
+    online = new OnlineSession(this);
+    connect(online, &OnlineSession::finished, this, &DialogOpenOnline::downloadFinished);
 
     auths = ConfigOptions::Instance().getAuthList();
     int curr = ConfigOptions::Instance().getCurrentAuthIndex();
@@ -80,17 +81,9 @@ void DialogOpenOnline::on_buttonBox_accepted()
 void DialogOpenOnline::loadXmlFiles(QString ip)
 {
     currentIP = ip;
-    QUrl url(QString("https://" + currentIP + "/api.php"));
-
-    if (ip.startsWith("http"))
-        url = QUrl(ip);
-
-    const QByteArray body = OnlineConfig::buildGetRequest(ui->editUsername->text(), ui->editPass->text());
-
-    connect(&networkAccess, &QNetworkAccessManager::finished,
-            this, &DialogOpenOnline::downloadFinishedFiles);
-
-    networkAccess.post(QNetworkRequest(url), body);
+    online->setServer(ip);
+    online->setCredentials(ui->editUsername->text(), ui->editPass->text(), ui->editAdminPass->text());
+    online->getConfig();
 }
 
 void DialogOpenOnline::saveXMLFile(QString filename, QString data)
@@ -105,12 +98,11 @@ void DialogOpenOnline::saveXMLFile(QString filename, QString data)
     xml.close();
 }
 
-void DialogOpenOnline::downloadFinishedFiles(QNetworkReply *reply)
+void DialogOpenOnline::downloadFinished(bool reached, const QByteArray &body, const QString &networkError)
 {
-    if (reply->error() == QNetworkReply::NoError)
+    if (reached)
     {
-        QByteArray bytes = reply->readAll();
-        const OnlineConfig::GetResult res = OnlineConfig::parseGetResponse(bytes);
+        const OnlineConfig::GetResult res = OnlineConfig::parseGetResponse(body);
 
         if (res.ok)
         {
@@ -144,21 +136,11 @@ void DialogOpenOnline::downloadFinishedFiles(QNetworkReply *reply)
     }
     else
     {
-        QMessageBox::critical(this, tr("Calaos Installer"), tr("Failed to connect!\nPlease check your credentials.\nHTTP error: ") + reply->errorString());
+        QMessageBox::critical(this, tr("Calaos Installer"), tr("Failed to connect!\nPlease check your credentials.\nHTTP error: ") + networkError);
 
         this->setEnabled(true);
         delete spinner;
     }
-
-    disconnect(&networkAccess, &QNetworkAccessManager::finished,
-               this, &DialogOpenOnline::downloadFinishedFiles);
-
-    reply->deleteLater();
-}
-
-void DialogOpenOnline::sslErrors(QNetworkReply *reply, const QList<QSslError> &)
-{
-    reply->ignoreSslErrors();
 }
 
 void DialogOpenOnline::on_buttonBox_rejected()
@@ -168,10 +150,9 @@ void DialogOpenOnline::on_buttonBox_rejected()
 
 void DialogOpenOnline::on_checkShowPass_toggled(bool checked)
 {
-    if (checked)
-        ui->editPass->setEchoMode(QLineEdit::Normal);
-    else
-        ui->editPass->setEchoMode(QLineEdit::Password);
+    const QLineEdit::EchoMode mode = checked ? QLineEdit::Normal : QLineEdit::Password;
+    ui->editPass->setEchoMode(mode);
+    ui->editAdminPass->setEchoMode(mode);
 }
 
 void DialogOpenOnline::on_pushButtonDelPref_clicked()
