@@ -4,59 +4,64 @@
 <context>
     <name>BackupArchive</name>
     <message>
-        <location filename="../src/BackupArchive.cpp" line="57"/>
+        <location filename="../src/BackupArchive.cpp" line="69"/>
         <source>%1 cannot be read from this archive.</source>
         <translation>%1 ne peut pas être lu dans cette archive.</translation>
     </message>
     <message>
-        <location filename="../src/BackupArchive.cpp" line="65"/>
-        <location filename="../src/BackupArchive.cpp" line="139"/>
+        <location filename="../src/BackupArchive.cpp" line="77"/>
+        <location filename="../src/BackupArchive.cpp" line="179"/>
         <source>%1 is larger than the 2 MiB allowed in a backup.</source>
         <translation>%1 dépasse les 2 Mio autorisés dans une sauvegarde.</translation>
     </message>
     <message>
-        <location filename="../src/BackupArchive.cpp" line="70"/>
+        <location filename="../src/BackupArchive.cpp" line="82"/>
         <source>%1 is damaged in this archive.</source>
         <translation>%1 est endommagé dans cette archive.</translation>
     </message>
     <message>
-        <location filename="../src/BackupArchive.cpp" line="84"/>
+        <location filename="../src/BackupArchive.cpp" line="123"/>
         <source>This archive is larger than the 8 MiB allowed for a backup.</source>
         <translation>Cette archive dépasse les 8 Mio autorisés pour une sauvegarde.</translation>
     </message>
     <message>
-        <location filename="../src/BackupArchive.cpp" line="91"/>
+        <location filename="../src/BackupArchive.cpp" line="130"/>
         <source>This file cannot be read as a zip archive.</source>
         <translation>Ce fichier ne peut pas être lu comme une archive zip.</translation>
     </message>
     <message>
-        <location filename="../src/BackupArchive.cpp" line="108"/>
+        <location filename="../src/BackupArchive.cpp" line="148"/>
         <source>This archive holds more than the %1 entries allowed in a backup.</source>
         <translation>Cette archive contient plus que les %1 entrées autorisées dans une sauvegarde.</translation>
     </message>
     <message>
-        <location filename="../src/BackupArchive.cpp" line="118"/>
-        <location filename="../src/BackupArchive.cpp" line="133"/>
+        <location filename="../src/BackupArchive.cpp" line="158"/>
+        <location filename="../src/BackupArchive.cpp" line="173"/>
         <source>This archive is refused: it has a path outside its own folder (%1).</source>
         <translation>Cette archive est refusée : elle contient un chemin hors de son propre dossier (%1).</translation>
     </message>
     <message>
-        <location filename="../src/BackupArchive.cpp" line="150"/>
+        <location filename="../src/BackupArchive.cpp" line="192"/>
         <source>This archive holds %1 twice: there is no telling which one to open.</source>
         <translation>Cette archive contient deux fois %1 : impossible de savoir lequel ouvrir.</translation>
     </message>
     <message>
-        <location filename="../src/BackupArchive.cpp" line="165"/>
+        <location filename="../src/BackupArchive.cpp" line="199"/>
+        <source>This archive holds two project folders: there is no telling which one to open.</source>
+        <translation>Cette archive contient deux dossiers de projet : impossible de savoir lequel ouvrir.</translation>
+    </message>
+    <message>
+        <location filename="../src/BackupArchive.cpp" line="215"/>
         <source>This archive is not a Calaos backup: %1 is missing.</source>
         <translation>Cette archive n&apos;est pas une sauvegarde Calaos : %1 est absent.</translation>
     </message>
     <message>
-        <location filename="../src/BackupArchive.cpp" line="208"/>
+        <location filename="../src/BackupArchive.cpp" line="231"/>
         <source>%1 in this archive is not a valid Calaos project file.</source>
         <translation>%1 dans cette archive n&apos;est pas un fichier de projet Calaos valide.</translation>
     </message>
     <message>
-        <location filename="../src/BackupArchive.cpp" line="193"/>
+        <location filename="../src/BackupArchive.cpp" line="252"/>
         <source>The project could not be written to %1.</source>
         <translation>Le projet n&apos;a pas pu être écrit dans %1.</translation>
     </message>

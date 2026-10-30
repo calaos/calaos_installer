@@ -19,34 +19,45 @@ const QString kIoFile = QStringLiteral("io.xml");
 const QString kRulesFile = QStringLiteral("rules.xml");
 const QString kLocalConfigFile = QStringLiteral("local_config.xml");
 
+QString toUnixPath(const QString &path)
+{
+    return QString(path).replace(QLatin1Char('\\'), QLatin1Char('/'));
+}
+
 // Only fixed names are ever written, so this cannot escape the project folder: an archive
 // that tries is simply not a backup.
 bool isTraversal(const QString &path)
 {
-    const QString unixPath = QString(path).replace(QLatin1Char('\\'), QLatin1Char('/'));
+    const QString unixPath = toUnixPath(path);
 
     return unixPath.startsWith(QLatin1Char('/'))
            || (unixPath.size() >= 2 && unixPath.at(1) == QLatin1Char(':'))
            || unixPath.split(QLatin1Char('/')).contains(QStringLiteral(".."));
 }
 
-// The file name when path is at the root or under one folder, the layouts of a backup and
-// of a zipped project. Empty for anything else, macOS' __MACOSX and dot files included.
-QString projectFileName(const QString &path)
+struct ProjectPath
 {
-    QStringList parts = path.split(QLatin1Char('/'), Qt::SkipEmptyParts);
+    QString folder;
+    QString fileName;
+};
+
+// A file name when path is at the root or under one folder, the layouts of a backup and of a
+// zipped project. Empty for anything else, macOS' __MACOSX and dot files included.
+ProjectPath projectPath(const QString &path)
+{
+    QStringList parts = toUnixPath(path).split(QLatin1Char('/'), Qt::SkipEmptyParts);
     parts.removeAll(QStringLiteral("."));
 
     if (parts.isEmpty() || parts.size() > 2 || parts.first() == QLatin1String("__MACOSX"))
-        return QString();
+        return {};
 
     for (const QString &part : std::as_const(parts))
     {
         if (part.startsWith(QLatin1Char('.')))
-            return QString();
+            return {};
     }
 
-    return parts.last();
+    return {parts.size() == 2 ? parts.first() : QString(), parts.last()};
 }
 
 bool readEntry(const KZipFileEntry *file, QByteArray &data, QString &error)
@@ -121,6 +132,7 @@ bool BackupArchive::read(const QString &zipPath, Project &project, QString &erro
     }
 
     QHash<QString, const KZipFileEntry *> found;
+    QString folder;
     QList<const KArchiveDirectory *> pending{zip.directory()};
     int entries = 0;
 
@@ -168,17 +180,27 @@ bool BackupArchive::read(const QString &zipPath, Project &project, QString &erro
                 return false;
             }
 
-            const QString fileName = projectFileName(file->path());
+            const ProjectPath projectFile = projectPath(file->path());
+            const QString &fileName = projectFile.fileName;
             if (fileName != kIoFile && fileName != kRulesFile && fileName != kLocalConfigFile)
                 continue;
 
-            // Only across folders: KZip does not let a second entry of a path reach this tree.
+            // Only across folders: of two entries with one cleaned path, KZip lets at most the
+            // first reach this tree.
             if (found.contains(fileName))
             {
                 error = tr("This archive holds %1 twice: there is no telling which one to open.")
                             .arg(fileName);
                 return false;
             }
+            // Mixing them would send half of a project and half of another to the box.
+            if (!found.isEmpty() && projectFile.folder != folder)
+            {
+                error = tr("This archive holds two project folders: there is no telling which "
+                           "one to open.");
+                return false;
+            }
+            folder = projectFile.folder;
             found.insert(fileName, file);
         }
     }

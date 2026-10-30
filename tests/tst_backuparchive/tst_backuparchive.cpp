@@ -135,6 +135,9 @@ private slots:
     void traversalIsRefused_data();
     void traversalIsRefused();
     void sameFileInTwoFolders();
+    void twoFoldersAreRefused_data();
+    void twoFoldersAreRefused();
+    void backslashFolder();
     void samePathTwiceIsRefusedByKZip();
     void failureLeavesTheProjectAlone();
     void writeReplacesTheProjectFiles();
@@ -450,6 +453,50 @@ void TestBackupArchive::sameFileInTwoFolders()
     QString error;
     QVERIFY(!BackupArchive::read(saveZip(entries), project, error));
     QVERIFY2(error.contains("io.xml") && error.contains("twice"), qPrintable(error));
+}
+
+void TestBackupArchive::twoFoldersAreRefused_data()
+{
+    QTest::addColumn<QStringList>("names");
+
+    QTest::newRow("side by side") << QStringList{"a/io.xml", "b/rules.xml"};
+    QTest::newRow("io.xml at the root") << QStringList{"io.xml", "a/rules.xml"};
+    QTest::newRow("rules.xml at the root") << QStringList{"a/io.xml", "rules.xml"};
+    QTest::newRow("backslashes") << QStringList{"a\\io.xml", "b\\rules.xml"};
+    QTest::newRow("local_config.xml elsewhere")
+        << QStringList{"a/io.xml", "a/rules.xml", "b/local_config.xml"};
+    QTest::newRow("local_config.xml at the root")
+        << QStringList{"a/io.xml", "a/rules.xml", "local_config.xml"};
+    QTest::newRow("local_config.xml in a folder")
+        << QStringList{"io.xml", "rules.xml", "a/local_config.xml"};
+}
+
+void TestBackupArchive::twoFoldersAreRefused()
+{
+    QFETCH(QStringList, names);
+
+    QList<RawEntry> entries;
+    for (const QString &name : std::as_const(names))
+        entries.append({name, name.endsWith("rules.xml") ? kRules : kIo});
+
+    BackupArchive::Project project;
+    project.io = "open project";
+
+    QString error;
+    QVERIFY(!BackupArchive::read(saveZip(entries), project, error));
+    QVERIFY2(error.contains("two project folders"), qPrintable(error));
+    QCOMPARE(project.io, QByteArray("open project"));
+}
+
+void TestBackupArchive::backslashFolder()
+{
+    const QString zip = saveZip({{"maison\\io.xml", kIo}, {"maison\\rules.xml", kRules}});
+
+    BackupArchive::Project project;
+    QString error;
+    QVERIFY2(BackupArchive::read(zip, project, error), qPrintable(error));
+    QCOMPARE(project.io, kIo);
+    QCOMPARE(project.rules, kRules);
 }
 
 void TestBackupArchive::samePathTwiceIsRefusedByKZip()
