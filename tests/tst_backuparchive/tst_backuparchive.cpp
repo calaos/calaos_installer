@@ -113,6 +113,7 @@ private:
 
 private slots:
     void backupFromTheWebApp();
+    void zipWrittenByTheWebAppCode();
     void zipWrittenByAnotherTool();
     void projectFolderZipped();
     void localConfigIsNoticedNotRead();
@@ -157,6 +158,30 @@ void TestBackupArchive::backupFromTheWebApp()
     QVERIFY2(BackupArchive::read(zip, project, error), qPrintable(error));
     QCOMPARE(project.io, kIo);
     QCOMPARE(project.rules, kRules);
+}
+
+// The zip, and the three files it was made from, are produced by the web app's own encodeZip.
+void TestBackupArchive::zipWrittenByTheWebAppCode()
+{
+    const QString dir = QStringLiteral(CALAOS_SAMPLES_DIR "/tst_backuparchive/fixtures/");
+    const auto fixture = [&dir](const QString &name) {
+        QFile file(dir + name);
+        if (!file.open(QIODevice::ReadOnly))
+            qFatal("missing fixture %s", qPrintable(name));
+        return file.readAll();
+    };
+
+    BackupArchive::Project project;
+    QString error;
+    QVERIFY2(BackupArchive::read(dir + QStringLiteral("calaos-backup-maison-20261025-0912.zip"),
+                                 project, error),
+             qPrintable(error));
+    QVERIFY(project.io.contains("<calaos:room name=\"Salon\""));
+    QCOMPARE(project.io, fixture(QStringLiteral("io.xml")));
+    QVERIFY(project.rules.contains("lumiere_salon"));
+    QCOMPARE(project.rules, fixture(QStringLiteral("rules.xml")));
+    QVERIFY(project.hasLocalConfig);
+    QVERIFY(!fixture(QStringLiteral("local_config.xml")).isEmpty());
 }
 
 void TestBackupArchive::zipWrittenByAnotherTool()
@@ -286,6 +311,8 @@ void TestBackupArchive::invalidFileIsRefused_data()
     QTest::newRow("io.xml starting at home") << "io.xml" << "<calaos:home " + ns + "/>";
     QTest::newRow("io.xml, unknown top element")
         << "io.xml" << "<calaos:ioconfig " + ns + "><calaos:other/></calaos:ioconfig>";
+    QTest::newRow("io.xml, a sibling after home")
+        << "io.xml" << "<calaos:ioconfig " + ns + "><calaos:home/><calaos:other/></calaos:ioconfig>";
     QTest::newRow("io.xml, undeclared prefix") << "io.xml" << QByteArray("<calaos:ioconfig/>");
 }
 
