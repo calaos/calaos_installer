@@ -51,6 +51,11 @@
         <translation>Cette archive n&apos;est pas une sauvegarde Calaos : %1 est absent.</translation>
     </message>
     <message>
+        <location filename="../src/BackupArchive.cpp" line="208"/>
+        <source>%1 in this archive is not a valid Calaos project file.</source>
+        <translation>%1 dans cette archive n&apos;est pas un fichier de projet Calaos valide.</translation>
+    </message>
+    <message>
         <location filename="../src/BackupArchive.cpp" line="193"/>
         <source>The project could not be written to %1.</source>
         <translation>Le projet n&apos;a pas pu être écrit dans %1.</translation>

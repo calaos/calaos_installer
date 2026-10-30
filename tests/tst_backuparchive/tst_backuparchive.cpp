@@ -4,6 +4,7 @@
 
 #include <QBuffer>
 #include <QDataStream>
+#include <QDir>
 #include <QFile>
 #include <QTemporaryDir>
 #include <QTest>
@@ -11,8 +12,9 @@
 namespace
 {
 
-const QByteArray kIo = "<?xml version=\"1.0\"?><calaos:ioconfig/>";
-const QByteArray kRules = "<?xml version=\"1.0\"?><calaos:rules/>";
+const QByteArray kIo = "<?xml version=\"1.0\"?><calaos:ioconfig xmlns:calaos=\"http://www.calaos.fr\">"
+                       "<calaos:home/></calaos:ioconfig>";
+const QByteArray kRules = "<?xml version=\"1.0\"?><calaos:rules xmlns:calaos=\"http://www.calaos.fr\"/>";
 
 struct RawEntry
 {
@@ -115,8 +117,11 @@ private slots:
     void projectFolderZipped();
     void localConfigIsNoticedNotRead();
     void macosLeftoversAreIgnored();
+    void sampleProjectsOpen();
     void missingFile_data();
     void missingFile();
+    void invalidFileIsRefused_data();
+    void invalidFileIsRefused();
     void notAZip();
     void missingArchive();
     void entryAtTheLimit();
@@ -204,6 +209,29 @@ void TestBackupArchive::macosLeftoversAreIgnored()
     QCOMPARE(project.rules, kRules);
 }
 
+void TestBackupArchive::sampleProjectsOpen()
+{
+    int checked = 0;
+
+    const QStringList folders = QDir(CALAOS_SAMPLES_DIR).entryList(QDir::Dirs | QDir::NoDotAndDotDot);
+    for (const QString &folder : folders)
+    {
+        QFile io(QStringLiteral(CALAOS_SAMPLES_DIR "/%1/io.xml").arg(folder));
+        QFile rules(QStringLiteral(CALAOS_SAMPLES_DIR "/%1/rules.xml").arg(folder));
+        if (!io.open(QIODevice::ReadOnly) || !rules.open(QIODevice::ReadOnly))
+            continue;
+
+        const QString zip = deflatedZip({{"io.xml", io.readAll()}, {"rules.xml", rules.readAll()}});
+
+        BackupArchive::Project project;
+        QString error;
+        QVERIFY2(BackupArchive::read(zip, project, error), qPrintable(folder + ": " + error));
+        ++checked;
+    }
+
+    QVERIFY(checked > 0);
+}
+
 void TestBackupArchive::missingFile_data()
 {
     QTest::addColumn<QStringList>("names");
@@ -234,6 +262,49 @@ void TestBackupArchive::missingFile()
         QVERIFY2(error.contains(name), qPrintable(error));
 }
 
+void TestBackupArchive::invalidFileIsRefused_data()
+{
+    QTest::addColumn<QString>("name");
+    QTest::addColumn<QByteArray>("content");
+
+    const QByteArray ns = "xmlns:calaos=\"http://www.calaos.fr\"";
+
+    QTest::newRow("empty rules.xml") << "rules.xml" << QByteArray();
+    QTest::newRow("truncated rules.xml")
+        << "rules.xml" << "<calaos:rules " + ns + "><calaos:rule name=\"a\"";
+    QTest::newRow("rules.xml, not XML") << "rules.xml" << QByteArray("not XML");
+    QTest::newRow("rules.xml holding an io.xml") << "rules.xml" << kIo;
+    QTest::newRow("rules.xml, no prefix") << "rules.xml" << QByteArray("<rules><rule/></rules>");
+    QTest::newRow("rules.xml, nothing but a prolog") << "rules.xml" << QByteArray("<?xml version=\"1.0\"?>");
+
+    QTest::newRow("empty io.xml") << "io.xml" << QByteArray();
+    QTest::newRow("truncated io.xml") << "io.xml" << "<calaos:ioconfig " + ns + "><calaos:home>";
+    QTest::newRow("io.xml holding a rules.xml") << "io.xml" << kRules;
+    QTest::newRow("io.xml starting at home") << "io.xml" << "<calaos:home " + ns + "/>";
+    QTest::newRow("io.xml, unknown top element")
+        << "io.xml" << "<calaos:ioconfig " + ns + "><calaos:other/></calaos:ioconfig>";
+    QTest::newRow("io.xml, undeclared prefix") << "io.xml" << QByteArray("<calaos:ioconfig/>");
+}
+
+void TestBackupArchive::invalidFileIsRefused()
+{
+    QFETCH(QString, name);
+    QFETCH(QByteArray, content);
+
+    const QList<RawEntry> entries{{"io.xml", name == "io.xml" ? content : kIo},
+                                  {"rules.xml", name == "rules.xml" ? content : kRules}};
+
+    BackupArchive::Project project;
+    project.io = "open project";
+    project.rules = "open project";
+
+    QString error;
+    QVERIFY(!BackupArchive::read(saveZip(entries), project, error));
+    QVERIFY2(error.contains(name) && error.contains("not a valid"), qPrintable(error));
+    QCOMPARE(project.io, QByteArray("open project"));
+    QCOMPARE(project.rules, QByteArray("open project"));
+}
+
 void TestBackupArchive::notAZip()
 {
     BackupArchive::Project project;
@@ -252,7 +323,8 @@ void TestBackupArchive::missingArchive()
 
 void TestBackupArchive::entryAtTheLimit()
 {
-    const QByteArray largest(BackupArchive::kMaxEntrySize, 'x');
+    const qint64 padding = BackupArchive::kMaxEntrySize - kIo.size() - strlen("<!---->");
+    const QByteArray largest = kIo + "<!--" + QByteArray(padding, 'x') + "-->";
     const QString zip = saveZip({{"io.xml", largest}, {"rules.xml", kRules}});
 
     BackupArchive::Project project;

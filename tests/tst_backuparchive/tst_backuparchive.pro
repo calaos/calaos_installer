@@ -8,6 +8,8 @@ TEMPLATE = app
 
 INCLUDEPATH += $$PWD/../../src
 
+DEFINES += CALAOS_SAMPLES_DIR=\\\"$$PWD/..\\\"
+
 # The unit tests only run on Linux (pr_ci.yml).
 unix:!macx {
     INCLUDEPATH += /usr/include/KF6/KArchive

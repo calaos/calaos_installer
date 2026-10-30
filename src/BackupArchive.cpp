@@ -8,6 +8,7 @@
 #include <QList>
 #include <QSaveFile>
 #include <QStringList>
+#include <QXmlStreamReader>
 
 #include <memory>
 
@@ -72,6 +73,33 @@ bool readEntry(const KZipFileEntry *file, QByteArray &data, QString &error)
     }
 
     return true;
+}
+
+// What Load() needs to see, as it cannot be undone once it runs: its reader of rules.xml gives
+// no rules at all for another root, and the server only knows these prefixed names.
+bool isProjectXml(const QByteArray &data, const QString &root, const QString &onlyChild = QString())
+{
+    QXmlStreamReader xml(data);
+    int depth = 0;
+
+    while (!xml.atEnd())
+    {
+        xml.readNext();
+
+        if (xml.isEndElement())
+            --depth;
+        if (!xml.isStartElement())
+            continue;
+
+        ++depth;
+        if ((depth == 1 && xml.qualifiedName() != root)
+            || (depth == 2 && !onlyChild.isEmpty() && xml.qualifiedName() != onlyChild))
+        {
+            return false;
+        }
+    }
+
+    return !xml.hasError();
 }
 
 } // namespace
@@ -171,6 +199,15 @@ bool BackupArchive::read(const QString &zipPath, Project &project, QString &erro
     if (!readEntry(found.value(kIoFile), opened.io, error)
         || !readEntry(found.value(kRulesFile), opened.rules, error))
     {
+        return false;
+    }
+
+    const bool ioValid = isProjectXml(opened.io, QStringLiteral("calaos:ioconfig"),
+                                      QStringLiteral("calaos:home"));
+    if (!ioValid || !isProjectXml(opened.rules, QStringLiteral("calaos:rules")))
+    {
+        error = tr("%1 in this archive is not a valid Calaos project file.")
+                    .arg(ioValid ? kRulesFile : kIoFile);
         return false;
     }
     opened.hasLocalConfig = found.contains(kLocalConfigFile);
