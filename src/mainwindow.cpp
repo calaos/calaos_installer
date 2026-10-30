@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_MainWindow.h"
 #include "version.h"
+#include "BackupArchive.h"
 #include "ConfigOptions.h"
 #include "DialogOptions.h"
 #include "dialogautodetect.h"
@@ -352,6 +353,45 @@ void MainWindow::on_actionLoadProject_triggered()
     project_path = dir;
 
     Load();
+}
+
+void MainWindow::on_actionOpenBackupArchive_triggered()
+{
+    if (!saveChangesIfWanted())
+        return;
+
+    QString file = QFileDialog::getOpenFileName(this, tr("Open a backup archive..."),
+                                                QDir::homePath(),
+                                                tr("Calaos backup (*.zip)"));
+    if (file.isEmpty())
+        return;
+
+    //The temp folder may hold the open project: only touch it once the archive is known good.
+    BackupArchive::Project project;
+    QString error;
+    if (!BackupArchive::read(file, project, error)
+        || !BackupArchive::write(project, tempDir.path(), error))
+    {
+        QMessageBox::critical(this, tr("Calaos Installer"), error);
+        return;
+    }
+
+    ListeRule::Instance().clear();
+    ListeRoom::Instance().clear();
+
+    ui->widgetRules->ClearProject();
+
+    project_path = tempDir.path();
+
+    Load();
+
+    if (project.hasLocalConfig)
+    {
+        QMessageBox::information(this, tr("Calaos Installer"),
+                                 tr("This backup also holds local_config.xml (the settings of "
+                                    "the box). It was ignored: the installer only handles io.xml "
+                                    "and rules.xml. Restore it from the web interface."));
+    }
 }
 
 void MainWindow::on_actionOuvrir_un_projet_en_ligne_triggered()

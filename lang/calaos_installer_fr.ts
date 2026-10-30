@@ -2,6 +2,61 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="fr_FR">
 <context>
+    <name>BackupArchive</name>
+    <message>
+        <location filename="../src/BackupArchive.cpp" line="57"/>
+        <source>%1 cannot be read from this archive.</source>
+        <translation>%1 ne peut pas être lu dans cette archive.</translation>
+    </message>
+    <message>
+        <location filename="../src/BackupArchive.cpp" line="65"/>
+        <location filename="../src/BackupArchive.cpp" line="139"/>
+        <source>%1 is larger than the 2 MiB allowed in a backup.</source>
+        <translation>%1 dépasse les 2 Mio autorisés dans une sauvegarde.</translation>
+    </message>
+    <message>
+        <location filename="../src/BackupArchive.cpp" line="70"/>
+        <source>%1 is damaged in this archive.</source>
+        <translation>%1 est endommagé dans cette archive.</translation>
+    </message>
+    <message>
+        <location filename="../src/BackupArchive.cpp" line="84"/>
+        <source>This archive is larger than the 8 MiB allowed for a backup.</source>
+        <translation>Cette archive dépasse les 8 Mio autorisés pour une sauvegarde.</translation>
+    </message>
+    <message>
+        <location filename="../src/BackupArchive.cpp" line="91"/>
+        <source>This file cannot be read as a zip archive.</source>
+        <translation>Ce fichier ne peut pas être lu comme une archive zip.</translation>
+    </message>
+    <message>
+        <location filename="../src/BackupArchive.cpp" line="108"/>
+        <source>This archive holds more than the %1 entries allowed in a backup.</source>
+        <translation>Cette archive contient plus que les %1 entrées autorisées dans une sauvegarde.</translation>
+    </message>
+    <message>
+        <location filename="../src/BackupArchive.cpp" line="118"/>
+        <location filename="../src/BackupArchive.cpp" line="133"/>
+        <source>This archive is refused: it has a path outside its own folder (%1).</source>
+        <translation>Cette archive est refusée : elle contient un chemin hors de son propre dossier (%1).</translation>
+    </message>
+    <message>
+        <location filename="../src/BackupArchive.cpp" line="150"/>
+        <source>This archive holds %1 twice: there is no telling which one to open.</source>
+        <translation>Cette archive contient deux fois %1 : impossible de savoir lequel ouvrir.</translation>
+    </message>
+    <message>
+        <location filename="../src/BackupArchive.cpp" line="165"/>
+        <source>This archive is not a Calaos backup: %1 is missing.</source>
+        <translation>Cette archive n&apos;est pas une sauvegarde Calaos : %1 est absent.</translation>
+    </message>
+    <message>
+        <location filename="../src/BackupArchive.cpp" line="193"/>
+        <source>The project could not be written to %1.</source>
+        <translation>Le projet n&apos;a pas pu être écrit dans %1.</translation>
+    </message>
+</context>
+<context>
     <name>ClearLineEdit</name>
     <message>
         <location filename="../src/ClearLineEdit.cpp" line="14"/>
@@ -7438,6 +7493,22 @@ hr { height: 1px; border-width: 0; }
         <location filename="../data/MainWindow.ui" line="595"/>
         <source>Open a projet...</source>
         <translation>Ouvrir un projet...</translation>
+    </message>
+    <message>
+        <location filename="../data/MainWindow.ui" line="605"/>
+        <location filename="../src/mainwindow.cpp" line="363"/>
+        <source>Open a backup archive...</source>
+        <translation>Ouvrir une archive de sauvegarde...</translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.cpp" line="365"/>
+        <source>Calaos backup (*.zip)</source>
+        <translation>Sauvegarde Calaos (*.zip)</translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.cpp" line="391"/>
+        <source>This backup also holds local_config.xml (the settings of the box). It was ignored: the installer only handles io.xml and rules.xml. Restore it from the web interface.</source>
+        <translation>Cette sauvegarde contient aussi local_config.xml (les réglages de la box). Il a été ignoré : l&apos;installeur ne gère que io.xml et rules.xml. Restaurez-le depuis l&apos;interface web.</translation>
     </message>
     <message>
         <location filename="../data/MainWindow.ui" line="604"/>

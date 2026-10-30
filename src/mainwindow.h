@@ -94,6 +94,7 @@ private slots:
     void on_actionConnect_triggered();
     void button_wagostop_clicked();
     void on_actionLoadProject_triggered();
+    void on_actionOpenBackupArchive_triggered();
     void on_actionSave_triggered();
     void on_actionNewProject_triggered();
     void on_actionSaveProject_triggered();
