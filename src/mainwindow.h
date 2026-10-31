@@ -6,6 +6,7 @@
 #include <QTreeWidgetItem>
 #include <QProgressBar>
 
+#include "BackupArchive.h"
 #include "textedit.h"
 
 #include <dialogconnect.h>
@@ -58,6 +59,7 @@ private:
     QPushButton *buttonStopProcess;
 
     QDir tempDir;
+    BackupSaveGuard backupGuard;
 
     TextEdit teditor;
 

@@ -253,3 +253,26 @@ bool BackupArchive::write(const Project &project, const QString &dir, QString &e
 
     return written;
 }
+
+void BackupSaveGuard::backupOpened(const QString &tempFolder)
+{
+    m_tempFolder = tempFolder;
+}
+
+void BackupSaveGuard::release()
+{
+    m_tempFolder.clear();
+}
+
+BackupSaveGuard::Step BackupSaveGuard::step(const QString &folder) const
+{
+    if (m_tempFolder.isEmpty())
+        return Step::Write;
+    if (folder.isEmpty())
+        return Step::ChooseFolder;
+
+    const QString canonical = QFileInfo(folder).canonicalFilePath();
+    return canonical == QFileInfo(m_tempFolder).canonicalFilePath() && !canonical.isEmpty()
+               ? Step::RefuseFolder
+               : Step::Write;
+}

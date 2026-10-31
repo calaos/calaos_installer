@@ -1,7 +1,6 @@
 #include "mainwindow.h"
 #include "ui_MainWindow.h"
 #include "version.h"
-#include "BackupArchive.h"
 #include "ConfigOptions.h"
 #include "DialogOptions.h"
 #include "dialogautodetect.h"
@@ -244,6 +243,7 @@ void MainWindow::on_actionNewProject_triggered()
     ui->widgetRules->ClearProject();
 
     project_path = tr("Nouveau");
+    backupGuard.release();
     projectChanged(false);
 }
 
@@ -261,6 +261,17 @@ bool MainWindow::Save(QString path)
         return false;
     }
 
+    const BackupSaveGuard::Step step = backupGuard.step(path);
+    if (step == BackupSaveGuard::Step::ChooseFolder)
+        return saveProjectAs();
+    if (step == BackupSaveGuard::Step::RefuseFolder)
+    {
+        QMessageBox::critical(this, tr("Calaos Installer"),
+                              tr("This folder is temporary: it is deleted when the installer "
+                                 "closes. Choose another folder."));
+        return false;
+    }
+
     //The project only moves once it is written there.
     QString target = path.isEmpty() ? project_path : path;
     QString iofile = target + "/io.xml";
@@ -274,6 +285,7 @@ bool MainWindow::Save(QString path)
     }
 
     project_path = target;
+    backupGuard.release();
     ui->widgetRules->setProjectModified(false);
 
     statusBar()->showMessage(QString(tr("Project saved: %1")).arg(project_path), 3000);
@@ -351,6 +363,7 @@ void MainWindow::on_actionLoadProject_triggered()
     ui->widgetRules->ClearProject();
 
     project_path = dir;
+    backupGuard.release();
 
     Load();
 }
@@ -382,6 +395,7 @@ void MainWindow::on_actionOpenBackupArchive_triggered()
     ui->widgetRules->ClearProject();
 
     project_path = tempDir.path();
+    backupGuard.backupOpened(project_path);
 
     Load();
 
@@ -409,6 +423,7 @@ void MainWindow::on_actionOuvrir_un_projet_en_ligne_triggered()
         ui->widgetRules->ClearProject();
 
         project_path = tempDir.path();
+        backupGuard.release();
 
         Load();
     }
@@ -416,7 +431,8 @@ void MainWindow::on_actionOuvrir_un_projet_en_ligne_triggered()
 
 void MainWindow::on_actionSaveProject_en_ligne_triggered()
 {
-    //The server gets the files on disk: never send ones this save refused.
+    //The server gets the files on disk: never send ones this save refused. A backup has no
+    //files to send until it has a folder, so a cancelled choice sends nothing.
     if (!Save())
         return;
 

@@ -7653,6 +7653,11 @@ hr { height: 1px; border-width: 0; }
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../src/mainwindow.cpp" line="270"/>
+        <source>This folder is temporary: it is deleted when the installer closes. Choose another folder.</source>
+        <translation>Ce dossier est temporaire : il est supprimé à la fermeture de l&apos;installeur. Choisissez un autre dossier.</translation>
+    </message>
+    <message>
         <location filename="../src/mainwindow.cpp" line="278"/>
         <source>Project saved: %1</source>
         <translation>Projet enregistré: %1</translation>

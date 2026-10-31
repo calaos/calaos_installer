@@ -143,6 +143,17 @@ private slots:
     void failureLeavesTheProjectAlone();
     void writeReplacesTheProjectFiles();
     void writeFailure();
+    void ordinaryProjectSavesWhereItIsAsked_data();
+    void ordinaryProjectSavesWhereItIsAsked();
+    void openedBackupAsksForAFolder();
+    void backupRefusesItsTempFolder_data();
+    void backupRefusesItsTempFolder();
+    void backupRefusesItsTempFolderThroughALink();
+    void backupGoesToAnotherFolder();
+    void noSaveLeavesItABackup();
+    void savedBackupSavesNormally();
+    void onlineProjectInTheTempFolderSavesThere();
+    void secondBackupIsGuardedToo();
 };
 
 void TestBackupArchive::backupFromTheWebApp()
@@ -583,6 +594,111 @@ void TestBackupArchive::writeFailure()
     const QString target = m_dir.filePath("does/not/exist");
     QVERIFY(!BackupArchive::write(project, target, error));
     QVERIFY2(error.contains(target), qPrintable(error));
+}
+
+void TestBackupArchive::ordinaryProjectSavesWhereItIsAsked_data()
+{
+    QTest::addColumn<QString>("folder");
+
+    QTest::newRow("its own folder") << QString();
+    QTest::newRow("another folder") << m_dir.path();
+}
+
+void TestBackupArchive::ordinaryProjectSavesWhereItIsAsked()
+{
+    QFETCH(QString, folder);
+
+    QCOMPARE(BackupSaveGuard().step(folder), BackupSaveGuard::Step::Write);
+}
+
+void TestBackupArchive::openedBackupAsksForAFolder()
+{
+    BackupSaveGuard guard;
+    guard.backupOpened(m_dir.path());
+
+    QCOMPARE(guard.step(QString()), BackupSaveGuard::Step::ChooseFolder);
+}
+
+void TestBackupArchive::backupRefusesItsTempFolder_data()
+{
+    QTest::addColumn<QString>("suffix");
+
+    QTest::newRow("same path") << QString();
+    QTest::newRow("trailing slash") << QStringLiteral("/");
+    QTest::newRow("dotted path") << QStringLiteral("/.");
+}
+
+void TestBackupArchive::backupRefusesItsTempFolder()
+{
+    QFETCH(QString, suffix);
+
+    BackupSaveGuard guard;
+    guard.backupOpened(m_dir.path());
+
+    QCOMPARE(guard.step(m_dir.path() + suffix), BackupSaveGuard::Step::RefuseFolder);
+}
+
+// The folder dialog does not resolve symlinks.
+void TestBackupArchive::backupRefusesItsTempFolderThroughALink()
+{
+    const QString link = m_dir.filePath(QStringLiteral("link"));
+    QTemporaryDir temp;
+    QVERIFY(QFile::link(temp.path(), link));
+
+    BackupSaveGuard guard;
+    guard.backupOpened(temp.path());
+
+    QCOMPARE(guard.step(link), BackupSaveGuard::Step::RefuseFolder);
+}
+
+void TestBackupArchive::backupGoesToAnotherFolder()
+{
+    QTemporaryDir chosen;
+    BackupSaveGuard guard;
+    guard.backupOpened(m_dir.path());
+
+    QCOMPARE(guard.step(chosen.path()), BackupSaveGuard::Step::Write);
+}
+
+// A cancelled choice or a failed write does not release the guard.
+void TestBackupArchive::noSaveLeavesItABackup()
+{
+    BackupSaveGuard guard;
+    guard.backupOpened(m_dir.path());
+
+    QCOMPARE(guard.step(QString()), BackupSaveGuard::Step::ChooseFolder);
+    QCOMPARE(guard.step(QStringLiteral("/nowhere")), BackupSaveGuard::Step::Write);
+    QCOMPARE(guard.step(QString()), BackupSaveGuard::Step::ChooseFolder);
+}
+
+void TestBackupArchive::savedBackupSavesNormally()
+{
+    BackupSaveGuard guard;
+    guard.backupOpened(m_dir.path());
+    guard.release();
+
+    QCOMPARE(guard.step(QString()), BackupSaveGuard::Step::Write);
+}
+
+void TestBackupArchive::onlineProjectInTheTempFolderSavesThere()
+{
+    BackupSaveGuard guard;
+    guard.backupOpened(m_dir.path());
+    guard.release();
+
+    QCOMPARE(guard.step(m_dir.path()), BackupSaveGuard::Step::Write);
+}
+
+void TestBackupArchive::secondBackupIsGuardedToo()
+{
+    QTemporaryDir second;
+    BackupSaveGuard guard;
+    guard.backupOpened(m_dir.path());
+    guard.release();
+    guard.backupOpened(second.path());
+
+    QCOMPARE(guard.step(QString()), BackupSaveGuard::Step::ChooseFolder);
+    QCOMPARE(guard.step(second.path()), BackupSaveGuard::Step::RefuseFolder);
 }
 
 QTEST_GUILESS_MAIN(TestBackupArchive)
