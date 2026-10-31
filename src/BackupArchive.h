@@ -48,10 +48,19 @@ public:
     // the same temp folder: it is reloaded from the server, so the guard does not apply.
     void release();
 
+    // Opening the temp folder itself brings the same backup back, still only held there.
+    void projectOpened(const QString &folder);
+
     // folder: where the save was asked to go, empty for the folder of the project.
     Step step(const QString &folder) const;
 
+    // An untouched backup is the archive itself: it can be sent from the temp folder. Anything
+    // else goes through Save first, which writes it or refuses it.
+    bool sendsAsIs(bool modified, bool readOnly) const;
+
 private:
+    bool isTempFolder(const QString &folder) const;
+
     QString m_tempFolder;
 };
 

@@ -264,6 +264,12 @@ void BackupSaveGuard::release()
     m_tempFolder.clear();
 }
 
+void BackupSaveGuard::projectOpened(const QString &folder)
+{
+    if (!isTempFolder(folder))
+        release();
+}
+
 BackupSaveGuard::Step BackupSaveGuard::step(const QString &folder) const
 {
     if (m_tempFolder.isEmpty())
@@ -271,8 +277,16 @@ BackupSaveGuard::Step BackupSaveGuard::step(const QString &folder) const
     if (folder.isEmpty())
         return Step::ChooseFolder;
 
+    return isTempFolder(folder) ? Step::RefuseFolder : Step::Write;
+}
+
+bool BackupSaveGuard::sendsAsIs(bool modified, bool readOnly) const
+{
+    return !m_tempFolder.isEmpty() && !modified && !readOnly;
+}
+
+bool BackupSaveGuard::isTempFolder(const QString &folder) const
+{
     const QString canonical = QFileInfo(folder).canonicalFilePath();
-    return canonical == QFileInfo(m_tempFolder).canonicalFilePath() && !canonical.isEmpty()
-               ? Step::RefuseFolder
-               : Step::Write;
+    return canonical == QFileInfo(m_tempFolder).canonicalFilePath() && !canonical.isEmpty();
 }

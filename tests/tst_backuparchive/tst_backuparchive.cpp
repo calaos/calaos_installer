@@ -150,10 +150,18 @@ private slots:
     void backupRefusesItsTempFolder();
     void backupRefusesItsTempFolderThroughALink();
     void backupGoesToAnotherFolder();
-    void noSaveLeavesItABackup();
     void savedBackupSavesNormally();
     void onlineProjectInTheTempFolderSavesThere();
     void secondBackupIsGuardedToo();
+    void openingTheTempFolderKeepsTheGuard_data();
+    void openingTheTempFolderKeepsTheGuard();
+    void openingTheTempFolderThroughALinkKeepsTheGuard();
+    void openingAnotherFolderReleasesTheGuard();
+    void openingAProjectNeverArmsTheGuard();
+    void sendingFollowsTheBackupState_data();
+    void sendingFollowsTheBackupState();
+    void releasedBackupIsSavedBeforeSending();
+    void reopenedBackupIsStillSentAsItIs();
 };
 
 void TestBackupArchive::backupFromTheWebApp()
@@ -660,17 +668,6 @@ void TestBackupArchive::backupGoesToAnotherFolder()
     QCOMPARE(guard.step(chosen.path()), BackupSaveGuard::Step::Write);
 }
 
-// A cancelled choice or a failed write does not release the guard.
-void TestBackupArchive::noSaveLeavesItABackup()
-{
-    BackupSaveGuard guard;
-    guard.backupOpened(m_dir.path());
-
-    QCOMPARE(guard.step(QString()), BackupSaveGuard::Step::ChooseFolder);
-    QCOMPARE(guard.step(QStringLiteral("/nowhere")), BackupSaveGuard::Step::Write);
-    QCOMPARE(guard.step(QString()), BackupSaveGuard::Step::ChooseFolder);
-}
-
 void TestBackupArchive::savedBackupSavesNormally()
 {
     BackupSaveGuard guard;
@@ -699,6 +696,107 @@ void TestBackupArchive::secondBackupIsGuardedToo()
 
     QCOMPARE(guard.step(QString()), BackupSaveGuard::Step::ChooseFolder);
     QCOMPARE(guard.step(second.path()), BackupSaveGuard::Step::RefuseFolder);
+}
+
+void TestBackupArchive::openingTheTempFolderKeepsTheGuard_data()
+{
+    QTest::addColumn<QString>("suffix");
+
+    QTest::newRow("same path") << QString();
+    QTest::newRow("trailing slash") << QStringLiteral("/");
+    QTest::newRow("dotted path") << QStringLiteral("/.");
+}
+
+void TestBackupArchive::openingTheTempFolderKeepsTheGuard()
+{
+    QFETCH(QString, suffix);
+
+    BackupSaveGuard guard;
+    guard.backupOpened(m_dir.path());
+    guard.projectOpened(m_dir.path() + suffix);
+
+    QCOMPARE(guard.step(QString()), BackupSaveGuard::Step::ChooseFolder);
+    QCOMPARE(guard.step(m_dir.path()), BackupSaveGuard::Step::RefuseFolder);
+}
+
+void TestBackupArchive::openingTheTempFolderThroughALinkKeepsTheGuard()
+{
+    const QString link = m_dir.filePath(QStringLiteral("openedLink"));
+    QTemporaryDir temp;
+    QVERIFY(QFile::link(temp.path(), link));
+
+    BackupSaveGuard guard;
+    guard.backupOpened(temp.path());
+    guard.projectOpened(link);
+
+    QCOMPARE(guard.step(QString()), BackupSaveGuard::Step::ChooseFolder);
+    QCOMPARE(guard.step(temp.path()), BackupSaveGuard::Step::RefuseFolder);
+}
+
+void TestBackupArchive::openingAnotherFolderReleasesTheGuard()
+{
+    QTemporaryDir other;
+    BackupSaveGuard guard;
+    guard.backupOpened(m_dir.path());
+    guard.projectOpened(other.path());
+
+    QCOMPARE(guard.step(QString()), BackupSaveGuard::Step::Write);
+}
+
+// A project of the server lives in the temp folder too, with nothing to protect.
+void TestBackupArchive::openingAProjectNeverArmsTheGuard()
+{
+    BackupSaveGuard guard;
+    guard.projectOpened(m_dir.path());
+
+    QCOMPARE(guard.step(QString()), BackupSaveGuard::Step::Write);
+}
+
+void TestBackupArchive::sendingFollowsTheBackupState_data()
+{
+    QTest::addColumn<bool>("opened");
+    QTest::addColumn<bool>("modified");
+    QTest::addColumn<bool>("readOnly");
+    QTest::addColumn<bool>("asIs");
+
+    QTest::newRow("untouched backup") << true << false << false << true;
+    QTest::newRow("modified backup") << true << true << false << false;
+    QTest::newRow("read-only backup") << true << false << true << false;
+    QTest::newRow("modified read-only backup") << true << true << true << false;
+    QTest::newRow("ordinary project") << false << false << false << false;
+    QTest::newRow("modified ordinary project") << false << true << false << false;
+}
+
+void TestBackupArchive::sendingFollowsTheBackupState()
+{
+    QFETCH(bool, opened);
+    QFETCH(bool, modified);
+    QFETCH(bool, readOnly);
+    QFETCH(bool, asIs);
+
+    BackupSaveGuard guard;
+    if (opened)
+        guard.backupOpened(m_dir.path());
+
+    QCOMPARE(guard.sendsAsIs(modified, readOnly), asIs);
+}
+
+void TestBackupArchive::releasedBackupIsSavedBeforeSending()
+{
+    BackupSaveGuard guard;
+    guard.backupOpened(m_dir.path());
+    guard.release();
+
+    QVERIFY(!guard.sendsAsIs(false, false));
+}
+
+void TestBackupArchive::reopenedBackupIsStillSentAsItIs()
+{
+    BackupSaveGuard guard;
+    guard.backupOpened(m_dir.path());
+    guard.projectOpened(m_dir.path());
+
+    QVERIFY(guard.sendsAsIs(false, false));
 }
 
 QTEST_GUILESS_MAIN(TestBackupArchive)

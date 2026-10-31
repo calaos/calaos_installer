@@ -363,7 +363,7 @@ void MainWindow::on_actionLoadProject_triggered()
     ui->widgetRules->ClearProject();
 
     project_path = dir;
-    backupGuard.release();
+    backupGuard.projectOpened(dir);
 
     Load();
 }
@@ -431,9 +431,10 @@ void MainWindow::on_actionOuvrir_un_projet_en_ligne_triggered()
 
 void MainWindow::on_actionSaveProject_en_ligne_triggered()
 {
-    //The server gets the files on disk: never send ones this save refused. A backup has no
-    //files to send until it has a folder, so a cancelled choice sends nothing.
-    if (!Save())
+    //The server gets the files on disk: never send ones this save refused. An untouched backup
+    //skips the save, the temp folder still holds the files of the archive.
+    const bool readOnly = !ProjectManager::readOnlyReason().isEmpty();
+    if (!backupGuard.sendsAsIs(ui->widgetRules->projectChanged(), readOnly) && !Save())
         return;
 
     DialogSaveOnline dsave(project_path);
