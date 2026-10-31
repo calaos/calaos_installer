@@ -6,6 +6,7 @@
 #include <QTreeWidgetItem>
 #include <QProgressBar>
 
+#include "BackupArchive.h"
 #include "textedit.h"
 
 #include <dialogconnect.h>
@@ -58,6 +59,7 @@ private:
     QPushButton *buttonStopProcess;
 
     QDir tempDir;
+    BackupSaveGuard backupGuard;
 
     TextEdit teditor;
 
@@ -94,6 +96,7 @@ private slots:
     void on_actionConnect_triggered();
     void button_wagostop_clicked();
     void on_actionLoadProject_triggered();
+    void on_actionOpenBackupArchive_triggered();
     void on_actionSave_triggered();
     void on_actionNewProject_triggered();
     void on_actionSaveProject_triggered();

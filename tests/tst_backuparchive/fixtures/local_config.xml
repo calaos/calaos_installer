@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<calaos:config xmlns:calaos="http://www.calaos.fr">
+    <calaos:option name="fw_version" value="4.6.0"/>
+    <calaos:option name="password_user" value="not-a-real-password"/>
+</calaos:config>

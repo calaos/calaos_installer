@@ -545,6 +545,7 @@ hr { height: 1px; border-width: 0; }
     <addaction name="actionNewProject"/>
     <addaction name="separator"/>
     <addaction name="actionLoadProject"/>
+    <addaction name="actionOpenBackupArchive"/>
     <addaction name="separator"/>
     <addaction name="actionSave"/>
     <addaction name="actionSaveProject"/>
@@ -593,6 +594,15 @@ hr { height: 1px; border-width: 0; }
    </property>
    <property name="text">
     <string>Open a projet...</string>
+   </property>
+  </action>
+  <action name="actionOpenBackupArchive">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/img/document-open.png</normaloff>:/img/document-open.png</iconset>
+   </property>
+   <property name="text">
+    <string>Open a backup archive...</string>
    </property>
   </action>
   <action name="actionSaveProject">

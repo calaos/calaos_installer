@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<calaos:ioconfig xmlns:calaos="http://www.calaos.fr">
+    <calaos:home>
+        <calaos:room name="Salon" type="salon" hits="0">
+            <calaos:input id="input_0" name="Interrupteur salon" type="WIDigitalBP" visible="true"/>
+            <calaos:output id="output_0" name="Lumiere salon" type="WODigital" visible="true"/>
+        </calaos:room>
+    </calaos:home>
+</calaos:ioconfig>

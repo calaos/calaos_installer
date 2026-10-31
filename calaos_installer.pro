@@ -74,6 +74,7 @@ SOURCES += src/main.cpp \
     src/qanimationlabel.cpp \
     src/dialogsaveonline.cpp \
     src/OnlineSession.cpp \
+    src/BackupArchive.cpp \
     src/formpost.cpp \
     src/dialogiolist.cpp \
     src/formdali.cpp \
@@ -183,6 +184,7 @@ HEADERS += src/mainwindow.h \
     src/qanimationlabel.h \
     src/dialogsaveonline.h \
     src/OnlineSession.h \
+    src/BackupArchive.h \
     src/formpost.h \
     src/dialogiolist.h \
     src/qtreewidget_addition.h \

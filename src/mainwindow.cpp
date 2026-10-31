@@ -243,6 +243,7 @@ void MainWindow::on_actionNewProject_triggered()
     ui->widgetRules->ClearProject();
 
     project_path = tr("Nouveau");
+    backupGuard.release();
     projectChanged(false);
 }
 
@@ -260,6 +261,17 @@ bool MainWindow::Save(QString path)
         return false;
     }
 
+    const BackupSaveGuard::Step step = backupGuard.step(path);
+    if (step == BackupSaveGuard::Step::ChooseFolder)
+        return saveProjectAs();
+    if (step == BackupSaveGuard::Step::RefuseFolder)
+    {
+        QMessageBox::critical(this, tr("Calaos Installer"),
+                              tr("This folder is temporary: it is deleted when the installer "
+                                 "closes. Choose another folder."));
+        return false;
+    }
+
     //The project only moves once it is written there.
     QString target = path.isEmpty() ? project_path : path;
     QString iofile = target + "/io.xml";
@@ -273,6 +285,7 @@ bool MainWindow::Save(QString path)
     }
 
     project_path = target;
+    backupGuard.release();
     ui->widgetRules->setProjectModified(false);
 
     statusBar()->showMessage(QString(tr("Project saved: %1")).arg(project_path), 3000);
@@ -350,8 +363,46 @@ void MainWindow::on_actionLoadProject_triggered()
     ui->widgetRules->ClearProject();
 
     project_path = dir;
+    backupGuard.projectOpened(dir);
 
     Load();
+}
+
+void MainWindow::on_actionOpenBackupArchive_triggered()
+{
+    if (!saveChangesIfWanted())
+        return;
+
+    QString file = QFileDialog::getOpenFileName(this, tr("Open a backup archive..."),
+                                                QDir::homePath(),
+                                                tr("Calaos backup (*.zip)"));
+    if (file.isEmpty())
+        return;
+
+    BackupArchive::Project project;
+    QString error;
+    if (!backupGuard.openArchive(file, tempDir.path(), project, error))
+    {
+        QMessageBox::critical(this, tr("Calaos Installer"), error);
+        return;
+    }
+
+    ListeRule::Instance().clear();
+    ListeRoom::Instance().clear();
+
+    ui->widgetRules->ClearProject();
+
+    project_path = tempDir.path();
+
+    Load();
+
+    if (project.hasLocalConfig)
+    {
+        QMessageBox::information(this, tr("Calaos Installer"),
+                                 tr("This backup also holds local_config.xml (the settings of "
+                                    "the box). It was ignored: the installer only handles io.xml "
+                                    "and rules.xml. Restore it from the web interface."));
+    }
 }
 
 void MainWindow::on_actionOuvrir_un_projet_en_ligne_triggered()
@@ -369,6 +420,7 @@ void MainWindow::on_actionOuvrir_un_projet_en_ligne_triggered()
         ui->widgetRules->ClearProject();
 
         project_path = tempDir.path();
+        backupGuard.onlineProjectOpened();
 
         Load();
     }
@@ -376,8 +428,10 @@ void MainWindow::on_actionOuvrir_un_projet_en_ligne_triggered()
 
 void MainWindow::on_actionSaveProject_en_ligne_triggered()
 {
-    //The server gets the files on disk: never send ones this save refused.
-    if (!Save())
+    //The server gets the files on disk: never send ones this save refused. An untouched backup
+    //skips the save, unless the temp folder lost the files of the archive.
+    const bool readOnly = !ProjectManager::readOnlyReason().isEmpty();
+    if (!backupGuard.sendsAsIs(ui->widgetRules->projectChanged(), readOnly) && !Save())
         return;
 
     DialogSaveOnline dsave(project_path);
