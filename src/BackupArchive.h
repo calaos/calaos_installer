@@ -44,24 +44,42 @@ public:
 
     void backupOpened(const QString &tempFolder);
 
-    // The project was written elsewhere, or another one replaced it. An online project lives in
-    // the same temp folder: it is reloaded from the server, so the guard does not apply.
+    // read then write, and backupOpened() on success. A write that fails may leave files of two
+    // archives in tempFolder, while the open project stays: it can no longer be sent from there.
+    bool openArchive(const QString &zipPath, const QString &tempFolder,
+                     BackupArchive::Project &project, QString &error);
+
+    // A project of the server took the temp folder over: it is reloaded from the server, so the
+    // guard does not apply, and its files stay there to be sent.
+    void onlineProjectOpened();
+
+    // The project was written elsewhere, or another one replaced it. Its files leave the temp
+    // folder, which keeps nothing that could pass for the project. Does nothing when not guarded.
     void release();
 
-    // Opening the temp folder itself brings the same backup back, still only held there.
+    // The temp folder stays guarded whatever it holds: a save there would still be lost on exit.
     void projectOpened(const QString &folder);
 
     // folder: where the save was asked to go, empty for the folder of the project.
     Step step(const QString &folder) const;
 
-    // An untouched backup is the archive itself: it can be sent from the temp folder. Anything
-    // else goes through Save first, which writes it or refuses it.
+    // An untouched backup is the archive itself: it can be sent from the temp folder while the
+    // files there are that archive. Anything else goes through Save first, which writes it or
+    // refuses it.
     bool sendsAsIs(bool modified, bool readOnly) const;
 
 private:
+    enum class Temp
+    {
+        NotGuarded,
+        HoldsTheArchive,
+        HoldsSomethingElse,
+    };
+
     bool isTempFolder(const QString &folder) const;
 
     QString m_tempFolder;
+    Temp m_temp = Temp::NotGuarded;
 };
 
 #endif // BACKUPARCHIVE_H

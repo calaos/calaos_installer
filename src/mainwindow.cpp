@@ -379,11 +379,9 @@ void MainWindow::on_actionOpenBackupArchive_triggered()
     if (file.isEmpty())
         return;
 
-    //The temp folder may hold the open project: only touch it once the archive is known good.
     BackupArchive::Project project;
     QString error;
-    if (!BackupArchive::read(file, project, error)
-        || !BackupArchive::write(project, tempDir.path(), error))
+    if (!backupGuard.openArchive(file, tempDir.path(), project, error))
     {
         QMessageBox::critical(this, tr("Calaos Installer"), error);
         return;
@@ -395,7 +393,6 @@ void MainWindow::on_actionOpenBackupArchive_triggered()
     ui->widgetRules->ClearProject();
 
     project_path = tempDir.path();
-    backupGuard.backupOpened(project_path);
 
     Load();
 
@@ -423,7 +420,7 @@ void MainWindow::on_actionOuvrir_un_projet_en_ligne_triggered()
         ui->widgetRules->ClearProject();
 
         project_path = tempDir.path();
-        backupGuard.release();
+        backupGuard.onlineProjectOpened();
 
         Load();
     }
@@ -432,7 +429,7 @@ void MainWindow::on_actionOuvrir_un_projet_en_ligne_triggered()
 void MainWindow::on_actionSaveProject_en_ligne_triggered()
 {
     //The server gets the files on disk: never send ones this save refused. An untouched backup
-    //skips the save, the temp folder still holds the files of the archive.
+    //skips the save, unless the temp folder lost the files of the archive.
     const bool readOnly = !ProjectManager::readOnlyReason().isEmpty();
     if (!backupGuard.sendsAsIs(ui->widgetRules->projectChanged(), readOnly) && !Save())
         return;

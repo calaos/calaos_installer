@@ -6,6 +6,7 @@
 #include <QDataStream>
 #include <QDir>
 #include <QFile>
+#include <QFileInfo>
 #include <QTemporaryDir>
 #include <QTest>
 
@@ -111,6 +112,29 @@ private:
         return path;
     }
 
+    static bool holdsProject(const QString &folder)
+    {
+        return QFile::exists(folder + QStringLiteral("/io.xml"))
+               && QFile::exists(folder + QStringLiteral("/rules.xml"));
+    }
+
+    static bool holdsNoProject(const QString &folder)
+    {
+        return !QFile::exists(folder + QStringLiteral("/io.xml"))
+               && !QFile::exists(folder + QStringLiteral("/rules.xml"));
+    }
+
+    static void writeProject(const QString &folder)
+    {
+        BackupArchive::Project project;
+        project.io = kIo;
+        project.rules = kRules;
+
+        QString error;
+        if (!BackupArchive::write(project, folder, error))
+            qFatal("cannot write the test project");
+    }
+
 private slots:
     void backupFromTheWebApp();
     void zipWrittenByTheWebAppCode();
@@ -162,6 +186,17 @@ private slots:
     void sendingFollowsTheBackupState();
     void releasedBackupIsSavedBeforeSending();
     void reopenedBackupIsStillSentAsItIs();
+    void openedArchiveArmsTheGuard();
+    void unreadableArchiveChangesNothing();
+    void failedWriteStopsTheDirectSend();
+    void failedWriteDoesNotArmTheGuard();
+    void savedBackupLeavesTheTempFolder();
+    void replacedBackupLeavesTheTempFolder();
+    void reopeningTheEmptiedTempFolderStaysGuarded();
+    void reopenedThenSavedElsewhereIsNormalAgain();
+    void backupOpensAgainAfterASave();
+    void serverProjectKeepsItsFiles();
+    void ordinaryProjectLeavesFilesAlone();
 };
 
 void TestBackupArchive::backupFromTheWebApp()
@@ -681,8 +716,9 @@ void TestBackupArchive::onlineProjectInTheTempFolderSavesThere()
 {
     BackupSaveGuard guard;
     guard.backupOpened(m_dir.path());
-    guard.release();
+    guard.onlineProjectOpened();
 
+    QCOMPARE(guard.step(QString()), BackupSaveGuard::Step::Write);
     QCOMPARE(guard.step(m_dir.path()), BackupSaveGuard::Step::Write);
 }
 
@@ -797,6 +833,193 @@ void TestBackupArchive::reopenedBackupIsStillSentAsItIs()
     guard.projectOpened(m_dir.path());
 
     QVERIFY(guard.sendsAsIs(false, false));
+}
+
+void TestBackupArchive::openedArchiveArmsTheGuard()
+{
+    QTemporaryDir temp;
+    BackupSaveGuard guard;
+    BackupArchive::Project project;
+    QString error;
+
+    const QString zip = saveZip(QList<RawEntry>{{"io.xml", kIo},
+                                                {"rules.xml", kRules},
+                                                {"local_config.xml", "<config/>"}});
+    QVERIFY2(guard.openArchive(zip, temp.path(), project, error), qPrintable(error));
+
+    QVERIFY(holdsProject(temp.path()));
+    QVERIFY(project.hasLocalConfig);
+    QCOMPARE(guard.step(QString()), BackupSaveGuard::Step::ChooseFolder);
+    QVERIFY(guard.sendsAsIs(false, false));
+}
+
+void TestBackupArchive::unreadableArchiveChangesNothing()
+{
+    QTemporaryDir temp;
+    BackupSaveGuard guard;
+    BackupArchive::Project project;
+    QString error;
+    QVERIFY2(guard.openArchive(saveZip(validEntries()), temp.path(), project, error),
+             qPrintable(error));
+
+    QVERIFY(!guard.openArchive(saveZip(QByteArray("not a zip")), temp.path(), project, error));
+
+    QVERIFY(guard.sendsAsIs(false, false));
+}
+
+// A rename cannot be made to fail from here. The direct send stops on any failed write, this
+// one included, because nothing tells which files made it.
+void TestBackupArchive::failedWriteStopsTheDirectSend()
+{
+    QTemporaryDir temp;
+    BackupSaveGuard guard;
+    BackupArchive::Project project;
+    QString error;
+    const QString zip = saveZip(validEntries());
+    QVERIFY2(guard.openArchive(zip, temp.path(), project, error), qPrintable(error));
+
+    QVERIFY(QFile::remove(temp.filePath("rules.xml")));
+    QVERIFY(QDir(temp.path()).mkdir("rules.xml"));
+    QVERIFY(!guard.openArchive(zip, temp.path(), project, error));
+    QVERIFY2(error.contains(temp.path()), qPrintable(error));
+
+    QVERIFY(!guard.sendsAsIs(false, false));
+    QCOMPARE(guard.step(QString()), BackupSaveGuard::Step::ChooseFolder);
+    QCOMPARE(guard.step(temp.path()), BackupSaveGuard::Step::RefuseFolder);
+
+    guard.projectOpened(temp.path());
+    QVERIFY(!guard.sendsAsIs(false, false));
+
+    QVERIFY(QDir(temp.path()).rmdir("rules.xml"));
+    QVERIFY2(guard.openArchive(zip, temp.path(), project, error), qPrintable(error));
+    QVERIFY(guard.sendsAsIs(false, false));
+}
+
+void TestBackupArchive::failedWriteDoesNotArmTheGuard()
+{
+    BackupSaveGuard guard;
+    BackupArchive::Project project;
+    QString error;
+
+    QVERIFY(!guard.openArchive(saveZip(validEntries()), m_dir.filePath("does/not/exist"), project,
+                               error));
+
+    QCOMPARE(guard.step(QString()), BackupSaveGuard::Step::Write);
+    QVERIFY(!guard.sendsAsIs(false, false));
+}
+
+void TestBackupArchive::savedBackupLeavesTheTempFolder()
+{
+    QTemporaryDir temp;
+    BackupSaveGuard guard;
+    BackupArchive::Project project;
+    QString error;
+    QVERIFY2(guard.openArchive(saveZip(validEntries()), temp.path(), project, error),
+             qPrintable(error));
+
+    guard.release();
+
+    QVERIFY(holdsNoProject(temp.path()));
+    QVERIFY(QFileInfo::exists(temp.path()));
+}
+
+void TestBackupArchive::replacedBackupLeavesTheTempFolder()
+{
+    QTemporaryDir temp;
+    QTemporaryDir other;
+    writeProject(other.path());
+    BackupSaveGuard guard;
+    BackupArchive::Project project;
+    QString error;
+    QVERIFY2(guard.openArchive(saveZip(validEntries()), temp.path(), project, error),
+             qPrintable(error));
+
+    guard.projectOpened(other.path());
+
+    QVERIFY(holdsNoProject(temp.path()));
+    QVERIFY(holdsProject(other.path()));
+}
+
+// A folder without io.xml opens as an empty project: without the guard, Save would write there
+// and say so, and the project would be gone on exit. Sending must not read the missing files.
+void TestBackupArchive::reopeningTheEmptiedTempFolderStaysGuarded()
+{
+    QTemporaryDir temp;
+    QTemporaryDir chosen;
+    BackupSaveGuard guard;
+    BackupArchive::Project project;
+    QString error;
+    QVERIFY2(guard.openArchive(saveZip(validEntries()), temp.path(), project, error),
+             qPrintable(error));
+    guard.release();
+
+    guard.projectOpened(temp.path());
+
+    QCOMPARE(guard.step(QString()), BackupSaveGuard::Step::ChooseFolder);
+    QCOMPARE(guard.step(temp.path()), BackupSaveGuard::Step::RefuseFolder);
+    QCOMPARE(guard.step(chosen.path()), BackupSaveGuard::Step::Write);
+    QVERIFY(!guard.sendsAsIs(false, false));
+}
+
+void TestBackupArchive::reopenedThenSavedElsewhereIsNormalAgain()
+{
+    QTemporaryDir temp;
+    BackupSaveGuard guard;
+    guard.backupOpened(temp.path());
+    guard.release();
+    guard.projectOpened(temp.path());
+
+    guard.release();
+
+    QCOMPARE(guard.step(QString()), BackupSaveGuard::Step::Write);
+    QVERIFY(!guard.sendsAsIs(false, false));
+}
+
+void TestBackupArchive::backupOpensAgainAfterASave()
+{
+    QTemporaryDir temp;
+    BackupSaveGuard guard;
+    BackupArchive::Project project;
+    QString error;
+    const QString zip = saveZip(validEntries());
+    QVERIFY2(guard.openArchive(zip, temp.path(), project, error), qPrintable(error));
+    guard.release();
+
+    QVERIFY2(guard.openArchive(zip, temp.path(), project, error), qPrintable(error));
+
+    QVERIFY(holdsProject(temp.path()));
+    QVERIFY(guard.sendsAsIs(false, false));
+}
+
+// Saving a project of the server releases the guard, then sends from the temp folder.
+void TestBackupArchive::serverProjectKeepsItsFiles()
+{
+    QTemporaryDir temp;
+    BackupSaveGuard guard;
+    guard.backupOpened(temp.path());
+    writeProject(temp.path());
+
+    guard.onlineProjectOpened();
+    QVERIFY(holdsProject(temp.path()));
+
+    guard.release();
+    QVERIFY(holdsProject(temp.path()));
+}
+
+// With no backup opened the guard has no folder, and a QDir on that is the current folder.
+void TestBackupArchive::ordinaryProjectLeavesFilesAlone()
+{
+    QTemporaryDir project;
+    writeProject(project.path());
+    const QString previous = QDir::currentPath();
+    QVERIFY(QDir::setCurrent(project.path()));
+
+    BackupSaveGuard guard;
+    guard.release();
+    guard.projectOpened(project.path());
+
+    QVERIFY(QDir::setCurrent(previous));
+    QVERIFY(holdsProject(project.path()));
 }
 
 QTEST_GUILESS_MAIN(TestBackupArchive)

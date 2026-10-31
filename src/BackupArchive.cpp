@@ -3,6 +3,7 @@
 #include <KZip>
 #include <KZipFileEntry>
 
+#include <QDir>
 #include <QFileInfo>
 #include <QHash>
 #include <QList>
@@ -257,22 +258,54 @@ bool BackupArchive::write(const Project &project, const QString &dir, QString &e
 void BackupSaveGuard::backupOpened(const QString &tempFolder)
 {
     m_tempFolder = tempFolder;
+    m_temp = Temp::HoldsTheArchive;
+}
+
+bool BackupSaveGuard::openArchive(const QString &zipPath, const QString &tempFolder,
+                                  BackupArchive::Project &project, QString &error)
+{
+    // The temp folder may hold the open project: only touch it once the archive is known good.
+    if (!BackupArchive::read(zipPath, project, error))
+        return false;
+
+    if (!BackupArchive::write(project, tempFolder, error))
+    {
+        if (m_temp == Temp::HoldsTheArchive)
+            m_temp = Temp::HoldsSomethingElse;
+        return false;
+    }
+
+    backupOpened(tempFolder);
+    return true;
+}
+
+void BackupSaveGuard::onlineProjectOpened()
+{
+    m_temp = Temp::NotGuarded;
 }
 
 void BackupSaveGuard::release()
 {
-    m_tempFolder.clear();
+    if (m_temp == Temp::NotGuarded)
+        return;
+
+    QDir temp(m_tempFolder);
+    temp.remove(kIoFile);
+    temp.remove(kRulesFile);
+    m_temp = Temp::NotGuarded;
 }
 
 void BackupSaveGuard::projectOpened(const QString &folder)
 {
     if (!isTempFolder(folder))
         release();
+    else if (m_temp == Temp::NotGuarded)
+        m_temp = Temp::HoldsSomethingElse;
 }
 
 BackupSaveGuard::Step BackupSaveGuard::step(const QString &folder) const
 {
-    if (m_tempFolder.isEmpty())
+    if (m_temp == Temp::NotGuarded)
         return Step::Write;
     if (folder.isEmpty())
         return Step::ChooseFolder;
@@ -282,7 +315,7 @@ BackupSaveGuard::Step BackupSaveGuard::step(const QString &folder) const
 
 bool BackupSaveGuard::sendsAsIs(bool modified, bool readOnly) const
 {
-    return !m_tempFolder.isEmpty() && !modified && !readOnly;
+    return m_temp == Temp::HoldsTheArchive && !modified && !readOnly;
 }
 
 bool BackupSaveGuard::isTempFolder(const QString &folder) const
