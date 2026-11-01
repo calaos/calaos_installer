@@ -5,6 +5,7 @@
 #include <iostream>
 #include <IOBase.h>
 #include <QDialog>
+#include <QSslError>
 
 #include <ListeRoom.h>
 using namespace std;
@@ -24,6 +25,8 @@ public:
     virtual ~DialogCameraView();
 
     void DownloadPicture();
+
+    static bool isTolerableSslError(QSslError::SslError e);
 
 protected:
     virtual void changeEvent(QEvent *e);

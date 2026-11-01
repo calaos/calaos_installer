@@ -59,14 +59,18 @@ void DialogCameraView::DownloadPicture()
         u = camera->get_param("url_jpeg");
     }
 
-    qDebug() << u.c_str();
+    QUrl url(QString::fromStdString(u));
+    qDebug() << url.toString(QUrl::RemovePassword);
 
     QNetworkAccessManager *netmanager = new QNetworkAccessManager(this);
     connect(netmanager, &QNetworkAccessManager::finished, this, [=](QNetworkReply *reply) {
 
         if (reply->error() != QNetworkReply::NoError)
         {
-            QMessageBox::warning(this, "Calaos Installer", tr("Calaos Installer: Erreur !") + "\n" + reply->errorString());
+            QString msg = reply->errorString();
+            if (!reply->url().password().isEmpty())
+                msg.replace(reply->url().password(), QStringLiteral("***"));
+            QMessageBox::warning(this, "Calaos Installer", tr("Calaos Installer: Erreur !") + "\n" + msg);
 
             return;
         }
@@ -86,6 +90,32 @@ void DialogCameraView::DownloadPicture()
         DownloadPicture();
     });
 
-    QNetworkRequest request(QUrl(u.c_str()));
-    netmanager->get(request);
+    QNetworkRequest request(url);
+    QNetworkReply *reply = netmanager->get(request);
+
+    // Cameras ship self-signed certificates: tolerate only that on this one reply.
+    connect(reply, &QNetworkReply::sslErrors, this, [reply](const QList<QSslError> &errors) {
+        QList<QSslError> ignorable;
+        for (const QSslError &e : errors)
+            if (DialogCameraView::isTolerableSslError(e.error()))
+                ignorable << e;
+        if (ignorable.size() == errors.size())
+            reply->ignoreSslErrors(ignorable);
+    });
+}
+
+bool DialogCameraView::isTolerableSslError(QSslError::SslError e)
+{
+    switch (e)
+    {
+    case QSslError::HostNameMismatch:
+    case QSslError::SelfSignedCertificate:
+    case QSslError::SelfSignedCertificateInChain:
+    case QSslError::UnableToGetLocalIssuerCertificate:
+    case QSslError::UnableToVerifyFirstCertificate:
+    case QSslError::CertificateUntrusted:
+        return true;
+    default:
+        return false;
+    }
 }
