@@ -1,6 +1,27 @@
 #include "dialogcameraview.h"
 #include "ui_DialogCameraView.h"
 #include "mainwindow.h"
+#include <QAuthenticator>
+#include <memory>
+
+namespace
+{
+bool sameOrigin(const QUrl &a, const QUrl &b)
+{
+    return a.scheme() == b.scheme() && a.host() == b.host() && a.port(-1) == b.port(-1);
+}
+
+// Qt's own text for an HTTP error embeds the request URL, query included, and
+// url_jpeg may carry a password there. Non-HTTP errors never contain the URL.
+QString errorText(QNetworkReply *reply)
+{
+    const int code = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
+    if (code >= 400)
+        return QString("HTTP %1 %2").arg(code).arg(
+            reply->attribute(QNetworkRequest::HttpReasonPhraseAttribute).toString()).trimmed();
+    return reply->errorString();
+}
+}
 
 DialogCameraView::DialogCameraView(IOBase *cam, QWidget *parent) :
     QDialog(parent),
@@ -59,14 +80,15 @@ void DialogCameraView::DownloadPicture()
         u = camera->get_param("url_jpeg");
     }
 
-    qDebug() << u.c_str();
+    QUrl url(QString::fromStdString(u));
+    qDebug() << url.toString(QUrl::RemoveUserInfo | QUrl::RemoveQuery);
 
     QNetworkAccessManager *netmanager = new QNetworkAccessManager(this);
     connect(netmanager, &QNetworkAccessManager::finished, this, [=](QNetworkReply *reply) {
 
         if (reply->error() != QNetworkReply::NoError)
         {
-            QMessageBox::warning(this, "Calaos Installer", tr("Calaos Installer: Erreur !") + "\n" + reply->errorString());
+            QMessageBox::warning(this, "Calaos Installer", tr("Calaos Installer: Erreur !") + "\n" + errorText(reply));
 
             return;
         }
@@ -86,6 +108,54 @@ void DialogCameraView::DownloadPicture()
         DownloadPicture();
     });
 
-    QNetworkRequest request(QUrl(u.c_str()));
-    netmanager->get(request);
+    // Credentials go through authenticationRequired, never in the request URL,
+    // so no error string Qt builds can echo them (in any encoding).
+    const QString user = url.userName();
+    const QString pass = url.password();
+    url.setUserInfo(QString());
+
+    // Only same-origin redirects: the SSL tolerance and the credentials below
+    // must never follow the reply to another host, port or a downgraded scheme.
+    QNetworkRequest request(url);
+    request.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::SameOriginRedirectPolicy);
+    const QUrl origin = url;
+    QNetworkReply *reply = netmanager->get(request);
+
+    if (!user.isEmpty() || !pass.isEmpty())
+    {
+        auto answered = std::make_shared<bool>(false);
+        connect(netmanager, &QNetworkAccessManager::authenticationRequired, this,
+                [user, pass, answered, origin](QNetworkReply *r, QAuthenticator *auth) {
+            if (*answered || !sameOrigin(r->url(), origin)) return;
+            *answered = true;
+            auth->setUser(user);
+            auth->setPassword(pass);
+        });
+    }
+
+    // Cameras ship self-signed certificates: tolerate only that on this one reply.
+    connect(reply, &QNetworkReply::sslErrors, this, [reply](const QList<QSslError> &errors) {
+        QList<QSslError> ignorable;
+        for (const QSslError &e : errors)
+            if (DialogCameraView::isTolerableSslError(e.error()))
+                ignorable << e;
+        if (ignorable.size() == errors.size())
+            reply->ignoreSslErrors(ignorable);
+    });
+}
+
+bool DialogCameraView::isTolerableSslError(QSslError::SslError e)
+{
+    switch (e)
+    {
+    case QSslError::HostNameMismatch:
+    case QSslError::SelfSignedCertificate:
+    case QSslError::SelfSignedCertificateInChain:
+    case QSslError::UnableToGetLocalIssuerCertificate:
+    case QSslError::UnableToVerifyFirstCertificate:
+    case QSslError::CertificateUntrusted:
+        return true;
+    default:
+        return false;
+    }
 }
