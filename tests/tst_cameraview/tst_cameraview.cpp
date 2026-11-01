@@ -536,12 +536,6 @@ void TstCameraView::passwordNeverShown()
             QVERIFY2(!line.contains(secret), qPrintable("log: " + line));
     }
 
-    // Known production bug: Qt writes the percent-encoded URL in the "server
-    // replied" error string, but only the decoded password is masked. A
-    // password with a character that gets encoded leaks into the dialog.
-    // XPASS (the day it is fixed) fails the test: drop the expectation then.
-    if (scenario.startsWith("notfound") && encoded != password)
-        QEXPECT_FAIL("", "contract 3: encoded password leaks in the HTTP error dialog", Continue);
     QVERIFY2(!dialogLeaks, qPrintable("dialog: " + boxes[0]));
 }
 

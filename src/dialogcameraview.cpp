@@ -1,6 +1,8 @@
 #include "dialogcameraview.h"
 #include "ui_DialogCameraView.h"
 #include "mainwindow.h"
+#include <QAuthenticator>
+#include <memory>
 
 DialogCameraView::DialogCameraView(IOBase *cam, QWidget *parent) :
     QDialog(parent),
@@ -67,9 +69,8 @@ void DialogCameraView::DownloadPicture()
 
         if (reply->error() != QNetworkReply::NoError)
         {
+            // The request URL carries no userinfo, so Qt's error text cannot contain it.
             QString msg = reply->errorString();
-            if (!reply->url().password().isEmpty())
-                msg.replace(reply->url().password(), QStringLiteral("***"));
             QMessageBox::warning(this, "Calaos Installer", tr("Calaos Installer: Erreur !") + "\n" + msg);
 
             return;
@@ -90,8 +91,26 @@ void DialogCameraView::DownloadPicture()
         DownloadPicture();
     });
 
+    // Credentials go through authenticationRequired, never in the request URL,
+    // so no error string Qt builds can echo them (in any encoding).
+    const QString user = url.userName();
+    const QString pass = url.password();
+    url.setUserInfo(QString());
+
     QNetworkRequest request(url);
     QNetworkReply *reply = netmanager->get(request);
+
+    if (!user.isEmpty() || !pass.isEmpty())
+    {
+        auto answered = std::make_shared<bool>(false);
+        connect(netmanager, &QNetworkAccessManager::authenticationRequired, this,
+                [user, pass, answered, reply](QNetworkReply *r, QAuthenticator *auth) {
+            if (r != reply || *answered) return;
+            *answered = true;
+            auth->setUser(user);
+            auth->setPassword(pass);
+        });
+    }
 
     // Cameras ship self-signed certificates: tolerate only that on this one reply.
     connect(reply, &QNetworkReply::sslErrors, this, [reply](const QList<QSslError> &errors) {
