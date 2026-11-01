@@ -1,6 +1,7 @@
 #include "dialogcameraview.h"
 #include "ui_DialogCameraView.h"
 #include "mainwindow.h"
+#include "networkerrortext.h"
 #include <QAuthenticator>
 #include <memory>
 
@@ -9,17 +10,6 @@ namespace
 bool sameOrigin(const QUrl &a, const QUrl &b)
 {
     return a.scheme() == b.scheme() && a.host() == b.host() && a.port(-1) == b.port(-1);
-}
-
-// Qt's own text for an HTTP error embeds the request URL, query included, and
-// url_jpeg may carry a password there. Non-HTTP errors never contain the URL.
-QString errorText(QNetworkReply *reply)
-{
-    const int code = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
-    if (code >= 400)
-        return QString("HTTP %1 %2").arg(code).arg(
-            reply->attribute(QNetworkRequest::HttpReasonPhraseAttribute).toString()).trimmed();
-    return reply->errorString();
 }
 }
 
@@ -88,7 +78,7 @@ void DialogCameraView::DownloadPicture()
 
         if (reply->error() != QNetworkReply::NoError)
         {
-            QMessageBox::warning(this, "Calaos Installer", tr("Calaos Installer: Erreur !") + "\n" + errorText(reply));
+            QMessageBox::warning(this, "Calaos Installer", tr("Calaos Installer: Erreur !") + "\n" + networkErrorText(reply));
 
             return;
         }
@@ -115,7 +105,7 @@ void DialogCameraView::DownloadPicture()
     url.setUserInfo(QString());
 
     // Only same-origin redirects: the SSL tolerance and the credentials below
-    // must never follow the reply to another host, port or a downgraded scheme.
+    // must never follow the reply to another host or port, nor across a scheme change (either way).
     QNetworkRequest request(url);
     request.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::SameOriginRedirectPolicy);
     const QUrl origin = url;

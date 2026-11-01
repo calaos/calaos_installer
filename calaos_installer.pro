@@ -68,6 +68,7 @@ SOURCES += src/main.cpp \
     src/dialognewtime.cpp \
     src/dialognewwebio.cpp \
     src/dialogcameraview.cpp \
+    src/networkerrortext.cpp \
     src/wagoconnect.cpp \
     src/dialogconnect.cpp \
     src/dialogopenonline.cpp \
@@ -178,6 +179,7 @@ HEADERS += src/mainwindow.h \
     src/dialognewscenario.h \
     src/dialognewtime.h \
     src/dialogcameraview.h \
+    src/networkerrortext.h \
     src/wagoconnect.h \
     src/dialogconnect.h \
     src/dialogopenonline.h \

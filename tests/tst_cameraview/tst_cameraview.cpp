@@ -2,6 +2,8 @@
 #include <QBuffer>
 #include <QImage>
 #include <QLabel>
+#include <QLineEdit>
+#include <QPushButton>
 #include <QMessageBox>
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
@@ -18,6 +20,7 @@
 
 #include "IOBase.h"
 #include "dialogcameraview.h"
+#include "dialognewcamera.h"
 
 // The preview is run against real TLS servers on 127.0.0.1. Their certificates
 // are generated into a temporary directory by the openssl binary and never
@@ -184,6 +187,8 @@ private slots:
     void passwordNeverShown();
     void queryPasswordNeverShown_data();
     void queryPasswordNeverShown();
+    void newCameraDsmPasswordNeverShown_data();
+    void newCameraDsmPasswordNeverShown();
     void realErrorStringLeaksQueryPassword();
 
     void authNoChallenge_data();
@@ -648,6 +653,78 @@ void TstCameraView::queryPasswordNeverShown()
     {
         QVERIFY(!secret.isEmpty());
         QVERIFY2(!boxes[0].contains(secret), qPrintable("dialog: " + boxes[0]));
+        for (const QString &line : std::as_const(g_log))
+            QVERIFY2(!line.contains(secret), qPrintable("log: " + line));
+    }
+}
+
+void TstCameraView::newCameraDsmPasswordNeverShown_data()
+{
+    QTest::addColumn<QString>("failing");
+    QTest::addColumn<QString>("password");
+
+    for (const QString &stage : {QString("info"), QString("login"), QString("list")})
+        for (const QString &pw : {QString("S3cretPw"), QString("Zq7Kmn:p@ss/w%41!"), QString("Spaced Pw&q?x#y9")})
+            QTest::newRow(qPrintable(stage + " " + pw)) << stage << pw;
+}
+
+void TstCameraView::newCameraDsmPasswordNeverShown()
+{
+    QFETCH(QString, failing);
+    QFETCH(QString, password);
+
+    // The DSM account and password travel in the login query; the stage that
+    // answers 404 is the one whose Qt error text would echo them.
+    FakeCam dsm(nullptr, 0, this);
+    QByteArray loginQuery;
+    dsm.handler = [&](const QByteArray &head, int) {
+        const QByteArray path = requestPath(head);
+        const auto json = [](const QByteArray &body) {
+            return FakeCam::response(200, "OK", body, "", "application/json");
+        };
+        if (path.contains("query.cgi"))
+        {
+            if (failing == "info" && path.contains("SYNO.API.Auth"))
+                return FakeCam::response(404, "Not Found", "nope");
+            const QByteArray api = path.contains("SYNO.API.Auth") ? "SYNO.API.Auth"
+                                                                  : "SYNO.SurveillanceStation.Camera";
+            return json("{\"success\":true,\"data\":{\"" + api + "\":{\"path\":\"entry.cgi\"}}}");
+        }
+        if (path.contains("api=SYNO.API.Auth"))
+        {
+            loginQuery = path;
+            if (failing == "login")
+                return FakeCam::response(404, "Not Found", "nope");
+            return json("{\"success\":true,\"data\":{\"sid\":\"sid0\"}}");
+        }
+        return FakeCam::response(404, "Not Found", "nope");
+    };
+    QVERIFY(dsm.listen());
+
+    DialogNewCamera dlg(nullptr);
+    dlg.findChild<QLineEdit *>("dsm_url")->setText(QString("http://127.0.0.1:%1").arg(dsm.port()));
+    dlg.findChild<QLineEdit *>("dsm_username")->setText("dsmuser7q");
+    dlg.findChild<QLineEdit *>("dsm_password")->setText(password);
+    dlg.findChild<QPushButton *>("pushButtonConnectDsm")->click();
+
+    // A failed listing ends silently after the error box; the other stages add a second one.
+    QVERIFY(QTest::qWaitFor([this]() { return !m_boxes.texts.isEmpty(); }, 20000));
+    QTest::qWait(200);
+
+    if (failing != "info")
+        QVERIFY2(loginQuery.contains("passwd="), "login query was not sent");
+    // The first box is Qt's error text for the 404 of the failing stage.
+    QVERIFY2(m_boxes.texts[0].contains("404"), qPrintable(m_boxes.texts[0]));
+
+    const QString encoded = QString::fromLatin1(QUrl::toPercentEncoding(password));
+    QStringList secrets = {password, encoded, QUrl::fromPercentEncoding(encoded.toLatin1()), "dsmuser7q", "passwd="};
+    const QRegularExpressionMatch run = QRegularExpression("[A-Za-z0-9]{5,}").match(password);
+    QVERIFY(run.hasMatch());
+    secrets << run.captured(0);
+    for (const QString &secret : std::as_const(secrets))
+    {
+        for (const QString &box : std::as_const(m_boxes.texts))
+            QVERIFY2(!box.contains(secret), qPrintable("dialog: " + box));
         for (const QString &line : std::as_const(g_log))
             QVERIFY2(!line.contains(secret), qPrintable("log: " + line));
     }

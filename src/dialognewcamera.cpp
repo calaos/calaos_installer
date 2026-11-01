@@ -1,6 +1,7 @@
 #include "dialognewcamera.h"
 #include "ui_DialogNewCamera.h"
 #include "mainwindow.h"
+#include "networkerrortext.h"
 #include <QNetworkRequest>
 #include <QNetworkReply>
 
@@ -247,7 +248,7 @@ void DialogNewCamera::listCameras(std::function<void(const QJsonArray &arr)> dat
         reply->deleteLater();
         if (reply->error() != QNetworkReply::NoError)
         {
-            QMessageBox::warning(this, tr("Calaos Installer"), reply->errorString());
+            QMessageBox::warning(this, tr("Calaos Installer"), networkErrorText(reply));
             dataCb({});
             return;
         }
@@ -285,7 +286,7 @@ void DialogNewCamera::login(std::function<void(const QString &sid)> cb)
         reply->deleteLater();
         if (reply->error() != QNetworkReply::NoError)
         {
-            QMessageBox::warning(this, tr("Calaos Installer"), reply->errorString());
+            QMessageBox::warning(this, tr("Calaos Installer"), networkErrorText(reply));
             cb({});
             return;
         }
@@ -322,7 +323,7 @@ void DialogNewCamera::getApiInfo(const QString &api, const QString &method, cons
         reply->deleteLater();
         if (reply->error() != QNetworkReply::NoError)
         {
-            QMessageBox::warning(this, tr("Calaos Installer"), reply->errorString());
+            QMessageBox::warning(this, tr("Calaos Installer"), networkErrorText(reply));
             cb({});
             return;
         }

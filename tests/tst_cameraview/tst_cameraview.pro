@@ -21,9 +21,14 @@ unix:!macx: INCLUDEPATH += /usr/include/KF6/KArchive
 # the data model (the real camera preview, no stub).
 SOURCES += \
     $$PWD/../../src/dialogcameraview.cpp \
+    $$PWD/../../src/dialognewcamera.cpp \
+    $$PWD/../../src/networkerrortext.cpp \
     tst_cameraview.cpp
 
 HEADERS += \
-    $$PWD/../../src/dialogcameraview.h
+    $$PWD/../../src/dialogcameraview.h \
+    $$PWD/../../src/dialognewcamera.h \
+    $$PWD/../../src/networkerrortext.h
 
-FORMS += $$PWD/../../data/DialogCameraView.ui
+FORMS += $$PWD/../../data/DialogCameraView.ui \
+    $$PWD/../../data/DialogNewCamera.ui
