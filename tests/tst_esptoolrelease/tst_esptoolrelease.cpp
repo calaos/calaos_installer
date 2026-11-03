@@ -23,8 +23,12 @@ private slots:
     void fallsBackToPreviousRelease();
     void newestReleaseWinsWhenItHasAnAsset();
     void highestVersionWinsOverApiOrder();
-void underscoreSeparatedNamesAreRecognised();
-void draftAndPrereleaseAreIgnored();
+    void underscoreSeparatedNamesAreRecognised();
+    void draftAndPrereleaseAreIgnored();
+    void sizeIsRequiredAndBounded_data();
+    void sizeIsRequiredAndBounded();
+    void unsafeAssetNamesAreRefused_data();
+    void unsafeAssetNamesAreRefused();
     void digestMustBeSha256_data();
     void digestMustBeSha256();
     void missingDigestIsRefused();
@@ -62,6 +66,7 @@ QJsonObject TstEsptoolRelease::release(const QString &tag, const QStringList &na
             { "name", n },
             { "browser_download_url", "https://example.invalid/" + tag + "/" + n },
             { "digest", "sha256:" + QString::fromLatin1(hex) },
+            { "size", 1000 },
         });
     }
     return QJsonObject{ { "tag_name", tag }, { "draft", false }, { "prerelease", false },
@@ -272,6 +277,75 @@ void TstEsptoolRelease::missingDigestIsRefused()
     const EsptoolAsset a = selectEsptoolAsset(QJsonArray{ rel }, "linux", "x86_64");
     QVERIFY(!a.isValid());
     QVERIFY2(a.error.contains("SHA-256"), qPrintable(a.error));
+}
+
+void TstEsptoolRelease::sizeIsRequiredAndBounded_data()
+{
+    QTest::addColumn<QJsonValue>("size");
+    QTest::addColumn<bool>("accepted");
+
+    QTest::newRow("small")    << QJsonValue(1000) << true;
+    QTest::newRow("at cap")   << QJsonValue(double(kMaxToolArchiveBytes)) << true;
+    QTest::newRow("over cap") << QJsonValue(double(kMaxToolArchiveBytes) + 1) << false;
+    QTest::newRow("zero")     << QJsonValue(0) << false;
+    QTest::newRow("negative") << QJsonValue(-5) << false;
+    QTest::newRow("missing")  << QJsonValue(QJsonValue::Undefined) << false;
+    QTest::newRow("text")     << QJsonValue("1000") << false;
+}
+
+void TstEsptoolRelease::sizeIsRequiredAndBounded()
+{
+    QFETCH(QJsonValue, size);
+    QFETCH(bool, accepted);
+
+    QJsonObject rel = release("v6.0.0", { "esptool-v6.0.0-linux-amd64.tar.gz" });
+    QJsonArray assets = rel.value("assets").toArray();
+    QJsonObject asset = assets.at(0).toObject();
+    if (size.isUndefined())
+        asset.remove("size");
+    else
+        asset["size"] = size;
+    assets[0] = asset;
+    rel["assets"] = assets;
+
+    const EsptoolAsset a = selectEsptoolAsset(QJsonArray{ rel }, "linux", "x86_64");
+    QCOMPARE(a.isValid(), accepted);
+    if (accepted)
+        QCOMPARE(a.size, qint64(size.toDouble()));
+    else
+        QVERIFY2(a.error.contains("size"), qPrintable(a.error));
+}
+
+void TstEsptoolRelease::unsafeAssetNamesAreRefused_data()
+{
+    QTest::addColumn<QString>("name");
+    QTest::addColumn<bool>("safe");
+
+    QTest::newRow("plain")        << "esptool-v6.0.0-linux-amd64.tar.gz" << true;
+    QTest::newRow("empty")        << "" << false;
+    QTest::newRow("dotdot")       << ".." << false;
+    QTest::newRow("traversal")    << "../esptool-linux-amd64.tar.gz" << false;
+    QTest::newRow("embedded dots") << "esptool..linux-amd64.tar.gz" << false;
+    QTest::newRow("subdir")       << "a/esptool-linux-amd64.tar.gz" << false;
+    QTest::newRow("absolute")     << "/tmp/esptool-linux-amd64.tar.gz" << false;
+    QTest::newRow("backslash")    << "..\\esptool-linux-amd64.zip" << false;
+    QTest::newRow("drive")        << "C:esptool-windows-amd64.zip" << false;
+    QTest::newRow("control char") << QString("esptool-linux-amd64.tar.gz\n") << false;
+}
+
+void TstEsptoolRelease::unsafeAssetNamesAreRefused()
+{
+    QFETCH(QString, name);
+    QFETCH(bool, safe);
+    QCOMPARE(isSafeAssetName(name), safe);
+
+    // A hostile name must not win even when it looks like the right platform build.
+    if (!safe && !name.isEmpty())
+    {
+        const EsptoolAsset a = selectEsptoolAsset(QJsonArray{ release("v6.0.0", { name }) },
+                                                  "linux", "x86_64");
+        QVERIFY(!a.isValid());
+    }
 }
 
 void TstEsptoolRelease::noBuildForPlatform_data()

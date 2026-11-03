@@ -2,6 +2,7 @@
 #define DIALOGFLASHDEVICE_H
 
 #include <QDialog>
+#include <QPushButton>
 #include <QTimer>
 #include <QTemporaryDir>
 #include "BoardProfile.h"
@@ -62,6 +63,11 @@ private:
     FirmwareManager *m_firmwareManager;
     FlashToolManager *m_toolManager;
     bool m_toolUpdateChecked = false;
+    QPushButton *m_buttonCancel = nullptr;
+    bool m_cancelRequested = false;
+
+    // True once, after the user pressed Cancel; clears the request
+    bool takeCancelRequest();
     QTimer *m_serialRefreshTimer;
 
     // Keeps extracted firmware alive during flash

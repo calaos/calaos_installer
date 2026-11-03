@@ -144,6 +144,11 @@ QT_QPA_PLATFORM=offscreen ./tst_projectmanager/tst_projectmanager -v2 ioRoundTri
 - `tests/tst_builddirs/` runs qmake on the projects and checks that every intermediate file
   lands in `build-qt<Qt version>/` and that a build directory of the former layout is refused;
   `tests/tst_timezonehelper/` covers the timezone list and builds the Remote UI editor offscreen.
+- `tests/tst_esptoolrelease/` covers the esptool release choice (`src/EsptoolRelease.*`: highest
+  version, platform asset, GitHub digest and size, unsafe names refused); `tests/tst_httpclient/`
+  covers `HttpClient` (timeouts, total deadline, cancel, size bounds, file content); and
+  `tests/tst_flashtoolmanager/` covers `FlashToolManager` (atomic install, hostile archives,
+  confirmation and remembered refusal, failure report).
 - To add a suite: create `tests/tst_<name>/tst_<name>.pro` (copy `tst_projectmanager`) and
   add it to `SUBDIRS` in `tests/tests.pro`.
 - CI (`.github/workflows/pr_ci.yml`) builds the application and runs these tests on every

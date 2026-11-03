@@ -16,9 +16,9 @@ struct FlashConfig
     QStringList supportedOs;
     QString unsupportedOsDocUrl;
 
-    // Returns the download URL for the current OS.
-    // If toolGithubRelease, returns toolUrl (GitHub repo).
-    // Otherwise returns the matching entry from toolUrls.
+    // Download URL of the tool for the current OS from toolUrls. With toolGithubRelease it
+    // returns toolUrl, the GitHub repository: the asset is then picked from its latest release
+    // by FlashToolManager, not read from here.
     QString resolvedToolUrl() const;
 
     // True when a direct (non-GitHub) download URL exists for the current OS

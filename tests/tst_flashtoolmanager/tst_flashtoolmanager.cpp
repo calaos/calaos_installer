@@ -1,0 +1,398 @@
+#include <QtTest>
+#include <QCryptographicHash>
+#include <QDir>
+#include <QFile>
+#include <QJsonArray>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QStandardPaths>
+#include <QTemporaryDir>
+#include <KTar>
+
+#include "ConfigOptions.h"
+#include "FlashToolManager.h"
+
+namespace
+{
+const QByteArray kBinary = "#!/bin/sh\necho esptool\n";
+
+// Lets a test fail one directory swap.
+class TestManager : public FlashToolManager
+{
+public:
+    QString failRenameFrom;
+
+protected:
+    bool renameDir(const QString &from, const QString &to) override
+    {
+        if (!failRenameFrom.isEmpty() && from.endsWith(failRenameFrom))
+            return false;
+        return FlashToolManager::renameDir(from, to);
+    }
+};
+
+FlashConfig esptoolConfig()
+{
+    FlashConfig c;
+    c.tool = "esptool";
+    c.toolUrl = "https://github.com/test/esptool";
+    c.toolGithubRelease = true;
+    return c;
+}
+
+QString sha256Of(const QString &path)
+{
+    QFile f(path);
+    if (!f.open(QIODevice::ReadOnly))
+        return QString();
+    return QString::fromLatin1(QCryptographicHash::hash(f.readAll(), QCryptographicHash::Sha256).toHex());
+}
+
+struct Outcome
+{
+    bool done = false;
+    bool ok = false;
+    QString text;
+};
+} // namespace
+
+class TstFlashToolManager : public QObject
+{
+    Q_OBJECT
+
+private slots:
+    void initTestCase();
+    void init();
+
+    void installReplacesPreviousTool();
+    void badDigestKeepsPreviousTool();
+    void unsafeAssetNameIsRefused();
+    void oversizedDownloadIsRefused();
+    void hostileArchiveIsRefused_data();
+    void hostileArchiveIsRefused();
+    void failedSwapRestoresPreviousTool();
+    void refusedUpdateIsNotInstalledNorProposedAgain();
+    void acceptedUpdateFailureIsReported();
+    void otherToolsAreNeverUpdated();
+
+private:
+    // tar.gz holding esptool-v6/esptool, plus whatever the test adds through extra
+    QString makeArchive(const QString &name, const std::function<void(KTar &)> &extra = {});
+    EsptoolAsset assetFor(const QString &archive, const QString &tag = "v6.0.0") const;
+    Outcome install(FlashToolManager &mgr, const EsptoolAsset &asset);
+    void installOldTool();
+    QString releasesDir() const;
+    void writeReleases();
+
+    QTemporaryDir m_work;
+    QString m_toolDir;
+};
+
+void TstFlashToolManager::initTestCase()
+{
+    QStandardPaths::setTestModeEnabled(true);
+    QVERIFY(m_work.isValid());
+    m_toolDir = FlashToolManager::toolsCacheDir() + "/esptool";
+}
+
+void TstFlashToolManager::init()
+{
+    QDir(FlashToolManager::toolsCacheDir()).removeRecursively();
+    ConfigOptions::Instance().setOption("tools/esptool_path", QString());
+    ConfigOptions::Instance().setOption("tools/esptool_declined_version", QString());
+}
+
+QString TstFlashToolManager::makeArchive(const QString &name, const std::function<void(KTar &)> &extra)
+{
+    const QString path = m_work.filePath(name);
+    KTar tar(path, "application/x-gzip");
+    if (!tar.open(QIODevice::WriteOnly))
+        return QString();
+    tar.writeFile("esptool-v6/esptool", kBinary, 0755);
+    tar.writeFile("esptool-v6/LICENSE", "license", 0644);
+    if (extra)
+        extra(tar);
+    tar.close();
+    return path;
+}
+
+EsptoolAsset TstFlashToolManager::assetFor(const QString &archive, const QString &tag) const
+{
+    EsptoolAsset a;
+    a.tag = tag;
+    a.name = QFileInfo(archive).fileName();
+    a.url = QUrl::fromLocalFile(archive).toString();
+    a.sha256 = sha256Of(archive);
+    a.size = QFileInfo(archive).size();
+    return a;
+}
+
+Outcome TstFlashToolManager::install(FlashToolManager &mgr, const EsptoolAsset &asset)
+{
+    Outcome out;
+    mgr.installAsset(esptoolConfig(), asset, [&](bool ok, const QString &text)
+    {
+        out.done = true;
+        out.ok = ok;
+        out.text = text;
+    });
+    QTest::qWait(0);
+    for (int i = 0; i < 100 && !out.done; ++i)
+        QTest::qWait(50);
+    return out;
+}
+
+void TstFlashToolManager::installOldTool()
+{
+    QVERIFY(QDir().mkpath(m_toolDir));
+    QFile tool(m_toolDir + "/esptool");
+    QVERIFY(tool.open(QIODevice::WriteOnly));
+    tool.write("old");
+    tool.close();
+    QFile::setPermissions(tool.fileName(), QFile::permissions(tool.fileName()) | QFileDevice::ExeOwner);
+    QFile stale(m_toolDir + "/stale.txt");
+    QVERIFY(stale.open(QIODevice::WriteOnly));
+    stale.close();
+    QFile ver(m_toolDir + "/version.txt");
+    QVERIFY(ver.open(QIODevice::WriteOnly));
+    ver.write("v5.0.0");
+}
+
+void TstFlashToolManager::installReplacesPreviousTool()
+{
+    installOldTool();
+    FlashToolManager mgr;
+    const Outcome out = install(mgr, assetFor(makeArchive("ok.tar.gz")));
+
+    QVERIFY2(out.ok, qPrintable(out.text));
+    QCOMPARE(out.text, m_toolDir + "/esptool");
+    QVERIFY(QFileInfo(out.text).isExecutable());
+    QFile f(out.text);
+    QVERIFY(f.open(QIODevice::ReadOnly));
+    QCOMPARE(f.readAll(), kBinary);
+    QVERIFY(!QFileInfo::exists(m_toolDir + "/stale.txt"));
+    QCOMPARE(mgr.cachedToolVersion("esptool"), QString("v6.0.0"));
+    QVERIFY(!QFileInfo::exists(m_toolDir + ".new"));
+    QVERIFY(!QFileInfo::exists(m_toolDir + ".old"));
+}
+
+void TstFlashToolManager::badDigestKeepsPreviousTool()
+{
+    installOldTool();
+    EsptoolAsset a = assetFor(makeArchive("ok.tar.gz"));
+    a.sha256 = QString(64, 'a');
+    FlashToolManager mgr;
+    const Outcome out = install(mgr, a);
+
+    QVERIFY(out.done);
+    QVERIFY(!out.ok);
+    QVERIFY2(out.text.contains("Checksum"), qPrintable(out.text));
+    QVERIFY(QFileInfo::exists(m_toolDir + "/stale.txt"));
+    QCOMPARE(mgr.cachedToolVersion("esptool"), QString("v5.0.0"));
+    QVERIFY(!QFileInfo::exists(m_toolDir + ".new"));
+}
+
+void TstFlashToolManager::unsafeAssetNameIsRefused()
+{
+    installOldTool();
+    EsptoolAsset a = assetFor(makeArchive("ok.tar.gz"));
+    a.name = "../../escape.tar.gz";
+    FlashToolManager mgr;
+    const Outcome out = install(mgr, a);
+
+    QVERIFY(out.done);
+    QVERIFY(!out.ok);
+    QVERIFY(QFileInfo::exists(m_toolDir + "/stale.txt"));
+    QVERIFY(!QFileInfo::exists(FlashToolManager::toolsCacheDir() + "/../escape.tar.gz"));
+}
+
+void TstFlashToolManager::oversizedDownloadIsRefused()
+{
+    installOldTool();
+    EsptoolAsset a = assetFor(makeArchive("ok.tar.gz"));
+    a.size = 10; // GitHub announced less than what the server sends
+    FlashToolManager mgr;
+    const Outcome out = install(mgr, a);
+
+    QVERIFY(out.done);
+    QVERIFY(!out.ok);
+    QVERIFY(QFileInfo::exists(m_toolDir + "/stale.txt"));
+    QVERIFY(!QFileInfo::exists(m_toolDir + ".new"));
+}
+
+void TstFlashToolManager::hostileArchiveIsRefused_data()
+{
+    QTest::addColumn<QString>("kind");
+    QTest::addColumn<bool>("refused");
+    QTest::newRow("parent directory") << "dotdot" << true;
+    // KArchive re-roots absolute names under the destination: harmless, but never outside it.
+    QTest::newRow("absolute path")    << "absolute" << false;
+    QTest::newRow("symlink")          << "symlink" << true;
+}
+
+void TstFlashToolManager::hostileArchiveIsRefused()
+{
+    QFETCH(QString, kind);
+    QFETCH(bool, refused);
+    installOldTool();
+    const QString victim = m_work.filePath("victim");
+    QFile::remove(victim);
+    const QString archive = makeArchive("hostile.tar.gz", [&](KTar &tar)
+    {
+        if (kind == "dotdot")
+            tar.writeFile("../../../../../../../../" + victim.mid(1), "pwned", 0644);
+        else if (kind == "absolute")
+            tar.writeFile(victim, "pwned", 0644);
+        else
+            tar.writeSymLink("esptool-v6/link", "/etc/passwd");
+    });
+    QVERIFY(!archive.isEmpty());
+
+    FlashToolManager mgr;
+    const Outcome out = install(mgr, assetFor(archive));
+
+    QVERIFY(out.done);
+    QVERIFY2(out.ok != refused, qPrintable(out.text));
+    QVERIFY(!QFileInfo::exists(victim));
+    if (refused)
+    {
+        QVERIFY(QFileInfo::exists(m_toolDir + "/stale.txt"));
+        QCOMPARE(mgr.cachedToolVersion("esptool"), QString("v5.0.0"));
+    }
+}
+
+void TstFlashToolManager::failedSwapRestoresPreviousTool()
+{
+    installOldTool();
+    TestManager mgr;
+    mgr.failRenameFrom = ".new"; // the stage cannot take the place of the old install
+    const Outcome out = install(mgr, assetFor(makeArchive("ok.tar.gz")));
+
+    QVERIFY(out.done);
+    QVERIFY(!out.ok);
+    QVERIFY(QFileInfo::exists(m_toolDir + "/stale.txt"));
+    QCOMPARE(mgr.cachedToolVersion("esptool"), QString("v5.0.0"));
+    QVERIFY(!QFileInfo::exists(m_toolDir + ".new"));
+    QVERIFY(!QFileInfo::exists(m_toolDir + ".old"));
+}
+
+QString TstFlashToolManager::releasesDir() const
+{
+    return m_work.filePath("api/repos/test/esptool");
+}
+
+// A release newer than the installed v5.0.0, with a build for every Linux CPU esptool ships.
+void TstFlashToolManager::writeReleases()
+{
+    QJsonArray assets;
+    for (const QString &arch : { "amd64", "arm64", "armv7" })
+    {
+        const QString name = QString("esptool-v6.0.0-linux-%1.tar.gz").arg(arch);
+        assets.append(QJsonObject{
+            { "name", name },
+            { "browser_download_url", "https://127.0.0.1:1/" + name },
+            { "digest", "sha256:" + QString(64, 'b') },
+            { "size", 1000 },
+        });
+    }
+    const QJsonArray releases{ QJsonObject{ { "tag_name", "v6.0.0" }, { "draft", false },
+                                            { "prerelease", false }, { "assets", assets } } };
+    QVERIFY(QDir().mkpath(releasesDir()));
+    QFile f(releasesDir() + "/releases");
+    QVERIFY(f.open(QIODevice::WriteOnly));
+    f.write(QJsonDocument(releases).toJson());
+}
+
+void TstFlashToolManager::refusedUpdateIsNotInstalledNorProposedAgain()
+{
+    installOldTool();
+    writeReleases();
+    FlashToolManager mgr;
+    mgr.setApiBaseUrl(QUrl::fromLocalFile(m_work.filePath("api")).toString());
+
+    int asked = 0;
+    auto run = [&]() -> Outcome
+    {
+        Outcome out;
+        mgr.updateCachedTool(esptoolConfig(),
+            [&](const QString &, const QString &) { ++asked; return false; },
+            [&](bool updated, const QString &, const QString &error)
+            {
+                out.done = true;
+                out.ok = updated;
+                out.text = error;
+            });
+        for (int i = 0; i < 100 && !out.done; ++i)
+            QTest::qWait(50);
+        return out;
+    };
+
+    const Outcome first = run();
+    QVERIFY(first.done);
+    QVERIFY(!first.ok);
+    QVERIFY(first.text.isEmpty());
+    QCOMPARE(asked, 1);
+    QCOMPARE(mgr.cachedToolVersion("esptool"), QString("v5.0.0"));
+
+    const Outcome second = run();
+    QVERIFY(second.done);
+    QVERIFY(!second.ok);
+    QCOMPARE(asked, 1);
+}
+
+void TstFlashToolManager::acceptedUpdateFailureIsReported()
+{
+    installOldTool();
+    writeReleases();
+    FlashToolManager mgr;
+    mgr.setApiBaseUrl(QUrl::fromLocalFile(m_work.filePath("api")).toString());
+
+    Outcome out;
+    QString path;
+    mgr.updateCachedTool(esptoolConfig(),
+        [&](const QString &, const QString &) { return true; },
+        [&](bool updated, const QString &p, const QString &error)
+        {
+            out.done = true;
+            out.ok = updated;
+            out.text = error;
+            path = p;
+        });
+    QTRY_VERIFY_WITH_TIMEOUT(out.done, 10000);
+
+    QVERIFY(!out.ok);
+    QVERIFY(!out.text.isEmpty());
+    QCOMPARE(path, m_toolDir + "/esptool");
+    QCOMPARE(mgr.cachedToolVersion("esptool"), QString("v5.0.0"));
+}
+
+void TstFlashToolManager::otherToolsAreNeverUpdated()
+{
+    FlashConfig c = esptoolConfig();
+    c.tool = "upgrade_tool";
+    FlashToolManager mgr;
+
+    Outcome dl;
+    mgr.downloadTool(c, [&](bool ok, const QString &text) { dl.done = true; dl.ok = ok; dl.text = text; });
+    QVERIFY(dl.done);
+    QVERIFY(!dl.ok);
+    QVERIFY(!dl.text.isEmpty());
+
+    // Even with a cached copy, the GitHub flow stays closed to it.
+    QVERIFY(QDir().mkpath(FlashToolManager::toolsCacheDir() + "/upgrade_tool"));
+    QFile tool(FlashToolManager::toolsCacheDir() + "/upgrade_tool/upgrade_tool");
+    QVERIFY(tool.open(QIODevice::WriteOnly));
+    tool.write("x");
+    tool.close();
+    QFile::setPermissions(tool.fileName(), QFile::permissions(tool.fileName()) | QFileDevice::ExeOwner);
+    bool asked = false;
+    Outcome up;
+    mgr.updateCachedTool(c, [&](const QString &, const QString &) { asked = true; return true; },
+                         [&](bool updated, const QString &, const QString &) { up.done = true; up.ok = updated; });
+    QVERIFY(up.done);
+    QVERIFY(!up.ok);
+    QVERIFY(!asked);
+}
+
+QTEST_MAIN(TstFlashToolManager)
+#include "tst_flashtoolmanager.moc"
