@@ -372,7 +372,8 @@ void FlashToolManager::downloadToolDirect(const FlashConfig &config,
             return;
         }
 
-        // Extract archive
+        // upgrade_tool's 32-hex filename suffix is not the zip's MD5, so there is
+        // no digest to verify here; only the size bound below applies.
         QString toolPath = extractArchive(archivePath, toolDir, config.tool);
 
         // Clean up archive
