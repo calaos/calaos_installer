@@ -10,6 +10,7 @@
 #include <QProcess>
 #include <QSettings>
 #include <QStandardPaths>
+#include <KArchiveDirectory>
 #include <KTar>
 #include <KZip>
 
@@ -132,6 +133,12 @@ void FlashToolManager::downloadTool(const FlashConfig &config,
 void FlashToolManager::downloadToolGithub(const FlashConfig &config,
                                           std::function<void(bool, const QString &)> callback)
 {
+    // The release selection is written for esptool's archives only.
+    if (config.tool != "esptool")
+    {
+        callback(false, tr("Automatic download is not supported for %1").arg(config.tool));
+        return;
+    }
     fetchLatestAsset(config, [this, config, callback](const EsptoolAsset &asset, const QString &error)
     {
         if (!asset.isValid())
@@ -145,14 +152,14 @@ void FlashToolManager::downloadToolGithub(const FlashConfig &config,
 
 void FlashToolManager::updateCachedTool(const FlashConfig &config,
                                         std::function<bool(const QString &, const QString &)> confirm,
-                                        std::function<void(bool, const QString &)> callback)
+                                        std::function<void(bool, const QString &, const QString &)> callback)
 {
     const QString path = findTool(config);
     const QString cacheDir = QDir::fromNativeSeparators(toolsCacheDir()) + "/";
-    if (!config.toolGithubRelease || path.isEmpty()
+    if (!config.toolGithubRelease || config.tool != "esptool" || path.isEmpty()
         || !QDir::fromNativeSeparators(path).startsWith(cacheDir))
     {
-        callback(false, path);
+        callback(false, path, QString());
         return;
     }
 
@@ -164,26 +171,39 @@ void FlashToolManager::updateCachedTool(const FlashConfig &config,
         if (!asset.isValid())
         {
             qWarning() << "Tool update check failed:" << error;
-            callback(false, path);
+            callback(false, path, QString());
             return;
         }
-        if (!isNewerEsptoolVersion(asset.tag, cachedVersion))
+        const QString declinedKey = "tools/" + config.tool + "_declined_version";
+        if (!isNewerEsptoolVersion(asset.tag, cachedVersion)
+            || ConfigOptions::Instance().getOption(declinedKey).toString() == asset.tag)
         {
-            callback(false, path);
+            callback(false, path, QString());
             return;
         }
         if (!confirm(asset.tag, cachedVersion))
         {
-            callback(false, path);
+            ConfigOptions::Instance().setOption(declinedKey, asset.tag);
+            callback(false, path, QString());
             return;
         }
         installAsset(config, asset, [path, callback](bool ok, const QString &newPath)
         {
             if (!ok)
                 qWarning() << "Tool update failed:" << newPath;
-            callback(ok, ok ? newPath : path);
+            callback(ok, ok ? newPath : path, ok ? QString() : newPath);
         });
     });
+}
+
+void FlashToolManager::abort()
+{
+    m_http->abort();
+}
+
+bool FlashToolManager::renameDir(const QString &from, const QString &to)
+{
+    return QDir().rename(from, to);
 }
 
 void FlashToolManager::fetchLatestAsset(const FlashConfig &config,
@@ -201,7 +221,7 @@ void FlashToolManager::fetchLatestAsset(const FlashConfig &config,
     if (repoPath.endsWith('/'))
         repoPath.chop(1);
     // A few releases back, in case the newest one lacks a build for this platform.
-    const QUrl apiUrl("https://api.github.com/repos" + repoPath + "/releases?per_page=5");
+    const QUrl apiUrl(m_apiBase + "/repos" + repoPath + "/releases?per_page=5");
 
     m_http->getJson(apiUrl, [this, callback](bool ok, const QJsonDocument &doc)
     {
@@ -232,9 +252,20 @@ void FlashToolManager::installAsset(const FlashConfig &config, const EsptoolAsse
 {
     // Extract beside the cache and swap on success: a failed update keeps the working tool, and
     // stale files of the previous version cannot shadow the new binary.
+    if (!isSafeAssetName(asset.name))
+    {
+        callback(false, tr("Refusing the unsafe asset name %1").arg(asset.name));
+        return;
+    }
     const QString toolDir = toolsCacheDir() + "/" + config.tool;
     const QString stageDir = toolDir + ".new";
+    // A leftover would mix with the new files and could shadow the binary.
     QDir(stageDir).removeRecursively();
+    if (QFileInfo::exists(stageDir))
+    {
+        callback(false, tr("Cannot clear the staging folder %1").arg(stageDir));
+        return;
+    }
     QDir().mkpath(stageDir);
     const QString archivePath = stageDir + "/" + asset.name;
 
@@ -277,15 +308,30 @@ void FlashToolManager::installAsset(const FlashConfig &config, const EsptoolAsse
         vf.write(asset.tag.toUtf8());
         vf.close();
 
-        QDir(toolDir).removeRecursively();
-        if (!QDir().rename(stageDir, toolDir))
+        // Park the old install instead of deleting it, so a failed swap can put it back.
+        const QString oldDir = toolDir + ".old";
+        QDir(oldDir).removeRecursively();
+        const bool hadOld = QFileInfo::exists(toolDir);
+        if (hadOld && !renameDir(toolDir, oldDir))
         {
+            fail(tr("Cannot replace the installed tool in %1").arg(toolDir));
+            return;
+        }
+        if (!renameDir(stageDir, toolDir))
+        {
+            if (hadOld && !renameDir(oldDir, toolDir))
+            {
+                fail(tr("Cannot install the tool into %1, and the previous one could not be "
+                        "put back: it is in %2.").arg(toolDir, oldDir));
+                return;
+            }
             fail(tr("Cannot install the tool into %1").arg(toolDir));
             return;
         }
+        QDir(oldDir).removeRecursively();
 
         callback(true, toolDir + stagedTool.mid(stageDir.size()));
-    });
+    }, asset.size);
 }
 
 QString FlashToolManager::fileSha256(const QString &path)
@@ -326,7 +372,8 @@ void FlashToolManager::downloadToolDirect(const FlashConfig &config,
             return;
         }
 
-        // Extract archive
+        // upgrade_tool's 32-hex filename suffix is not the zip's MD5, so there is
+        // no digest to verify here; only the size bound below applies.
         QString toolPath = extractArchive(archivePath, toolDir, config.tool);
 
         // Clean up archive
@@ -347,7 +394,27 @@ void FlashToolManager::downloadToolDirect(const FlashConfig &config,
         }
 
         callback(true, toolPath);
-    });
+    }, kMaxToolArchiveBytes);
+}
+
+bool FlashToolManager::archiveIsSafe(const KArchiveDirectory *dir, qint64 &budget)
+{
+    for (const QString &name : dir->entries())
+    {
+        const KArchiveEntry *e = dir->entry(name);
+        if (!e || name.isEmpty() || name == ".." || name == "." || name.contains('/')
+            || name.contains('\\') || name.contains(':') || !e->symLinkTarget().isEmpty())
+            return false;
+        if (e->isFile())
+        {
+            budget -= static_cast<const KArchiveFile *>(e)->size();
+            if (budget < 0)
+                return false;
+        }
+        if (e->isDirectory() && !archiveIsSafe(static_cast<const KArchiveDirectory *>(e), budget))
+            return false;
+    }
+    return true;
 }
 
 QString FlashToolManager::extractArchive(const QString &archivePath, const QString &destDir,
@@ -370,6 +437,12 @@ QString FlashToolManager::extractArchive(const QString &archivePath, const QStri
         }
 
         const KArchiveDirectory *root = tar.directory();
+        qint64 budget = m_maxExtractedBytes;
+        if (!archiveIsSafe(root, budget))
+        {
+            qWarning() << "Unsafe entry in archive:" << archivePath;
+            return QString();
+        }
         root->copyTo(destDir, true);
         tar.close();
     }
@@ -383,6 +456,12 @@ QString FlashToolManager::extractArchive(const QString &archivePath, const QStri
         }
 
         const KArchiveDirectory *root = zip.directory();
+        qint64 budget = m_maxExtractedBytes;
+        if (!archiveIsSafe(root, budget))
+        {
+            qWarning() << "Unsafe entry in archive:" << archivePath;
+            return QString();
+        }
         root->copyTo(destDir, true);
         zip.close();
     }

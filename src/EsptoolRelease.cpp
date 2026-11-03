@@ -1,6 +1,7 @@
 #include "EsptoolRelease.h"
 
 #include <QCoreApplication>
+#include <QFileInfo>
 #include <QJsonObject>
 #include <QRegularExpression>
 #include <QStringList>
@@ -27,7 +28,7 @@ QString osOfToken(const QString &t)
 Arch archOfToken(const QString &t)
 {
     // "win64" names the x64 build on its own.
-    if (t == "amd64" || t == "x86_64" || t == "x64" || t == "win64")
+    if (t == "amd64" || t == "x64" || t == "win64")
         return Arch::X64;
     if (t == "arm64" || t == "aarch64")
         return Arch::Arm64;
@@ -62,7 +63,7 @@ bool isArchive(const QString &lowerName)
 int rankAsset(const QString &name, const QString &os, const QList<Arch> &archs)
 {
     const QString lower = name.toLower();
-    if (!isArchive(lower))
+    if (!isArchive(lower) || !isSafeAssetName(name))
         return -1;
 
     QString normalized = lower;
@@ -89,10 +90,11 @@ int rankAsset(const QString &name, const QString &os, const QList<Arch> &archs)
     return archs.contains(assetArch) ? archs.indexOf(assetArch) : -1;
 }
 
-QString tr(const char *text)
+// A named context lets lupdate extract the messages below.
+struct Tr
 {
-    return QCoreApplication::translate("EsptoolRelease", text);
-}
+    Q_DECLARE_TR_FUNCTIONS(EsptoolRelease)
+};
 
 // "sha256:<64 hex>" -> hex, else empty.
 QString parseDigest(const QString &digest)
@@ -113,13 +115,26 @@ QList<int> versionParts(const QString &v)
 
 } // namespace
 
+bool isSafeAssetName(const QString &name)
+{
+    if (name.isEmpty() || name == "." || name.contains("..") || name != QFileInfo(name).fileName())
+        return false;
+    for (const QChar c : name)
+    {
+        if (c == '/' || c == '\\' || c == ':' || c.unicode() < 0x20 ||
+            c.unicode() == 0x7F || c.category() == QChar::Other_Format)
+            return false;
+    }
+    return true;
+}
+
 EsptoolAsset selectEsptoolAsset(const QJsonArray &releases, const QString &os, const QString &cpu)
 {
     EsptoolAsset result;
     const QList<Arch> archs = wantedArchs(os, cpu);
     if (archs.isEmpty())
     {
-        result.error = tr("No esptool build exists for this platform (%1).").arg(cpu);
+        result.error = Tr::tr("No esptool build exists for this platform (%1).").arg(cpu);
         return result;
     }
 
@@ -158,22 +173,33 @@ EsptoolAsset selectEsptoolAsset(const QJsonArray &releases, const QString &os, c
         const QString url = best.value("browser_download_url").toString();
         if (!url.startsWith("https://"))
         {
-            result.error = tr("Release %1 gives no HTTPS download URL for %2.").arg(result.tag, result.name);
+            result.error = Tr::tr("Release %1 gives no HTTPS download URL for %2.").arg(result.tag, result.name);
             return result;
         }
 
         result.sha256 = parseDigest(best.value("digest").toString());
         if (result.sha256.isEmpty())
         {
-            result.error = tr("GitHub gives no SHA-256 digest for %1 (release %2): "
+            result.error = Tr::tr("GitHub gives no SHA-256 digest for %1 (release %2): "
                               "refusing to download an unverifiable file.").arg(result.name, result.tag);
             return result;
         }
+        // Compared as a double: casting an out-of-range or NaN double to qint64 is undefined.
+        const double rawSize = best.value("size").toDouble();
+        const qint64 size = (rawSize > 0 && rawSize <= double(kMaxToolArchiveBytes)) ? qint64(rawSize) : 0;
+        if (size <= 0)
+        {
+            result.error = Tr::tr("GitHub gives an unexpected size for %1 (release %2): "
+                                  "refusing to download it.").arg(result.name, result.tag);
+            return result;
+        }
+        result.size = size;
+
         result.url = url;
         return result;
     }
 
-    result.error = tr("No esptool build for this platform (%1) in the latest releases.").arg(cpu);
+    result.error = Tr::tr("No esptool build for this platform (%1) in the latest releases.").arg(cpu);
     return result;
 }
 

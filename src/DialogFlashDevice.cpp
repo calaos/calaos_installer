@@ -2,9 +2,12 @@
 #include "ui_DialogFlashDevice.h"
 #include "ConfigImageBuilder.h"
 #include "DialogFlashConsole.h"
+#include "ToolUpdatePrompt.h"
+#include <memory>
 
 #include <QSerialPortInfo>
 #include <QFileDialog>
+#include <QBoxLayout>
 #include <QMessageBox>
 #include <QDesktopServices>
 #include <QUrl>
@@ -76,6 +79,19 @@ DialogFlashDevice::DialogFlashDevice(QWidget *parent) :
             this, &DialogFlashDevice::onOpenInstructions);
     connect(ui->buttonClose, &QPushButton::clicked,
             this, &DialogFlashDevice::reject);
+
+    // Cancel for the network phases: the check, the tool download and the firmware download
+    m_buttonCancel = new QPushButton(tr("Cancel"), this);
+    m_buttonCancel->setVisible(false);
+    if (auto *box = qobject_cast<QBoxLayout *>(ui->progressFirmware->parentWidget()->layout()))
+        box->insertWidget(box->indexOf(ui->progressFirmware) + 1, m_buttonCancel);
+    connect(m_buttonCancel, &QPushButton::clicked, this, [this]()
+    {
+        m_cancelRequested = true;
+        m_buttonCancel->setEnabled(false);
+        m_toolManager->abort();
+        m_firmwareManager->abort();
+    });
 
     // Firmware download progress
     connect(m_firmwareManager, &FirmwareManager::downloadProgress,
@@ -199,6 +215,8 @@ void DialogFlashDevice::updateToolStatus()
         QString text = board.flash.tool;
         if (!version.isEmpty())
             text += " " + version;
+        // The version comes from the release tag: never read it as markup.
+        ui->labelToolStatus->setTextFormat(Qt::PlainText);
         ui->labelToolStatus->setText(text);
         ui->labelToolStatus->setToolTip(toolPath);
         ui->labelToolStatus->setStyleSheet("color: green;");
@@ -536,7 +554,20 @@ void DialogFlashDevice::setFlashUiBusy(bool busy)
     ui->comboBoard->setEnabled(!busy);
     ui->progressFirmware->setVisible(busy);
     if (!busy)
+    {
         ui->progressFirmware->setValue(0);
+        m_buttonCancel->setVisible(false);
+        m_buttonCancel->setEnabled(true);
+        // A click that arrived too late to abort anything must not cancel the next operation.
+        m_cancelRequested = false;
+    }
+}
+
+bool DialogFlashDevice::takeCancelRequest()
+{
+    const bool requested = m_cancelRequested;
+    m_cancelRequested = false;
+    return requested;
 }
 
 void DialogFlashDevice::startFlashPreflight()
@@ -563,9 +594,15 @@ void DialogFlashDevice::startFlashPreflight()
                 return;
 
             setFlashUiBusy(true);
+            m_buttonCancel->setVisible(true);
             m_toolManager->downloadTool(board.flash,
                 [this](bool success, const QString &path)
             {
+                if (takeCancelRequest())
+                {
+                    setFlashUiBusy(false);
+                    return;
+                }
                 if (!success || path.isEmpty())
                 {
                     setFlashUiBusy(false);
@@ -602,17 +639,24 @@ void DialogFlashDevice::startFlashPreflight()
             // The busy state would grey out the dialog behind the question.
             setFlashUiBusy(false);
             const QString current = (cached.isEmpty() || cached == "latest") ? tr("unknown version") : cached;
-            const bool yes = QMessageBox::question(this, tr("Update %1").arg(tool),
-                tr("A newer %1 is available: %2 (installed: %3).\n\nDownload and use it?\n"
-                   "If you decline, the installed one is used.").arg(tool, newVersion, current))
-                == QMessageBox::Yes;
+            std::unique_ptr<QMessageBox> box(makeToolUpdateQuestion(tool, newVersion, current, this));
+            const bool yes = box->exec() == QMessageBox::Yes;
             setFlashUiBusy(true);
+            m_buttonCancel->setVisible(true);
             return yes;
         };
-        m_toolManager->updateCachedTool(board.flash, confirm, [this](bool, const QString &)
+        m_buttonCancel->setVisible(true);
+        m_toolManager->updateCachedTool(board.flash, confirm,
+                                        [this](bool, const QString &, const QString &error)
         {
+            // Read the flag first: leaving the busy state clears it.
+            const bool cancelled = takeCancelRequest();
             setFlashUiBusy(false);
+            if (cancelled)
+                return;
             updateToolStatus();
+            if (!error.isEmpty())
+                std::unique_ptr<QMessageBox>(makeToolUpdateFailedBox(error, this))->exec();
             startFlashPreflight();
         });
         return;
@@ -627,10 +671,16 @@ void DialogFlashDevice::startFlashPreflight()
 
         const FirmwareRelease &release = m_releases.at(relIdx);
         setFlashUiBusy(true);
+        m_buttonCancel->setVisible(true);
 
         m_firmwareManager->downloadFirmware(release,
             [this](bool success, const QString &zipPath)
         {
+            if (takeCancelRequest())
+            {
+                setFlashUiBusy(false);
+                return;
+            }
             if (!success)
             {
                 setFlashUiBusy(false);
@@ -650,6 +700,9 @@ void DialogFlashDevice::startFlashPreflight()
 
 void DialogFlashDevice::proceedWithFirmwareZip(const QString &zipPath)
 {
+    // Nothing left to abort: extraction and flashing are not network phases.
+    m_buttonCancel->setVisible(false);
+
     int idx = ui->comboBoard->currentIndex();
     if (idx < 0 || idx >= m_boards.size())
     {

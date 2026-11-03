@@ -8,6 +8,7 @@
 #include "EsptoolRelease.h"
 
 class HttpClient;
+class KArchiveDirectory;
 
 class FlashToolManager : public QObject
 {
@@ -31,11 +32,25 @@ public:
 
     // If findTool() resolves to a download made by us and a newer release exists, install it
     // once confirm(newVersion, cachedVersion) agrees; cachedVersion is empty or "latest" when
-    // unknown. The callback gets (true, new path) after an update, else (false, current path);
-    // a failed check, a refusal or a failed update keeps the current tool.
+    // unknown. A refused version is remembered and not proposed again. The callback gets
+    // (true, new path, "") after an update, else (false, current path, error); error is set
+    // only when the user agreed and the update failed. A failed check, a refusal or a failed
+    // update keeps the current tool.
     void updateCachedTool(const FlashConfig &config,
                           std::function<bool(const QString &newVersion, const QString &cachedVersion)> confirm,
-                          std::function<void(bool updated, const QString &toolPath)> callback);
+                          std::function<void(bool updated, const QString &toolPath, const QString &error)> callback);
+
+    // Cancel the check or download in progress; its callback reports "Cancelled"
+    void abort();
+
+    // Download, verify the SHA-256, extract and install an asset into the tool cache. The
+    // previous install stays in place unless the new one is complete.
+    void installAsset(const FlashConfig &config, const EsptoolAsset &asset,
+                      std::function<void(bool, const QString &)> callback);
+
+    // Replace the GitHub API root and the unpacked-size ceiling (tests only)
+    void setApiBaseUrl(const QString &url) { m_apiBase = url; }
+    void setMaxExtractedBytes(qint64 bytes) { m_maxExtractedBytes = bytes; }
 
     // Save/load custom tool path in QSettings
     void saveCustomToolPath(const QString &toolName, const QString &path);
@@ -47,6 +62,10 @@ public:
 signals:
     void downloadProgress(qint64 bytesReceived, qint64 bytesTotal);
 
+protected:
+    // Seam for tests: rename a directory
+    virtual bool renameDir(const QString &from, const QString &to);
+
 private:
     // Download tool from GitHub releases API
     void downloadToolGithub(const FlashConfig &config,
@@ -56,10 +75,6 @@ private:
     // asset is invalid and the string is the reason.
     void fetchLatestAsset(const FlashConfig &config,
                           std::function<void(const EsptoolAsset &, const QString &)> callback);
-
-    // Download, verify the SHA-256, extract and install an asset into the tool cache
-    void installAsset(const FlashConfig &config, const EsptoolAsset &asset,
-                      std::function<void(bool, const QString &)> callback);
 
     // Download tool from a direct URL (non-GitHub)
     void downloadToolDirect(const FlashConfig &config,
@@ -75,7 +90,14 @@ private:
     // Search for executable in PATH and common locations
     QString findInPath(const QString &toolName) const;
 
+    // False if an entry could write outside the destination (".." or separator in a name,
+    // symlink), or if the files hold more than `budget` bytes once unpacked (decompression
+    // bomb); `budget` is what is left after the entries seen so far.
+    static bool archiveIsSafe(const KArchiveDirectory *dir, qint64 &budget);
+
     HttpClient *m_http;
+    qint64 m_maxExtractedBytes = kMaxExtractedBytes;
+    QString m_apiBase = "https://api.github.com";
 };
 
 #endif // FLASHTOOLMANAGER_H
