@@ -109,9 +109,10 @@ private slots:
     void previousToolSurvivesTwoFailedRestores();
     void leftoverOldToolIsRestoredBeforeTheNextInstall();
     void directDownloadIsBounded();
-void failedDirectExtractionLeavesNothingToRun();
-void shortFileIsRefused();
-void directInstallKeepsOnlyTheNewFiles();
+    void failedDirectExtractionLeavesNothingToRun();
+    void shortFileIsRefused();
+    void shortZipFileIsRefused();
+    void directInstallKeepsOnlyTheNewFiles();
     void refusedUpdateIsNotInstalledNorProposedAgain();
     void acceptedUpdateFailureIsReported();
     void otherToolsAreNeverUpdated();
@@ -545,7 +546,9 @@ void TstFlashToolManager::directDownloadIsBounded()
 
     QVERIFY(!out.ok);
     QVERIFY2(out.text.contains("larger"), qPrintable(out.text));
-    QVERIFY(!QFileInfo::exists(FlashToolManager::toolsCacheDir() + "/upgrade_tool/upgrade_tool.zip"));
+    // Nothing is left behind: the partial download lives in the staging folder and goes with it.
+    QVERIFY(!QFileInfo::exists(FlashToolManager::toolsCacheDir() + "/upgrade_tool.new"));
+    QVERIFY(!QFileInfo::exists(FlashToolManager::toolsCacheDir() + "/upgrade_tool"));
 }
 
 Outcome TstFlashToolManager::directInstall(FlashToolManager &mgr, const QString &zip)
@@ -632,6 +635,27 @@ void TstFlashToolManager::shortFileIsRefused()
     QVERIFY2(!out.ok, qPrintable(out.text));
     QVERIFY(QFileInfo::exists(m_toolDir + "/stale.txt"));
     QCOMPARE(mgr.cachedToolVersion("esptool"), QString("v5.0.0"));
+}
+
+// Same check on the zip path, the one whose binary runs under pkexec.
+void TstFlashToolManager::shortZipFileIsRefused()
+{
+    const QString toolDir = FlashToolManager::toolsCacheDir() + "/upgrade_tool";
+    const QString zipPath = m_work.filePath("short_upgrade_tool.zip");
+    {
+        KZip zip(zipPath);
+        QVERIFY(zip.open(QIODevice::WriteOnly));
+        zip.writeFile("upgrade_tool", "fresh binary", 0755);
+        zip.close();
+    }
+    TestManager mgr;
+    mgr.shortenAfterCopy = "upgrade_tool";
+    const Outcome out = directInstall(mgr, zipPath);
+
+    QVERIFY(out.done);
+    QVERIFY2(!out.ok, qPrintable(out.text));
+    QVERIFY(!QFileInfo::exists(toolDir + "/upgrade_tool"));
+    QVERIFY(!QFileInfo::exists(toolDir + ".new"));
 }
 
 QString TstFlashToolManager::releasesDir() const

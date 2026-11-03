@@ -418,7 +418,7 @@ void FlashToolManager::downloadToolDirect(const FlashConfig &config,
         QFile::remove(archivePath);
         if (stagedTool.isEmpty())
         {
-            fail(QString());
+            fail(tr("Cannot extract %1").arg(QUrl(url).fileName()));
             return;
         }
 
@@ -451,7 +451,8 @@ bool FlashToolManager::copyEntries(const KArchiveDirectory *root, const QString 
     return root->copyTo(destDir, true);
 }
 
-// KArchiveFile::copyTo() reports success even when a read or a write failed midway.
+// KArchiveFile::copyTo() reports success even when a write fell short; this catches a file
+// shorter than its entry. A short read that still fills the size, or a bad CRC32, is not checked.
 bool FlashToolManager::extractedSizesMatch(const KArchiveDirectory *dir, const QString &destDir)
 {
     for (const QString &name : dir->entries())
