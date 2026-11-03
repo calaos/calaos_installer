@@ -68,7 +68,16 @@ protected:
     // Seam for tests: rename a directory
     virtual bool renameDir(const QString &from, const QString &to);
 
+    // Seam for tests: unpack every entry into destDir
+    virtual bool copyEntries(const KArchiveDirectory *root, const QString &destDir) const;
+
 private:
+    // Unpack the archive and check that every file came out whole
+    bool copyArchive(const KArchiveDirectory *root, const QString &destDir) const;
+
+    // True if each file of the archive is on disk under destDir with its archived size
+    static bool extractedSizesMatch(const KArchiveDirectory *dir, const QString &destDir);
+
     // Download tool from GitHub releases API
     void downloadToolGithub(const FlashConfig &config,
                             std::function<void(bool, const QString &)> callback);
@@ -81,6 +90,10 @@ private:
     // Download tool from a direct URL (non-GitHub)
     void downloadToolDirect(const FlashConfig &config,
                             std::function<void(bool, const QString &)> callback);
+
+    // Replace toolDir with the complete stageDir, keeping the previous install until the
+    // swap has succeeded; error is set on failure.
+    bool swapIn(const QString &toolDir, const QString &stageDir, QString &error);
 
     // Lowercase hex SHA-256 of a file, empty if unreadable
     static QString fileSha256(const QString &path);

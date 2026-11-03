@@ -1,6 +1,7 @@
 #include <QtTest>
 #include <QCryptographicHash>
 #include <QDir>
+#include <QDirIterator>
 #include <QFile>
 #include <QJsonArray>
 #include <QJsonDocument>
@@ -28,8 +29,26 @@ class TestManager : public FlashToolManager
 public:
     QString failRenameFrom;
     QString alsoFailFrom;
+    QString shortenAfterCopy; // a file name that ends up shorter on disk than in the archive
 
 protected:
+    bool copyEntries(const KArchiveDirectory *root, const QString &destDir) const override
+    {
+        if (!shortenAfterCopy.isEmpty())
+        {
+            const bool copied = root->copyTo(destDir, true);
+            QDirIterator it(destDir, QStringList() << shortenAfterCopy, QDir::Files,
+                            QDirIterator::Subdirectories);
+            while (it.hasNext())
+            {
+                QFile f(it.next());
+                f.resize(f.size() - 1);
+            }
+            return copied;
+        }
+        return FlashToolManager::copyEntries(root, destDir);
+    }
+
     bool renameDir(const QString &from, const QString &to) override
     {
         if ((!failRenameFrom.isEmpty() && from.endsWith(failRenameFrom))
@@ -90,6 +109,9 @@ private slots:
     void previousToolSurvivesTwoFailedRestores();
     void leftoverOldToolIsRestoredBeforeTheNextInstall();
     void directDownloadIsBounded();
+void failedDirectExtractionLeavesNothingToRun();
+void shortFileIsRefused();
+void directInstallKeepsOnlyTheNewFiles();
     void refusedUpdateIsNotInstalledNorProposedAgain();
     void acceptedUpdateFailureIsReported();
     void otherToolsAreNeverUpdated();
@@ -100,6 +122,7 @@ private:
     EsptoolAsset assetFor(const QString &archive, const QString &tag = "v6.0.0") const;
     Outcome install(FlashToolManager &mgr, const EsptoolAsset &asset);
     void installOldTool();
+    Outcome directInstall(FlashToolManager &mgr, const QString &zip);
     QString releasesDir() const;
     void writeReleases();
 
@@ -523,6 +546,92 @@ void TstFlashToolManager::directDownloadIsBounded()
     QVERIFY(!out.ok);
     QVERIFY2(out.text.contains("larger"), qPrintable(out.text));
     QVERIFY(!QFileInfo::exists(FlashToolManager::toolsCacheDir() + "/upgrade_tool/upgrade_tool.zip"));
+}
+
+Outcome TstFlashToolManager::directInstall(FlashToolManager &mgr, const QString &zip)
+{
+    FlashConfig c;
+    c.tool = "upgrade_tool";
+    for (const QString &os : { "linux", "macos", "windows" })
+        c.toolUrls.insert(os, QUrl::fromLocalFile(zip).toString());
+    Outcome out;
+    mgr.downloadTool(c, [&](bool ok, const QString &text) { out.done = true; out.ok = ok; out.text = text; });
+    for (int i = 0; i < 100 && !out.done; ++i)
+        QTest::qWait(50);
+    return out;
+}
+
+// copyTo() fails midway: the files it already wrote must not survive for a later run.
+void TstFlashToolManager::failedDirectExtractionLeavesNothingToRun()
+{
+    const QString toolDir = FlashToolManager::toolsCacheDir() + "/upgrade_tool";
+    const QString bad = m_work.filePath("bad_upgrade_tool.zip");
+    {
+        KZip zip(bad);
+        QVERIFY(zip.open(QIODevice::WriteOnly));
+        zip.writeFile("upgrade_tool", "partial", 0755);
+        zip.writeFile(QString(300, 'z'), "x", 0644);
+        zip.close();
+    }
+    FlashToolManager mgr;
+    const Outcome failed = directInstall(mgr, bad);
+    QVERIFY(failed.done);
+    QVERIFY(!failed.ok);
+    QVERIFY(!QFileInfo::exists(toolDir + "/upgrade_tool"));
+    QVERIFY(!QFileInfo::exists(toolDir + "/version.txt"));
+    QVERIFY(!QFileInfo::exists(toolDir + ".new"));
+
+    // The retry finds the binary in a subfolder: a top-level leftover would be taken instead.
+    const QString good = m_work.filePath("good_upgrade_tool.zip");
+    {
+        KZip zip(good);
+        QVERIFY(zip.open(QIODevice::WriteOnly));
+        zip.writeFile("upgrade_tool_v1/upgrade_tool", "fresh", 0755);
+        zip.close();
+    }
+    const Outcome retry = directInstall(mgr, good);
+    QVERIFY2(retry.ok, qPrintable(retry.text));
+    QFile f(retry.text);
+    QVERIFY(f.open(QIODevice::ReadOnly));
+    QCOMPARE(f.readAll(), QByteArray("fresh"));
+}
+
+void TstFlashToolManager::directInstallKeepsOnlyTheNewFiles()
+{
+    const QString toolDir = FlashToolManager::toolsCacheDir() + "/upgrade_tool";
+    QVERIFY(QDir().mkpath(toolDir));
+    QFile stale(toolDir + "/stale.txt");
+    QVERIFY(stale.open(QIODevice::WriteOnly));
+    stale.close();
+    const QString zipPath = m_work.filePath("fresh_upgrade_tool.zip");
+    {
+        KZip zip(zipPath);
+        QVERIFY(zip.open(QIODevice::WriteOnly));
+        zip.writeFile("upgrade_tool", "fresh", 0755);
+        zip.close();
+    }
+    FlashToolManager mgr;
+    const Outcome out = directInstall(mgr, zipPath);
+    QVERIFY2(out.ok, qPrintable(out.text));
+    QCOMPARE(out.text, toolDir + "/upgrade_tool");
+    QVERIFY(!QFileInfo::exists(toolDir + "/stale.txt"));
+    QVERIFY(QFileInfo::exists(toolDir + "/version.txt"));
+    QVERIFY(!QFileInfo::exists(toolDir + ".new"));
+    QVERIFY(!QFileInfo::exists(toolDir + ".old"));
+}
+
+// copyTo() says true although a write fell short: the installed binary would be truncated.
+void TstFlashToolManager::shortFileIsRefused()
+{
+    installOldTool();
+    TestManager mgr;
+    mgr.shortenAfterCopy = "esptool";
+    const Outcome out = install(mgr, assetFor(makeArchive("ok.tar.gz")));
+
+    QVERIFY(out.done);
+    QVERIFY2(!out.ok, qPrintable(out.text));
+    QVERIFY(QFileInfo::exists(m_toolDir + "/stale.txt"));
+    QCOMPARE(mgr.cachedToolVersion("esptool"), QString("v5.0.0"));
 }
 
 QString TstFlashToolManager::releasesDir() const
