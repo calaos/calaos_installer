@@ -597,7 +597,19 @@ void DialogFlashDevice::startFlashPreflight()
     {
         m_toolUpdateChecked = true;
         setFlashUiBusy(true);
-        m_toolManager->updateCachedTool(board.flash, [this](bool, const QString &)
+        auto confirm = [this, tool = board.flash.tool](const QString &newVersion, const QString &cached)
+        {
+            // The busy state would grey out the dialog behind the question.
+            setFlashUiBusy(false);
+            const QString current = (cached.isEmpty() || cached == "latest") ? tr("unknown version") : cached;
+            const bool yes = QMessageBox::question(this, tr("Update %1").arg(tool),
+                tr("A newer %1 is available: %2 (installed: %3).\n\nDownload and use it?\n"
+                   "If you decline, the installed one is used.").arg(tool, newVersion, current))
+                == QMessageBox::Yes;
+            setFlashUiBusy(true);
+            return yes;
+        };
+        m_toolManager->updateCachedTool(board.flash, confirm, [this](bool, const QString &)
         {
             setFlashUiBusy(false);
             updateToolStatus();

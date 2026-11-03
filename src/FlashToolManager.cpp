@@ -144,6 +144,7 @@ void FlashToolManager::downloadToolGithub(const FlashConfig &config,
 }
 
 void FlashToolManager::updateCachedTool(const FlashConfig &config,
+                                        std::function<bool(const QString &, const QString &)> confirm,
                                         std::function<void(bool, const QString &)> callback)
 {
     const QString path = findTool(config);
@@ -156,8 +157,8 @@ void FlashToolManager::updateCachedTool(const FlashConfig &config,
     }
 
     const QString cachedVersion = cachedToolVersion(config.tool);
-    fetchLatestAsset(config, [this, config, path, cachedVersion, callback](const EsptoolAsset &asset,
-                                                                           const QString &error)
+    fetchLatestAsset(config, [this, config, path, cachedVersion, confirm, callback](const EsptoolAsset &asset,
+                                                                                    const QString &error)
     {
         // A failed check must not stop the user from flashing with what is already installed.
         if (!asset.isValid())
@@ -167,6 +168,11 @@ void FlashToolManager::updateCachedTool(const FlashConfig &config,
             return;
         }
         if (!isNewerEsptoolVersion(asset.tag, cachedVersion))
+        {
+            callback(false, path);
+            return;
+        }
+        if (!confirm(asset.tag, cachedVersion))
         {
             callback(false, path);
             return;

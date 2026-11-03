@@ -29,10 +29,12 @@ public:
     void downloadTool(const FlashConfig &config,
                       std::function<void(bool success, const QString &toolPath)> callback);
 
-    // If findTool() resolves to a download made by us and a newer release exists, install it.
-    // The callback gets (true, new path) after an update, else (false, current path); a failed
-    // check or update keeps the current tool.
+    // If findTool() resolves to a download made by us and a newer release exists, install it
+    // once confirm(newVersion, cachedVersion) agrees; cachedVersion is empty or "latest" when
+    // unknown. The callback gets (true, new path) after an update, else (false, current path);
+    // a failed check, a refusal or a failed update keeps the current tool.
     void updateCachedTool(const FlashConfig &config,
+                          std::function<bool(const QString &newVersion, const QString &cachedVersion)> confirm,
                           std::function<void(bool updated, const QString &toolPath)> callback);
 
     // Save/load custom tool path in QSettings

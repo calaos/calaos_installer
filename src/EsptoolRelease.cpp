@@ -6,6 +6,9 @@
 #include <QStringList>
 #include <QSysInfo>
 
+#include <algorithm>
+#include <vector>
+
 namespace {
 
 enum class Arch { Unknown, X64, Arm64, Armv7 };
@@ -63,8 +66,9 @@ int rankAsset(const QString &name, const QString &os, const QList<Arch> &archs)
         return -1;
 
     QString normalized = lower;
-    normalized.replace("x86-64", "x86_64");
-    const QStringList tokens = normalized.split(QRegularExpression("[-.]"), Qt::SkipEmptyParts);
+    normalized.replace("x86-64", "x64");
+    normalized.replace("x86_64", "x64");
+    const QStringList tokens = normalized.split(QRegularExpression("[-._]"), Qt::SkipEmptyParts);
 
     QString assetOs;
     Arch assetArch = Arch::Unknown;
@@ -119,12 +123,21 @@ EsptoolAsset selectEsptoolAsset(const QJsonArray &releases, const QString &os, c
         return result;
     }
 
+    // The API lists by creation date: a 4.x maintenance release can follow a 5.x one.
+    std::vector<QJsonObject> eligible;
     for (const QJsonValue &rv : releases)
     {
         const QJsonObject rel = rv.toObject();
-        if (rel.value("draft").toBool() || rel.value("prerelease").toBool())
-            continue;
+        if (!rel.value("draft").toBool() && !rel.value("prerelease").toBool())
+            eligible.push_back(rel);
+    }
+    std::stable_sort(eligible.begin(), eligible.end(), [](const QJsonObject &a, const QJsonObject &b)
+    {
+        return versionParts(a.value("tag_name").toString()) > versionParts(b.value("tag_name").toString());
+    });
 
+    for (const QJsonObject &rel : eligible)
+    {
         int bestRank = -1;
         QJsonObject best;
         for (const QJsonValue &av : rel.value("assets").toArray())

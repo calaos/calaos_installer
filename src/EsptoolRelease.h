@@ -18,8 +18,9 @@ struct EsptoolAsset
     bool isValid() const { return error.isEmpty() && !url.isEmpty() && !sha256.isEmpty(); }
 };
 
-// releases: the array answered by /repos/<owner>/<repo>/releases, newest first.
-// Drafts and prereleases are skipped; the first release holding an asset for the platform wins.
+// releases: the array answered by /repos/<owner>/<repo>/releases, in any order.
+// Drafts and prereleases are skipped; the highest version (leading "v" ignored) holding an asset
+// for the platform wins, older versions serve as fallback in decreasing order.
 // os: "linux", "macos" or "windows"; cpu: QSysInfo::currentCpuArchitecture() value.
 EsptoolAsset selectEsptoolAsset(const QJsonArray &releases, const QString &os, const QString &cpu);
 

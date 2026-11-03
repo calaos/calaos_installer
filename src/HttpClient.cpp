@@ -25,6 +25,7 @@ void HttpClient::getJson(const QUrl &url,
         req.setRawHeader("Accept", accept);
     req.setAttribute(QNetworkRequest::RedirectPolicyAttribute,
                      QNetworkRequest::NoLessSafeRedirectPolicy);
+    req.setTransferTimeout(m_jsonTimeoutMs);
 
     QNetworkReply *reply = m_nam->get(req);
     connect(reply, &QNetworkReply::finished, this, [this, reply, callback]()
@@ -64,6 +65,7 @@ void HttpClient::downloadFile(const QUrl &url, const QString &destPath,
     req.setHeader(QNetworkRequest::UserAgentHeader, "CalaosInstaller");
     req.setAttribute(QNetworkRequest::RedirectPolicyAttribute,
                      QNetworkRequest::NoLessSafeRedirectPolicy);
+    req.setTransferTimeout(m_downloadTimeoutMs);
 
     QNetworkReply *reply = m_nam->get(req);
     m_currentReply = reply;

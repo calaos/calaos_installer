@@ -1,6 +1,7 @@
 #include <QtTest>
 #include <QFile>
 #include <QTemporaryDir>
+#include <QTcpServer>
 #include <QUrl>
 
 #include "HttpClient.h"
@@ -16,7 +17,43 @@ private slots:
     void getJsonParsesDocument();
     void getJsonMissingFileSetsError();
     void getJsonInvalidJsonSetsError();
+    void getJsonGivesUpOnSilentServer();
+    void downloadGivesUpOnSilentServer();
 };
+
+// Accepts connections and never answers: the case of a firewall dropping the replies.
+void TstHttpClient::getJsonGivesUpOnSilentServer()
+{
+    QTcpServer server;
+    QVERIFY(server.listen(QHostAddress::LocalHost));
+
+    HttpClient http;
+    http.setTransferTimeouts(300, 300);
+    bool done = false;
+    bool ok = true;
+    http.getJson(QUrl(QString("http://127.0.0.1:%1/releases").arg(server.serverPort())),
+                 [&](bool success, const QJsonDocument &) { done = true; ok = success; });
+    QTRY_VERIFY_WITH_TIMEOUT(done, 3000);
+    QVERIFY(!ok);
+    QVERIFY(!http.lastError().isEmpty());
+}
+
+void TstHttpClient::downloadGivesUpOnSilentServer()
+{
+    QTemporaryDir dir;
+    QVERIFY(dir.isValid());
+    QTcpServer server;
+    QVERIFY(server.listen(QHostAddress::LocalHost));
+
+    HttpClient http;
+    http.setTransferTimeouts(300, 300);
+    bool done = false;
+    bool ok = true;
+    http.downloadFile(QUrl(QString("http://127.0.0.1:%1/a.zip").arg(server.serverPort())),
+                      dir.filePath("a.zip"), [&](bool success) { done = true; ok = success; });
+    QTRY_VERIFY_WITH_TIMEOUT(done, 3000);
+    QVERIFY(!ok);
+}
 
 void TstHttpClient::getJsonParsesDocument()
 {

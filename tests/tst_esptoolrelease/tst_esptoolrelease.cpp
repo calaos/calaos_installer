@@ -22,7 +22,9 @@ private slots:
     void recordedOldReleaseHasNoDigest();
     void fallsBackToPreviousRelease();
     void newestReleaseWinsWhenItHasAnAsset();
-    void draftAndPrereleaseAreIgnored();
+    void highestVersionWinsOverApiOrder();
+void underscoreSeparatedNamesAreRecognised();
+void draftAndPrereleaseAreIgnored();
     void digestMustBeSha256_data();
     void digestMustBeSha256();
     void missingDigestIsRefused();
@@ -182,6 +184,35 @@ void TstEsptoolRelease::newestReleaseWinsWhenItHasAnAsset()
     const QJsonObject older = release("v5.6.0", { "esptool-v5.6.0-linux-amd64.tar.gz" });
     const EsptoolAsset a = selectEsptoolAsset(QJsonArray{ newest, older }, "linux", "x86_64");
     QCOMPARE(a.tag, QString("v6.0.0"));
+}
+
+void TstEsptoolRelease::highestVersionWinsOverApiOrder()
+{
+    // Order as the API gave it: a 4.x maintenance release comes after a 5.x one.
+    const QJsonObject v5 = release("v5.3.1", { "esptool-v5.3.1-linux-amd64.tar.gz" });
+    const QJsonObject v4 = release("v4.12.0", { "esptool-v4.12.0-linux-amd64.tar.gz" });
+    const QJsonObject v10 = release("v10.0.0", { "esptool-v10.0.0-linux-amd64.tar.gz" });
+
+    QCOMPARE(selectEsptoolAsset(QJsonArray{ v5, v4 }, "linux", "x86_64").tag, QString("v5.3.1"));
+    QCOMPARE(selectEsptoolAsset(QJsonArray{ v4, v5 }, "linux", "x86_64").tag, QString("v5.3.1"));
+    QCOMPARE(selectEsptoolAsset(QJsonArray{ v5, v4, v10 }, "linux", "x86_64").tag, QString("v10.0.0"));
+
+    // Fallback goes down by version, not by API order.
+    const QJsonObject v5win = release("v5.3.1", { "esptool-v5.3.1-windows-amd64.zip" });
+    const QJsonObject v4win = release("v4.12.0", { "esptool-v4.12.0-windows-amd64.zip" });
+    const QJsonObject noWin = release("v6.0.0", { "esptool-v6.0.0-linux-amd64.tar.gz" });
+    QCOMPARE(selectEsptoolAsset(QJsonArray{ v4win, noWin, v5win }, "windows", "x86_64").tag,
+             QString("v5.3.1"));
+}
+
+void TstEsptoolRelease::underscoreSeparatedNamesAreRecognised()
+{
+    const QJsonObject rel = release("v6.0.0", { "esptool_linux_amd64.zip",
+                                                "esptool-v6.0.0-macos-x86_64.tar.gz" });
+    QCOMPARE(selectEsptoolAsset(QJsonArray{ rel }, "linux", "x86_64").name,
+             QString("esptool_linux_amd64.zip"));
+    QCOMPARE(selectEsptoolAsset(QJsonArray{ rel }, "macos", "x86_64").name,
+             QString("esptool-v6.0.0-macos-x86_64.tar.gz"));
 }
 
 void TstEsptoolRelease::draftAndPrereleaseAreIgnored()
