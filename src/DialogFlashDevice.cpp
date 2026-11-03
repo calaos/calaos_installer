@@ -569,10 +569,14 @@ void DialogFlashDevice::startFlashPreflight()
                 if (!success || path.isEmpty())
                 {
                     setFlashUiBusy(false);
+                    QString reason = path;
+                    if (reason.isEmpty())
+                        reason = tr("Check your internet connection.");
                     QMessageBox::critical(this, tr("Download failed"),
-                                          tr("Failed to download the flash tool. Check your internet connection."));
+                                          tr("Failed to download the flash tool.") + "\n" + reason);
                     return;
                 }
+                m_toolUpdateChecked = true;
                 updateToolStatus();
                 // Continue pre-flight after tool download
                 startFlashPreflight();
@@ -586,6 +590,32 @@ void DialogFlashDevice::startFlashPreflight()
                     .arg(board.flash.tool));
             return;
         }
+    }
+
+    // Once per dialog: refresh a tool we downloaded earlier if a newer release exists
+    if (!m_toolUpdateChecked && board.flash.toolGithubRelease)
+    {
+        m_toolUpdateChecked = true;
+        setFlashUiBusy(true);
+        auto confirm = [this, tool = board.flash.tool](const QString &newVersion, const QString &cached)
+        {
+            // The busy state would grey out the dialog behind the question.
+            setFlashUiBusy(false);
+            const QString current = (cached.isEmpty() || cached == "latest") ? tr("unknown version") : cached;
+            const bool yes = QMessageBox::question(this, tr("Update %1").arg(tool),
+                tr("A newer %1 is available: %2 (installed: %3).\n\nDownload and use it?\n"
+                   "If you decline, the installed one is used.").arg(tool, newVersion, current))
+                == QMessageBox::Yes;
+            setFlashUiBusy(true);
+            return yes;
+        };
+        m_toolManager->updateCachedTool(board.flash, confirm, [this](bool, const QString &)
+        {
+            setFlashUiBusy(false);
+            updateToolStatus();
+            startFlashPreflight();
+        });
+        return;
     }
 
     // Get firmware ZIP path

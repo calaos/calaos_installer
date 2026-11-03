@@ -61,6 +61,7 @@ private:
 
     FirmwareManager *m_firmwareManager;
     FlashToolManager *m_toolManager;
+    bool m_toolUpdateChecked = false;
     QTimer *m_serialRefreshTimer;
 
     // Keeps extracted firmware alive during flash

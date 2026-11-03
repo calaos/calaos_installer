@@ -5,6 +5,7 @@
 #include <QString>
 #include <functional>
 #include "BoardProfile.h"
+#include "EsptoolRelease.h"
 
 class HttpClient;
 
@@ -23,9 +24,18 @@ public:
     QString cachedToolVersion(const QString &toolName) const;
 
     // Auto-download tool from GitHub releases or direct URL
-    // Dispatches to GitHub release flow or direct download based on config
+    // Dispatches to GitHub release flow or direct download based on config.
+    // On failure the callback's string is a user-facing reason (no URL).
     void downloadTool(const FlashConfig &config,
                       std::function<void(bool success, const QString &toolPath)> callback);
+
+    // If findTool() resolves to a download made by us and a newer release exists, install it
+    // once confirm(newVersion, cachedVersion) agrees; cachedVersion is empty or "latest" when
+    // unknown. The callback gets (true, new path) after an update, else (false, current path);
+    // a failed check, a refusal or a failed update keeps the current tool.
+    void updateCachedTool(const FlashConfig &config,
+                          std::function<bool(const QString &newVersion, const QString &cachedVersion)> confirm,
+                          std::function<void(bool updated, const QString &toolPath)> callback);
 
     // Save/load custom tool path in QSettings
     void saveCustomToolPath(const QString &toolName, const QString &path);
@@ -42,12 +52,21 @@ private:
     void downloadToolGithub(const FlashConfig &config,
                             std::function<void(bool, const QString &)> callback);
 
+    // Ask the GitHub releases API for the newest asset fitting this host; on failure the
+    // asset is invalid and the string is the reason.
+    void fetchLatestAsset(const FlashConfig &config,
+                          std::function<void(const EsptoolAsset &, const QString &)> callback);
+
+    // Download, verify the SHA-256, extract and install an asset into the tool cache
+    void installAsset(const FlashConfig &config, const EsptoolAsset &asset,
+                      std::function<void(bool, const QString &)> callback);
+
     // Download tool from a direct URL (non-GitHub)
     void downloadToolDirect(const FlashConfig &config,
                             std::function<void(bool, const QString &)> callback);
 
-    // Select the correct release asset for current platform
-    QString selectAssetUrl(const QJsonArray &assets) const;
+    // Lowercase hex SHA-256 of a file, empty if unreadable
+    static QString fileSha256(const QString &path);
 
     // Extract archive (tar.gz or zip) into destDir, returns path to tool binary
     QString extractArchive(const QString &archivePath, const QString &destDir,
