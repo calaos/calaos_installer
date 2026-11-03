@@ -11,6 +11,9 @@
 constexpr qint64 kMaxToolArchiveBytes = 256LL * 1024 * 1024;
 // Upper bound on the files of an archive once unpacked (a compressed bomb stays small on the wire).
 constexpr qint64 kMaxExtractedBytes = 1024LL * 1024 * 1024;
+// Upper bounds on the shape of an archive: entry count and folder nesting.
+constexpr int kMaxArchiveEntries = 10000;
+constexpr int kMaxArchiveDepth = 16;
 
 struct EsptoolAsset
 {

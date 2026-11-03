@@ -16,6 +16,7 @@ unix:!macx {
 
 HEADERS += \
     $$PWD/../../src/FlashToolManager.h \
+    $$PWD/../../src/BoundedDevice.h \
     $$PWD/../../src/HttpClient.h \
     $$PWD/../../src/ConfigOptions.h \
     $$PWD/../../src/SimpleCrypt.h

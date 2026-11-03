@@ -246,6 +246,7 @@ HEADERS += src/mainwindow.h \
     src/FirmwareManifest.h \
     src/HttpClient.h \
     src/FlashToolManager.h \
+    src/BoundedDevice.h \
     src/EsptoolRelease.h \
     src/ToolUpdatePrompt.h \
     src/FirmwareManager.h \

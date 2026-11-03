@@ -1,5 +1,6 @@
 #include "FlashToolManager.h"
 #include "HttpClient.h"
+#include "BoundedDevice.h"
 #include "ConfigOptions.h"
 #include "EsptoolRelease.h"
 #include <QCoreApplication>
@@ -11,6 +12,7 @@
 #include <QSettings>
 #include <QStandardPaths>
 #include <KArchiveDirectory>
+#include <KCompressionDevice>
 #include <KTar>
 #include <KZip>
 
@@ -309,8 +311,23 @@ void FlashToolManager::installAsset(const FlashConfig &config, const EsptoolAsse
         vf.close();
 
         // Park the old install instead of deleting it, so a failed swap can put it back.
+        // A .old left by a double failure is the only copy of the previous tool: put it back
+        // first, and keep it if that fails. Otherwise it is stale.
         const QString oldDir = toolDir + ".old";
-        QDir(oldDir).removeRecursively();
+        if (QFileInfo::exists(oldDir))
+        {
+            if (!QFileInfo::exists(toolDir))
+            {
+                if (!renameDir(oldDir, toolDir))
+                {
+                    fail(tr("The previous tool is in %1 and could not be put back into %2.")
+                         .arg(oldDir, toolDir));
+                    return;
+                }
+            }
+            else
+                QDir(oldDir).removeRecursively();
+        }
         const bool hadOld = QFileInfo::exists(toolDir);
         if (hadOld && !renameDir(toolDir, oldDir))
         {
@@ -397,11 +414,16 @@ void FlashToolManager::downloadToolDirect(const FlashConfig &config,
     }, kMaxToolArchiveBytes);
 }
 
-bool FlashToolManager::archiveIsSafe(const KArchiveDirectory *dir, qint64 &budget)
+bool FlashToolManager::archiveIsSafe(const KArchiveDirectory *dir, qint64 &budget, int &entries,
+                                     int depth)
 {
+    if (depth < 0)
+        return false;
     for (const QString &name : dir->entries())
     {
         const KArchiveEntry *e = dir->entry(name);
+        if (--entries < 0)
+            return false;
         if (!e || name.isEmpty() || name == ".." || name == "." || name.contains('/')
             || name.contains('\\') || name.contains(':') || !e->symLinkTarget().isEmpty())
             return false;
@@ -411,7 +433,8 @@ bool FlashToolManager::archiveIsSafe(const KArchiveDirectory *dir, qint64 &budge
             if (budget < 0)
                 return false;
         }
-        if (e->isDirectory() && !archiveIsSafe(static_cast<const KArchiveDirectory *>(e), budget))
+        if (e->isDirectory()
+            && !archiveIsSafe(static_cast<const KArchiveDirectory *>(e), budget, entries, depth - 1))
             return false;
     }
     return true;
@@ -429,8 +452,24 @@ QString FlashToolManager::extractArchive(const QString &archivePath, const QStri
     // Try tar.gz first (Linux/macOS esptool releases)
     if (archivePath.endsWith(".tar.gz") || archivePath.endsWith(".tgz"))
     {
-        KTar tar(archivePath);
-        if (!tar.open(QIODevice::ReadOnly))
+        // KTar on a path inflates the whole stream into $TMPDIR before anything can be
+        // checked; reading through a bounded device cuts a bomb off at the budget.
+        QFile file(archivePath);
+        if (!file.open(QIODevice::ReadOnly))
+        {
+            qWarning() << "Cannot open tar archive:" << archivePath;
+            return QString();
+        }
+        KCompressionDevice gz(&file, false, KCompressionDevice::GZip);
+        // Tar headers and padding come on top of the file bytes.
+        BoundedDevice bounded(&gz, m_maxExtractedBytes + qint64(m_maxEntries) * 2048 + 65536);
+        if (!gz.open(QIODevice::ReadOnly) || !bounded.open(QIODevice::ReadOnly))
+        {
+            qWarning() << "Cannot open tar archive:" << archivePath;
+            return QString();
+        }
+        KTar tar(&bounded);
+        if (!tar.open(QIODevice::ReadOnly) || bounded.exceeded())
         {
             qWarning() << "Cannot open tar archive:" << archivePath;
             return QString();
@@ -438,12 +477,17 @@ QString FlashToolManager::extractArchive(const QString &archivePath, const QStri
 
         const KArchiveDirectory *root = tar.directory();
         qint64 budget = m_maxExtractedBytes;
-        if (!archiveIsSafe(root, budget))
+        int entries = m_maxEntries;
+        if (!archiveIsSafe(root, budget, entries, m_maxDepth))
         {
             qWarning() << "Unsafe entry in archive:" << archivePath;
             return QString();
         }
-        root->copyTo(destDir, true);
+        if (!root->copyTo(destDir, true) || bounded.exceeded())
+        {
+            qWarning() << "Cannot extract tar archive:" << archivePath;
+            return QString();
+        }
         tar.close();
     }
     else if (archivePath.endsWith(".zip"))
@@ -457,12 +501,18 @@ QString FlashToolManager::extractArchive(const QString &archivePath, const QStri
 
         const KArchiveDirectory *root = zip.directory();
         qint64 budget = m_maxExtractedBytes;
-        if (!archiveIsSafe(root, budget))
+        int entries = m_maxEntries;
+        if (!archiveIsSafe(root, budget, entries, m_maxDepth))
         {
             qWarning() << "Unsafe entry in archive:" << archivePath;
             return QString();
         }
-        root->copyTo(destDir, true);
+        // A partial extraction must not leave a binary that gets installed and run.
+        if (!root->copyTo(destDir, true))
+        {
+            qWarning() << "Cannot extract zip archive:" << archivePath;
+            return QString();
+        }
         zip.close();
     }
     else
