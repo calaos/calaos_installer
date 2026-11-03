@@ -9,9 +9,11 @@
 #include <QTcpServer>
 #include <QTcpSocket>
 #include <QTemporaryDir>
+#include <KCompressionDevice>
 #include <KTar>
 #include <unistd.h>
 
+#include "BoundedDevice.h"
 #include "ConfigOptions.h"
 #include "FlashToolManager.h"
 
@@ -79,6 +81,12 @@ private slots:
     void failedRestoreSaysWhereThePreviousToolIs();
     void unclearableStageIsRefused();
     void decompressionBombIsRefused();
+    void inflatedBombIsCutOffWhileReading();
+    void boundedDeviceStopsAtItsLimit();
+    void tooManyEntriesAreRefused();
+    void tooDeepArchiveIsRefused();
+    void previousToolSurvivesTwoFailedRestores();
+    void leftoverOldToolIsRestoredBeforeTheNextInstall();
     void directDownloadIsBounded();
     void refusedUpdateIsNotInstalledNorProposedAgain();
     void acceptedUpdateFailureIsReported();
@@ -334,6 +342,136 @@ void TstFlashToolManager::decompressionBombIsRefused()
     QCOMPARE(mgr.cachedToolVersion("esptool"), QString("v5.0.0"));
 }
 
+// Small on the wire, big once inflated: the walk of the archive must not be what stops it.
+void TstFlashToolManager::inflatedBombIsCutOffWhileReading()
+{
+    installOldTool();
+    const QString archive = makeArchive("bomb.tar.gz", [](KTar &tar)
+    {
+        tar.writeFile("esptool-v6/big", QByteArray(40 * 1024 * 1024, '\0'), 0644);
+    });
+    QVERIFY(QFileInfo(archive).size() < 1024 * 1024);
+
+    FlashToolManager mgr;
+    mgr.setMaxExtractedBytes(1024 * 1024);
+    QTest::ignoreMessage(QtWarningMsg, QRegularExpression("Cannot open tar archive"));
+    const Outcome out = install(mgr, assetFor(archive));
+
+    QVERIFY(out.done);
+    QVERIFY2(!out.ok, qPrintable(out.text));
+    QVERIFY(QFileInfo::exists(m_toolDir + "/stale.txt"));
+}
+
+void TstFlashToolManager::boundedDeviceStopsAtItsLimit()
+{
+    const QString archive = makeArchive("bomb2.tar.gz", [](KTar &tar)
+    {
+        tar.writeFile("esptool-v6/big", QByteArray(8 * 1024 * 1024, '\0'), 0644);
+    });
+    QFile file(archive);
+    QVERIFY(file.open(QIODevice::ReadOnly));
+    KCompressionDevice gz(&file, false, KCompressionDevice::GZip);
+    QVERIFY(gz.open(QIODevice::ReadOnly));
+    BoundedDevice bounded(&gz, 100000);
+    QVERIFY(bounded.open(QIODevice::ReadOnly));
+    QVERIFY(!bounded.seek(5000000)); // skipping ahead is bounded too
+    QVERIFY(bounded.exceeded());
+    QVERIFY(bounded.seek(0));
+
+    qint64 total = 0;
+    char buf[4096];
+    qint64 n;
+    while ((n = bounded.read(buf, sizeof buf)) > 0)
+        total += n;
+    QCOMPARE(n, qint64(-1));
+    QCOMPARE(total, qint64(100000));
+    QVERIFY(bounded.exceeded());
+}
+
+void TstFlashToolManager::tooManyEntriesAreRefused()
+{
+    installOldTool();
+    const QString archive = makeArchive("many.tar.gz", [](KTar &tar)
+    {
+        for (int i = 0; i < 20; ++i)
+            tar.writeFile(QString("esptool-v6/f%1").arg(i), "x", 0644);
+    });
+    FlashToolManager mgr;
+    mgr.setMaxArchiveEntries(10);
+    QTest::ignoreMessage(QtWarningMsg, QRegularExpression("Unsafe entry"));
+    const Outcome out = install(mgr, assetFor(archive));
+
+    QVERIFY(out.done);
+    QVERIFY2(!out.ok, qPrintable(out.text));
+    QVERIFY(QFileInfo::exists(m_toolDir + "/stale.txt"));
+    QCOMPARE(mgr.cachedToolVersion("esptool"), QString("v5.0.0"));
+
+    // The same archive passes with room for it.
+    FlashToolManager roomy;
+    roomy.setMaxArchiveEntries(100);
+    QVERIFY2(install(roomy, assetFor(archive)).ok, "entries within the cap");
+}
+
+void TstFlashToolManager::tooDeepArchiveIsRefused()
+{
+    installOldTool();
+    const QString archive = makeArchive("deep.tar.gz", [](KTar &tar)
+    {
+        tar.writeFile("esptool-v6/a/b/c/d/e/f/g/h/file", "x", 0644);
+    });
+    FlashToolManager mgr;
+    mgr.setMaxArchiveDepth(4);
+    QTest::ignoreMessage(QtWarningMsg, QRegularExpression("Unsafe entry"));
+    const Outcome out = install(mgr, assetFor(archive));
+
+    QVERIFY(out.done);
+    QVERIFY2(!out.ok, qPrintable(out.text));
+    QVERIFY(QFileInfo::exists(m_toolDir + "/stale.txt"));
+
+    FlashToolManager roomy;
+    roomy.setMaxArchiveDepth(16);
+    QVERIFY2(install(roomy, assetFor(archive)).ok, "depth within the cap");
+}
+
+// After a double failure the previous tool only exists in .old; a second failed attempt
+// must not delete it, since the error message sends the user there.
+void TstFlashToolManager::previousToolSurvivesTwoFailedRestores()
+{
+    installOldTool();
+    const QString archive = makeArchive("ok.tar.gz");
+    for (int attempt = 0; attempt < 2; ++attempt)
+    {
+        TestManager mgr;
+        mgr.failRenameFrom = ".new";
+        mgr.alsoFailFrom = ".old";
+        const Outcome out = install(mgr, assetFor(archive));
+        QVERIFY(out.done);
+        QVERIFY(!out.ok);
+        QVERIFY2(out.text.contains(m_toolDir + ".old"), qPrintable(out.text));
+        QVERIFY2(QFileInfo::exists(m_toolDir + ".old/stale.txt"), qPrintable(QString::number(attempt)));
+    }
+}
+
+void TstFlashToolManager::leftoverOldToolIsRestoredBeforeTheNextInstall()
+{
+    installOldTool();
+    const QString archive = makeArchive("ok.tar.gz");
+    {
+        TestManager mgr;
+        mgr.failRenameFrom = ".new";
+        mgr.alsoFailFrom = ".old";
+        QVERIFY(!install(mgr, assetFor(archive)).ok);
+    }
+    QVERIFY(!QFileInfo::exists(m_toolDir));
+
+    TestManager mgr;
+    mgr.failRenameFrom = ".new"; // the install fails again, but the previous tool comes back
+    const Outcome out = install(mgr, assetFor(archive));
+    QVERIFY(!out.ok);
+    QVERIFY(QFileInfo::exists(m_toolDir + "/stale.txt"));
+    QCOMPARE(mgr.cachedToolVersion("esptool"), QString("v5.0.0"));
+}
+
 // upgrade_tool has no digest to check; its download is only bounded.
 void TstFlashToolManager::directDownloadIsBounded()
 {
@@ -351,7 +489,9 @@ void TstFlashToolManager::directDownloadIsBounded()
 
     FlashConfig c;
     c.tool = "upgrade_tool";
-    c.toolUrls.insert("linux", QString("http://127.0.0.1:%1/upgrade_tool.zip").arg(server.serverPort()));
+    const QString url = QString("http://127.0.0.1:%1/upgrade_tool.zip").arg(server.serverPort());
+    for (const QString &os : { "linux", "macos", "windows" })
+        c.toolUrls.insert(os, url);
     FlashToolManager mgr;
     Outcome out;
     mgr.downloadTool(c, [&](bool ok, const QString &text) { out.done = true; out.ok = ok; out.text = text; });

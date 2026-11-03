@@ -51,6 +51,8 @@ public:
     // Replace the GitHub API root and the unpacked-size ceiling (tests only)
     void setApiBaseUrl(const QString &url) { m_apiBase = url; }
     void setMaxExtractedBytes(qint64 bytes) { m_maxExtractedBytes = bytes; }
+    void setMaxArchiveEntries(int entries) { m_maxEntries = entries; }
+    void setMaxArchiveDepth(int depth) { m_maxDepth = depth; }
 
     // Save/load custom tool path in QSettings
     void saveCustomToolPath(const QString &toolName, const QString &path);
@@ -91,12 +93,16 @@ private:
     QString findInPath(const QString &toolName) const;
 
     // False if an entry could write outside the destination (".." or separator in a name,
-    // symlink), or if the files hold more than `budget` bytes once unpacked (decompression
-    // bomb); `budget` is what is left after the entries seen so far.
-    static bool archiveIsSafe(const KArchiveDirectory *dir, qint64 &budget);
+    // symlink), if the files hold more than `budget` bytes once unpacked (decompression
+    // bomb), or if there are more than `entries` entries or folders nested deeper than
+    // `depth`. `budget` and `entries` are what is left after the entries seen so far.
+    static bool archiveIsSafe(const KArchiveDirectory *dir, qint64 &budget, int &entries,
+                              int depth);
 
     HttpClient *m_http;
     qint64 m_maxExtractedBytes = kMaxExtractedBytes;
+    int m_maxEntries = kMaxArchiveEntries;
+    int m_maxDepth = kMaxArchiveDepth;
     QString m_apiBase = "https://api.github.com";
 };
 
