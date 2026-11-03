@@ -1,4 +1,5 @@
 #include "HttpClient.h"
+#include "networkerrortext.h"
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
 #include <QNetworkRequest>
@@ -79,7 +80,8 @@ void HttpClient::downloadFile(const QUrl &url, const QString &destPath,
 
         if (reply->error() != QNetworkReply::NoError)
         {
-            qWarning() << "Download error:" << reply->errorString();
+            m_lastError = networkErrorText(reply);
+            qWarning() << "Download error:" << m_lastError;
             file->close();
             file->remove();
             callback(false);

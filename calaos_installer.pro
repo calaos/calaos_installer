@@ -127,6 +127,7 @@ SOURCES += src/main.cpp \
     src/FirmwareManifest.cpp \
     src/HttpClient.cpp \
     src/FlashToolManager.cpp \
+    src/EsptoolRelease.cpp \
     src/FirmwareManager.cpp \
     src/DialogFlashConsole.cpp \
     src/DialogFlashDevice.cpp \
@@ -244,6 +245,7 @@ HEADERS += src/mainwindow.h \
     src/FirmwareManifest.h \
     src/HttpClient.h \
     src/FlashToolManager.h \
+    src/EsptoolRelease.h \
     src/FirmwareManager.h \
     src/DialogFlashConsole.h \
     src/DialogFlashDevice.h \

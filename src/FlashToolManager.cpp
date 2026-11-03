@@ -1,7 +1,9 @@
 #include "FlashToolManager.h"
 #include "HttpClient.h"
 #include "ConfigOptions.h"
+#include "EsptoolRelease.h"
 #include <QCoreApplication>
+#include <QCryptographicHash>
 #include <QDir>
 #include <QFile>
 #include <QFileInfo>
@@ -134,89 +136,71 @@ void FlashToolManager::downloadTool(const FlashConfig &config,
 void FlashToolManager::downloadToolGithub(const FlashConfig &config,
                                           std::function<void(bool, const QString &)> callback)
 {
-    // Convert GitHub repo URL to API URL for latest release
-    // e.g. "https://github.com/espressif/esptool" ->
-    //      "https://api.github.com/repos/espressif/esptool/releases/latest"
-    QString repoUrl = config.toolUrl;
-    QString apiUrl;
-
-    if (repoUrl.contains("github.com"))
+    // Only esptool is pinned (version + SHA-256); the board profile just opts in.
+    if (config.tool != "esptool")
     {
-        // Extract owner/repo from URL
-        QUrl parsed(repoUrl);
-        QString path = parsed.path(); // e.g. "/espressif/esptool"
-        if (path.endsWith('/'))
-            path.chop(1);
-        apiUrl = "https://api.github.com/repos" + path + "/releases/latest";
-    }
-    else
-    {
-        qWarning() << "Tool URL is not a GitHub repo:" << repoUrl;
-        callback(false, QString());
+        callback(false, tr("No pinned release for %1").arg(config.tool));
         return;
     }
 
-    m_http->getJson(QUrl(apiUrl), [this, config, callback](bool success, const QJsonDocument &doc)
+    const EsptoolAsset asset = esptoolAssetForHost();
+    if (!asset.isValid())
     {
-        if (!success)
+        callback(false, tr("No esptool build for this platform (%1)")
+                            .arg(QSysInfo::currentCpuArchitecture()));
+        return;
+    }
+
+    QString toolDir = toolsCacheDir() + "/" + config.tool;
+    QDir().mkpath(toolDir);
+    QString archivePath = toolDir + "/" + asset.name;
+
+    m_http->downloadFile(QUrl(asset.url), archivePath,
+                         [this, config, toolDir, archivePath, asset, callback](bool dlSuccess)
+    {
+        if (!dlSuccess)
         {
-            callback(false, QString());
-            return;
-        }
-
-        QJsonObject release = doc.object();
-        QString tagName = release.value("tag_name").toString();
-        QJsonArray assets = release.value("assets").toArray();
-
-        QString assetUrl = selectAssetUrl(assets);
-        if (assetUrl.isEmpty())
-        {
-            qWarning() << "No matching asset found for current platform";
-            callback(false, QString());
-            return;
-        }
-
-        // Prepare destination directory
-        QString toolDir = toolsCacheDir() + "/" + config.tool;
-        QDir().mkpath(toolDir);
-
-        // Download asset to temp file in tool directory
-        QString assetFileName = QUrl(assetUrl).fileName();
-        QString archivePath = toolDir + "/" + assetFileName;
-
-        m_http->downloadFile(QUrl(assetUrl), archivePath,
-                             [this, config, toolDir, archivePath, tagName, callback](bool dlSuccess)
-        {
-            if (!dlSuccess)
-            {
-                QFile::remove(archivePath);
-                callback(false, QString());
-                return;
-            }
-
-            // Extract archive
-            QString toolPath = extractArchive(archivePath, toolDir, config.tool);
-
-            // Clean up archive
             QFile::remove(archivePath);
+            callback(false, m_http->lastError());
+            return;
+        }
 
-            if (toolPath.isEmpty())
-            {
-                callback(false, QString());
-                return;
-            }
+        if (fileSha256(archivePath) != asset.sha256)
+        {
+            QFile::remove(archivePath);
+            callback(false, tr("Checksum mismatch for %1").arg(asset.name));
+            return;
+        }
 
-            // Write version.txt
-            QFile vf(toolDir + "/version.txt");
-            if (vf.open(QIODevice::WriteOnly | QIODevice::Truncate))
-            {
-                vf.write(tagName.toUtf8());
-                vf.close();
-            }
+        QString toolPath = extractArchive(archivePath, toolDir, config.tool);
+        QFile::remove(archivePath);
 
-            callback(true, toolPath);
-        });
+        if (toolPath.isEmpty())
+        {
+            callback(false, tr("Cannot extract %1").arg(asset.name));
+            return;
+        }
+
+        QFile vf(toolDir + "/version.txt");
+        if (vf.open(QIODevice::WriteOnly | QIODevice::Truncate))
+        {
+            vf.write(asset.tag.toUtf8());
+            vf.close();
+        }
+
+        callback(true, toolPath);
     });
+}
+
+QString FlashToolManager::fileSha256(const QString &path)
+{
+    QFile f(path);
+    if (!f.open(QIODevice::ReadOnly))
+        return QString();
+    QCryptographicHash h(QCryptographicHash::Sha256);
+    if (!h.addData(&f))
+        return QString();
+    return QString::fromLatin1(h.result().toHex());
 }
 
 void FlashToolManager::downloadToolDirect(const FlashConfig &config,
@@ -242,7 +226,7 @@ void FlashToolManager::downloadToolDirect(const FlashConfig &config,
         if (!dlSuccess)
         {
             QFile::remove(archivePath);
-            callback(false, QString());
+            callback(false, m_http->lastError());
             return;
         }
 
@@ -268,47 +252,6 @@ void FlashToolManager::downloadToolDirect(const FlashConfig &config,
 
         callback(true, toolPath);
     });
-}
-
-QString FlashToolManager::selectAssetUrl(const QJsonArray &assets) const
-{
-    QString osStr;
-    QString archStr;
-
-#if defined(Q_OS_LINUX)
-    osStr = "linux";
-#elif defined(Q_OS_MACOS)
-    osStr = "macos";
-#elif defined(Q_OS_WIN)
-    osStr = "win";
-#endif
-
-    QString cpuArch = QSysInfo::currentCpuArchitecture();
-    if (cpuArch == "x86_64")
-        archStr = "amd64";
-    else if (cpuArch == "arm64" || cpuArch == "aarch64")
-        archStr = "arm64";
-    else
-        archStr = cpuArch;
-
-#ifdef Q_OS_WIN
-    // Windows assets use "win64" pattern
-    QString pattern = osStr + "64";
-#else
-    QString pattern = osStr + "-" + archStr;
-#endif
-
-    for (const QJsonValue &val : assets)
-    {
-        QJsonObject asset = val.toObject();
-        QString name = asset.value("name").toString();
-        QString downloadUrl = asset.value("browser_download_url").toString();
-
-        if (name.contains(pattern, Qt::CaseInsensitive))
-            return downloadUrl;
-    }
-
-    return QString();
 }
 
 QString FlashToolManager::extractArchive(const QString &archivePath, const QString &destDir,

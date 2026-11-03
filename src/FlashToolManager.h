@@ -23,7 +23,8 @@ public:
     QString cachedToolVersion(const QString &toolName) const;
 
     // Auto-download tool from GitHub releases or direct URL
-    // Dispatches to GitHub release flow or direct download based on config
+    // Dispatches to GitHub release flow or direct download based on config.
+    // On failure the callback's string is a user-facing reason (no URL).
     void downloadTool(const FlashConfig &config,
                       std::function<void(bool success, const QString &toolPath)> callback);
 
@@ -46,8 +47,8 @@ private:
     void downloadToolDirect(const FlashConfig &config,
                             std::function<void(bool, const QString &)> callback);
 
-    // Select the correct release asset for current platform
-    QString selectAssetUrl(const QJsonArray &assets) const;
+    // Lowercase hex SHA-256 of a file, empty if unreadable
+    static QString fileSha256(const QString &path);
 
     // Extract archive (tar.gz or zip) into destDir, returns path to tool binary
     QString extractArchive(const QString &archivePath, const QString &destDir,

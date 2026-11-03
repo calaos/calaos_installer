@@ -27,12 +27,16 @@ public:
     // Abort any ongoing download
     void abort();
 
+    // Reason of the last failed downloadFile(), without URL
+    QString lastError() const { return m_lastError; }
+
 signals:
     void downloadProgress(qint64 bytesReceived, qint64 bytesTotal);
 
 private:
     QNetworkAccessManager *m_nam;
     QNetworkReply *m_currentReply = nullptr;
+    QString m_lastError;
 };
 
 #endif // HTTPCLIENT_H

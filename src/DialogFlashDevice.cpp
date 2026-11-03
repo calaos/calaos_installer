@@ -569,8 +569,11 @@ void DialogFlashDevice::startFlashPreflight()
                 if (!success || path.isEmpty())
                 {
                     setFlashUiBusy(false);
+                    QString reason = path;
+                    if (reason.isEmpty())
+                        reason = tr("Check your internet connection.");
                     QMessageBox::critical(this, tr("Download failed"),
-                                          tr("Failed to download the flash tool. Check your internet connection."));
+                                          tr("Failed to download the flash tool.") + "\n" + reason);
                     return;
                 }
                 updateToolStatus();
