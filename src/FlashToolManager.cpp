@@ -484,7 +484,10 @@ QString FlashToolManager::extractArchive(const QString &archivePath, const QStri
             return QString();
         }
         if (!root->copyTo(destDir, true) || bounded.exceeded())
+        {
+            qWarning() << "Cannot extract tar archive:" << archivePath;
             return QString();
+        }
         tar.close();
     }
     else if (archivePath.endsWith(".zip"))
@@ -504,7 +507,12 @@ QString FlashToolManager::extractArchive(const QString &archivePath, const QStri
             qWarning() << "Unsafe entry in archive:" << archivePath;
             return QString();
         }
-        root->copyTo(destDir, true);
+        // A partial extraction must not leave a binary that gets installed and run.
+        if (!root->copyTo(destDir, true))
+        {
+            qWarning() << "Cannot extract zip archive:" << archivePath;
+            return QString();
+        }
         zip.close();
     }
     else

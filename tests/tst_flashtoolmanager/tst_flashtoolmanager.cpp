@@ -11,6 +11,7 @@
 #include <QTemporaryDir>
 #include <KCompressionDevice>
 #include <KTar>
+#include <KZip>
 #include <unistd.h>
 
 #include "BoundedDevice.h"
@@ -80,6 +81,7 @@ private slots:
     void failedSwapRestoresPreviousTool();
     void failedRestoreSaysWhereThePreviousToolIs();
     void unclearableStageIsRefused();
+    void partialZipExtractionIsRefused();
     void decompressionBombIsRefused();
     void inflatedBombIsCutOffWhileReading();
     void boundedDeviceStopsAtItsLimit();
@@ -322,6 +324,27 @@ void TstFlashToolManager::unclearableStageIsRefused()
     FlashToolManager mgr;
     const Outcome out = install(mgr, assetFor(makeArchive("ok.tar.gz")));
     QFile::setPermissions(stuck, QFile::permissions(stuck) | QFileDevice::WriteOwner);
+
+    QVERIFY(out.done);
+    QVERIFY2(!out.ok, qPrintable(out.text));
+    QVERIFY(QFileInfo::exists(m_toolDir + "/stale.txt"));
+    QCOMPARE(mgr.cachedToolVersion("esptool"), QString("v5.0.0"));
+}
+
+void TstFlashToolManager::partialZipExtractionIsRefused()
+{
+    installOldTool();
+    // The binary comes out first, then a name over NAME_MAX makes copyTo() fail midway.
+    const QString path = m_work.filePath("partial.zip");
+    {
+        KZip zip(path);
+        QVERIFY(zip.open(QIODevice::WriteOnly));
+        zip.writeFile("esptool-v6/esptool", kBinary, 0755);
+        zip.writeFile("esptool-v6/" + QString(300, 'z'), "x", 0644);
+        zip.close();
+    }
+    FlashToolManager mgr;
+    const Outcome out = install(mgr, assetFor(path));
 
     QVERIFY(out.done);
     QVERIFY2(!out.ok, qPrintable(out.text));
