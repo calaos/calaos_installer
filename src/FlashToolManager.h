@@ -48,8 +48,9 @@ public:
     void installAsset(const FlashConfig &config, const EsptoolAsset &asset,
                       std::function<void(bool, const QString &)> callback);
 
-    // Replace the GitHub API root (tests only)
+    // Replace the GitHub API root and the unpacked-size ceiling (tests only)
     void setApiBaseUrl(const QString &url) { m_apiBase = url; }
+    void setMaxExtractedBytes(qint64 bytes) { m_maxExtractedBytes = bytes; }
 
     // Save/load custom tool path in QSettings
     void saveCustomToolPath(const QString &toolName, const QString &path);
@@ -90,10 +91,12 @@ private:
     QString findInPath(const QString &toolName) const;
 
     // False if an entry could write outside the destination (".." or separator in a name,
-    // symlink)
-    static bool archiveIsSafe(const KArchiveDirectory *dir);
+    // symlink), or if the files hold more than `budget` bytes once unpacked (decompression
+    // bomb); `budget` is what is left after the entries seen so far.
+    static bool archiveIsSafe(const KArchiveDirectory *dir, qint64 &budget);
 
     HttpClient *m_http;
+    qint64 m_maxExtractedBytes = kMaxExtractedBytes;
     QString m_apiBase = "https://api.github.com";
 };
 

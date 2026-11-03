@@ -259,7 +259,13 @@ void FlashToolManager::installAsset(const FlashConfig &config, const EsptoolAsse
     }
     const QString toolDir = toolsCacheDir() + "/" + config.tool;
     const QString stageDir = toolDir + ".new";
+    // A leftover would mix with the new files and could shadow the binary.
     QDir(stageDir).removeRecursively();
+    if (QFileInfo::exists(stageDir))
+    {
+        callback(false, tr("Cannot clear the staging folder %1").arg(stageDir));
+        return;
+    }
     QDir().mkpath(stageDir);
     const QString archivePath = stageDir + "/" + asset.name;
 
@@ -313,8 +319,12 @@ void FlashToolManager::installAsset(const FlashConfig &config, const EsptoolAsse
         }
         if (!renameDir(stageDir, toolDir))
         {
-            if (hadOld)
-                renameDir(oldDir, toolDir);
+            if (hadOld && !renameDir(oldDir, toolDir))
+            {
+                fail(tr("Cannot install the tool into %1, and the previous one could not be "
+                        "put back: it is in %2.").arg(toolDir, oldDir));
+                return;
+            }
             fail(tr("Cannot install the tool into %1").arg(toolDir));
             return;
         }
@@ -383,10 +393,10 @@ void FlashToolManager::downloadToolDirect(const FlashConfig &config,
         }
 
         callback(true, toolPath);
-    });
+    }, kMaxToolArchiveBytes);
 }
 
-bool FlashToolManager::archiveIsSafe(const KArchiveDirectory *dir)
+bool FlashToolManager::archiveIsSafe(const KArchiveDirectory *dir, qint64 &budget)
 {
     for (const QString &name : dir->entries())
     {
@@ -394,7 +404,13 @@ bool FlashToolManager::archiveIsSafe(const KArchiveDirectory *dir)
         if (!e || name.isEmpty() || name == ".." || name == "." || name.contains('/')
             || name.contains('\\') || name.contains(':') || !e->symLinkTarget().isEmpty())
             return false;
-        if (e->isDirectory() && !archiveIsSafe(static_cast<const KArchiveDirectory *>(e)))
+        if (e->isFile())
+        {
+            budget -= static_cast<const KArchiveFile *>(e)->size();
+            if (budget < 0)
+                return false;
+        }
+        if (e->isDirectory() && !archiveIsSafe(static_cast<const KArchiveDirectory *>(e), budget))
             return false;
     }
     return true;
@@ -420,7 +436,8 @@ QString FlashToolManager::extractArchive(const QString &archivePath, const QStri
         }
 
         const KArchiveDirectory *root = tar.directory();
-        if (!archiveIsSafe(root))
+        qint64 budget = m_maxExtractedBytes;
+        if (!archiveIsSafe(root, budget))
         {
             qWarning() << "Unsafe entry in archive:" << archivePath;
             return QString();
@@ -438,7 +455,8 @@ QString FlashToolManager::extractArchive(const QString &archivePath, const QStri
         }
 
         const KArchiveDirectory *root = zip.directory();
-        if (!archiveIsSafe(root))
+        qint64 budget = m_maxExtractedBytes;
+        if (!archiveIsSafe(root, budget))
         {
             qWarning() << "Unsafe entry in archive:" << archivePath;
             return QString();

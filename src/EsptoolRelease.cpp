@@ -121,7 +121,8 @@ bool isSafeAssetName(const QString &name)
         return false;
     for (const QChar c : name)
     {
-        if (c == '/' || c == '\\' || c == ':' || c.unicode() < 0x20)
+        if (c == '/' || c == '\\' || c == ':' || c.unicode() < 0x20 ||
+            c.unicode() == 0x7F || c.category() == QChar::Other_Format)
             return false;
     }
     return true;
@@ -183,8 +184,10 @@ EsptoolAsset selectEsptoolAsset(const QJsonArray &releases, const QString &os, c
                               "refusing to download an unverifiable file.").arg(result.name, result.tag);
             return result;
         }
-        const qint64 size = static_cast<qint64>(best.value("size").toDouble());
-        if (size <= 0 || size > kMaxToolArchiveBytes)
+        // Compared as a double: casting an out-of-range or NaN double to qint64 is undefined.
+        const double rawSize = best.value("size").toDouble();
+        const qint64 size = (rawSize > 0 && rawSize <= double(kMaxToolArchiveBytes)) ? qint64(rawSize) : 0;
+        if (size <= 0)
         {
             result.error = Tr::tr("GitHub gives an unexpected size for %1 (release %2): "
                                   "refusing to download it.").arg(result.name, result.tag);

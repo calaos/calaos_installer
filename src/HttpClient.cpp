@@ -192,6 +192,7 @@ void HttpClient::downloadFile(const QUrl &url, const QString &destPath,
             file->write(reply->readAll());
         file->close();
 
+        // The streaming check only sees whole chunks; the tail written just above may cross the cap.
         if (maxBytes > 0 && file->size() > maxBytes)
         {
             m_stop = Stop::TooLarge;

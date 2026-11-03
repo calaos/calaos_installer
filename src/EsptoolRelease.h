@@ -9,6 +9,8 @@
 // installer compares it with the downloaded file before extracting.
 // Upper bound on an announced archive size: esptool builds weigh a few tens of MB.
 constexpr qint64 kMaxToolArchiveBytes = 256LL * 1024 * 1024;
+// Upper bound on the files of an archive once unpacked (a compressed bomb stays small on the wire).
+constexpr qint64 kMaxExtractedBytes = 1024LL * 1024 * 1024;
 
 struct EsptoolAsset
 {

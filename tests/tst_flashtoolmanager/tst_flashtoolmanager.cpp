@@ -6,8 +6,11 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QStandardPaths>
+#include <QTcpServer>
+#include <QTcpSocket>
 #include <QTemporaryDir>
 #include <KTar>
+#include <unistd.h>
 
 #include "ConfigOptions.h"
 #include "FlashToolManager.h"
@@ -21,11 +24,13 @@ class TestManager : public FlashToolManager
 {
 public:
     QString failRenameFrom;
+    QString alsoFailFrom;
 
 protected:
     bool renameDir(const QString &from, const QString &to) override
     {
-        if (!failRenameFrom.isEmpty() && from.endsWith(failRenameFrom))
+        if ((!failRenameFrom.isEmpty() && from.endsWith(failRenameFrom))
+            || (!alsoFailFrom.isEmpty() && from.endsWith(alsoFailFrom)))
             return false;
         return FlashToolManager::renameDir(from, to);
     }
@@ -71,6 +76,10 @@ private slots:
     void hostileArchiveIsRefused_data();
     void hostileArchiveIsRefused();
     void failedSwapRestoresPreviousTool();
+    void failedRestoreSaysWhereThePreviousToolIs();
+    void unclearableStageIsRefused();
+    void decompressionBombIsRefused();
+    void directDownloadIsBounded();
     void refusedUpdateIsNotInstalledNorProposedAgain();
     void acceptedUpdateFailureIsReported();
     void otherToolsAreNeverUpdated();
@@ -274,6 +283,83 @@ void TstFlashToolManager::failedSwapRestoresPreviousTool()
     QCOMPARE(mgr.cachedToolVersion("esptool"), QString("v5.0.0"));
     QVERIFY(!QFileInfo::exists(m_toolDir + ".new"));
     QVERIFY(!QFileInfo::exists(m_toolDir + ".old"));
+}
+
+void TstFlashToolManager::failedRestoreSaysWhereThePreviousToolIs()
+{
+    installOldTool();
+    TestManager mgr;
+    mgr.failRenameFrom = ".new";
+    mgr.alsoFailFrom = ".old"; // and the previous install cannot be put back either
+    const Outcome out = install(mgr, assetFor(makeArchive("ok.tar.gz")));
+
+    QVERIFY(out.done);
+    QVERIFY(!out.ok);
+    QVERIFY2(out.text.contains(m_toolDir + ".old"), qPrintable(out.text));
+    QVERIFY(QFileInfo::exists(m_toolDir + ".old/stale.txt"));
+}
+
+void TstFlashToolManager::unclearableStageIsRefused()
+{
+    if (geteuid() == 0)
+        QSKIP("root can delete a read-only folder");
+    installOldTool();
+    const QString stuck = m_toolDir + ".new/stuck";
+    QVERIFY(QDir().mkpath(stuck));
+    QFile leftover(stuck + "/leftover");
+    QVERIFY(leftover.open(QIODevice::WriteOnly));
+    leftover.close();
+    QVERIFY(QFile::setPermissions(stuck, QFileDevice::ReadOwner | QFileDevice::ExeOwner));
+
+    FlashToolManager mgr;
+    const Outcome out = install(mgr, assetFor(makeArchive("ok.tar.gz")));
+    QFile::setPermissions(stuck, QFile::permissions(stuck) | QFileDevice::WriteOwner);
+
+    QVERIFY(out.done);
+    QVERIFY2(!out.ok, qPrintable(out.text));
+    QVERIFY(QFileInfo::exists(m_toolDir + "/stale.txt"));
+    QCOMPARE(mgr.cachedToolVersion("esptool"), QString("v5.0.0"));
+}
+
+void TstFlashToolManager::decompressionBombIsRefused()
+{
+    installOldTool();
+    FlashToolManager mgr;
+    mgr.setMaxExtractedBytes(16); // the archive unpacks to a few dozen bytes
+    const Outcome out = install(mgr, assetFor(makeArchive("ok.tar.gz")));
+
+    QVERIFY(out.done);
+    QVERIFY2(!out.ok, qPrintable(out.text));
+    QVERIFY(QFileInfo::exists(m_toolDir + "/stale.txt"));
+    QCOMPARE(mgr.cachedToolVersion("esptool"), QString("v5.0.0"));
+}
+
+// upgrade_tool has no digest to check; its download is only bounded.
+void TstFlashToolManager::directDownloadIsBounded()
+{
+    QTcpServer server;
+    QVERIFY(server.listen(QHostAddress::LocalHost));
+    QObject::connect(&server, &QTcpServer::newConnection, &server, [&server]()
+    {
+        QTcpSocket *sock = server.nextPendingConnection();
+        QObject::connect(sock, &QTcpSocket::readyRead, sock, [sock]()
+        {
+            sock->readAll();
+            sock->write("HTTP/1.1 200 OK\r\nContent-Length: 300000000\r\n\r\n");
+        });
+    });
+
+    FlashConfig c;
+    c.tool = "upgrade_tool";
+    c.toolUrls.insert("linux", QString("http://127.0.0.1:%1/upgrade_tool.zip").arg(server.serverPort()));
+    FlashToolManager mgr;
+    Outcome out;
+    mgr.downloadTool(c, [&](bool ok, const QString &text) { out.done = true; out.ok = ok; out.text = text; });
+    QTRY_VERIFY_WITH_TIMEOUT(out.done, 5000);
+
+    QVERIFY(!out.ok);
+    QVERIFY2(out.text.contains("larger"), qPrintable(out.text));
+    QVERIFY(!QFileInfo::exists(FlashToolManager::toolsCacheDir() + "/upgrade_tool/upgrade_tool.zip"));
 }
 
 QString TstFlashToolManager::releasesDir() const

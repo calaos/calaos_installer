@@ -151,6 +151,7 @@ void TstHttpClient::getJsonMissingFileSetsError()
     QTRY_VERIFY_WITH_TIMEOUT(done, 5000);
     QVERIFY(!ok);
     QVERIFY(!http.lastError().isEmpty());
+    QVERIFY2(!http.lastError().contains("nonexistent"), qPrintable(http.lastError()));
 }
 
 void TstHttpClient::getJsonInvalidJsonSetsError()

@@ -291,6 +291,7 @@ void TstEsptoolRelease::sizeIsRequiredAndBounded_data()
     QTest::newRow("negative") << QJsonValue(-5) << false;
     QTest::newRow("missing")  << QJsonValue(QJsonValue::Undefined) << false;
     QTest::newRow("text")     << QJsonValue("1000") << false;
+    QTest::newRow("beyond int64") << QJsonValue(1e30) << false;
 }
 
 void TstEsptoolRelease::sizeIsRequiredAndBounded()
@@ -331,6 +332,8 @@ void TstEsptoolRelease::unsafeAssetNamesAreRefused_data()
     QTest::newRow("backslash")    << "..\\esptool-linux-amd64.zip" << false;
     QTest::newRow("drive")        << "C:esptool-windows-amd64.zip" << false;
     QTest::newRow("control char") << QString("esptool-linux-amd64.tar.gz\n") << false;
+    QTest::newRow("delete char")  << QString("esptool\x7f.tar.gz") << false;
+    QTest::newRow("bidi override") << QString("esptool\u202etar.gz") << false;
 }
 
 void TstEsptoolRelease::unsafeAssetNamesAreRefused()
