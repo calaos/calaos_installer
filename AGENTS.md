@@ -148,7 +148,8 @@ QT_QPA_PLATFORM=offscreen ./tst_projectmanager/tst_projectmanager -v2 ioRoundTri
   version, platform asset, GitHub digest and size, unsafe names refused); `tests/tst_httpclient/`
   covers `HttpClient` (timeouts, total deadline, cancel, size bounds, file content); and
   `tests/tst_flashtoolmanager/` covers `FlashToolManager` (atomic install, hostile archives,
-  confirmation and remembered refusal, failure report).
+  confirmation and remembered refusal, failure report); `tests/tst_toolupdateprompt/` covers
+  the update dialogs (`src/ToolUpdatePrompt.*`: network text shown as plain text).
 - To add a suite: create `tests/tst_<name>/tst_<name>.pro` (copy `tst_projectmanager`) and
   add it to `SUBDIRS` in `tests/tests.pro`.
 - CI (`.github/workflows/pr_ci.yml`) builds the application and runs these tests on every
