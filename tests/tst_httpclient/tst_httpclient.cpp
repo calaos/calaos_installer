@@ -13,7 +13,63 @@ class TstHttpClient : public QObject
 private slots:
     void unwritableDestinationSetsError();
     void successClearsPreviousError();
+    void getJsonParsesDocument();
+    void getJsonMissingFileSetsError();
+    void getJsonInvalidJsonSetsError();
 };
+
+void TstHttpClient::getJsonParsesDocument()
+{
+    QTemporaryDir dir;
+    QVERIFY(dir.isValid());
+    QFile src(dir.filePath("a.json"));
+    QVERIFY(src.open(QIODevice::WriteOnly));
+    src.write("[{\"tag_name\":\"v1\"}]");
+    src.close();
+
+    HttpClient http;
+    bool done = false;
+    bool ok = false;
+    QJsonDocument got;
+    http.getJson(QUrl::fromLocalFile(src.fileName()),
+                 [&](bool success, const QJsonDocument &doc) { done = true; ok = success; got = doc; },
+                 "application/vnd.github+json");
+    QTRY_VERIFY_WITH_TIMEOUT(done, 5000);
+    QVERIFY(ok);
+    QVERIFY(got.isArray());
+    QVERIFY(http.lastError().isEmpty());
+}
+
+void TstHttpClient::getJsonMissingFileSetsError()
+{
+    HttpClient http;
+    bool done = false;
+    bool ok = true;
+    http.getJson(QUrl::fromLocalFile("/nonexistent/dir/a.json"),
+                 [&](bool success, const QJsonDocument &) { done = true; ok = success; });
+    QTRY_VERIFY_WITH_TIMEOUT(done, 5000);
+    QVERIFY(!ok);
+    QVERIFY(!http.lastError().isEmpty());
+}
+
+void TstHttpClient::getJsonInvalidJsonSetsError()
+{
+    QTemporaryDir dir;
+    QVERIFY(dir.isValid());
+    QFile src(dir.filePath("bad.json"));
+    QVERIFY(src.open(QIODevice::WriteOnly));
+    src.write("<html>");
+    src.close();
+
+    HttpClient http;
+    bool done = false;
+    bool ok = true;
+    http.getJson(QUrl::fromLocalFile(src.fileName()),
+                 [&](bool success, const QJsonDocument &) { done = true; ok = success; });
+    QTRY_VERIFY_WITH_TIMEOUT(done, 5000);
+    QVERIFY(!ok);
+    QVERIFY(http.lastError().contains("JSON"));
+}
 
 void TstHttpClient::unwritableDestinationSetsError()
 {

@@ -576,6 +576,7 @@ void DialogFlashDevice::startFlashPreflight()
                                           tr("Failed to download the flash tool.") + "\n" + reason);
                     return;
                 }
+                m_toolUpdateChecked = true;
                 updateToolStatus();
                 // Continue pre-flight after tool download
                 startFlashPreflight();
@@ -589,6 +590,20 @@ void DialogFlashDevice::startFlashPreflight()
                     .arg(board.flash.tool));
             return;
         }
+    }
+
+    // Once per dialog: refresh a tool we downloaded earlier if a newer release exists
+    if (!m_toolUpdateChecked && board.flash.toolGithubRelease)
+    {
+        m_toolUpdateChecked = true;
+        setFlashUiBusy(true);
+        m_toolManager->updateCachedTool(board.flash, [this](bool, const QString &)
+        {
+            setFlashUiBusy(false);
+            updateToolStatus();
+            startFlashPreflight();
+        });
+        return;
     }
 
     // Get firmware ZIP path

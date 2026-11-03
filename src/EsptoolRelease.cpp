@@ -1,65 +1,170 @@
 #include "EsptoolRelease.h"
 
+#include <QCoreApplication>
+#include <QJsonObject>
+#include <QRegularExpression>
+#include <QStringList>
 #include <QSysInfo>
 
 namespace {
 
-const char *const kTag = "v5.6.0";
+enum class Arch { Unknown, X64, Arm64, Armv7 };
 
-struct Entry
+QString osOfToken(const QString &t)
 {
-    const char *key; // "<os>-<arch>", as in the asset file name
-    const char *ext;
-    const char *sha256;
-};
-
-const Entry kEntries[] = {
-    { "linux-amd64",   "tar.gz", "1590723cfa9675983f49d0bf2895b8507f8d2879082e51bb7ef02a8bca88d354" },
-    { "linux-aarch64", "tar.gz", "7723120429394b4d6d974d694e5cf378e00259381a7f8856c2c88492041b9f59" },
-    { "linux-armv7",   "tar.gz", "65e2f91fba2e79a75243454ded44da57532c74e242e17f9890aa7fe6cd588ee4" },
-    { "macos-amd64",   "tar.gz", "23921776a7df75f2e6f3ca10a604d74db4661e1b8a0ebb89bdddcd2d26f37055" },
-    { "macos-arm64",   "tar.gz", "08a58829a3f14bb08f2e39f4cad48dcb14b7000384268e7f06689836332d6e25" },
-    { "windows-amd64", "zip",    "d55a96fbeb97fd4cb05bd93f201e5c8f6518b7bfcde2fc6966fd0190fd891629" },
-};
-
-// Espressif names the Linux arm64 build "aarch64" and the macOS one "arm64".
-QString archFor(const QString &os, const QString &cpu)
-{
-    if (cpu == "x86_64")
-        return "amd64";
-    if (cpu == "arm64" || cpu == "aarch64")
-        return os == "macos" ? "arm64" : (os == "windows" ? "amd64" : "aarch64");
-    if (cpu == "arm" && os == "linux")
-        return "armv7";
+    if (t == "win" || t == "windows" || t == "win64")
+        return "windows";
+    if (t == "linux")
+        return "linux";
+    if (t == "macos" || t == "darwin" || t == "osx")
+        return "macos";
     return QString();
+}
+
+Arch archOfToken(const QString &t)
+{
+    // "win64" names the x64 build on its own.
+    if (t == "amd64" || t == "x86_64" || t == "x64" || t == "win64")
+        return Arch::X64;
+    if (t == "arm64" || t == "aarch64")
+        return Arch::Arm64;
+    if (t == "armv7" || t == "armv7l" || t == "armhf" || t == "arm32")
+        return Arch::Armv7;
+    return Arch::Unknown;
+}
+
+// Architectures usable on the host, best first.
+QList<Arch> wantedArchs(const QString &os, const QString &cpu)
+{
+    if (cpu == "x86_64" || cpu == "amd64")
+        return { Arch::X64 };
+    if (cpu == "arm64" || cpu == "aarch64")
+    {
+        // Windows on ARM runs the x64 build under emulation.
+        if (os == "windows")
+            return { Arch::Arm64, Arch::X64 };
+        return { Arch::Arm64 };
+    }
+    if (cpu == "arm" || cpu == "armv7")
+        return os == "linux" ? QList<Arch>{ Arch::Armv7 } : QList<Arch>{};
+    return {};
+}
+
+bool isArchive(const QString &lowerName)
+{
+    return lowerName.endsWith(".tar.gz") || lowerName.endsWith(".tgz") || lowerName.endsWith(".zip");
+}
+
+// Returns the rank of the asset for the platform (0 is best), or -1 when it does not fit.
+int rankAsset(const QString &name, const QString &os, const QList<Arch> &archs)
+{
+    const QString lower = name.toLower();
+    if (!isArchive(lower))
+        return -1;
+
+    QString normalized = lower;
+    normalized.replace("x86-64", "x86_64");
+    const QStringList tokens = normalized.split(QRegularExpression("[-.]"), Qt::SkipEmptyParts);
+
+    QString assetOs;
+    Arch assetArch = Arch::Unknown;
+    for (const QString &t : tokens)
+    {
+        if (assetOs.isEmpty())
+            assetOs = osOfToken(t);
+        const Arch a = archOfToken(t);
+        if (assetArch == Arch::Unknown && a != Arch::Unknown)
+            assetArch = a;
+    }
+    if (assetOs != os)
+        return -1;
+
+    // Old releases ship a single universal "macos" zip with no architecture in the name.
+    if (assetArch == Arch::Unknown)
+        return os == "macos" ? archs.size() : -1;
+    return archs.contains(assetArch) ? archs.indexOf(assetArch) : -1;
+}
+
+QString tr(const char *text)
+{
+    return QCoreApplication::translate("EsptoolRelease", text);
+}
+
+// "sha256:<64 hex>" -> hex, else empty.
+QString parseDigest(const QString &digest)
+{
+    static const QRegularExpression re("^sha256:([0-9a-fA-F]{64})$");
+    const QRegularExpressionMatch m = re.match(digest);
+    return m.hasMatch() ? m.captured(1).toLower() : QString();
+}
+
+QList<int> versionParts(const QString &v)
+{
+    static const QRegularExpression re("^v?(\\d+)\\.(\\d+)(?:\\.(\\d+))?");
+    const QRegularExpressionMatch m = re.match(v.trimmed());
+    if (!m.hasMatch())
+        return {};
+    return { m.captured(1).toInt(), m.captured(2).toInt(), m.captured(3).toInt() };
 }
 
 } // namespace
 
-EsptoolAsset esptoolAssetFor(const QString &os, const QString &cpu)
+EsptoolAsset selectEsptoolAsset(const QJsonArray &releases, const QString &os, const QString &cpu)
 {
-    const QString arch = archFor(os, cpu);
-    if (arch.isEmpty())
-        return EsptoolAsset();
-
-    const QString key = os + "-" + arch;
-    for (const Entry &e : kEntries)
+    EsptoolAsset result;
+    const QList<Arch> archs = wantedArchs(os, cpu);
+    if (archs.isEmpty())
     {
-        if (key != QLatin1String(e.key))
+        result.error = tr("No esptool build exists for this platform (%1).").arg(cpu);
+        return result;
+    }
+
+    for (const QJsonValue &rv : releases)
+    {
+        const QJsonObject rel = rv.toObject();
+        if (rel.value("draft").toBool() || rel.value("prerelease").toBool())
             continue;
 
-        EsptoolAsset a;
-        a.tag = kTag;
-        a.name = QString("esptool-%1-%2.%3").arg(kTag, key, e.ext);
-        a.url = QString("https://github.com/espressif/esptool/releases/download/%1/%2")
-                    .arg(kTag, a.name);
-        a.sha256 = e.sha256;
-        return a;
+        int bestRank = -1;
+        QJsonObject best;
+        for (const QJsonValue &av : rel.value("assets").toArray())
+        {
+            const QJsonObject asset = av.toObject();
+            const int rank = rankAsset(asset.value("name").toString(), os, archs);
+            if (rank >= 0 && (bestRank < 0 || rank < bestRank))
+            {
+                bestRank = rank;
+                best = asset;
+            }
+        }
+        if (bestRank < 0)
+            continue;
+
+        result.tag = rel.value("tag_name").toString();
+        result.name = best.value("name").toString();
+        const QString url = best.value("browser_download_url").toString();
+        if (!url.startsWith("https://"))
+        {
+            result.error = tr("Release %1 gives no HTTPS download URL for %2.").arg(result.tag, result.name);
+            return result;
+        }
+
+        result.sha256 = parseDigest(best.value("digest").toString());
+        if (result.sha256.isEmpty())
+        {
+            result.error = tr("GitHub gives no SHA-256 digest for %1 (release %2): "
+                              "refusing to download an unverifiable file.").arg(result.name, result.tag);
+            return result;
+        }
+        result.url = url;
+        return result;
     }
-    return EsptoolAsset();
+
+    result.error = tr("No esptool build for this platform (%1) in the latest releases.").arg(cpu);
+    return result;
 }
 
-EsptoolAsset esptoolAssetForHost()
+EsptoolAsset selectEsptoolAssetForHost(const QJsonArray &releases)
 {
 #if defined(Q_OS_WIN)
     const QString os = "windows";
@@ -68,5 +173,14 @@ EsptoolAsset esptoolAssetForHost()
 #else
     const QString os = "linux";
 #endif
-    return esptoolAssetFor(os, QSysInfo::currentCpuArchitecture());
+    return selectEsptoolAsset(releases, os, QSysInfo::currentCpuArchitecture());
+}
+
+bool isNewerEsptoolVersion(const QString &candidate, const QString &cached)
+{
+    const QList<int> c = versionParts(candidate);
+    if (c.isEmpty())
+        return false;
+    const QList<int> k = versionParts(cached);
+    return k.isEmpty() || c > k;
 }

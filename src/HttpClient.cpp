@@ -13,19 +13,29 @@ HttpClient::HttpClient(QObject *parent)
 }
 
 void HttpClient::getJson(const QUrl &url,
-                         std::function<void(bool, const QJsonDocument &)> callback)
+                         std::function<void(bool, const QJsonDocument &)> callback,
+                         const QByteArray &accept)
 {
+    m_lastError.clear();
+    m_lastStatus = 0;
+
     QNetworkRequest req(url);
     req.setHeader(QNetworkRequest::UserAgentHeader, "CalaosInstaller");
+    if (!accept.isEmpty())
+        req.setRawHeader("Accept", accept);
+    req.setAttribute(QNetworkRequest::RedirectPolicyAttribute,
+                     QNetworkRequest::NoLessSafeRedirectPolicy);
 
     QNetworkReply *reply = m_nam->get(req);
-    connect(reply, &QNetworkReply::finished, this, [reply, callback]()
+    connect(reply, &QNetworkReply::finished, this, [this, reply, callback]()
     {
         reply->deleteLater();
+        m_lastStatus = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
 
         if (reply->error() != QNetworkReply::NoError)
         {
-            qWarning() << "HTTP error:" << reply->errorString();
+            m_lastError = networkErrorText(reply);
+            qWarning() << "HTTP error:" << m_lastError;
             callback(false, QJsonDocument());
             return;
         }
@@ -34,7 +44,8 @@ void HttpClient::getJson(const QUrl &url,
         QJsonDocument doc = QJsonDocument::fromJson(reply->readAll(), &err);
         if (err.error != QJsonParseError::NoError)
         {
-            qWarning() << "JSON parse error:" << err.errorString();
+            m_lastError = QString("Invalid JSON answer: %1").arg(err.errorString());
+            qWarning() << m_lastError;
             callback(false, QJsonDocument());
             return;
         }
@@ -47,6 +58,7 @@ void HttpClient::downloadFile(const QUrl &url, const QString &destPath,
                               std::function<void(bool)> callback)
 {
     m_lastError.clear();
+    m_lastStatus = 0;
 
     QNetworkRequest req(url);
     req.setHeader(QNetworkRequest::UserAgentHeader, "CalaosInstaller");
@@ -80,6 +92,7 @@ void HttpClient::downloadFile(const QUrl &url, const QString &destPath,
     {
         m_currentReply = nullptr;
         reply->deleteLater();
+        m_lastStatus = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
 
         if (reply->error() != QNetworkReply::NoError)
         {

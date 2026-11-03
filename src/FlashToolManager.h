@@ -5,6 +5,7 @@
 #include <QString>
 #include <functional>
 #include "BoardProfile.h"
+#include "EsptoolRelease.h"
 
 class HttpClient;
 
@@ -28,6 +29,12 @@ public:
     void downloadTool(const FlashConfig &config,
                       std::function<void(bool success, const QString &toolPath)> callback);
 
+    // If findTool() resolves to a download made by us and a newer release exists, install it.
+    // The callback gets (true, new path) after an update, else (false, current path); a failed
+    // check or update keeps the current tool.
+    void updateCachedTool(const FlashConfig &config,
+                          std::function<void(bool updated, const QString &toolPath)> callback);
+
     // Save/load custom tool path in QSettings
     void saveCustomToolPath(const QString &toolName, const QString &path);
     QString loadCustomToolPath(const QString &toolName) const;
@@ -42,6 +49,15 @@ private:
     // Download tool from GitHub releases API
     void downloadToolGithub(const FlashConfig &config,
                             std::function<void(bool, const QString &)> callback);
+
+    // Ask the GitHub releases API for the newest asset fitting this host; on failure the
+    // asset is invalid and the string is the reason.
+    void fetchLatestAsset(const FlashConfig &config,
+                          std::function<void(const EsptoolAsset &, const QString &)> callback);
+
+    // Download, verify the SHA-256, extract and install an asset into the tool cache
+    void installAsset(const FlashConfig &config, const EsptoolAsset &asset,
+                      std::function<void(bool, const QString &)> callback);
 
     // Download tool from a direct URL (non-GitHub)
     void downloadToolDirect(const FlashConfig &config,
