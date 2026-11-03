@@ -46,6 +46,8 @@ void HttpClient::getJson(const QUrl &url,
 void HttpClient::downloadFile(const QUrl &url, const QString &destPath,
                               std::function<void(bool)> callback)
 {
+    m_lastError.clear();
+
     QNetworkRequest req(url);
     req.setHeader(QNetworkRequest::UserAgentHeader, "CalaosInstaller");
     req.setAttribute(QNetworkRequest::RedirectPolicyAttribute,
@@ -57,6 +59,7 @@ void HttpClient::downloadFile(const QUrl &url, const QString &destPath,
     QFile *file = new QFile(destPath, reply);
     if (!file->open(QIODevice::WriteOnly | QIODevice::Truncate))
     {
+        m_lastError = file->errorString();
         qWarning() << "Cannot open file for writing:" << destPath;
         reply->abort();
         reply->deleteLater();

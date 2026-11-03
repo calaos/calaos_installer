@@ -7,8 +7,7 @@
 #include "EsptoolRelease.h"
 
 // release_v5.6.0.json is the recorded GitHub API answer for the pinned tag. The pinned
-// names, URLs and hashes must match it for every platform the installer claims to support;
-// the previous "win64" / "arm64" substring match picked nothing on Windows and Linux arm64.
+// names, URLs and hashes must match it for every platform the installer claims to support.
 class TstEsptoolRelease : public QObject
 {
     Q_OBJECT
