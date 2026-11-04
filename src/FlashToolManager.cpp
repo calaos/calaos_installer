@@ -310,45 +310,56 @@ void FlashToolManager::installAsset(const FlashConfig &config, const EsptoolAsse
         vf.write(asset.tag.toUtf8());
         vf.close();
 
-        // Park the old install instead of deleting it, so a failed swap can put it back.
-        // A .old left by a double failure is the only copy of the previous tool: put it back
-        // first, and keep it if that fails. Otherwise it is stale.
-        const QString oldDir = toolDir + ".old";
-        if (QFileInfo::exists(oldDir))
+        QString swapError;
+        if (!swapIn(toolDir, stageDir, swapError))
         {
-            if (!QFileInfo::exists(toolDir))
-            {
-                if (!renameDir(oldDir, toolDir))
-                {
-                    fail(tr("The previous tool is in %1 and could not be put back into %2.")
-                         .arg(oldDir, toolDir));
-                    return;
-                }
-            }
-            else
-                QDir(oldDir).removeRecursively();
-        }
-        const bool hadOld = QFileInfo::exists(toolDir);
-        if (hadOld && !renameDir(toolDir, oldDir))
-        {
-            fail(tr("Cannot replace the installed tool in %1").arg(toolDir));
+            fail(swapError);
             return;
         }
-        if (!renameDir(stageDir, toolDir))
-        {
-            if (hadOld && !renameDir(oldDir, toolDir))
-            {
-                fail(tr("Cannot install the tool into %1, and the previous one could not be "
-                        "put back: it is in %2.").arg(toolDir, oldDir));
-                return;
-            }
-            fail(tr("Cannot install the tool into %1").arg(toolDir));
-            return;
-        }
-        QDir(oldDir).removeRecursively();
 
         callback(true, toolDir + stagedTool.mid(stageDir.size()));
     }, asset.size);
+}
+
+bool FlashToolManager::swapIn(const QString &toolDir, const QString &stageDir, QString &error)
+{
+    // Park the old install instead of deleting it, so a failed swap can put it back.
+    // A .old left by a double failure is the only copy of the previous tool: put it back
+    // first, and keep it if that fails. Otherwise it is stale.
+    const QString oldDir = toolDir + ".old";
+    if (QFileInfo::exists(oldDir))
+    {
+        if (!QFileInfo::exists(toolDir))
+        {
+            if (!renameDir(oldDir, toolDir))
+            {
+                error = tr("The previous tool is in %1 and could not be put back into %2.")
+                    .arg(oldDir, toolDir);
+                return false;
+            }
+        }
+        else
+            QDir(oldDir).removeRecursively();
+    }
+    const bool hadOld = QFileInfo::exists(toolDir);
+    if (hadOld && !renameDir(toolDir, oldDir))
+    {
+        error = tr("Cannot replace the installed tool in %1").arg(toolDir);
+        return false;
+    }
+    if (!renameDir(stageDir, toolDir))
+    {
+        if (hadOld && !renameDir(oldDir, toolDir))
+        {
+            error = tr("Cannot install the tool into %1, and the previous one could not be "
+                "put back: it is in %2.").arg(toolDir, oldDir);
+            return false;
+        }
+        error = tr("Cannot install the tool into %1").arg(toolDir);
+        return false;
+    }
+    QDir(oldDir).removeRecursively();
+    return true;
 }
 
 QString FlashToolManager::fileSha256(const QString &path)
@@ -373,45 +384,94 @@ void FlashToolManager::downloadToolDirect(const FlashConfig &config,
         return;
     }
 
-    QString toolDir = toolsCacheDir() + "/" + config.tool;
-    QDir().mkpath(toolDir);
+    // Same staging as installAsset: a failed extraction must leave nothing that could be run.
+    const QString toolDir = toolsCacheDir() + "/" + config.tool;
+    const QString stageDir = toolDir + ".new";
+    QDir(stageDir).removeRecursively();
+    if (QFileInfo::exists(stageDir))
+    {
+        callback(false, tr("Cannot clear the staging folder %1").arg(stageDir));
+        return;
+    }
+    QDir().mkpath(stageDir);
 
-    QString archiveFileName = QUrl(url).fileName();
-    QString archivePath = toolDir + "/" + archiveFileName;
+    const QString archivePath = stageDir + "/" + QUrl(url).fileName();
 
     m_http->downloadFile(QUrl(url), archivePath,
-                         [this, config, toolDir, archivePath, url, callback](bool dlSuccess)
+                         [this, config, toolDir, stageDir, archivePath, url, callback](bool dlSuccess)
     {
+        auto fail = [&](const QString &reason)
+        {
+            QDir(stageDir).removeRecursively();
+            callback(false, reason);
+        };
+
         if (!dlSuccess)
         {
-            QFile::remove(archivePath);
-            callback(false, m_http->lastError());
+            fail(m_http->lastError());
             return;
         }
 
         // upgrade_tool's 32-hex filename suffix is not the zip's MD5, so there is
         // no digest to verify here; only the size bound below applies.
-        QString toolPath = extractArchive(archivePath, toolDir, config.tool);
-
-        // Clean up archive
+        const QString stagedTool = extractArchive(archivePath, stageDir, config.tool);
         QFile::remove(archivePath);
-
-        if (toolPath.isEmpty())
+        if (stagedTool.isEmpty())
         {
-            callback(false, QString());
+            fail(tr("Cannot extract %1").arg(QUrl(url).fileName()));
             return;
         }
 
         // Write version.txt with the URL as cache identifier
-        QFile vf(toolDir + "/version.txt");
+        QFile vf(stageDir + "/version.txt");
         if (vf.open(QIODevice::WriteOnly | QIODevice::Truncate))
         {
             vf.write(url.toUtf8());
             vf.close();
         }
 
-        callback(true, toolPath);
+        QString swapError;
+        if (!swapIn(toolDir, stageDir, swapError))
+        {
+            fail(swapError);
+            return;
+        }
+
+        callback(true, toolDir + stagedTool.mid(stageDir.size()));
     }, kMaxToolArchiveBytes);
+}
+
+bool FlashToolManager::copyArchive(const KArchiveDirectory *root, const QString &destDir) const
+{
+    return copyEntries(root, destDir) && extractedSizesMatch(root, destDir);
+}
+
+bool FlashToolManager::copyEntries(const KArchiveDirectory *root, const QString &destDir) const
+{
+    return root->copyTo(destDir, true);
+}
+
+// KArchiveFile::copyTo() reports success even when a write fell short; this catches a file
+// shorter than its entry. A short read that still fills the size, or a bad CRC32, is not checked.
+bool FlashToolManager::extractedSizesMatch(const KArchiveDirectory *dir, const QString &destDir)
+{
+    for (const QString &name : dir->entries())
+    {
+        const KArchiveEntry *e = dir->entry(name);
+        const QString path = destDir + "/" + name;
+        if (e->isDirectory())
+        {
+            if (!extractedSizesMatch(static_cast<const KArchiveDirectory *>(e), path))
+                return false;
+        }
+        else if (e->isFile())
+        {
+            const QFileInfo fi(path);
+            if (!fi.isFile() || fi.size() != static_cast<const KArchiveFile *>(e)->size())
+                return false;
+        }
+    }
+    return true;
 }
 
 bool FlashToolManager::archiveIsSafe(const KArchiveDirectory *dir, qint64 &budget, int &entries,
@@ -483,7 +543,7 @@ QString FlashToolManager::extractArchive(const QString &archivePath, const QStri
             qWarning() << "Unsafe entry in archive:" << archivePath;
             return QString();
         }
-        if (!root->copyTo(destDir, true) || bounded.exceeded())
+        if (!copyArchive(root, destDir) || bounded.exceeded())
         {
             qWarning() << "Cannot extract tar archive:" << archivePath;
             return QString();
@@ -508,7 +568,7 @@ QString FlashToolManager::extractArchive(const QString &archivePath, const QStri
             return QString();
         }
         // A partial extraction must not leave a binary that gets installed and run.
-        if (!root->copyTo(destDir, true))
+        if (!copyArchive(root, destDir))
         {
             qWarning() << "Cannot extract zip archive:" << archivePath;
             return QString();
