@@ -24,6 +24,13 @@ private slots:
     void listOnlyHoldsValidZones();
     void listIsStableAcrossCalls();
     void editorExposesTheList();
+    void legacyUtcOffsetsMapToAnOffsetPreservingZone_data();
+    void legacyUtcOffsetsMapToAnOffsetPreservingZone();
+    void legacyUtcResaveWritesValidPosix();
+    void unknownValuesFallBackToUtc();
+    void zonelessOffsetsAreKept();
+    void zeroOffsetIsUtc();
+    void etcGmtFallback();
 
     void cleanup();
 };
@@ -116,6 +123,84 @@ void TstTimezoneHelper::editorExposesTheList()
     QVERIFY(quick);
     QCOMPARE(quick->rootContext()->contextProperty("availableTimezones").toStringList(),
              TimezoneHelper::filteredIanaTimezones());
+}
+
+void TstTimezoneHelper::legacyUtcOffsetsMapToAnOffsetPreservingZone_data()
+{
+    QTest::addColumn<QString>("stored");
+    QTest::addColumn<int>("offsetSecs");
+    QTest::newRow("UTC+1") << "UTC+1" << 3600;
+    QTest::newRow("UTC-5") << "UTC-5" << -5 * 3600;
+    QTest::newRow("UTC+14") << "UTC+14" << 14 * 3600;
+    QTest::newRow("UTC-12") << "UTC-12" << -12 * 3600;
+    QTest::newRow("UTC+5:30") << "UTC+5:30" << 5 * 3600 + 1800;
+    QTest::newRow("UTC-9:30") << "UTC-9:30" << -(9 * 3600 + 1800);
+}
+
+void TstTimezoneHelper::legacyUtcOffsetsMapToAnOffsetPreservingZone()
+{
+    QFETCH(QString, stored);
+    QFETCH(int, offsetSecs);
+
+    const QString iana = TimezoneHelper::posixTzToIana(TimezoneHelper::convertStoredTimezone(stored));
+    QVERIFY2(iana != QLatin1String("UTC"), qPrintable(iana));
+
+    QTimeZone tz(iana.toUtf8());
+    QVERIFY2(tz.isValid(), qPrintable(iana));
+    const int year = QDate::currentDate().year();
+    QCOMPARE(tz.offsetFromUtc(QDateTime(QDate(year, 1, 15), QTime(12, 0), QTimeZone::UTC)), offsetSecs);
+    QCOMPARE(tz.offsetFromUtc(QDateTime(QDate(year, 7, 15), QTime(12, 0), QTimeZone::UTC)), offsetSecs);
+}
+
+void TstTimezoneHelper::legacyUtcResaveWritesValidPosix()
+{
+    // "UTC+1" must end up as a POSIX string one hour east of UTC, not "UTC0"
+    const QString iana = TimezoneHelper::posixTzToIana(TimezoneHelper::convertStoredTimezone("UTC+1"));
+    const QString posix = TimezoneHelper::ianaToPosixTz(iana);
+    QVERIFY2(posix.endsWith("-1"), qPrintable(posix));
+    QVERIFY2(!posix.contains(','), qPrintable(posix));
+
+    QCOMPARE(TimezoneHelper::posixTzToIana(TimezoneHelper::convertStoredTimezone("UTC")), QString("UTC"));
+    // Zones sharing a rule collapse to the first one, but the POSIX string is stable
+    const QString paris = TimezoneHelper::ianaToPosixTz("Europe/Paris");
+    QCOMPARE(TimezoneHelper::ianaToPosixTz(TimezoneHelper::posixTzToIana(paris)), paris);
+}
+
+void TstTimezoneHelper::unknownValuesFallBackToUtc()
+{
+    QCOMPARE(TimezoneHelper::posixTzToIana("garbage"), QString("UTC"));
+    QCOMPARE(TimezoneHelper::posixTzToIana("UTC+x"), QString("UTC"));
+    QCOMPARE(TimezoneHelper::posixTzToIana(""), QString("UTC"));
+}
+
+void TstTimezoneHelper::zonelessOffsetsAreKept()
+{
+    for (const QString &posix : {"UTC-15", "UTC13", "UTC-4:15", "UTC-13:30"})
+    {
+        const QString id = TimezoneHelper::posixTzToIana(posix);
+        QCOMPARE(TimezoneHelper::ianaToPosixTz(id), posix);
+    }
+    QCOMPARE(TimezoneHelper::convertStoredTimezone("UTC+15"), QString("UTC-15"));
+    QCOMPARE(TimezoneHelper::ianaToPosixTz(
+                 TimezoneHelper::posixTzToIana(TimezoneHelper::convertStoredTimezone("UTC+15"))),
+             QString("UTC-15"));
+}
+
+void TstTimezoneHelper::zeroOffsetIsUtc()
+{
+    QCOMPARE(TimezoneHelper::posixTzToIana("UTC+0"), QString("UTC"));
+    QCOMPARE(TimezoneHelper::posixTzToIana("UTC-0"), QString("UTC"));
+    QCOMPARE(TimezoneHelper::posixTzToIana("UTC"), QString("UTC"));
+}
+
+void TstTimezoneHelper::etcGmtFallback()
+{
+    // UTC-12: no listed zone, only Etc/GMT+12
+    const QString id = TimezoneHelper::posixTzToIana("UTC12");
+    QVERIFY2(!TimezoneHelper::filteredIanaTimezones().contains(id), qPrintable(id));
+    QCOMPARE(id, QString("Etc/GMT+12"));
+    QVERIFY(!TimezoneHelper::ianaToPosixTz(id).isEmpty());
+    QVERIFY(TimezoneHelper::ianaToPosixTz(id) != QString("UTC0"));
 }
 
 void TstTimezoneHelper::cleanup()
