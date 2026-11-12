@@ -260,6 +260,37 @@ QString TimezoneHelper::posixTzToIana(const QString &posixTz)
     if (s_reverseMap.contains(posixTz))
         return s_reverseMap.value(posixTz);
 
+    // Fixed offset written by the pre-IANA editor ("UTC+1" once converted to POSIX).
+    // Several zones share one offset: take the first listed zone without DST at that
+    // offset, else the matching Etc/GMT zone, so the offset survives a re-save.
+    static QRegularExpression fixedPattern(
+        QStringLiteral("^UTC([+-]?)(\\d{1,2})(?::(\\d{2}))?$"));
+    QRegularExpressionMatch m = fixedPattern.match(posixTz);
+    if (m.hasMatch())
+    {
+        int secs = m.captured(2).toInt() * 3600 + m.captured(3).toInt() * 60;
+        // POSIX sign is inverted: "UTC-1" is one hour east of UTC
+        int offset = (m.captured(1) == QLatin1String("-")) ? secs : -secs;
+
+        int year = QDate::currentDate().year();
+        QDateTime winter(QDate(year, 1, 15), QTime(12, 0), QTimeZone::UTC);
+        QDateTime summer(QDate(year, 7, 15), QTime(12, 0), QTimeZone::UTC);
+        for (const QString &ianaId : filteredIanaTimezones())
+        {
+            QTimeZone tz(ianaId.toUtf8());
+            if (tz.offsetFromUtc(winter) == offset && tz.offsetFromUtc(summer) == offset)
+                return ianaId;
+        }
+
+        if (offset % 3600 == 0 && offset >= -12 * 3600 && offset <= 14 * 3600)
+        {
+            int h = offset / 3600;
+            // Etc/GMT zones carry the POSIX sign
+            return h == 0 ? QStringLiteral("UTC")
+                          : QStringLiteral("Etc/GMT%1%2").arg(h > 0 ? "-" : "+").arg(qAbs(h));
+        }
+    }
+
     // Fallback: if no exact match, return UTC
     return QStringLiteral("UTC");
 }
