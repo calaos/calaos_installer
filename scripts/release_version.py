@@ -11,7 +11,9 @@ Differences, kept here so the shared action stays untouched:
 - two-number tags (v4.8) count as X.Y.0, where bump.py raises ValueError;
 - tags that are not vX.Y, vX.Y.Z or vX.Y.Z-dev.N (v2.0-beta1, ...) are ignored.
 
-Prints key=value lines meant for $GITHUB_OUTPUT.
+--bump prints key=value lines meant for $GITHUB_OUTPUT. --unreleased prints the
+release tags of a commit that have no published GitHub Release: what a Publish
+run leaves behind when it fails after tagging.
 """
 
 import argparse
@@ -22,6 +24,8 @@ import sys
 BUMPS = ("prerelease", "patch", "minor", "major")
 
 _TAG_RE = re.compile(r"^v?(\d+)\.(\d+)(?:\.(\d+)(?:-dev\.(\d+))?)?$")
+# Only the shape Publish creates: legacy vX.Y tags predate it.
+_RELEASE_TAG_RE = re.compile(r"^v\d+\.\d+\.\d+(?:-dev\.\d+)?$")
 
 
 class VersionError(Exception):
@@ -86,18 +90,46 @@ def next_release(tags, kind):
     }
 
 
+def unreleased_tags(tags_on_commit, released_tags):
+    released = {t.strip() for t in released_tags}
+    return sorted(t for t in (t.strip() for t in tags_on_commit)
+                  if _RELEASE_TAG_RE.match(t) and t not in released)
+
+
+def _read_lines(path):
+    with open(path, encoding="utf-8") as f:
+        return f.read().splitlines()
+
+
+def _git_tags(*args):
+    return subprocess.run(["git", "tag", *args], check=True, capture_output=True,
+                          text=True).stdout.splitlines()
+
+
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
-    parser.add_argument("--bump", required=True, choices=BUMPS)
-    parser.add_argument("--tags-file", help="one tag per line (default: git tag -l)")
+    mode = parser.add_mutually_exclusive_group(required=True)
+    mode.add_argument("--bump", choices=BUMPS)
+    mode.add_argument("--unreleased", action="store_true",
+                      help="print the release tags of the commit missing from --released-file")
+    parser.add_argument("--tags-file", help="one tag per line (default: git tag -l, or the "
+                        "tags of HEAD with --unreleased)")
+    parser.add_argument("--released-file", help="tags of the published GitHub Releases")
     args = parser.parse_args(argv)
+    if args.unreleased and not args.released_file:
+        parser.error("--unreleased needs --released-file")
 
     if args.tags_file:
-        with open(args.tags_file, encoding="utf-8") as f:
-            tags = f.read().splitlines()
+        tags = _read_lines(args.tags_file)
+    elif args.unreleased:
+        tags = _git_tags("--points-at", "HEAD")
     else:
-        tags = subprocess.run(["git", "tag", "-l"], check=True, capture_output=True,
-                              text=True).stdout.splitlines()
+        tags = _git_tags("-l")
+
+    if args.unreleased:
+        for tag in unreleased_tags(tags, _read_lines(args.released_file)):
+            print(tag)
+        return 0
 
     try:
         result = next_release(tags, args.bump)

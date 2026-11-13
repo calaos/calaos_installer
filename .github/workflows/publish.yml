@@ -80,6 +80,32 @@ jobs:
           PYTHONDONTWRITEBYTECODE: '1'
         run: python3 -m unittest scripts/test_release_version.py
 
+      # A publish job that failed after tagging leaves a tag with no Release;
+      # "Re-run all jobs" would then publish the next version on top of it.
+      - name: Refuse a commit whose last release is unfinished
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          released=$(mktemp)
+          gh release list -R "$GITHUB_REPOSITORY" --exclude-drafts --limit 1000 \
+            --json tagName --jq '.[].tagName' > "$released"
+          unfinished=$(python3 scripts/release_version.py --unreleased --released-file "$released")
+          if [ -z "$unfinished" ]; then
+            exit 0
+          fi
+          tags=$(paste -sd' ' <<<"$unfinished")
+          msg="$GITHUB_SHA is already tagged $tags, with no published GitHub Release: an earlier Publish run failed after tagging."
+          fix="Finish that run with \"Re-run failed jobs\" (only while its build artifacts are kept, 7 days), or delete the tag (git push --delete origin <tag>) and run Publish again."
+          echo "::error::$msg $fix"
+          {
+            echo "### Publish refused"
+            echo
+            echo "$msg"
+            echo
+            echo "$fix"
+          } >> "$GITHUB_STEP_SUMMARY"
+          exit 1
+
       - name: Compute the next version from the tags
         id: next
         env:
@@ -146,7 +172,6 @@ jobs:
     env:
       TAG: ${{ needs.version.outputs.tag }}
       PRERELEASE: ${{ needs.version.outputs.prerelease }}
-      GH_TOKEN: ${{ github.token }}
     steps:
       - name: Check out the repo
         uses: actions/checkout@v4
@@ -154,26 +179,45 @@ jobs:
           ref: ${{ github.sha }}
           persist-credentials: false
 
-      - name: Download the three builds
+      # One directory per artifact, by exact name: a merged download would let
+      # any job of the run overwrite another platform's file.
+      - name: Download the Windows setup
         uses: actions/download-artifact@v4
         with:
-          pattern: release-*
-          path: dist
-          merge-multiple: true
+          name: release-windows
+          path: dist/windows
 
-      - name: Check the three builds are there
+      - name: Download the macOS dmg
+        uses: actions/download-artifact@v4
+        with:
+          name: release-macos
+          path: dist/macos
+
+      - name: Download the Flatpak bundle
+        uses: actions/download-artifact@v4
+        with:
+          name: release-flatpak
+          path: dist/flatpak
+
+      - name: Check each build holds only its file
         run: |
-          for f in "calaos_installer_setup_$TAG.exe" "calaos_installer-$TAG.dmg" "calaos_installer-$TAG.flatpak"; do
-            if [ ! -f "dist/$f" ]; then
-              echo "::error::dist/$f is missing."
+          ls -lR dist
+          for entry in "windows calaos_installer_setup_$TAG.exe" \
+                       "macos calaos_installer-$TAG.dmg" \
+                       "flatpak calaos_installer-$TAG.flatpak"; do
+            read -r dir f <<<"$entry"
+            found=$(find "dist/$dir" -mindepth 1 -printf '%P\n')
+            if [ "$found" != "$f" ] || [ ! -f "dist/$dir/$f" ] || [ -L "dist/$dir/$f" ]; then
+              echo "::error::dist/$dir must hold $f and nothing else."
               exit 1
             fi
           done
-          ls -l dist
 
       # Accepts a tag already on this commit, so that "Re-run failed jobs" can
       # finish a run whose upload or release step failed after tagging.
       - name: Create the tag
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
           if existing=$(gh api "repos/$GITHUB_REPOSITORY/git/ref/tags/$TAG" --jq .object.sha 2>/dev/null); then
             if [ "$existing" != "$GITHUB_SHA" ]; then
@@ -194,7 +238,7 @@ jobs:
           UPLOAD_TOKEN: ${{ secrets.UPLOAD_TOKEN }}
         run: |
           source scripts/funcs.sh
-          f="dist/calaos_installer_setup_$TAG.exe"
+          f="dist/windows/calaos_installer_setup_$TAG.exe"
           UPLOAD_KEY="$UPLOAD_TOKEN" upload_file "$f" "$(sha256sum "$f" | cut -d' ' -f1)" stable/calaos_installer/windows
 
       - name: Upload the macOS dmg to dl-direct
@@ -203,7 +247,7 @@ jobs:
           UPLOAD_KEY: ${{ secrets.UPLOAD_KEY }}
         run: |
           source scripts/funcs.sh
-          f="dist/calaos_installer-$TAG.dmg"
+          f="dist/macos/calaos_installer-$TAG.dmg"
           upload_file "$f" "$(sha256sum "$f" | cut -d' ' -f1)" stable/calaos_installer/osx
 
       - name: Upload the Flatpak bundle to dl-direct
@@ -212,10 +256,12 @@ jobs:
           UPLOAD_KEY: ${{ secrets.UPLOAD_KEY }}
         run: |
           source scripts/funcs.sh
-          f="dist/calaos_installer-$TAG.flatpak"
+          f="dist/flatpak/calaos_installer-$TAG.flatpak"
           upload_file "$f" "$(sha256sum "$f" | cut -d' ' -f1)" stable/calaos_installer/flatpak
 
       - name: Create the GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
           flags=()
           if [ "$PRERELEASE" = "true" ]; then
@@ -223,6 +269,6 @@ jobs:
           fi
           gh release create "$TAG" -R "$GITHUB_REPOSITORY" --verify-tag \
             --title "Calaos Installer $TAG" --generate-notes "${flags[@]}" \
-            "dist/calaos_installer_setup_$TAG.exe" \
-            "dist/calaos_installer-$TAG.dmg" \
-            "dist/calaos_installer-$TAG.flatpak"
+            "dist/windows/calaos_installer_setup_$TAG.exe" \
+            "dist/macos/calaos_installer-$TAG.dmg" \
+            "dist/flatpak/calaos_installer-$TAG.flatpak"

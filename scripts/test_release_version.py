@@ -70,7 +70,8 @@ class NextTag(unittest.TestCase):
         self.assertEqual(rv.next_release(["v4.8", "v4.8.0"], "patch")["tag"], "v4.8.1")
 
     def test_unrecognised_tags_are_ignored(self):
-        tags = ["v4.8", "v9.0-beta1", "latest", "v5.0.0-rc.1", "v5", "release-5.0.0", "v5.0.0-dev.x"]
+        tags = ["v4.8", "v9.0-beta1", "latest", "v5.0.0-rc.1", "v5", "release-5.0.0", "v5.0.0-dev.x",
+                "v5.0.0dev.1"]
         self.assertEqual(rv.next_release(tags, "patch")["tag"], "v4.8.1")
 
     def test_blank_lines_and_spaces_are_ignored(self):
@@ -93,6 +94,28 @@ class Outputs(unittest.TestCase):
             "prerelease": "true",
             "appstream_version": "4.8.1~dev.3",
         })
+
+
+class Unreleased(unittest.TestCase):
+    def test_tag_without_release_is_reported(self):
+        self.assertEqual(rv.unreleased_tags(["v4.8.1"], ["v4.8", "v4.8.1-dev.0"]), ["v4.8.1"])
+        self.assertEqual(rv.unreleased_tags(["v4.8.1-dev.0"], []), ["v4.8.1-dev.0"])
+
+    def test_released_tags_pass(self):
+        self.assertEqual(rv.unreleased_tags(["v4.8.1-dev.0", "v4.8.1"],
+                                            ["v4.8.1", "v4.8.1-dev.0"]), [])
+
+    def test_only_one_of_two_tags_released(self):
+        self.assertEqual(rv.unreleased_tags(["v4.8.1-dev.0", "v4.8.1"], ["v4.8.1-dev.0"]),
+                         ["v4.8.1"])
+
+    def test_other_tags_on_the_commit_are_not_release_tags(self):
+        tags = ["v4.8", "4.8.1", "latest", "v4.8.1-rc.1", "v5.0.0dev.1", ""]
+        self.assertEqual(rv.unreleased_tags(tags, []), [])
+
+    def test_a_release_of_a_similar_tag_does_not_count(self):
+        self.assertEqual(rv.unreleased_tags(["v4.8.1"], ["v4.8.1-dev.0", "4.8.1", "v4.8.10"]),
+                         ["v4.8.1"])
 
 
 class Errors(unittest.TestCase):
@@ -130,6 +153,27 @@ class Cli(unittest.TestCase):
         self.assertEqual(code, 1)
         self.assertEqual(out, "")
         self.assertIn("no vX.Y", err)
+
+    def test_unreleased_prints_one_tag_per_line(self):
+        with tempfile.NamedTemporaryFile("w", suffix=".txt", delete=False) as f:
+            f.write("v4.8.1-dev.0\n")
+        self.addCleanup(os.unlink, f.name)
+        code, out, _ = self.run_cli(["v4.8.1", "v4.8.1-dev.0", "latest"], "--unreleased",
+                                    "--released-file", f.name)
+        self.assertEqual((code, out), (0, "v4.8.1\n"))
+
+    def test_unreleased_prints_nothing_when_all_released(self):
+        code, out, _ = self.run_cli(["latest"], "--unreleased", "--released-file", os.devnull)
+        self.assertEqual((code, out), (0, ""))
+
+    def test_unreleased_needs_the_released_list(self):
+        with contextlib.redirect_stderr(io.StringIO()), self.assertRaises(SystemExit):
+            rv.main(["--unreleased", "--tags-file", os.devnull])
+
+    def test_bump_and_unreleased_exclude_each_other(self):
+        with contextlib.redirect_stderr(io.StringIO()), self.assertRaises(SystemExit):
+            rv.main(["--bump", "patch", "--unreleased", "--tags-file", os.devnull,
+                     "--released-file", os.devnull])
 
     def test_bump_is_restricted(self):
         with contextlib.redirect_stderr(io.StringIO()), self.assertRaises(SystemExit):

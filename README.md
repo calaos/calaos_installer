@@ -189,12 +189,28 @@ commit. Its `bump` input picks the next version from the last tag:
 Windows, macOS and Flatpak are built on the commit with that version injected (`REVISION`
 for qmake, `RELEASE_VERSION` for the packaging scripts). The tag is created only when all
 three builds succeed, then the files are uploaded and the GitHub Release is created. The
-`build_release_*.yml` workflows cannot be run on their own. To preview the version:
+`build_release_*.yml` workflows cannot be run on their own. To preview the version (the
+calculation reads the local tags, so fetch them first):
 
 ```bash
+git fetch --tags
 python3 scripts/release_version.py --bump patch
 python3 -m unittest scripts/test_release_version.py
 ```
+
+If a build fails, nothing is tagged or published: fix it and run Publish again, the version
+stays the same. If the last job fails after creating the tag (dl-direct upload or GitHub
+Release), the tag is left without a Release, and for a stable version some files may
+already be on dl-direct. To finish it:
+
+- use **Re-run failed jobs** on that run. It reuses the run's version and build artifacts,
+  which are kept 7 days;
+- or delete the tag (`git push --delete origin vX.Y.Z`) and run Publish again, which
+  rebuilds the same version number. This is the only way once the artifacts have expired.
+
+In both cases the stable files are uploaded to dl-direct again under the same names. Until
+then, Publish (and "Re-run all jobs", which would compute the next version) refuses to run
+on a commit that carries a release tag without a published GitHub Release.
 
 ### Translations
 

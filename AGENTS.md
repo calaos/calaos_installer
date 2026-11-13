@@ -289,7 +289,9 @@ debian/          — Debian packaging
   `build_release_{win,macos,flatpak}.yml` (`workflow_call` only, no upload), and only if
   all three pass: creates the tag, uploads stable builds to dl-direct
   (`stable/calaos_installer/{windows,osx,flatpak}`), creates the GitHub Release.
-  Prereleases go to the GitHub Release only. See README.md, "Releasing".
+  Prereleases go to the GitHub Release only. It refuses a commit that already carries a
+  release tag without a published Release (a run that failed after tagging): see
+  README.md, "Releasing", for the recovery.
 - The release version reaches the build through `RELEASE_VERSION` (packaging scripts,
   `scripts/funcs.sh`) and `REVISION=` on the qmake command line; without them the build
   falls back to `git describe`.
