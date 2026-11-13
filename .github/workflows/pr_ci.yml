@@ -23,6 +23,20 @@ permissions:
   contents: read
 
 jobs:
+  release-version:
+    name: Release version calculation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Run the version calculation tests
+        env:
+          PYTHONDONTWRITEBYTECODE: '1'
+        run: python3 -m unittest scripts/test_release_version.py
+
   build-and-test:
     name: Build and unit tests (Qt 6 / qmake)
     runs-on: ubuntu-latest
@@ -71,14 +85,14 @@ jobs:
           mkdir -p build-app
           cd build-app
           qmake6 ../calaos_installer.pro
-          make -j$(nproc)
+          make -j"$(nproc)"
 
       - name: Build the unit tests
         run: |
           mkdir -p build-tests
           cd build-tests
           qmake6 ../tests/tests.pro
-          make -j$(nproc)
+          make -j"$(nproc)"
 
       - name: Run the unit tests
         env:

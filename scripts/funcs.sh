@@ -3,14 +3,20 @@
 set -e
 
 export PROJECT_NAME=calaos_installer
-export TRAVIS_BUILD_DIR=$(pwd)
-export BUILD_TAG=$(git tag --points-at=HEAD --sort version:refname | head -n 1)
+TRAVIS_BUILD_DIR=$(pwd)
+export TRAVIS_BUILD_DIR
+BUILD_TAG=$(git tag --points-at=HEAD --sort version:refname | head -n 1)
+export BUILD_TAG
 
 #Usage: get_version /path/to/repo
+# RELEASE_VERSION is set by the publish workflow: it builds before the tag exists.
 function get_version()
 {
-    repo=$1
-    pushd $repo > /dev/null
+    if [ -n "${RELEASE_VERSION:-}" ]; then
+        echo "$RELEASE_VERSION"
+        return
+    fi
+    pushd "$1" > /dev/null
     git describe --tags --abbrev=0
     popd > /dev/null
 }
@@ -18,22 +24,24 @@ function get_version()
 #Usage: make_version /path/to/repo
 function make_version()
 {
-    echo "#ifndef VERSION__H" > $1/src/version.h
-    echo "#define VERSION__H" >> $1/src/version.h
-
-    echo "#define APP_VERSION \"$(get_version $1)\"" >> $1/src/version.h
-    echo "const char *calaos_installer_version = APP_VERSION;" >> $1/src/version.h
-
-    echo "#endif" >> $1/src/version.h
+    local version
+    version=$(get_version "$1")
+    {
+        echo "#ifndef VERSION__H"
+        echo "#define VERSION__H"
+        echo "#define APP_VERSION \"$version\""
+        echo "const char *calaos_installer_version = APP_VERSION;"
+        echo "#endif"
+    } > "$1/src/version.h"
 }
 
 function wget_retry()
 {
     count=0
     while [ $count -le 4 ]; do
-        echo Downloading $@
+        echo Downloading "$@"
         set +e
-        wget --retry-connrefused --waitretry=1 --read-timeout=20 --timeout=15 -t 0 --continue $@
+        wget --retry-connrefused --waitretry=1 --read-timeout=20 --timeout=15 -t 0 --continue "$@"
         ret=$?
         set -e
         if [ $ret = 0 ]
@@ -47,13 +55,14 @@ function wget_retry()
     return 1
 }
 
+#Usage: upload_file <file> <sha256> <folder>, with UPLOAD_KEY in the environment
 function upload_file()
 {
     FNAME=$1
     HASH=$2
     INSTALLPATH=$3
 
-    curl -X POST \
+    curl --fail-with-body -X POST \
         -H "Content-Type: multipart/form-data" \
         -F "upload_key=$UPLOAD_KEY" \
         -F "upload_folder=$INSTALLPATH" \
@@ -61,4 +70,3 @@ function upload_file()
         -F "upload_file=@$FNAME" \
         https://dl-direct.raoulh.pw/download/upload
 }
-

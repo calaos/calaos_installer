@@ -280,9 +280,21 @@ debian/          — Debian packaging
 
 ## CI/CD
 
-GitHub Actions workflows (manual trigger via `workflow_dispatch`):
-- `.github/workflows/build_release_win.yml` — Windows (Docker cross-compile)
-- `.github/workflows/build_release_macos.yml` — macOS (native build + codesign + notarize)
+- `.github/workflows/ci_build.yml` — every push: Windows, macOS and Flatpak builds, artifacts only
+- `.github/workflows/pr_ci.yml` — pull requests: Linux build and Qt Test suites
+- `.github/workflows/publish.yml` — the only release path, manual (`workflow_dispatch`,
+  input `bump`: prerelease, patch, minor, major). Runs from `master` once CI Build is
+  green on the commit; `scripts/release_version.py` computes the tag (`vX.Y.Z` or
+  `vX.Y.Z-dev.N`; legacy `vX.Y` tags count as `X.Y.0`). It then calls the three
+  `build_release_{win,macos,flatpak}.yml` (`workflow_call` only, no upload), and only if
+  all three pass: creates the tag, uploads stable builds to dl-direct
+  (`stable/calaos_installer/{windows,osx,flatpak}`), creates the GitHub Release.
+  Prereleases go to the GitHub Release only. It refuses a commit that already carries a
+  release tag without a published Release (a run that failed after tagging): see
+  README.md, "Releasing", for the recovery.
+- The release version reaches the build through `RELEASE_VERSION` (packaging scripts,
+  `scripts/funcs.sh`) and `REVISION=` on the qmake command line; without them the build
+  falls back to `git describe`.
 
 ## Key Notes for Agents
 

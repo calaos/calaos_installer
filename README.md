@@ -63,7 +63,9 @@ images to USB drives and SD cards.
 ## Installing
 
 Prebuilt Windows installers, macOS application bundles and Flatpak bundles are published on
-[calaos.fr](https://www.calaos.fr). Development builds for all three platforms are attached
+[calaos.fr](https://www.calaos.fr) and attached to the
+[GitHub Releases](https://github.com/calaos/calaos_installer/releases), where prereleases
+(`vX.Y.Z-dev.N`) are published too. Development builds for all three platforms are attached
 as artifacts to every
 [CI Build run](https://github.com/calaos/calaos_installer/actions/workflows/ci_build.yml).
 
@@ -170,6 +172,45 @@ QT_QPA_PLATFORM=offscreen make check
 
 The GUI has no automated tests: verify UI changes by building and running the application.
 Pull requests are built and tested by `.github/workflows/pr_ci.yml`.
+
+### Releasing
+
+Releases are published by the manual **Publish** workflow
+(`.github/workflows/publish.yml`), run from `master` once **CI Build** is green on that
+commit. Its `bump` input picks the next version from the last tag:
+
+| `bump` | from `v4.8` (= `v4.8.0`) | from `v4.8.1-dev.2` | published to |
+|---|---|---|---|
+| `prerelease` | `v4.8.1-dev.0` | `v4.8.1-dev.3` | GitHub prerelease only |
+| `patch` | `v4.8.1` | `v4.8.2` | GitHub Release and dl-direct `stable/` |
+| `minor` | `v4.9.0` | `v4.9.0` | GitHub Release and dl-direct `stable/` |
+| `major` | `v5.0.0` | `v5.0.0` | GitHub Release and dl-direct `stable/` |
+
+Windows, macOS and Flatpak are built on the commit with that version injected (`REVISION`
+for qmake, `RELEASE_VERSION` for the packaging scripts). The tag is created only when all
+three builds succeed, then the files are uploaded and the GitHub Release is created. The
+`build_release_*.yml` workflows cannot be run on their own. To preview the version (the
+calculation reads the local tags, so fetch them first):
+
+```bash
+git fetch --tags
+python3 scripts/release_version.py --bump patch
+python3 -m unittest scripts/test_release_version.py
+```
+
+If a build fails, nothing is tagged or published: fix it and run Publish again, the version
+stays the same. If the last job fails after creating the tag (dl-direct upload or GitHub
+Release), the tag is left without a Release, and for a stable version some files may
+already be on dl-direct. To finish it:
+
+- use **Re-run failed jobs** on that run. It reuses the run's version and build artifacts,
+  which are kept 7 days;
+- or delete the tag (`git push --delete origin vX.Y.Z`) and run Publish again, which
+  rebuilds the same version number. This is the only way once the artifacts have expired.
+
+In both cases the stable files are uploaded to dl-direct again under the same names. Until
+then, Publish (and "Re-run all jobs", which would compute the next version) refuses to run
+on a commit that carries a release tag without a published GitHub Release.
 
 ### Translations
 

@@ -1,0 +1,274 @@
+name: Publish
+
+# The only way to release the installer. The three platforms build the same
+# commit with the computed version; the tag, the dl-direct upload and the
+# GitHub Release only happen once all of them are green.
+on:
+  workflow_dispatch:
+    inputs:
+      bump:
+        description: 'prerelease (vX.Y.Z-dev.N, GitHub prerelease only) or a release increment (stable, also on dl-direct)'
+        required: true
+        default: 'prerelease'
+        type: choice
+        options:
+          - prerelease
+          - patch
+          - minor
+          - major
+
+# The version is derived from the last tag: two overlapping runs would compute
+# and publish the same one.
+concurrency:
+  group: publish
+  cancel-in-progress: false
+
+permissions: {}
+
+jobs:
+  verify-ci:
+    name: Commit is on master and its CI Build is green
+    runs-on: ubuntu-latest
+    permissions:
+      actions: read
+    steps:
+      - name: Refuse anything but master
+        run: |
+          if [ "$GITHUB_REF" != "refs/heads/master" ]; then
+            echo "::error::Publish runs from master only, not $GITHUB_REF."
+            exit 1
+          fi
+
+      - name: Require a successful CI Build run on this commit
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          runs=$(gh run list -R "$GITHUB_REPOSITORY" --workflow ci_build.yml \
+                   --commit "$GITHUB_SHA" --limit 100 --json conclusion,status)
+          echo "CI Build runs for $GITHUB_SHA: $runs"
+          if [ "$(jq '[.[] | select(.conclusion == "success")] | length' <<<"$runs")" -gt 0 ]; then
+            exit 0
+          fi
+          if [ "$(jq '[.[] | select(.status != "completed")] | length' <<<"$runs")" -gt 0 ]; then
+            echo "::error::CI Build is still running on $GITHUB_SHA: wait for it to finish, then run Publish again."
+          else
+            echo "::error::CI Build is not green on $GITHUB_SHA: fix it or re-run it, then run Publish again."
+          fi
+          exit 1
+
+  version:
+    name: Compute the version
+    needs: verify-ci
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    outputs:
+      previous: ${{ steps.next.outputs.previous }}
+      tag: ${{ steps.next.outputs.tag }}
+      prerelease: ${{ steps.next.outputs.prerelease }}
+      appstream_version: ${{ steps.next.outputs.appstream_version }}
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Test the version calculation
+        env:
+          PYTHONDONTWRITEBYTECODE: '1'
+        run: python3 -m unittest scripts/test_release_version.py
+
+      # A publish job that failed after tagging leaves a tag with no Release;
+      # "Re-run all jobs" would then publish the next version on top of it.
+      - name: Refuse a commit whose last release is unfinished
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          released=$(mktemp)
+          gh release list -R "$GITHUB_REPOSITORY" --exclude-drafts --limit 1000 \
+            --json tagName --jq '.[].tagName' > "$released"
+          unfinished=$(python3 scripts/release_version.py --unreleased --released-file "$released")
+          if [ -z "$unfinished" ]; then
+            exit 0
+          fi
+          tags=$(paste -sd' ' <<<"$unfinished")
+          msg="$GITHUB_SHA is already tagged $tags, with no published GitHub Release: an earlier Publish run failed after tagging."
+          fix="Finish that run with \"Re-run failed jobs\" (only while its build artifacts are kept, 7 days), or delete the tag (git push --delete origin <tag>) and run Publish again."
+          echo "::error::$msg $fix"
+          {
+            echo "### Publish refused"
+            echo
+            echo "$msg"
+            echo
+            echo "$fix"
+          } >> "$GITHUB_STEP_SUMMARY"
+          exit 1
+
+      - name: Compute the next version from the tags
+        id: next
+        env:
+          BUMP: ${{ inputs.bump }}
+        run: |
+          out=$(python3 scripts/release_version.py --bump "$BUMP")
+          echo "$out"
+          tag=$(sed -n 's/^tag=//p' <<<"$out")
+          if ! [[ "$tag" =~ ^v[0-9]+\.[0-9]+\.[0-9]+(-dev\.[0-9]+)?$ ]]; then
+            echo "::error::Unexpected tag '$tag' computed for bump $BUMP."
+            exit 1
+          fi
+          echo "$out" >> "$GITHUB_OUTPUT"
+          {
+            echo "### Calaos Installer $tag"
+            echo
+            echo '```'
+            echo "$out"
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+  windows:
+    name: Windows
+    needs: version
+    permissions:
+      contents: read
+    uses: ./.github/workflows/build_release_win.yml
+    with:
+      version: ${{ needs.version.outputs.tag }}
+
+  macos:
+    name: macOS
+    needs: version
+    permissions:
+      contents: read
+    uses: ./.github/workflows/build_release_macos.yml
+    with:
+      version: ${{ needs.version.outputs.tag }}
+    secrets:
+      MACOS_CERT_P12: ${{ secrets.MACOS_CERT_P12 }}
+      MACOS_CERT_PASS: ${{ secrets.MACOS_CERT_PASS }}
+      MACOS_KEYCHAIN_PASS: ${{ secrets.MACOS_KEYCHAIN_PASS }}
+      MACOS_NOTARIZATION_USERNAME: ${{ secrets.MACOS_NOTARIZATION_USERNAME }}
+      MACOS_NOTARIZATION_PASSWORD: ${{ secrets.MACOS_NOTARIZATION_PASSWORD }}
+      MACOS_NOTARIZATION_TEAMID: ${{ secrets.MACOS_NOTARIZATION_TEAMID }}
+
+  flatpak:
+    name: Flatpak
+    needs: version
+    permissions:
+      contents: read
+    uses: ./.github/workflows/build_release_flatpak.yml
+    with:
+      version: ${{ needs.version.outputs.tag }}
+      appstream_version: ${{ needs.version.outputs.appstream_version }}
+      prerelease: ${{ needs.version.outputs.prerelease == 'true' }}
+
+  publish:
+    name: Tag, upload and release
+    needs: [version, windows, macos, flatpak]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    env:
+      TAG: ${{ needs.version.outputs.tag }}
+      PRERELEASE: ${{ needs.version.outputs.prerelease }}
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+
+      # One directory per artifact, by exact name: a merged download would let
+      # any job of the run overwrite another platform's file.
+      - name: Download the Windows setup
+        uses: actions/download-artifact@v4
+        with:
+          name: release-windows
+          path: dist/windows
+
+      - name: Download the macOS dmg
+        uses: actions/download-artifact@v4
+        with:
+          name: release-macos
+          path: dist/macos
+
+      - name: Download the Flatpak bundle
+        uses: actions/download-artifact@v4
+        with:
+          name: release-flatpak
+          path: dist/flatpak
+
+      - name: Check each build holds only its file
+        run: |
+          ls -lR dist
+          for entry in "windows calaos_installer_setup_$TAG.exe" \
+                       "macos calaos_installer-$TAG.dmg" \
+                       "flatpak calaos_installer-$TAG.flatpak"; do
+            read -r dir f <<<"$entry"
+            found=$(find "dist/$dir" -mindepth 1 -printf '%P\n')
+            if [ "$found" != "$f" ] || [ ! -f "dist/$dir/$f" ] || [ -L "dist/$dir/$f" ]; then
+              echo "::error::dist/$dir must hold $f and nothing else."
+              exit 1
+            fi
+          done
+
+      # Accepts a tag already on this commit, so that "Re-run failed jobs" can
+      # finish a run whose upload or release step failed after tagging.
+      - name: Create the tag
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if existing=$(gh api "repos/$GITHUB_REPOSITORY/git/ref/tags/$TAG" --jq .object.sha 2>/dev/null); then
+            if [ "$existing" != "$GITHUB_SHA" ]; then
+              echo "::error::Tag $TAG already exists on $existing, not on $GITHUB_SHA."
+              exit 1
+            fi
+            echo "Tag $TAG already on $GITHUB_SHA."
+          else
+            gh api "repos/$GITHUB_REPOSITORY/git/refs" \
+              -f ref="refs/tags/$TAG" -f sha="$GITHUB_SHA" --silent
+            echo "Tagged $GITHUB_SHA as $TAG."
+          fi
+
+      # Prereleases stay on GitHub: dl-direct only serves stable builds.
+      - name: Upload the Windows setup to dl-direct
+        if: needs.version.outputs.prerelease == 'false'
+        env:
+          UPLOAD_TOKEN: ${{ secrets.UPLOAD_TOKEN }}
+        run: |
+          source scripts/funcs.sh
+          f="dist/windows/calaos_installer_setup_$TAG.exe"
+          UPLOAD_KEY="$UPLOAD_TOKEN" upload_file "$f" "$(sha256sum "$f" | cut -d' ' -f1)" stable/calaos_installer/windows
+
+      - name: Upload the macOS dmg to dl-direct
+        if: needs.version.outputs.prerelease == 'false'
+        env:
+          UPLOAD_KEY: ${{ secrets.UPLOAD_KEY }}
+        run: |
+          source scripts/funcs.sh
+          f="dist/macos/calaos_installer-$TAG.dmg"
+          upload_file "$f" "$(sha256sum "$f" | cut -d' ' -f1)" stable/calaos_installer/osx
+
+      - name: Upload the Flatpak bundle to dl-direct
+        if: needs.version.outputs.prerelease == 'false'
+        env:
+          UPLOAD_KEY: ${{ secrets.UPLOAD_KEY }}
+        run: |
+          source scripts/funcs.sh
+          f="dist/flatpak/calaos_installer-$TAG.flatpak"
+          upload_file "$f" "$(sha256sum "$f" | cut -d' ' -f1)" stable/calaos_installer/flatpak
+
+      - name: Create the GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          flags=()
+          if [ "$PRERELEASE" = "true" ]; then
+            flags+=(--prerelease)
+          fi
+          gh release create "$TAG" -R "$GITHUB_REPOSITORY" --verify-tag \
+            --title "Calaos Installer $TAG" --generate-notes "${flags[@]}" \
+            "dist/windows/calaos_installer_setup_$TAG.exe" \
+            "dist/macos/calaos_installer-$TAG.dmg" \
+            "dist/flatpak/calaos_installer-$TAG.flatpak"

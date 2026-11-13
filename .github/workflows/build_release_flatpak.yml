@@ -1,41 +1,68 @@
-name: Build and Release Flatpak
+name: Build Calaos Installer Flatpak release
 
+# Called by publish.yml only: it uploads the bundle as an artifact, publish.yml
+# tags and publishes it once the three platforms have built.
 on:
-  workflow_dispatch:
+  workflow_call:
     inputs:
-      rel_type:
-        description: 'Release type (experimental or stable)'
-        required: false
-        default: 'experimental'
+      version:
+        description: 'Release tag to build, e.g. v4.8.1 or v4.8.1-dev.0'
+        required: true
+        type: string
+      appstream_version:
+        description: 'Same version in AppStream form, e.g. 4.8.1 or 4.8.1~dev.0'
+        required: true
+        type: string
+      prerelease:
+        description: 'Marks the AppStream release as a development one'
+        required: true
+        type: boolean
+
+permissions:
+  contents: read
 
 jobs:
   build-flatpak:
     runs-on: ubuntu-latest
+    env:
+      RELEASE_VERSION: ${{ inputs.version }}
+      APPSTREAM_VERSION: ${{ inputs.appstream_version }}
+      PRERELEASE: ${{ inputs.prerelease }}
+      FLATPAK_FILE: calaos_installer-${{ inputs.version }}.flatpak
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # Full history needed for git describe version
+          ref: ${{ github.sha }}
+          persist-credentials: false
 
       - name: Generate version header
         run: |
           source scripts/funcs.sh
           make_version .
-          VERSION="$(get_version .)"
-          echo "APP_VERSION=$VERSION" >> $GITHUB_ENV
-          echo "Building version: $VERSION"
+          echo "Building version: $RELEASE_VERSION"
 
-      - name: Inject version into Flatpak metainfo
+      - name: Inject version into the Flatpak manifest and metainfo
         run: |
-          VERSION="${{ env.APP_VERSION }}"
+          # The flatpak build has no tags to describe: hand the version to the
+          # first qmake module (calaos-installer) like the other platforms do.
+          sed -i "0,/^      - PREFIX=\/app\$/s//&\n      - REVISION=${RELEASE_VERSION}/" \
+            flatpak/fr.calaos.CalaosInstaller.yml
+          grep -q -- "- REVISION=${RELEASE_VERSION}\$" flatpak/fr.calaos.CalaosInstaller.yml
+
+          # AppStream sorts 4.8.1~dev.0 before 4.8.1; 4.8.1-dev.0 would sort after it.
+          TYPE=""
+          if [ "$PRERELEASE" = "true" ]; then
+            TYPE=' type="development"'
+          fi
           DATE="$(date +%Y-%m-%d)"
-          # Replace the placeholder release entry with the actual version
-          sed -i "s|<release version=\"0.0.0\" date=\"2024-01-01\">|<release version=\"${VERSION}\" date=\"${DATE}\">|" \
+          sed -i "s|<release version=\"0.0.0\" date=\"2024-01-01\">|<release version=\"${APPSTREAM_VERSION}\" date=\"${DATE}\"${TYPE}>|" \
             flatpak/fr.calaos.CalaosInstaller.metainfo.xml
-          sed -i "s|<p>Development build</p>|<p>Calaos Installer ${VERSION}</p>|" \
+          sed -i "s|<p>Development build</p>|<p>Calaos Installer ${RELEASE_VERSION}</p>|" \
             flatpak/fr.calaos.CalaosInstaller.metainfo.xml
-          echo "Metainfo updated with version $VERSION ($DATE)"
+          grep -q "<release version=\"${APPSTREAM_VERSION}\"" flatpak/fr.calaos.CalaosInstaller.metainfo.xml
+          echo "Metainfo updated with version $APPSTREAM_VERSION ($DATE)"
 
       - name: Install Flatpak and Flatpak Builder
         run: |
@@ -65,28 +92,14 @@ jobs:
         run: |
           flatpak build-bundle \
             flatpak-repo \
-            "calaos_installer-${{ env.APP_VERSION }}.flatpak" \
+            "$FLATPAK_FILE" \
             fr.calaos.CalaosInstaller \
             stable
-          echo "FLATPAK_FILE=calaos_installer-${{ env.APP_VERSION }}.flatpak" >> $GITHUB_ENV
 
-      - name: Upload Flatpak artifact
+      - name: Upload the bundle
         uses: actions/upload-artifact@v4
         with:
-          name: calaos-installer-flatpak
+          name: release-flatpak
           path: ${{ env.FLATPAK_FILE }}
-          retention-days: 30
-
-      - name: Upload to calaos.fr
-        env:
-          UPLOAD_KEY: ${{ secrets.UPLOAD_KEY }}
-        run: |
-          source scripts/funcs.sh
-          REL_TYPE="${{ github.event.inputs.rel_type }}"
-          if [ -z "$REL_TYPE" ]; then
-            REL_TYPE="experimental"
-          fi
-          upload_file \
-            "${{ env.FLATPAK_FILE }}" \
-            "$(sha256sum "${{ env.FLATPAK_FILE }}" | cut -d' ' -f1)" \
-            "$REL_TYPE/calaos_installer/flatpak"
+          if-no-files-found: error
+          retention-days: 7
