@@ -90,7 +90,8 @@ QDomElement WidgetModel::toXmlElement(QDomDocument &doc) const
     // "clock_timezone" is a known attribute, so a stale value is not carried over.
     if (cat == "Clock")
     {
-        element.setAttribute("clock_timezone_iana", m_clockTimezone);
+        if (!m_clockTimezone.isEmpty())
+            element.setAttribute("clock_timezone_iana", m_clockTimezone);
         element.setAttribute("clock_format", m_clockFormat);
         element.setAttribute("clock_show_date", m_clockShowDate ? "true" : "false");
         element.setAttribute("clock_date_format", m_clockDateFormat);

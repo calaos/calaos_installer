@@ -16,7 +16,7 @@ public:
     static QString ianaToPosixTz(const QString &ianaId);
 
     // Converts POSIX TZ string back to IANA timezone ID
-    // Returns "UTC" if unparsable; a well-formed "UTC<offset>" with no zone is returned
+    // Returns an empty string (and logs) if unparsable, never a silent "UTC"; a well-formed "UTC<offset>" with no zone is returned
     // as is (ianaToPosixTz() passes it through)
     static QString posixTzToIana(const QString &posixTz);
 

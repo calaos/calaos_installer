@@ -247,7 +247,10 @@ void DialogRemoteUIEditor::acceptChanges()
     ioBase->set_param("screensaver_mode", m_model->screensaverMode().toStdString());
     // IANA only: the server derives the POSIX string; drop any stale one.
     ioBase->get_params().Delete("screensaver_clock_timezone");
-    ioBase->set_param("screensaver_clock_timezone_iana", m_model->screensaverClockTimezone().toStdString());
+    if (m_model->screensaverClockTimezone().isEmpty())
+        ioBase->get_params().Delete("screensaver_clock_timezone_iana");
+    else
+        ioBase->set_param("screensaver_clock_timezone_iana", m_model->screensaverClockTimezone().toStdString());
     ioBase->set_param("screensaver_clock_format", m_model->screensaverClockFormat().toStdString());
     ioBase->set_param("screensaver_clock_show_date", m_model->screensaverClockShowDate() ? "true" : "false");
     ioBase->set_param("screensaver_clock_date_format", m_model->screensaverClockDateFormat().toStdString());

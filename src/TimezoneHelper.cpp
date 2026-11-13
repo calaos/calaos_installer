@@ -4,6 +4,7 @@
 #include <QDateTime>
 #include <QMap>
 #include <QRegularExpression>
+#include <QDebug>
 
 QStringList TimezoneHelper::filteredIanaTimezones()
 {
@@ -246,6 +247,16 @@ QString TimezoneHelper::ianaToPosixTz(const QString &ianaId)
     return posix;
 }
 
+// Zones sharing a rule collapse to one: the best known wins over the alphabetical
+// first (Africa/Ceuta for CET).
+static QStringList preferredFirst(QStringList zones)
+{
+    for (const QString &pref : QStringList{"Europe/Paris", "Europe/London", "America/New_York"})
+        if (zones.removeOne(pref))
+            zones.prepend(pref);
+    return zones;
+}
+
 QString TimezoneHelper::posixTzToIana(const QString &posixTz)
 {
     if (posixTz.isEmpty() || posixTz == "UTC0" || posixTz == "UTC")
@@ -257,7 +268,7 @@ QString TimezoneHelper::posixTzToIana(const QString &posixTz)
 
     if (!s_built)
     {
-        QStringList zones = filteredIanaTimezones();
+        QStringList zones = preferredFirst(filteredIanaTimezones());
         for (const QString &ianaId : zones)
         {
             QString posix = ianaToPosixTz(ianaId);
@@ -310,8 +321,42 @@ QString TimezoneHelper::posixTzToIana(const QString &posixTz)
         return posixTz;
     }
 
-    // Unparsable input
-    return QStringLiteral("UTC");
+    // Std/DST pair written by the Windows 4.x installer: "UTC+1-1UTC+2,M3.5.0,M10.5.0/3".
+    // Offsets use the display sign (UTC+1 is east of UTC), unlike POSIX.
+    static QRegularExpression dstPattern(QStringLiteral(
+        "^UTC([+-]?\\d{1,2})(?::(\\d{2}))?(?:-1)?UTC([+-]?\\d{1,2})(?::(\\d{2}))?(?:,(.*))?$"));
+    m = dstPattern.match(posixTz);
+    if (m.hasMatch())
+    {
+        auto toSecs = [](const QString &h, const QString &mn) {
+            int v = qAbs(h.toInt()) * 3600 + mn.toInt() * 60;
+            return h.startsWith('-') ? -v : v;
+        };
+        int stdOff = toSecs(m.captured(1), m.captured(2));
+        int dstOff = toSecs(m.captured(3), m.captured(4));
+        QString rules = m.captured(5);
+
+        int year = QDate::currentDate().year();
+        QDateTime winter(QDate(year, 1, 15), QTime(12, 0), QTimeZone::UTC);
+        QDateTime summer(QDate(year, 7, 15), QTime(12, 0), QTimeZone::UTC);
+        QString firstMatch;
+        for (const QString &ianaId : preferredFirst(filteredIanaTimezones()))
+        {
+            QTimeZone tz(ianaId.toUtf8());
+            int a = tz.offsetFromUtc(winter), b = tz.offsetFromUtc(summer);
+            if (qMin(a, b) != stdOff || qMax(a, b) != dstOff)
+                continue;
+            if (!rules.isEmpty() && ianaToPosixTz(ianaId).section(',', 1) == rules)
+                return ianaId;
+            if (firstMatch.isEmpty())
+                firstMatch = ianaId;
+        }
+        if (!firstMatch.isEmpty())
+            return firstMatch;
+    }
+
+    qWarning() << "Unknown timezone string, no IANA zone chosen:" << posixTz;
+    return QString();
 }
 
 QString TimezoneHelper::legacyUtcOffsetToPosixTz(const QString &utcOffset)
