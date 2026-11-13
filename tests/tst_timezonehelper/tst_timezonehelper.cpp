@@ -2,6 +2,7 @@
 #include <QApplication>
 #include <QQmlContext>
 #include <QQuickWidget>
+#include <QDomDocument>
 #include <QSet>
 #include <QTimeZone>
 
@@ -31,6 +32,11 @@ private slots:
     void zonelessOffsetsAreKept();
     void zeroOffsetIsUtc();
     void etcGmtFallback();
+    void savingWritesOnlyTheIanaKeys();
+    void clockWidgetSavesOnlyIana();
+    void legacyPosixValuesAreMigratedOnLoad_data();
+    void legacyPosixValuesAreMigratedOnLoad();
+    void unknownPosixOnLoadIsNotSilentlyKept();
 
     void cleanup();
 };
@@ -201,6 +207,86 @@ void TstTimezoneHelper::etcGmtFallback()
     QCOMPARE(id, QString("Etc/GMT+12"));
     QVERIFY(!TimezoneHelper::ianaToPosixTz(id).isEmpty());
     QVERIFY(TimezoneHelper::ianaToPosixTz(id) != QString("UTC0"));
+}
+
+void TstTimezoneHelper::savingWritesOnlyTheIanaKeys()
+{
+    Room *room = new Room("r", "t");
+    ListeRoom::Instance().Add(room);
+    Params p;
+    p.Add("name", "rui");
+    p.Add("device_type", "calaos_rui_4inch");
+    p.Add("provisioning_code", "ABC123");
+    p.Add("visible", "false");
+    p.Add("type", "RemoteUI");
+    p.Add("screensaver_clock_timezone", "UTC+1-1UTC+2,M3.5.0,M10.5.0/3");
+    p.Add("screensaver_clock_timezone_iana", "Europe/Paris");
+    IOBase *io = ListeRoom::Instance().createOutput(p, room);
+    QVERIFY(io);
+
+    DialogRemoteUIEditor editor(io);
+    QCoreApplication::processEvents();
+    QMetaObject::invokeMethod(&editor, "acceptChanges", Qt::DirectConnection);
+
+    QVERIFY(!io->get_params().Exists("screensaver_clock_timezone"));
+    QCOMPARE(QString::fromStdString(io->get_param("screensaver_clock_timezone_iana")),
+             QString("Europe/Paris"));
+}
+
+void TstTimezoneHelper::clockWidgetSavesOnlyIana()
+{
+    QDomDocument doc;
+    QDomElement src = doc.createElement("w");
+    src.setAttribute("type", "Clock");
+    src.setAttribute("clock_timezone", "UTC+1-1UTC+2,M3.5.0,M10.5.0/3");
+    src.setAttribute("clock_timezone_iana", "Europe/Paris");
+    WidgetModel w;
+    w.loadFromXmlElement(src);
+    QCOMPARE(w.clockTimezone(), QString("Europe/Paris"));
+
+    const QDomElement out = w.toXmlElement(doc);
+    QVERIFY(!out.hasAttribute("clock_timezone"));
+    QCOMPARE(out.attribute("clock_timezone_iana"), QString("Europe/Paris"));
+}
+
+void TstTimezoneHelper::legacyPosixValuesAreMigratedOnLoad_data()
+{
+    QTest::addColumn<QString>("posix");
+    QTest::addColumn<QString>("expected");
+    // Zones sharing a rule collapse to the first listed one.
+    QTest::newRow("posix-cet") << "CET-1CEST,M3.5.0,M10.5.0/3" << "Africa/Ceuta";
+    QTest::newRow("utc-offset") << "UTC+1" << "";
+}
+
+void TstTimezoneHelper::legacyPosixValuesAreMigratedOnLoad()
+{
+    QFETCH(QString, posix);
+    QFETCH(QString, expected);
+
+    QDomDocument doc;
+    QDomElement src = doc.createElement("w");
+    src.setAttribute("type", "Clock");
+    src.setAttribute("clock_timezone", posix);
+    WidgetModel w;
+    w.loadFromXmlElement(src);
+
+    QVERIFY(w.clockTimezone() != QLatin1String("UTC"));
+    if (!expected.isEmpty())
+        QCOMPARE(w.clockTimezone(), expected);
+    QVERIFY(!w.toXmlElement(doc).hasAttribute("clock_timezone"));
+}
+
+void TstTimezoneHelper::unknownPosixOnLoadIsNotSilentlyKept()
+{
+    // Documents the current limit: a POSIX string that matches no listed zone
+    // and no fixed offset loads as UTC (such a widget has an IANA key in practice).
+    QDomDocument doc;
+    QDomElement src = doc.createElement("w");
+    src.setAttribute("type", "Clock");
+    src.setAttribute("clock_timezone", "garbage");
+    WidgetModel w;
+    w.loadFromXmlElement(src);
+    QCOMPARE(w.clockTimezone(), QString("UTC"));
 }
 
 void TstTimezoneHelper::cleanup()

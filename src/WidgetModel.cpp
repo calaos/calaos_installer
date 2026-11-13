@@ -86,10 +86,10 @@ QDomElement WidgetModel::toXmlElement(QDomDocument &doc) const
     element.setAttribute("h", m_h);
 
     // Write clock-specific attributes only for Clock widgets
-    // m_clockTimezone is IANA — convert to POSIX TZ for storage
+    // IANA only: the server derives the POSIX string for the panel from it.
+    // "clock_timezone" is a known attribute, so a stale value is not carried over.
     if (cat == "Clock")
     {
-        element.setAttribute("clock_timezone", TimezoneHelper::ianaToPosixTz(m_clockTimezone));
         element.setAttribute("clock_timezone_iana", m_clockTimezone);
         element.setAttribute("clock_format", m_clockFormat);
         element.setAttribute("clock_show_date", m_clockShowDate ? "true" : "false");
