@@ -24,7 +24,10 @@ New-Item -ItemType Directory -Force -Path $BUILD_MC_DIR | Out-Null
 Set-Location $BUILD_DIR
 
 Write-Host "`n=== qmake calaos_installer ===" -ForegroundColor Cyan
-qmake "$ROOT_DIR/calaos_installer.pro"
+# Without RELEASE_VERSION (set by the publish workflow), the .pro runs git describe itself.
+$qmakeArgs = @("$ROOT_DIR/calaos_installer.pro")
+if ($env:RELEASE_VERSION) { $qmakeArgs += "REVISION=$env:RELEASE_VERSION" }
+qmake @qmakeArgs
 if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
 Write-Host "`n=== make calaos_installer ===" -ForegroundColor Cyan

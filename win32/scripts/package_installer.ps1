@@ -9,12 +9,16 @@ $BUILD_MC_DIR = Join-Path $BUILD_DIR "mc"
 $STAGING_DIR = "C:\calaos_installer_build"
 $PKG_DIR = Join-Path $ROOT_DIR "packages"
 
-# Extract version from git tags
+# The publish workflow builds before the tag exists and passes the version in RELEASE_VERSION.
 Set-Location $ROOT_DIR
-$VERSION = git describe --tags --abbrev=0
-if ($LASTEXITCODE -ne 0 -or -not $VERSION) {
-    Write-Warning "No git tag found, falling back to git describe"
-    $VERSION = git describe --long --tags --always
+if ($env:RELEASE_VERSION) {
+    $VERSION = $env:RELEASE_VERSION
+} else {
+    $VERSION = git describe --tags --abbrev=0
+    if ($LASTEXITCODE -ne 0 -or -not $VERSION) {
+        Write-Warning "No git tag found, falling back to git describe"
+        $VERSION = git describe --long --tags --always
+    }
 }
 $VERSION = $VERSION.Trim()
 $FILENAME = "calaos_installer_setup_$VERSION"

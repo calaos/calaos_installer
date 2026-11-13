@@ -1,6 +1,30 @@
 name: Build Calaos Installer MacOS release
 
-on: workflow_dispatch
+# Called by publish.yml only: it uploads the signed, notarized dmg as an
+# artifact, publish.yml tags and publishes it once the three platforms have built.
+on:
+    workflow_call:
+        inputs:
+            version:
+                description: 'Release tag to build, e.g. v4.8.1 or v4.8.1-dev.0'
+                required: true
+                type: string
+        secrets:
+            MACOS_CERT_P12:
+                required: true
+            MACOS_CERT_PASS:
+                required: true
+            MACOS_KEYCHAIN_PASS:
+                required: true
+            MACOS_NOTARIZATION_USERNAME:
+                required: true
+            MACOS_NOTARIZATION_PASSWORD:
+                required: true
+            MACOS_NOTARIZATION_TEAMID:
+                required: true
+
+permissions:
+    contents: read
 
 jobs:
     compile:
@@ -8,11 +32,13 @@ jobs:
         runs-on: macos-latest
         env:
             QT_VERSION: '6.12.0'
+            RELEASE_VERSION: ${{ inputs.version }}
         steps:
           - name: Check out the repo
-            uses: actions/checkout@v3
+            uses: actions/checkout@v4
             with:
-                fetch-depth: 0
+                ref: ${{ github.sha }}
+                persist-credentials: false
 
           - name: Import certificate
             uses: apple-actions/import-codesign-certs@v3
@@ -51,12 +77,17 @@ jobs:
               tool: "notarytool"
               verbose: true
 
-          - name: Deploy
-            run: bash scripts/macos/deploy.sh
+          - name: Submit the dmg to notarization
+            run: bash scripts/macos/notarize.sh
             env:
-              UPLOAD_KEY: ${{ secrets.UPLOAD_KEY }}
               MACOS_NOTARIZATION_USERNAME: ${{ secrets.MACOS_NOTARIZATION_USERNAME }}
               MACOS_NOTARIZATION_PASSWORD: ${{ secrets.MACOS_NOTARIZATION_PASSWORD }}
               MACOS_NOTARIZATION_TEAMID: ${{ secrets.MACOS_NOTARIZATION_TEAMID }}
-              REL_TYPE: "stable"
 
+          - name: Upload the dmg
+            uses: actions/upload-artifact@v4
+            with:
+                name: release-macos
+                path: build/calaos_installer-${{ inputs.version }}.dmg
+                if-no-files-found: error
+                retention-days: 7
