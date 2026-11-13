@@ -2,6 +2,7 @@
 #include <QApplication>
 #include <QQmlContext>
 #include <QQuickWidget>
+#include <QDomDocument>
 #include <QSet>
 #include <QTimeZone>
 
@@ -27,10 +28,17 @@ private slots:
     void legacyUtcOffsetsMapToAnOffsetPreservingZone_data();
     void legacyUtcOffsetsMapToAnOffsetPreservingZone();
     void legacyUtcResaveWritesValidPosix();
-    void unknownValuesFallBackToUtc();
+    void unknownValuesGiveNoZone();
     void zonelessOffsetsAreKept();
     void zeroOffsetIsUtc();
     void etcGmtFallback();
+    void savingWritesOnlyTheIanaKeys();
+    void clockWidgetSavesOnlyIana();
+    void legacyPosixValuesAreMigratedOnLoad_data();
+    void legacyPosixValuesAreMigratedOnLoad();
+    void unknownPosixOnLoadIsNotSilentlyKept();
+    void screensaverMigratesPosixWithoutIana();
+    void screensaverKeepsUnknownPosixUntilZoneChosen();
 
     void cleanup();
 };
@@ -166,10 +174,10 @@ void TstTimezoneHelper::legacyUtcResaveWritesValidPosix()
     QCOMPARE(TimezoneHelper::ianaToPosixTz(TimezoneHelper::posixTzToIana(paris)), paris);
 }
 
-void TstTimezoneHelper::unknownValuesFallBackToUtc()
+void TstTimezoneHelper::unknownValuesGiveNoZone()
 {
-    QCOMPARE(TimezoneHelper::posixTzToIana("garbage"), QString("UTC"));
-    QCOMPARE(TimezoneHelper::posixTzToIana("UTC+x"), QString("UTC"));
+    QCOMPARE(TimezoneHelper::posixTzToIana("garbage"), QString());
+    QCOMPARE(TimezoneHelper::posixTzToIana("UTC+x"), QString());
     QCOMPARE(TimezoneHelper::posixTzToIana(""), QString("UTC"));
 }
 
@@ -201,6 +209,159 @@ void TstTimezoneHelper::etcGmtFallback()
     QCOMPARE(id, QString("Etc/GMT+12"));
     QVERIFY(!TimezoneHelper::ianaToPosixTz(id).isEmpty());
     QVERIFY(TimezoneHelper::ianaToPosixTz(id) != QString("UTC0"));
+}
+
+void TstTimezoneHelper::savingWritesOnlyTheIanaKeys()
+{
+    Room *room = new Room("r", "t");
+    ListeRoom::Instance().Add(room);
+    Params p;
+    p.Add("name", "rui");
+    p.Add("device_type", "calaos_rui_4inch");
+    p.Add("provisioning_code", "ABC123");
+    p.Add("visible", "false");
+    p.Add("type", "RemoteUI");
+    p.Add("screensaver_clock_timezone", "UTC+1-1UTC+2,M3.5.0,M10.5.0/3");
+    p.Add("screensaver_clock_timezone_iana", "Europe/Paris");
+    IOBase *io = ListeRoom::Instance().createOutput(p, room);
+    QVERIFY(io);
+
+    DialogRemoteUIEditor editor(io);
+    QCoreApplication::processEvents();
+    QMetaObject::invokeMethod(&editor, "acceptChanges", Qt::DirectConnection);
+
+    QVERIFY(!io->get_params().Exists("screensaver_clock_timezone"));
+    QCOMPARE(QString::fromStdString(io->get_param("screensaver_clock_timezone_iana")),
+             QString("Europe/Paris"));
+}
+
+void TstTimezoneHelper::clockWidgetSavesOnlyIana()
+{
+    QDomDocument doc;
+    QDomElement src = doc.createElement("w");
+    src.setAttribute("type", "Clock");
+    src.setAttribute("clock_timezone", "UTC+1-1UTC+2,M3.5.0,M10.5.0/3");
+    src.setAttribute("clock_timezone_iana", "Europe/Paris");
+    WidgetModel w;
+    w.loadFromXmlElement(src);
+    QCOMPARE(w.clockTimezone(), QString("Europe/Paris"));
+
+    const QDomElement out = w.toXmlElement(doc);
+    QVERIFY(!out.hasAttribute("clock_timezone"));
+    QCOMPARE(out.attribute("clock_timezone_iana"), QString("Europe/Paris"));
+}
+
+void TstTimezoneHelper::legacyPosixValuesAreMigratedOnLoad_data()
+{
+    QTest::addColumn<QString>("posix");
+    QTest::addColumn<QString>("expected");
+    // Zones sharing a rule collapse to one preferred zone.
+    QTest::newRow("posix-cet") << "CET-1CEST,M3.5.0,M10.5.0/3" << "Europe/Paris";
+    QTest::newRow("windows-4.7-cet") << "UTC+1-1UTC+2,M3.5.0,M10.5.0/3" << "Europe/Paris";
+    QTest::newRow("windows-4.7-no-rules") << "UTC+1-1UTC+2" << "Europe/Paris";
+    QTest::newRow("windows-4.7-eastern") << "UTC-5-1UTC-4,M3.2.0,M11.1.0" << "America/New_York";
+    QTest::newRow("windows-4.7-london") << "UTC+0-1UTC+1,M3.5.0/1,M10.5.0" << "Europe/London";
+    QTest::newRow("utc-offset") << "UTC+1" << "Africa/Algiers";
+}
+
+void TstTimezoneHelper::legacyPosixValuesAreMigratedOnLoad()
+{
+    QFETCH(QString, posix);
+    QFETCH(QString, expected);
+
+    QDomDocument doc;
+    QDomElement src = doc.createElement("w");
+    src.setAttribute("type", "Clock");
+    src.setAttribute("clock_timezone", posix);
+    WidgetModel w;
+    w.loadFromXmlElement(src);
+
+    QVERIFY(w.clockTimezone() != QLatin1String("UTC"));
+    QCOMPARE(w.clockTimezone(), expected);
+    QVERIFY(!w.toXmlElement(doc).hasAttribute("clock_timezone"));
+}
+
+void TstTimezoneHelper::unknownPosixOnLoadIsNotSilentlyKept()
+{
+    // No zone matches: the choice stays empty (no silent UTC) and the original
+    // POSIX string survives a save; no IANA key is invented.
+    for (const char *bad : {"garbage", "UTC+3-1UTC+9,M3.5.0,M10.5.0"})
+    {
+        QDomDocument doc;
+        QDomElement src = doc.createElement("w");
+        src.setAttribute("type", "Clock");
+        src.setAttribute("clock_timezone", bad);
+        WidgetModel w;
+        w.loadFromXmlElement(src);
+        QVERIFY2(w.clockTimezone().isEmpty(), bad);
+        const QDomElement out = w.toXmlElement(doc);
+        QVERIFY(!out.hasAttribute("clock_timezone_iana"));
+        QCOMPARE(out.attribute("clock_timezone"), QString(bad));
+
+        w.setClockTimezone("Europe/Paris");
+        const QDomElement out2 = w.toXmlElement(doc);
+        QVERIFY(!out2.hasAttribute("clock_timezone"));
+        QCOMPARE(out2.attribute("clock_timezone_iana"), QString("Europe/Paris"));
+    }
+}
+
+void TstTimezoneHelper::screensaverKeepsUnknownPosixUntilZoneChosen()
+{
+    Room *room = new Room("r", "t");
+    ListeRoom::Instance().Add(room);
+    Params p;
+    p.Add("name", "rui");
+    p.Add("device_type", "calaos_rui_4inch");
+    p.Add("provisioning_code", "ABC123");
+    p.Add("visible", "false");
+    p.Add("type", "RemoteUI");
+    p.Add("screensaver_clock_timezone", "garbage");
+    IOBase *io = ListeRoom::Instance().createOutput(p, room);
+    QVERIFY(io);
+
+    {
+        DialogRemoteUIEditor editor(io);
+        QCoreApplication::processEvents();
+        QMetaObject::invokeMethod(&editor, "acceptChanges", Qt::DirectConnection);
+    }
+    QCOMPARE(QString::fromStdString(io->get_param("screensaver_clock_timezone")), QString("garbage"));
+    QVERIFY(!io->get_params().Exists("screensaver_clock_timezone_iana"));
+
+    {
+        DialogRemoteUIEditor editor(io);
+        QCoreApplication::processEvents();
+        RemoteUIModel *model = editor.findChild<RemoteUIModel *>();
+        QVERIFY(model);
+        QVERIFY(model->screensaverClockTimezone().isEmpty());
+        model->setScreensaverClockTimezone("Europe/Paris");
+        QMetaObject::invokeMethod(&editor, "acceptChanges", Qt::DirectConnection);
+    }
+    QVERIFY(!io->get_params().Exists("screensaver_clock_timezone"));
+    QCOMPARE(QString::fromStdString(io->get_param("screensaver_clock_timezone_iana")),
+             QString("Europe/Paris"));
+}
+
+void TstTimezoneHelper::screensaverMigratesPosixWithoutIana()
+{
+    Room *room = new Room("r", "t");
+    ListeRoom::Instance().Add(room);
+    Params p;
+    p.Add("name", "rui");
+    p.Add("device_type", "calaos_rui_4inch");
+    p.Add("provisioning_code", "ABC123");
+    p.Add("visible", "false");
+    p.Add("type", "RemoteUI");
+    p.Add("screensaver_clock_timezone", "UTC+1-1UTC+2,M3.5.0,M10.5.0/3");
+    IOBase *io = ListeRoom::Instance().createOutput(p, room);
+    QVERIFY(io);
+
+    DialogRemoteUIEditor editor(io);
+    QCoreApplication::processEvents();
+    QMetaObject::invokeMethod(&editor, "acceptChanges", Qt::DirectConnection);
+
+    QVERIFY(!io->get_params().Exists("screensaver_clock_timezone"));
+    QCOMPARE(QString::fromStdString(io->get_param("screensaver_clock_timezone_iana")),
+             QString("Europe/Paris"));
 }
 
 void TstTimezoneHelper::cleanup()

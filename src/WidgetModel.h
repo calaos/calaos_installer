@@ -121,6 +121,7 @@ private:
 
     // Clock-specific properties
     QString m_clockTimezone = QStringLiteral("UTC");
+    QString m_legacyPosixTz;
     QString m_clockFormat = QStringLiteral("24");
     bool m_clockShowDate = true;
     QString m_clockDateFormat = QStringLiteral("DD/MM/YYYY");

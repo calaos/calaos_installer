@@ -58,8 +58,12 @@ DialogRemoteUIEditor::DialogRemoteUIEditor(Calaos::IOBase *io, QWidget *parent):
     {
         QString ssClockTz = QString::fromStdString(ioBase->get_param("screensaver_clock_timezone"));
         if (!ssClockTz.isEmpty())
-            m_model->setScreensaverClockTimezone(
-                TimezoneHelper::posixTzToIana(TimezoneHelper::convertStoredTimezone(ssClockTz)));
+        {
+            const QString iana = TimezoneHelper::posixTzToIana(TimezoneHelper::convertStoredTimezone(ssClockTz));
+            m_model->setScreensaverClockTimezone(iana);
+            if (iana.isEmpty())
+                m_legacyPosixTz = ssClockTz;
+        }
     }
     QString ssClockFmt = QString::fromStdString(ioBase->get_param("screensaver_clock_format"));
     if (!ssClockFmt.isEmpty())
@@ -245,9 +249,17 @@ void DialogRemoteUIEditor::acceptChanges()
     ioBase->set_param("screensaver_timeout", std::to_string(m_model->screensaverTimeout()));
     ioBase->set_param("screensaver_dimming", std::to_string(m_model->screensaverDimming()));
     ioBase->set_param("screensaver_mode", m_model->screensaverMode().toStdString());
-    ioBase->set_param("screensaver_clock_timezone",
-                       TimezoneHelper::ianaToPosixTz(m_model->screensaverClockTimezone()).toStdString());
-    ioBase->set_param("screensaver_clock_timezone_iana", m_model->screensaverClockTimezone().toStdString());
+    // IANA only: the server derives the POSIX string; drop any stale one, except an
+    // unrecognised POSIX string that no zone has replaced.
+    ioBase->get_params().Delete("screensaver_clock_timezone");
+    ioBase->get_params().Delete("screensaver_clock_timezone_iana");
+    if (m_model->screensaverClockTimezone().isEmpty())
+    {
+        if (!m_legacyPosixTz.isEmpty())
+            ioBase->set_param("screensaver_clock_timezone", m_legacyPosixTz.toStdString());
+    }
+    else
+        ioBase->set_param("screensaver_clock_timezone_iana", m_model->screensaverClockTimezone().toStdString());
     ioBase->set_param("screensaver_clock_format", m_model->screensaverClockFormat().toStdString());
     ioBase->set_param("screensaver_clock_show_date", m_model->screensaverClockShowDate() ? "true" : "false");
     ioBase->set_param("screensaver_clock_date_format", m_model->screensaverClockDateFormat().toStdString());

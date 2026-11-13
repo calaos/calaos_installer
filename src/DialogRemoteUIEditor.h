@@ -44,6 +44,7 @@ private slots:
 private:
     Calaos::IOBase *ioBase;
     RemoteUIModel *m_model;
+    QString m_legacyPosixTz;
     QQuickWidget *m_quickWidget;
 };
 

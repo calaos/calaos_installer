@@ -37,6 +37,7 @@ void WidgetModel::loadFromXmlElement(const QDomElement &element)
         // Prefer the IANA hint if present (lossless roundtrip),
         // otherwise convert from POSIX TZ / legacy UTC offset
         QString ianaHint = element.attribute("clock_timezone_iana");
+        m_legacyPosixTz.clear();
         if (!ianaHint.isEmpty())
         {
             m_clockTimezone = ianaHint;
@@ -46,6 +47,9 @@ void WidgetModel::loadFromXmlElement(const QDomElement &element)
             QString storedTz = element.attribute("clock_timezone", "UTC");
             m_clockTimezone = TimezoneHelper::posixTzToIana(
                 TimezoneHelper::convertStoredTimezone(storedTz));
+            // No IANA match: keep the original string so saving does not lose it.
+            if (m_clockTimezone.isEmpty() && element.hasAttribute("clock_timezone"))
+                m_legacyPosixTz = storedTz;
         }
         m_clockFormat = element.attribute("clock_format", "24");
         m_clockShowDate = element.attribute("clock_show_date", "true") == "true";
@@ -86,11 +90,15 @@ QDomElement WidgetModel::toXmlElement(QDomDocument &doc) const
     element.setAttribute("h", m_h);
 
     // Write clock-specific attributes only for Clock widgets
-    // m_clockTimezone is IANA — convert to POSIX TZ for storage
+    // IANA only: the server derives the POSIX string for the panel from it.
+    // "clock_timezone" is a known attribute, so a stale value is not carried over,
+    // except an unrecognised POSIX string that no zone has replaced.
     if (cat == "Clock")
     {
-        element.setAttribute("clock_timezone", TimezoneHelper::ianaToPosixTz(m_clockTimezone));
-        element.setAttribute("clock_timezone_iana", m_clockTimezone);
+        if (!m_clockTimezone.isEmpty())
+            element.setAttribute("clock_timezone_iana", m_clockTimezone);
+        else if (!m_legacyPosixTz.isEmpty())
+            element.setAttribute("clock_timezone", m_legacyPosixTz);
         element.setAttribute("clock_format", m_clockFormat);
         element.setAttribute("clock_show_date", m_clockShowDate ? "true" : "false");
         element.setAttribute("clock_date_format", m_clockDateFormat);
