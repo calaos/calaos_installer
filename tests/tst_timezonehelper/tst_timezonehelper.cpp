@@ -38,6 +38,7 @@ private slots:
     void legacyPosixValuesAreMigratedOnLoad();
     void unknownPosixOnLoadIsNotSilentlyKept();
     void screensaverMigratesPosixWithoutIana();
+    void screensaverKeepsUnknownPosixUntilZoneChosen();
 
     void cleanup();
 };
@@ -282,7 +283,8 @@ void TstTimezoneHelper::legacyPosixValuesAreMigratedOnLoad()
 
 void TstTimezoneHelper::unknownPosixOnLoadIsNotSilentlyKept()
 {
-    // Unknown strings leave the choice empty (and log) instead of becoming UTC.
+    // No zone matches: the choice stays empty (no silent UTC) and the original
+    // POSIX string survives a save; no IANA key is invented.
     for (const char *bad : {"garbage", "UTC+3-1UTC+9,M3.5.0,M10.5.0"})
     {
         QDomDocument doc;
@@ -292,8 +294,51 @@ void TstTimezoneHelper::unknownPosixOnLoadIsNotSilentlyKept()
         WidgetModel w;
         w.loadFromXmlElement(src);
         QVERIFY2(w.clockTimezone().isEmpty(), bad);
-        QVERIFY(!w.toXmlElement(doc).hasAttribute("clock_timezone_iana"));
+        const QDomElement out = w.toXmlElement(doc);
+        QVERIFY(!out.hasAttribute("clock_timezone_iana"));
+        QCOMPARE(out.attribute("clock_timezone"), QString(bad));
+
+        w.setClockTimezone("Europe/Paris");
+        const QDomElement out2 = w.toXmlElement(doc);
+        QVERIFY(!out2.hasAttribute("clock_timezone"));
+        QCOMPARE(out2.attribute("clock_timezone_iana"), QString("Europe/Paris"));
     }
+}
+
+void TstTimezoneHelper::screensaverKeepsUnknownPosixUntilZoneChosen()
+{
+    Room *room = new Room("r", "t");
+    ListeRoom::Instance().Add(room);
+    Params p;
+    p.Add("name", "rui");
+    p.Add("device_type", "calaos_rui_4inch");
+    p.Add("provisioning_code", "ABC123");
+    p.Add("visible", "false");
+    p.Add("type", "RemoteUI");
+    p.Add("screensaver_clock_timezone", "garbage");
+    IOBase *io = ListeRoom::Instance().createOutput(p, room);
+    QVERIFY(io);
+
+    {
+        DialogRemoteUIEditor editor(io);
+        QCoreApplication::processEvents();
+        QMetaObject::invokeMethod(&editor, "acceptChanges", Qt::DirectConnection);
+    }
+    QCOMPARE(QString::fromStdString(io->get_param("screensaver_clock_timezone")), QString("garbage"));
+    QVERIFY(!io->get_params().Exists("screensaver_clock_timezone_iana"));
+
+    {
+        DialogRemoteUIEditor editor(io);
+        QCoreApplication::processEvents();
+        RemoteUIModel *model = editor.findChild<RemoteUIModel *>();
+        QVERIFY(model);
+        QVERIFY(model->screensaverClockTimezone().isEmpty());
+        model->setScreensaverClockTimezone("Europe/Paris");
+        QMetaObject::invokeMethod(&editor, "acceptChanges", Qt::DirectConnection);
+    }
+    QVERIFY(!io->get_params().Exists("screensaver_clock_timezone"));
+    QCOMPARE(QString::fromStdString(io->get_param("screensaver_clock_timezone_iana")),
+             QString("Europe/Paris"));
 }
 
 void TstTimezoneHelper::screensaverMigratesPosixWithoutIana()

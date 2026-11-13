@@ -1,10 +1,10 @@
 #include "TimezoneHelper.h"
 
-#include <QTimeZone>
 #include <QDateTime>
+#include <QDebug>
 #include <QMap>
 #include <QRegularExpression>
-#include <QDebug>
+#include <QTimeZone>
 
 QStringList TimezoneHelper::filteredIanaTimezones()
 {
