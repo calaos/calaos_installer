@@ -12,6 +12,8 @@
 #include "DeviceEdit.h"
 #include <DeletionImpact.h>
 #include "DialogEditTimeRange.h"
+#include "DialogClimateProgram.h"
+#include <ClimateProgram.h>
 #include "DialogNewAVReceiver.h"
 #include "wizards/hue/wizardhue.h"
 #include "DialogRemoteUI.h"
@@ -625,6 +627,7 @@ void FormRules::PopulateRoomsTree()
     }
 
     ui->tree_home->expandAll();
+    collapseProgramItems(ui->tree_home);
 
     QCoreApplication::processEvents();
     ui->tree_home->setUpdatesEnabled(true);
@@ -1233,11 +1236,33 @@ QTreeWidgetItemInput *FormRules::addItemInput(IOBase *in, QTreeWidgetItemRoom *p
     return item;
 }
 
+//The climate whose time program the item shows: the climate itself, its
+//Program item or one of its program IOs.
+static Device *programDeviceOf(QTreeWidgetItem *item)
+{
+    if (QTreeWidgetItemProgram *program = dynamic_cast<QTreeWidgetItemProgram *>(item))
+        return program->getDevice();
+    if (QTreeWidgetItemDevice *dev = dynamic_cast<QTreeWidgetItemDevice *>(item))
+        return ClimateProgram::supports(dev->getDevice()) ? dev->getDevice() : nullptr;
+    IOBase *io = ioOfItem(item);
+    return ClimateProgram::isProgramIO(io) ? io->getOwnerDevice() : nullptr;
+}
+
+//Under its climate's Program item, a program IO is named by its role: the
+//server's names repeat the climate name.
+static QString treeLabel(IOBase *io)
+{
+    const std::string role = ClimateProgram::roleOf(io);
+    if (!role.empty())
+        return ClimateProgram::roleLabel(role);
+    return QString::fromUtf8(io->get_param("name").c_str());
+}
+
 void FormRules::updateItemInfos(QTreeWidgetItemInput *item)
 {
     IOBase *in = item->getInput();
 
-    item->setData(0, Qt::DisplayRole, QString::fromUtf8(in->get_param("name").c_str()));
+    item->setData(0, Qt::DisplayRole, treeLabel(in));
 
     string type = in->get_gui_type();
     qDebug() << "Type: " << type.c_str();
@@ -1300,7 +1325,7 @@ void FormRules::updateItemInfos(QTreeWidgetItemOutput *item)
 {
     IOBase *out = item->getOutput();
 
-    item->setData(0, Qt::DisplayRole, QString::fromUtf8(out->get_param("name").c_str()));
+    item->setData(0, Qt::DisplayRole, treeLabel(out));
 
     string type = out->get_gui_type();
     if (type == "light" || type == "light_dimmer" || type == "light_rgb")
@@ -1420,7 +1445,7 @@ void FormRules::updateItemCondition(QTreeWidgetItem *item, Condition *condition)
         if (!input) return;
 
         string id = input->get_param("id");
-        name = input->get_param("name");
+        name = ClimateProgram::ruleLabel(input).toStdString();
         oper = condition->get_operator().get_param(id);
 
         if (oper == "INF") oper = "<";
@@ -1440,7 +1465,7 @@ void FormRules::updateItemCondition(QTreeWidgetItem *item, Condition *condition)
                 string room_name;
                 if (r >= 0) room_name = ListeRoom::Instance().get_room(r)->get_name();
 
-                item->setData(2, TwoLineItemDelegate::headerTextRole, QString::fromUtf8(in->get_param("name").c_str()));
+                item->setData(2, TwoLineItemDelegate::headerTextRole, ClimateProgram::ruleLabel(in));
                 item->setData(2, TwoLineItemDelegate::subHeaderTextRole, QString::fromUtf8(room_name.c_str()));
 
                 isParamValue = true;
@@ -1495,7 +1520,7 @@ void FormRules::updateItemCondition(QTreeWidgetItem *item, Condition *condition)
         if (!output) return;
 
         string id = output->get_param("id");
-        name = output->get_param("name");
+        name = ClimateProgram::ruleLabel(output).toStdString();
         oper = condition->getOutputOper();
 
         if (oper == "INF") oper = "<";
@@ -1515,7 +1540,7 @@ void FormRules::updateItemCondition(QTreeWidgetItem *item, Condition *condition)
                 string room_name;
                 if (r >= 0) room_name = ListeRoom::Instance().get_room(r)->get_name();
 
-                item->setData(2, TwoLineItemDelegate::headerTextRole, QString::fromUtf8(out->get_param("name").c_str()));
+                item->setData(2, TwoLineItemDelegate::headerTextRole, ClimateProgram::ruleLabel(out));
                 item->setData(2, TwoLineItemDelegate::subHeaderTextRole, QString::fromUtf8(room_name.c_str()));
 
                 isParamValue = true;
@@ -1606,7 +1631,7 @@ void FormRules::updateItemAction(QTreeWidgetItem *item, Action *action)
         if (!output) return;
 
         string id = output->get_param("id");
-        name = output->get_param("name");
+        name = ClimateProgram::ruleLabel(output).toStdString();
 
         if (action->get_params_var().get_param(id) != "")
         {
@@ -1620,7 +1645,7 @@ void FormRules::updateItemAction(QTreeWidgetItem *item, Action *action)
                 string room_name;
                 if (r >= 0) room_name = ListeRoom::Instance().get_room(r)->get_name();
 
-                item->setData(1, TwoLineItemDelegate::headerTextRole, QString::fromUtf8(out->get_param("name").c_str()));
+                item->setData(1, TwoLineItemDelegate::headerTextRole, ClimateProgram::ruleLabel(out));
                 item->setData(1, TwoLineItemDelegate::subHeaderTextRole, QString::fromUtf8(room_name.c_str()));
 
                 isParamValue = true;
@@ -1741,6 +1766,16 @@ void FormRules::showPopup_tree(const QPoint point)
     {
         add_menu->exec(QCursor::pos());
     }
+    else if (dynamic_cast<QTreeWidgetItemProgram *>(item))
+    {
+        treeItem = item;
+
+        QMenu item_menu(ui->tree_home);
+        QAction *action = item_menu.addAction(tr("Edit the time program..."));
+        action->setIcon(QIcon(":/img/icon_clock.png"));
+        connect(action, &QAction::triggered, this, &FormRules::editClimateProgram);
+        item_menu.exec(QCursor::pos());
+    }
     else
     {
         QMenu item_menu(ui->tree_home);
@@ -1794,8 +1829,22 @@ void FormRules::showPopup_tree(const QPoint point)
                                          tr("Delete device and its IOs...") : tr("Delete..."));
         action->setIcon(QIcon(":/img/user-trash.png"));
         connect(action, &QAction::triggered, this, &FormRules::deleteItem);
+        if (clicked && !ClimateProgram::canDeleteAlone(clicked))
+        {
+            item_menu.setToolTipsVisible(true);
+            action->setEnabled(false);
+            action->setToolTip(tr("Deleted with its device"));
+        }
 
         item_menu.addSeparator();
+
+        if (programDeviceOf(treeItem))
+        {
+            action = item_menu.addAction(tr("Edit the time program..."));
+            action->setIcon(QIcon(":/img/icon_clock.png"));
+            connect(action, &QAction::triggered, this, &FormRules::editClimateProgram);
+            item_menu.addSeparator();
+        }
 
         //Here we have to add Item action (ON/OFF/UP/DOWN/...)
         if (itoutput)
@@ -2006,6 +2055,8 @@ void FormRules::deleteItem()
     QTreeWidgetItemRoom *itroom = dynamic_cast<QTreeWidgetItemRoom *>(treeItem);
     if (!io && !itroom)
         return;
+    if (io && !ClimateProgram::canDeleteAlone(io))
+        return;
 
     //Read before anything is deleted: the rules about to be touched are still there.
     const DeletionImpact impact = io ? deletionImpact(io) : deletionImpactOfRoom(itroom->getRoom());
@@ -2077,6 +2128,14 @@ void FormRules::showPropertiesItem()
     Params proom, prule;
     int type = OBJ_NONE;
     IOBase *io = nullptr;
+
+    //Program IOs are edited together, never through their raw params.
+    if (dynamic_cast<QTreeWidgetItemProgram *>(treeItem) ||
+        (!dynamic_cast<QTreeWidgetItemDevice *>(treeItem) && programDeviceOf(treeItem)))
+    {
+        editClimateProgram();
+        return;
+    }
 
     //Shown only when there is nothing it could edit: a project open read-only, or an
     //impl IODoc does not document.
@@ -2408,6 +2467,32 @@ void FormRules::itemShowCamera()
             d.exec();
         }
     }
+}
+
+void FormRules::editClimateProgram()
+{
+    Device *dev = programDeviceOf(treeItem);
+    if (!dev)
+        return;
+
+    DialogClimateProgram dialog(dev, ListeRoom::Instance().isReadOnly(), this);
+    dialog.exec();
+    if (!dialog.changed())
+        return;
+
+    setProjectModified(true);
+    if (dialog.removedIos().empty())
+        return;
+
+    //The clicked item may be among the deleted levels.
+    treeItem = nullptr;
+    removeIOItems(ui->tree_home, dialog.removedIos());
+
+    ui->tree_action->clear_all();
+    ui->tree_condition->clear_all();
+    ui->tree_rules->clear();
+
+    PopulateRulesTree();
 }
 
 void FormRules::itemPlagesHoraires()

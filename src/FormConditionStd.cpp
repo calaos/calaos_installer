@@ -2,6 +2,7 @@
 #include "ui_FormConditionStd.h"
 
 #include "formrules.h"
+#include <ClimateProgram.h>
 
 FormConditionStd::FormConditionStd(QWidget *parent) :
     QWidget(parent),
@@ -129,7 +130,7 @@ void FormConditionStd::setCondition(QTreeWidgetItem *item, Rule *_rule, Conditio
         }
     }
 
-    ui->labelItemName->setText(QString::fromUtf8(io->get_param("name").c_str()));
+    ui->labelItemName->setText(ClimateProgram::ruleLabel(io));
 
     ui->comboOp->clear();
     ui->comboOp->addItem("==", "==");

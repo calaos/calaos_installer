@@ -1,11 +1,13 @@
 #include "HomeTree.h"
 #include "HomeTreeMove.h"
 
+#include <ClimateProgram.h>
 #include <ListeRoom.h>
 #include <QSet>
 #include <QIcon>
 #include <QColor>
 #include <QCoreApplication>
+#include <QTreeWidgetItemIterator>
 #include <algorithm>
 #include <map>
 
@@ -46,6 +48,50 @@ void markUnsupportedByServer(QTreeWidgetItem *item)
     const QString tip = item->data(0, Qt::ToolTipRole).toString() + "\n" + note;
     item->setData(0, Qt::ToolTipRole, tip);
     item->setData(0, Qt::StatusTipRole, tip);
+}
+
+//Where an owned IO's item goes: its device's item, or the program item below it.
+static QTreeWidgetItem *ownedParent(QTreeWidgetItem *deviceItem, IOBase *io,
+                                    const std::function<void(QTreeWidgetItem *)> &created)
+{
+    QTreeWidgetItemDevice *devItem = dynamic_cast<QTreeWidgetItemDevice *>(deviceItem);
+    if (!devItem || !ClimateProgram::isProgramIO(io))
+        return deviceItem;
+
+    for (int i = 0;i < devItem->childCount();i++)
+        if (QTreeWidgetItemProgram *p = dynamic_cast<QTreeWidgetItemProgram *>(devItem->child(i)))
+            return p;
+
+    QTreeWidgetItemProgram *item = new QTreeWidgetItemProgram(devItem->getDevice(), devItem);
+    updateProgramItem(item);
+    if (created)
+        created(item);
+    return item;
+}
+
+void updateProgramItem(QTreeWidgetItemProgram *item)
+{
+    const QString tip = QCoreApplication::translate("HomeTree", "Time program, edited from the climate");
+    item->setData(0, Qt::DisplayRole, QCoreApplication::translate("HomeTree", "Program"));
+    item->setData(0, Qt::DecorationRole, QIcon(":/img/icon_clock.png"));
+    item->setData(0, Qt::ToolTipRole, tip);
+    item->setData(0, Qt::StatusTipRole, tip);
+}
+
+void collapseProgramItems(QTreeWidget *tree)
+{
+    for (QTreeWidgetItemIterator it(tree);*it;++it)
+        if (dynamic_cast<QTreeWidgetItemProgram *>(*it))
+            (*it)->setExpanded(false);
+}
+
+void removeEmptyProgramItems(QTreeWidget *tree)
+{
+    QList<QTreeWidgetItem *> empty;
+    for (QTreeWidgetItemIterator it(tree);*it;++it)
+        if (dynamic_cast<QTreeWidgetItemProgram *>(*it) && (*it)->childCount() == 0)
+            empty.append(*it);
+    qDeleteAll(empty);
 }
 
 void populateRoomItems(QTreeWidgetItemRoom *roomItem, const std::function<void(QTreeWidgetItem *)> &created)
@@ -102,7 +148,10 @@ void populateRoomItems(QTreeWidgetItemRoom *roomItem, const std::function<void(Q
     for (const auto &entry: owned)
     {
         auto dev = devices.find(entry.first->getOwnerDevice());
-        addItem(entry.first, entry.second, dev != devices.end() ? static_cast<QTreeWidgetItem *>(dev->second) : roomItem);
+        QTreeWidgetItem *parent = roomItem;
+        if (dev != devices.end())
+            parent = ownedParent(dev->second, entry.first, created);
+        addItem(entry.first, entry.second, parent);
     }
 }
 
@@ -124,13 +173,13 @@ QTreeWidgetItemDevice *addDeviceItem(QTreeWidgetItemRoom *roomItem, Device *dev,
     {
         IOBase *in = room->get_input(j);
         if (in->getOwnerDevice() == dev && inputHasTreeItem(in))
-            add(new QTreeWidgetItemInput(in, item));
+            add(new QTreeWidgetItemInput(in, ownedParent(item, in, created)));
     }
     for (int j = 0;j < room->get_size_out();j++)
     {
         IOBase *out = room->get_output(j);
         if (out->getOwnerDevice() == dev)
-            add(new QTreeWidgetItemOutput(out, item));
+            add(new QTreeWidgetItemOutput(out, ownedParent(item, out, created)));
     }
 
     return item;
@@ -157,6 +206,7 @@ void removeIOItems(QTreeWidget *tree, const std::vector<IOBase *> &ios)
     }
 
     qDeleteAll(topmost);
+    removeEmptyProgramItems(tree);
 }
 
 void deleteIOInHome(QTreeWidget *tree, IOBase *io)

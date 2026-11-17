@@ -11,6 +11,7 @@
 #include "qtreewidget_addition.h"
 
 //Shape of the home tree: room -> free IOs and devices -> a device's owned IOs.
+//A climate's time program IOs sit one level lower, under a "Program" item.
 
 //Nearest room above item, or the item itself; nullptr for anything else.
 QTreeWidgetItemRoom *roomItemOf(QTreeWidgetItem *item);
@@ -29,6 +30,13 @@ void populateRoomItems(QTreeWidgetItemRoom *roomItem,
 //laid out as populateRoomItems() lays them out.
 QTreeWidgetItemDevice *addDeviceItem(QTreeWidgetItemRoom *roomItem, Calaos::Device *dev,
                                      const std::function<void(QTreeWidgetItem *)> &created = nullptr);
+
+//Label, icon and tooltip of a program item.
+void updateProgramItem(QTreeWidgetItemProgram *item);
+//Program items stay folded: a full program is 28 IOs.
+void collapseProgramItems(QTreeWidget *tree);
+//Program items left without IOs, after a deletion.
+void removeEmptyProgramItems(QTreeWidget *tree);
 
 //Deletes every item of these IOs. An owned IO's item is a child of its device's:
 //only the topmost ones are deleted, their children go with them.

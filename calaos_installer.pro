@@ -39,6 +39,7 @@ SOURCES += src/main.cpp \
     src/HomeTreeMove.cpp \
     src/HomeTree.cpp \
     src/DialogDeleteImpact.cpp \
+    src/DialogClimateProgram.cpp \
     src/DialogDeviceInfo.cpp \
     src/DialogNewDevice.cpp \
     src/EsphomeDiscovery.cpp \
@@ -152,6 +153,7 @@ HEADERS += src/mainwindow.h \
     src/HomeTreeMove.h \
     src/HomeTree.h \
     src/DialogDeleteImpact.h \
+    src/DialogClimateProgram.h \
     src/DialogDeviceInfo.h \
     src/DialogNewDevice.h \
     src/EsphomeDiscovery.h \
