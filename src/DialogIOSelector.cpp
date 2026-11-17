@@ -1,4 +1,5 @@
 #include "DialogIOSelector.h"
+#include <ClimateProgram.h>
 #include <QLabel>
 #include <QHeaderView>
 #include <QPushButton>
@@ -87,7 +88,7 @@ void DialogIOSelector::populateTree()
         {
             IOBase *io = room->get_input(j);
             auto *ioItem = new QTreeWidgetItemInput(io, roomItem);
-            ioItem->setText(0, QString::fromUtf8(io->get_param("name").c_str()));
+            ioItem->setText(0, ClimateProgram::ruleLabel(io));
             ioItem->setText(1, QString::fromUtf8(io->get_gui_type().c_str()));
             ioItem->setText(2, QString::fromUtf8(io->get_param("id").c_str()));
 
@@ -100,7 +101,7 @@ void DialogIOSelector::populateTree()
         {
             IOBase *io = room->get_output(j);
             auto *ioItem = new QTreeWidgetItemOutput(io, roomItem);
-            ioItem->setText(0, QString::fromUtf8(io->get_param("name").c_str()));
+            ioItem->setText(0, ClimateProgram::ruleLabel(io));
             ioItem->setText(1, QString::fromUtf8(io->get_gui_type().c_str()));
             ioItem->setText(2, QString::fromUtf8(io->get_param("id").c_str()));
 
