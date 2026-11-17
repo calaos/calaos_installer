@@ -44,6 +44,21 @@ QByteArray readAll(const QString &path)
     return f.readAll();
 }
 
+QByteArray rulesSource(const QString &inner)
+{
+    return ("<?xml version=\"1.0\"?>\n<calaos:rules xmlns:calaos=\"http://www.calaos.fr\">\n" +
+            inner + "\n</calaos:rules>\n").toUtf8();
+}
+
+QString ruleOn(const QString &name, const QString &inputId)
+{
+    return QStringLiteral(
+        "<calaos:rule name=\"%1\" type=\"t\">\n"
+        "  <calaos:condition><calaos:input id=\"%2\" oper=\"==\" val=\"true\"/></calaos:condition>\n"
+        "  <calaos:action><calaos:output id=\"free\" val=\"true\"/></calaos:action>\n"
+        "</calaos:rule>\n").arg(name, inputId);
+}
+
 QByteArray ioSource(const QString &inner)
 {
     return ("<?xml version=\"1.0\"?>\n"
@@ -206,13 +221,19 @@ private:
 
     QString work(const QString &file) const { return m_workDir.filePath(file); }
 
-    bool load(const QByteArray &io)
+    bool load(const QByteArray &io, const QByteArray &rules = QByteArray())
     {
         ListeRule::Instance().clear();
         ListeRoom::Instance().clear();
         writeAll(work("src_io.xml"), io);
         QString p = work("src_io.xml");
-        return ProjectManager::loadIOsFromFile(p);
+        if (!ProjectManager::loadIOsFromFile(p))
+            return false;
+        if (rules.isEmpty())
+            return true;
+        writeAll(work("src_rules.xml"), rules);
+        p = work("src_rules.xml");
+        return ProjectManager::loadRulesFromFile(p);
     }
     QByteArray saveIOs()
     {
@@ -439,8 +460,9 @@ void tst_ClimateProgramDialog::loweringTheCountDeletesTheUpperLevels()
 
 void tst_ClimateProgramDialog::loweringToZeroDeletesEveryLevel()
 {
-    QVERIFY(load(ioSource(climate(2, 2))));
+    QVERIFY(load(ioSource(climate(2, 2)), rulesSource(ruleOn("r_flag", "clim_program_enabled"))));
     Device *dev = theClimate();
+    QCOMPARE(ListeRule::Instance().size(), 1);
 
     DialogClimateProgram d(dev, false);
     d.levelCount(Set::Heat)->setValue(0);
@@ -461,6 +483,7 @@ void tst_ClimateProgramDialog::loweringToZeroDeletesEveryLevel()
     QVERIFY(!ClimateProgram::ioForRole(dev, "program_enabled"));
     QVERIFY(ClimateProgram::programIos(dev).empty());
     QVERIFY(!saveIOs().contains("clim_program_enabled"));
+    QCOMPARE(ListeRule::Instance().size(), 0);
     // The device's own IOs are not program levels.
     QVERIFY(ListeRoom::Instance().get_output("clim_target"));
     QVERIFY(ListeRoom::Instance().get_input("temp"));
@@ -514,12 +537,21 @@ void tst_ClimateProgramDialog::aModeTheClimateDoesNotOfferIsDisabled()
 
     ClimateProgram::setParam(dev, "modes", "off,heat");
     DialogClimateProgram d(dev, false);
-    QVERIFY(boxOf(&d, "Heating")->isEnabled());
-    QVERIFY(!boxOf(&d, "Cooling")->isEnabled());
+    QVERIFY(d.levelCount(Set::Heat)->isEnabled());
+    QVERIFY(d.levelCount(Set::Cool)->isEnabled());
+    QCOMPARE(d.levelCount(Set::Cool)->maximum(), 1);
+    QVERIFY(boxOf(&d, "Heating")->findChild<QDoubleSpinBox *>()->isEnabled());
+    QVERIFY(!boxOf(&d, "Cooling")->findChild<QDoubleSpinBox *>()->isEnabled());
     QVERIFY(ClimateProgram::offers(dev, Set::Heat));
     QVERIFY(!ClimateProgram::offers(dev, Set::Cool));
 
+    // auto needs heat and cool offered: the server then offers off only.
     ClimateProgram::setParam(dev, "modes", "off,auto");
+    QVERIFY(!ClimateProgram::offers(dev, Set::Heat));
+    QVERIFY(!ClimateProgram::offers(dev, Set::Cool));
+
+    ClimateProgram::setParam(dev, "modes", "off,heat,cool");
+    QVERIFY(ClimateProgram::offers(dev, Set::Heat));
     QVERIFY(ClimateProgram::offers(dev, Set::Cool));
 }
 

@@ -1,5 +1,7 @@
 #include "ClimateProgram.h"
 
+#include <DeviceCommand.h>
+#include <IODoc.h>
 #include <ListeRoom.h>
 #include <QCoreApplication>
 #include <QRegularExpression>
@@ -90,31 +92,17 @@ void setLevels(Device *dev, Set set, int count)
 
 bool offers(Device *dev, Set set)
 {
-    const QString mode = set == Set::Heat ? "heat" : "cool";
-    const QString modes = QString::fromStdString(param(dev, "modes", "")).trimmed();
-    if (!modes.isEmpty())
-    {
-        const QStringList list = modes.split(',', Qt::SkipEmptyParts);
-        for (const QString &m: list)
-            if (m.trimmed() == mode || m.trimmed() == "auto")
-                return true;
-        return false;
-    }
+    const DeviceCommand::Offer offer = DeviceCommand::offer(
+        IODoc::getDeviceObject(QString::fromStdString(dev->impl())), DeviceCommand::Instance::of(dev));
 
-    // Without modes a thermostat offers what its outputs can do (everything while
-    // none is linked yet); a proxy offers everything.
-    if (QString::fromStdString(dev->impl()).toLower() != "thermostat")
-        return true;
-    bool output = false, outputHeat = false, outputCool = false;
-    for (const DeviceLink &l: dev->links())
+    // Links are left out: a climate whose outputs are not linked yet offers what it will.
+    const QString mode = set == Set::Heat ? "heat" : "cool";
+    for (const DeviceCommand::Field &f: offer.fields)
     {
-        output |= l.name == "output";
-        outputHeat |= l.name == "output_heat";
-        outputCool |= l.name == "output_cool";
+        if (f.name == "mode")
+            return !f.excludedByParam.contains(mode) && !f.excludedByDefault.contains(mode);
     }
-    if (!output && !outputHeat && !outputCool)
-        return true;
-    return set == Set::Heat ? output || outputHeat : outputCool;
+    return true;
 }
 
 std::string levelRole(Set set, int level)

@@ -11,6 +11,9 @@ include($$PWD/../../calaos_model.pri)
 
 INCLUDEPATH += $$PWD/../../src
 
+# The shipped catalogue: offers() reads the device's list_rule from it.
+RESOURCES += $$PWD/../tst_iodoccatalogue/iodoc_shipped.qrc
+
 SOURCES += \
     $$PWD/../../src/DialogClimateProgram.cpp \
     $$PWD/../../src/DialogEditTimeRange.cpp \

@@ -93,7 +93,11 @@ DialogClimateProgram::DialogClimateProgram(Device *dev, bool readOnly, QWidget *
     {
         if (ClimateProgram::offers(dev, ui->set))
             continue;
-        ui->box->setEnabled(false);
+        // The counter stays so levels the server ignores can still be brought down to 0.
+        for (QWidget *w: ui->box->findChildren<QWidget *>())
+            if (w != ui->count)
+                w->setEnabled(false);
+        ui->count->setMaximum(ui->initialCount);
         ui->box->setToolTip(tr("This climate does not offer this mode"));
     }
 

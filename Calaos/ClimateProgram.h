@@ -34,8 +34,9 @@ void setParam(Device *dev, const std::string &name, const std::string &value);
 int levels(Device *dev, Set set);
 void setLevels(Device *dev, Set set, int count);
 
-//Whether the climate offers the mode of a set, as the server decides at load:
-//`modes` when present (auto offers both), otherwise the outputs linked.
+//Whether the climate offers the mode of a set, from what DeviceCommand::offer
+//reads of the published list_rule (modes param, default of a linked output).
+//Unlinked outputs do not count; a device without documentation offers all.
 bool offers(Device *dev, Set set);
 
 std::string levelRole(Set set, int level);
@@ -62,7 +63,7 @@ QString ruleLabel(IOBase *io);
 //Level IOs (range and setpoint) above these counts, which applying them deletes,
 //plus the defaults of a set left empty and program_enabled when both are.
 std::vector<IOBase *> iosRemovedBy(Device *dev, int heat, int cool);
-//Writes the counts and deletes the level IOs above them with their links and
+//Writes the counts and deletes what iosRemovedBy lists with their links and
 //the rules using them, as the server does when it reloads the file.
 //Returns what was deleted; the pointers are only good for comparison.
 std::vector<IOBase *> applyLevels(Device *dev, int heat, int cool);
