@@ -106,6 +106,19 @@ public:
     Device *getDevice() { return static_cast<Device *>(output); }
 };
 
+//Groups a climate's time program IOs under its device item. Not an IO itself.
+class QTreeWidgetItemProgram: public QTreeWidgetItem
+{
+protected:
+    Device *device;
+
+public:
+    QTreeWidgetItemProgram(Device *d, QTreeWidgetItem *parent):
+        QTreeWidgetItem(parent), device(d) {}
+
+    Device *getDevice() { return device; }
+};
+
 class QTreeWidgetItemRule: public QTreeWidgetItem
 {
 protected:

@@ -2,6 +2,7 @@
 #include "DeviceTemplates.h"
 #include "IODoc.h"
 
+#include <ClimateProgram.h>
 #include <ListeRoom.h>
 #include <QJsonArray>
 #include <algorithm>
@@ -110,6 +111,9 @@ QList<DeviceEdit::Role> DeviceEdit::roles(Device *dev)
         const QJsonObject o = v.toObject();
         Role r;
         r.name = o["role"].toString();
+        //The time program has its own editor.
+        if (ClimateProgram::supports(dev) && ClimateProgram::isProgramRole(r.name.toStdString()))
+            continue;
         r.label = labelFor(o, r.name);
         r.description = o["description"].toString();
         r.required = o["required"].toBool();
@@ -141,6 +145,8 @@ QList<DeviceEdit::Param> DeviceEdit::params(Device *dev)
             continue;
         Param p;
         p.name = o["name"].toString();
+        if (ClimateProgram::supports(dev) && ClimateProgram::isProgramParam(p.name.toStdString()))
+            continue;
         p.label = labelFor(o, p.name);
         p.type = o["type"].toString();
         p.description = o["description"].toString();

@@ -14,7 +14,6 @@ include($$PWD/../../calaos_model.pri)
 RESOURCES += $$PWD/../tst_iodoccatalogue/iodoc_shipped.qrc $$PWD/../../data/resources.qrc
 
 SOURCES += \
-    $$PWD/../../src/DeviceCommand.cpp \
     $$PWD/../../src/DeviceCommandForm.cpp \
     $$PWD/../../src/FormActionStd.cpp \
     $$PWD/../../src/RuleActionMenu.cpp \
@@ -22,7 +21,6 @@ SOURCES += \
     tst_devicecommand.cpp
 
 HEADERS += \
-    $$PWD/../../src/DeviceCommand.h \
     $$PWD/../../src/DeviceCommandForm.h \
     $$PWD/../../src/FormActionStd.h \
     $$PWD/../../src/RuleActionMenu.h \

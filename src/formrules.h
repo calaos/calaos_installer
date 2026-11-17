@@ -164,6 +164,7 @@ public slots:
     void itemVoletStop();
     void itemShowCamera();
     void itemPlagesHoraires();
+    void editClimateProgram();
     void itemConvertInterTriple();
     void itemConvertInterBP();
     void itemConvertInterLong();

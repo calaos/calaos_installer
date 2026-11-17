@@ -6,6 +6,7 @@
 #include <QMenu>
 #include <QPushButton>
 
+#include <ClimateProgram.h>
 #include <Device.h>
 
 #include "DeviceCommand.h"
@@ -158,7 +159,7 @@ void FormActionStd::fillAction(QTreeWidgetItem *item, Rule *_rule, Action *_acti
         }
     }
 
-    ui->labelItemName->setText(QString::fromUtf8(output->get_param("name").c_str()));
+    ui->labelItemName->setText(ClimateProgram::ruleLabel(output));
 
     ui->editValue->clear();
     ui->editValue->setText(QString::fromUtf8(action->get_params().get_param(id).c_str()));

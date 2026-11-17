@@ -78,6 +78,10 @@ QT_QPA_PLATFORM=offscreen ./tst_projectmanager/tst_projectmanager -v2 ioRoundTri
   links, computed before deleting); `tests/tst_hometree/` the room -> device -> owned IOs
   tree (`src/HomeTree.*`), cascade delete without double delete, drag and drop onto a room and
   the delete confirmation dialog.
+- `tests/tst_climateprogram/` covers a climate's time program (`Calaos/ClimateProgram.*`, the
+  IOs the server creates under the `heat_level<n>`... roles): io.xml round trip with 6 heat and
+  6 cool levels, lower level counts deleting the levels above (rules included), program IOs not
+  deletable alone, the folded "Program" tree item and the labels shown in rules.
 - `tests/tst_onlineconfig/` covers the `config get`/`put` JSON helper (`src/OnlineConfig.*`): `io_format` declared in every put, announced format parsing, the server's refusal text, the per-host format memory behind the devices gate in `DialogSaveOnline`.
 - `tests/tst_onlinesession/` drives `OnlineSession` (`src/OnlineSession.*`, the requests of the online open/save dialogs) against a fake `/api.php` over http and https (`QSslServer`, a self-signed certificate for 127.0.0.1): one `admin_unlock` when the server answers `bad_session`, `admin_session` in the body of `config get`/`put` only, one https retry on `https_required`, requests unchanged against a server without admin.
   `tests/tst_onlinedialogs/` drives the online open and save dialogs offscreen against the same fake server (`FakeApi.h`): the admin password typed for a host never saved before is the one unlocked, picking another saved host clears it.

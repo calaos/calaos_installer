@@ -15,7 +15,6 @@ RESOURCES += replacedroles.qrc
 SOURCES += \
     $$PWD/../../src/DeviceEdit.cpp \
     $$PWD/../../src/DialogEditDevice.cpp \
-    $$PWD/../../src/DeviceCommand.cpp \
     $$PWD/../../src/DeviceCommandForm.cpp \
     tst_replacedroles.cpp
 
@@ -24,6 +23,5 @@ HEADERS += \
     house.h \
     $$PWD/../../src/DeviceEdit.h \
     $$PWD/../../src/DialogEditDevice.h \
-    $$PWD/../../src/DeviceCommand.h \
     $$PWD/../../src/DeviceCommandForm.h \
     $$PWD/../../src/WheelGuard.h
