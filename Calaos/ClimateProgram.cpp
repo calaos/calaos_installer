@@ -95,12 +95,19 @@ bool offers(Device *dev, Set set)
     const DeviceCommand::Offer offer = DeviceCommand::offer(
         IODoc::getDeviceObject(QString::fromStdString(dev->impl())), DeviceCommand::Instance::of(dev));
 
-    // Links are left out: a climate whose outputs are not linked yet offers what it will.
     const QString mode = set == Set::Heat ? "heat" : "cool";
     for (const DeviceCommand::Field &f: offer.fields)
     {
-        if (f.name == "mode")
-            return !f.excludedByParam.contains(mode) && !f.excludedByDefault.contains(mode);
+        if (f.name != "mode")
+            continue;
+        if (f.excludedByParam.contains(mode) || f.excludedByDefault.contains(mode))
+            return false;
+        // Links count once any mode is served by one: until then nothing is linked and
+        // the climate offers what it will.
+        bool linked = false;
+        for (const QString &m: { QStringLiteral("heat"), QStringLiteral("cool"), QStringLiteral("auto") })
+            linked = linked || f.values.contains(m) || f.excludedByNeeds.contains(m);
+        return !(linked && f.excludedByLinks.contains(mode));
     }
     return true;
 }
