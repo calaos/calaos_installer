@@ -45,6 +45,7 @@ private:
     struct SetUi
     {
         Calaos::ClimateProgram::Set set;
+        QWidget *box = nullptr;
         int initialCount = 0;
         QSpinBox *count = nullptr;
         QDoubleSpinBox *def = nullptr;

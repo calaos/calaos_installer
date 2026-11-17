@@ -88,6 +88,35 @@ void setLevels(Device *dev, Set set, int count)
     setParam(dev, countParam(set), std::to_string(std::clamp(count, 0, kMaxLevels)));
 }
 
+bool offers(Device *dev, Set set)
+{
+    const QString mode = set == Set::Heat ? "heat" : "cool";
+    const QString modes = QString::fromStdString(param(dev, "modes", "")).trimmed();
+    if (!modes.isEmpty())
+    {
+        const QStringList list = modes.split(',', Qt::SkipEmptyParts);
+        for (const QString &m: list)
+            if (m.trimmed() == mode || m.trimmed() == "auto")
+                return true;
+        return false;
+    }
+
+    // Without modes a thermostat offers what its outputs can do (everything while
+    // none is linked yet); a proxy offers everything.
+    if (QString::fromStdString(dev->impl()).toLower() != "thermostat")
+        return true;
+    bool output = false, outputHeat = false, outputCool = false;
+    for (const DeviceLink &l: dev->links())
+    {
+        output |= l.name == "output";
+        outputHeat |= l.name == "output_heat";
+        outputCool |= l.name == "output_cool";
+    }
+    if (!output && !outputHeat && !outputCool)
+        return true;
+    return set == Set::Heat ? output || outputHeat : outputCool;
+}
+
 std::string levelRole(Set set, int level)
 {
     return std::string(setName(set)) + "_level" + std::to_string(level);
@@ -190,17 +219,36 @@ QString ruleLabel(IOBase *io)
            QString::fromUtf8(" › ") + label;
 }
 
+//Roles the counts no longer justify: the contract's "Created if" column.
+static std::vector<std::string> rolesRemovedBy(int heat, int cool)
+{
+    std::vector<std::string> roles;
+    heat = std::clamp(heat, 0, kMaxLevels);
+    cool = std::clamp(cool, 0, kMaxLevels);
+    for (Set set: { Set::Heat, Set::Cool })
+    {
+        const int keep = set == Set::Heat ? heat : cool;
+        for (int n = keep + 1;n <= kMaxLevels;n++)
+        {
+            roles.push_back(levelRole(set, n));
+            roles.push_back(setpointRole(set, n));
+        }
+        if (keep == 0)
+            roles.push_back(defaultRole(set));
+    }
+    if (cool == 0)
+        roles.push_back("cool_default_off");
+    if (heat + cool == 0)
+        roles.push_back("program_enabled");
+    return roles;
+}
+
 std::vector<IOBase *> iosRemovedBy(Device *dev, int heat, int cool)
 {
     std::vector<IOBase *> res;
-    for (Set set: { Set::Heat, Set::Cool })
-    {
-        const int keep = std::clamp(set == Set::Heat ? heat : cool, 0, kMaxLevels);
-        for (int n = keep + 1;n <= kMaxLevels;n++)
-            for (const std::string &role: { levelRole(set, n), setpointRole(set, n) })
-                if (IOBase *io = ioForRole(dev, role))
-                    res.push_back(io);
-    }
+    for (const std::string &role: rolesRemovedBy(heat, cool))
+        if (IOBase *io = ioForRole(dev, role))
+            res.push_back(io);
     return res;
 }
 
@@ -216,15 +264,8 @@ std::vector<IOBase *> applyLevels(Device *dev, int heat, int cool)
     }
 
     //Links are erased even when their IO is missing: the server drops the role.
-    for (Set set: { Set::Heat, Set::Cool })
-    {
-        const int keep = std::clamp(set == Set::Heat ? heat : cool, 0, kMaxLevels);
-        for (int n = keep + 1;n <= kMaxLevels;n++)
-        {
-            eraseLinks(dev, levelRole(set, n));
-            eraseLinks(dev, setpointRole(set, n));
-        }
-    }
+    for (const std::string &role: rolesRemovedBy(heat, cool))
+        eraseLinks(dev, role);
 
     setLevels(dev, Set::Heat, heat);
     setLevels(dev, Set::Cool, cool);

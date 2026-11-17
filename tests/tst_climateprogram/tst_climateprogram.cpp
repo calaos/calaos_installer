@@ -521,14 +521,9 @@ void tst_ClimateProgram::deletedLevelsLeaveTheTree()
     populate(&tree);
     Device *dev = theClimate();
 
+    // Level, setpoint, default and flag: the program item goes with its last IO.
     removeIOItems(&tree, ClimateProgram::applyLevels(dev, 0, 0));
-    QCOMPARE(itemCount(programItemOf(&tree)), 2);
-
-    // The program item goes with its last IO.
-    const std::vector<IOBase *> rest = ClimateProgram::programIos(dev);
-    for (IOBase *io: rest)
-        ListeRoom::Instance().deleteIOOutput(io);
-    removeIOItems(&tree, rest);
+    QVERIFY(ClimateProgram::programIos(dev).empty());
     QVERIFY(!programItemOf(&tree));
     QCOMPARE(itemCount(deviceItemOf(&tree)), 1);
 }

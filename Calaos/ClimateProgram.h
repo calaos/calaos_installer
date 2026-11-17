@@ -34,6 +34,10 @@ void setParam(Device *dev, const std::string &name, const std::string &value);
 int levels(Device *dev, Set set);
 void setLevels(Device *dev, Set set, int count);
 
+//Whether the climate offers the mode of a set, as the server decides at load:
+//`modes` when present (auto offers both), otherwise the outputs linked.
+bool offers(Device *dev, Set set);
+
 std::string levelRole(Set set, int level);
 std::string setpointRole(Set set, int level);
 std::string defaultRole(Set set);
@@ -55,7 +59,8 @@ QString roleLabel(const std::string &role);
 //How rules name an IO: "<climate> › <role>" for a program IO, its name otherwise.
 QString ruleLabel(IOBase *io);
 
-//Level IOs (range and setpoint) above these counts, which applying them deletes.
+//Level IOs (range and setpoint) above these counts, which applying them deletes,
+//plus the defaults of a set left empty and program_enabled when both are.
 std::vector<IOBase *> iosRemovedBy(Device *dev, int heat, int cool);
 //Writes the counts and deletes the level IOs above them with their links and
 //the rules using them, as the server does when it reloads the file.

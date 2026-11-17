@@ -244,6 +244,9 @@ private slots:
     void raisingTheCountCreatesNoIo();
     void loweringTheCountDeletesTheUpperLevels();
     void loweringToZeroDeletesEveryLevel();
+    void loweringOneSetToZeroDeletesItsDefaults();
+    void untouchedValuesAreNotRewrittenRounded();
+    void aModeTheClimateDoesNotOfferIsDisabled();
     void refusedConfirmationKeepsEverything();
     void cancelKeepsEverything();
     void editedValuesSurviveARoundTrip();
@@ -445,17 +448,79 @@ void tst_ClimateProgramDialog::loweringToZeroDeletesEveryLevel()
     d.accept();
 
     QCOMPARE(m_confirmations, 1);
-    QCOMPARE(int(d.removedIos().size()), 2 * 2 * 2);
+    // 8 levels and setpoints, 2 defaults, cool_default_off, program_enabled.
+    QCOMPARE(int(d.removedIos().size()), 2 * 2 * 2 + 4);
     for (Set set: { Set::Heat, Set::Cool })
     {
         QCOMPARE(ClimateProgram::levels(dev, set), 0);
         for (int n = 1;n <= ClimateProgram::kMaxLevels;n++)
             QVERIFY(!ClimateProgram::ioForRole(dev, ClimateProgram::levelRole(set, n)));
+        QVERIFY(!ClimateProgram::ioForRole(dev, ClimateProgram::defaultRole(set)));
     }
+    QVERIFY(!ClimateProgram::ioForRole(dev, "cool_default_off"));
+    QVERIFY(!ClimateProgram::ioForRole(dev, "program_enabled"));
+    QVERIFY(ClimateProgram::programIos(dev).empty());
+    QVERIFY(!saveIOs().contains("clim_program_enabled"));
     // The device's own IOs are not program levels.
     QVERIFY(ListeRoom::Instance().get_output("clim_target"));
     QVERIFY(ListeRoom::Instance().get_input("temp"));
     QVERIFY(ListeRoom::Instance().get_output("free"));
+}
+
+void tst_ClimateProgramDialog::loweringOneSetToZeroDeletesItsDefaults()
+{
+    QVERIFY(load(ioSource(climate(2, 2))));
+    Device *dev = theClimate();
+
+    DialogClimateProgram d(dev, false);
+    d.levelCount(Set::Cool)->setValue(0);
+    d.accept();
+
+    // 4 cool levels and setpoints, cool_default, cool_default_off.
+    QCOMPARE(int(d.removedIos().size()), 2 * 2 + 2);
+    QVERIFY(!ClimateProgram::ioForRole(dev, ClimateProgram::defaultRole(Set::Cool)));
+    QVERIFY(!ClimateProgram::ioForRole(dev, "cool_default_off"));
+    QVERIFY(ClimateProgram::ioForRole(dev, ClimateProgram::defaultRole(Set::Heat)));
+    QVERIFY(ClimateProgram::ioForRole(dev, "program_enabled"));
+    QCOMPARE(ClimateProgram::levels(dev, Set::Heat), 2);
+}
+
+void tst_ClimateProgramDialog::untouchedValuesAreNotRewrittenRounded()
+{
+    QVERIFY(load(ioSource(climate(1, 1, "    <calaos:param name=\"program_min_gap\" value=\"1.25\"/>\n"))));
+    Device *dev = theClimate();
+    // set_state stores values as given: the contract does not round them.
+    ClimateProgram::setIoValue(ClimateProgram::ioForRole(dev, "heat_level1_setpoint"), 21.25);
+    ClimateProgram::setIoValue(ClimateProgram::ioForRole(dev, "heat_default"), 17.25);
+
+    DialogClimateProgram d(dev, false);
+    d.accept();
+
+    QVERIFY(!d.changed());
+    QCOMPARE(ClimateProgram::ioValue(ClimateProgram::ioForRole(dev, "heat_level1_setpoint"), 0), 21.25);
+    QCOMPARE(ClimateProgram::ioValue(ClimateProgram::ioForRole(dev, "heat_default"), 0), 17.25);
+    QCOMPARE(u(ClimateProgram::param(dev, "program_min_gap", "")), QString("1.25"));
+}
+
+void tst_ClimateProgramDialog::aModeTheClimateDoesNotOfferIsDisabled()
+{
+    QVERIFY(load(ioSource(climate(1, 1))));
+    Device *dev = theClimate();
+    {
+        DialogClimateProgram d(dev, false);
+        QVERIFY(boxOf(&d, "Heating")->isEnabled());
+        QVERIFY(boxOf(&d, "Cooling")->isEnabled());
+    }
+
+    ClimateProgram::setParam(dev, "modes", "off,heat");
+    DialogClimateProgram d(dev, false);
+    QVERIFY(boxOf(&d, "Heating")->isEnabled());
+    QVERIFY(!boxOf(&d, "Cooling")->isEnabled());
+    QVERIFY(ClimateProgram::offers(dev, Set::Heat));
+    QVERIFY(!ClimateProgram::offers(dev, Set::Cool));
+
+    ClimateProgram::setParam(dev, "modes", "off,auto");
+    QVERIFY(ClimateProgram::offers(dev, Set::Cool));
 }
 
 void tst_ClimateProgramDialog::refusedConfirmationKeepsEverything()

@@ -2056,7 +2056,10 @@ void FormRules::deleteItem()
     if (!io && !itroom)
         return;
     if (io && !ClimateProgram::canDeleteAlone(io))
+    {
+        QMessageBox::information(this, tr("Calaos Installer"), tr("Deleted with its device"));
         return;
+    }
 
     //Read before anything is deleted: the rules about to be touched are still there.
     const DeletionImpact impact = io ? deletionImpact(io) : deletionImpactOfRoom(itroom->getRoom());

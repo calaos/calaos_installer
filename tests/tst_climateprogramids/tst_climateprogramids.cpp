@@ -503,8 +503,8 @@ void tst_ClimateProgramIds::twoClimatesKeepTheirOwnIds()
 
     ClimateProgram::applyLevels(devA, 0, 0);
 
-    // Only the levels and their setpoints go: the defaults and the flags stay.
-    QCOMPARE(int(ClimateProgram::programIos(devA).size()), 4);
+    // No level left: the defaults and the flags go with them.
+    QCOMPARE(int(ClimateProgram::programIos(devA).size()), 0);
     QCOMPARE(ClimateProgram::programIos(devB).size(), programB);
     checkProgram(devB, 3, 1, b.id, "clim2");
     QVERIFY(ListeRoom::Instance().get_input("clim2_heat_level1_0"));
@@ -604,8 +604,11 @@ void tst_ClimateProgramIds::loweringNeverTouchesTheKeptIds()
         {
             const std::string id = ids.value(role).toStdString();
             const QRegularExpressionMatch m = QRegularExpression("^(heat|cool)_level([1-6])").match(role);
-            const bool removed = m.hasMatch() &&
-                                 m.captured(2).toInt() > (m.captured(1) == "heat" ? heat2 : cool2);
+            const bool removed =
+                (m.hasMatch() && m.captured(2).toInt() > (m.captured(1) == "heat" ? heat2 : cool2)) ||
+                (role == "heat_default" && heat2 == 0) || (role == "cool_default" && cool2 == 0) ||
+                (role == "cool_default_off" && cool2 == 0) ||
+                (role == "program_enabled" && heat2 + cool2 == 0);
             QVERIFY2(after.count(id) == (removed ? 0u : 1u), qPrintable(tag + " " + role));
         }
         QVERIFY2(ClimateProgram::programIos(dev).size() == programBefore - gone.size(), tag.constData());
@@ -727,8 +730,9 @@ void tst_ClimateProgramIds::proxyLoweringKeepsTheProxyIos()
     t.proxy = false;
     QVERIFY(load(ioSource(climate(t))));
     const size_t thermostatRemoved = ClimateProgram::iosRemovedBy(climateOf(), 2, 0).size();
-    // heat levels 3..4 and cool levels 1..4, each with its setpoint; defaults and flags stay
-    QCOMPARE(int(thermostatRemoved), 2 * 2 + 4 * 2);
+    // heat levels 3..4 and cool levels 1..4, each with its setpoint, then the
+    // cool set's default and off flag (cool is now empty)
+    QCOMPARE(int(thermostatRemoved), 2 * 2 + 4 * 2 + 2);
 
     QVERIFY(load(ioSource(climate(f)), rulesSource(rules)));
     Device *dev = climateOf();
@@ -741,11 +745,11 @@ void tst_ClimateProgramIds::proxyLoweringKeepsTheProxyIos()
 
     QCOMPARE(ClimateProgram::levels(dev, Set::Heat), 2);
     QCOMPARE(ClimateProgram::levels(dev, Set::Cool), 0);
-    QCOMPARE(int(ClimateProgram::programIos(dev).size()), 2 * 2 + 1 + 1 + 1 + 1);
+    QCOMPARE(int(ClimateProgram::programIos(dev).size()), 2 * 2 + 1 + 1);
     QCOMPARE(ListeRoom::Instance().get_output("clim_mode"), mode);
     QVERIFY(ListeRoom::Instance().get_output("clim_mode_cmd"));
     QCOMPARE(ruleNames(), QStringList({ "r_kept", "r_mode" }));
-    QStringList expected = programRoles(2, 0) + QStringList({ "cool_default", "cool_default_off" });
+    QStringList expected = programRoles(2, 0);
     expected << "current_temp" << "target_temp" << "mode" << "remote_temp";
     expected.sort();
     QCOMPARE(linkNames(dev), expected);

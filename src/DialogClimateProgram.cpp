@@ -80,7 +80,8 @@ DialogClimateProgram::DialogClimateProgram(Device *dev, bool readOnly, QWidget *
     QVBoxLayout *layout = new QVBoxLayout(this);
     layout->addWidget(hint(tr("The server creates the IOs of new levels at its next start. "
                               "Lowering a count deletes the levels above it, with their time "
-                              "ranges and the rules using them."), this));
+                              "ranges and the rules using them. Time ranges are saved as soon as "
+                              "their own dialog is accepted, even if this one is cancelled."), this));
 
     m_heat.set = Set::Heat;
     m_cool.set = Set::Cool;
@@ -88,6 +89,13 @@ DialogClimateProgram::DialogClimateProgram(Device *dev, bool readOnly, QWidget *
     sets->addWidget(buildSet(m_heat));
     sets->addWidget(buildSet(m_cool));
     layout->addLayout(sets);
+    for (SetUi *ui: { &m_heat, &m_cool })
+    {
+        if (ClimateProgram::offers(dev, ui->set))
+            continue;
+        ui->box->setEnabled(false);
+        ui->box->setToolTip(tr("This climate does not offer this mode"));
+    }
 
     QGroupBox *general = new QGroupBox(tr("Program"), this);
     QFormLayout *form = new QFormLayout(general);
@@ -98,8 +106,9 @@ DialogClimateProgram::DialogClimateProgram(Device *dev, bool readOnly, QWidget *
     m_gap->setDecimals(1);
     m_gap->setSuffix(QStringLiteral(" °C"));
     WheelGuard::install(m_gap);
-    m_initialGap = number(ClimateProgram::param(dev, "program_min_gap", "2"), 2);
-    m_gap->setValue(m_initialGap);
+    // What the box holds, not the raw param: an untouched value is not rewritten rounded.
+    m_gap->setValue(number(ClimateProgram::param(dev, "program_min_gap", "2"), 2));
+    m_initialGap = m_gap->value();
     m_gap->setToolTip(tr("Minimum gap between the low and high setpoints in auto mode"));
     form->addRow(tr("Minimum gap in auto mode"), m_gap);
 
@@ -134,6 +143,7 @@ QWidget *DialogClimateProgram::buildSet(SetUi &ui)
 {
     const bool heat = ui.set == Set::Heat;
     QGroupBox *box = new QGroupBox(heat ? tr("Heating") : tr("Cooling"), this);
+    ui.box = box;
     QVBoxLayout *v = new QVBoxLayout(box);
     QFormLayout *form = new QFormLayout;
     v->addLayout(form);
@@ -151,10 +161,10 @@ QWidget *DialogClimateProgram::buildSet(SetUi &ui)
     IOBase *defIo = ClimateProgram::ioForRole(m_dev, ClimateProgram::defaultRole(ui.set));
     const double defParam = number(ClimateProgram::param(m_dev, heat ? "heat_default_setpoint" : "cool_default_setpoint",
                                                          heat ? "17" : "26"), heat ? 17 : 26);
-    ui.initialDef = defIo ? ClimateProgram::ioValue(defIo, defParam) : defParam;
     ui.def = new QDoubleSpinBox(box);
     setBounds(ui.def, defIo);
-    ui.def->setValue(ui.initialDef);
+    ui.def->setValue(defIo ? ClimateProgram::ioValue(defIo, defParam) : defParam);
+    ui.initialDef = ui.def->value();
     ui.def->setToolTip(tr("Setpoint when no level is active"));
     form->addRow(tr("Default setpoint"), ui.def);
 
@@ -181,8 +191,8 @@ QWidget *DialogClimateProgram::buildSet(SetUi &ui)
         row.label = new QLabel(tr("Level %1").arg(n), box);
         row.setpoint = new QDoubleSpinBox(box);
         setBounds(row.setpoint, sp);
-        ui.initialSetpoints[n - 1] = sp ? ClimateProgram::ioValue(sp, ui.initialDef) : ui.initialDef;
-        row.setpoint->setValue(ui.initialSetpoints[n - 1]);
+        row.setpoint->setValue(sp ? ClimateProgram::ioValue(sp, ui.initialDef) : ui.initialDef);
+        ui.initialSetpoints[n - 1] = row.setpoint->value();
         row.ranges = new QPushButton(QIcon(":/img/icon_clock.png"), tr("Time ranges..."), box);
         if (range)
             connect(row.ranges, &QPushButton::clicked, this, [this, range]() { editRanges(range); });
