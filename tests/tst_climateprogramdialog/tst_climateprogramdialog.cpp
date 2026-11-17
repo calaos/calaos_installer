@@ -339,9 +339,10 @@ void tst_ClimateProgramDialog::levelCountIsBounded()
     QSpinBox *heat = d.levelCount(Set::Heat);
 
     QCOMPARE(heat->minimum(), 0);
-    QCOMPARE(heat->maximum(), ClimateProgram::kMaxLevels);
+    // The contract caps a set at six levels, whatever the constant says.
+    QCOMPARE(heat->maximum(), 6);
     heat->setValue(99);
-    QCOMPARE(heat->value(), ClimateProgram::kMaxLevels);
+    QCOMPARE(heat->value(), 6);
     heat->setValue(-3);
     QCOMPARE(heat->value(), 0);
 }
