@@ -192,6 +192,7 @@ gpio_up |  | int | yes | GPIO ID for opening on your hardware
 gui_type | Display type | string | no | Internal graphical type for all calaos objects. Set automatically, read-only parameter.
 id | Identifier | string | yes | Unique ID identifying the Input/Output in calaos-server
 impulse_time |  | int | no | Impulse time for shutter that needs impulse instead of holding up/down relays. If set to 0 impulse shutter is disabled. Time is in ms. Default to 0
+io_style |  | list | no | GUI style display. This will control the icon displayed on the UI
 io_type | IO type | string | yes | IO type, can be "input", "output", "inout"
 log_history | History log | bool | no | If enabled, write an entry in the history event log for this IO
 logged | InfluxDB | bool | no | If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO
@@ -237,6 +238,7 @@ gpio_up |  | int | yes | GPIO ID for opening on your hardware
 gui_type | Display type | string | no | Internal graphical type for all calaos objects. Set automatically, read-only parameter.
 id | Identifier | string | yes | Unique ID identifying the Input/Output in calaos-server
 impulse_time |  | int | no | Impulse time for shutter that needs impulse instead of holding up/down relays. If set to 0 impulse shutter is disabled. Time is in ms. Default to 0
+io_style |  | list | no | GUI style display. This will control the icon displayed on the UI
 io_type | IO type | string | yes | IO type, can be "input", "output", "inout"
 log_history | History log | bool | no | If enabled, write an entry in the history event log for this IO
 logged | InfluxDB | bool | no | If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO
@@ -528,6 +530,88 @@ Name | Description
 ---- | -----------
 value | Set a specific string value 
  
+
+# Klf200InputSwitch
+Rain sensor of a VELUX window, read through a KLF 200 gateway. True while the sensor reports rain. The gateway is polled, so a change can take a few minutes to show.
+
+
+Basic switch with press/release states.
+
+## Parameters of Klf200InputSwitch
+Name | Label | Type | Mandatory | Description
+---- | ----- | ---- | --------- | -----------
+enabled | Enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
+gui_type | Display type | string | no | Internal graphical type for all calaos objects. Set automatically, read-only parameter.
+host |  | string | yes | IP address or hostname of the KLF 200 gateway
+id | Identifier | string | yes | Unique ID identifying the Input/Output in calaos-server
+io_style |  | list | yes | GUI style display. This will control the icon displayed on the UI
+io_type | IO type | string | yes | IO type, can be "input", "output", "inout"
+log_history | History log | bool | no | If enabled, write an entry in the history event log for this IO
+logged | InfluxDB | bool | no | If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO
+name | Name | string | yes | Name of Input/Output.
+node_id |  | int | yes | Node ID of the window on the gateway (run calaos_klf200 --list to find it)
+password |  | string | yes | Password of the KLF 200 gateway (the Wi-Fi password printed on the back of the unit)
+visible |  | bool | no | Display the Input/Output on all user interfaces if set. Default to false for switches
+
+## Conditions of Klf200InputSwitch
+Name | Description
+---- | -----------
+changed | Event on any change of state 
+ false | Event triggered when switch is released 
+ true | Event triggered when switch is pressed 
+ 
+## More Infos
+* VELUX KLF 200: https://www.klf200.com/klf200
+
+
+# Klf200OutputShutterSmart
+VELUX window or roller shutter controlled through a KLF 200 gateway. The position is the one reported by the gateway.
+
+
+Smart shutter. This shutter calculates the position of the shutter based on the time it takes to open and close. It then allows to set directly the shutter at a specified position.
+
+## Parameters of Klf200OutputShutterSmart
+Name | Label | Type | Mandatory | Description
+---- | ----- | ---- | --------- | -----------
+enabled | Enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
+gui_type | Display type | string | no | Internal graphical type for all calaos objects. Set automatically, read-only parameter.
+host |  | string | yes | IP address or hostname of the KLF 200 gateway
+id | Identifier | string | yes | Unique ID identifying the Input/Output in calaos-server
+impulse_time |  | int | no | Not used by this driver
+io_style |  | list | no | GUI style display. This will control the icon displayed on the UI
+io_type | IO type | string | yes | IO type, can be "input", "output", "inout"
+log_history | History log | bool | no | If enabled, write an entry in the history event log for this IO
+logged | InfluxDB | bool | no | If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO
+name | Name | string | yes | Name of Input/Output.
+node_id |  | int | yes | Node ID of the window or shutter on the gateway (run calaos_klf200 --list to find it)
+password |  | string | yes | Password of the KLF 200 gateway (the Wi-Fi password printed on the back of the unit)
+stop_both |  | bool | no | Not used by this driver
+time_down |  | int | no | Not used: the KLF 200 reports the real position
+time_up |  | int | no | Not used: the KLF 200 reports the real position
+visible | Visible | bool | no | Display the Input/Output on all user interfaces if set. Default to true
+
+## Conditions of Klf200OutputShutterSmart
+Name | Description
+---- | -----------
+changed | Event on any change of shutter state 
+ false | Event when shutter is closed 
+ true | Event when shutter is open 
+ 
+## Actions of Klf200OutputShutterSmart
+Name | Description
+---- | -----------
+down | Close the shutter 
+ down 5 | Close the shutter by X percent 
+ set 50 | Set shutter at position X in percent 
+ set_state 50 | Update internal shutter position, in percent, without starting real action. This is useful when having updating the shutter state from an external source. 
+ stop | Stop the shutter 
+ toggle | Invert shutter state 
+ up | Open the shutter 
+ up 5 | Open the shutter by X percent 
+ 
+## More Infos
+* VELUX KLF 200: https://www.klf200.com/klf200
+
 
 # KNXInputAnalog
 Input analog with KNX and eibnetmux
@@ -939,6 +1023,7 @@ gui_type | Display type | string | no | Internal graphical type for all calaos o
 host |  | string | yes | Hostname of knxd, default to localhost
 id | Identifier | string | yes | Unique ID identifying the Input/Output in calaos-server
 impulse_time |  | int | no | Impulse time for shutter that needs impulse instead of holding up/down relays. If set to 0 impulse shutter is disabled. Time is in ms. Default to 0
+io_style |  | list | no | GUI style display. This will control the icon displayed on the UI
 io_type | IO type | string | yes | IO type, can be "input", "output", "inout"
 knx_group_down |  | string | yes | Down KNX Group address, Ex: x/y/z
 knx_group_up |  | string | yes | Up KNX Group address, Ex: x/y/z
@@ -988,6 +1073,7 @@ gui_type | Display type | string | no | Internal graphical type for all calaos o
 host |  | string | yes | Hostname of knxd, default to localhost
 id | Identifier | string | yes | Unique ID identifying the Input/Output in calaos-server
 impulse_time |  | int | no | Impulse time for shutter that needs impulse instead of holding up/down relays. If set to 0 impulse shutter is disabled. Time is in ms. Default to 0
+io_style |  | list | no | GUI style display. This will control the icon displayed on the UI
 io_type | IO type | string | yes | IO type, can be "input", "output", "inout"
 knx_group |  | string | yes | KNX Group address, Ex: x/y/z
 knx_group_down |  | string | yes | Down KNX Group address, Ex: x/y/z
@@ -1551,6 +1637,7 @@ gui_type | Display type | string | no | Internal graphical type for all calaos o
 host |  | string | no | IP address of the mqtt broker to connect to. Default value is 127.0.0.1.
 id | Identifier | string | yes | Unique ID identifying the Input/Output in calaos-server
 impulse_time |  | int | no | Impulse time for shutter that needs impulse instead of holding up/down relays. If set to 0 impulse shutter is disabled. Time is in ms. Default to 0
+io_style |  | list | no | GUI style display. This will control the icon displayed on the UI
 io_type | IO type | string | yes | IO type, can be "input", "output", "inout"
 ip_address_path |  | string | no | The path where to find the IP address of the sensor in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. Array indices are their own path segment, written between square brackets: for example weather/[0]/description reads the description value of the first element of the weather array. If payload is simple json, just try to use the key of the value you want to read, for example : {"ip_address": "192.168.1.156"} use "ip_address" as path. The value should be a string with the IP address.
 ip_address_topic |  | string | no | The topic on witch to publish the IP address of the sensor. If not set, no IP address will be reported.
@@ -2927,6 +3014,7 @@ gui_type | Display type | string | no | Internal graphical type for all calaos o
 host |  | string | yes | Wago PLC IP address on the network
 id | Identifier | string | yes | Unique ID identifying the Input/Output in calaos-server
 impulse_time |  | int | no | Impulse time for shutter that needs impulse instead of holding up/down relays. If set to 0 impulse shutter is disabled. Time is in ms. Default to 0
+io_style |  | list | no | GUI style display. This will control the icon displayed on the UI
 io_type | IO type | string | yes | IO type, can be "input", "output", "inout"
 knx |  | bool | no | Set to true if output is a KNX device (only for 750-849 with KNX/TP1 module)
 log_history | History log | bool | no | If enabled, write an entry in the history event log for this IO
@@ -2978,6 +3066,7 @@ gui_type | Display type | string | no | Internal graphical type for all calaos o
 host |  | string | yes | Wago PLC IP address on the network
 id | Identifier | string | yes | Unique ID identifying the Input/Output in calaos-server
 impulse_time |  | int | no | Impulse time for shutter that needs impulse instead of holding up/down relays. If set to 0 impulse shutter is disabled. Time is in ms. Default to 0
+io_style |  | list | no | GUI style display. This will control the icon displayed on the UI
 io_type | IO type | string | yes | IO type, can be "input", "output", "inout"
 knx |  | bool | no | Set to true if output is a KNX device (only for 750-849 with KNX/TP1 module)
 log_history | History log | bool | no | If enabled, write an entry in the history event log for this IO
