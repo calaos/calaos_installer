@@ -4,66 +4,114 @@
 <context>
     <name>BackupArchive</name>
     <message>
-        <location filename="../src/BackupArchive.cpp" line="69"/>
+        <location filename="../src/BackupArchive.cpp" line="70"/>
         <source>%1 cannot be read from this archive.</source>
         <translation>%1 ne peut pas être lu dans cette archive.</translation>
     </message>
     <message>
-        <location filename="../src/BackupArchive.cpp" line="77"/>
-        <location filename="../src/BackupArchive.cpp" line="179"/>
+        <location filename="../src/BackupArchive.cpp" line="78"/>
+        <location filename="../src/BackupArchive.cpp" line="180"/>
         <source>%1 is larger than the 2 MiB allowed in a backup.</source>
         <translation>%1 dépasse les 2 Mio autorisés dans une sauvegarde.</translation>
     </message>
     <message>
-        <location filename="../src/BackupArchive.cpp" line="82"/>
+        <location filename="../src/BackupArchive.cpp" line="83"/>
         <source>%1 is damaged in this archive.</source>
         <translation>%1 est endommagé dans cette archive.</translation>
     </message>
     <message>
-        <location filename="../src/BackupArchive.cpp" line="123"/>
+        <location filename="../src/BackupArchive.cpp" line="124"/>
         <source>This archive is larger than the 8 MiB allowed for a backup.</source>
         <translation>Cette archive dépasse les 8 Mio autorisés pour une sauvegarde.</translation>
     </message>
     <message>
-        <location filename="../src/BackupArchive.cpp" line="130"/>
+        <location filename="../src/BackupArchive.cpp" line="131"/>
         <source>This file cannot be read as a zip archive.</source>
         <translation>Ce fichier ne peut pas être lu comme une archive zip.</translation>
     </message>
     <message>
-        <location filename="../src/BackupArchive.cpp" line="148"/>
+        <location filename="../src/BackupArchive.cpp" line="149"/>
         <source>This archive holds more than the %1 entries allowed in a backup.</source>
         <translation>Cette archive contient plus que les %1 entrées autorisées dans une sauvegarde.</translation>
     </message>
     <message>
-        <location filename="../src/BackupArchive.cpp" line="158"/>
-        <location filename="../src/BackupArchive.cpp" line="173"/>
+        <location filename="../src/BackupArchive.cpp" line="159"/>
+        <location filename="../src/BackupArchive.cpp" line="174"/>
         <source>This archive is refused: it has a path outside its own folder (%1).</source>
         <translation>Cette archive est refusée : elle contient un chemin hors de son propre dossier (%1).</translation>
     </message>
     <message>
-        <location filename="../src/BackupArchive.cpp" line="192"/>
+        <location filename="../src/BackupArchive.cpp" line="193"/>
         <source>This archive holds %1 twice: there is no telling which one to open.</source>
         <translation>Cette archive contient deux fois %1 : impossible de savoir lequel ouvrir.</translation>
     </message>
     <message>
-        <location filename="../src/BackupArchive.cpp" line="199"/>
+        <location filename="../src/BackupArchive.cpp" line="200"/>
         <source>This archive holds two project folders: there is no telling which one to open.</source>
         <translation>Cette archive contient deux dossiers de projet : impossible de savoir lequel ouvrir.</translation>
     </message>
     <message>
-        <location filename="../src/BackupArchive.cpp" line="215"/>
+        <location filename="../src/BackupArchive.cpp" line="216"/>
         <source>This archive is not a Calaos backup: %1 is missing.</source>
         <translation>Cette archive n&apos;est pas une sauvegarde Calaos : %1 est absent.</translation>
     </message>
     <message>
-        <location filename="../src/BackupArchive.cpp" line="231"/>
+        <location filename="../src/BackupArchive.cpp" line="232"/>
         <source>%1 in this archive is not a valid Calaos project file.</source>
         <translation>%1 dans cette archive n&apos;est pas un fichier de projet Calaos valide.</translation>
     </message>
     <message>
-        <location filename="../src/BackupArchive.cpp" line="252"/>
+        <location filename="../src/BackupArchive.cpp" line="253"/>
         <source>The project could not be written to %1.</source>
         <translation>Le projet n&apos;a pas pu être écrit dans %1.</translation>
+    </message>
+</context>
+<context>
+    <name>Calaos::ClimateProgram</name>
+    <message>
+        <location filename="../Calaos/ClimateProgram.cpp" line="189"/>
+        <source>Heating level %1</source>
+        <translation>Niveau de chauffage %1</translation>
+    </message>
+    <message>
+        <location filename="../Calaos/ClimateProgram.cpp" line="189"/>
+        <source>Cooling level %1</source>
+        <translation>Niveau de climatisation %1</translation>
+    </message>
+    <message>
+        <location filename="../Calaos/ClimateProgram.cpp" line="190"/>
+        <source>Heating level %1 setpoint</source>
+        <translation>Consigne du niveau de chauffage %1</translation>
+    </message>
+    <message>
+        <location filename="../Calaos/ClimateProgram.cpp" line="190"/>
+        <source>Cooling level %1 setpoint</source>
+        <translation>Consigne du niveau de climatisation %1</translation>
+    </message>
+    <message>
+        <location filename="../Calaos/ClimateProgram.cpp" line="193"/>
+        <source>Heating default setpoint</source>
+        <translation>Consigne de chauffage par défaut</translation>
+    </message>
+    <message>
+        <location filename="../Calaos/ClimateProgram.cpp" line="195"/>
+        <source>Cooling default setpoint</source>
+        <translation>Consigne de climatisation par défaut</translation>
+    </message>
+    <message>
+        <location filename="../Calaos/ClimateProgram.cpp" line="197"/>
+        <source>Cooling off by default</source>
+        <translation>Climatisation arrêtée par défaut</translation>
+    </message>
+    <message>
+        <location filename="../Calaos/ClimateProgram.cpp" line="199"/>
+        <source>Program enabled</source>
+        <translation>Programme activé</translation>
+    </message>
+    <message>
+        <location filename="../Calaos/ClimateProgram.cpp" line="212"/>
+        <source>%1 active</source>
+        <translation>%1 actif</translation>
     </message>
 </context>
 <context>
@@ -82,77 +130,77 @@
 <context>
     <name>DeviceCommandForm</name>
     <message>
-        <location filename="../src/DeviceCommandForm.cpp" line="63"/>
+        <location filename="../src/DeviceCommandForm.cpp" line="64"/>
         <source>Mode</source>
         <translation>Mode</translation>
     </message>
     <message>
-        <location filename="../src/DeviceCommandForm.cpp" line="64"/>
+        <location filename="../src/DeviceCommandForm.cpp" line="65"/>
         <source>Target temperature</source>
         <translation>Température cible</translation>
     </message>
     <message>
-        <location filename="../src/DeviceCommandForm.cpp" line="65"/>
+        <location filename="../src/DeviceCommandForm.cpp" line="66"/>
         <source>Low target</source>
         <translation>Cible basse</translation>
     </message>
     <message>
-        <location filename="../src/DeviceCommandForm.cpp" line="66"/>
+        <location filename="../src/DeviceCommandForm.cpp" line="67"/>
         <source>High target</source>
         <translation>Cible haute</translation>
     </message>
     <message>
-        <location filename="../src/DeviceCommandForm.cpp" line="67"/>
+        <location filename="../src/DeviceCommandForm.cpp" line="68"/>
         <source>Fan mode</source>
         <translation>Ventilation</translation>
     </message>
     <message>
-        <location filename="../src/DeviceCommandForm.cpp" line="68"/>
+        <location filename="../src/DeviceCommandForm.cpp" line="69"/>
         <source>Swing mode</source>
         <translation>Oscillation</translation>
     </message>
     <message>
-        <location filename="../src/DeviceCommandForm.cpp" line="77"/>
+        <location filename="../src/DeviceCommandForm.cpp" line="78"/>
         <source>Off</source>
         <translation>Arrêt</translation>
     </message>
     <message>
-        <location filename="../src/DeviceCommandForm.cpp" line="78"/>
+        <location filename="../src/DeviceCommandForm.cpp" line="79"/>
         <source>Heat</source>
         <translation>Chaud</translation>
     </message>
     <message>
-        <location filename="../src/DeviceCommandForm.cpp" line="79"/>
+        <location filename="../src/DeviceCommandForm.cpp" line="80"/>
         <source>Cool</source>
         <translation>Froid</translation>
     </message>
     <message>
-        <location filename="../src/DeviceCommandForm.cpp" line="80"/>
+        <location filename="../src/DeviceCommandForm.cpp" line="81"/>
         <source>Auto</source>
         <translation>Auto</translation>
     </message>
     <message>
-        <location filename="../src/DeviceCommandForm.cpp" line="81"/>
+        <location filename="../src/DeviceCommandForm.cpp" line="82"/>
         <source>Dry</source>
         <translation>Déshumidification</translation>
     </message>
     <message>
-        <location filename="../src/DeviceCommandForm.cpp" line="82"/>
+        <location filename="../src/DeviceCommandForm.cpp" line="83"/>
         <source>Fan only</source>
         <translation>Ventilation seule</translation>
     </message>
     <message>
-        <location filename="../src/DeviceCommandForm.cpp" line="263"/>
+        <location filename="../src/DeviceCommandForm.cpp" line="275"/>
         <source>The value %1 is outside the bounds of this device (%2 to %3). It is kept as is unless you change it.</source>
         <translation>La valeur %1 est hors des bornes de ce device (%2 à %3). Elle est conservée telle quelle tant que vous ne la changez pas.</translation>
     </message>
     <message>
-        <location filename="../src/DeviceCommandForm.cpp" line="313"/>
+        <location filename="../src/DeviceCommandForm.cpp" line="352"/>
         <source>No field to offer: this device has no linked IO to command yet.</source>
         <translation>Aucun champ à proposer : ce device n&apos;a pas encore d&apos;IO lié à commander.</translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/DeviceCommandForm.cpp" line="322"/>
+        <location filename="../src/DeviceCommandForm.cpp" line="364"/>
         <source>%n more field(s) need a link on this device</source>
         <translation>
             <numerusform>%n champ de plus a besoin d&apos;un lien sur ce device</numerusform>
@@ -160,57 +208,58 @@
         </translation>
     </message>
     <message>
-        <location filename="../src/DeviceCommandForm.cpp" line="337"/>
+        <location filename="../src/DeviceCommandForm.cpp" line="379"/>
         <source>Sent as is: %1</source>
         <translation>Envoyé tel quel : %1</translation>
     </message>
     <message>
-        <location filename="../src/DeviceCommandForm.cpp" line="338"/>
+        <location filename="../src/DeviceCommandForm.cpp" line="380"/>
         <source>These keys of the stored command have no field in this form.</source>
         <translation>Ces clés de la commande enregistrée n&apos;ont pas de champ dans ce formulaire.</translation>
     </message>
     <message>
-        <location filename="../src/DeviceCommandForm.cpp" line="1"/>
+        <location filename="../src/DeviceCommandForm.cpp" line="301"/>
         <source>It is kept as is unless you change it.</source>
         <translation>Elle est conservée telle quelle tant que vous ne la changez pas.</translation>
     </message>
     <message>
-        <location filename="../src/DeviceCommandForm.cpp" line="1"/>
+        <location filename="../src/DeviceCommandForm.cpp" line="305"/>
+        <location filename="../src/DeviceCommandForm.cpp" line="316"/>
         <source>%1 is not in the %2 param of this device.</source>
         <translation>%1 n&apos;est pas dans le param %2 de ce device.</translation>
     </message>
     <message>
-        <location filename="../src/DeviceCommandForm.cpp" line="1"/>
+        <location filename="../src/DeviceCommandForm.cpp" line="307"/>
         <source>%1 is not offered by default with the %2 link and no modes param.</source>
         <translation>%1 n&apos;est pas offert par défaut avec le lien %2 et sans param modes.</translation>
     </message>
     <message>
-        <location filename="../src/DeviceCommandForm.cpp" line="1"/>
+        <location filename="../src/DeviceCommandForm.cpp" line="310"/>
         <source>%1 needs %2, which this device does not offer.</source>
         <translation>%1 demande %2, que ce device n&apos;offre pas.</translation>
     </message>
     <message>
-        <location filename="../src/DeviceCommandForm.cpp" line="1"/>
+        <location filename="../src/DeviceCommandForm.cpp" line="311"/>
         <source> and </source>
         <translation> et </translation>
     </message>
     <message>
-        <location filename="../src/DeviceCommandForm.cpp" line="1"/>
+        <location filename="../src/DeviceCommandForm.cpp" line="313"/>
         <source>%1 needs the link %2, which this device lacks or cannot write.</source>
         <translation>%1 demande le lien %2, que ce device n&apos;a pas ou ne peut pas écrire.</translation>
     </message>
     <message>
-        <location filename="../src/DeviceCommandForm.cpp" line="1"/>
+        <location filename="../src/DeviceCommandForm.cpp" line="318"/>
         <source>%1 is not a documented value of %2.</source>
         <translation>%1 n&apos;est pas une valeur documentée de %2.</translation>
     </message>
     <message>
-        <location filename="../src/DeviceCommandForm.cpp" line="1"/>
+        <location filename="../src/DeviceCommandForm.cpp" line="361"/>
         <source>%1 (link not writable)</source>
         <translation>%1 (lien non inscriptible)</translation>
     </message>
     <message>
-        <location filename="../src/DeviceCommandForm.cpp" line="1"/>
+        <location filename="../src/DeviceCommandForm.cpp" line="421"/>
         <source>Low and high must be at least %1 apart, low below high: the server refuses the pair otherwise.</source>
         <translation>Les bornes basse et haute doivent être distantes d&apos;au moins %1, la basse sous la haute : le serveur refuse la paire sinon.</translation>
     </message>
@@ -218,67 +267,67 @@
 <context>
     <name>DeviceEdit</name>
     <message>
-        <location filename="../src/DeviceEdit.cpp" line="307"/>
-        <source>%1: &quot;%2&quot; is one of this device's own IOs.</source>
+        <location filename="../src/DeviceEdit.cpp" line="313"/>
+        <source>%1: &quot;%2&quot; is one of this device&apos;s own IOs.</source>
         <translation>%1 : « %2 » est un des IOs de ce device.</translation>
     </message>
     <message>
-        <location filename="../src/DeviceEdit.cpp" line="261"/>
+        <location filename="../src/DeviceEdit.cpp" line="267"/>
         <source>%1 (&quot;%2&quot; not found)</source>
         <translation>%1 (« %2 » introuvable)</translation>
     </message>
     <message>
-        <location filename="../src/DeviceEdit.cpp" line="265"/>
+        <location filename="../src/DeviceEdit.cpp" line="301"/>
         <source>%1: &quot;%2&quot; is already linked as %3.</source>
         <translation>%1 : « %2 » est déjà lié comme %3.</translation>
     </message>
     <message>
-        <location filename="../src/DeviceEdit.cpp" line="275"/>
+        <location filename="../src/DeviceEdit.cpp" line="311"/>
         <source>%1: no IO has the id &quot;%2&quot;.</source>
-        <translation>%1 : aucun IO n'a l'id « %2 ».</translation>
+        <translation>%1 : aucun IO n&apos;a l&apos;id « %2 ».</translation>
     </message>
     <message>
-        <location filename="../src/DeviceEdit.cpp" line="277"/>
+        <location filename="../src/DeviceEdit.cpp" line="315"/>
         <source>%1: &quot;%2&quot; is not an IO of the expected kind.</source>
-        <translation>%1 : « %2 » n'est pas un IO du type attendu.</translation>
+        <translation>%1 : « %2 » n&apos;est pas un IO du type attendu.</translation>
     </message>
     <message>
-        <location filename="../src/DeviceEdit.cpp" line="280"/>
+        <location filename="../src/DeviceEdit.cpp" line="318"/>
         <source>%1: &quot;%2&quot; is already an output of thermostat &quot;%3&quot;.</source>
         <translation>%1 : « %2 » est déjà une sortie du thermostat « %3 ».</translation>
     </message>
     <message>
-        <location filename="../src/DeviceEdit.cpp" line="329"/>
+        <location filename="../src/DeviceEdit.cpp" line="335"/>
         <source>%1 and %2 cannot both be linked: %1 replaces %2.</source>
         <translation>%1 et %2 ne peuvent pas être liés ensemble : %1 remplace %2.</translation>
     </message>
     <message>
-        <location filename="../src/DeviceEdit.cpp" line="291"/>
+        <location filename="../src/DeviceEdit.cpp" line="347"/>
         <source>%1 is required.</source>
         <translation>%1 est obligatoire.</translation>
     </message>
     <message>
-        <location filename="../src/DeviceEdit.cpp" line="301"/>
+        <location filename="../src/DeviceEdit.cpp" line="357"/>
         <source>%1 must be a whole number.</source>
         <translation>%1 doit être un nombre entier.</translation>
     </message>
     <message>
-        <location filename="../src/DeviceEdit.cpp" line="302"/>
+        <location filename="../src/DeviceEdit.cpp" line="358"/>
         <source>%1 must be a number.</source>
         <translation>%1 doit être un nombre.</translation>
     </message>
     <message>
-        <location filename="../src/DeviceEdit.cpp" line="307"/>
+        <location filename="../src/DeviceEdit.cpp" line="363"/>
         <source>%1 must be between %2 and %3.</source>
         <translation>%1 doit être compris entre %2 et %3.</translation>
     </message>
     <message>
-        <location filename="../src/DeviceEdit.cpp" line="311"/>
+        <location filename="../src/DeviceEdit.cpp" line="367"/>
         <source>%1 must be true or false.</source>
         <translation>%1 doit valoir true ou false.</translation>
     </message>
     <message>
-        <location filename="../src/DeviceEdit.cpp" line="313"/>
+        <location filename="../src/DeviceEdit.cpp" line="369"/>
         <source>%1: &quot;%2&quot; is not one of the choices.</source>
         <translation>%1 : « %2 » ne fait pas partie des choix.</translation>
     </message>
@@ -286,82 +335,82 @@
 <context>
     <name>DeviceTemplates</name>
     <message>
-        <location filename="../src/DeviceTemplates.cpp" line="239"/>
+        <location filename="../src/DeviceTemplates.cpp" line="269"/>
         <source>%1 is required.</source>
         <translation>%1 est obligatoire.</translation>
     </message>
     <message>
-        <location filename="../src/DeviceTemplates.cpp" line="252"/>
+        <location filename="../src/DeviceTemplates.cpp" line="282"/>
         <source>%1 must be a number.</source>
         <translation>%1 doit être un nombre.</translation>
     </message>
     <message>
-        <location filename="../src/DeviceTemplates.cpp" line="256"/>
+        <location filename="../src/DeviceTemplates.cpp" line="286"/>
         <source>%1 must be between %2 and %3.</source>
         <translation>%1 doit être compris entre %2 et %3.</translation>
     </message>
     <message>
-        <location filename="../src/DeviceTemplates.cpp" line="258"/>
+        <location filename="../src/DeviceTemplates.cpp" line="288"/>
         <source>%1 must be %2 or more.</source>
         <translation>%1 doit valoir au moins %2.</translation>
     </message>
     <message>
-        <location filename="../src/DeviceTemplates.cpp" line="260"/>
+        <location filename="../src/DeviceTemplates.cpp" line="290"/>
         <source>%1 must be %2 or less.</source>
         <translation>%1 doit valoir au plus %2.</translation>
     </message>
     <message>
-        <location filename="../src/DeviceTemplates.cpp" line="274"/>
+        <location filename="../src/DeviceTemplates.cpp" line="304"/>
         <source>%1: choose one at least.</source>
         <translation>%1 : cochez-en au moins un.</translation>
     </message>
     <message>
-        <location filename="../src/DeviceTemplates.cpp" line="277"/>
+        <location filename="../src/DeviceTemplates.cpp" line="307"/>
         <source>%1: &quot;%2&quot; is not one of the choices.</source>
         <translation>%1 : « %2 » ne fait pas partie des choix.</translation>
     </message>
     <message>
-        <location filename="../src/DeviceTemplates.cpp" line="283"/>
+        <location filename="../src/DeviceTemplates.cpp" line="313"/>
         <source>%1: choose a room.</source>
         <translation>%1 : choisissez une pièce.</translation>
     </message>
     <message>
-        <location filename="../src/DeviceTemplates.cpp" line="293"/>
+        <location filename="../src/DeviceTemplates.cpp" line="322"/>
         <source>%1: choose an IO.</source>
         <translation>%1 : choisissez un IO.</translation>
     </message>
     <message>
-        <location filename="../src/DeviceTemplates.cpp" line="296"/>
+        <location filename="../src/DeviceTemplates.cpp" line="325"/>
         <source>%1: no IO has the id &quot;%2&quot;.</source>
-        <translation>%1 : aucun IO n'a l'id « %2 ».</translation>
+        <translation>%1 : aucun IO n&apos;a l&apos;id « %2 ».</translation>
     </message>
     <message>
-        <location filename="../src/DeviceTemplates.cpp" line="298"/>
+        <location filename="../src/DeviceTemplates.cpp" line="327"/>
         <source>%1: &quot;%2&quot; is not an IO of the expected kind.</source>
-        <translation>%1 : « %2 » n'est pas un IO du type attendu.</translation>
+        <translation>%1 : « %2 » n&apos;est pas un IO du type attendu.</translation>
     </message>
     <message>
-        <location filename="../src/DeviceTemplates.cpp" line="304"/>
+        <location filename="../src/DeviceTemplates.cpp" line="336"/>
         <source>%1: &quot;%2&quot; is already chosen for %3.</source>
         <translation>%1 : « %2 » est déjà choisi pour %3.</translation>
     </message>
     <message>
-        <location filename="../src/DeviceTemplates.cpp" line="325"/>
+        <location filename="../src/DeviceTemplates.cpp" line="329"/>
         <source>%1: &quot;%2&quot; is already an output of thermostat &quot;%3&quot;.</source>
         <translation>%1 : « %2 » est déjà une sortie du thermostat « %3 ».</translation>
     </message>
     <message>
-        <location filename="../src/DeviceTemplates.cpp" line="310"/>
+        <location filename="../src/DeviceTemplates.cpp" line="342"/>
         <source>%1: this installer does not know the field type &quot;%2&quot;.</source>
         <translation>%1 : cet installer ne connaît pas le type de champ « %2 ».</translation>
     </message>
     <message>
-        <location filename="../src/DeviceTemplates.cpp" line="314"/>
+        <location filename="../src/DeviceTemplates.cpp" line="346"/>
         <source>The template has no room field.</source>
-        <translation>Le template n'a pas de champ pièce.</translation>
+        <translation>Le template n&apos;a pas de champ pièce.</translation>
     </message>
     <message>
-        <location filename="../src/DeviceTemplates.cpp" line="320"/>
+        <location filename="../src/DeviceTemplates.cpp" line="352"/>
         <source>The template declares an IO of unknown kind &quot;%1&quot;.</source>
         <translation>Le template déclare un IO de genre inconnu « %1 ».</translation>
     </message>
@@ -396,14 +445,110 @@ p, li { white-space: pre-wrap; }
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/dialogcameraview.cpp" line="69"/>
+        <location filename="../src/dialogcameraview.cpp" line="81"/>
         <source>Calaos Installer: Erreur !</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/dialogcameraview.cpp" line="82"/>
+        <location filename="../src/dialogcameraview.cpp" line="94"/>
         <source>Calaos Installer: Error, image is NULL !</source>
         <translation></translation>
+    </message>
+</context>
+<context>
+    <name>DialogClimateProgram</name>
+    <message>
+        <location filename="../src/DialogClimateProgram.cpp" line="76"/>
+        <source>Time program of &quot;%1&quot;</source>
+        <translation>Programme horaire de &quot;%1&quot;</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogClimateProgram.cpp" line="81"/>
+        <source>The server creates the IOs of new levels at its next start. Lowering a count deletes the levels above it, with their time ranges and the rules using them. Time ranges are saved as soon as their own dialog is accepted, even if this one is cancelled.</source>
+        <translation>Le serveur crée les IO des nouveaux niveaux à son prochain démarrage. Réduire un nombre supprime les niveaux au-dessus, avec leurs plages horaires et les règles qui les utilisent. Les plages horaires sont enregistrées dès que leur propre fenêtre est validée, même si celle-ci est annulée.</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogClimateProgram.cpp" line="101"/>
+        <source>This climate does not offer this mode</source>
+        <translation>Ce climatiseur ne propose pas ce mode</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogClimateProgram.cpp" line="104"/>
+        <source>Program</source>
+        <translation>Programme</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogClimateProgram.cpp" line="116"/>
+        <source>Minimum gap between the low and high setpoints in auto mode</source>
+        <translation>Écart minimal entre les consignes basse et haute en mode auto</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogClimateProgram.cpp" line="117"/>
+        <source>Minimum gap in auto mode</source>
+        <translation>Écart minimal en mode auto</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogClimateProgram.cpp" line="119"/>
+        <source>Program enabled</source>
+        <translation>Programme activé</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogClimateProgram.cpp" line="149"/>
+        <source>Heating</source>
+        <translation>Chauffage</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogClimateProgram.cpp" line="149"/>
+        <source>Cooling</source>
+        <translation>Climatisation</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogClimateProgram.cpp" line="161"/>
+        <source>Levels</source>
+        <translation>Niveaux</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogClimateProgram.cpp" line="172"/>
+        <source>Setpoint when no level is active</source>
+        <translation>Consigne quand aucun niveau n'est actif</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogClimateProgram.cpp" line="173"/>
+        <source>Default setpoint</source>
+        <translation>Consigne par défaut</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogClimateProgram.cpp" line="180"/>
+        <source>Cooling off when no level is active</source>
+        <translation>Climatisation arrêtée quand aucun niveau n'est actif</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogClimateProgram.cpp" line="195"/>
+        <source>Level %1</source>
+        <translation>Niveau %1</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogClimateProgram.cpp" line="200"/>
+        <source>Time ranges...</source>
+        <translation>Plages horaires...</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogClimateProgram.cpp" line="236"/>
+        <source>Deleted with its time ranges</source>
+        <translation>Supprimé avec ses plages horaires</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogClimateProgram.cpp" line="238"/>
+        <source>Created by the server at its next start</source>
+        <translation>Créé par le serveur à son prochain démarrage</translation>
+    </message>
+    <message numerus="yes">
+        <location filename="../src/DialogClimateProgram.cpp" line="323"/>
+        <source>%n program IO(s) of &quot;%1&quot;</source>
+        <translation>
+            <numerusform>%n IO de programme de &quot;%1&quot;</numerusform>
+            <numerusform>%n IO de programme de &quot;%1&quot;</numerusform>
+        </translation>
     </message>
 </context>
 <context>
@@ -741,605 +886,6 @@ p, li { white-space: pre-wrap; }
     </message>
 </context>
 <context>
-    <name>DialogEditDevice</name>
-    <message>
-        <location filename="../src/DialogEditDevice.cpp" line="270"/>
-        <source>IODoc does not describe these links and params: they are kept as they are.</source>
-        <translation>IODoc ne décrit pas ces liens et params : ils sont gardés tels quels.</translation>
-    </message>
-    <message>
-        <location filename="../src/DialogEditDevice.cpp" line="268"/>
-        <source>Not documented</source>
-        <translation>Non documenté</translation>
-    </message>
-    <message>
-        <location filename="../src/DialogEditDevice.cpp" line="259"/>
-        <source>, commands: %1</source>
-        <translation>, commandes : %1</translation>
-    </message>
-    <message>
-        <location filename="../src/DialogEditDevice.cpp" line="170"/>
-        <source>Commands go to %1.</source>
-        <translation>Les commandes vont à %1.</translation>
-    </message>
-    <message>
-        <location filename="../src/DialogEditDevice.cpp" line="169"/>
-        <source>Commands go to %1. Picking another IO drops it: commands then go to the IO picked.</source>
-        <translation>Les commandes vont à %1. Choisir un autre IO le retire : les commandes vont alors à l'IO choisi.</translation>
-    </message>
-    <message>
-        <location filename="../src/DialogEditDevice.cpp" line="62"/>
-        <source>Device: %1</source>
-        <translation>Device : %1</translation>
-    </message>
-    <message>
-        <location filename="../src/DialogEditDevice.cpp" line="69"/>
-        <source>Id:</source>
-        <translation>Id :</translation>
-    </message>
-    <message>
-        <location filename="../src/DialogEditDevice.cpp" line="70"/>
-        <source>Family:</source>
-        <translation>Famille :</translation>
-    </message>
-    <message>
-        <location filename="../src/DialogEditDevice.cpp" line="113"/>
-        <source>Links</source>
-        <translation>Liens</translation>
-    </message>
-    <message>
-        <location filename="../src/DialogEditDevice.cpp" line="131"/>
-        <source>%1, owned by this device</source>
-        <translation>%1, possédé par ce device</translation>
-    </message>
-    <message>
-        <location filename="../src/DialogEditDevice.cpp" line="137"/>
-        <source>None</source>
-        <translation>Aucun</translation>
-    </message>
-    <message>
-        <location filename="../src/DialogEditDevice.cpp" line="146"/>
-        <source>%1, of another kind</source>
-        <translation>%1, d'un autre type</translation>
-    </message>
-    <message>
-        <location filename="../src/DialogEditDevice.cpp" line="146"/>
-        <source>%1 (not found)</source>
-        <translation>%1 (introuvable)</translation>
-    </message>
-    <message>
-        <location filename="../src/DialogEditDevice.cpp" line="159"/>
-        <source>IODoc documents no link for this device.</source>
-        <translation>IODoc ne documente aucun lien pour ce device.</translation>
-    </message>
-    <message>
-        <location filename="../src/DialogEditDevice.cpp" line="165"/>
-        <source>Parameters</source>
-        <translation>Paramètres</translation>
-    </message>
-    <message>
-        <location filename="../src/DialogEditDevice.cpp" line="187"/>
-        <location filename="../src/DialogEditDevice.cpp" line="199"/>
-        <source>Not set</source>
-        <translation>Non défini</translation>
-    </message>
-    <message>
-        <location filename="../src/DialogEditDevice.cpp" line="187"/>
-        <source>Default (%1)</source>
-        <translation>Par défaut (%1)</translation>
-    </message>
-    <message>
-        <location filename="../src/DialogEditDevice.cpp" line="200"/>
-        <source>Default: %1</source>
-        <translation>Par défaut : %1</translation>
-    </message>
-    <message>
-        <location filename="../src/DialogEditDevice.cpp" line="207"/>
-        <source>(%1 to %2)</source>
-        <translation>(%1 à %2)</translation>
-    </message>
-    <message>
-        <location filename="../src/DialogEditDevice.cpp" line="232"/>
-        <source>Owned IOs</source>
-        <translation>IOs possédés</translation>
-    </message>
-    <message>
-        <location filename="../src/DialogEditDevice.cpp" line="234"/>
-        <source>Created with the device and deleted with it; edit each one from the tree.</source>
-        <translation>Créés avec le device et supprimés avec lui ; chacun se modifie depuis l'arbre.</translation>
-    </message>
-    <message>
-        <location filename="../src/DialogEditDevice.cpp" line="276"/>
-        <source>%1 (required):</source>
-        <translation>%1 (requis) :</translation>
-    </message>
-    <message>
-        <location filename="../src/DialogEditDevice.cpp" line="277"/>
-        <source>%1:</source>
-        <translation>%1 :</translation>
-    </message>
-    <message>
-        <location filename="../src/DialogEditDevice.cpp" line="281"/>
-        <source>No IO for %1: the device loads without what this link gives.</source>
-        <translation>Aucun IO pour %1 : le device se charge sans ce que ce lien apporte.</translation>
-    </message>
-</context>
-<context>
-    <name>DialogHomeAssistantMqtt</name>
-    <message>
-        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="34"/>
-        <source>Home Assistant MQTT discovery</source>
-        <translation>Découverte MQTT Home Assistant</translation>
-    </message>
-    <message>
-        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="38"/>
-        <source>Lists the entities that Home Assistant MQTT discovery announces on the broker (ESPHome, Zigbee2MQTT, Tasmota...). The checked ones are added to the project: an MQTT IO each, a climate device for a climate.</source>
-        <translation>Liste les entités que la découverte MQTT Home Assistant annonce sur le broker (ESPHome, Zigbee2MQTT, Tasmota...). Celles cochées sont ajoutées au projet : une IO MQTT chacune, un appareil climat pour un climat.</translation>
-    </message>
-    <message>
-        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="45"/>
-        <source>Broker used by the Calaos server</source>
-        <translation>Broker utilisé par le serveur Calaos</translation>
-    </message>
-    <message>
-        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="50"/>
-        <source>Written in the imported IOs. 127.0.0.1 is the Calaos box itself.</source>
-        <translation>Écrit dans les IO importées. 127.0.0.1 est la box Calaos elle-même.</translation>
-    </message>
-    <message>
-        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="60"/>
-        <source>Address:</source>
-        <translation>Adresse :</translation>
-    </message>
-    <message>
-        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="61"/>
-        <source>Port:</source>
-        <translation>Port :</translation>
-    </message>
-    <message>
-        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="62"/>
-        <source>User:</source>
-        <translation>Utilisateur :</translation>
-    </message>
-    <message>
-        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="63"/>
-        <source>Password:</source>
-        <translation>Mot de passe :</translation>
-    </message>
-    <message>
-        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="67"/>
-        <source>Broker address from this computer:</source>
-        <translation>Adresse du broker depuis cet ordinateur :</translation>
-    </message>
-    <message>
-        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="70"/>
-        <source>Address of the Calaos box</source>
-        <translation>Adresse de la box Calaos</translation>
-    </message>
-    <message>
-        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="71"/>
-        <source>Port, user and password are the ones above; the user and the password of the project&apos;s broker are only sent to that broker.</source>
-        <translation>Port, utilisateur et mot de passe sont ceux ci-dessus ; l&apos;utilisateur et le mot de passe du broker du projet ne sont envoyés qu&apos;à ce broker.</translation>
-    </message>
-    <message>
-        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="74"/>
-        <source>Discovery prefix:</source>
-        <translation>Préfixe de découverte :</translation>
-    </message>
-    <message>
-        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="79"/>
-        <source>Search</source>
-        <translation>Rechercher</translation>
-    </message>
-    <message>
-        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="96"/>
-        <source>Search the broker to list its entities.</source>
-        <translation>Interrogez le broker pour lister ses entités.</translation>
-    </message>
-    <message>
-        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="100"/>
-        <source>Name</source>
-        <translation>Nom</translation>
-    </message>
-    <message>
-        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="100"/>
-        <source>Home Assistant</source>
-        <translation>Home Assistant</translation>
-    </message>
-    <message>
-        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="100"/>
-        <source>Calaos</source>
-        <translation>Calaos</translation>
-    </message>
-    <message>
-        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="100"/>
-        <source>Status</source>
-        <translation>État</translation>
-    </message>
-    <message>
-        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="117"/>
-        <source>Import into the room:</source>
-        <translation>Importer dans la pièce :</translation>
-    </message>
-    <message>
-        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="129"/>
-        <source>Import</source>
-        <translation>Importer</translation>
-    </message>
-    <message>
-        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="147"/>
-        <source>Listening to the broker...</source>
-        <translation>Écoute du broker...</translation>
-    </message>
-    <message>
-        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="204"/>
-        <source>Type the address of the broker as this computer reaches it.</source>
-        <translation>Saisissez l&apos;adresse du broker telle que cet ordinateur le joint.</translation>
-    </message>
-    <message>
-        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="212"/>
-        <source>The discovery prefix %1 cannot contain + or #: it is the start of the topics, homeassistant by default.</source>
-        <translation>Le préfixe de découverte %1 ne peut pas contenir + ni # : c&apos;est le début des topics, homeassistant par défaut.</translation>
-    </message>
-    <message>
-        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="231"/>
-        <source>Connecting to %1:%2...</source>
-        <translation>Connexion à %1:%2...</translation>
-    </message>
-    <message>
-        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="243"/>
-        <source>%1 What was read before is listed.</source>
-        <translation>%1 Ce qui a été lu avant est listé.</translation>
-    </message>
-    <message>
-        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="245"/>
-        <source>No Home Assistant discovery config under %1/ on this broker. Check the discovery prefix, and that the devices have discovery on.</source>
-        <translation>Aucune config de découverte Home Assistant sous %1/ sur ce broker. Vérifiez le préfixe de découverte, et que la découverte est activée sur les appareils.</translation>
-    </message>
-    <message>
-        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="248"/>
-        <source>Entities found: %1. Check the ones to import.</source>
-        <translation>Entités trouvées : %1. Cochez celles à importer.</translation>
-    </message>
-    <message>
-        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="251"/>
-        <source>Discovery configs that could not be read: %1.</source>
-        <translation>Configs de découverte illisibles : %1.</translation>
-    </message>
-    <message>
-        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="294"/>
-        <source>not imported: %1</source>
-        <translation>non importé : %1</translation>
-    </message>
-    <message>
-        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="296"/>
-        <source>already in the project</source>
-        <translation>déjà dans le projet</translation>
-    </message>
-    <message>
-        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="298"/>
-        <source>offline</source>
-        <translation>hors ligne</translation>
-    </message>
-    <message>
-        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="300"/>
-        <source>online</source>
-        <translation>en ligne</translation>
-    </message>
-</context>
-<context>
-    <name>DialogNewDevice</name>
-    <message>
-        <location filename="../src/DialogNewDevice.cpp" line="62"/>
-        <source>New device from a template</source>
-        <translation>Nouveau device depuis un template</translation>
-    </message>
-    <message>
-        <location filename="../src/DialogNewDevice.cpp" line="77"/>
-        <source>Template:</source>
-        <translation>Template :</translation>
-    </message>
-    <message>
-        <location filename="../src/DialogNewDevice.cpp" line="101"/>
-        <source>Create</source>
-        <translation>Créer</translation>
-    </message>
-    <message>
-        <location filename="../src/DialogNewDevice.cpp" line="114"/>
-        <source>No device template is available in this installer.</source>
-        <translation>Aucun template de device n'est disponible dans cet installer.</translation>
-    </message>
-    <message>
-        <location filename="../src/DialogNewDevice.cpp" line="185"/>
-        <source>No IO of this project fits: create it first.</source>
-        <translation>Aucun IO du projet ne convient : créez-le d'abord.</translation>
-    </message>
-    <message>
-        <location filename="../src/DialogNewDevice.cpp" line="168"/>
-        <source>Link: %1</source>
-        <translation>Lien : %1</translation>
-    </message>
-    <message>
-        <location filename="../src/DialogNewDevice.cpp" line="168"/>
-        <source>Parameter: %1</source>
-        <translation>Paramètre : %1</translation>
-    </message>
-    <message>
-        <location filename="../src/DialogNewDevice.cpp" line="198"/>
-        <source>%1:</source>
-        <translation>%1 :</translation>
-    </message>
-    <message>
-        <location filename="../src/DialogNewDevice.cpp" line="266"/>
-        <source>Choose an IO</source>
-        <translation>Choisir un IO</translation>
-    </message>
-    <message>
-        <location filename="../src/DialogNewDevice.cpp" line="266"/>
-        <source>None</source>
-        <translation>Aucun</translation>
-    </message>
-    <message>
-        <location filename="../src/DialogNewDevice.cpp" line="377"/>
-        <source>The device could not be created.</source>
-        <translation>Le device n'a pas pu être créé.</translation>
-    </message>
-    <message>
-        <location filename="../src/DialogNewDevice.cpp" line="389"/>
-        <source>Device created</source>
-        <translation>Device créé</translation>
-    </message>
-    <message>
-        <location filename="../src/DialogNewDevice.cpp" line="394"/>
-        <source>%1 is created. Its setup needs a few more steps:</source>
-        <translation>%1 est créé. Sa mise en service demande encore quelques étapes :</translation>
-    </message>
-</context>
-<context>
-    <name>HomeAssistantDiscovery</name>
-    <message>
-        <location filename="../src/HomeAssistantDiscovery.cpp" line="269"/>
-        <source>its temperatures are in °F, Calaos climates in °C</source>
-        <translation>ses températures sont en °F, les climats Calaos en °C</translation>
-    </message>
-    <message>
-        <location filename="../src/HomeAssistantDiscovery.cpp" line="286"/>
-        <source>its %1 goes through a template Calaos cannot follow</source>
-        <translation>son %1 passe par un template que Calaos ne sait pas suivre</translation>
-    </message>
-    <message>
-        <location filename="../src/HomeAssistantDiscovery.cpp" line="287"/>
-        <source>it does not report its %1</source>
-        <translation>il ne remonte pas son %1</translation>
-    </message>
-    <message>
-        <location filename="../src/HomeAssistantDiscovery.cpp" line="294"/>
-        <source>Not imported: %1 (%2).</source>
-        <translation>Non importé : %1 (%2).</translation>
-    </message>
-    <message>
-        <location filename="../src/HomeAssistantDiscovery.cpp" line="302"/>
-        <source>it has no mode topics</source>
-        <translation>il n&apos;a pas de topics de mode</translation>
-    </message>
-    <message>
-        <location filename="../src/HomeAssistantDiscovery.cpp" line="315"/>
-        <source>it has no setpoint topics</source>
-        <translation>il n&apos;a pas de topics de consigne</translation>
-    </message>
-    <message>
-        <location filename="../src/HomeAssistantDiscovery.cpp" line="322"/>
-        <source>two setpoints without a current temperature: no template takes that</source>
-        <translation>deux consignes sans température ambiante : aucun modèle ne le prend</translation>
-    </message>
-    <message>
-        <location filename="../src/HomeAssistantDiscovery.cpp" line="329"/>
-        <source>the device template %1 is missing from this installer</source>
-        <translation>le modèle d&apos;appareil %1 manque dans cet installeur</translation>
-    </message>
-    <message>
-        <location filename="../src/HomeAssistantDiscovery.cpp" line="333"/>
-        <source>Not imported: action (the template without room temperature has none).</source>
-        <translation>Non importé : action (le modèle sans température ambiante n&apos;en a pas).</translation>
-    </message>
-    <message>
-        <location filename="../src/HomeAssistantDiscovery.cpp" line="349"/>
-        <source>No room sensor relay: Calaos publishes it on the topics of an ESPHome node only.</source>
-        <translation>Pas de relais de sonde d&apos;ambiance : Calaos ne le publie que sur les topics d&apos;un nœud ESPHome.</translation>
-    </message>
-    <message>
-        <location filename="../src/HomeAssistantDiscovery.cpp" line="658"/>
-        <location filename="../src/HomeAssistantDiscovery.cpp" line="678"/>
-        <source>it has no state topic</source>
-        <translation>il n&apos;a pas de topic d&apos;état</translation>
-    </message>
-    <message>
-        <location filename="../src/HomeAssistantDiscovery.cpp" line="660"/>
-        <location filename="../src/HomeAssistantDiscovery.cpp" line="680"/>
-        <location filename="../src/HomeAssistantDiscovery.cpp" line="719"/>
-        <location filename="../src/HomeAssistantDiscovery.cpp" line="865"/>
-        <source>its value goes through a template Calaos cannot follow</source>
-        <translation>sa valeur passe par un template que Calaos ne sait pas suivre</translation>
-    </message>
-    <message>
-        <location filename="../src/HomeAssistantDiscovery.cpp" line="715"/>
-        <location filename="../src/HomeAssistantDiscovery.cpp" line="747"/>
-        <location filename="../src/HomeAssistantDiscovery.cpp" line="814"/>
-        <location filename="../src/HomeAssistantDiscovery.cpp" line="836"/>
-        <location filename="../src/HomeAssistantDiscovery.cpp" line="859"/>
-        <source>it has no command topic</source>
-        <translation>il n&apos;a pas de topic de commande</translation>
-    </message>
-    <message>
-        <location filename="../src/HomeAssistantDiscovery.cpp" line="717"/>
-        <location filename="../src/HomeAssistantDiscovery.cpp" line="749"/>
-        <location filename="../src/HomeAssistantDiscovery.cpp" line="816"/>
-        <source>it does not report its state</source>
-        <translation>il ne remonte pas son état</translation>
-    </message>
-    <message>
-        <location filename="../src/HomeAssistantDiscovery.cpp" line="723"/>
-        <source>it reports other values than the ones it takes</source>
-        <translation>il remonte d&apos;autres valeurs que celles qu&apos;il reçoit</translation>
-    </message>
-    <message>
-        <location filename="../src/HomeAssistantDiscovery.cpp" line="766"/>
-        <location filename="../src/HomeAssistantDiscovery.cpp" line="775"/>
-        <source>Calaos turns it off with brightness 0: switched off elsewhere with its brightness kept, it still shows on.</source>
-        <translation>Calaos l&apos;éteint avec une luminosité de 0 : éteinte ailleurs en gardant sa luminosité, elle reste affichée allumée.</translation>
-    </message>
-    <message>
-        <location filename="../src/HomeAssistantDiscovery.cpp" line="778"/>
-        <location filename="../src/HomeAssistantDiscovery.cpp" line="828"/>
-        <source>Its colour is not imported: Calaos reads colours as x and y on a 0 to 255 brightness.</source>
-        <translation>Sa couleur n&apos;est pas importée : Calaos lit les couleurs en x et y avec une luminosité de 0 à 255.</translation>
-    </message>
-    <message>
-        <location filename="../src/HomeAssistantDiscovery.cpp" line="798"/>
-        <source>it does not report its brightness</source>
-        <translation>il ne remonte pas sa luminosité</translation>
-    </message>
-    <message>
-        <location filename="../src/HomeAssistantDiscovery.cpp" line="802"/>
-        <source>its brightness goes through a template Calaos cannot follow</source>
-        <translation>sa luminosité passe par un template que Calaos ne sait pas suivre</translation>
-    </message>
-    <message>
-        <location filename="../src/HomeAssistantDiscovery.cpp" line="809"/>
-        <source>Driven by its brightness topic: off is brightness 0.</source>
-        <translation>Piloté par son topic de luminosité : éteint correspond à la luminosité 0.</translation>
-    </message>
-    <message>
-        <location filename="../src/HomeAssistantDiscovery.cpp" line="818"/>
-        <location filename="../src/HomeAssistantDiscovery.cpp" line="838"/>
-        <source>its state goes through a template Calaos cannot follow</source>
-        <translation>son état passe par un template que Calaos ne sait pas suivre</translation>
-    </message>
-    <message>
-        <location filename="../src/HomeAssistantDiscovery.cpp" line="831"/>
-        <source>lights of the %1 schema are not imported</source>
-        <translation>les lumières du schéma %1 ne sont pas importées</translation>
-    </message>
-    <message>
-        <location filename="../src/HomeAssistantDiscovery.cpp" line="854"/>
-        <source>It reports no state: Calaos times its travel, 60 s until set in its properties.</source>
-        <translation>Il ne remonte pas d&apos;état : Calaos chronomètre sa course, 60 s tant que ce n&apos;est pas réglé dans ses propriétés.</translation>
-    </message>
-    <message>
-        <location filename="../src/HomeAssistantDiscovery.cpp" line="1033"/>
-        <source>the device could not be created</source>
-        <translation>l&apos;appareil n&apos;a pas pu être créé</translation>
-    </message>
-    <message>
-        <location filename="../src/HomeAssistantDiscovery.cpp" line="861"/>
-        <source>it does not report its value</source>
-        <translation>il ne remonte pas sa valeur</translation>
-    </message>
-    <message>
-        <location filename="../src/HomeAssistantDiscovery.cpp" line="879"/>
-        <source>a climate is a device</source>
-        <translation>un climat est un appareil</translation>
-    </message>
-    <message>
-        <location filename="../src/HomeAssistantDiscovery.cpp" line="881"/>
-        <source>Calaos does not import %1 entities</source>
-        <translation>Calaos n&apos;importe pas les entités %1</translation>
-    </message>
-    <message>
-        <location filename="../src/HomeAssistantDiscovery.cpp" line="1014"/>
-        <source>%1: already in the project, skipped.</source>
-        <translation>%1 : déjà dans le projet, ignoré.</translation>
-    </message>
-    <message>
-        <location filename="../src/HomeAssistantDiscovery.cpp" line="1032"/>
-        <location filename="../src/HomeAssistantDiscovery.cpp" line="1044"/>
-        <source>%1: not imported, %2.</source>
-        <translation>%1 : non importé, %2.</translation>
-    </message>
-</context>
-<context>
-    <name>OnlineConfig</name>
-    <message>
-        <location filename="../src/OnlineConfig.cpp" line="91"/>
-        <source>(device without id)</source>
-        <translation>(device sans identifiant)</translation>
-    </message>
-    <message>
-        <location filename="../src/OnlineConfig.cpp" line="130"/>
-        <source>This server has an admin password. Enter it in the &quot;Admin password&quot; field (again if the previous admin session expired).</source>
-        <translation>Ce serveur a un mot de passe admin. Saisissez-le dans le champ « Mot de passe admin » (à nouveau si la session admin précédente a expiré).</translation>
-    </message>
-    <message>
-        <location filename="../src/OnlineConfig.cpp" line="133"/>
-        <source>Wrong admin password.</source>
-        <translation>Mot de passe admin incorrect.</translation>
-    </message>
-    <message>
-        <location filename="../src/OnlineConfig.cpp" line="134"/>
-        <source>This server only accepts this request over https. Use its address alone (or https://address/api.php) instead of http://.</source>
-        <translation>Ce serveur n&apos;accepte cette requête qu&apos;en https. Utilisez son adresse seule (ou https://adresse/api.php) au lieu de http://.</translation>
-    </message>
-    <message>
-        <location filename="../src/OnlineConfig.cpp" line="137"/>
-        <source>No admin password is set on this server: leave the &quot;Admin password&quot; field empty.</source>
-        <translation>Aucun mot de passe admin n&apos;est défini sur ce serveur : laissez le champ « Mot de passe admin » vide.</translation>
-    </message>
-    <message>
-        <location filename="../src/OnlineConfig.cpp" line="139"/>
-        <source>Administration is unavailable (calaos-container cannot be reached; it is only available on Calaos OS). Try again in a moment.</source>
-        <translation>Administration indisponible (calaos-container injoignable ; disponible seulement sur Calaos OS). Réessayez dans un instant.</translation>
-    </message>
-    <message>
-        <location filename="../src/OnlineConfig.cpp" line="142"/>
-        <source>The server cannot reach its system service (calaos-container) to check the admin password. Try again in a moment.</source>
-        <translation>Le serveur ne joint pas son service système (calaos-container) pour vérifier le mot de passe admin. Réessayez dans un instant.</translation>
-    </message>
-    <message>
-        <location filename="../src/OnlineConfig.cpp" line="145"/>
-        <source>Administration is being enabled on this box. Try again in a moment; restart the box if this lasts more than 2 minutes.</source>
-        <translation>Activation de l&apos;administration en cours sur cette box. Réessayez dans un instant ; redémarrez la box si cela dure plus de 2 minutes.</translation>
-    </message>
-    <message>
-        <location filename="../src/OnlineConfig.cpp" line="148"/>
-        <source>An update is already in progress on this box.</source>
-        <translation>Une mise à jour est déjà en cours sur cette box.</translation>
-    </message>
-    <message>
-        <location filename="../src/OnlineConfig.cpp" line="150"/>
-        <source>Change the household password of this box first.</source>
-        <translation>Changez d&apos;abord le mot de passe foyer de cette box.</translation>
-    </message>
-    <message>
-        <location filename="../src/OnlineConfig.cpp" line="152"/>
-        <source>Someone has just set the admin password of this box.</source>
-        <translation>Quelqu&apos;un vient de définir le mot de passe admin de cette box.</translation>
-    </message>
-    <message>
-        <location filename="../src/OnlineConfig.cpp" line="154"/>
-        <source>Internal server error. The details are in the calaos_server log.</source>
-        <translation>Erreur interne du serveur. Le détail est dans le journal de calaos_server.</translation>
-    </message>
-    <message>
-        <source>The server accepted the admin password but returned no admin session. Try again.</source>
-        <translation>Le serveur a accepté le mot de passe admin mais n&apos;a renvoyé aucune session admin. Réessayez.</translation>
-    </message>
-    <message>
-        <location filename="../src/OnlineConfig.cpp" line="166"/>
-        <source>Too many attempts, try again later.</source>
-        <translation>Trop d&apos;essais, réessayez plus tard.</translation>
-    </message>
-    <message>
-        <location filename="../src/OnlineConfig.cpp" line="167"/>
-        <source>Too many attempts, try again in %1 s.</source>
-        <translation>Trop d&apos;essais, réessayez dans %1 s.</translation>
-    </message>
-    <message>
-        <location filename="../src/OnlineConfig.cpp" line="170"/>
-        <source>The admin password must have at least %1 characters.</source>
-        <translation>Le mot de passe admin doit avoir au moins %1 caractères.</translation>
-    </message>
-</context>
-<context>
     <name>DialogDeleteImpact</name>
     <message>
         <location filename="../src/DialogDeleteImpact.cpp" line="38"/>
@@ -1379,17 +925,22 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/DialogDeleteImpact.cpp" line="90"/>
         <source>Script rules that will never run (%1)</source>
-        <translation>Règles script qui ne s'exécuteront plus (%1)</translation>
+        <translation>Règles script qui ne s&apos;exécuteront plus (%1)</translation>
     </message>
     <message>
         <location filename="../src/DialogDeleteImpact.cpp" line="91"/>
         <source>No trigger left: the script is kept, but the server never runs it.</source>
-        <translation>Plus aucun déclencheur : le script est conservé, mais le serveur ne l'exécute jamais.</translation>
+        <translation>Plus aucun déclencheur : le script est conservé, mais le serveur ne l&apos;exécute jamais.</translation>
     </message>
     <message>
         <location filename="../src/DialogDeleteImpact.cpp" line="96"/>
         <source>%1, variable &quot;%2&quot;</source>
         <translation>%1, variable « %2 »</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogDeleteImpact.cpp" line="96"/>
+        <source>%1, attached camera &quot;%2&quot;</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/DialogDeleteImpact.cpp" line="98"/>
@@ -1399,7 +950,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/DialogDeleteImpact.cpp" line="99"/>
         <source>The id stays in the rule and is not given to a new IO.</source>
-        <translation>L'identifiant reste dans la règle et n'est pas redonné à un nouvel IO.</translation>
+        <translation>L&apos;identifiant reste dans la règle et n&apos;est pas redonné à un nouvel IO.</translation>
     </message>
     <message>
         <location filename="../src/DialogDeleteImpact.cpp" line="104"/>
@@ -1419,7 +970,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/DialogDeleteImpact.cpp" line="111"/>
         <source>No rule and no device uses it.</source>
-        <translation>Aucune règle ni aucun device ne l'utilise.</translation>
+        <translation>Aucune règle ni aucun device ne l&apos;utilise.</translation>
     </message>
     <message>
         <location filename="../src/DialogDeleteImpact.cpp" line="112"/>
@@ -1440,118 +991,16 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>DialogDetectMySensors</name>
     <message>
-        <location filename="../data/DialogDetectMySensors.ui" line="26"/>
-        <source>MySensors devices detection</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../data/DialogDetectMySensors.ui" line="38"/>
-        <source>TCP</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../data/DialogDetectMySensors.ui" line="58"/>
-        <location filename="../data/DialogDetectMySensors.ui" line="61"/>
-        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Host&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../data/DialogDetectMySensors.ui" line="67"/>
-        <source>Host</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../data/DialogDetectMySensors.ui" line="83"/>
-        <location filename="../data/DialogDetectMySensors.ui" line="86"/>
-        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Port&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../data/DialogDetectMySensors.ui" line="89"/>
-        <source>5003</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../data/DialogDetectMySensors.ui" line="95"/>
-        <source>Port</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../data/DialogDetectMySensors.ui" line="102"/>
-        <source>Discover</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../data/DialogDetectMySensors.ui" line="139"/>
-        <source>Node ID</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../data/DialogDetectMySensors.ui" line="144"/>
         <source>Sensor ID</source>
-        <translation type="unfinished">ID du capteur</translation>
+        <translation type="obsolete">ID du capteur</translation>
     </message>
     <message>
-        <location filename="../data/DialogDetectMySensors.ui" line="149"/>
         <source>Type</source>
-        <translation type="unfinished">Type</translation>
+        <translation type="obsolete">Type</translation>
     </message>
     <message>
-        <location filename="../data/DialogDetectMySensors.ui" line="154"/>
         <source>Name</source>
-        <translation type="unfinished">Nom</translation>
-    </message>
-    <message>
-        <location filename="../src/DialogDetectMySensors.cpp" line="44"/>
-        <source>Missing port field</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/DialogDetectMySensors.cpp" line="45"/>
-        <source>Port must be specified (/dev/ttyxxx for Serial or a number (eg 12345) for TCP).</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/DialogDetectMySensors.cpp" line="53"/>
-        <source>Missing host field</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/DialogDetectMySensors.cpp" line="54"/>
-        <source>Host must be specified when using TCP.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/DialogDetectMySensors.cpp" line="62"/>
-        <source>Failed to connect to server</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/DialogDetectMySensors.cpp" line="63"/>
-        <source>Error while connecting to host</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/DialogDetectMySensors.cpp" line="142"/>
-        <location filename="../src/DialogDetectMySensors.cpp" line="147"/>
-        <location filename="../src/DialogDetectMySensors.cpp" line="151"/>
-        <source>MySensors detection</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/DialogDetectMySensors.cpp" line="143"/>
-        <source>The host was not found. Please check the host name and port settings.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/DialogDetectMySensors.cpp" line="148"/>
-        <source>The connection was refused by the node.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/DialogDetectMySensors.cpp" line="152"/>
-        <source>The following error occurred: %1.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">Nom</translation>
     </message>
 </context>
 <context>
@@ -1585,24 +1034,20 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>DialogDetectxPL</name>
     <message>
-        <location filename="../data/DialogDetectxPL.ui" line="26"/>
         <source>xPL devices detection</source>
-        <translation>Détection des capteurs xPL</translation>
+        <translation type="vanished">Détection des capteurs xPL</translation>
     </message>
     <message>
-        <location filename="../data/DialogDetectxPL.ui" line="51"/>
         <source>Source</source>
-        <translation>Source</translation>
+        <translation type="vanished">Source</translation>
     </message>
     <message>
-        <location filename="../data/DialogDetectxPL.ui" line="56"/>
         <source>Sensor</source>
-        <translation>Capteur</translation>
+        <translation type="vanished">Capteur</translation>
     </message>
     <message>
-        <location filename="../data/DialogDetectxPL.ui" line="69"/>
         <source>Refresh</source>
-        <translation>Rafraichir</translation>
+        <translation type="vanished">Rafraichir</translation>
     </message>
 </context>
 <context>
@@ -1667,6 +1112,132 @@ p, li { white-space: pre-wrap; }
         <location filename="../src/DialogDeviceInfo.cpp" line="74"/>
         <source>Owned IOs</source>
         <translation>IOs du device</translation>
+    </message>
+</context>
+<context>
+    <name>DialogEditDevice</name>
+    <message>
+        <location filename="../src/DialogEditDevice.cpp" line="272"/>
+        <source>IODoc does not describe these links and params: they are kept as they are.</source>
+        <translation>IODoc ne décrit pas ces liens et params : ils sont gardés tels quels.</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogEditDevice.cpp" line="270"/>
+        <source>Not documented</source>
+        <translation>Non documenté</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogEditDevice.cpp" line="261"/>
+        <source>, commands: %1</source>
+        <translation>, commandes : %1</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogEditDevice.cpp" line="171"/>
+        <source>Commands go to %1.</source>
+        <translation>Les commandes vont à %1.</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogEditDevice.cpp" line="170"/>
+        <source>Commands go to %1. Picking another IO drops it: commands then go to the IO picked.</source>
+        <translation>Les commandes vont à %1. Choisir un autre IO le retire : les commandes vont alors à l&apos;IO choisi.</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogEditDevice.cpp" line="62"/>
+        <source>Device: %1</source>
+        <translation>Device : %1</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogEditDevice.cpp" line="69"/>
+        <source>Id:</source>
+        <translation>Id :</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogEditDevice.cpp" line="70"/>
+        <source>Family:</source>
+        <translation>Famille :</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogEditDevice.cpp" line="116"/>
+        <source>Links</source>
+        <translation>Liens</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogEditDevice.cpp" line="135"/>
+        <source>%1, owned by this device</source>
+        <translation>%1, possédé par ce device</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogEditDevice.cpp" line="146"/>
+        <source>None</source>
+        <translation>Aucun</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogEditDevice.cpp" line="155"/>
+        <source>%1, of another kind</source>
+        <translation>%1, d&apos;un autre type</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogEditDevice.cpp" line="155"/>
+        <location filename="../src/DialogEditDevice.cpp" line="259"/>
+        <source>%1 (not found)</source>
+        <translation>%1 (introuvable)</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogEditDevice.cpp" line="178"/>
+        <source>IODoc documents no link for this device.</source>
+        <translation>IODoc ne documente aucun lien pour ce device.</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogEditDevice.cpp" line="184"/>
+        <source>Parameters</source>
+        <translation>Paramètres</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogEditDevice.cpp" line="206"/>
+        <location filename="../src/DialogEditDevice.cpp" line="218"/>
+        <source>Not set</source>
+        <translation>Non défini</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogEditDevice.cpp" line="206"/>
+        <source>Default (%1)</source>
+        <translation>Par défaut (%1)</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogEditDevice.cpp" line="219"/>
+        <source>Default: %1</source>
+        <translation>Par défaut : %1</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogEditDevice.cpp" line="227"/>
+        <source>(%1 to %2)</source>
+        <translation>(%1 à %2)</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogEditDevice.cpp" line="287"/>
+        <source>Owned IOs</source>
+        <translation>IOs possédés</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogEditDevice.cpp" line="289"/>
+        <source>Created with the device and deleted with it; edit each one from the tree.</source>
+        <translation>Créés avec le device et supprimés avec lui ; chacun se modifie depuis l&apos;arbre.</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogEditDevice.cpp" line="334"/>
+        <source>%1 (required):</source>
+        <translation>%1 (requis) :</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogEditDevice.cpp" line="229"/>
+        <location filename="../src/DialogEditDevice.cpp" line="335"/>
+        <source>%1:</source>
+        <translation>%1 :</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogEditDevice.cpp" line="339"/>
+        <source>No IO for %1: the device loads without what this link gives.</source>
+        <translation>Aucun IO pour %1 : le device se charge sans ce que ce lien apporte.</translation>
     </message>
 </context>
 <context>
@@ -2148,7 +1719,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../data/DialogFlashDevice.ui" line="458"/>
-        <location filename="../src/DialogFlashDevice.cpp" line="501"/>
+        <location filename="../src/DialogFlashDevice.cpp" line="519"/>
         <source>Save config file</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2168,196 +1739,374 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/DialogFlashDevice.cpp" line="30"/>
-        <location filename="../src/DialogFlashDevice.cpp" line="34"/>
+        <location filename="../src/DialogFlashDevice.cpp" line="33"/>
+        <location filename="../src/DialogFlashDevice.cpp" line="37"/>
         <source>Show password</source>
         <translation type="unfinished">Afficher le mot de passe</translation>
     </message>
     <message>
-        <location filename="../src/DialogFlashDevice.cpp" line="34"/>
+        <location filename="../src/DialogFlashDevice.cpp" line="37"/>
         <source>Hide password</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/DialogFlashDevice.cpp" line="208"/>
+        <location filename="../src/DialogFlashDevice.cpp" line="84"/>
+        <source>Cancel</source>
+        <translation type="unfinished">Annuler</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogFlashDevice.cpp" line="226"/>
         <source>Tool not found: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/DialogFlashDevice.cpp" line="244"/>
+        <location filename="../src/DialogFlashDevice.cpp" line="262"/>
         <source>Loading...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/DialogFlashDevice.cpp" line="256"/>
+        <location filename="../src/DialogFlashDevice.cpp" line="274"/>
         <source>No releases found</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/DialogFlashDevice.cpp" line="283"/>
+        <location filename="../src/DialogFlashDevice.cpp" line="301"/>
         <source>Select firmware file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/DialogFlashDevice.cpp" line="284"/>
+        <location filename="../src/DialogFlashDevice.cpp" line="302"/>
         <source>ZIP files (*.zip)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/DialogFlashDevice.cpp" line="324"/>
+        <location filename="../src/DialogFlashDevice.cpp" line="342"/>
         <source>Locate %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/DialogFlashDevice.cpp" line="332"/>
+        <location filename="../src/DialogFlashDevice.cpp" line="350"/>
         <source>Invalid tool</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/DialogFlashDevice.cpp" line="333"/>
+        <location filename="../src/DialogFlashDevice.cpp" line="351"/>
         <source>The selected file is not a valid executable.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/DialogFlashDevice.cpp" line="364"/>
+        <location filename="../src/DialogFlashDevice.cpp" line="382"/>
         <source>WiFi SSID is required.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/DialogFlashDevice.cpp" line="375"/>
+        <location filename="../src/DialogFlashDevice.cpp" line="393"/>
         <source>Invalid IP address.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/DialogFlashDevice.cpp" line="381"/>
+        <location filename="../src/DialogFlashDevice.cpp" line="399"/>
         <source>Invalid subnet mask.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/DialogFlashDevice.cpp" line="387"/>
+        <location filename="../src/DialogFlashDevice.cpp" line="405"/>
         <source>Invalid gateway address.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/DialogFlashDevice.cpp" line="394"/>
+        <location filename="../src/DialogFlashDevice.cpp" line="412"/>
         <source>Invalid DNS address.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/DialogFlashDevice.cpp" line="405"/>
+        <location filename="../src/DialogFlashDevice.cpp" line="423"/>
         <source>Server host is required when auto-discovery is disabled.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/DialogFlashDevice.cpp" line="417"/>
+        <location filename="../src/DialogFlashDevice.cpp" line="435"/>
         <source>Please select a serial port.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/DialogFlashDevice.cpp" line="428"/>
+        <location filename="../src/DialogFlashDevice.cpp" line="446"/>
         <source>No firmware releases available. Check your internet connection.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/DialogFlashDevice.cpp" line="436"/>
+        <location filename="../src/DialogFlashDevice.cpp" line="454"/>
         <source>Please select a valid firmware file.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/DialogFlashDevice.cpp" line="481"/>
-        <location filename="../src/DialogFlashDevice.cpp" line="493"/>
+        <location filename="../src/DialogFlashDevice.cpp" line="499"/>
+        <location filename="../src/DialogFlashDevice.cpp" line="511"/>
         <source>Validation Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/DialogFlashDevice.cpp" line="502"/>
+        <location filename="../src/DialogFlashDevice.cpp" line="520"/>
         <source>Binary files (*.bin)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/DialogFlashDevice.cpp" line="510"/>
-        <location filename="../src/DialogFlashDevice.cpp" line="638"/>
-        <location filename="../src/DialogFlashDevice.cpp" line="661"/>
-        <location filename="../src/DialogFlashDevice.cpp" line="686"/>
-        <location filename="../src/DialogFlashDevice.cpp" line="750"/>
+        <location filename="../src/DialogFlashDevice.cpp" line="528"/>
+        <location filename="../src/DialogFlashDevice.cpp" line="721"/>
+        <location filename="../src/DialogFlashDevice.cpp" line="744"/>
+        <location filename="../src/DialogFlashDevice.cpp" line="769"/>
+        <location filename="../src/DialogFlashDevice.cpp" line="833"/>
         <source>Error</source>
         <translation type="unfinished">Erreur</translation>
     </message>
     <message>
-        <location filename="../src/DialogFlashDevice.cpp" line="511"/>
+        <location filename="../src/DialogFlashDevice.cpp" line="529"/>
         <source>Cannot write to %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/DialogFlashDevice.cpp" line="517"/>
+        <location filename="../src/DialogFlashDevice.cpp" line="535"/>
         <source>Config saved</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/DialogFlashDevice.cpp" line="518"/>
+        <location filename="../src/DialogFlashDevice.cpp" line="536"/>
         <source>Configuration file saved successfully.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/DialogFlashDevice.cpp" line="558"/>
+        <location filename="../src/DialogFlashDevice.cpp" line="589"/>
         <source>Download required</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/DialogFlashDevice.cpp" line="559"/>
+        <location filename="../src/DialogFlashDevice.cpp" line="590"/>
         <source>%1 is required for flashing. Download now?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/DialogFlashDevice.cpp" line="572"/>
-        <location filename="../src/DialogFlashDevice.cpp" line="607"/>
+        <location filename="../src/DialogFlashDevice.cpp" line="611"/>
+        <source>Check your internet connection.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/DialogFlashDevice.cpp" line="612"/>
+        <location filename="../src/DialogFlashDevice.cpp" line="687"/>
         <source>Download failed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/DialogFlashDevice.cpp" line="573"/>
-        <source>Failed to download the flash tool. Check your internet connection.</source>
+        <location filename="../src/DialogFlashDevice.cpp" line="613"/>
+        <source>Failed to download the flash tool.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/DialogFlashDevice.cpp" line="584"/>
+        <location filename="../src/DialogFlashDevice.cpp" line="625"/>
         <source>Tool not found</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/DialogFlashDevice.cpp" line="585"/>
+        <location filename="../src/DialogFlashDevice.cpp" line="626"/>
         <source>%1 was not found. Use the Browse button to locate it, or visit the download page.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/DialogFlashDevice.cpp" line="608"/>
+        <location filename="../src/DialogFlashDevice.cpp" line="641"/>
+        <source>unknown version</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/DialogFlashDevice.cpp" line="688"/>
         <source>Failed to download firmware. Check your internet connection.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/DialogFlashDevice.cpp" line="639"/>
+        <location filename="../src/DialogFlashDevice.cpp" line="722"/>
         <source>Failed to create temporary directory.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/DialogFlashDevice.cpp" line="648"/>
+        <location filename="../src/DialogFlashDevice.cpp" line="731"/>
         <source>Firmware error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/DialogFlashDevice.cpp" line="662"/>
+        <location filename="../src/DialogFlashDevice.cpp" line="745"/>
         <source>Failed to write config image.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/DialogFlashDevice.cpp" line="687"/>
+        <location filename="../src/DialogFlashDevice.cpp" line="770"/>
         <source>Flash tool not found.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/DialogFlashDevice.cpp" line="751"/>
+        <location filename="../src/DialogFlashDevice.cpp" line="834"/>
         <source>No update.img found in firmware package.</source>
         <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>DialogHomeAssistantMqtt</name>
+    <message>
+        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="34"/>
+        <source>Home Assistant MQTT discovery</source>
+        <translation>Découverte MQTT Home Assistant</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="38"/>
+        <source>Lists the entities that Home Assistant MQTT discovery announces on the broker (ESPHome, Zigbee2MQTT, Tasmota...). The checked ones are added to the project: an MQTT IO each, a climate device for a climate.</source>
+        <translation>Liste les entités que la découverte MQTT Home Assistant annonce sur le broker (ESPHome, Zigbee2MQTT, Tasmota...). Celles cochées sont ajoutées au projet : une IO MQTT chacune, un appareil climat pour un climat.</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="45"/>
+        <source>Broker used by the Calaos server</source>
+        <translation>Broker utilisé par le serveur Calaos</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="50"/>
+        <source>Written in the imported IOs. 127.0.0.1 is the Calaos box itself.</source>
+        <translation>Écrit dans les IO importées. 127.0.0.1 est la box Calaos elle-même.</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="60"/>
+        <source>Address:</source>
+        <translation>Adresse :</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="61"/>
+        <source>Port:</source>
+        <translation>Port :</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="62"/>
+        <source>User:</source>
+        <translation>Utilisateur :</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="63"/>
+        <source>Password:</source>
+        <translation>Mot de passe :</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="67"/>
+        <source>Broker address from this computer:</source>
+        <translation>Adresse du broker depuis cet ordinateur :</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="70"/>
+        <source>Address of the Calaos box</source>
+        <translation>Adresse de la box Calaos</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="71"/>
+        <source>Port, user and password are the ones above; the user and the password of the project&apos;s broker are only sent to that broker.</source>
+        <translation>Port, utilisateur et mot de passe sont ceux ci-dessus ; l&apos;utilisateur et le mot de passe du broker du projet ne sont envoyés qu&apos;à ce broker.</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="74"/>
+        <source>Discovery prefix:</source>
+        <translation>Préfixe de découverte :</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="79"/>
+        <source>Search</source>
+        <translation>Rechercher</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="96"/>
+        <source>Search the broker to list its entities.</source>
+        <translation>Interrogez le broker pour lister ses entités.</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="100"/>
+        <source>Name</source>
+        <translation>Nom</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="100"/>
+        <source>Home Assistant</source>
+        <translation>Home Assistant</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="100"/>
+        <source>Calaos</source>
+        <translation>Calaos</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="100"/>
+        <source>Status</source>
+        <translation>État</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="117"/>
+        <source>Import into the room:</source>
+        <translation>Importer dans la pièce :</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="129"/>
+        <source>Import</source>
+        <translation>Importer</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="147"/>
+        <source>Listening to the broker...</source>
+        <translation>Écoute du broker...</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="204"/>
+        <source>Type the address of the broker as this computer reaches it.</source>
+        <translation>Saisissez l&apos;adresse du broker telle que cet ordinateur le joint.</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="212"/>
+        <source>The discovery prefix %1 cannot contain + or #: it is the start of the topics, homeassistant by default.</source>
+        <translation>Le préfixe de découverte %1 ne peut pas contenir + ni # : c&apos;est le début des topics, homeassistant par défaut.</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="231"/>
+        <source>Connecting to %1:%2...</source>
+        <translation>Connexion à %1:%2...</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="243"/>
+        <source>%1 What was read before is listed.</source>
+        <translation>%1 Ce qui a été lu avant est listé.</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="245"/>
+        <source>No Home Assistant discovery config under %1/ on this broker. Check the discovery prefix, and that the devices have discovery on.</source>
+        <translation>Aucune config de découverte Home Assistant sous %1/ sur ce broker. Vérifiez le préfixe de découverte, et que la découverte est activée sur les appareils.</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="248"/>
+        <source>Entities found: %1. Check the ones to import.</source>
+        <translation>Entités trouvées : %1. Cochez celles à importer.</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="251"/>
+        <source>Discovery configs that could not be read: %1.</source>
+        <translation>Configs de découverte illisibles : %1.</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="294"/>
+        <source>not imported: %1</source>
+        <translation>non importé : %1</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="296"/>
+        <source>already in the project</source>
+        <translation>déjà dans le projet</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="298"/>
+        <source>offline</source>
+        <translation>hors ligne</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogHomeAssistantMqtt.cpp" line="300"/>
+        <source>online</source>
+        <translation>en ligne</translation>
     </message>
 </context>
 <context>
@@ -2459,32 +2208,32 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>DialogIOSelector</name>
     <message>
-        <location filename="../src/DialogIOSelector.cpp" line="10"/>
+        <location filename="../src/DialogIOSelector.cpp" line="11"/>
         <source>Select IO</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/DialogIOSelector.cpp" line="19"/>
+        <location filename="../src/DialogIOSelector.cpp" line="20"/>
         <source>Filter:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/DialogIOSelector.cpp" line="21"/>
+        <location filename="../src/DialogIOSelector.cpp" line="22"/>
         <source>Search by IO or Room name...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/DialogIOSelector.cpp" line="28"/>
+        <location filename="../src/DialogIOSelector.cpp" line="29"/>
         <source>Name</source>
         <translation type="unfinished">Nom</translation>
     </message>
     <message>
-        <location filename="../src/DialogIOSelector.cpp" line="28"/>
+        <location filename="../src/DialogIOSelector.cpp" line="29"/>
         <source>Type</source>
         <translation type="unfinished">Type</translation>
     </message>
     <message>
-        <location filename="../src/DialogIOSelector.cpp" line="28"/>
+        <location filename="../src/DialogIOSelector.cpp" line="29"/>
         <source>ID</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2841,16 +2590,14 @@ li.checked::marker { content: &quot;\2612&quot;; }
     <message>
         <location filename="../data/DialogNewCamera.ui" line="71"/>
         <location filename="../data/DialogNewCamera.ui" line="221"/>
-        <location filename="../data/DialogNewCamera.ui" line="287"/>
-        <location filename="../data/DialogNewCamera.ui" line="466"/>
+        <location filename="../data/DialogNewCamera.ui" line="445"/>
         <source>IP Address :</source>
         <translation>Adresse IP:</translation>
     </message>
     <message>
         <location filename="../data/DialogNewCamera.ui" line="78"/>
         <location filename="../data/DialogNewCamera.ui" line="228"/>
-        <location filename="../data/DialogNewCamera.ui" line="294"/>
-        <location filename="../data/DialogNewCamera.ui" line="473"/>
+        <location filename="../data/DialogNewCamera.ui" line="452"/>
         <source>192.168.0.10</source>
         <translation></translation>
     </message>
@@ -2913,144 +2660,139 @@ p, li { white-space: pre-wrap; }
         <translation></translation>
     </message>
     <message>
-        <location filename="../data/DialogNewCamera.ui" line="281"/>
-        <source>Gadspot</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="../data/DialogNewCamera.ui" line="305"/>
+        <location filename="../data/DialogNewCamera.ui" line="284"/>
         <source>Standard MJPEG</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../data/DialogNewCamera.ui" line="311"/>
+        <location filename="../data/DialogNewCamera.ui" line="290"/>
         <source>URL (jpeg) :</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../data/DialogNewCamera.ui" line="325"/>
+        <location filename="../data/DialogNewCamera.ui" line="304"/>
         <source>URL (mjpeg) :</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../data/DialogNewCamera.ui" line="339"/>
+        <location filename="../data/DialogNewCamera.ui" line="318"/>
         <source>URL (mpeg4) :</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../data/DialogNewCamera.ui" line="360"/>
+        <location filename="../data/DialogNewCamera.ui" line="339"/>
         <source>UP Address :</source>
         <translation>Adresse IP:</translation>
     </message>
     <message>
-        <location filename="../data/DialogNewCamera.ui" line="368"/>
+        <location filename="../data/DialogNewCamera.ui" line="347"/>
         <source>Synology Surveillance Station</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../data/DialogNewCamera.ui" line="374"/>
+        <location filename="../data/DialogNewCamera.ui" line="353"/>
         <source>DSM Url :</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../data/DialogNewCamera.ui" line="384"/>
+        <location filename="../data/DialogNewCamera.ui" line="363"/>
         <source>http://192.168.0.235:5000</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../data/DialogNewCamera.ui" line="391"/>
+        <location filename="../data/DialogNewCamera.ui" line="370"/>
         <source>Username :</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../data/DialogNewCamera.ui" line="401"/>
+        <location filename="../data/DialogNewCamera.ui" line="380"/>
         <source>admin</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../data/DialogNewCamera.ui" line="408"/>
+        <location filename="../data/DialogNewCamera.ui" line="387"/>
         <source>Password :</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../data/DialogNewCamera.ui" line="425"/>
+        <location filename="../data/DialogNewCamera.ui" line="404"/>
         <source>Camera ID :</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../data/DialogNewCamera.ui" line="432"/>
+        <location filename="../data/DialogNewCamera.ui" line="411"/>
         <source>Connect</source>
         <translation type="unfinished">Connecter</translation>
     </message>
     <message>
-        <location filename="../data/DialogNewCamera.ui" line="446"/>
+        <location filename="../data/DialogNewCamera.ui" line="425"/>
         <source>id</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../data/DialogNewCamera.ui" line="451"/>
+        <location filename="../data/DialogNewCamera.ui" line="430"/>
         <source>Name</source>
         <translation type="unfinished">Nom</translation>
     </message>
     <message>
-        <location filename="../data/DialogNewCamera.ui" line="460"/>
+        <location filename="../data/DialogNewCamera.ui" line="439"/>
         <source>Foscam</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../data/DialogNewCamera.ui" line="480"/>
+        <location filename="../data/DialogNewCamera.ui" line="459"/>
         <source>port :</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../data/DialogNewCamera.ui" line="487"/>
+        <location filename="../data/DialogNewCamera.ui" line="466"/>
         <source>88</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../data/DialogNewCamera.ui" line="497"/>
+        <location filename="../data/DialogNewCamera.ui" line="476"/>
         <source>Username</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../data/DialogNewCamera.ui" line="504"/>
+        <location filename="../data/DialogNewCamera.ui" line="483"/>
         <source>Password</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../data/DialogNewCamera.ui" line="564"/>
+        <location filename="../data/DialogNewCamera.ui" line="543"/>
         <source>Please enter a name for this item..</source>
         <translation>Veuillez entrer un nom pour cette élément...</translation>
     </message>
     <message>
-        <location filename="../src/dialognewcamera.cpp" line="108"/>
-        <location filename="../src/dialognewcamera.cpp" line="144"/>
-        <location filename="../src/dialognewcamera.cpp" line="171"/>
-        <location filename="../src/dialognewcamera.cpp" line="198"/>
-        <location filename="../src/dialognewcamera.cpp" line="256"/>
-        <location filename="../src/dialognewcamera.cpp" line="267"/>
-        <location filename="../src/dialognewcamera.cpp" line="294"/>
-        <location filename="../src/dialognewcamera.cpp" line="331"/>
+        <location filename="../src/dialognewcamera.cpp" line="103"/>
+        <location filename="../src/dialognewcamera.cpp" line="139"/>
+        <location filename="../src/dialognewcamera.cpp" line="166"/>
+        <location filename="../src/dialognewcamera.cpp" line="193"/>
+        <location filename="../src/dialognewcamera.cpp" line="251"/>
+        <location filename="../src/dialognewcamera.cpp" line="262"/>
+        <location filename="../src/dialognewcamera.cpp" line="289"/>
+        <location filename="../src/dialognewcamera.cpp" line="326"/>
         <source>Calaos Installer</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/dialognewcamera.cpp" line="144"/>
+        <location filename="../src/dialognewcamera.cpp" line="139"/>
         <source>Failed to get api to login</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/dialognewcamera.cpp" line="171"/>
+        <location filename="../src/dialognewcamera.cpp" line="166"/>
         <source>Failed to login</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/dialognewcamera.cpp" line="198"/>
+        <location filename="../src/dialognewcamera.cpp" line="193"/>
         <source>Failed to get api to list cameras</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/dialognewcamera.cpp" line="267"/>
+        <location filename="../src/dialognewcamera.cpp" line="262"/>
         <source>Failed to list cameras
 Details: %1</source>
         <translation type="unfinished"></translation>
@@ -3221,6 +2963,74 @@ p, li { white-space: pre-wrap; }
         <location filename="../data/DialogNewDaliRGB.ui" line="483"/>
         <source>DMX Light</source>
         <translation>Lumière DMX</translation>
+    </message>
+</context>
+<context>
+    <name>DialogNewDevice</name>
+    <message>
+        <location filename="../src/DialogNewDevice.cpp" line="47"/>
+        <source>New device from a template</source>
+        <translation>Nouveau device depuis un template</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogNewDevice.cpp" line="62"/>
+        <source>Template:</source>
+        <translation>Template :</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogNewDevice.cpp" line="110"/>
+        <source>Create</source>
+        <translation>Créer</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogNewDevice.cpp" line="122"/>
+        <source>No device template is available in this installer.</source>
+        <translation>Aucun template de device n&apos;est disponible dans cet installer.</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogNewDevice.cpp" line="202"/>
+        <source>No IO of this project fits: create it first.</source>
+        <translation>Aucun IO du projet ne convient : créez-le d&apos;abord.</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogNewDevice.cpp" line="208"/>
+        <source>Link: %1</source>
+        <translation>Lien : %1</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogNewDevice.cpp" line="208"/>
+        <source>Parameter: %1</source>
+        <translation>Paramètre : %1</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogNewDevice.cpp" line="223"/>
+        <source>%1:</source>
+        <translation>%1 :</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogNewDevice.cpp" line="324"/>
+        <source>Choose an IO</source>
+        <translation>Choisir un IO</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogNewDevice.cpp" line="324"/>
+        <source>None</source>
+        <translation>Aucun</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogNewDevice.cpp" line="428"/>
+        <source>The device could not be created.</source>
+        <translation>Le device n&apos;a pas pu être créé.</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogNewDevice.cpp" line="440"/>
+        <source>Device created</source>
+        <translation>Device créé</translation>
+    </message>
+    <message>
+        <location filename="../src/DialogNewDevice.cpp" line="445"/>
+        <source>%1 is created. Its setup needs a few more steps:</source>
+        <translation>%1 est créé. Sa mise en service demande encore quelques étapes :</translation>
     </message>
 </context>
 <context>
@@ -4104,117 +3914,115 @@ p, li { white-space: pre-wrap; }
         <translation>Nom de l&apos;élément:</translation>
     </message>
     <message>
-        <location filename="../data/DialogNewWebIO.ui" line="64"/>
         <source>Switch Input</source>
-        <translation>Type d&apos;interrupteur</translation>
+        <translation type="vanished">Type d&apos;interrupteur</translation>
     </message>
     <message>
-        <location filename="../data/DialogNewWebIO.ui" line="69"/>
+        <location filename="../data/DialogNewWebIO.ui" line="64"/>
         <source>Light</source>
         <translation>Lumière</translation>
     </message>
     <message>
-        <location filename="../data/DialogNewWebIO.ui" line="74"/>
+        <location filename="../data/DialogNewWebIO.ui" line="69"/>
         <source>Light RGB</source>
         <translation>Lumière RGB</translation>
     </message>
     <message>
-        <location filename="../data/DialogNewWebIO.ui" line="79"/>
         <source>Shutter</source>
-        <translation>Volet</translation>
+        <translation type="vanished">Volet</translation>
     </message>
     <message>
-        <location filename="../data/DialogNewWebIO.ui" line="84"/>
+        <location filename="../data/DialogNewWebIO.ui" line="74"/>
         <source>Temperature Sensor</source>
         <translation>Sonde de température</translation>
     </message>
     <message>
-        <location filename="../data/DialogNewWebIO.ui" line="94"/>
+        <location filename="../data/DialogNewWebIO.ui" line="84"/>
         <source>Analog Value Output</source>
         <translation>Sortie analogique</translation>
     </message>
     <message>
-        <location filename="../data/DialogNewWebIO.ui" line="112"/>
+        <location filename="../data/DialogNewWebIO.ui" line="102"/>
         <source>Url :</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../data/DialogNewWebIO.ui" line="130"/>
+        <location filename="../data/DialogNewWebIO.ui" line="120"/>
         <source>JSON</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../data/DialogNewWebIO.ui" line="135"/>
+        <location filename="../data/DialogNewWebIO.ui" line="125"/>
         <source>XML</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../data/DialogNewWebIO.ui" line="122"/>
+        <location filename="../data/DialogNewWebIO.ui" line="112"/>
         <source>Type :</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../data/DialogNewWebIO.ui" line="140"/>
+        <location filename="../data/DialogNewWebIO.ui" line="130"/>
         <source>TEXT</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../data/DialogNewWebIO.ui" line="148"/>
+        <location filename="../data/DialogNewWebIO.ui" line="138"/>
         <source>Path :</source>
         <translation>Chemin:</translation>
     </message>
     <message>
-        <location filename="../data/DialogNewWebIO.ui" line="158"/>
+        <location filename="../data/DialogNewWebIO.ui" line="148"/>
         <source>Value on :</source>
         <translation>Valeur actif:</translation>
     </message>
     <message>
-        <location filename="../data/DialogNewWebIO.ui" line="165"/>
+        <location filename="../data/DialogNewWebIO.ui" line="155"/>
         <source>Value off :</source>
         <translation>Valeur inactif:</translation>
     </message>
     <message>
-        <location filename="../data/DialogNewWebIO.ui" line="178"/>
+        <location filename="../data/DialogNewWebIO.ui" line="168"/>
         <source>Frequency :</source>
         <translation>Fréquence:</translation>
     </message>
     <message>
-        <location filename="../data/DialogNewWebIO.ui" line="185"/>
+        <location filename="../data/DialogNewWebIO.ui" line="175"/>
         <source>ms</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../data/DialogNewWebIO.ui" line="200"/>
+        <location filename="../data/DialogNewWebIO.ui" line="190"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-style:italic; color:#828282;&quot;&gt;Path is the place where the value is read in the downloaded data, for example in a json file it can be : weather/temperature. Value will be temperature field of the weather object. In case of array in a json file, you can use [nth] in the path. For example weather/[5]/temperature will be the temperature field of the 5th item of the weather array.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-style:italic; color:#828282;&quot;&gt;Chemin est l&apos;emplacement de la valeur dans les données téléchargés, par exemple dans un fichier JSON cela peut être weather/temperature. La valeur sera le champs temperature de l&apos;objet weather. Dans le cas du JSON, vous pouvez utiliser [nth] dans le chemin. Par exemple weather/[5]/temperature sera le champs température du 5eme élément du tableau weather.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../data/DialogNewWebIO.ui" line="210"/>
+        <location filename="../data/DialogNewWebIO.ui" line="200"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ff0000;&quot;&gt;Please enter a valid name&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ff0000;&quot;&gt;Veuillez entrer un nom valide&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../data/DialogNewWebIO.ui" line="217"/>
+        <location filename="../data/DialogNewWebIO.ui" line="207"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ff0000;&quot;&gt;Please enter a valid URL&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ff0000;&quot;&gt;Veuillez entrer une URL valide!&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../data/DialogNewWebIO.ui" line="224"/>
+        <location filename="../data/DialogNewWebIO.ui" line="214"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ff0000;&quot;&gt;Please enter a valid Path&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ff0000;&quot;&gt;Veuillez entrer un chemin valide!&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../data/DialogNewWebIO.ui" line="89"/>
+        <location filename="../data/DialogNewWebIO.ui" line="79"/>
         <source>Analog Value Input</source>
         <translation>Valeur analogique</translation>
     </message>
     <message>
-        <location filename="../data/DialogNewWebIO.ui" line="99"/>
+        <location filename="../data/DialogNewWebIO.ui" line="89"/>
         <source>String Input</source>
         <translation>Entrée chaine de caractères</translation>
     </message>
     <message>
-        <location filename="../data/DialogNewWebIO.ui" line="104"/>
+        <location filename="../data/DialogNewWebIO.ui" line="94"/>
         <source>String Output</source>
         <translation>Sortie chaine de caractères</translation>
     </message>
@@ -4224,52 +4032,50 @@ p, li { white-space: pre-wrap; }
         <translation>Type d&apos;IO</translation>
     </message>
     <message>
-        <location filename="../src/dialognewwebio.cpp" line="34"/>
         <source>Create a new Web Input Switch</source>
-        <translation>Créer un nouvel interrupteur WebIO</translation>
+        <translation type="vanished">Créer un nouvel interrupteur WebIO</translation>
     </message>
     <message>
-        <location filename="../src/dialognewwebio.cpp" line="42"/>
+        <location filename="../src/dialognewwebio.cpp" line="38"/>
         <source>Create a new Web Light</source>
         <translation>Créer une nouvelle lumière WebIO</translation>
     </message>
     <message>
-        <location filename="../src/dialognewwebio.cpp" line="46"/>
+        <location filename="../src/dialognewwebio.cpp" line="42"/>
         <source>Create a new Web RGB Light</source>
         <translation>Créer une nouvelle lumière RGB WebIO</translation>
     </message>
     <message>
-        <location filename="../src/dialognewwebio.cpp" line="50"/>
         <source>Create a new Web Shutter</source>
-        <translation>Créer un nouveau volet WebIO</translation>
+        <translation type="vanished">Créer un nouveau volet WebIO</translation>
     </message>
     <message>
-        <location filename="../src/dialognewwebio.cpp" line="54"/>
+        <location filename="../src/dialognewwebio.cpp" line="46"/>
         <source>Create a new Web Temperature Input</source>
         <translation>Créer une nouvelle entrée de température WebIO</translation>
     </message>
     <message>
-        <location filename="../src/dialognewwebio.cpp" line="60"/>
+        <location filename="../src/dialognewwebio.cpp" line="52"/>
         <source>Create a new Web Analog Input</source>
         <translation>Créer une nouvelle entrée analogique WebIO</translation>
     </message>
     <message>
-        <location filename="../src/dialognewwebio.cpp" line="66"/>
+        <location filename="../src/dialognewwebio.cpp" line="58"/>
         <source>Create a new Web Analog Output</source>
         <translation>Créer une nouvelle sortie analogique WebIO</translation>
     </message>
     <message>
-        <location filename="../src/dialognewwebio.cpp" line="72"/>
+        <location filename="../src/dialognewwebio.cpp" line="64"/>
         <source>Create a new Web String Input</source>
         <translation>Créer une nouvelle entrée chaine WebIO</translation>
     </message>
     <message>
-        <location filename="../src/dialognewwebio.cpp" line="76"/>
+        <location filename="../src/dialognewwebio.cpp" line="68"/>
         <source>Create a new Web String Output</source>
         <translation>Créer une nouvelle sortie chaine WebIO</translation>
     </message>
     <message>
-        <location filename="../src/dialognewwebio.cpp" line="126"/>
+        <location filename="../src/dialognewwebio.cpp" line="118"/>
         <source>Calaos Installer</source>
         <translation type="unfinished">Calaos Installer</translation>
     </message>
@@ -4277,95 +4083,60 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>DialogNewWebIOShutter</name>
     <message>
-        <location filename="../data/DialogNewWebIoShutter.ui" line="14"/>
-        <source>Dialog</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="../data/DialogNewWebIoShutter.ui" line="20"/>
         <source>Create an new Web Shutter Output</source>
-        <translation>Créer un nouveau volet WebIO</translation>
+        <translation type="vanished">Créer un nouveau volet WebIO</translation>
     </message>
     <message>
-        <location filename="../data/DialogNewWebIoShutter.ui" line="43"/>
         <source>Item Name :</source>
-        <translation>Nom de l&apos;élément:</translation>
+        <translation type="vanished">Nom de l&apos;élément:</translation>
     </message>
     <message>
-        <location filename="../data/DialogNewWebIoShutter.ui" line="53"/>
         <source>Url Up :</source>
-        <translation>Url montée:</translation>
+        <translation type="vanished">Url montée:</translation>
     </message>
     <message>
-        <location filename="../data/DialogNewWebIoShutter.ui" line="63"/>
         <source>Url Down:</source>
-        <translation>Url descente:</translation>
+        <translation type="vanished">Url descente:</translation>
     </message>
     <message>
-        <location filename="../data/DialogNewWebIoShutter.ui" line="73"/>
         <source>Type :</source>
-        <translation>Type:</translation>
+        <translation type="vanished">Type:</translation>
     </message>
     <message>
-        <location filename="../data/DialogNewWebIoShutter.ui" line="81"/>
-        <source>JSON</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="../data/DialogNewWebIoShutter.ui" line="86"/>
-        <source>XML</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="../data/DialogNewWebIoShutter.ui" line="91"/>
-        <source>TEXT</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="../data/DialogNewWebIoShutter.ui" line="99"/>
-        <location filename="../data/DialogNewWebIoShutter.ui" line="154"/>
         <source>Path :</source>
-        <translation>Chemin:</translation>
+        <translation type="vanished">Chemin:</translation>
     </message>
     <message>
-        <location filename="../data/DialogNewWebIoShutter.ui" line="109"/>
         <source>Smart shutter</source>
-        <translation>Volet intelligent</translation>
+        <translation type="vanished">Volet intelligent</translation>
     </message>
     <message>
-        <location filename="../data/DialogNewWebIoShutter.ui" line="116"/>
         <source>Impulse shutter</source>
-        <translation>Volet à impulsion</translation>
+        <translation type="vanished">Volet à impulsion</translation>
     </message>
     <message>
-        <location filename="../data/DialogNewWebIoShutter.ui" line="123"/>
         <source>Up Duration (sec.)</source>
-        <translation>Durée de la montée (sec.)</translation>
+        <translation type="vanished">Durée de la montée (sec.)</translation>
     </message>
     <message>
-        <location filename="../data/DialogNewWebIoShutter.ui" line="137"/>
         <source>Down Duration (sec.)</source>
-        <translation>Durée de la descente (sec.)</translation>
+        <translation type="vanished">Durée de la descente (sec.)</translation>
     </message>
     <message>
-        <location filename="../data/DialogNewWebIoShutter.ui" line="163"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-style:italic; color:#828282;&quot;&gt;Path is the place where the value is read in the downloaded data, for example in a json file it can be : weather/temperature. Value will be temperature field of the weather object. In case of array in a json file, you can use [nth] in the path. For example weather/[5]/temperature will be the temperature field of the 5th item of the weather array.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-style:italic; color:#828282;&quot;&gt;Chemin est l&apos;emplacement de la valeur dans les données téléchargés, par exemple dans un fichier JSON cela peut être weather/temperature. La valeur sera le champs temperature de l&apos;objet weather. Dans le cas du JSON, vous pouvez utiliser [nth] dans le chemin. Par exemple weather/[5]/temperature sera le champs température du 5eme élément du tableau weather.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation type="vanished">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-style:italic; color:#828282;&quot;&gt;Chemin est l&apos;emplacement de la valeur dans les données téléchargés, par exemple dans un fichier JSON cela peut être weather/temperature. La valeur sera le champs temperature de l&apos;objet weather. Dans le cas du JSON, vous pouvez utiliser [nth] dans le chemin. Par exemple weather/[5]/temperature sera le champs température du 5eme élément du tableau weather.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../data/DialogNewWebIoShutter.ui" line="173"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ff0000;&quot;&gt;Please enter a valid name&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ff0000;&quot;&gt;Veuillez entrer un nom valide&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation type="vanished">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ff0000;&quot;&gt;Veuillez entrer un nom valide&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../data/DialogNewWebIoShutter.ui" line="180"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ff0000;&quot;&gt;Please enter a valid URL&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ff0000;&quot;&gt;Veuillez entrer une URL valide!&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation type="vanished">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ff0000;&quot;&gt;Veuillez entrer une URL valide!&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../data/DialogNewWebIoShutter.ui" line="187"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ff0000;&quot;&gt;Please enter a valid Path&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ff0000;&quot;&gt;Veuillez entrer un chemin valide!&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation type="vanished">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ff0000;&quot;&gt;Veuillez entrer un chemin valide!&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
 </context>
 <context>
@@ -4463,14 +4234,15 @@ p, li { white-space: pre-wrap; }
         <translation>Afficher le mot de passe</translation>
     </message>
     <message>
-        <location filename="../src/dialogopenonline.cpp" line="139"/>
-        <location filename="../src/dialogopenonline.cpp" line="148"/>
-        <location filename="../src/dialogopenonline.cpp" line="181"/>
+        <location filename="../src/dialogopenonline.cpp" line="124"/>
+        <location filename="../src/dialogopenonline.cpp" line="133"/>
+        <location filename="../src/dialogopenonline.cpp" line="143"/>
+        <location filename="../src/dialogopenonline.cpp" line="165"/>
         <source>Calaos Installer</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/dialogopenonline.cpp" line="148"/>
+        <location filename="../src/dialogopenonline.cpp" line="143"/>
         <source>Failed to connect!
 Please check your credentials.
 HTTP error: </source>
@@ -4479,7 +4251,7 @@ Vérifiez vos identifiants.
 HTTP error: </translation>
     </message>
     <message>
-        <location filename="../src/dialogopenonline.cpp" line="182"/>
+        <location filename="../src/dialogopenonline.cpp" line="166"/>
         <source>Are you sure you want to delete this saved host (%1) ?</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4491,7 +4263,7 @@ HTTP error: </source>
 HTTP error: </translation>
     </message>
     <message>
-        <location filename="../src/dialogopenonline.cpp" line="140"/>
+        <location filename="../src/dialogopenonline.cpp" line="134"/>
         <source>Failed to load config files!</source>
         <translation>Impossible de charger les fichiers de configuration!</translation>
     </message>
@@ -4501,7 +4273,7 @@ HTTP error: </translation>
         <translation>La réponse du serveur ne contient pas io.xml ou rules.xml.</translation>
     </message>
     <message>
-        <location filename="../src/dialogopenonline.cpp" line="134"/>
+        <location filename="../src/dialogopenonline.cpp" line="135"/>
         <source>The server refused the request:
 %1</source>
         <translation>Le serveur a refusé la requête :
@@ -4690,24 +4462,24 @@ HTTP error: </translation>
 <context>
     <name>DialogRemoteUIEditor</name>
     <message>
-        <location filename="../src/DialogRemoteUIEditor.cpp" line="106"/>
+        <location filename="../src/DialogRemoteUIEditor.cpp" line="110"/>
         <source>QML Load Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/DialogRemoteUIEditor.cpp" line="107"/>
+        <location filename="../src/DialogRemoteUIEditor.cpp" line="111"/>
         <source>Failed to load QML:
 
 %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/DialogRemoteUIEditor.cpp" line="218"/>
+        <location filename="../src/DialogRemoteUIEditor.cpp" line="222"/>
         <source>Validation Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/DialogRemoteUIEditor.cpp" line="219"/>
+        <location filename="../src/DialogRemoteUIEditor.cpp" line="223"/>
         <source>All IO widgets must have an IO linked.
 
 Page %1 contains a widget at position (%2, %3) without an IO.
@@ -4779,11 +4551,11 @@ Please link an IO to all widgets before saving.</source>
         <translation>Afficher le mot de passe</translation>
     </message>
     <message>
-        <location filename="../src/dialogsaveonline.cpp" line="93"/>
-        <location filename="../src/dialogsaveonline.cpp" line="141"/>
-        <location filename="../src/dialogsaveonline.cpp" line="148"/>
-        <location filename="../src/dialogsaveonline.cpp" line="157"/>
-        <location filename="../src/dialogsaveonline.cpp" line="190"/>
+        <location filename="../src/dialogsaveonline.cpp" line="99"/>
+        <location filename="../src/dialogsaveonline.cpp" line="158"/>
+        <location filename="../src/dialogsaveonline.cpp" line="175"/>
+        <location filename="../src/dialogsaveonline.cpp" line="193"/>
+        <location filename="../src/dialogsaveonline.cpp" line="219"/>
         <source>Calaos Installer</source>
         <translation></translation>
     </message>
@@ -4794,7 +4566,8 @@ Please check your credentials.</source>
 Vérifiez vos identifiants.</translation>
     </message>
     <message>
-        <location filename="../src/dialogsaveonline.cpp" line="157"/>
+        <location filename="../src/dialogsaveonline.cpp" line="131"/>
+        <location filename="../src/dialogsaveonline.cpp" line="185"/>
         <source>Failed to connect!
 Please check your credentials.
 HTTP error: </source>
@@ -4803,36 +4576,36 @@ Vérifiez vos identifiants.
 HTTP error: </translation>
     </message>
     <message>
-        <location filename="../src/dialogsaveonline.cpp" line="94"/>
+        <location filename="../src/dialogsaveonline.cpp" line="100"/>
         <source>Do you want to upload this configuration to Calaos Server at address %1?</source>
         <translation>Voulez vous envoyer la configuration au serveur Calaos à l&apos;adresse %1?</translation>
     </message>
     <message>
-        <location filename="../src/dialogsaveonline.cpp" line="142"/>
+        <location filename="../src/dialogsaveonline.cpp" line="194"/>
         <source>Configuration successfully uploaded.</source>
         <translation>La configuration a été envoyé correctement.</translation>
     </message>
     <message>
-        <location filename="../src/dialogsaveonline.cpp" line="132"/>
+        <location filename="../src/dialogsaveonline.cpp" line="149"/>
         <source>This server is too old to store devices: update calaos_server, or remove the devices from this project.</source>
         <translation>Ce serveur est trop ancien pour gérer les devices : mettez à jour calaos_server, ou retirez les devices de ce projet.</translation>
     </message>
     <message>
-        <location filename="../src/dialogsaveonline.cpp" line="166"/>
+        <location filename="../src/dialogsaveonline.cpp" line="199"/>
         <source>The server refused the configuration:
 %1</source>
         <translation>Le serveur a refusé la configuration :
 %1</translation>
     </message>
     <message>
-        <location filename="../src/dialogsaveonline.cpp" line="140"/>
+        <location filename="../src/dialogsaveonline.cpp" line="139"/>
         <source>The server refused the request:
 %1</source>
         <translation>Le serveur a refusé la requête :
 %1</translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/dialogsaveonline.cpp" line="150"/>
+        <location filename="../src/dialogsaveonline.cpp" line="159"/>
         <source>This will delete %n device(s) on the server: %1
 
 Continue?</source>
@@ -4846,12 +4619,13 @@ Continuer ?</numerusform>
         </translation>
     </message>
     <message>
-        <location filename="../src/dialogsaveonline.cpp" line="149"/>
+        <location filename="../src/dialogsaveonline.cpp" line="138"/>
+        <location filename="../src/dialogsaveonline.cpp" line="201"/>
         <source>Error when loading config files!</source>
         <translation>Erreur lors de l&apos;envoi des fichiers!</translation>
     </message>
     <message>
-        <location filename="../src/dialogsaveonline.cpp" line="191"/>
+        <location filename="../src/dialogsaveonline.cpp" line="220"/>
         <source>Are you sure you want to delete this saved host (%1) ?</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4978,7 +4752,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/DialogZigbee2mqtt.ui" line="38"/>
         <source>Port:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Port :</translation>
     </message>
     <message>
         <location filename="../src/DialogZigbee2mqtt.ui" line="45"/>
@@ -5051,6 +4825,82 @@ p, li { white-space: pre-wrap; }
     </message>
 </context>
 <context>
+    <name>EsphomeDiscovery</name>
+    <message>
+        <location filename="../src/EsphomeDiscovery.cpp" line="250"/>
+        <source>Two setpoints (target_temperature_low and _high).</source>
+        <translation>Deux consignes (target_temperature_low et _high).</translation>
+    </message>
+    <message>
+        <location filename="../src/EsphomeDiscovery.cpp" line="251"/>
+        <source>One setpoint (target_temperature).</source>
+        <translation>Une consigne (target_temperature).</translation>
+    </message>
+    <message>
+        <location filename="../src/EsphomeDiscovery.cpp" line="256"/>
+        <source>Its mode was not read: modes, fan and swing are left as they are.</source>
+        <translation>Son mode n&apos;a pas été lu : modes, ventilation et oscillation restent tels quels.</translation>
+    </message>
+    <message>
+        <location filename="../src/EsphomeDiscovery.cpp" line="283"/>
+        <source>Mode read: %1.</source>
+        <translation>Mode lu : %1.</translation>
+    </message>
+    <message>
+        <location filename="../src/EsphomeDiscovery.cpp" line="284"/>
+        <source>Modes: %1.</source>
+        <translation>Modes : %1.</translation>
+    </message>
+    <message>
+        <location filename="../src/EsphomeDiscovery.cpp" line="308"/>
+        <source>Fan modes: %1.</source>
+        <translation>Ventilation : %1.</translation>
+    </message>
+    <message>
+        <location filename="../src/EsphomeDiscovery.cpp" line="308"/>
+        <source>Swing modes: %1.</source>
+        <translation>Oscillation : %1.</translation>
+    </message>
+    <message>
+        <location filename="../src/EsphomeDiscovery.cpp" line="327"/>
+        <source>Setpoint from %1 to %2 °C.</source>
+        <translation>Consigne de %1 à %2 °C.</translation>
+    </message>
+    <message>
+        <location filename="../src/EsphomeDiscovery.cpp" line="332"/>
+        <source>Not offered by this template: %1.</source>
+        <translation>Non proposé par ce modèle : %1.</translation>
+    </message>
+</context>
+<context>
+    <name>EsptoolRelease</name>
+    <message>
+        <location filename="../src/EsptoolRelease.cpp" line="137"/>
+        <source>No esptool build exists for this platform (%1).</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/EsptoolRelease.cpp" line="176"/>
+        <source>Release %1 gives no HTTPS download URL for %2.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/EsptoolRelease.cpp" line="183"/>
+        <source>GitHub gives no SHA-256 digest for %1 (release %2): refusing to download an unverifiable file.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/EsptoolRelease.cpp" line="192"/>
+        <source>GitHub gives an unexpected size for %1 (release %2): refusing to download it.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/EsptoolRelease.cpp" line="202"/>
+        <source>No esptool build for this platform (%1) in the latest releases.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>FirmwareManager</name>
     <message>
         <location filename="../src/FirmwareManager.cpp" line="128"/>
@@ -5090,6 +4940,81 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/FirmwareManager.cpp" line="204"/>
         <source>Checksum mismatch for %1. Firmware may be corrupted.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>FlashToolManager</name>
+    <message>
+        <location filename="../src/FlashToolManager.cpp" line="141"/>
+        <source>Automatic download is not supported for %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/FlashToolManager.cpp" line="218"/>
+        <source>%1 is not a GitHub repository</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/FlashToolManager.cpp" line="235"/>
+        <source>GitHub refused the request (HTTP %1): the API rate limit is probably reached, try again later.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/FlashToolManager.cpp" line="238"/>
+        <source>Cannot query GitHub releases: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/FlashToolManager.cpp" line="243"/>
+        <source>Unexpected answer from the GitHub releases API.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/FlashToolManager.cpp" line="259"/>
+        <source>Refusing the unsafe asset name %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/FlashToolManager.cpp" line="268"/>
+        <location filename="../src/FlashToolManager.cpp" line="393"/>
+        <source>Cannot clear the staging folder %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/FlashToolManager.cpp" line="291"/>
+        <source>Checksum mismatch for %1: the download does not match the digest published by GitHub.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/FlashToolManager.cpp" line="300"/>
+        <location filename="../src/FlashToolManager.cpp" line="421"/>
+        <source>Cannot extract %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/FlashToolManager.cpp" line="307"/>
+        <source>Cannot write the tool version file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/FlashToolManager.cpp" line="336"/>
+        <source>The previous tool is in %1 and could not be put back into %2.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/FlashToolManager.cpp" line="347"/>
+        <source>Cannot replace the installed tool in %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/FlashToolManager.cpp" line="354"/>
+        <source>Cannot install the tool into %1, and the previous one could not be put back: it is in %2.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/FlashToolManager.cpp" line="358"/>
+        <source>Cannot install the tool into %1</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -5250,384 +5175,384 @@ p, li { white-space: pre-wrap; }
         <translation></translation>
     </message>
     <message>
-        <location filename="../data/FormActionStd.ui" line="186"/>
+        <location filename="../data/FormActionStd.ui" line="205"/>
         <source>Action</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../data/FormActionStd.ui" line="193"/>
+        <location filename="../data/FormActionStd.ui" line="212"/>
         <source>action_type</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../data/FormActionStd.ui" line="216"/>
+        <location filename="../data/FormActionStd.ui" line="235"/>
         <source>action_name</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../data/FormActionStd.ui" line="263"/>
+        <location filename="../data/FormActionStd.ui" line="282"/>
         <source>Room_name</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../data/FormActionStd.ui" line="286"/>
+        <location filename="../data/FormActionStd.ui" line="305"/>
         <source>Item_name</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../data/FormActionStd.ui" line="316"/>
+        <location filename="../data/FormActionStd.ui" line="335"/>
         <source>Value :</source>
         <translation>Valeur:</translation>
     </message>
     <message>
-        <location filename="../data/FormActionStd.ui" line="323"/>
+        <location filename="../data/FormActionStd.ui" line="342"/>
         <source>Dynamic value...</source>
         <translation>Valeur dynamique...</translation>
     </message>
     <message>
-        <location filename="../data/FormActionStd.ui" line="326"/>
-        <location filename="../data/FormActionStd.ui" line="361"/>
+        <location filename="../data/FormActionStd.ui" line="345"/>
+        <location filename="../data/FormActionStd.ui" line="380"/>
         <source>buttonStyled</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/FormActionStd.cpp" line="134"/>
+        <location filename="../src/FormActionStd.cpp" line="220"/>
         <source>Start timer</source>
         <translation>Démarrer le timer</translation>
     </message>
     <message>
-        <location filename="../src/FormActionStd.cpp" line="135"/>
+        <location filename="../src/FormActionStd.cpp" line="221"/>
         <source>Stop timer</source>
         <translation>Arrêter le timer</translation>
     </message>
     <message>
-        <location filename="../src/FormActionStd.cpp" line="136"/>
+        <location filename="../src/FormActionStd.cpp" line="222"/>
         <source>Change timer duration</source>
         <translation>Changer la durée du timer</translation>
     </message>
     <message>
-        <location filename="../src/FormActionStd.cpp" line="140"/>
+        <location filename="../src/FormActionStd.cpp" line="226"/>
         <source>Start scenario</source>
         <translation>Démarrer le scénario</translation>
     </message>
     <message>
-        <location filename="../src/FormActionStd.cpp" line="141"/>
+        <location filename="../src/FormActionStd.cpp" line="227"/>
         <source>Stop scenario (if possible)</source>
         <translation>Arrêter le scénario (si possible)</translation>
     </message>
     <message>
-        <location filename="../src/FormActionStd.cpp" line="145"/>
+        <location filename="../src/FormActionStd.cpp" line="231"/>
         <source>Set state to false</source>
         <translation>Mettre l&apos;état à false</translation>
     </message>
     <message>
-        <location filename="../src/FormActionStd.cpp" line="146"/>
+        <location filename="../src/FormActionStd.cpp" line="232"/>
         <source>Set state to true</source>
         <translation>Mettre l&apos;état à true</translation>
     </message>
     <message>
-        <location filename="../src/FormActionStd.cpp" line="147"/>
+        <location filename="../src/FormActionStd.cpp" line="233"/>
         <source>Toggle state</source>
         <translation>Inverser l&apos;état</translation>
     </message>
     <message>
-        <location filename="../src/FormActionStd.cpp" line="151"/>
+        <location filename="../src/FormActionStd.cpp" line="237"/>
         <source>Open shutter</source>
         <translation>Ouvrir le volet</translation>
     </message>
     <message>
-        <location filename="../src/FormActionStd.cpp" line="152"/>
+        <location filename="../src/FormActionStd.cpp" line="238"/>
         <source>Close shutter</source>
         <translation>Fermer le volet</translation>
     </message>
     <message>
-        <location filename="../src/FormActionStd.cpp" line="153"/>
+        <location filename="../src/FormActionStd.cpp" line="239"/>
         <source>Stop the shutter</source>
         <translation>Arrêter le volet</translation>
     </message>
     <message>
-        <location filename="../src/FormActionStd.cpp" line="154"/>
+        <location filename="../src/FormActionStd.cpp" line="240"/>
         <source>Toggle shutter state</source>
         <translation>Inverser l&apos;état du volet</translation>
     </message>
     <message>
-        <location filename="../src/FormActionStd.cpp" line="155"/>
+        <location filename="../src/FormActionStd.cpp" line="241"/>
         <source>Open shutter for X ms</source>
         <translation>Ouvrir le volet pendant X ms</translation>
     </message>
     <message>
-        <location filename="../src/FormActionStd.cpp" line="156"/>
+        <location filename="../src/FormActionStd.cpp" line="242"/>
         <source>Close shutter for X ms</source>
         <translation>Fermer le volet pendant X ms</translation>
     </message>
     <message>
-        <location filename="../src/FormActionStd.cpp" line="160"/>
+        <location filename="../src/FormActionStd.cpp" line="246"/>
         <source>Set shutter position to X percent</source>
         <translation>Mettre le volet à la position X pourcent</translation>
     </message>
     <message>
-        <location filename="../src/FormActionStd.cpp" line="161"/>
+        <location filename="../src/FormActionStd.cpp" line="247"/>
         <source>Open shutter for X percent</source>
         <translation>Ouvrir le volet de X pourcent</translation>
     </message>
     <message>
-        <location filename="../src/FormActionStd.cpp" line="162"/>
+        <location filename="../src/FormActionStd.cpp" line="248"/>
         <source>Close shutter for X percent</source>
         <translation>Fermer le volet de X pourcent</translation>
     </message>
     <message>
-        <location filename="../src/FormActionStd.cpp" line="163"/>
+        <location filename="../src/FormActionStd.cpp" line="249"/>
         <source>Start shutter calibration</source>
         <translation>Lancer la calibration du volet</translation>
     </message>
     <message>
-        <location filename="../src/FormActionStd.cpp" line="170"/>
+        <location filename="../src/FormActionStd.cpp" line="256"/>
         <source>Switch light on</source>
         <translation>Allumer la lumière</translation>
     </message>
     <message>
-        <location filename="../src/FormActionStd.cpp" line="171"/>
+        <location filename="../src/FormActionStd.cpp" line="257"/>
         <source>Switch light off</source>
         <translation>Eteindre la lumière</translation>
     </message>
     <message>
-        <location filename="../src/FormActionStd.cpp" line="172"/>
+        <location filename="../src/FormActionStd.cpp" line="258"/>
         <source>Toggle light status</source>
         <translation>Inverser l&apos;état de la lumière</translation>
     </message>
     <message>
-        <location filename="../src/FormActionStd.cpp" line="176"/>
+        <location filename="../src/FormActionStd.cpp" line="262"/>
         <source>Switch light on for X ms</source>
         <translation>Allumer la lumière pendant X ms</translation>
     </message>
     <message>
-        <location filename="../src/FormActionStd.cpp" line="177"/>
+        <location filename="../src/FormActionStd.cpp" line="263"/>
         <source>Blink the light following a pattern</source>
         <translation>Clignoter la lumière en suivant un schéma</translation>
     </message>
     <message>
-        <location filename="../src/FormActionStd.cpp" line="181"/>
+        <location filename="../src/FormActionStd.cpp" line="267"/>
         <source>Set light dimming to X percent</source>
         <translation>Mettre la lumière à X pourcent</translation>
     </message>
     <message>
-        <location filename="../src/FormActionStd.cpp" line="182"/>
+        <location filename="../src/FormActionStd.cpp" line="268"/>
         <source>Set light dimming without switching on</source>
         <translation>Mettre la lumière à X pourcent sans allumer</translation>
     </message>
     <message>
-        <location filename="../src/FormActionStd.cpp" line="183"/>
+        <location filename="../src/FormActionStd.cpp" line="269"/>
         <source>Dim light of X percent</source>
         <translation>Augmenter l&apos;intensité de X pourcent</translation>
     </message>
     <message>
-        <location filename="../src/FormActionStd.cpp" line="184"/>
+        <location filename="../src/FormActionStd.cpp" line="270"/>
         <source>Brighten light of X percent</source>
         <translation>Diminuer l&apos;intensité de X pourcent</translation>
     </message>
     <message>
-        <location filename="../src/FormActionStd.cpp" line="185"/>
+        <location filename="../src/FormActionStd.cpp" line="271"/>
         <source>Change brightness on hold</source>
         <translation>Changer l&apos;intensité (hold)</translation>
     </message>
     <message>
-        <location filename="../src/FormActionStd.cpp" line="186"/>
+        <location filename="../src/FormActionStd.cpp" line="272"/>
         <source>Stop changing brigthness on hold</source>
         <translation>Changer l&apos;intensité (release)</translation>
     </message>
     <message>
-        <location filename="../src/FormActionStd.cpp" line="190"/>
+        <location filename="../src/FormActionStd.cpp" line="276"/>
         <source>Set color to X</source>
         <translation>Mettre la couleur à X</translation>
     </message>
     <message>
-        <location filename="../src/FormActionStd.cpp" line="191"/>
+        <location filename="../src/FormActionStd.cpp" line="277"/>
         <source>Increase red by X percent</source>
         <translation>Augmenter le rouge de X pourcent</translation>
     </message>
     <message>
-        <location filename="../src/FormActionStd.cpp" line="192"/>
+        <location filename="../src/FormActionStd.cpp" line="278"/>
         <source>Decrease red by X percent</source>
         <translation>Diminuer le rouge de X pourcent</translation>
     </message>
     <message>
-        <location filename="../src/FormActionStd.cpp" line="193"/>
+        <location filename="../src/FormActionStd.cpp" line="279"/>
         <source>Set red to X percent</source>
         <translation>Mettre le rouge à X pourcent</translation>
     </message>
     <message>
-        <location filename="../src/FormActionStd.cpp" line="194"/>
+        <location filename="../src/FormActionStd.cpp" line="280"/>
         <source>Increase green by X percent</source>
         <translation>Augmenter le vert de X pourcent</translation>
     </message>
     <message>
-        <location filename="../src/FormActionStd.cpp" line="195"/>
+        <location filename="../src/FormActionStd.cpp" line="281"/>
         <source>Decrease green by X percent</source>
         <translation>Diminuer le vert de X pourcent</translation>
     </message>
     <message>
-        <location filename="../src/FormActionStd.cpp" line="196"/>
+        <location filename="../src/FormActionStd.cpp" line="282"/>
         <source>Set green to X percent</source>
         <translation>Mettre le vert à X pourcent</translation>
     </message>
     <message>
-        <location filename="../src/FormActionStd.cpp" line="197"/>
+        <location filename="../src/FormActionStd.cpp" line="283"/>
         <source>Increase blue by X percent</source>
         <translation>Augmenter le bleu de X pourcent</translation>
     </message>
     <message>
-        <location filename="../src/FormActionStd.cpp" line="198"/>
+        <location filename="../src/FormActionStd.cpp" line="284"/>
         <source>Decrease blue by X percent</source>
         <translation>Diminuer le bleu de X pourcent</translation>
     </message>
     <message>
-        <location filename="../src/FormActionStd.cpp" line="199"/>
+        <location filename="../src/FormActionStd.cpp" line="285"/>
         <source>Set blue to X percent</source>
         <translation>Mettre le bleu à X pourcent</translation>
     </message>
     <message>
-        <location filename="../src/FormActionStd.cpp" line="204"/>
+        <location filename="../src/FormActionStd.cpp" line="290"/>
         <source>Play</source>
         <translation>Lecture</translation>
     </message>
     <message>
-        <location filename="../src/FormActionStd.cpp" line="205"/>
+        <location filename="../src/FormActionStd.cpp" line="291"/>
         <source>Pause</source>
         <translation>Pause</translation>
     </message>
     <message>
-        <location filename="../src/FormActionStd.cpp" line="206"/>
+        <location filename="../src/FormActionStd.cpp" line="292"/>
         <source>Stop</source>
         <translation>Stop</translation>
     </message>
     <message>
-        <location filename="../src/FormActionStd.cpp" line="207"/>
+        <location filename="../src/FormActionStd.cpp" line="293"/>
         <source>Next song</source>
         <translation>Piste suivante</translation>
     </message>
     <message>
-        <location filename="../src/FormActionStd.cpp" line="208"/>
+        <location filename="../src/FormActionStd.cpp" line="294"/>
         <source>Previous song</source>
         <translation>Piste précédente</translation>
     </message>
     <message>
-        <location filename="../src/FormActionStd.cpp" line="209"/>
-        <location filename="../src/FormActionStd.cpp" line="232"/>
+        <location filename="../src/FormActionStd.cpp" line="295"/>
+        <location filename="../src/FormActionStd.cpp" line="318"/>
         <source>Set volume to X percent</source>
         <translation>Mettre le volume à X pourcent</translation>
     </message>
     <message>
-        <location filename="../src/FormActionStd.cpp" line="210"/>
+        <location filename="../src/FormActionStd.cpp" line="296"/>
         <source>Increase volume by X percent</source>
         <translation>Augmenter le volume de X pourcent</translation>
     </message>
     <message>
-        <location filename="../src/FormActionStd.cpp" line="211"/>
+        <location filename="../src/FormActionStd.cpp" line="297"/>
         <source>Decrease volume by X percent</source>
         <translation>Diminuer le volume de X pourcent</translation>
     </message>
     <message>
-        <location filename="../src/FormActionStd.cpp" line="212"/>
+        <location filename="../src/FormActionStd.cpp" line="298"/>
         <source>Power on</source>
         <translation>Mettre en marche</translation>
     </message>
     <message>
-        <location filename="../src/FormActionStd.cpp" line="213"/>
+        <location filename="../src/FormActionStd.cpp" line="299"/>
         <source>Power off</source>
         <translation>Mettre à l&apos;arrêt</translation>
     </message>
     <message>
-        <location filename="../src/FormActionStd.cpp" line="214"/>
+        <location filename="../src/FormActionStd.cpp" line="300"/>
         <source>Power of in X sec. (sleep mode)</source>
         <translation>Mettre à l&apos;arrêt dans X sec (sleep mode)</translation>
     </message>
     <message>
-        <location filename="../src/FormActionStd.cpp" line="215"/>
+        <location filename="../src/FormActionStd.cpp" line="301"/>
         <source>Syncronize with another player</source>
         <translation>Synchroniser avec un autre lecteur</translation>
     </message>
     <message>
-        <location filename="../src/FormActionStd.cpp" line="216"/>
+        <location filename="../src/FormActionStd.cpp" line="302"/>
         <source>Remove sync with another player</source>
         <translation>Enlever la synchro avec un autre lecteur</translation>
     </message>
     <message>
-        <location filename="../src/FormActionStd.cpp" line="217"/>
+        <location filename="../src/FormActionStd.cpp" line="303"/>
         <source>Play something in the database</source>
         <translation>Lire quelque chose dans la base de donnée</translation>
     </message>
     <message>
-        <location filename="../src/FormActionStd.cpp" line="218"/>
+        <location filename="../src/FormActionStd.cpp" line="304"/>
         <source>Add something from the database to the playlist</source>
         <translation>Ajouter quelque chose de la base de donnée à la playlist</translation>
     </message>
     <message>
-        <location filename="../src/FormActionStd.cpp" line="222"/>
+        <location filename="../src/FormActionStd.cpp" line="308"/>
         <source>Recall position position X</source>
         <translation>Rappeler la position X</translation>
     </message>
     <message>
-        <location filename="../src/FormActionStd.cpp" line="223"/>
+        <location filename="../src/FormActionStd.cpp" line="309"/>
         <source>Save position X</source>
         <translation>Sauvegarder la position X</translation>
     </message>
     <message>
-        <location filename="../src/FormActionStd.cpp" line="224"/>
+        <location filename="../src/FormActionStd.cpp" line="310"/>
         <source>Move up</source>
         <translation>Bouger vers le haut</translation>
     </message>
     <message>
-        <location filename="../src/FormActionStd.cpp" line="225"/>
+        <location filename="../src/FormActionStd.cpp" line="311"/>
         <source>Move down</source>
         <translation>Bouger vers le bas</translation>
     </message>
     <message>
-        <location filename="../src/FormActionStd.cpp" line="226"/>
+        <location filename="../src/FormActionStd.cpp" line="312"/>
         <source>Move left</source>
         <translation>Bouger vers la gauche</translation>
     </message>
     <message>
-        <location filename="../src/FormActionStd.cpp" line="227"/>
+        <location filename="../src/FormActionStd.cpp" line="313"/>
         <source>Move right</source>
         <translation>Bouger vers la droite</translation>
     </message>
     <message>
-        <location filename="../src/FormActionStd.cpp" line="228"/>
+        <location filename="../src/FormActionStd.cpp" line="314"/>
         <source>Move to default position</source>
         <translation>Bouger vers la position par défaut</translation>
     </message>
     <message>
-        <location filename="../src/FormActionStd.cpp" line="233"/>
+        <location filename="../src/FormActionStd.cpp" line="319"/>
         <source>Switch on the receiver</source>
         <translation>Allumer l&apos;ampli</translation>
     </message>
     <message>
-        <location filename="../src/FormActionStd.cpp" line="234"/>
+        <location filename="../src/FormActionStd.cpp" line="320"/>
         <source>Switch off the receiver</source>
         <translation>Eteindre l&apos;ampli</translation>
     </message>
     <message>
-        <location filename="../src/FormActionStd.cpp" line="238"/>
+        <location filename="../src/FormActionStd.cpp" line="324"/>
         <source>Change input source</source>
         <translation>Changer la source</translation>
     </message>
     <message>
-        <location filename="../src/FormActionStd.cpp" line="253"/>
+        <location filename="../src/FormActionStd.cpp" line="339"/>
         <source>Send directly a custom command to the receiver</source>
         <translation>Envoyer une commande directe à l&apos;ampli</translation>
     </message>
     <message>
-        <location filename="../src/FormActionStd.cpp" line="398"/>
+        <location filename="../src/FormActionStd.cpp" line="442"/>
         <source>Edit as text</source>
         <translation>Éditer en texte</translation>
     </message>
     <message>
-        <location filename="../src/FormActionStd.cpp" line="398"/>
+        <location filename="../src/FormActionStd.cpp" line="442"/>
         <source>Use the form</source>
         <translation>Utiliser le formulaire</translation>
     </message>
     <message>
-        <location filename="../src/FormActionStd.cpp" line="422"/>
+        <location filename="../src/FormActionStd.cpp" line="467"/>
         <source>The form only reads a JSON command of this device or a mode.</source>
         <translation>Le formulaire ne lit qu&apos;une commande JSON de ce device ou un mode.</translation>
     </message>
@@ -5880,204 +5805,204 @@ p, li { white-space: pre-wrap; }
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/FormConditionStd.cpp" line="168"/>
+        <location filename="../src/FormConditionStd.cpp" line="169"/>
         <source>Event when entering data/time</source>
         <translation>Evennement sur heure/date choisie</translation>
     </message>
     <message>
-        <location filename="../src/FormConditionStd.cpp" line="169"/>
+        <location filename="../src/FormConditionStd.cpp" line="170"/>
         <source>Event when exiting date/time</source>
         <translation>Evennement en dehors de l&apos;heure/date choisie</translation>
     </message>
     <message>
-        <location filename="../src/FormConditionStd.cpp" line="170"/>
-        <location filename="../src/FormConditionStd.cpp" line="176"/>
-        <location filename="../src/FormConditionStd.cpp" line="182"/>
-        <location filename="../src/FormConditionStd.cpp" line="187"/>
-        <location filename="../src/FormConditionStd.cpp" line="193"/>
-        <location filename="../src/FormConditionStd.cpp" line="199"/>
-        <location filename="../src/FormConditionStd.cpp" line="205"/>
-        <location filename="../src/FormConditionStd.cpp" line="212"/>
-        <location filename="../src/FormConditionStd.cpp" line="219"/>
-        <location filename="../src/FormConditionStd.cpp" line="226"/>
-        <location filename="../src/FormConditionStd.cpp" line="234"/>
-        <location filename="../src/FormConditionStd.cpp" line="271"/>
+        <location filename="../src/FormConditionStd.cpp" line="171"/>
+        <location filename="../src/FormConditionStd.cpp" line="177"/>
+        <location filename="../src/FormConditionStd.cpp" line="183"/>
+        <location filename="../src/FormConditionStd.cpp" line="188"/>
+        <location filename="../src/FormConditionStd.cpp" line="194"/>
+        <location filename="../src/FormConditionStd.cpp" line="200"/>
+        <location filename="../src/FormConditionStd.cpp" line="206"/>
+        <location filename="../src/FormConditionStd.cpp" line="213"/>
+        <location filename="../src/FormConditionStd.cpp" line="220"/>
+        <location filename="../src/FormConditionStd.cpp" line="227"/>
+        <location filename="../src/FormConditionStd.cpp" line="235"/>
+        <location filename="../src/FormConditionStd.cpp" line="274"/>
         <source>On any event</source>
         <translation>Evennement sur n&apos;importe quel état</translation>
     </message>
     <message>
-        <location filename="../src/FormConditionStd.cpp" line="174"/>
+        <location filename="../src/FormConditionStd.cpp" line="175"/>
         <source>Event on timer finished</source>
         <translation>Evennement sur tempo terminé</translation>
     </message>
     <message>
-        <location filename="../src/FormConditionStd.cpp" line="175"/>
+        <location filename="../src/FormConditionStd.cpp" line="176"/>
         <source>Event on timer start</source>
         <translation>Evennement sur tempo non terminé</translation>
     </message>
     <message>
-        <location filename="../src/FormConditionStd.cpp" line="180"/>
+        <location filename="../src/FormConditionStd.cpp" line="181"/>
         <source>Input is active</source>
         <translation>L&apos;entrée est activé</translation>
     </message>
     <message>
-        <location filename="../src/FormConditionStd.cpp" line="181"/>
+        <location filename="../src/FormConditionStd.cpp" line="182"/>
         <source>Input is inactive</source>
         <translation>L&apos;entrée est désactivé</translation>
     </message>
     <message>
-        <location filename="../src/FormConditionStd.cpp" line="186"/>
+        <location filename="../src/FormConditionStd.cpp" line="187"/>
         <source>Scenario is executed</source>
         <translation>Le bouton scénario est executé</translation>
     </message>
     <message>
-        <location filename="../src/FormConditionStd.cpp" line="191"/>
+        <location filename="../src/FormConditionStd.cpp" line="192"/>
         <source>Event entering time range</source>
         <translation>Evennement sur entrée dans la plage horaire</translation>
     </message>
     <message>
-        <location filename="../src/FormConditionStd.cpp" line="192"/>
+        <location filename="../src/FormConditionStd.cpp" line="193"/>
         <source>Event exiting time range</source>
         <translation>Evennement sur sortie de la plage horaire</translation>
     </message>
     <message>
-        <location filename="../src/FormConditionStd.cpp" line="197"/>
+        <location filename="../src/FormConditionStd.cpp" line="198"/>
         <source>Variable is true</source>
         <translation>La variable est activée</translation>
     </message>
     <message>
-        <location filename="../src/FormConditionStd.cpp" line="198"/>
+        <location filename="../src/FormConditionStd.cpp" line="199"/>
         <source>Variable is false</source>
         <translation>La variable est désactivée</translation>
     </message>
     <message>
-        <location filename="../src/FormConditionStd.cpp" line="203"/>
+        <location filename="../src/FormConditionStd.cpp" line="204"/>
         <source>Output is active</source>
         <translation>La sortie est activée</translation>
     </message>
     <message>
-        <location filename="../src/FormConditionStd.cpp" line="204"/>
+        <location filename="../src/FormConditionStd.cpp" line="205"/>
         <source>Output is inactive</source>
         <translation>La sortie est désactivée</translation>
     </message>
     <message>
-        <location filename="../src/FormConditionStd.cpp" line="209"/>
-        <location filename="../src/FormConditionStd.cpp" line="216"/>
+        <location filename="../src/FormConditionStd.cpp" line="210"/>
+        <location filename="../src/FormConditionStd.cpp" line="217"/>
         <source>Light is on</source>
         <translation>La lumière est allumée</translation>
     </message>
     <message>
-        <location filename="../src/FormConditionStd.cpp" line="210"/>
-        <location filename="../src/FormConditionStd.cpp" line="217"/>
+        <location filename="../src/FormConditionStd.cpp" line="211"/>
+        <location filename="../src/FormConditionStd.cpp" line="218"/>
         <source>Light is off</source>
         <translation>La lumiere est eteinte</translation>
     </message>
     <message>
-        <location filename="../src/FormConditionStd.cpp" line="211"/>
+        <location filename="../src/FormConditionStd.cpp" line="212"/>
         <source>Light is at X%</source>
         <translation>La lumière est a X%</translation>
     </message>
     <message>
-        <location filename="../src/FormConditionStd.cpp" line="218"/>
+        <location filename="../src/FormConditionStd.cpp" line="219"/>
         <source>Light is at XXXX color</source>
         <translation>La lumière est à la couleur XXXX</translation>
     </message>
     <message>
-        <location filename="../src/FormConditionStd.cpp" line="223"/>
-        <location filename="../src/FormConditionStd.cpp" line="230"/>
+        <location filename="../src/FormConditionStd.cpp" line="224"/>
+        <location filename="../src/FormConditionStd.cpp" line="231"/>
         <source>Shutter is open</source>
         <translation>Le volet est ouvert</translation>
     </message>
     <message>
-        <location filename="../src/FormConditionStd.cpp" line="224"/>
-        <location filename="../src/FormConditionStd.cpp" line="231"/>
+        <location filename="../src/FormConditionStd.cpp" line="225"/>
+        <location filename="../src/FormConditionStd.cpp" line="232"/>
         <source>Shutter is closed</source>
         <translation>Le volet est fermé</translation>
     </message>
     <message>
-        <location filename="../src/FormConditionStd.cpp" line="225"/>
-        <location filename="../src/FormConditionStd.cpp" line="232"/>
+        <location filename="../src/FormConditionStd.cpp" line="226"/>
+        <location filename="../src/FormConditionStd.cpp" line="233"/>
         <source>Shutter is stopped</source>
         <translation>Le volet est arrêté</translation>
     </message>
     <message>
-        <location filename="../src/FormConditionStd.cpp" line="233"/>
+        <location filename="../src/FormConditionStd.cpp" line="234"/>
         <source>Shutter is at X%</source>
         <translation>Le volet est à X%</translation>
     </message>
     <message>
-        <location filename="../src/FormConditionStd.cpp" line="238"/>
+        <location filename="../src/FormConditionStd.cpp" line="239"/>
         <source>Event on 1 press</source>
         <translation>Evennement sur 1 appui</translation>
     </message>
     <message>
-        <location filename="../src/FormConditionStd.cpp" line="239"/>
+        <location filename="../src/FormConditionStd.cpp" line="240"/>
         <source>Event on 2 presses</source>
         <translation>Evennement sur 2 appuis</translation>
     </message>
     <message>
-        <location filename="../src/FormConditionStd.cpp" line="240"/>
+        <location filename="../src/FormConditionStd.cpp" line="241"/>
         <source>Event on 3 presses</source>
         <translation>Evennement sur 3 appuis</translation>
     </message>
     <message>
-        <location filename="../src/FormConditionStd.cpp" line="244"/>
+        <location filename="../src/FormConditionStd.cpp" line="245"/>
         <source>Event on normal press</source>
         <translation>Evennement sur appui normal</translation>
     </message>
     <message>
-        <location filename="../src/FormConditionStd.cpp" line="245"/>
+        <location filename="../src/FormConditionStd.cpp" line="246"/>
         <source>Event on long press</source>
         <translation>Evennement sur appui long</translation>
     </message>
     <message>
-        <location filename="../src/FormConditionStd.cpp" line="249"/>
+        <location filename="../src/FormConditionStd.cpp" line="250"/>
         <source>Event when temperature changes to a value</source>
         <translation>Evennement sur une témperature en °C</translation>
     </message>
     <message>
-        <location filename="../src/FormConditionStd.cpp" line="250"/>
+        <location filename="../src/FormConditionStd.cpp" line="251"/>
         <source>Event when temperature changes</source>
         <translation>Evennement sur n&apos;importe quel changement de température</translation>
     </message>
     <message>
-        <location filename="../src/FormConditionStd.cpp" line="254"/>
-        <location filename="../src/FormConditionStd.cpp" line="258"/>
+        <location filename="../src/FormConditionStd.cpp" line="255"/>
+        <location filename="../src/FormConditionStd.cpp" line="259"/>
         <source>Event when value changes</source>
         <translation>Evennement lors du changement d&apos;état</translation>
     </message>
     <message>
-        <location filename="../src/FormConditionStd.cpp" line="262"/>
+        <location filename="../src/FormConditionStd.cpp" line="263"/>
         <source>Event on play</source>
         <translation>Evennement lors de la lecture</translation>
     </message>
     <message>
-        <location filename="../src/FormConditionStd.cpp" line="263"/>
+        <location filename="../src/FormConditionStd.cpp" line="264"/>
         <source>Event on pause</source>
         <translation>Evennement lors de la pause</translation>
     </message>
     <message>
-        <location filename="../src/FormConditionStd.cpp" line="264"/>
+        <location filename="../src/FormConditionStd.cpp" line="265"/>
         <source>Event on stop</source>
         <translation>Evennement lors de l&apos;arrêt</translation>
     </message>
     <message>
-        <location filename="../src/FormConditionStd.cpp" line="265"/>
+        <location filename="../src/FormConditionStd.cpp" line="266"/>
         <source>Event on song change</source>
         <translation>Evennement lors du changement de piste</translation>
     </message>
     <message>
-        <location filename="../src/FormConditionStd.cpp" line="266"/>
+        <location filename="../src/FormConditionStd.cpp" line="267"/>
         <source>Event on playlist change</source>
         <translation>Évènement lors du changement de liste de lecture</translation>
     </message>
     <message>
-        <location filename="../src/FormConditionStd.cpp" line="267"/>
+        <location filename="../src/FormConditionStd.cpp" line="268"/>
         <source>Event on volume change</source>
         <translation>Évènement lors du changement de volume</translation>
     </message>
     <message>
-        <location filename="../src/FormConditionStd.cpp" line="266"/>
+        <location filename="../src/FormConditionStd.cpp" line="269"/>
         <source>Event on error</source>
         <translation>Evennement lors d&apos;erreur</translation>
     </message>
@@ -6335,7 +6260,7 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>FormRules</name>
     <message>
-        <location filename="../src/formrules.cpp" line="479"/>
+        <location filename="../src/formrules.cpp" line="486"/>
         <source>Device from a template...</source>
         <translation>Device depuis un template...</translation>
     </message>
@@ -6362,7 +6287,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../data/FormRules.ui" line="198"/>
-        <location filename="../src/formrules.cpp" line="712"/>
+        <location filename="../src/formrules.cpp" line="599"/>
         <source>Home</source>
         <translation>Maison</translation>
     </message>
@@ -6409,7 +6334,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../data/FormRules.ui" line="519"/>
-        <location filename="../src/formrules.cpp" line="751"/>
+        <location filename="../src/formrules.cpp" line="639"/>
         <source>Name</source>
         <translation>Nom</translation>
     </message>
@@ -6435,75 +6360,70 @@ p, li { white-space: pre-wrap; }
         <translation>Actions</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="46"/>
+        <location filename="../src/formrules.cpp" line="52"/>
         <source>Room</source>
         <translation>Pièce</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="54"/>
-        <location filename="../src/formrules.cpp" line="95"/>
-        <location filename="../src/formrules.cpp" line="487"/>
-        <location filename="../src/formrules.cpp" line="594"/>
+        <location filename="../src/formrules.cpp" line="60"/>
+        <location filename="../src/formrules.cpp" line="366"/>
+        <location filename="../src/formrules.cpp" line="475"/>
         <source>Switch</source>
         <translation>Interrupteur</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="58"/>
-        <location filename="../src/formrules.cpp" line="122"/>
-        <location filename="../src/formrules.cpp" line="218"/>
-        <location filename="../src/formrules.cpp" line="279"/>
-        <location filename="../src/formrules.cpp" line="402"/>
-        <location filename="../src/formrules.cpp" line="514"/>
+        <location filename="../src/formrules.cpp" line="64"/>
+        <location filename="../src/formrules.cpp" line="101"/>
+        <location filename="../src/formrules.cpp" line="158"/>
+        <location filename="../src/formrules.cpp" line="281"/>
+        <location filename="../src/formrules.cpp" line="393"/>
         <source>Light</source>
         <translation>Lumière</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="62"/>
-        <location filename="../src/formrules.cpp" line="131"/>
-        <location filename="../src/formrules.cpp" line="226"/>
-        <location filename="../src/formrules.cpp" line="288"/>
-        <location filename="../src/formrules.cpp" line="429"/>
-        <location filename="../src/formrules.cpp" line="559"/>
+        <location filename="../src/formrules.cpp" line="68"/>
+        <location filename="../src/formrules.cpp" line="167"/>
+        <location filename="../src/formrules.cpp" line="308"/>
+        <location filename="../src/formrules.cpp" line="438"/>
         <source>Shutter</source>
         <translation>Volet</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="66"/>
+        <location filename="../src/formrules.cpp" line="72"/>
         <source>DALI/DMX</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="70"/>
+        <location filename="../src/formrules.cpp" line="76"/>
         <source>DALI/DMX RGB</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="74"/>
-        <location filename="../src/formrules.cpp" line="84"/>
-        <location filename="../src/formrules.cpp" line="167"/>
-        <location filename="../src/formrules.cpp" line="230"/>
-        <location filename="../src/formrules.cpp" line="384"/>
-        <location filename="../src/formrules.cpp" line="478"/>
+        <location filename="../src/formrules.cpp" line="80"/>
+        <location filename="../src/formrules.cpp" line="90"/>
+        <location filename="../src/formrules.cpp" line="109"/>
+        <location filename="../src/formrules.cpp" line="263"/>
+        <location filename="../src/formrules.cpp" line="357"/>
         <source>Temperature sensor</source>
         <translation>Sonde de température</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="78"/>
+        <location filename="../src/formrules.cpp" line="84"/>
         <source>Analog Input/Output</source>
         <translation>E/S Analogique</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="541"/>
+        <location filename="../src/formrules.cpp" line="420"/>
         <source>Light Dimmer</source>
         <translation>Lumière sur variateur</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="252"/>
+        <location filename="../src/formrules.cpp" line="131"/>
         <source>Switch input</source>
         <translation>Entrée interrupteur</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="375"/>
+        <location filename="../src/formrules.cpp" line="254"/>
         <source>Analog input</source>
         <translation>Entrée analogique</translation>
     </message>
@@ -6512,111 +6432,101 @@ p, li { white-space: pre-wrap; }
         <translation type="vanished">Sortie digitale</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="104"/>
-        <location filename="../src/formrules.cpp" line="357"/>
+        <location filename="../src/formrules.cpp" line="236"/>
         <source>Switch triple</source>
         <translation>Triple clic</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="113"/>
-        <location filename="../src/formrules.cpp" line="366"/>
+        <location filename="../src/formrules.cpp" line="245"/>
         <source>Switch Long press</source>
         <translation>Appui long</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="140"/>
-        <location filename="../src/formrules.cpp" line="297"/>
-        <location filename="../src/formrules.cpp" line="438"/>
+        <location filename="../src/formrules.cpp" line="176"/>
+        <location filename="../src/formrules.cpp" line="317"/>
         <source>Smart Shutter</source>
         <translation>Volet intelligent</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="149"/>
         <source>Dimmer</source>
-        <translation>Variateur</translation>
+        <translation type="vanished">Variateur</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="158"/>
-        <location filename="../src/formrules.cpp" line="222"/>
+        <location filename="../src/formrules.cpp" line="105"/>
         <source>RGB Light</source>
         <translation>Lumière RVB</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="214"/>
         <source>Switch Input</source>
-        <translation>Entrée interrupteur</translation>
+        <translation type="vanished">Entrée interrupteur</translation>
     </message>
     <message>
         <source>LightRGB</source>
         <translation type="vanished">Lumière RGB</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="176"/>
-        <location filename="../src/formrules.cpp" line="234"/>
-        <location filename="../src/formrules.cpp" line="496"/>
+        <location filename="../src/formrules.cpp" line="113"/>
+        <location filename="../src/formrules.cpp" line="375"/>
         <source>Analog Input</source>
         <translation>Entrée analogique</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="185"/>
-        <location filename="../src/formrules.cpp" line="238"/>
-        <location filename="../src/formrules.cpp" line="523"/>
+        <location filename="../src/formrules.cpp" line="117"/>
+        <location filename="../src/formrules.cpp" line="402"/>
         <source>Analog Output</source>
         <translation>Sortie analogique</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="194"/>
-        <location filename="../src/formrules.cpp" line="242"/>
-        <location filename="../src/formrules.cpp" line="505"/>
+        <location filename="../src/formrules.cpp" line="121"/>
+        <location filename="../src/formrules.cpp" line="384"/>
         <source>String Input</source>
         <translation>Entrée chaine de caractères</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="203"/>
-        <location filename="../src/formrules.cpp" line="246"/>
-        <location filename="../src/formrules.cpp" line="532"/>
+        <location filename="../src/formrules.cpp" line="125"/>
+        <location filename="../src/formrules.cpp" line="411"/>
         <source>String Output</source>
         <translation>Sortie chaine de caractères</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="261"/>
+        <location filename="../src/formrules.cpp" line="140"/>
         <source>Switch triple click</source>
         <translation>Interrupteur triple clic</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="270"/>
+        <location filename="../src/formrules.cpp" line="149"/>
         <source>Switch long press</source>
         <translation>Interrupteur appui long</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="308"/>
-        <location filename="../src/formrules.cpp" line="411"/>
+        <location filename="../src/formrules.cpp" line="187"/>
+        <location filename="../src/formrules.cpp" line="290"/>
         <source>Light dimmer</source>
         <translation>Variateur de lumière</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="317"/>
-        <location filename="../src/formrules.cpp" line="420"/>
+        <location filename="../src/formrules.cpp" line="196"/>
+        <location filename="../src/formrules.cpp" line="299"/>
         <source>Light RGB</source>
         <translation>Lumière RVB</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="328"/>
+        <location filename="../src/formrules.cpp" line="207"/>
         <source>Ping Switch</source>
         <translation>Ping</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="337"/>
+        <location filename="../src/formrules.cpp" line="216"/>
         <source>Wake On Lan Output</source>
         <translation>Réveil réseau</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="348"/>
+        <location filename="../src/formrules.cpp" line="227"/>
         <source>Normal Switch</source>
         <translation>Interrupteur</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="393"/>
+        <location filename="../src/formrules.cpp" line="272"/>
         <source>Analog output</source>
         <translation>Sortie analogique</translation>
     </message>
@@ -6625,12 +6535,12 @@ p, li { white-space: pre-wrap; }
         <translation type="vanished">Ampoule MI-Light RVB</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="451"/>
+        <location filename="../src/formrules.cpp" line="330"/>
         <source>Hue Wizard</source>
         <translation>Hue Wizard</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="467"/>
+        <location filename="../src/formrules.cpp" line="346"/>
         <source>Philips Hue</source>
         <translation>Philips Hue</translation>
     </message>
@@ -6639,308 +6549,323 @@ p, li { white-space: pre-wrap; }
         <translation type="vanished">Téléinformation edf</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="605"/>
+        <location filename="../src/formrules.cpp" line="492"/>
         <source>Camera</source>
         <translation>Camera</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="609"/>
+        <location filename="../src/formrules.cpp" line="496"/>
         <source>Music zone</source>
         <translation>Zone de musique</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="613"/>
+        <location filename="../src/formrules.cpp" line="500"/>
         <source>Audio amplifier</source>
         <translation>Ampli audio</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="628"/>
+        <location filename="../src/formrules.cpp" line="515"/>
         <source>Internal Variable</source>
         <translation>Variable interne</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="632"/>
+        <location filename="../src/formrules.cpp" line="519"/>
         <source>Scenario variable</source>
         <translation>Variable scénario</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="636"/>
+        <location filename="../src/formrules.cpp" line="523"/>
         <source>Time/Scheduling Variable</source>
         <translation>Variable de temps</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="643"/>
+        <location filename="../src/formrules.cpp" line="530"/>
         <source>Normal Condition</source>
         <translation>Condition normale</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="647"/>
+        <location filename="../src/formrules.cpp" line="534"/>
         <source>Condition on output event</source>
         <translation>Condition sur sortie</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="651"/>
+        <location filename="../src/formrules.cpp" line="538"/>
         <source>Condition at start</source>
         <translation>Condition au démarrage</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="655"/>
+        <location filename="../src/formrules.cpp" line="542"/>
         <source>Script Condition</source>
         <translation>Condition script</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="662"/>
+        <location filename="../src/formrules.cpp" line="549"/>
         <source>Normal Action</source>
         <translation>Action normale</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="666"/>
+        <location filename="../src/formrules.cpp" line="553"/>
         <source>E-Mail Action</source>
         <translation>Action Email</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="670"/>
+        <location filename="../src/formrules.cpp" line="557"/>
         <source>Script Action</source>
         <translation>Action script</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="674"/>
+        <location filename="../src/formrules.cpp" line="561"/>
         <source>Touchscreen Action</source>
         <translation>Action Touchscreen</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="751"/>
+        <location filename="../src/formrules.cpp" line="639"/>
         <source>Type</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="576"/>
-        <location filename="../src/formrules.cpp" line="578"/>
-        <location filename="../src/formrules.cpp" line="1068"/>
-        <location filename="../src/formrules.cpp" line="1073"/>
-        <location filename="../src/formrules.cpp" line="1153"/>
-        <location filename="../src/formrules.cpp" line="1174"/>
-        <location filename="../src/formrules.cpp" line="1176"/>
-        <location filename="../src/formrules.cpp" line="2111"/>
-        <location filename="../src/formrules.cpp" line="2288"/>
-        <location filename="../src/formrules.cpp" line="2335"/>
-        <location filename="../src/formrules.cpp" line="2482"/>
-        <location filename="../src/formrules.cpp" line="2504"/>
-        <location filename="../src/formrules.cpp" line="2520"/>
-        <location filename="../src/formrules.cpp" line="2574"/>
-        <location filename="../src/formrules.cpp" line="2594"/>
-        <location filename="../src/formrules.cpp" line="2605"/>
-        <location filename="../src/formrules.cpp" line="2645"/>
-        <location filename="../src/formrules.cpp" line="2670"/>
-        <location filename="../src/formrules.cpp" line="2692"/>
-        <location filename="../src/formrules.cpp" line="2708"/>
-        <location filename="../src/formrules.cpp" line="2774"/>
-        <location filename="../src/formrules.cpp" line="2806"/>
-        <location filename="../src/formrules.cpp" line="2960"/>
-        <location filename="../src/formrules.cpp" line="2979"/>
-        <location filename="../src/formrules.cpp" line="3001"/>
-        <location filename="../src/formrules.cpp" line="3019"/>
-        <location filename="../src/formrules.cpp" line="3397"/>
-        <location filename="../src/formrules.cpp" line="3429"/>
-        <location filename="../src/formrules.cpp" line="3486"/>
-        <location filename="../src/formrules.cpp" line="3574"/>
-        <location filename="../src/formrules.cpp" line="3603"/>
+        <location filename="../src/formrules.cpp" line="454"/>
+        <location filename="../src/formrules.cpp" line="456"/>
+        <location filename="../src/formrules.cpp" line="944"/>
+        <location filename="../src/formrules.cpp" line="949"/>
+        <location filename="../src/formrules.cpp" line="1036"/>
+        <location filename="../src/formrules.cpp" line="1091"/>
+        <location filename="../src/formrules.cpp" line="1123"/>
+        <location filename="../src/formrules.cpp" line="1125"/>
+        <location filename="../src/formrules.cpp" line="2060"/>
+        <location filename="../src/formrules.cpp" line="2113"/>
+        <location filename="../src/formrules.cpp" line="2311"/>
+        <location filename="../src/formrules.cpp" line="2358"/>
+        <location filename="../src/formrules.cpp" line="2531"/>
+        <location filename="../src/formrules.cpp" line="2553"/>
+        <location filename="../src/formrules.cpp" line="2569"/>
+        <location filename="../src/formrules.cpp" line="2623"/>
+        <location filename="../src/formrules.cpp" line="2643"/>
+        <location filename="../src/formrules.cpp" line="2654"/>
+        <location filename="../src/formrules.cpp" line="2694"/>
+        <location filename="../src/formrules.cpp" line="2719"/>
+        <location filename="../src/formrules.cpp" line="2741"/>
+        <location filename="../src/formrules.cpp" line="2757"/>
+        <location filename="../src/formrules.cpp" line="2823"/>
+        <location filename="../src/formrules.cpp" line="2855"/>
+        <location filename="../src/formrules.cpp" line="3009"/>
+        <location filename="../src/formrules.cpp" line="3028"/>
+        <location filename="../src/formrules.cpp" line="3050"/>
+        <location filename="../src/formrules.cpp" line="3068"/>
+        <location filename="../src/formrules.cpp" line="3446"/>
+        <location filename="../src/formrules.cpp" line="3478"/>
+        <location filename="../src/formrules.cpp" line="3535"/>
+        <location filename="../src/formrules.cpp" line="3623"/>
+        <location filename="../src/formrules.cpp" line="3652"/>
         <source>Calaos Installer</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="550"/>
+        <location filename="../src/formrules.cpp" line="429"/>
         <source>Light Dimmer RGB</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="569"/>
+        <location filename="../src/formrules.cpp" line="447"/>
         <source>Zigbee2mqtt device</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="576"/>
-        <location filename="../src/formrules.cpp" line="1068"/>
-        <location filename="../src/formrules.cpp" line="1174"/>
+        <location filename="../src/formrules.cpp" line="454"/>
+        <location filename="../src/formrules.cpp" line="944"/>
+        <location filename="../src/formrules.cpp" line="1091"/>
+        <location filename="../src/formrules.cpp" line="1123"/>
         <source>You need to add one room at least!</source>
         <translation>Vous devez au moins ajouter une pièce!</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="578"/>
-        <location filename="../src/formrules.cpp" line="1073"/>
-        <location filename="../src/formrules.cpp" line="1176"/>
+        <location filename="../src/formrules.cpp" line="456"/>
+        <location filename="../src/formrules.cpp" line="949"/>
+        <location filename="../src/formrules.cpp" line="1125"/>
         <source>You must select a room prior adding elements!</source>
         <translation>Vous devez sélectionner une pièce avant d&apos;ajouter des éléments!</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="617"/>
+        <location filename="../src/formrules.cpp" line="504"/>
         <source>Remote UI</source>
         <translation type="unfinished">Remote UI</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="619"/>
+        <location filename="../src/formrules.cpp" line="506"/>
         <source>Remote UI device</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="623"/>
+        <location filename="../src/formrules.cpp" line="510"/>
         <source>Relay Output</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="678"/>
+        <location filename="../src/formrules.cpp" line="565"/>
         <source>Push Notification Action</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="1153"/>
+        <location filename="../src/formrules.cpp" line="1036"/>
         <source>Unknown type (%1)</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="1617"/>
+        <location filename="../src/formrules.cpp" line="1590"/>
         <source>Start</source>
         <translation>Démarrage</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="1622"/>
-        <location filename="../src/formrules.cpp" line="1724"/>
+        <location filename="../src/formrules.cpp" line="1595"/>
+        <location filename="../src/formrules.cpp" line="1697"/>
         <source>Script</source>
         <translation>Script</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="1719"/>
+        <location filename="../src/formrules.cpp" line="1692"/>
         <source>EMail</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="1729"/>
+        <location filename="../src/formrules.cpp" line="1702"/>
         <source>Touchscreen</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="1749"/>
+        <location filename="../src/formrules.cpp" line="1722"/>
         <source>Push Notification</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="1804"/>
+        <location filename="../src/formrules.cpp" line="1774"/>
+        <location filename="../src/formrules.cpp" line="1843"/>
+        <source>Edit the time program...</source>
+        <translation>Modifier le programme horaire...</translation>
+    </message>
+    <message>
+        <location filename="../src/formrules.cpp" line="1787"/>
         <source>Display the associated rules</source>
         <translation>Afficher la règle associée</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="1816"/>
+        <location filename="../src/formrules.cpp" line="1799"/>
         <source>Move to...</source>
         <translation>Déplacer vers...</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="1822"/>
+        <location filename="../src/formrules.cpp" line="1805"/>
         <source>Moves with its device</source>
         <translation>Suit son device</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="1846"/>
+        <location filename="../src/formrules.cpp" line="1829"/>
         <source>Delete device and its IOs...</source>
         <translation>Supprimer le device et ses IOs...</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="1846"/>
+        <location filename="../src/formrules.cpp" line="1829"/>
         <source>Delete...</source>
         <translation>Supprimer...</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="2025"/>
-        <location filename="../src/formrules.cpp" line="2046"/>
-        <location filename="../src/formrules.cpp" line="3354"/>
+        <location filename="../src/formrules.cpp" line="1836"/>
+        <location filename="../src/formrules.cpp" line="2060"/>
+        <source>Deleted with its device</source>
+        <translation>Supprimé avec son équipement</translation>
+    </message>
+    <message>
+        <location filename="../src/formrules.cpp" line="2022"/>
+        <location filename="../src/formrules.cpp" line="2043"/>
+        <location filename="../src/formrules.cpp" line="3403"/>
         <source>Delete</source>
         <translation>Supprimer</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="2067"/>
+        <location filename="../src/formrules.cpp" line="2069"/>
         <source>device &quot;%1&quot; and its IOs</source>
         <translation>le device « %1 » et ses IOs</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="2069"/>
+        <location filename="../src/formrules.cpp" line="2071"/>
         <source>room &quot;%1&quot; and everything in it</source>
         <translation>la pièce « %1 » et tout son contenu</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="1859"/>
+        <location filename="../src/formrules.cpp" line="1856"/>
         <source>Switch on</source>
         <translation>Allumer</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="1863"/>
+        <location filename="../src/formrules.cpp" line="1860"/>
         <source>Switch off</source>
         <translation>Eteindre</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="1872"/>
+        <location filename="../src/formrules.cpp" line="1869"/>
         <source>Display the camera view</source>
         <translation>Afficher la vue de la caméra</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="1884"/>
+        <location filename="../src/formrules.cpp" line="1881"/>
         <source>Convert to normal shutter</source>
         <translation>Convertir en volet normal</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="1890"/>
+        <location filename="../src/formrules.cpp" line="1887"/>
         <source>Convert to smart shutter</source>
         <translation>Convertir en volet intelligent</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="1899"/>
+        <location filename="../src/formrules.cpp" line="1896"/>
         <source>Up</source>
         <translation>Monter</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="1903"/>
+        <location filename="../src/formrules.cpp" line="1900"/>
         <source>Down</source>
         <translation>Descendre</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="1907"/>
+        <location filename="../src/formrules.cpp" line="1904"/>
         <source>Stop</source>
         <translation>Arrêter</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="1917"/>
+        <location filename="../src/formrules.cpp" line="1914"/>
         <source>Edit Remote UI</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="1931"/>
+        <location filename="../src/formrules.cpp" line="1928"/>
         <source>Edit the time ranges...</source>
         <translation>Editer la plage horaire...</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="1940"/>
-        <location filename="../src/formrules.cpp" line="1970"/>
+        <location filename="../src/formrules.cpp" line="1937"/>
+        <location filename="../src/formrules.cpp" line="1967"/>
         <source>Convert in triple switch...</source>
         <translation>Convertir en interrupteur triple click...</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="1944"/>
-        <location filename="../src/formrules.cpp" line="1957"/>
+        <location filename="../src/formrules.cpp" line="1941"/>
+        <location filename="../src/formrules.cpp" line="1954"/>
         <source>Convert in long press switch...</source>
         <translation>Convertir en interrupteur appui long...</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="1953"/>
-        <location filename="../src/formrules.cpp" line="1966"/>
+        <location filename="../src/formrules.cpp" line="1950"/>
+        <location filename="../src/formrules.cpp" line="1963"/>
         <source>Convert in normal switch...</source>
         <translation>Convertir en interrupteur normal...</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="1979"/>
+        <location filename="../src/formrules.cpp" line="1976"/>
         <source>Link a setpoint...</source>
         <translation>Lier à une consigne...</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="1987"/>
-        <location filename="../src/formrules.cpp" line="3350"/>
+        <location filename="../src/formrules.cpp" line="1984"/>
+        <location filename="../src/formrules.cpp" line="3399"/>
         <source>Properties</source>
         <translation>Propriétés</translation>
     </message>
@@ -6949,103 +6874,301 @@ p, li { white-space: pre-wrap; }
         <translation type="vanished">Etes vous sûr de vouloir supprimer l&apos;élément &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="2112"/>
+        <location filename="../src/formrules.cpp" line="2114"/>
         <source>Are you sure to clone the selected rule?</source>
         <translation>Etes vous sûr de vouloir dupliquer la règle sélectionnée?</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="2288"/>
+        <location filename="../src/formrules.cpp" line="2311"/>
         <source>Error when creating the object!</source>
         <translation>Erreur lors de la création de l&apos;objet!</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="2336"/>
+        <location filename="../src/formrules.cpp" line="2359"/>
         <source>Are you sure to delete the rule?</source>
         <translation>Etes vous sûr de vouloir supprimer la règle?</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="2483"/>
+        <location filename="../src/formrules.cpp" line="2532"/>
         <source>Are you sure to convert this switch into a triple click switch?</source>
         <translation>Etes vous sûr de vouloir convertir cet interrupteur en triple click?</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="2504"/>
-        <location filename="../src/formrules.cpp" line="2594"/>
-        <location filename="../src/formrules.cpp" line="2692"/>
-        <location filename="../src/formrules.cpp" line="2979"/>
-        <location filename="../src/formrules.cpp" line="3019"/>
+        <location filename="../src/formrules.cpp" line="2553"/>
+        <location filename="../src/formrules.cpp" line="2643"/>
+        <location filename="../src/formrules.cpp" line="2741"/>
+        <location filename="../src/formrules.cpp" line="3028"/>
+        <location filename="../src/formrules.cpp" line="3068"/>
         <source>Sorry, this is not implemented !</source>
         <translation>Désolé, ceci n&apos;est pas implémenté!</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="2521"/>
-        <location filename="../src/formrules.cpp" line="2606"/>
-        <location filename="../src/formrules.cpp" line="2709"/>
+        <location filename="../src/formrules.cpp" line="2570"/>
+        <location filename="../src/formrules.cpp" line="2655"/>
+        <location filename="../src/formrules.cpp" line="2758"/>
         <source>Do you want to automatically convert the rules?</source>
         <translation>Souhaitez vous convertir automatiquement les règles?</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="2575"/>
+        <location filename="../src/formrules.cpp" line="2624"/>
         <source>Are you sure to convert this switch into a standard switch?</source>
         <translation>Etes vous sûr de vouloir convertir cet interrupteur standard?</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="2645"/>
+        <location filename="../src/formrules.cpp" line="2694"/>
         <source>Warning, the rules with double/triple were not converted, do it manually.</source>
         <translation>Attention, les règles avec double/triple n&apos;ont pas été convertie, faites le manuellement.</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="2671"/>
+        <location filename="../src/formrules.cpp" line="2720"/>
         <source>Are you sure to convert this switch into a long press switch?</source>
         <translation>Etes vous sûr de vouloir convertir cet interrupteur appui long?</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="2774"/>
-        <location filename="../src/formrules.cpp" line="2806"/>
+        <location filename="../src/formrules.cpp" line="2823"/>
+        <location filename="../src/formrules.cpp" line="2855"/>
         <source>Internal error!</source>
         <translation>Erreur interne!</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="2961"/>
+        <location filename="../src/formrules.cpp" line="3010"/>
         <source>Do you want to convert to a smart shutter?</source>
         <translation>Etes vous sûr de vouloir convertir en volet intelligent?</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="3002"/>
+        <location filename="../src/formrules.cpp" line="3051"/>
         <source>Do you want to convert to normal shutter?</source>
         <translation>Etes vous sûr de vouloir convertir en volet normal?</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="3347"/>
+        <location filename="../src/formrules.cpp" line="3396"/>
         <source>Clone rule</source>
         <translation>Dupliquer la règle</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="3397"/>
+        <location filename="../src/formrules.cpp" line="3446"/>
         <source>You must select an input.</source>
         <translation>Vous devez sélectionner une entrée.</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="3429"/>
-        <location filename="../src/formrules.cpp" line="3486"/>
+        <location filename="../src/formrules.cpp" line="3478"/>
+        <location filename="../src/formrules.cpp" line="3535"/>
         <source>You must select an output.</source>
         <translation>Vous devez sélectionner une sortie.</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="3575"/>
-        <location filename="../src/formrules.cpp" line="3604"/>
+        <location filename="../src/formrules.cpp" line="3624"/>
+        <location filename="../src/formrules.cpp" line="3653"/>
         <source>Are you sure to delete the item &quot;%1&quot;</source>
         <translation>Etes vous sûr de vouloir supprimer l&apos;élément &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="469"/>
+        <location filename="../src/formrules.cpp" line="468"/>
         <source>Home Assistant MQTT discovery...</source>
         <translation>Découverte MQTT Home Assistant...</translation>
     </message>
     <message>
-        <location filename="../src/formrules.cpp" line="1116"/>
+        <location filename="../src/formrules.cpp" line="1114"/>
         <source>Home Assistant MQTT discovery</source>
         <translation>Découverte MQTT Home Assistant</translation>
+    </message>
+</context>
+<context>
+    <name>HomeAssistantDiscovery</name>
+    <message>
+        <location filename="../src/HomeAssistantDiscovery.cpp" line="269"/>
+        <source>its temperatures are in °F, Calaos climates in °C</source>
+        <translation>ses températures sont en °F, les climats Calaos en °C</translation>
+    </message>
+    <message>
+        <location filename="../src/HomeAssistantDiscovery.cpp" line="286"/>
+        <source>its %1 goes through a template Calaos cannot follow</source>
+        <translation>son %1 passe par un template que Calaos ne sait pas suivre</translation>
+    </message>
+    <message>
+        <location filename="../src/HomeAssistantDiscovery.cpp" line="287"/>
+        <source>it does not report its %1</source>
+        <translation>il ne remonte pas son %1</translation>
+    </message>
+    <message>
+        <location filename="../src/HomeAssistantDiscovery.cpp" line="294"/>
+        <source>Not imported: %1 (%2).</source>
+        <translation>Non importé : %1 (%2).</translation>
+    </message>
+    <message>
+        <location filename="../src/HomeAssistantDiscovery.cpp" line="302"/>
+        <source>it has no mode topics</source>
+        <translation>il n&apos;a pas de topics de mode</translation>
+    </message>
+    <message>
+        <location filename="../src/HomeAssistantDiscovery.cpp" line="315"/>
+        <source>it has no setpoint topics</source>
+        <translation>il n&apos;a pas de topics de consigne</translation>
+    </message>
+    <message>
+        <location filename="../src/HomeAssistantDiscovery.cpp" line="322"/>
+        <source>two setpoints without a current temperature: no template takes that</source>
+        <translation>deux consignes sans température ambiante : aucun modèle ne le prend</translation>
+    </message>
+    <message>
+        <location filename="../src/HomeAssistantDiscovery.cpp" line="329"/>
+        <source>the device template %1 is missing from this installer</source>
+        <translation>le modèle d&apos;appareil %1 manque dans cet installeur</translation>
+    </message>
+    <message>
+        <location filename="../src/HomeAssistantDiscovery.cpp" line="333"/>
+        <source>Not imported: action (the template without room temperature has none).</source>
+        <translation>Non importé : action (le modèle sans température ambiante n&apos;en a pas).</translation>
+    </message>
+    <message>
+        <location filename="../src/HomeAssistantDiscovery.cpp" line="349"/>
+        <source>No room sensor relay: Calaos publishes it on the topics of an ESPHome node only.</source>
+        <translation>Pas de relais de sonde d&apos;ambiance : Calaos ne le publie que sur les topics d&apos;un nœud ESPHome.</translation>
+    </message>
+    <message>
+        <location filename="../src/HomeAssistantDiscovery.cpp" line="658"/>
+        <location filename="../src/HomeAssistantDiscovery.cpp" line="678"/>
+        <source>it has no state topic</source>
+        <translation>il n&apos;a pas de topic d&apos;état</translation>
+    </message>
+    <message>
+        <location filename="../src/HomeAssistantDiscovery.cpp" line="660"/>
+        <location filename="../src/HomeAssistantDiscovery.cpp" line="680"/>
+        <location filename="../src/HomeAssistantDiscovery.cpp" line="719"/>
+        <location filename="../src/HomeAssistantDiscovery.cpp" line="865"/>
+        <source>its value goes through a template Calaos cannot follow</source>
+        <translation>sa valeur passe par un template que Calaos ne sait pas suivre</translation>
+    </message>
+    <message>
+        <location filename="../src/HomeAssistantDiscovery.cpp" line="715"/>
+        <location filename="../src/HomeAssistantDiscovery.cpp" line="747"/>
+        <location filename="../src/HomeAssistantDiscovery.cpp" line="814"/>
+        <location filename="../src/HomeAssistantDiscovery.cpp" line="836"/>
+        <location filename="../src/HomeAssistantDiscovery.cpp" line="859"/>
+        <source>it has no command topic</source>
+        <translation>il n&apos;a pas de topic de commande</translation>
+    </message>
+    <message>
+        <location filename="../src/HomeAssistantDiscovery.cpp" line="717"/>
+        <location filename="../src/HomeAssistantDiscovery.cpp" line="749"/>
+        <location filename="../src/HomeAssistantDiscovery.cpp" line="816"/>
+        <source>it does not report its state</source>
+        <translation>il ne remonte pas son état</translation>
+    </message>
+    <message>
+        <location filename="../src/HomeAssistantDiscovery.cpp" line="723"/>
+        <source>it reports other values than the ones it takes</source>
+        <translation>il remonte d&apos;autres valeurs que celles qu&apos;il reçoit</translation>
+    </message>
+    <message>
+        <location filename="../src/HomeAssistantDiscovery.cpp" line="766"/>
+        <location filename="../src/HomeAssistantDiscovery.cpp" line="775"/>
+        <source>Calaos turns it off with brightness 0: switched off elsewhere with its brightness kept, it still shows on.</source>
+        <translation>Calaos l&apos;éteint avec une luminosité de 0 : éteinte ailleurs en gardant sa luminosité, elle reste affichée allumée.</translation>
+    </message>
+    <message>
+        <location filename="../src/HomeAssistantDiscovery.cpp" line="778"/>
+        <location filename="../src/HomeAssistantDiscovery.cpp" line="828"/>
+        <source>Its colour is not imported: Calaos reads colours as x and y on a 0 to 255 brightness.</source>
+        <translation>Sa couleur n&apos;est pas importée : Calaos lit les couleurs en x et y avec une luminosité de 0 à 255.</translation>
+    </message>
+    <message>
+        <location filename="../src/HomeAssistantDiscovery.cpp" line="798"/>
+        <source>it does not report its brightness</source>
+        <translation>il ne remonte pas sa luminosité</translation>
+    </message>
+    <message>
+        <location filename="../src/HomeAssistantDiscovery.cpp" line="802"/>
+        <source>its brightness goes through a template Calaos cannot follow</source>
+        <translation>sa luminosité passe par un template que Calaos ne sait pas suivre</translation>
+    </message>
+    <message>
+        <location filename="../src/HomeAssistantDiscovery.cpp" line="809"/>
+        <source>Driven by its brightness topic: off is brightness 0.</source>
+        <translation>Piloté par son topic de luminosité : éteint correspond à la luminosité 0.</translation>
+    </message>
+    <message>
+        <location filename="../src/HomeAssistantDiscovery.cpp" line="818"/>
+        <location filename="../src/HomeAssistantDiscovery.cpp" line="838"/>
+        <source>its state goes through a template Calaos cannot follow</source>
+        <translation>son état passe par un template que Calaos ne sait pas suivre</translation>
+    </message>
+    <message>
+        <location filename="../src/HomeAssistantDiscovery.cpp" line="831"/>
+        <source>lights of the %1 schema are not imported</source>
+        <translation>les lumières du schéma %1 ne sont pas importées</translation>
+    </message>
+    <message>
+        <location filename="../src/HomeAssistantDiscovery.cpp" line="854"/>
+        <source>It reports no state: Calaos times its travel, 60 s until set in its properties.</source>
+        <translation>Il ne remonte pas d&apos;état : Calaos chronomètre sa course, 60 s tant que ce n&apos;est pas réglé dans ses propriétés.</translation>
+    </message>
+    <message>
+        <location filename="../src/HomeAssistantDiscovery.cpp" line="1033"/>
+        <source>the device could not be created</source>
+        <translation>l&apos;appareil n&apos;a pas pu être créé</translation>
+    </message>
+    <message>
+        <location filename="../src/HomeAssistantDiscovery.cpp" line="861"/>
+        <source>it does not report its value</source>
+        <translation>il ne remonte pas sa valeur</translation>
+    </message>
+    <message>
+        <location filename="../src/HomeAssistantDiscovery.cpp" line="879"/>
+        <source>a climate is a device</source>
+        <translation>un climat est un appareil</translation>
+    </message>
+    <message>
+        <location filename="../src/HomeAssistantDiscovery.cpp" line="881"/>
+        <source>Calaos does not import %1 entities</source>
+        <translation>Calaos n&apos;importe pas les entités %1</translation>
+    </message>
+    <message>
+        <location filename="../src/HomeAssistantDiscovery.cpp" line="1014"/>
+        <source>%1: already in the project, skipped.</source>
+        <translation>%1 : déjà dans le projet, ignoré.</translation>
+    </message>
+    <message>
+        <location filename="../src/HomeAssistantDiscovery.cpp" line="1032"/>
+        <location filename="../src/HomeAssistantDiscovery.cpp" line="1044"/>
+        <source>%1: not imported, %2.</source>
+        <translation>%1 : non importé, %2.</translation>
+    </message>
+</context>
+<context>
+    <name>HomeTree</name>
+    <message>
+        <location filename="../src/HomeTree.cpp" line="47"/>
+        <source>Not supported by the server: kept in the file but it will not run</source>
+        <translation>Non pris en charge par le serveur : conservé dans le fichier mais ne sera pas exécuté</translation>
+    </message>
+    <message>
+        <location filename="../src/HomeTree.cpp" line="74"/>
+        <source>Time program, edited from the climate</source>
+        <translation>Programme horaire, modifié depuis le climatiseur</translation>
+    </message>
+    <message>
+        <location filename="../src/HomeTree.cpp" line="75"/>
+        <source>Program</source>
+        <translation>Programme</translation>
+    </message>
+</context>
+<context>
+    <name>HttpClient</name>
+    <message>
+        <location filename="../src/HttpClient.cpp" line="21"/>
+        <source>Cancelled</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/HttpClient.cpp" line="22"/>
+        <source>Timed out: no complete answer within %1 s</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/HttpClient.cpp" line="23"/>
+        <source>The answer is larger than expected</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -7298,24 +7421,27 @@ p, li { white-space: pre-wrap; }
         <location filename="../src/mainwindow.cpp" line="22"/>
         <location filename="../src/mainwindow.cpp" line="195"/>
         <location filename="../src/mainwindow.cpp" line="216"/>
-        <location filename="../src/mainwindow.cpp" line="259"/>
-        <location filename="../src/mainwindow.cpp" line="270"/>
-        <location filename="../src/mainwindow.cpp" line="313"/>
-        <location filename="../src/mainwindow.cpp" line="321"/>
+        <location filename="../src/mainwindow.cpp" line="260"/>
+        <location filename="../src/mainwindow.cpp" line="269"/>
+        <location filename="../src/mainwindow.cpp" line="282"/>
         <location filename="../src/mainwindow.cpp" line="326"/>
-        <location filename="../src/mainwindow.cpp" line="484"/>
-        <location filename="../src/mainwindow.cpp" line="529"/>
-        <location filename="../src/mainwindow.cpp" line="532"/>
-        <location filename="../src/mainwindow.cpp" line="535"/>
+        <location filename="../src/mainwindow.cpp" line="334"/>
+        <location filename="../src/mainwindow.cpp" line="339"/>
+        <location filename="../src/mainwindow.cpp" line="386"/>
+        <location filename="../src/mainwindow.cpp" line="401"/>
         <location filename="../src/mainwindow.cpp" line="538"/>
-        <location filename="../src/mainwindow.cpp" line="562"/>
-        <location filename="../src/mainwindow.cpp" line="626"/>
-        <location filename="../src/mainwindow.cpp" line="636"/>
-        <location filename="../src/mainwindow.cpp" line="734"/>
-        <location filename="../src/mainwindow.cpp" line="737"/>
-        <location filename="../src/mainwindow.cpp" line="742"/>
-        <location filename="../src/mainwindow.cpp" line="803"/>
-        <location filename="../src/mainwindow.cpp" line="809"/>
+        <location filename="../src/mainwindow.cpp" line="583"/>
+        <location filename="../src/mainwindow.cpp" line="586"/>
+        <location filename="../src/mainwindow.cpp" line="589"/>
+        <location filename="../src/mainwindow.cpp" line="592"/>
+        <location filename="../src/mainwindow.cpp" line="616"/>
+        <location filename="../src/mainwindow.cpp" line="680"/>
+        <location filename="../src/mainwindow.cpp" line="690"/>
+        <location filename="../src/mainwindow.cpp" line="788"/>
+        <location filename="../src/mainwindow.cpp" line="791"/>
+        <location filename="../src/mainwindow.cpp" line="796"/>
+        <location filename="../src/mainwindow.cpp" line="857"/>
+        <location filename="../src/mainwindow.cpp" line="863"/>
         <source>Calaos Installer</source>
         <translation></translation>
     </message>
@@ -7485,144 +7611,144 @@ hr { height: 1px; border-width: 0; }
         <translation>Créer un rapport</translation>
     </message>
     <message>
-        <location filename="../data/MainWindow.ui" line="556"/>
+        <location filename="../data/MainWindow.ui" line="557"/>
         <source>Wago PLC</source>
         <translation>Automate Wago</translation>
     </message>
     <message>
-        <location filename="../data/MainWindow.ui" line="571"/>
+        <location filename="../data/MainWindow.ui" line="572"/>
         <source>Calaos Server</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../data/MainWindow.ui" line="578"/>
+        <location filename="../data/MainWindow.ui" line="579"/>
         <source>Tools</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../data/MainWindow.ui" line="595"/>
+        <location filename="../data/MainWindow.ui" line="596"/>
         <source>Open a projet...</source>
         <translation>Ouvrir un projet...</translation>
     </message>
     <message>
         <location filename="../data/MainWindow.ui" line="605"/>
-        <location filename="../src/mainwindow.cpp" line="363"/>
+        <location filename="../src/mainwindow.cpp" line="376"/>
         <source>Open a backup archive...</source>
         <translation>Ouvrir une archive de sauvegarde...</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="365"/>
+        <location filename="../src/mainwindow.cpp" line="378"/>
         <source>Calaos backup (*.zip)</source>
         <translation>Sauvegarde Calaos (*.zip)</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="391"/>
+        <location filename="../src/mainwindow.cpp" line="402"/>
         <source>This backup also holds local_config.xml (the settings of the box). It was ignored: the installer only handles io.xml and rules.xml. Restore it from the web interface.</source>
         <translation>Cette sauvegarde contient aussi local_config.xml (les réglages de la box). Il a été ignoré : l&apos;installeur ne gère que io.xml et rules.xml. Restaurez-le depuis l&apos;interface web.</translation>
     </message>
     <message>
-        <location filename="../data/MainWindow.ui" line="604"/>
+        <location filename="../data/MainWindow.ui" line="614"/>
         <source>Save project as...</source>
         <translation>Sauvegarder un projet sous...</translation>
     </message>
     <message>
-        <location filename="../data/MainWindow.ui" line="613"/>
+        <location filename="../data/MainWindow.ui" line="623"/>
         <source>New projet...</source>
         <translation>Nouveau projet...</translation>
     </message>
     <message>
-        <location filename="../data/MainWindow.ui" line="622"/>
+        <location filename="../data/MainWindow.ui" line="632"/>
         <source>Save</source>
         <translation>Sauvegarder</translation>
     </message>
     <message>
-        <location filename="../data/MainWindow.ui" line="625"/>
+        <location filename="../data/MainWindow.ui" line="635"/>
         <source>Ctrl+S</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../data/MainWindow.ui" line="634"/>
+        <location filename="../data/MainWindow.ui" line="644"/>
         <source>Connect</source>
         <translation>Connecter</translation>
     </message>
     <message>
-        <location filename="../data/MainWindow.ui" line="646"/>
+        <location filename="../data/MainWindow.ui" line="656"/>
         <source>Disconnect</source>
         <translation>Déconnecter</translation>
     </message>
     <message>
-        <location filename="../data/MainWindow.ui" line="658"/>
+        <location filename="../data/MainWindow.ui" line="668"/>
         <source>Send failsafe program</source>
         <translation>Envoyer programme dégradé</translation>
     </message>
     <message>
-        <location filename="../data/MainWindow.ui" line="667"/>
+        <location filename="../data/MainWindow.ui" line="677"/>
         <source>Programmer le serveur</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../data/MainWindow.ui" line="676"/>
+        <location filename="../data/MainWindow.ui" line="686"/>
         <source>Download project from Calaos Server...</source>
         <translation>Charger le projet depuis Calaos Server...</translation>
     </message>
     <message>
-        <location filename="../data/MainWindow.ui" line="685"/>
+        <location filename="../data/MainWindow.ui" line="695"/>
         <source>Send project to Calaos Server...</source>
         <translation>Envoyer le projet à Calaos Server...</translation>
     </message>
     <message>
-        <location filename="../data/MainWindow.ui" line="697"/>
+        <location filename="../data/MainWindow.ui" line="707"/>
         <source>DALI configuration...</source>
         <translation>Configuration DALI...</translation>
     </message>
     <message>
-        <location filename="../data/MainWindow.ui" line="702"/>
+        <location filename="../data/MainWindow.ui" line="712"/>
         <source>By rooms...</source>
         <translation>Par pièce...</translation>
     </message>
     <message>
-        <location filename="../data/MainWindow.ui" line="707"/>
+        <location filename="../data/MainWindow.ui" line="717"/>
         <source>By inputs/outputs</source>
         <translation>Par entrées/sorties</translation>
     </message>
     <message>
-        <location filename="../data/MainWindow.ui" line="719"/>
+        <location filename="../data/MainWindow.ui" line="729"/>
         <source>Upgrade PLC firmware</source>
         <translation>Mise à jour firmware automate</translation>
     </message>
     <message>
-        <location filename="../data/MainWindow.ui" line="724"/>
+        <location filename="../data/MainWindow.ui" line="734"/>
         <source>Create New Image</source>
         <translation>Créer une image</translation>
     </message>
     <message>
-        <location filename="../data/MainWindow.ui" line="729"/>
+        <location filename="../data/MainWindow.ui" line="739"/>
         <source>Flash Remote UI Device...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../data/MainWindow.ui" line="741"/>
+        <location filename="../data/MainWindow.ui" line="751"/>
         <source>Set DMX4ALL IP Address</source>
         <translation>Adresse IP du DMX4ALL</translation>
     </message>
     <message>
-        <location filename="../data/MainWindow.ui" line="750"/>
+        <location filename="../data/MainWindow.ui" line="760"/>
         <source>Upload Dali Master 647 CSV configuration</source>
         <translation>Télécharger la configuration du Dali Master 647 CSV</translation>
     </message>
     <message>
-        <location filename="../data/MainWindow.ui" line="759"/>
+        <location filename="../data/MainWindow.ui" line="769"/>
         <source>Flash PLC with custom firmware...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../data/MainWindow.ui" line="762"/>
+        <location filename="../data/MainWindow.ui" line="772"/>
         <source>Flash PLC with custom firmware</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="60"/>
-        <location filename="../src/mainwindow.cpp" line="474"/>
+        <location filename="../src/mainwindow.cpp" line="528"/>
         <source>Disconnected.</source>
         <translation>Déconnecté.</translation>
     </message>
@@ -7638,7 +7764,7 @@ hr { height: 1px; border-width: 0; }
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="220"/>
-        <location filename="../src/mainwindow.cpp" line="340"/>
+        <location filename="../src/mainwindow.cpp" line="353"/>
         <source>Choose a project folder...</source>
         <translation>Choisir un dossier de projet...</translation>
     </message>
@@ -7648,9 +7774,9 @@ hr { height: 1px; border-width: 0; }
         <translation>Nouveau</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="271"/>
+        <location filename="../src/mainwindow.cpp" line="283"/>
         <source>The project could not be written to %1.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Le projet n&apos;a pas pu être écrit dans %1.</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="270"/>
@@ -7658,27 +7784,27 @@ hr { height: 1px; border-width: 0; }
         <translation>Ce dossier est temporaire : il est supprimé à la fermeture de l&apos;installeur. Choisissez un autre dossier.</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="278"/>
+        <location filename="../src/mainwindow.cpp" line="291"/>
         <source>Project saved: %1</source>
         <translation>Projet enregistré: %1</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="288"/>
+        <location filename="../src/mainwindow.cpp" line="301"/>
         <source>Loading in progress...</source>
         <translation>Chargement en cours...</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="307"/>
+        <location filename="../src/mainwindow.cpp" line="320"/>
         <source>Project loaded: %1</source>
         <translation>Projet chargé: %1</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="314"/>
+        <location filename="../src/mainwindow.cpp" line="327"/>
         <source>The file %1 is not valid or is truncated. Only part of the project could be loaded: saving now would overwrite the original file with this incomplete data.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="327"/>
+        <location filename="../src/mainwindow.cpp" line="340"/>
         <source>Some rules use inputs or outputs that do not exist in this project:
 
 %1
@@ -7687,32 +7813,32 @@ Those references have been kept as they are, so saving the project will not dest
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="415"/>
+        <location filename="../src/mainwindow.cpp" line="469"/>
         <source>Please wait...</source>
         <translation>Veuillez patienter...</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="419"/>
+        <location filename="../src/mainwindow.cpp" line="473"/>
         <source>Creating %p%</source>
         <translation>Création %p%</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="423"/>
+        <location filename="../src/mainwindow.cpp" line="477"/>
         <source>Loading PLC %p%</source>
         <translation>Chargement automate %p%</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="427"/>
+        <location filename="../src/mainwindow.cpp" line="481"/>
         <source>Canceled</source>
         <translation>Annulé</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="461"/>
+        <location filename="../src/mainwindow.cpp" line="515"/>
         <source>Connected (%1)</source>
         <translation>Connecté (%1)</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="485"/>
+        <location filename="../src/mainwindow.cpp" line="539"/>
         <source>The WAGO PLC have to be upgraded.
 
 It is actually running the version %1, the last version is %2.
@@ -7727,76 +7853,238 @@ Vous pouvez le faire maintenant, et l&apos;automate sera réinitialisé.
 Voulez-vous le faire maintenant?</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="529"/>
+        <location filename="../src/mainwindow.cpp" line="583"/>
         <source>Connection failed!</source>
         <translation>La connection a échoué!</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="532"/>
+        <location filename="../src/mainwindow.cpp" line="586"/>
         <source>Wago PLC is not connected!</source>
         <translation>L&apos;automate Wago n&apos;est pas connecté!</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="535"/>
+        <location filename="../src/mainwindow.cpp" line="589"/>
         <source>Wait timeout reached, error in communication!</source>
         <translation>Le délai d&apos;attente de la réponse est dépassé ! Erreur dans la réponse!</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="538"/>
+        <location filename="../src/mainwindow.cpp" line="592"/>
         <source>Unknown error!</source>
         <translation>Une erreur inconnue est survenue !</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="562"/>
+        <location filename="../src/mainwindow.cpp" line="616"/>
         <source>DALI configuration tool is not available on your PLC!</source>
         <translation>L&apos;adressage DALI n&apos;est pas supporté sur votre automate!</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="627"/>
+        <location filename="../src/mainwindow.cpp" line="681"/>
         <source>Your PLC can be upgraded to the latest version right now, do it?</source>
         <translation>L&apos;automate peut être mis à jour à la dernière version.
 
 Voulez-vous le faire maintenant?</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="636"/>
+        <location filename="../src/mainwindow.cpp" line="690"/>
         <source>Wago PLC upgrade not supported on your PLC!</source>
         <translation>La mise à jour n&apos;est pas supporté sur votre automate!</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="714"/>
+        <location filename="../src/mainwindow.cpp" line="768"/>
         <source>Please enter the IP address of the DMX4ALL:</source>
         <translation>Entrez l&apos;adresse IP du DMX4ALL :</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="734"/>
+        <location filename="../src/mainwindow.cpp" line="788"/>
         <source>IP Address changed successfully</source>
         <translation>Adresse IP changée avec succès</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="737"/>
+        <location filename="../src/mainwindow.cpp" line="791"/>
         <source>Wrong IP Address!</source>
         <translation>Mauvaise adresse IP !</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="742"/>
+        <location filename="../src/mainwindow.cpp" line="796"/>
         <source>DMX4ALL configuration is not available on your PLC!</source>
         <translation>La configuration DMX4ALL n&apos;est pas disponible sur votre automate !</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="766"/>
+        <location filename="../src/mainwindow.cpp" line="820"/>
         <source>Wago Codesys Boot Files (*.PRG *.CHK)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="803"/>
+        <location filename="../src/mainwindow.cpp" line="857"/>
         <source>Too many files selected, please select only one .PRG and one .CHK file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="809"/>
+        <location filename="../src/mainwindow.cpp" line="863"/>
         <source>Not all required files selected, please select one .PRG and one .CHK file</source>
         <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>MqttListener</name>
+    <message>
+        <location filename="../src/MqttListener.cpp" line="15"/>
+        <source>No answer from the broker at %1 within %2 s.</source>
+        <translation>Pas de réponse du broker %1 en %2 s.</translation>
+    </message>
+    <message>
+        <location filename="../src/MqttListener.cpp" line="84"/>
+        <location filename="../src/MqttListener.cpp" line="93"/>
+        <source>The broker at %1 does not let this user read those topics.</source>
+        <translation>Le broker %1 ne laisse pas cet utilisateur lire ces topics.</translation>
+    </message>
+    <message>
+        <location filename="../src/MqttListener.cpp" line="154"/>
+        <source>The broker at %1 closed the connection.</source>
+        <translation>Le broker %1 a fermé la connexion.</translation>
+    </message>
+    <message>
+        <location filename="../src/MqttListener.cpp" line="115"/>
+        <source>The broker at %1 does not speak MQTT 3.1.1.</source>
+        <translation>Le broker %1 ne parle pas MQTT 3.1.1.</translation>
+    </message>
+    <message>
+        <location filename="../src/MqttListener.cpp" line="79"/>
+        <source>%1 is not a valid MQTT topic filter.</source>
+        <translation>%1 n&apos;est pas un filtre de topic MQTT valide.</translation>
+    </message>
+    <message>
+        <location filename="../src/MqttListener.cpp" line="118"/>
+        <source>The broker at %1 refused the user name or the password.</source>
+        <translation>Le broker %1 a refusé le nom d&apos;utilisateur ou le mot de passe.</translation>
+    </message>
+    <message>
+        <location filename="../src/MqttListener.cpp" line="121"/>
+        <source>The broker at %1 does not let this user in: check the user and the password.</source>
+        <translation>Le broker %1 refuse cet utilisateur : vérifiez l&apos;utilisateur et le mot de passe.</translation>
+    </message>
+    <message>
+        <location filename="../src/MqttListener.cpp" line="124"/>
+        <source>The broker at %1 refused the connection (code %2).</source>
+        <translation>Le broker %1 a refusé la connexion (code %2).</translation>
+    </message>
+    <message>
+        <location filename="../src/MqttListener.cpp" line="128"/>
+        <source>The broker at %1 sent data that is not MQTT.</source>
+        <translation>Le broker %1 a envoyé des données qui ne sont pas du MQTT.</translation>
+    </message>
+    <message>
+        <location filename="../src/MqttListener.cpp" line="131"/>
+        <source>The broker at %1 sent a message too large to be read.</source>
+        <translation>Le broker %1 a envoyé un message trop gros pour être lu.</translation>
+    </message>
+    <message>
+        <location filename="../src/MqttListener.cpp" line="135"/>
+        <source>The broker at %1 stopped answering.</source>
+        <translation>Le broker %1 ne répond plus.</translation>
+    </message>
+    <message>
+        <location filename="../src/MqttListener.cpp" line="145"/>
+        <source>The broker %1 was not found: check its address.</source>
+        <translation>Le broker %1 est introuvable : vérifiez son adresse.</translation>
+    </message>
+    <message>
+        <location filename="../src/MqttListener.cpp" line="148"/>
+        <source>Nothing answers on %1: check that the broker runs and listens on this port.</source>
+        <translation>Rien ne répond sur %1 : vérifiez que le broker tourne et écoute sur ce port.</translation>
+    </message>
+    <message>
+        <location filename="../src/MqttListener.cpp" line="152"/>
+        <source>The broker at %1 closed the connection: check the user and the password.</source>
+        <translation>Le broker %1 a fermé la connexion : vérifiez l&apos;utilisateur et le mot de passe.</translation>
+    </message>
+    <message>
+        <location filename="../src/MqttListener.cpp" line="157"/>
+        <source>Could not reach the broker at %1.</source>
+        <translation>Impossible de joindre le broker %1.</translation>
+    </message>
+</context>
+<context>
+    <name>OnlineConfig</name>
+    <message>
+        <location filename="../src/OnlineConfig.cpp" line="282"/>
+        <source>(device without id)</source>
+        <translation>(device sans identifiant)</translation>
+    </message>
+    <message>
+        <location filename="../src/OnlineConfig.cpp" line="130"/>
+        <source>This server has an admin password. Enter it in the &quot;Admin password&quot; field (again if the previous admin session expired).</source>
+        <translation>Ce serveur a un mot de passe admin. Saisissez-le dans le champ « Mot de passe admin » (à nouveau si la session admin précédente a expiré).</translation>
+    </message>
+    <message>
+        <location filename="../src/OnlineConfig.cpp" line="133"/>
+        <source>Wrong admin password.</source>
+        <translation>Mot de passe admin incorrect.</translation>
+    </message>
+    <message>
+        <location filename="../src/OnlineConfig.cpp" line="134"/>
+        <source>This server only accepts this request over https. Use its address alone (or https://address/api.php) instead of http://.</source>
+        <translation>Ce serveur n&apos;accepte cette requête qu&apos;en https. Utilisez son adresse seule (ou https://adresse/api.php) au lieu de http://.</translation>
+    </message>
+    <message>
+        <location filename="../src/OnlineConfig.cpp" line="137"/>
+        <source>No admin password is set on this server: leave the &quot;Admin password&quot; field empty.</source>
+        <translation>Aucun mot de passe admin n&apos;est défini sur ce serveur : laissez le champ « Mot de passe admin » vide.</translation>
+    </message>
+    <message>
+        <location filename="../src/OnlineConfig.cpp" line="139"/>
+        <source>Administration is unavailable (calaos-container cannot be reached; it is only available on Calaos OS). Try again in a moment.</source>
+        <translation>Administration indisponible (calaos-container injoignable ; disponible seulement sur Calaos OS). Réessayez dans un instant.</translation>
+    </message>
+    <message>
+        <location filename="../src/OnlineConfig.cpp" line="142"/>
+        <source>The server cannot reach its system service (calaos-container) to check the admin password. Try again in a moment.</source>
+        <translation>Le serveur ne joint pas son service système (calaos-container) pour vérifier le mot de passe admin. Réessayez dans un instant.</translation>
+    </message>
+    <message>
+        <location filename="../src/OnlineConfig.cpp" line="145"/>
+        <source>Administration is being enabled on this box. Try again in a moment; restart the box if this lasts more than 2 minutes.</source>
+        <translation>Activation de l&apos;administration en cours sur cette box. Réessayez dans un instant ; redémarrez la box si cela dure plus de 2 minutes.</translation>
+    </message>
+    <message>
+        <location filename="../src/OnlineConfig.cpp" line="148"/>
+        <source>An update is already in progress on this box.</source>
+        <translation>Une mise à jour est déjà en cours sur cette box.</translation>
+    </message>
+    <message>
+        <location filename="../src/OnlineConfig.cpp" line="150"/>
+        <source>Change the household password of this box first.</source>
+        <translation>Changez d&apos;abord le mot de passe foyer de cette box.</translation>
+    </message>
+    <message>
+        <location filename="../src/OnlineConfig.cpp" line="152"/>
+        <source>Someone has just set the admin password of this box.</source>
+        <translation>Quelqu&apos;un vient de définir le mot de passe admin de cette box.</translation>
+    </message>
+    <message>
+        <location filename="../src/OnlineConfig.cpp" line="154"/>
+        <source>Internal server error. The details are in the calaos_server log.</source>
+        <translation>Erreur interne du serveur. Le détail est dans le journal de calaos_server.</translation>
+    </message>
+    <message>
+        <location filename="../src/OnlineConfig.cpp" line="157"/>
+        <source>The server accepted the admin password but returned no admin session. Try again.</source>
+        <translation>Le serveur a accepté le mot de passe admin mais n&apos;a renvoyé aucune session admin. Réessayez.</translation>
+    </message>
+    <message>
+        <location filename="../src/OnlineConfig.cpp" line="169"/>
+        <source>Too many attempts, try again later.</source>
+        <translation>Trop d&apos;essais, réessayez plus tard.</translation>
+    </message>
+    <message>
+        <location filename="../src/OnlineConfig.cpp" line="170"/>
+        <source>Too many attempts, try again in %1 s.</source>
+        <translation>Trop d&apos;essais, réessayez dans %1 s.</translation>
+    </message>
+    <message>
+        <location filename="../src/OnlineConfig.cpp" line="173"/>
+        <source>The admin password must have at least %1 characters.</source>
+        <translation>Le mot de passe admin doit avoir au moins %1 caractères.</translation>
     </message>
 </context>
 <context>
@@ -8234,6 +8522,180 @@ L&apos;assistant va créer les 2 règles qui vont démarrer ou arrêter le chauf
     </message>
 </context>
 <context>
+    <name>ToolUpdatePrompt</name>
+    <message>
+        <location filename="../src/ToolUpdatePrompt.cpp" line="18"/>
+        <source>Update %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ToolUpdatePrompt.cpp" line="19"/>
+        <source>A newer %1 is available: %2 (installed: %3).
+
+Download and use it?
+If you decline, the installed one is used.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ToolUpdatePrompt.cpp" line="28"/>
+        <source>Update failed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ToolUpdatePrompt.cpp" line="29"/>
+        <source>The tool was not updated; the installed one is used.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>WidgetEsphomeDiscovery</name>
+    <message>
+        <location filename="../src/WidgetEsphomeDiscovery.cpp" line="21"/>
+        <source>two setpoints</source>
+        <translation>deux consignes</translation>
+    </message>
+    <message>
+        <location filename="../src/WidgetEsphomeDiscovery.cpp" line="23"/>
+        <source>one setpoint</source>
+        <translation>une consigne</translation>
+    </message>
+    <message>
+        <location filename="../src/WidgetEsphomeDiscovery.cpp" line="25"/>
+        <source>fan</source>
+        <translation>ventilation</translation>
+    </message>
+    <message>
+        <location filename="../src/WidgetEsphomeDiscovery.cpp" line="27"/>
+        <source>swing</source>
+        <translation>oscillation</translation>
+    </message>
+    <message>
+        <location filename="../src/WidgetEsphomeDiscovery.cpp" line="29"/>
+        <source>action</source>
+        <translation>action</translation>
+    </message>
+    <message>
+        <location filename="../src/WidgetEsphomeDiscovery.cpp" line="31"/>
+        <source>now %1</source>
+        <translation>actuellement %1</translation>
+    </message>
+    <message>
+        <location filename="../src/WidgetEsphomeDiscovery.cpp" line="39"/>
+        <source>Find it on the MQTT broker</source>
+        <translation>Le trouver sur le broker MQTT</translation>
+    </message>
+    <message>
+        <location filename="../src/WidgetEsphomeDiscovery.cpp" line="47"/>
+        <source>Broker address from this computer:</source>
+        <translation>Adresse du broker depuis cet ordinateur :</translation>
+    </message>
+    <message>
+        <location filename="../src/WidgetEsphomeDiscovery.cpp" line="50"/>
+        <source>Address of the Calaos box</source>
+        <translation>Adresse de la box Calaos</translation>
+    </message>
+    <message>
+        <location filename="../src/WidgetEsphomeDiscovery.cpp" line="51"/>
+        <source>The form&apos;s broker address is the one the Calaos server uses; 127.0.0.1 there is the box itself. Port, user and password are the form&apos;s.</source>
+        <translation>L&apos;adresse du broker dans le formulaire est celle qu&apos;utilise le serveur Calaos ; 127.0.0.1 y désigne la box elle-même. Port, utilisateur et mot de passe sont ceux du formulaire.</translation>
+    </message>
+    <message>
+        <location filename="../src/WidgetEsphomeDiscovery.cpp" line="56"/>
+        <source>Search</source>
+        <translation>Rechercher</translation>
+    </message>
+    <message>
+        <location filename="../src/WidgetEsphomeDiscovery.cpp" line="65"/>
+        <source>Lists the ESPHome climates the broker knows; choosing one fills in the form.</source>
+        <translation>Liste les climats ESPHome que connaît le broker ; en choisir un remplit le formulaire.</translation>
+    </message>
+    <message>
+        <location filename="../src/WidgetEsphomeDiscovery.cpp" line="73"/>
+        <source>Name</source>
+        <translation>Nom</translation>
+    </message>
+    <message>
+        <location filename="../src/WidgetEsphomeDiscovery.cpp" line="73"/>
+        <source>Topic prefix</source>
+        <translation>Préfixe de topic</translation>
+    </message>
+    <message>
+        <location filename="../src/WidgetEsphomeDiscovery.cpp" line="73"/>
+        <source>Object id</source>
+        <translation>Identifiant objet</translation>
+    </message>
+    <message>
+        <location filename="../src/WidgetEsphomeDiscovery.cpp" line="73"/>
+        <source>Publishes</source>
+        <translation>Publie</translation>
+    </message>
+    <message>
+        <location filename="../src/WidgetEsphomeDiscovery.cpp" line="73"/>
+        <source>Status</source>
+        <translation>État</translation>
+    </message>
+    <message>
+        <location filename="../src/WidgetEsphomeDiscovery.cpp" line="99"/>
+        <source>Listening to the broker...</source>
+        <translation>Écoute du broker...</translation>
+    </message>
+    <message>
+        <location filename="../src/WidgetEsphomeDiscovery.cpp" line="147"/>
+        <source>Type the address of the broker as this computer reaches it.</source>
+        <translation>Saisissez l&apos;adresse du broker telle que cet ordinateur la joint.</translation>
+    </message>
+    <message>
+        <location filename="../src/WidgetEsphomeDiscovery.cpp" line="158"/>
+        <source>Connecting to %1:%2...</source>
+        <translation>Connexion à %1:%2...</translation>
+    </message>
+    <message>
+        <location filename="../src/WidgetEsphomeDiscovery.cpp" line="177"/>
+        <source>old or offline</source>
+        <translation>ancien / hors ligne</translation>
+    </message>
+    <message>
+        <location filename="../src/WidgetEsphomeDiscovery.cpp" line="178"/>
+        <source>Neither discovered nor online: likely retained messages of a former object id.</source>
+        <translation>Ni découvert ni en ligne : sans doute des messages retenus d&apos;un ancien identifiant objet.</translation>
+    </message>
+    <message>
+        <location filename="../src/WidgetEsphomeDiscovery.cpp" line="184"/>
+        <source>online</source>
+        <translation>en ligne</translation>
+    </message>
+    <message>
+        <location filename="../src/WidgetEsphomeDiscovery.cpp" line="186"/>
+        <source>offline</source>
+        <translation>hors ligne</translation>
+    </message>
+    <message>
+        <location filename="../src/WidgetEsphomeDiscovery.cpp" line="197"/>
+        <source>%1 What was read before is listed.</source>
+        <translation>%1 Ce qui a été lu avant est listé.</translation>
+    </message>
+    <message>
+        <location filename="../src/WidgetEsphomeDiscovery.cpp" line="199"/>
+        <source>No ESPHome climate on this broker. Check that the node has an mqtt: block and is online, or fill in the form by hand.</source>
+        <translation>Aucun climat ESPHome sur ce broker. Vérifiez que le nœud a un bloc mqtt: et qu&apos;il est en ligne, ou remplissez le formulaire à la main.</translation>
+    </message>
+    <message>
+        <location filename="../src/WidgetEsphomeDiscovery.cpp" line="202"/>
+        <source>One climate found: choose it to fill in the form.</source>
+        <translation>Un climat trouvé : choisissez-le pour remplir le formulaire.</translation>
+    </message>
+    <message>
+        <location filename="../src/WidgetEsphomeDiscovery.cpp" line="203"/>
+        <source>%1 climates found: choose the one to fill in the form with.</source>
+        <translation>%1 climats trouvés : choisissez celui qui remplit le formulaire.</translation>
+    </message>
+    <message>
+        <location filename="../src/WidgetEsphomeDiscovery.cpp" line="211"/>
+        <source>Form filled in from %1.</source>
+        <translation>Formulaire rempli d&apos;après %1.</translation>
+    </message>
+</context>
+<context>
     <name>WidgetIOProperties</name>
     <message>
         <location filename="../data/WidgetIOProperties.ui" line="20"/>
@@ -8261,32 +8723,32 @@ L&apos;assistant va créer les 2 règles qui vont démarrer ou arrêter le chauf
         <translation>Paramètres optionnels</translation>
     </message>
     <message>
-        <location filename="../src/WidgetIOProperties.cpp" line="88"/>
+        <location filename="../src/WidgetIOProperties.cpp" line="86"/>
         <source>The value %1 is outside the documented range (%2). It is kept as is unless you change it.</source>
         <translation>La valeur %1 est hors de la plage documentée (%2). Elle est conservée telle quelle tant que vous ne la modifiez pas.</translation>
     </message>
     <message>
-        <location filename="../src/WidgetIOProperties.cpp" line="105"/>
+        <location filename="../src/WidgetIOProperties.cpp" line="103"/>
         <source>Error</source>
         <translation>Erreur</translation>
     </message>
     <message>
-        <location filename="../src/WidgetIOProperties.cpp" line="105"/>
+        <location filename="../src/WidgetIOProperties.cpp" line="103"/>
         <source>IO type %1 is not found in IO documentation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/WidgetIOProperties.cpp" line="241"/>
+        <location filename="../src/WidgetIOProperties.cpp" line="242"/>
         <source>unbounded</source>
         <translation>illimité</translation>
     </message>
     <message>
-        <location filename="../src/WidgetIOProperties.cpp" line="406"/>
+        <location filename="../src/WidgetIOProperties.cpp" line="392"/>
         <source>%1 must be a plain number.</source>
         <translation>%1 doit être un nombre simple.</translation>
     </message>
     <message>
-        <location filename="../src/WidgetIOProperties.cpp" line="414"/>
+        <location filename="../src/WidgetIOProperties.cpp" line="400"/>
         <source>The minimum value cannot be greater than the maximum value.</source>
         <translation type="unfinished">La valeur minimale ne peut pas dépasser la valeur maximale.</translation>
     </message>
@@ -8303,7 +8765,7 @@ L&apos;assistant va créer les 2 règles qui vont démarrer ou arrêter le chauf
         <translation type="vanished">L&apos;entrée/Sortie %1 est introuvable dans %2</translation>
     </message>
     <message>
-        <location filename="../src/WidgetIOProperties.cpp" line="145"/>
+        <location filename="../src/WidgetIOProperties.cpp" line="143"/>
         <source>Revert modification</source>
         <translation>Annuler les modification</translation>
     </message>
@@ -8357,281 +8819,6 @@ Did you really press the link button on the bridge ?</source>
         <location filename="../src/wizards/hue/wizardhue.ui" line="221"/>
         <source>Room</source>
         <translation type="unfinished">Pièce</translation>
-    </message>
-</context>
-<context>
-    <name>EsphomeDiscovery</name>
-    <message>
-        <location filename="../src/EsphomeDiscovery.cpp" line="268"/>
-        <source>Two setpoints (target_temperature_low and _high).</source>
-        <translation>Deux consignes (target_temperature_low et _high).</translation>
-    </message>
-    <message>
-        <location filename="../src/EsphomeDiscovery.cpp" line="269"/>
-        <source>One setpoint (target_temperature).</source>
-        <translation>Une consigne (target_temperature).</translation>
-    </message>
-    <message>
-        <location filename="../src/EsphomeDiscovery.cpp" line="274"/>
-        <source>Its mode was not read: modes, fan and swing are left as they are.</source>
-        <translation>Son mode n&apos;a pas été lu : modes, ventilation et oscillation restent tels quels.</translation>
-    </message>
-    <message>
-        <location filename="../src/EsphomeDiscovery.cpp" line="301"/>
-        <source>Mode read: %1.</source>
-        <translation>Mode lu : %1.</translation>
-    </message>
-    <message>
-        <location filename="../src/EsphomeDiscovery.cpp" line="302"/>
-        <source>Modes: %1.</source>
-        <translation>Modes : %1.</translation>
-    </message>
-    <message>
-        <location filename="../src/EsphomeDiscovery.cpp" line="326"/>
-        <source>Fan modes: %1.</source>
-        <translation>Ventilation : %1.</translation>
-    </message>
-    <message>
-        <location filename="../src/EsphomeDiscovery.cpp" line="326"/>
-        <source>Swing modes: %1.</source>
-        <translation>Oscillation : %1.</translation>
-    </message>
-    <message>
-        <location filename="../src/EsphomeDiscovery.cpp" line="345"/>
-        <source>Setpoint from %1 to %2 °C.</source>
-        <translation>Consigne de %1 à %2 °C.</translation>
-    </message>
-    <message>
-        <location filename="../src/EsphomeDiscovery.cpp" line="350"/>
-        <source>Not offered by this template: %1.</source>
-        <translation>Non proposé par ce modèle : %1.</translation>
-    </message>
-</context>
-<context>
-    <name>MqttListener</name>
-    <message>
-        <location filename="../src/MqttListener.cpp" line="15"/>
-        <source>No answer from the broker at %1 within %2 s.</source>
-        <translation>Pas de réponse du broker %1 en %2 s.</translation>
-    </message>
-    <message>
-        <location filename="../src/MqttListener.cpp" line="84"/>
-        <location filename="../src/MqttListener.cpp" line="93"/>
-        <source>The broker at %1 does not let this user read those topics.</source>
-        <translation>Le broker %1 ne laisse pas cet utilisateur lire ces topics.</translation>
-    </message>
-    <message>
-        <location filename="../src/MqttListener.cpp" line="154"/>
-        <source>The broker at %1 closed the connection.</source>
-        <translation>Le broker %1 a fermé la connexion.</translation>
-    </message>
-    <message>
-        <location filename="../src/MqttListener.cpp" line="115"/>
-        <source>The broker at %1 does not speak MQTT 3.1.1.</source>
-        <translation>Le broker %1 ne parle pas MQTT 3.1.1.</translation>
-    </message>
-    <message>
-        <location filename="../src/MqttListener.cpp" line="79"/>
-        <source>%1 is not a valid MQTT topic filter.</source>
-        <translation>%1 n&apos;est pas un filtre de topic MQTT valide.</translation>
-    </message>
-    <message>
-        <location filename="../src/MqttListener.cpp" line="118"/>
-        <source>The broker at %1 refused the user name or the password.</source>
-        <translation>Le broker %1 a refusé le nom d&apos;utilisateur ou le mot de passe.</translation>
-    </message>
-    <message>
-        <location filename="../src/MqttListener.cpp" line="121"/>
-        <source>The broker at %1 does not let this user in: check the user and the password.</source>
-        <translation>Le broker %1 refuse cet utilisateur : vérifiez l&apos;utilisateur et le mot de passe.</translation>
-    </message>
-    <message>
-        <location filename="../src/MqttListener.cpp" line="124"/>
-        <source>The broker at %1 refused the connection (code %2).</source>
-        <translation>Le broker %1 a refusé la connexion (code %2).</translation>
-    </message>
-    <message>
-        <location filename="../src/MqttListener.cpp" line="128"/>
-        <source>The broker at %1 sent data that is not MQTT.</source>
-        <translation>Le broker %1 a envoyé des données qui ne sont pas du MQTT.</translation>
-    </message>
-    <message>
-        <location filename="../src/MqttListener.cpp" line="131"/>
-        <source>The broker at %1 sent a message too large to be read.</source>
-        <translation>Le broker %1 a envoyé un message trop gros pour être lu.</translation>
-    </message>
-    <message>
-        <location filename="../src/MqttListener.cpp" line="135"/>
-        <source>The broker at %1 stopped answering.</source>
-        <translation>Le broker %1 ne répond plus.</translation>
-    </message>
-    <message>
-        <location filename="../src/MqttListener.cpp" line="145"/>
-        <source>The broker %1 was not found: check its address.</source>
-        <translation>Le broker %1 est introuvable : vérifiez son adresse.</translation>
-    </message>
-    <message>
-        <location filename="../src/MqttListener.cpp" line="148"/>
-        <source>Nothing answers on %1: check that the broker runs and listens on this port.</source>
-        <translation>Rien ne répond sur %1 : vérifiez que le broker tourne et écoute sur ce port.</translation>
-    </message>
-    <message>
-        <location filename="../src/MqttListener.cpp" line="152"/>
-        <source>The broker at %1 closed the connection: check the user and the password.</source>
-        <translation>Le broker %1 a fermé la connexion : vérifiez l&apos;utilisateur et le mot de passe.</translation>
-    </message>
-    <message>
-        <location filename="../src/MqttListener.cpp" line="157"/>
-        <source>Could not reach the broker at %1.</source>
-        <translation>Impossible de joindre le broker %1.</translation>
-    </message>
-</context>
-<context>
-    <name>WidgetEsphomeDiscovery</name>
-    <message>
-        <location filename="../src/WidgetEsphomeDiscovery.cpp" line="20"/>
-        <source>two setpoints</source>
-        <translation>deux consignes</translation>
-    </message>
-    <message>
-        <location filename="../src/WidgetEsphomeDiscovery.cpp" line="22"/>
-        <source>one setpoint</source>
-        <translation>une consigne</translation>
-    </message>
-    <message>
-        <location filename="../src/WidgetEsphomeDiscovery.cpp" line="24"/>
-        <source>fan</source>
-        <translation>ventilation</translation>
-    </message>
-    <message>
-        <location filename="../src/WidgetEsphomeDiscovery.cpp" line="26"/>
-        <source>swing</source>
-        <translation>oscillation</translation>
-    </message>
-    <message>
-        <location filename="../src/WidgetEsphomeDiscovery.cpp" line="28"/>
-        <source>action</source>
-        <translation>action</translation>
-    </message>
-    <message>
-        <location filename="../src/WidgetEsphomeDiscovery.cpp" line="30"/>
-        <source>now %1</source>
-        <translation>actuellement %1</translation>
-    </message>
-    <message>
-        <location filename="../src/WidgetEsphomeDiscovery.cpp" line="38"/>
-        <source>Find it on the MQTT broker</source>
-        <translation>Le trouver sur le broker MQTT</translation>
-    </message>
-    <message>
-        <location filename="../src/WidgetEsphomeDiscovery.cpp" line="46"/>
-        <source>Broker address from this computer:</source>
-        <translation>Adresse du broker depuis cet ordinateur :</translation>
-    </message>
-    <message>
-        <location filename="../src/WidgetEsphomeDiscovery.cpp" line="49"/>
-        <source>Address of the Calaos box</source>
-        <translation>Adresse de la box Calaos</translation>
-    </message>
-    <message>
-        <location filename="../src/WidgetEsphomeDiscovery.cpp" line="50"/>
-        <source>The form&apos;s broker address is the one the Calaos server uses; 127.0.0.1 there is the box itself. Port, user and password are the form&apos;s.</source>
-        <translation>L&apos;adresse du broker dans le formulaire est celle qu&apos;utilise le serveur Calaos ; 127.0.0.1 y désigne la box elle-même. Port, utilisateur et mot de passe sont ceux du formulaire.</translation>
-    </message>
-    <message>
-        <location filename="../src/WidgetEsphomeDiscovery.cpp" line="55"/>
-        <source>Search</source>
-        <translation>Rechercher</translation>
-    </message>
-    <message>
-        <location filename="../src/WidgetEsphomeDiscovery.cpp" line="64"/>
-        <source>Lists the ESPHome climates the broker knows; choosing one fills in the form.</source>
-        <translation>Liste les climats ESPHome que connaît le broker ; en choisir un remplit le formulaire.</translation>
-    </message>
-    <message>
-        <location filename="../src/WidgetEsphomeDiscovery.cpp" line="72"/>
-        <source>Name</source>
-        <translation>Nom</translation>
-    </message>
-    <message>
-        <location filename="../src/WidgetEsphomeDiscovery.cpp" line="72"/>
-        <source>Topic prefix</source>
-        <translation>Préfixe de topic</translation>
-    </message>
-    <message>
-        <location filename="../src/WidgetEsphomeDiscovery.cpp" line="72"/>
-        <source>Object id</source>
-        <translation>Identifiant objet</translation>
-    </message>
-    <message>
-        <location filename="../src/WidgetEsphomeDiscovery.cpp" line="72"/>
-        <source>Publishes</source>
-        <translation>Publie</translation>
-    </message>
-    <message>
-        <location filename="../src/WidgetEsphomeDiscovery.cpp" line="72"/>
-        <source>Status</source>
-        <translation>État</translation>
-    </message>
-    <message>
-        <location filename="../src/WidgetEsphomeDiscovery.cpp" line="98"/>
-        <source>Listening to the broker...</source>
-        <translation>Écoute du broker...</translation>
-    </message>
-    <message>
-        <location filename="../src/WidgetEsphomeDiscovery.cpp" line="146"/>
-        <source>Type the address of the broker as this computer reaches it.</source>
-        <translation>Saisissez l&apos;adresse du broker telle que cet ordinateur la joint.</translation>
-    </message>
-    <message>
-        <location filename="../src/WidgetEsphomeDiscovery.cpp" line="157"/>
-        <source>Connecting to %1:%2...</source>
-        <translation>Connexion à %1:%2...</translation>
-    </message>
-    <message>
-        <location filename="../src/WidgetEsphomeDiscovery.cpp" line="176"/>
-        <source>old or offline</source>
-        <translation>ancien / hors ligne</translation>
-    </message>
-    <message>
-        <location filename="../src/WidgetEsphomeDiscovery.cpp" line="177"/>
-        <source>Neither discovered nor online: likely retained messages of a former object id.</source>
-        <translation>Ni découvert ni en ligne : sans doute des messages retenus d&apos;un ancien identifiant objet.</translation>
-    </message>
-    <message>
-        <location filename="../src/WidgetEsphomeDiscovery.cpp" line="183"/>
-        <source>online</source>
-        <translation>en ligne</translation>
-    </message>
-    <message>
-        <location filename="../src/WidgetEsphomeDiscovery.cpp" line="185"/>
-        <source>offline</source>
-        <translation>hors ligne</translation>
-    </message>
-    <message>
-        <location filename="../src/WidgetEsphomeDiscovery.cpp" line="196"/>
-        <source>%1 What was read before is listed.</source>
-        <translation>%1 Ce qui a été lu avant est listé.</translation>
-    </message>
-    <message>
-        <location filename="../src/WidgetEsphomeDiscovery.cpp" line="198"/>
-        <source>No ESPHome climate on this broker. Check that the node has an mqtt: block and is online, or fill in the form by hand.</source>
-        <translation>Aucun climat ESPHome sur ce broker. Vérifiez que le nœud a un bloc mqtt: et qu&apos;il est en ligne, ou remplissez le formulaire à la main.</translation>
-    </message>
-    <message>
-        <location filename="../src/WidgetEsphomeDiscovery.cpp" line="201"/>
-        <source>One climate found: choose it to fill in the form.</source>
-        <translation>Un climat trouvé : choisissez-le pour remplir le formulaire.</translation>
-    </message>
-    <message>
-        <location filename="../src/WidgetEsphomeDiscovery.cpp" line="202"/>
-        <source>%1 climates found: choose the one to fill in the form with.</source>
-        <translation>%1 climats trouvés : choisissez celui qui remplit le formulaire.</translation>
-    </message>
-    <message>
-        <location filename="../src/WidgetEsphomeDiscovery.cpp" line="210"/>
-        <source>Form filled in from %1.</source>
-        <translation>Formulaire rempli d&apos;après %1.</translation>
     </message>
 </context>
 </TS>
