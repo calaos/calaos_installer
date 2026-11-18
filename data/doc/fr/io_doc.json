@@ -912,6 +912,18 @@
                 "type": "int"
             },
             {
+                "default": "",
+                "description": "Affichage de style GUI. Ceci contr\u00f4lera l'\u00ecc\u00f4ne affich\u00e9e sur l'interface utilisateurStyle d'affichage. Contr\u00f4le l'ic\u00f4ne affich\u00e9e sur l'interface utilisateur",
+                "list_value": {
+                    "shutter": "Shutter",
+                    "window": "Window"
+                },
+                "mandatory": "false",
+                "name": "io_style",
+                "readonly": "false",
+                "type": "list"
+            },
+            {
                 "description": "Type d'entr\u00e9e/sortie (input, output, inout)",
                 "label": "Type d'IO",
                 "mandatory": "true",
@@ -1107,6 +1119,18 @@
                 "name": "impulse_time",
                 "readonly": "false",
                 "type": "int"
+            },
+            {
+                "default": "",
+                "description": "Affichage de style GUI. Ceci contr\u00f4lera l'\u00ecc\u00f4ne affich\u00e9e sur l'interface utilisateurStyle d'affichage. Contr\u00f4le l'ic\u00f4ne affich\u00e9e sur l'interface utilisateur",
+                "list_value": {
+                    "shutter": "Shutter",
+                    "window": "Window"
+                },
+                "mandatory": "false",
+                "name": "io_style",
+                "readonly": "false",
+                "type": "list"
             },
             {
                 "description": "Type d'entr\u00e9e/sortie (input, output, inout)",
@@ -3955,6 +3979,18 @@
                 "type": "int"
             },
             {
+                "default": "",
+                "description": "Affichage de style GUI. Ceci contr\u00f4lera l'\u00ecc\u00f4ne affich\u00e9e sur l'interface utilisateurStyle d'affichage. Contr\u00f4le l'ic\u00f4ne affich\u00e9e sur l'interface utilisateur",
+                "list_value": {
+                    "shutter": "Shutter",
+                    "window": "Window"
+                },
+                "mandatory": "false",
+                "name": "io_style",
+                "readonly": "false",
+                "type": "list"
+            },
+            {
                 "description": "Type d'entr\u00e9e/sortie (input, output, inout)",
                 "label": "Type d'IO",
                 "mandatory": "true",
@@ -4156,6 +4192,18 @@
                 "type": "int"
             },
             {
+                "default": "",
+                "description": "Affichage de style GUI. Ceci contr\u00f4lera l'\u00ecc\u00f4ne affich\u00e9e sur l'interface utilisateurStyle d'affichage. Contr\u00f4le l'ic\u00f4ne affich\u00e9e sur l'interface utilisateur",
+                "list_value": {
+                    "shutter": "Shutter",
+                    "window": "Window"
+                },
+                "mandatory": "false",
+                "name": "io_style",
+                "readonly": "false",
+                "type": "list"
+            },
+            {
                 "description": "Type d'entr\u00e9e/sortie (input, output, inout)",
                 "label": "Type d'IO",
                 "mandatory": "true",
@@ -4250,6 +4298,335 @@
                 "min": "0",
                 "name": "time_up",
                 "readonly": "false",
+                "type": "int"
+            },
+            {
+                "default": "true",
+                "description": "Afficher l'entr\u00e9e/sortie sur toutes les interfaces utilisateur si activ\u00e9. Vrai par d\u00e9fautAffichez l'entr\u00e9e/sortie sur toutes les interfaces utilisateur. Vrai par d\u00e9faut",
+                "label": "Visible",
+                "mandatory": "false",
+                "name": "visible",
+                "readonly": "false",
+                "type": "bool"
+            }
+        ]
+    },
+    "Klf200InputSwitch": {
+        "actions": [],
+        "alias": [],
+        "conditions": [
+            {
+                "description": "\u00c9v\u00e9nement lors de chaque changement d'\u00e9tat",
+                "name": "changed"
+            },
+            {
+                "description": "\u00c9v\u00e9nement d\u00e9clench\u00e9 lors du rel\u00e2ch\u00e9",
+                "name": "false"
+            },
+            {
+                "description": "\u00c9v\u00e9nement d\u00e9clench\u00e9 lors de l'appui",
+                "name": "true"
+            }
+        ],
+        "description": "Rain sensor of a VELUX window, read through a KLF 200 gateway. True while the sensor reports rain. The gateway is polled, so a change can take a few minutes to show. Interrupteur de base avec \u00e9tats de appuy\u00e9/rel\u00e2ch\u00e9.",
+        "parameters": [
+            {
+                "default": "true",
+                "description": "Activez l'entr\u00e9e/sortie. Vrai par d\u00e9faut. Ce param\u00e8tre est ajout\u00e9 s'il n'est pas trouv\u00e9 dans la configuration.",
+                "label": "Activ\u00e9",
+                "mandatory": "false",
+                "name": "enabled",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "description": "Type graphique interne pour tous les objets calaos. Param\u00e8tre en lecture seule, d\u00e9finit automatiquement",
+                "label": "Type d'affichage",
+                "mandatory": "false",
+                "name": "gui_type",
+                "readonly": "true",
+                "type": "string"
+            },
+            {
+                "description": "IP address or hostname of the KLF 200 gateway",
+                "mandatory": "true",
+                "name": "host",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "Identifiant unique de l'entr\u00e9e/sortie dans calaos-server",
+                "label": "Identifiant",
+                "mandatory": "true",
+                "name": "id",
+                "readonly": "true",
+                "type": "string"
+            },
+            {
+                "default": "switch",
+                "description": "Affichage de style GUI. Ceci contr\u00f4lera l'\u00ecc\u00f4ne affich\u00e9e sur l'interface utilisateurStyle d'affichage. Contr\u00f4le l'ic\u00f4ne affich\u00e9e sur l'interface utilisateur",
+                "list_value": {
+                    "carbon_monoxide": "Carbon monoxide sensor",
+                    "door": "Door/Window sensor",
+                    "garage_door": "Garage door sensor",
+                    "gas": "Gas leak sensor",
+                    "lock": "Lock sensor",
+                    "motion": "Motion sensor",
+                    "occupancy": "Occupancy sensor",
+                    "smoke": "Smoke detector",
+                    "sound": "Sound sensor",
+                    "switch": "Switch",
+                    "vibration": "Vibration sensor",
+                    "water": "Water leak sensor"
+                },
+                "mandatory": "true",
+                "name": "io_style",
+                "readonly": "false",
+                "type": "list"
+            },
+            {
+                "description": "Type d'entr\u00e9e/sortie (input, output, inout)",
+                "label": "Type d'IO",
+                "mandatory": "true",
+                "name": "io_type",
+                "readonly": "true",
+                "type": "string"
+            },
+            {
+                "default": "false",
+                "description": "Si activ\u00e9, \u00e9crit une entr\u00e9e dans l'historique pour cet IO",
+                "label": "Journal d'historique",
+                "mandatory": "false",
+                "name": "log_history",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "default": "false",
+                "description": "Si activ\u00e9, et si influxdb est activ\u00e9 dans local_config, envoie la valeur \u00e0 influxdb pour cet IO",
+                "label": "InfluxDB",
+                "mandatory": "false",
+                "name": "logged",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "description": "Nom de l'entr\u00e9e/sortie.",
+                "label": "Nom",
+                "mandatory": "true",
+                "name": "name",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "default": "0",
+                "description": "Node ID of the window on the gateway (run calaos_klf200 --list to find it)",
+                "mandatory": "true",
+                "max": "255",
+                "min": "0",
+                "name": "node_id",
+                "readonly": "false",
+                "type": "int"
+            },
+            {
+                "description": "Password of the KLF 200 gateway (the Wi-Fi password printed on the back of the unit)",
+                "mandatory": "true",
+                "name": "password",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "default": "false",
+                "description": "Display the Input/Output on all user interfaces if set. Default to false for switches",
+                "mandatory": "false",
+                "name": "visible",
+                "readonly": "false",
+                "type": "bool"
+            }
+        ]
+    },
+    "Klf200OutputShutterSmart": {
+        "actions": [
+            {
+                "description": "Fermer le volet",
+                "name": "down"
+            },
+            {
+                "description": "Fermer le volet de X pourcent",
+                "name": "down 5"
+            },
+            {
+                "description": "Mettre le volet \u00e8 la position X en pourcentage",
+                "name": "set 50"
+            },
+            {
+                "description": "Update internal shutter position, in percent, without starting real action. This is useful when having updating the shutter state from an external source.",
+                "name": "set_state 50"
+            },
+            {
+                "description": "Arr\u00eater le volet",
+                "name": "stop"
+            },
+            {
+                "description": "Inverser l'\u00e9tat du volet",
+                "name": "toggle"
+            },
+            {
+                "description": "Ouvrir le volet",
+                "name": "up"
+            },
+            {
+                "description": "Ouvrir le volet de X pourcent",
+                "name": "up 5"
+            }
+        ],
+        "alias": [],
+        "conditions": [
+            {
+                "description": "\u00c9v\u00e9nement sur toute modification de l'\u00e9tat du volet",
+                "name": "changed"
+            },
+            {
+                "description": "\u00c9v\u00e9nement lorsque le volet est ferm\u00e8",
+                "name": "false"
+            },
+            {
+                "description": "\u00c9v\u00e9nement lorsque le volet est ouvert",
+                "name": "true"
+            }
+        ],
+        "description": "VELUX window or roller shutter controlled through a KLF 200 gateway. The position is the one reported by the gateway. Volet intelligent. Cet volet calcule sa position en fonction du temps n\u00e8cessaire pour s'ouvrir et se fermer. Il est alors possible de r\u00e8gler directement le volet \u00e0 une position sp\u00e8cifi\u00e8e.",
+        "parameters": [
+            {
+                "default": "true",
+                "description": "Activez l'entr\u00e9e/sortie. Vrai par d\u00e9faut. Ce param\u00e8tre est ajout\u00e9 s'il n'est pas trouv\u00e9 dans la configuration.",
+                "label": "Activ\u00e9",
+                "mandatory": "false",
+                "name": "enabled",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "description": "Type graphique interne pour tous les objets calaos. Param\u00e8tre en lecture seule, d\u00e9finit automatiquement",
+                "label": "Type d'affichage",
+                "mandatory": "false",
+                "name": "gui_type",
+                "readonly": "true",
+                "type": "string"
+            },
+            {
+                "description": "IP address or hostname of the KLF 200 gateway",
+                "mandatory": "true",
+                "name": "host",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "Identifiant unique de l'entr\u00e9e/sortie dans calaos-server",
+                "label": "Identifiant",
+                "mandatory": "true",
+                "name": "id",
+                "readonly": "true",
+                "type": "string"
+            },
+            {
+                "default": "0",
+                "description": "Not used by this driver",
+                "mandatory": "false",
+                "max": "999999",
+                "min": "0",
+                "name": "impulse_time",
+                "readonly": "true",
+                "type": "int"
+            },
+            {
+                "default": "",
+                "description": "Affichage de style GUI. Ceci contr\u00f4lera l'\u00ecc\u00f4ne affich\u00e9e sur l'interface utilisateurStyle d'affichage. Contr\u00f4le l'ic\u00f4ne affich\u00e9e sur l'interface utilisateur",
+                "list_value": {
+                    "shutter": "Shutter",
+                    "window": "Window"
+                },
+                "mandatory": "false",
+                "name": "io_style",
+                "readonly": "false",
+                "type": "list"
+            },
+            {
+                "description": "Type d'entr\u00e9e/sortie (input, output, inout)",
+                "label": "Type d'IO",
+                "mandatory": "true",
+                "name": "io_type",
+                "readonly": "true",
+                "type": "string"
+            },
+            {
+                "default": "false",
+                "description": "Si activ\u00e9, \u00e9crit une entr\u00e9e dans l'historique pour cet IO",
+                "label": "Journal d'historique",
+                "mandatory": "false",
+                "name": "log_history",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "default": "false",
+                "description": "Si activ\u00e9, et si influxdb est activ\u00e9 dans local_config, envoie la valeur \u00e0 influxdb pour cet IO",
+                "label": "InfluxDB",
+                "mandatory": "false",
+                "name": "logged",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "description": "Nom de l'entr\u00e9e/sortie.",
+                "label": "Nom",
+                "mandatory": "true",
+                "name": "name",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "default": "0",
+                "description": "Node ID of the window or shutter on the gateway (run calaos_klf200 --list to find it)",
+                "mandatory": "true",
+                "max": "255",
+                "min": "0",
+                "name": "node_id",
+                "readonly": "false",
+                "type": "int"
+            },
+            {
+                "description": "Password of the KLF 200 gateway (the Wi-Fi password printed on the back of the unit)",
+                "mandatory": "true",
+                "name": "password",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "Not used by this driver",
+                "mandatory": "false",
+                "name": "stop_both",
+                "readonly": "true",
+                "type": "bool"
+            },
+            {
+                "default": "100",
+                "description": "Not used: the KLF 200 reports the real position",
+                "mandatory": "false",
+                "max": "9999",
+                "min": "0",
+                "name": "time_down",
+                "readonly": "true",
+                "type": "int"
+            },
+            {
+                "default": "100",
+                "description": "Not used: the KLF 200 reports the real position",
+                "mandatory": "false",
+                "max": "9999",
+                "min": "0",
+                "name": "time_up",
+                "readonly": "true",
                 "type": "int"
             },
             {
@@ -7126,6 +7503,18 @@
                 "name": "impulse_time",
                 "readonly": "false",
                 "type": "int"
+            },
+            {
+                "default": "",
+                "description": "Affichage de style GUI. Ceci contr\u00f4lera l'\u00ecc\u00f4ne affich\u00e9e sur l'interface utilisateurStyle d'affichage. Contr\u00f4le l'ic\u00f4ne affich\u00e9e sur l'interface utilisateur",
+                "list_value": {
+                    "shutter": "Shutter",
+                    "window": "Window"
+                },
+                "mandatory": "false",
+                "name": "io_style",
+                "readonly": "false",
+                "type": "list"
             },
             {
                 "description": "Type d'entr\u00e9e/sortie (input, output, inout)",
@@ -11620,6 +12009,18 @@
                 "type": "int"
             },
             {
+                "default": "",
+                "description": "Affichage de style GUI. Ceci contr\u00f4lera l'\u00ecc\u00f4ne affich\u00e9e sur l'interface utilisateurStyle d'affichage. Contr\u00f4le l'ic\u00f4ne affich\u00e9e sur l'interface utilisateur",
+                "list_value": {
+                    "shutter": "Shutter",
+                    "window": "Window"
+                },
+                "mandatory": "false",
+                "name": "io_style",
+                "readonly": "false",
+                "type": "list"
+            },
+            {
                 "description": "Type d'entr\u00e9e/sortie (input, output, inout)",
                 "label": "Type d'IO",
                 "mandatory": "true",
@@ -11833,6 +12234,18 @@
                 "name": "impulse_time",
                 "readonly": "false",
                 "type": "int"
+            },
+            {
+                "default": "",
+                "description": "Affichage de style GUI. Ceci contr\u00f4lera l'\u00ecc\u00f4ne affich\u00e9e sur l'interface utilisateurStyle d'affichage. Contr\u00f4le l'ic\u00f4ne affich\u00e9e sur l'interface utilisateur",
+                "list_value": {
+                    "shutter": "Shutter",
+                    "window": "Window"
+                },
+                "mandatory": "false",
+                "name": "io_style",
+                "readonly": "false",
+                "type": "list"
             },
             {
                 "description": "Type d'entr\u00e9e/sortie (input, output, inout)",

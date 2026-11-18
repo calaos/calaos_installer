@@ -192,6 +192,7 @@ gpio_up |  | int | yes | ID du GPIO pour ouvrir
 gui_type | Type d'affichage | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
 id | Identifiant | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
 impulse_time |  | int | no | Temps d'impulsion en ms pour les volets è impulsion. Si 0, le dèclencheur d'impulsion est dèsactivé. 0 par défaut.
+io_style |  | list | no | Affichage de style GUI. Ceci contrôlera l'ìcône affichée sur l'interface utilisateurStyle d'affichage. Contrôle l'icône affichée sur l'interface utilisateur
 io_type | Type d'IO | string | yes | Type d'entrée/sortie (input, output, inout)
 log_history | Journal d'historique | bool | no | Si activé, écrit une entrée dans l'historique pour cet IO
 logged | InfluxDB | bool | no | Si activé, et si influxdb est activé dans local_config, envoie la valeur à influxdb pour cet IO
@@ -237,6 +238,7 @@ gpio_up |  | int | yes | ID du GPIO pour ouvrir
 gui_type | Type d'affichage | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
 id | Identifiant | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
 impulse_time |  | int | no | Temps d'impulsion en ms pour les volets è impulsion. Si 0, le dèclencheur d'impulsion est dèsactivé. 0 par défaut.
+io_style |  | list | no | Affichage de style GUI. Ceci contrôlera l'ìcône affichée sur l'interface utilisateurStyle d'affichage. Contrôle l'icône affichée sur l'interface utilisateur
 io_type | Type d'IO | string | yes | Type d'entrée/sortie (input, output, inout)
 log_history | Journal d'historique | bool | no | Si activé, écrit une entrée dans l'historique pour cet IO
 logged | InfluxDB | bool | no | Si activé, et si influxdb est activé dans local_config, envoie la valeur à influxdb pour cet IO
@@ -528,6 +530,88 @@ Name | Description
 ---- | -----------
 value | Définir la valeur de la chaine 
  
+
+# Klf200InputSwitch
+Rain sensor of a VELUX window, read through a KLF 200 gateway. True while the sensor reports rain. The gateway is polled, so a change can take a few minutes to show.
+
+
+Interrupteur de base avec états de appuyé/relâché.
+
+## Parameters of Klf200InputSwitch
+Name | Label | Type | Mandatory | Description
+---- | ----- | ---- | --------- | -----------
+enabled | Activé | bool | no | Activez l'entrée/sortie. Vrai par défaut. Ce paramètre est ajouté s'il n'est pas trouvé dans la configuration.
+gui_type | Type d'affichage | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
+host |  | string | yes | IP address or hostname of the KLF 200 gateway
+id | Identifiant | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
+io_style |  | list | yes | Affichage de style GUI. Ceci contrôlera l'ìcône affichée sur l'interface utilisateurStyle d'affichage. Contrôle l'icône affichée sur l'interface utilisateur
+io_type | Type d'IO | string | yes | Type d'entrée/sortie (input, output, inout)
+log_history | Journal d'historique | bool | no | Si activé, écrit une entrée dans l'historique pour cet IO
+logged | InfluxDB | bool | no | Si activé, et si influxdb est activé dans local_config, envoie la valeur à influxdb pour cet IO
+name | Nom | string | yes | Nom de l'entrée/sortie.
+node_id |  | int | yes | Node ID of the window on the gateway (run calaos_klf200 --list to find it)
+password |  | string | yes | Password of the KLF 200 gateway (the Wi-Fi password printed on the back of the unit)
+visible |  | bool | no | Display the Input/Output on all user interfaces if set. Default to false for switches
+
+## Conditions of Klf200InputSwitch
+Name | Description
+---- | -----------
+changed | Événement lors de chaque changement d'état 
+ false | Événement déclenché lors du relâché 
+ true | Événement déclenché lors de l'appui 
+ 
+## More Infos
+* VELUX KLF 200: https://www.klf200.com/klf200
+
+
+# Klf200OutputShutterSmart
+VELUX window or roller shutter controlled through a KLF 200 gateway. The position is the one reported by the gateway.
+
+
+Volet intelligent. Cet volet calcule sa position en fonction du temps nècessaire pour s'ouvrir et se fermer. Il est alors possible de règler directement le volet à une position spècifièe.
+
+## Parameters of Klf200OutputShutterSmart
+Name | Label | Type | Mandatory | Description
+---- | ----- | ---- | --------- | -----------
+enabled | Activé | bool | no | Activez l'entrée/sortie. Vrai par défaut. Ce paramètre est ajouté s'il n'est pas trouvé dans la configuration.
+gui_type | Type d'affichage | string | no | Type graphique interne pour tous les objets calaos. Paramètre en lecture seule, définit automatiquement
+host |  | string | yes | IP address or hostname of the KLF 200 gateway
+id | Identifiant | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
+impulse_time |  | int | no | Not used by this driver
+io_style |  | list | no | Affichage de style GUI. Ceci contrôlera l'ìcône affichée sur l'interface utilisateurStyle d'affichage. Contrôle l'icône affichée sur l'interface utilisateur
+io_type | Type d'IO | string | yes | Type d'entrée/sortie (input, output, inout)
+log_history | Journal d'historique | bool | no | Si activé, écrit une entrée dans l'historique pour cet IO
+logged | InfluxDB | bool | no | Si activé, et si influxdb est activé dans local_config, envoie la valeur à influxdb pour cet IO
+name | Nom | string | yes | Nom de l'entrée/sortie.
+node_id |  | int | yes | Node ID of the window or shutter on the gateway (run calaos_klf200 --list to find it)
+password |  | string | yes | Password of the KLF 200 gateway (the Wi-Fi password printed on the back of the unit)
+stop_both |  | bool | no | Not used by this driver
+time_down |  | int | no | Not used: the KLF 200 reports the real position
+time_up |  | int | no | Not used: the KLF 200 reports the real position
+visible | Visible | bool | no | Afficher l'entrée/sortie sur toutes les interfaces utilisateur si activé. Vrai par défautAffichez l'entrée/sortie sur toutes les interfaces utilisateur. Vrai par défaut
+
+## Conditions of Klf200OutputShutterSmart
+Name | Description
+---- | -----------
+changed | Événement sur toute modification de l'état du volet 
+ false | Événement lorsque le volet est fermè 
+ true | Événement lorsque le volet est ouvert 
+ 
+## Actions of Klf200OutputShutterSmart
+Name | Description
+---- | -----------
+down | Fermer le volet 
+ down 5 | Fermer le volet de X pourcent 
+ set 50 | Mettre le volet è la position X en pourcentage 
+ set_state 50 | Update internal shutter position, in percent, without starting real action. This is useful when having updating the shutter state from an external source. 
+ stop | Arrêter le volet 
+ toggle | Inverser l'état du volet 
+ up | Ouvrir le volet 
+ up 5 | Ouvrir le volet de X pourcent 
+ 
+## More Infos
+* VELUX KLF 200: https://www.klf200.com/klf200
+
 
 # KNXInputAnalog
 Entrée analogique KNX avec eibnetmux
@@ -939,6 +1023,7 @@ gui_type | Type d'affichage | string | no | Type graphique interne pour tous les
 host |  | string | yes | Nom d'hète de knxd, localhost par défaut
 id | Identifiant | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
 impulse_time |  | int | no | Temps d'impulsion en ms pour les volets è impulsion. Si 0, le dèclencheur d'impulsion est dèsactivé. 0 par défaut.
+io_style |  | list | no | Affichage de style GUI. Ceci contrôlera l'ìcône affichée sur l'interface utilisateurStyle d'affichage. Contrôle l'icône affichée sur l'interface utilisateur
 io_type | Type d'IO | string | yes | Type d'entrée/sortie (input, output, inout)
 knx_group_down |  | string | yes | Adresse du groupe KNX pour fermer, Ex: x/y/z
 knx_group_up |  | string | yes | Adresse du groupe KNX pour ouvrir, Ex: x/y/z
@@ -988,6 +1073,7 @@ gui_type | Type d'affichage | string | no | Type graphique interne pour tous les
 host |  | string | yes | Nom d'hète de knxd, localhost par défaut
 id | Identifiant | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
 impulse_time |  | int | no | Temps d'impulsion en ms pour les volets è impulsion. Si 0, le dèclencheur d'impulsion est dèsactivé. 0 par défaut.
+io_style |  | list | no | Affichage de style GUI. Ceci contrôlera l'ìcône affichée sur l'interface utilisateurStyle d'affichage. Contrôle l'icône affichée sur l'interface utilisateur
 io_type | Type d'IO | string | yes | Type d'entrée/sortie (input, output, inout)
 knx_group |  | string | yes | Adresse de groupe KNX, Ex: x/y/z
 knx_group_down |  | string | yes | Adresse du groupe KNX pour fermer, Ex: x/y/z
@@ -1551,6 +1637,7 @@ gui_type | Type d'affichage | string | no | Type graphique interne pour tous les
 host |  | string | no | Adresse IP du broker MQTT auquel se connecter. La valeur par défaut est 127.0.0.1.
 id | Identifiant | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
 impulse_time |  | int | no | Temps d'impulsion en ms pour les volets è impulsion. Si 0, le dèclencheur d'impulsion est dèsactivé. 0 par défaut.
+io_style |  | list | no | Affichage de style GUI. Ceci contrôlera l'ìcône affichée sur l'interface utilisateurStyle d'affichage. Contrôle l'icône affichée sur l'interface utilisateur
 io_type | Type d'IO | string | yes | Type d'entrée/sortie (input, output, inout)
 ip_address_path |  | string | no | The path where to find the IP address of the sensor in the mqtt payload. If payload if JSON, informations will be extracted depending on the path. Array indices are their own path segment, written between square brackets: for example weather/[0]/description reads the description value of the first element of the weather array. If payload is simple json, just try to use the key of the value you want to read, for example : {"ip_address": "192.168.1.156"} use "ip_address" as path. The value should be a string with the IP address.
 ip_address_topic |  | string | no | The topic on witch to publish the IP address of the sensor. If not set, no IP address will be reported.
@@ -2927,6 +3014,7 @@ gui_type | Type d'affichage | string | no | Type graphique interne pour tous les
 host |  | string | yes | Adresse IP de l'automate Wago
 id | Identifiant | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
 impulse_time |  | int | no | Temps d'impulsion en ms pour les volets è impulsion. Si 0, le dèclencheur d'impulsion est dèsactivé. 0 par défaut.
+io_style |  | list | no | Affichage de style GUI. Ceci contrôlera l'ìcône affichée sur l'interface utilisateurStyle d'affichage. Contrôle l'icône affichée sur l'interface utilisateur
 io_type | Type d'IO | string | yes | Type d'entrée/sortie (input, output, inout)
 knx |  | bool | no | Mettre è true si la sortie est un périphérique KNX (uniquement pour 750-849 avec le module KNX / TP1)
 log_history | Journal d'historique | bool | no | Si activé, écrit une entrée dans l'historique pour cet IO
@@ -2978,6 +3066,7 @@ gui_type | Type d'affichage | string | no | Type graphique interne pour tous les
 host |  | string | yes | Adresse IP de l'automate Wago
 id | Identifiant | string | yes | Identifiant unique de l'entrée/sortie dans calaos-server
 impulse_time |  | int | no | Temps d'impulsion en ms pour les volets è impulsion. Si 0, le dèclencheur d'impulsion est dèsactivé. 0 par défaut.
+io_style |  | list | no | Affichage de style GUI. Ceci contrôlera l'ìcône affichée sur l'interface utilisateurStyle d'affichage. Contrôle l'icône affichée sur l'interface utilisateur
 io_type | Type d'IO | string | yes | Type d'entrée/sortie (input, output, inout)
 knx |  | bool | no | Mettre è true si la sortie est un périphérique KNX (uniquement pour 750-849 avec le module KNX / TP1)
 log_history | Journal d'historique | bool | no | Si activé, écrit une entrée dans l'historique pour cet IO
