@@ -30,6 +30,8 @@ KNXOutputLightDimmer
 KNXOutputLightRGB
 KNXOutputShutter
 KNXOutputShutterSmart
+Klf200InputSwitch
+Klf200OutputShutterSmart
 MqttInputAnalog
 MqttInputString
 MqttInputSwitch
