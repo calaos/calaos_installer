@@ -268,6 +268,8 @@ private slots:
     void loweringOneSetToZeroDeletesItsDefaults();
     void untouchedValuesAreNotRewrittenRounded();
     void aModeTheClimateDoesNotOfferIsDisabled();
+    void aModeWithoutItsOutputLinkIsNotOffered();
+    void countKeepsItsLineEditEnabledWhenDisabledMode();
     void refusedConfirmationKeepsEverything();
     void cancelKeepsEverything();
     void editedValuesSurviveARoundTrip();
@@ -553,6 +555,32 @@ void tst_ClimateProgramDialog::aModeTheClimateDoesNotOfferIsDisabled()
     ClimateProgram::setParam(dev, "modes", "off,heat,cool");
     QVERIFY(ClimateProgram::offers(dev, Set::Heat));
     QVERIFY(ClimateProgram::offers(dev, Set::Cool));
+}
+
+void tst_ClimateProgramDialog::aModeWithoutItsOutputLinkIsNotOffered()
+{
+    // Nothing linked yet: both modes stay offered.
+    QVERIFY(load(ioSource(climate(1, 1))));
+    QVERIFY(ClimateProgram::offers(theClimate(), Set::Heat));
+    QVERIFY(ClimateProgram::offers(theClimate(), Set::Cool));
+
+    QString xml = climate(1, 1);
+    xml.replace("  </calaos:device>", "    <calaos:link name=\"output_heat\" io=\"free\"/>\n  </calaos:device>");
+    QVERIFY(load(ioSource(xml)));
+    QVERIFY(ClimateProgram::offers(theClimate(), Set::Heat));
+    QVERIFY(!ClimateProgram::offers(theClimate(), Set::Cool));
+}
+
+void tst_ClimateProgramDialog::countKeepsItsLineEditEnabledWhenDisabledMode()
+{
+    QVERIFY(load(ioSource(climate(1, 1))));
+    Device *dev = theClimate();
+    ClimateProgram::setParam(dev, "modes", "off,heat");
+    DialogClimateProgram d(dev, false);
+    QSpinBox *count = d.levelCount(Set::Cool);
+    QVERIFY(count->isEnabled());
+    for (QWidget *w: count->findChildren<QWidget *>())
+        QVERIFY(w->isEnabled());
 }
 
 void tst_ClimateProgramDialog::refusedConfirmationKeepsEverything()
