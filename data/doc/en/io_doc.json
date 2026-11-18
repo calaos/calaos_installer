@@ -912,6 +912,18 @@
                 "type": "int"
             },
             {
+                "default": "",
+                "description": "GUI style display. This will control the icon displayed on the UI",
+                "list_value": {
+                    "shutter": "Shutter",
+                    "window": "Window"
+                },
+                "mandatory": "false",
+                "name": "io_style",
+                "readonly": "false",
+                "type": "list"
+            },
+            {
                 "description": "IO type, can be \"input\", \"output\", \"inout\"",
                 "label": "IO type",
                 "mandatory": "true",
@@ -1107,6 +1119,18 @@
                 "name": "impulse_time",
                 "readonly": "false",
                 "type": "int"
+            },
+            {
+                "default": "",
+                "description": "GUI style display. This will control the icon displayed on the UI",
+                "list_value": {
+                    "shutter": "Shutter",
+                    "window": "Window"
+                },
+                "mandatory": "false",
+                "name": "io_style",
+                "readonly": "false",
+                "type": "list"
             },
             {
                 "description": "IO type, can be \"input\", \"output\", \"inout\"",
@@ -3955,6 +3979,18 @@
                 "type": "int"
             },
             {
+                "default": "",
+                "description": "GUI style display. This will control the icon displayed on the UI",
+                "list_value": {
+                    "shutter": "Shutter",
+                    "window": "Window"
+                },
+                "mandatory": "false",
+                "name": "io_style",
+                "readonly": "false",
+                "type": "list"
+            },
+            {
                 "description": "IO type, can be \"input\", \"output\", \"inout\"",
                 "label": "IO type",
                 "mandatory": "true",
@@ -4156,6 +4192,18 @@
                 "type": "int"
             },
             {
+                "default": "",
+                "description": "GUI style display. This will control the icon displayed on the UI",
+                "list_value": {
+                    "shutter": "Shutter",
+                    "window": "Window"
+                },
+                "mandatory": "false",
+                "name": "io_style",
+                "readonly": "false",
+                "type": "list"
+            },
+            {
                 "description": "IO type, can be \"input\", \"output\", \"inout\"",
                 "label": "IO type",
                 "mandatory": "true",
@@ -4250,6 +4298,335 @@
                 "min": "0",
                 "name": "time_up",
                 "readonly": "false",
+                "type": "int"
+            },
+            {
+                "default": "true",
+                "description": "Display the Input/Output on all user interfaces if set. Default to true",
+                "label": "Visible",
+                "mandatory": "false",
+                "name": "visible",
+                "readonly": "false",
+                "type": "bool"
+            }
+        ]
+    },
+    "Klf200InputSwitch": {
+        "actions": [],
+        "alias": [],
+        "conditions": [
+            {
+                "description": "Event on any change of state",
+                "name": "changed"
+            },
+            {
+                "description": "Event triggered when switch is released",
+                "name": "false"
+            },
+            {
+                "description": "Event triggered when switch is pressed",
+                "name": "true"
+            }
+        ],
+        "description": "Rain sensor of a VELUX window, read through a KLF 200 gateway. True while the sensor reports rain. The gateway is polled, so a change can take a few minutes to show. Basic switch with press/release states.",
+        "parameters": [
+            {
+                "default": "true",
+                "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
+                "label": "Enabled",
+                "mandatory": "false",
+                "name": "enabled",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
+                "label": "Display type",
+                "mandatory": "false",
+                "name": "gui_type",
+                "readonly": "true",
+                "type": "string"
+            },
+            {
+                "description": "IP address or hostname of the KLF 200 gateway",
+                "mandatory": "true",
+                "name": "host",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "Unique ID identifying the Input/Output in calaos-server",
+                "label": "Identifier",
+                "mandatory": "true",
+                "name": "id",
+                "readonly": "true",
+                "type": "string"
+            },
+            {
+                "default": "switch",
+                "description": "GUI style display. This will control the icon displayed on the UI",
+                "list_value": {
+                    "carbon_monoxide": "Carbon monoxide sensor",
+                    "door": "Door/Window sensor",
+                    "garage_door": "Garage door sensor",
+                    "gas": "Gas leak sensor",
+                    "lock": "Lock sensor",
+                    "motion": "Motion sensor",
+                    "occupancy": "Occupancy sensor",
+                    "smoke": "Smoke detector",
+                    "sound": "Sound sensor",
+                    "switch": "Switch",
+                    "vibration": "Vibration sensor",
+                    "water": "Water leak sensor"
+                },
+                "mandatory": "true",
+                "name": "io_style",
+                "readonly": "false",
+                "type": "list"
+            },
+            {
+                "description": "IO type, can be \"input\", \"output\", \"inout\"",
+                "label": "IO type",
+                "mandatory": "true",
+                "name": "io_type",
+                "readonly": "true",
+                "type": "string"
+            },
+            {
+                "default": "false",
+                "description": "If enabled, write an entry in the history event log for this IO",
+                "label": "History log",
+                "mandatory": "false",
+                "name": "log_history",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "default": "false",
+                "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "label": "InfluxDB",
+                "mandatory": "false",
+                "name": "logged",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "description": "Name of Input/Output.",
+                "label": "Name",
+                "mandatory": "true",
+                "name": "name",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "default": "0",
+                "description": "Node ID of the window on the gateway (run calaos_klf200 --list to find it)",
+                "mandatory": "true",
+                "max": "255",
+                "min": "0",
+                "name": "node_id",
+                "readonly": "false",
+                "type": "int"
+            },
+            {
+                "description": "Password of the KLF 200 gateway (the Wi-Fi password printed on the back of the unit)",
+                "mandatory": "true",
+                "name": "password",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "default": "false",
+                "description": "Display the Input/Output on all user interfaces if set. Default to false for switches",
+                "mandatory": "false",
+                "name": "visible",
+                "readonly": "false",
+                "type": "bool"
+            }
+        ]
+    },
+    "Klf200OutputShutterSmart": {
+        "actions": [
+            {
+                "description": "Close the shutter",
+                "name": "down"
+            },
+            {
+                "description": "Close the shutter by X percent",
+                "name": "down 5"
+            },
+            {
+                "description": "Set shutter at position X in percent",
+                "name": "set 50"
+            },
+            {
+                "description": "Update internal shutter position, in percent, without starting real action. This is useful when having updating the shutter state from an external source.",
+                "name": "set_state 50"
+            },
+            {
+                "description": "Stop the shutter",
+                "name": "stop"
+            },
+            {
+                "description": "Invert shutter state",
+                "name": "toggle"
+            },
+            {
+                "description": "Open the shutter",
+                "name": "up"
+            },
+            {
+                "description": "Open the shutter by X percent",
+                "name": "up 5"
+            }
+        ],
+        "alias": [],
+        "conditions": [
+            {
+                "description": "Event on any change of shutter state",
+                "name": "changed"
+            },
+            {
+                "description": "Event when shutter is closed",
+                "name": "false"
+            },
+            {
+                "description": "Event when shutter is open",
+                "name": "true"
+            }
+        ],
+        "description": "VELUX window or roller shutter controlled through a KLF 200 gateway. The position is the one reported by the gateway. Smart shutter. This shutter calculates the position of the shutter based on the time it takes to open and close. It then allows to set directly the shutter at a specified position.",
+        "parameters": [
+            {
+                "default": "true",
+                "description": "Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.",
+                "label": "Enabled",
+                "mandatory": "false",
+                "name": "enabled",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "description": "Internal graphical type for all calaos objects. Set automatically, read-only parameter.",
+                "label": "Display type",
+                "mandatory": "false",
+                "name": "gui_type",
+                "readonly": "true",
+                "type": "string"
+            },
+            {
+                "description": "IP address or hostname of the KLF 200 gateway",
+                "mandatory": "true",
+                "name": "host",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "Unique ID identifying the Input/Output in calaos-server",
+                "label": "Identifier",
+                "mandatory": "true",
+                "name": "id",
+                "readonly": "true",
+                "type": "string"
+            },
+            {
+                "default": "0",
+                "description": "Not used by this driver",
+                "mandatory": "false",
+                "max": "999999",
+                "min": "0",
+                "name": "impulse_time",
+                "readonly": "true",
+                "type": "int"
+            },
+            {
+                "default": "",
+                "description": "GUI style display. This will control the icon displayed on the UI",
+                "list_value": {
+                    "shutter": "Shutter",
+                    "window": "Window"
+                },
+                "mandatory": "false",
+                "name": "io_style",
+                "readonly": "false",
+                "type": "list"
+            },
+            {
+                "description": "IO type, can be \"input\", \"output\", \"inout\"",
+                "label": "IO type",
+                "mandatory": "true",
+                "name": "io_type",
+                "readonly": "true",
+                "type": "string"
+            },
+            {
+                "default": "false",
+                "description": "If enabled, write an entry in the history event log for this IO",
+                "label": "History log",
+                "mandatory": "false",
+                "name": "log_history",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "default": "false",
+                "description": "If enabled, and if influxdb is enabled in local_config send the value to influxdb for this IO",
+                "label": "InfluxDB",
+                "mandatory": "false",
+                "name": "logged",
+                "readonly": "false",
+                "type": "bool"
+            },
+            {
+                "description": "Name of Input/Output.",
+                "label": "Name",
+                "mandatory": "true",
+                "name": "name",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "default": "0",
+                "description": "Node ID of the window or shutter on the gateway (run calaos_klf200 --list to find it)",
+                "mandatory": "true",
+                "max": "255",
+                "min": "0",
+                "name": "node_id",
+                "readonly": "false",
+                "type": "int"
+            },
+            {
+                "description": "Password of the KLF 200 gateway (the Wi-Fi password printed on the back of the unit)",
+                "mandatory": "true",
+                "name": "password",
+                "readonly": "false",
+                "type": "string"
+            },
+            {
+                "description": "Not used by this driver",
+                "mandatory": "false",
+                "name": "stop_both",
+                "readonly": "true",
+                "type": "bool"
+            },
+            {
+                "default": "100",
+                "description": "Not used: the KLF 200 reports the real position",
+                "mandatory": "false",
+                "max": "9999",
+                "min": "0",
+                "name": "time_down",
+                "readonly": "true",
+                "type": "int"
+            },
+            {
+                "default": "100",
+                "description": "Not used: the KLF 200 reports the real position",
+                "mandatory": "false",
+                "max": "9999",
+                "min": "0",
+                "name": "time_up",
+                "readonly": "true",
                 "type": "int"
             },
             {
@@ -7126,6 +7503,18 @@
                 "name": "impulse_time",
                 "readonly": "false",
                 "type": "int"
+            },
+            {
+                "default": "",
+                "description": "GUI style display. This will control the icon displayed on the UI",
+                "list_value": {
+                    "shutter": "Shutter",
+                    "window": "Window"
+                },
+                "mandatory": "false",
+                "name": "io_style",
+                "readonly": "false",
+                "type": "list"
             },
             {
                 "description": "IO type, can be \"input\", \"output\", \"inout\"",
@@ -11620,6 +12009,18 @@
                 "type": "int"
             },
             {
+                "default": "",
+                "description": "GUI style display. This will control the icon displayed on the UI",
+                "list_value": {
+                    "shutter": "Shutter",
+                    "window": "Window"
+                },
+                "mandatory": "false",
+                "name": "io_style",
+                "readonly": "false",
+                "type": "list"
+            },
+            {
                 "description": "IO type, can be \"input\", \"output\", \"inout\"",
                 "label": "IO type",
                 "mandatory": "true",
@@ -11833,6 +12234,18 @@
                 "name": "impulse_time",
                 "readonly": "false",
                 "type": "int"
+            },
+            {
+                "default": "",
+                "description": "GUI style display. This will control the icon displayed on the UI",
+                "list_value": {
+                    "shutter": "Shutter",
+                    "window": "Window"
+                },
+                "mandatory": "false",
+                "name": "io_style",
+                "readonly": "false",
+                "type": "list"
             },
             {
                 "description": "IO type, can be \"input\", \"output\", \"inout\"",
