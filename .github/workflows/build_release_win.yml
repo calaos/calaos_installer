@@ -65,13 +65,22 @@ jobs:
             run: |
                 C:\msys64\usr\bin\pacman -S --noconfirm --needed mingw-w64-x86_64-zlib mingw-w64-x86_64-bzip2 mingw-w64-x86_64-xz mingw-w64-x86_64-openssl mingw-w64-x86_64-zstd mingw-w64-x86_64-pkg-config
 
+          - name: Record OpenSSL version
+            shell: pwsh
+            run: |
+                $v = (C:\msys64\usr\bin\pacman -Q mingw-w64-x86_64-openssl).Split(' ')[1]
+                if (-not $v) { Write-Error 'cannot read OpenSSL version from pacman'; exit 1 }
+                Write-Host "OpenSSL package version: $v"
+                "OPENSSL_VERSION=$v" | Out-File -FilePath $env:GITHUB_ENV -Append -Encoding utf8
+
           - name: Cache KArchive build
             uses: actions/cache@v4
             id: karchive-cache
             with:
                 path: C:/karchive
-                # Built against Qt's headers: a Qt update rebuilds it.
-                key: karchive-kf6-mingw64-qt${{ env.QT_VERSION }}-${{ hashFiles('win32/scripts/build_karchive.ps1') }}
+                # Built against Qt's headers and MSYS2's OpenSSL: a Qt or OpenSSL update
+                # rebuilds it (libKF6Archive.dll imports a versioned libcrypto-N-x64.dll).
+                key: karchive-kf6-mingw64-qt${{ env.QT_VERSION }}-openssl${{ env.OPENSSL_VERSION }}-${{ hashFiles('win32/scripts/build_karchive.ps1') }}
 
           - name: Build KArchive from source
             if: steps.karchive-cache.outputs.cache-hit != 'true'

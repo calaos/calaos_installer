@@ -94,22 +94,28 @@ Copy-Item $karchiveDll -Destination $STAGING_DIR
 # --- Copy MSYS2 runtime DLLs (compression/crypto libs needed by KArchive) ---
 Write-Host "`n=== Copying MSYS2 runtime DLLs ===" -ForegroundColor Cyan
 $MSYS2_BIN = "C:/msys64/mingw64/bin"
-$msys2Dlls = @(
+# OpenSSL's DLL name carries its major version (libcrypto-3-x64.dll, libcrypto-4-x64.dll...),
+# so match by glob rather than a fixed name.
+$msys2Patterns = @(
     "libbz2-1.dll",
     "zlib1.dll",
     "liblzma-5.dll",
     "libzstd.dll",
-    "libcrypto-3-x64.dll",
-    "libssl-3-x64.dll"
+    "libcrypto-*-x64.dll",
+    "libssl-*-x64.dll"
 )
-foreach ($dll in $msys2Dlls) {
-    $src = Join-Path $MSYS2_BIN $dll
-    if (Test-Path $src) {
-        Write-Host "Copying $dll"
-        Copy-Item $src -Destination $STAGING_DIR
-    } else {
-        Write-Warning "$dll not found in $MSYS2_BIN"
+$missing = @()
+foreach ($pattern in $msys2Patterns) {
+    $found = @(Get-ChildItem -Path $MSYS2_BIN -Filter $pattern -File -ErrorAction SilentlyContinue)
+    if ($found.Count -eq 0) { $missing += $pattern; continue }
+    foreach ($dll in $found) {
+        Write-Host "Copying $($dll.Name)"
+        Copy-Item $dll.FullName -Destination $STAGING_DIR
     }
+}
+if ($missing.Count -gt 0) {
+    Write-Error "Required DLL(s) not found in ${MSYS2_BIN}: $($missing -join ', ')"
+    exit 1
 }
 
 # --- Build Inno Setup installer ---
