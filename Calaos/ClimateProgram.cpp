@@ -142,7 +142,7 @@ IOBase *ioForRole(Device *dev, const std::string &role)
 
 bool isProgramRole(const std::string &role)
 {
-    static const QRegularExpression re("^((heat|cool)_level[1-6](_setpoint)?|(heat|cool)_default|"
+    static const QRegularExpression re("^((heat|cool)_level([1-9]|10)(_setpoint)?|(heat|cool)_default|"
                                        "cool_default_off|program_enabled)$");
     return re.match(QString::fromStdString(role)).hasMatch();
 }
@@ -180,7 +180,7 @@ bool canDeleteAlone(IOBase *io)
 
 QString roleLabel(const std::string &role)
 {
-    static const QRegularExpression level("^(heat|cool)_level([1-6])(_setpoint)?$");
+    static const QRegularExpression level("^(heat|cool)_level([1-9]|10)(_setpoint)?$");
     const QRegularExpressionMatch m = level.match(QString::fromStdString(role));
     if (m.hasMatch())
     {

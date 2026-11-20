@@ -13,7 +13,6 @@
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QPushButton>
-#include <QSpinBox>
 #include <QVBoxLayout>
 #include <algorithm>
 #include <cmath>
@@ -78,8 +77,8 @@ DialogClimateProgram::DialogClimateProgram(Device *dev, bool readOnly, QWidget *
     setMinimumWidth(560);
 
     QVBoxLayout *layout = new QVBoxLayout(this);
-    layout->addWidget(hint(tr("The server creates the IOs of new levels at its next start. "
-                              "Lowering a count deletes the levels above it, with their time "
+    layout->addWidget(hint(tr("The server creates the IOs of a new program at its next start. "
+                              "Unchecking Program deletes its setpoints with their time "
                               "ranges and the rules using them. Time ranges are saved as soon as "
                               "their own dialog is accepted, even if this one is cancelled."), this));
 
@@ -93,11 +92,11 @@ DialogClimateProgram::DialogClimateProgram(Device *dev, bool readOnly, QWidget *
     {
         if (ClimateProgram::offers(dev, ui->set))
             continue;
-        // The counter stays so levels the server ignores can still be brought down to 0.
+        // The box stays so a program the server ignores can still be removed.
         for (QWidget *w: ui->box->findChildren<QWidget *>())
-            if (w != ui->count && !ui->count->isAncestorOf(w))
+            if (w != ui->program)
                 w->setEnabled(false);
-        ui->count->setMaximum(ui->initialCount);
+        ui->program->setEnabled(ui->initialCount > 0);
         ui->box->setToolTip(tr("This climate does not offer this mode"));
     }
 
@@ -133,14 +132,21 @@ DialogClimateProgram::DialogClimateProgram(Device *dev, bool readOnly, QWidget *
 
     if (readOnly)
         for (QWidget *w: findChildren<QWidget *>())
-            if (qobject_cast<QDoubleSpinBox *>(w) || qobject_cast<QSpinBox *>(w) ||
+            if (qobject_cast<QDoubleSpinBox *>(w) ||
                 qobject_cast<QCheckBox *>(w) || (qobject_cast<QPushButton *>(w) && w->parent() != buttons))
                 w->setEnabled(false);
 }
 
-QSpinBox *DialogClimateProgram::levelCount(Set set) const
+QCheckBox *DialogClimateProgram::programBox(Set set) const
 {
-    return set == Set::Heat ? m_heat.count : m_cool.count;
+    return set == Set::Heat ? m_heat.program : m_cool.program;
+}
+
+int DialogClimateProgram::targetCount(const SetUi &ui) const
+{
+    if (ui.program->isChecked() == (ui.initialCount > 0))
+        return ui.initialCount;
+    return ui.program->isChecked() ? ClimateProgram::kMaxLevels : 0;
 }
 
 QWidget *DialogClimateProgram::buildSet(SetUi &ui)
@@ -153,12 +159,11 @@ QWidget *DialogClimateProgram::buildSet(SetUi &ui)
     v->addLayout(form);
 
     ui.initialCount = ClimateProgram::levels(m_dev, ui.set);
-    ui.count = new QSpinBox(box);
-    ui.count->setObjectName(heat ? "heatLevels" : "coolLevels");
-    ui.count->setRange(0, ClimateProgram::kMaxLevels);
-    ui.count->setValue(ui.initialCount);
-    WheelGuard::install(ui.count);
-    form->addRow(tr("Levels"), ui.count);
+    ui.program = new QCheckBox(tr("Program"), box);
+    ui.program->setObjectName(heat ? "heatProgram" : "coolProgram");
+    ui.program->setChecked(ui.initialCount > 0);
+    ui.program->setToolTip(tr("Setpoints and time ranges of this mode"));
+    form->addRow(QString(), ui.program);
 
     //Once the server created the IO, its value is what counts: the param is only
     //read when the IO is created.
@@ -209,7 +214,7 @@ QWidget *DialogClimateProgram::buildSet(SetUi &ui)
     }
     v->addStretch();
 
-    connect(ui.count, &QSpinBox::valueChanged, this, [this, &ui]() { refreshRows(ui); });
+    connect(ui.program, &QCheckBox::toggled, this, [this, &ui]() { refreshRows(ui); });
     refreshRows(ui);
     return box;
 }
@@ -217,7 +222,7 @@ QWidget *DialogClimateProgram::buildSet(SetUi &ui)
 //A level shows its setpoint and ranges once the server created them, a note otherwise.
 void DialogClimateProgram::refreshRows(SetUi &ui)
 {
-    const int count = ui.count->value();
+    const int count = targetCount(ui);
     for (int n = 1;n <= ClimateProgram::kMaxLevels;n++)
     {
         LevelRow &row = ui.rows[n - 1];
@@ -282,7 +287,7 @@ bool DialogClimateProgram::writeValues()
             changed = true;
         }
 
-        for (int n = 1;n <= std::min(ui->count->value(), ClimateProgram::kMaxLevels);n++)
+        for (int n = 1;n <= std::min(targetCount(*ui), ClimateProgram::kMaxLevels);n++)
             writeNumber(ClimateProgram::ioForRole(m_dev, ClimateProgram::setpointRole(ui->set, n)),
                         ui->initialSetpoints[n - 1], ui->rows[n - 1].setpoint->value());
     }
@@ -310,8 +315,8 @@ void DialogClimateProgram::accept()
         return;
     }
 
-    const int heat = m_heat.count->value();
-    const int cool = m_cool.count->value();
+    const int heat = targetCount(m_heat);
+    const int cool = targetCount(m_cool);
     const std::vector<IOBase *> gone = ClimateProgram::iosRemovedBy(m_dev, heat, cool);
     if (!gone.empty())
     {

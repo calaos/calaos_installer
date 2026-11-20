@@ -6,7 +6,6 @@
 #include <QMessageBox>
 #include <QPushButton>
 #include <QSettings>
-#include <QSpinBox>
 #include <QStandardPaths>
 #include <QTemporaryDir>
 #include <QTimer>
@@ -185,7 +184,10 @@ QCheckBox *enabledBox(QWidget *d)
 
 QCheckBox *coolOffBox(QWidget *d)
 {
-    return setBox(d, Set::Cool)->findChild<QCheckBox *>();
+    for (QCheckBox *c: setBox(d, Set::Cool)->findChildren<QCheckBox *>())
+        if (c->objectName() != "coolProgram")
+            return c;
+    return nullptr;
 }
 
 QStringList roles(Device *dev)
@@ -258,18 +260,18 @@ private slots:
         QVERIFY2(m_dialogs.isEmpty(), qPrintable(m_dialogs.join('|')));
     }
 
-    void dialogShowsTheLevelCounts();
-    void rowsFollowTheLevelCount();
-    void levelCountIsBounded();
+    void dialogShowsTheProgramBoxes();
+    void rowsFollowTheProgramBox();
+    void checkingAProgramWritesTheMaximum();
+    void aCountBelowTheMaximumReadsAsProgramAndStaysUntouched();
+    void uncheckedWritesZero();
     void unchangedAcceptTouchesNothing();
-    void raisingTheCountCreatesNoIo();
-    void loweringTheCountDeletesTheUpperLevels();
+    void checkingAProgramCreatesNoIo();
     void loweringToZeroDeletesEveryLevel();
     void loweringOneSetToZeroDeletesItsDefaults();
     void untouchedValuesAreNotRewrittenRounded();
     void aModeTheClimateDoesNotOfferIsDisabled();
     void aModeWithoutItsOutputLinkIsNotOffered();
-    void countKeepsItsLineEditEnabledWhenDisabledMode();
     void refusedConfirmationKeepsEverything();
     void cancelKeepsEverything();
     void editedValuesSurviveARoundTrip();
@@ -278,6 +280,7 @@ private slots:
     void readOnlyDialogEditsNothing();
     void rejectedRangesDialogChangesNothing();
     void programIosAreNotDeletableAlone();
+    void screenshots();
 };
 
 void tst_ClimateProgramDialog::initTestCase()
@@ -311,19 +314,19 @@ void tst_ClimateProgramDialog::initTestCase()
     m_dialogKiller.start(20);
 }
 
-void tst_ClimateProgramDialog::dialogShowsTheLevelCounts()
+void tst_ClimateProgramDialog::dialogShowsTheProgramBoxes()
 {
     QVERIFY(load(ioSource(climate(2, 1))));
     Device *dev = theClimate();
     QVERIFY(dev);
 
     DialogClimateProgram d(dev, false);
-    QCOMPARE(d.levelCount(Set::Heat)->value(), 2);
-    QCOMPARE(d.levelCount(Set::Cool)->value(), 1);
+    QVERIFY(d.programBox(Set::Heat)->isChecked());
+    QVERIFY(d.programBox(Set::Cool)->isChecked());
     QVERIFY(!d.changed());
 }
 
-void tst_ClimateProgramDialog::rowsFollowTheLevelCount()
+void tst_ClimateProgramDialog::rowsFollowTheProgramBox()
 {
     QVERIFY(load(ioSource(climate(2, 1))));
     DialogClimateProgram d(theClimate(), false);
@@ -350,27 +353,15 @@ void tst_ClimateProgramDialog::rowsFollowTheLevelCount()
         }
     }
 
-    // Lowering the count hides the row's controls at once; its label and a
-    // deletion note stay until the dialog is accepted.
-    d.levelCount(Set::Heat)->setValue(1);
-    QVERIFY(setpoints(&d, Set::Heat)[1]->isVisibleTo(&d) == false);
-    QVERIFY(rangeButtons(&d, Set::Heat)[1]->isVisibleTo(&d) == false);
-    QVERIFY(rangeButtons(&d, Set::Heat)[0]->isVisibleTo(&d));
-}
-
-void tst_ClimateProgramDialog::levelCountIsBounded()
-{
-    QVERIFY(load(ioSource(climate(2, 1))));
-    DialogClimateProgram d(theClimate(), false);
-    QSpinBox *heat = d.levelCount(Set::Heat);
-
-    QCOMPARE(heat->minimum(), 0);
-    // The contract caps a set at six levels, whatever the constant says.
-    QCOMPARE(heat->maximum(), 6);
-    heat->setValue(99);
-    QCOMPARE(heat->value(), 6);
-    heat->setValue(-3);
-    QCOMPARE(heat->value(), 0);
+    // Unchecking hides the rows' controls at once; their labels and a deletion
+    // note stay until the dialog is accepted.
+    d.programBox(Set::Heat)->setChecked(false);
+    for (int n = 0;n < 2;n++)
+    {
+        QVERIFY(!setpoints(&d, Set::Heat)[n]->isVisibleTo(&d));
+        QVERIFY(!rangeButtons(&d, Set::Heat)[n]->isVisibleTo(&d));
+    }
+    QVERIFY(rangeButtons(&d, Set::Cool)[0]->isVisibleTo(&d));
 }
 
 void tst_ClimateProgramDialog::unchangedAcceptTouchesNothing()
@@ -390,74 +381,85 @@ void tst_ClimateProgramDialog::unchangedAcceptTouchesNothing()
     QCOMPARE(saveIOs(), before);
 }
 
-void tst_ClimateProgramDialog::raisingTheCountCreatesNoIo()
+void tst_ClimateProgramDialog::checkingAProgramCreatesNoIo()
 {
     QVERIFY(load(ioSource(climate(2, 0))));
     Device *dev = theClimate();
     const QStringList rolesBefore = roles(dev);
 
     DialogClimateProgram d(dev, false);
-    d.levelCount(Set::Heat)->setValue(4);
+    QVERIFY(!d.programBox(Set::Cool)->isChecked());
+    d.programBox(Set::Cool)->setChecked(true);
     // The server creates the IOs at its next start: a note stands for them.
-    QVERIFY(!rangeButtons(&d, Set::Heat)[2]->isVisibleTo(&d));
+    QVERIFY(!rangeButtons(&d, Set::Cool)[2]->isVisibleTo(&d));
     d.accept();
 
     QVERIFY(d.changed());
     QVERIFY(d.removedIos().empty());
     QCOMPARE(m_confirmations, 0);
-    QCOMPARE(ClimateProgram::levels(dev, Set::Heat), 4);
+    QCOMPARE(ClimateProgram::levels(dev, Set::Cool), ClimateProgram::kMaxLevels);
+    QCOMPARE(ClimateProgram::levels(dev, Set::Heat), 2);
     QCOMPARE(roles(dev), rolesBefore);
-    QVERIFY(!hasLevel(dev, Set::Heat, 3));
+    QVERIFY(!hasLevel(dev, Set::Cool, 1));
 
     const QByteArray xml = saveIOs();
-    QVERIFY(xml.contains("name=\"heat_levels\" value=\"4\""));
-    QVERIFY(!xml.contains("clim_heat_level3"));
+    QVERIFY(xml.contains("name=\"cool_levels\" value=\"10\""));
+    QVERIFY(xml.contains("name=\"heat_levels\" value=\"2\""));
+    QVERIFY(!xml.contains("clim_cool_level1"));
 
-    // And back from the file: the count is the param, the levels are the 2 IOs.
+    // And back from the file: the param is the maximum, read as checked.
     QVERIFY(load(xml));
-    QCOMPARE(ClimateProgram::levels(theClimate(), Set::Heat), 4);
+    DialogClimateProgram again(theClimate(), false);
+    QVERIFY(again.programBox(Set::Cool)->isChecked());
     QCOMPARE(roles(theClimate()), rolesBefore);
 }
 
-void tst_ClimateProgramDialog::loweringTheCountDeletesTheUpperLevels()
+void tst_ClimateProgramDialog::checkingAProgramWritesTheMaximum()
 {
-    QVERIFY(load(ioSource(climate(3, 2))));
+    QVERIFY(load(ioSource(climate(0, 0))));
     Device *dev = theClimate();
-    IOBase *keptRange = ClimateProgram::ioForRole(dev, "heat_level1");
-    const int total = int(ClimateProgram::programIos(dev).size());
-
     DialogClimateProgram d(dev, false);
-    d.levelCount(Set::Heat)->setValue(1);
-    d.levelCount(Set::Cool)->setValue(1);
+    QVERIFY(!d.programBox(Set::Heat)->isChecked());
+    QVERIFY(!d.programBox(Set::Cool)->isChecked());
+    d.programBox(Set::Heat)->setChecked(true);
     d.accept();
 
-    QCOMPARE(m_confirmations, 1);
-    QVERIFY(d.changed());
-    // heat 2 and 3, cool 2: a range and a setpoint each.
-    QCOMPARE(int(d.removedIos().size()), 3 * 2);
-    QCOMPARE(int(ClimateProgram::programIos(dev).size()), total - 3 * 2);
-    QCOMPARE(ClimateProgram::levels(dev, Set::Heat), 1);
-    QCOMPARE(ClimateProgram::levels(dev, Set::Cool), 1);
-    QVERIFY(hasLevel(dev, Set::Heat, 1));
-    QVERIFY(hasLevel(dev, Set::Cool, 1));
-    QCOMPARE(ClimateProgram::ioForRole(dev, "heat_level1"), keptRange);
-    for (int n = 2;n <= 3;n++)
-        QVERIFY(!hasLevel(dev, Set::Heat, n));
-    QVERIFY(!hasLevel(dev, Set::Cool, 2));
-    // Kept: defaults, off flag and enable switch.
-    QVERIFY(ClimateProgram::ioForRole(dev, "heat_default"));
-    QVERIFY(ClimateProgram::ioForRole(dev, "cool_default_off"));
-    QVERIFY(ClimateProgram::ioForRole(dev, "program_enabled"));
+    QCOMPARE(ClimateProgram::param(dev, "heat_levels", ""), std::string("10"));
+    QCOMPARE(ClimateProgram::param(dev, "cool_levels", ""), std::string("0"));
+}
 
-    const QByteArray xml = saveIOs();
-    for (const char *gone: { "clim_heat_level2", "clim_heat_level3", "clim_cool_level2" })
-        QVERIFY2(!xml.contains(gone), gone);
-    QVERIFY(xml.contains("clim_heat_level1\""));
-    QVERIFY(!xml.contains("name=\"heat_level2\""));
+void tst_ClimateProgramDialog::aCountBelowTheMaximumReadsAsProgramAndStaysUntouched()
+{
+    QVERIFY(load(ioSource(climate(3, 1))));
+    Device *dev = theClimate();
+    const QByteArray before = saveIOs();
 
-    QVERIFY(load(xml));
-    QCOMPARE(ClimateProgram::levels(theClimate(), Set::Heat), 1);
-    QCOMPARE(int(ClimateProgram::programIos(theClimate()).size()), total - 3 * 2);
+    DialogClimateProgram d(dev, false);
+    QVERIFY(d.programBox(Set::Heat)->isChecked());
+    QVERIFY(d.programBox(Set::Cool)->isChecked());
+    // Toggling back and forth is no change either.
+    d.programBox(Set::Heat)->setChecked(false);
+    d.programBox(Set::Heat)->setChecked(true);
+    d.accept();
+
+    QVERIFY(!d.changed());
+    QCOMPARE(m_confirmations, 0);
+    QCOMPARE(ClimateProgram::param(dev, "heat_levels", ""), std::string("3"));
+    QCOMPARE(ClimateProgram::param(dev, "cool_levels", ""), std::string("1"));
+    QCOMPARE(saveIOs(), before);
+}
+
+void tst_ClimateProgramDialog::uncheckedWritesZero()
+{
+    QVERIFY(load(ioSource(climate(3, 1))));
+    Device *dev = theClimate();
+    DialogClimateProgram d(dev, false);
+    d.programBox(Set::Heat)->setChecked(false);
+    d.accept();
+
+    QCOMPARE(ClimateProgram::param(dev, "heat_levels", ""), std::string("0"));
+    QCOMPARE(ClimateProgram::param(dev, "cool_levels", ""), std::string("1"));
+    QCOMPARE(int(d.removedIos().size()), 3 * 2 + 1);
 }
 
 void tst_ClimateProgramDialog::loweringToZeroDeletesEveryLevel()
@@ -467,8 +469,8 @@ void tst_ClimateProgramDialog::loweringToZeroDeletesEveryLevel()
     QCOMPARE(ListeRule::Instance().size(), 1);
 
     DialogClimateProgram d(dev, false);
-    d.levelCount(Set::Heat)->setValue(0);
-    d.levelCount(Set::Cool)->setValue(0);
+    d.programBox(Set::Heat)->setChecked(false);
+    d.programBox(Set::Cool)->setChecked(false);
     d.accept();
 
     QCOMPARE(m_confirmations, 1);
@@ -498,7 +500,7 @@ void tst_ClimateProgramDialog::loweringOneSetToZeroDeletesItsDefaults()
     Device *dev = theClimate();
 
     DialogClimateProgram d(dev, false);
-    d.levelCount(Set::Cool)->setValue(0);
+    d.programBox(Set::Cool)->setChecked(false);
     d.accept();
 
     // 4 cool levels and setpoints, cool_default, cool_default_off.
@@ -539,9 +541,8 @@ void tst_ClimateProgramDialog::aModeTheClimateDoesNotOfferIsDisabled()
 
     ClimateProgram::setParam(dev, "modes", "off,heat");
     DialogClimateProgram d(dev, false);
-    QVERIFY(d.levelCount(Set::Heat)->isEnabled());
-    QVERIFY(d.levelCount(Set::Cool)->isEnabled());
-    QCOMPARE(d.levelCount(Set::Cool)->maximum(), 1);
+    QVERIFY(d.programBox(Set::Heat)->isEnabled());
+    QVERIFY(d.programBox(Set::Cool)->isEnabled());
     QVERIFY(boxOf(&d, "Heating")->findChild<QDoubleSpinBox *>()->isEnabled());
     QVERIFY(!boxOf(&d, "Cooling")->findChild<QDoubleSpinBox *>()->isEnabled());
     QVERIFY(ClimateProgram::offers(dev, Set::Heat));
@@ -571,18 +572,6 @@ void tst_ClimateProgramDialog::aModeWithoutItsOutputLinkIsNotOffered()
     QVERIFY(!ClimateProgram::offers(theClimate(), Set::Cool));
 }
 
-void tst_ClimateProgramDialog::countKeepsItsLineEditEnabledWhenDisabledMode()
-{
-    QVERIFY(load(ioSource(climate(1, 1))));
-    Device *dev = theClimate();
-    ClimateProgram::setParam(dev, "modes", "off,heat");
-    DialogClimateProgram d(dev, false);
-    QSpinBox *count = d.levelCount(Set::Cool);
-    QVERIFY(count->isEnabled());
-    for (QWidget *w: count->findChildren<QWidget *>())
-        QVERIFY(w->isEnabled());
-}
-
 void tst_ClimateProgramDialog::refusedConfirmationKeepsEverything()
 {
     QVERIFY(load(ioSource(climate(3, 3))));
@@ -591,7 +580,7 @@ void tst_ClimateProgramDialog::refusedConfirmationKeepsEverything()
     m_confirmAnswer = false;
 
     DialogClimateProgram d(dev, false);
-    d.levelCount(Set::Heat)->setValue(1);
+    d.programBox(Set::Heat)->setChecked(false);
     setpoints(&d, Set::Cool)[0]->setValue(29);
     d.accept();
 
@@ -611,7 +600,7 @@ void tst_ClimateProgramDialog::cancelKeepsEverything()
     const QByteArray before = saveIOs();
 
     DialogClimateProgram d(dev, false);
-    d.levelCount(Set::Heat)->setValue(0);
+    d.programBox(Set::Heat)->setChecked(false);
     defaultSpin(&d, Set::Heat)->setValue(20);
     gapSpin(&d)->setValue(5);
     enabledBox(&d)->setChecked(false);
@@ -701,7 +690,7 @@ void tst_ClimateProgramDialog::levelsTheServerHasNotCreatedAreNotEditable()
     QCOMPARE(ClimateProgram::levels(dev, Set::Heat), 4);
 
     DialogClimateProgram d(dev, false);
-    QCOMPARE(d.levelCount(Set::Heat)->value(), 4);
+    QVERIFY(d.programBox(Set::Heat)->isChecked());
     const QList<QPushButton *> btn = rangeButtons(&d, Set::Heat);
     QVERIFY(btn[0]->isVisibleTo(&d) && btn[0]->isEnabled());
     QVERIFY(btn[1]->isVisibleTo(&d) && btn[1]->isEnabled());
@@ -709,12 +698,12 @@ void tst_ClimateProgramDialog::levelsTheServerHasNotCreatedAreNotEditable()
     QVERIFY(!btn[3]->isVisibleTo(&d));
     QVERIFY(!setpoints(&d, Set::Heat)[2]->isVisibleTo(&d));
 
-    // Lowering to the levels that exist deletes nothing, so nothing to confirm.
-    d.levelCount(Set::Heat)->setValue(2);
+    // Accepted as is: nothing is rewritten, created or deleted.
     d.accept();
     QCOMPARE(m_confirmations, 0);
+    QVERIFY(!d.changed());
     QVERIFY(d.removedIos().empty());
-    QCOMPARE(ClimateProgram::levels(dev, Set::Heat), 2);
+    QCOMPARE(ClimateProgram::levels(dev, Set::Heat), 4);
     QVERIFY(hasLevel(dev, Set::Heat, 2));
 }
 
@@ -725,8 +714,8 @@ void tst_ClimateProgramDialog::readOnlyDialogEditsNothing()
     const QByteArray before = saveIOs();
 
     DialogClimateProgram d(dev, true);
-    QVERIFY(!d.levelCount(Set::Heat)->isEnabled());
-    QVERIFY(!d.levelCount(Set::Cool)->isEnabled());
+    QVERIFY(!d.programBox(Set::Heat)->isEnabled());
+    QVERIFY(!d.programBox(Set::Cool)->isEnabled());
     QVERIFY(!gapSpin(&d)->isEnabled());
     QVERIFY(!enabledBox(&d)->isEnabled());
     QVERIFY(!coolOffBox(&d)->isEnabled());
@@ -739,7 +728,7 @@ void tst_ClimateProgramDialog::readOnlyDialogEditsNothing()
         }
 
     // Even a value forced from code does not reach the model.
-    d.levelCount(Set::Heat)->setValue(0);
+    d.programBox(Set::Heat)->setChecked(false);
     d.accept();
     QCOMPARE(m_confirmations, 0);
     QVERIFY(!d.changed());
@@ -777,6 +766,18 @@ void tst_ClimateProgramDialog::programIosAreNotDeletableAlone()
     QVERIFY(ClimateProgram::canDeleteAlone(ListeRoom::Instance().get_output("clim_target")));
     QVERIFY(ClimateProgram::canDeleteAlone(ListeRoom::Instance().get_output("free")));
     QVERIFY(ClimateProgram::canDeleteAlone(ListeRoom::Instance().get_input("temp")));
+}
+
+void tst_ClimateProgramDialog::screenshots()
+{
+    const QString dir = qEnvironmentVariable("CALAOS_SHOTS_DIR");
+    if (dir.isEmpty())
+        QSKIP("CALAOS_SHOTS_DIR not set");
+    QVERIFY(load(ioSource(climate(3, 2))));
+    DialogClimateProgram d(theClimate(), false);
+    d.show();
+    QVERIFY(QTest::qWaitForWindowExposed(&d));
+    QVERIFY(d.grab().save(QDir(dir).filePath(qEnvironmentVariable("CALAOS_SHOTS_NAME", "dialog") + ".png")));
 }
 
 QTEST_MAIN(tst_ClimateProgramDialog)

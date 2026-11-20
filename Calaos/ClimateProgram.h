@@ -19,7 +19,8 @@ namespace ClimateProgram
 
 enum class Set { Heat, Cool };
 
-constexpr int kMaxLevels = 6;
+//The server's MAX_PROGRAM_LEVELS: a program always has this many levels per set.
+constexpr int kMaxLevels = 10;
 
 //Climate impls that run the program.
 bool supports(Device *dev);
@@ -29,8 +30,8 @@ bool isProgramParam(const std::string &name);
 std::string param(Device *dev, const std::string &name, const std::string &def);
 void setParam(Device *dev, const std::string &name, const std::string &value);
 
-//Level count of a set as the server reads it: above 6 is 6, anything but a
-//non-negative whole number is 0.
+//Level count of a set as the server reads it: any count from 1 up means a program
+//(the maximum), clamped here to kMaxLevels; anything but a non-negative whole number is 0.
 int levels(Device *dev, Set set);
 void setLevels(Device *dev, Set set, int count);
 

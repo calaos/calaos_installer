@@ -13751,6 +13751,36 @@
                 },
                 {
                     "default": "false",
+                    "description": "Outside the levels of the program, cooling stops instead of keeping a setpoint.",
+                    "label": "Cooling off by default",
+                    "mandatory": "false",
+                    "name": "cool_default_off",
+                    "readonly": "false",
+                    "storage": "calaos:param",
+                    "type": "bool"
+                },
+                {
+                    "default": "26",
+                    "description": "Cooling setpoint outside the levels of the program.",
+                    "label": "Default cooling setpoint",
+                    "mandatory": "false",
+                    "name": "cool_default_setpoint",
+                    "readonly": "false",
+                    "storage": "calaos:param",
+                    "type": "float"
+                },
+                {
+                    "default": "0",
+                    "description": "Cooling program, 0 for no program. Any value of 1 or more gives the maximum of 10 schedule levels (an invalid number means 0). A level is a time range (InPlageHoraire io) with its own setpoint io. The program IOs (cool_default, cool_default_off, and a range and a setpoint per level) are created hidden at load when missing, and removed when this param no longer asks for them.",
+                    "label": "Cooling program",
+                    "mandatory": "false",
+                    "name": "cool_levels",
+                    "readonly": "false",
+                    "storage": "calaos:param",
+                    "type": "int"
+                },
+                {
+                    "default": "false",
                     "description": "For a unit with a single setpoint: the device keeps target_temp_low and target_temp_high itself (internal IOs, created when missing) and offers auto. In auto the unit runs in heat on the low setpoint below the range, in cool on the high setpoint above it, and is off in between. Needs a target_temp link and heat and cool among the modes. The room temperature is remote_temp_source, else current_temp; while it is stale the unit is left as it is. A mode changed on the unit itself suspends auto until it is selected again. auto is never sent to the unit.",
                     "label": "Emulated dual setpoint",
                     "mandatory": "false",
@@ -13784,6 +13814,26 @@
                     "name": "gui_type",
                     "readonly": "true",
                     "type": "string"
+                },
+                {
+                    "default": "17",
+                    "description": "Heating setpoint outside the levels of the program.",
+                    "label": "Default heating setpoint",
+                    "mandatory": "false",
+                    "name": "heat_default_setpoint",
+                    "readonly": "false",
+                    "storage": "calaos:param",
+                    "type": "float"
+                },
+                {
+                    "default": "0",
+                    "description": "Heating program, 0 for no program. Any value of 1 or more gives the maximum of 10 schedule levels (an invalid number means 0). A level is a time range (InPlageHoraire io) with its own setpoint io. The program IOs (heat_default, and a range and a setpoint per level) are created hidden at load when missing, and removed when this param no longer asks for them.",
+                    "label": "Heating program",
+                    "mandatory": "false",
+                    "name": "heat_levels",
+                    "readonly": "false",
+                    "storage": "calaos:param",
+                    "type": "int"
                 },
                 {
                     "default": "0.5",
@@ -13883,6 +13933,16 @@
                     "name": "name",
                     "readonly": "false",
                     "type": "string"
+                },
+                {
+                    "default": "2",
+                    "description": "Smallest gap between the low and the high setpoint the program writes in auto.",
+                    "label": "Auto minimum gap",
+                    "mandatory": "false",
+                    "name": "program_min_gap",
+                    "readonly": "false",
+                    "storage": "calaos:param",
+                    "type": "float"
                 },
                 {
                     "default": "10",
@@ -14085,6 +14145,36 @@
             ],
             "parameters": [
                 {
+                    "default": "false",
+                    "description": "Outside the levels of the program, cooling stops instead of keeping a setpoint.",
+                    "label": "Cooling off by default",
+                    "mandatory": "false",
+                    "name": "cool_default_off",
+                    "readonly": "false",
+                    "storage": "calaos:param",
+                    "type": "bool"
+                },
+                {
+                    "default": "26",
+                    "description": "Cooling setpoint outside the levels of the program.",
+                    "label": "Default cooling setpoint",
+                    "mandatory": "false",
+                    "name": "cool_default_setpoint",
+                    "readonly": "false",
+                    "storage": "calaos:param",
+                    "type": "float"
+                },
+                {
+                    "default": "0",
+                    "description": "Cooling program, 0 for no program. Any value of 1 or more gives the maximum of 10 schedule levels (an invalid number means 0). A level is a time range (InPlageHoraire io) with its own setpoint io. The program IOs (cool_default, cool_default_off, and a range and a setpoint per level) are created hidden at load when missing, and removed when this param no longer asks for them.",
+                    "label": "Cooling program",
+                    "mandatory": "false",
+                    "name": "cool_levels",
+                    "readonly": "false",
+                    "storage": "calaos:param",
+                    "type": "int"
+                },
+                {
                     "default": "",
                     "description": "What the outputs drive. Only floor has an effect: with a humidity link, floor cooling then stops at humidity_max (dew point).",
                     "label": "Emitter",
@@ -14117,6 +14207,26 @@
                     "name": "gui_type",
                     "readonly": "true",
                     "type": "string"
+                },
+                {
+                    "default": "17",
+                    "description": "Heating setpoint outside the levels of the program.",
+                    "label": "Default heating setpoint",
+                    "mandatory": "false",
+                    "name": "heat_default_setpoint",
+                    "readonly": "false",
+                    "storage": "calaos:param",
+                    "type": "float"
+                },
+                {
+                    "default": "0",
+                    "description": "Heating program, 0 for no program. Any value of 1 or more gives the maximum of 10 schedule levels (an invalid number means 0). A level is a time range (InPlageHoraire io) with its own setpoint io. The program IOs (heat_default, and a range and a setpoint per level) are created hidden at load when missing, and removed when this param no longer asks for them.",
+                    "label": "Heating program",
+                    "mandatory": "false",
+                    "name": "heat_levels",
+                    "readonly": "false",
+                    "storage": "calaos:param",
+                    "type": "int"
                 },
                 {
                     "default": "65",
@@ -14242,6 +14352,16 @@
                     "name": "name",
                     "readonly": "false",
                     "type": "string"
+                },
+                {
+                    "default": "2",
+                    "description": "Smallest gap between the low and the high setpoint the program writes in auto.",
+                    "label": "Auto minimum gap",
+                    "mandatory": "false",
+                    "name": "program_min_gap",
+                    "readonly": "false",
+                    "storage": "calaos:param",
+                    "type": "float"
                 },
                 {
                     "default": "1",

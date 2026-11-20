@@ -3120,10 +3120,15 @@ Name | Label | Type | Mandatory | Description
 ---- | ----- | ---- | --------- | -----------
 auto_payload (calaos:param) | Auto payload | list | no | What is written to the mode link for auto. Without it, the spelling the appliance last reported, else heat_cool.
 changeover_delay (calaos:param) | Changeover delay | float | no | With emulate_range: seconds between the end of heat and the start of cool, or the reverse, at least min_off_time.
+cool_default_off (calaos:param) | Cooling off by default | bool | no | Outside the levels of the program, cooling stops instead of keeping a setpoint.
+cool_default_setpoint (calaos:param) | Default cooling setpoint | float | no | Cooling setpoint outside the levels of the program.
+cool_levels (calaos:param) | Cooling program | int | no | Cooling program, 0 for no program. Any value of 1 or more gives the maximum of 10 schedule levels (an invalid number means 0). A level is a time range (InPlageHoraire io) with its own setpoint io. The program IOs (cool_default, cool_default_off, and a range and a setpoint per level) are created hidden at load when missing, and removed when this param no longer asks for them.
 emulate_range (calaos:param) | Emulated dual setpoint | bool | no | For a unit with a single setpoint: the device keeps target_temp_low and target_temp_high itself (internal IOs, created when missing) and offers auto. In auto the unit runs in heat on the low setpoint below the range, in cool on the high setpoint above it, and is off in between. Needs a target_temp link and heat and cool among the modes. The room temperature is remote_temp_source, else current_temp; while it is stale the unit is left as it is. A mode changed on the unit itself suspends auto until it is selected again. auto is never sent to the unit.
 enabled | Enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
 fan_modes (calaos:param) | Fan modes | string | no | Comma separated fan modes the appliance accepts. Without it every fan_mode command is refused.
 gui_type | Display type | string | no | Internal graphical type for all calaos objects. Set automatically, read-only parameter.
+heat_default_setpoint (calaos:param) | Default heating setpoint | float | no | Heating setpoint outside the levels of the program.
+heat_levels (calaos:param) | Heating program | int | no | Heating program, 0 for no program. Any value of 1 or more gives the maximum of 10 schedule levels (an invalid number means 0). A level is a time range (InPlageHoraire io) with its own setpoint io. The program IOs (heat_default, and a range and a setpoint per level) are created hidden at load when missing, and removed when this param no longer asks for them.
 hysteresis (calaos:param) | Hysteresis | float | no | With emulate_range: degrees past the range before the unit starts, in heat below the low setpoint minus hysteresis, in cool above the high setpoint plus hysteresis. It stops as soon as the room is back in the range.
 id | Identifier | string | yes | Unique ID identifying the Input/Output in calaos-server
 impl | Implementation | string | yes | Implementation of the device family: the key of this document in devices.
@@ -3135,6 +3140,7 @@ min_on_time (calaos:param) | Minimum on time | float | no | With emulate_range: 
 min_range (calaos:param) | Minimum range | float | no | Minimum gap in degrees between target_temp_low and target_temp_high. A range closer than that is refused.
 modes (calaos:param) | Modes | string | no | Comma separated modes the device offers (off, heat, cool, auto, dry, fan_only). Default to all of them.
 name | Name | string | yes | Name of Input/Output.
+program_min_gap (calaos:param) | Auto minimum gap | float | no | Smallest gap between the low and the high setpoint the program writes in auto.
 readback_hold (calaos:param) | Readback hold | float | no | Seconds a range bound just commanded is trusted before its readback confirms it, so two quick partial commands are validated together. A number of seconds above 0, else the default is used.
 remote_temp_keepalive (calaos:param) | Remote temperature refresh | float | no | Seconds between two relays of the remote_temp_source value to remote_temp, on top of each change. The appliance falls back to its own sensor when updates stop. A number of seconds above 0, else the default is used.
 sensor_timeout (calaos:param) | Sensor timeout | float | no | Seconds a linked sensor may go without a reading, a repeated value included, before it counts as stale. A positive number; the default outlasts one lost hourly Zigbee report. A sensor older than half of it is asked for a reading when its protocol can (KNX).
@@ -3182,9 +3188,14 @@ Device of family `climate`, impl `thermostat`.
 ## Parameters of Climate thermostat
 Name | Label | Type | Mandatory | Description
 ---- | ----- | ---- | --------- | -----------
+cool_default_off (calaos:param) | Cooling off by default | bool | no | Outside the levels of the program, cooling stops instead of keeping a setpoint.
+cool_default_setpoint (calaos:param) | Default cooling setpoint | float | no | Cooling setpoint outside the levels of the program.
+cool_levels (calaos:param) | Cooling program | int | no | Cooling program, 0 for no program. Any value of 1 or more gives the maximum of 10 schedule levels (an invalid number means 0). A level is a time range (InPlageHoraire io) with its own setpoint io. The program IOs (cool_default, cool_default_off, and a range and a setpoint per level) are created hidden at load when missing, and removed when this param no longer asks for them.
 emitter (calaos:param) | Emitter | list | no | What the outputs drive. Only floor has an effect: with a humidity link, floor cooling then stops at humidity_max (dew point).
 enabled | Enabled | bool | no | Enable the Input/Output. The default value is true. This parameter is added if it's not found in the configuration.
 gui_type | Display type | string | no | Internal graphical type for all calaos objects. Set automatically, read-only parameter.
+heat_default_setpoint (calaos:param) | Default heating setpoint | float | no | Heating setpoint outside the levels of the program.
+heat_levels (calaos:param) | Heating program | int | no | Heating program, 0 for no program. Any value of 1 or more gives the maximum of 10 schedule levels (an invalid number means 0). A level is a time range (InPlageHoraire io) with its own setpoint io. The program IOs (heat_default, and a range and a setpoint per level) are created hidden at load when missing, and removed when this param no longer asks for them.
 humidity_max (calaos:param) | Maximum humidity | float | no | Relative humidity (%) from which floor cooling stops, with emitter=floor. Not negative.
 hysteresis (calaos:param) | Hysteresis | float | no | Degrees past the setpoint before an output starts switching on: heat below the setpoint minus hysteresis, cool above the setpoint plus hysteresis. Switching off comes as soon as the setpoint is crossed.
 id | Identifier | string | yes | Unique ID identifying the Input/Output in calaos-server
@@ -3197,6 +3208,7 @@ min_on_time (calaos:param) | Minimum on time | float | no | Seconds an output st
 min_range (calaos:param) | Minimum range | float | no | Minimum gap in degrees between target_temp_low and target_temp_high. A range closer than that is refused.
 modes (calaos:param) | Modes | string | no | Comma separated modes the thermostat offers, among heat, cool and auto; off is always offered. Without it, the outputs decide: heat with output_heat, cool with output_cool, auto with both, and heat alone with output. A mode the outputs cannot run, or an unknown one, is ignored.
 name | Name | string | yes | Name of Input/Output.
+program_min_gap (calaos:param) | Auto minimum gap | float | no | Smallest gap between the low and the high setpoint the program writes in auto.
 put_back_delay (calaos:param) | Put-back delay | float | no | Seconds before an output that something else keeps switching is put back; the wait doubles while the other writer keeps undoing it, up to put_back_delay_max. At least 0.001, else the default is used.
 put_back_delay_max (calaos:param) | Maximum put-back delay | float | no | Longest wait between two put-backs, in seconds. Not below put_back_delay. It also sets the window of the log of writes from outside to an output: one line per source and output during that time.
 sensor_timeout (calaos:param) | Sensor timeout | float | no | Seconds a linked sensor may go without a reading, a repeated value included, before it counts as stale. A positive number; the default outlasts one lost hourly Zigbee report. A sensor older than half of it is asked for a reading when its protocol can (KNX).

@@ -389,7 +389,7 @@ void tst_ClimateProgram::lowerCountsSurviveARoundTrip()
     QVERIFY(!written.isEmpty());
     QVERIFY(!written.contains("clim_heat_level2"));
     QVERIFY(!written.contains("clim_cool_level1"));
-    QVERIFY(!QString::fromUtf8(written).contains(QRegularExpression("\"cool_level[1-6]")));
+    QVERIFY(!QString::fromUtf8(written).contains(QRegularExpression("\"cool_level(10|[1-9])")));
 
     QVERIFY(load(written));
     Device *dev = theClimate();
@@ -419,7 +419,8 @@ void tst_ClimateProgram::levelCountsAsTheServerReadsThem_data()
     QTest::newRow("zero") << "0" << 0;
     QTest::newRow("three") << "3" << 3;
     QTest::newRow("six") << "6" << 6;
-    QTest::newRow("above six") << "8" << 6;
+    QTest::newRow("ten") << "10" << 10;
+    QTest::newRow("above the maximum") << "12" << 10;
     QTest::newRow("negative") << "-1" << 0;
     QTest::newRow("not whole") << "2.5" << 0;
     QTest::newRow("not a number") << "abc" << 0;
@@ -441,8 +442,8 @@ void tst_ClimateProgram::levelCountsAsTheServerReadsThem()
         ClimateProgram::setParam(&dev, "heat_levels", value.toStdString());
     QCOMPARE(ClimateProgram::levels(&dev, Set::Heat), levels);
 
-    ClimateProgram::setLevels(&dev, Set::Cool, 9);
-    QCOMPARE(u(ClimateProgram::param(&dev, "cool_levels", "")), QString("6"));
+    ClimateProgram::setLevels(&dev, Set::Cool, 12);
+    QCOMPARE(u(ClimateProgram::param(&dev, "cool_levels", "")), QString("10"));
     ClimateProgram::setLevels(&dev, Set::Cool, -2);
     QCOMPARE(u(ClimateProgram::param(&dev, "cool_levels", "")), QString("0"));
 }
@@ -478,7 +479,7 @@ void tst_ClimateProgram::onlyProgramRolesOfAClimateCount()
     QCOMPARE(int(ClimateProgram::programIos(theClimate()).size()), 4);
 
     QVERIFY(ClimateProgram::isProgramRole("heat_level6_setpoint"));
-    QVERIFY(!ClimateProgram::isProgramRole("heat_level7"));
+    QVERIFY(!ClimateProgram::isProgramRole("heat_level11"));
     QVERIFY(!ClimateProgram::isProgramRole("heat_level0"));
     QVERIFY(!ClimateProgram::isProgramRole("target_temp"));
 }

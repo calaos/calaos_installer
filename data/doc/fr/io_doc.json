@@ -13751,6 +13751,36 @@
                 },
                 {
                     "default": "false",
+                    "description": "Hors des niveaux du programme, la climatisation s'arr\u00eate au lieu de garder une consigne.",
+                    "label": "Climatisation arr\u00eat\u00e9e par d\u00e9faut",
+                    "mandatory": "false",
+                    "name": "cool_default_off",
+                    "readonly": "false",
+                    "storage": "calaos:param",
+                    "type": "bool"
+                },
+                {
+                    "default": "26",
+                    "description": "Consigne de climatisation hors des niveaux du programme.",
+                    "label": "Consigne de climatisation par d\u00e9faut",
+                    "mandatory": "false",
+                    "name": "cool_default_setpoint",
+                    "readonly": "false",
+                    "storage": "calaos:param",
+                    "type": "float"
+                },
+                {
+                    "default": "0",
+                    "description": "Programme de climatisation, 0 pour aucun programme. Toute valeur de 1 ou plus donne le maximum de 10 niveaux horaires (un nombre invalide vaut 0). Un niveau est une plage horaire (IO InPlageHoraire) avec sa propre consigne. Les IOs du programme (cool_default, cool_default_off, et une plage et une consigne par niveau) sont cr\u00e9\u00e9s masqu\u00e9s au chargement s'ils manquent, et supprim\u00e9s quand ce param\u00e8tre ne les demande plus.",
+                    "label": "Programme de climatisation",
+                    "mandatory": "false",
+                    "name": "cool_levels",
+                    "readonly": "false",
+                    "storage": "calaos:param",
+                    "type": "int"
+                },
+                {
+                    "default": "false",
                     "description": "Pour une unit\u00e9 \u00e0 consigne unique : l'\u00e9quipement garde lui-m\u00eame target_temp_low et target_temp_high (IOs internes, cr\u00e9\u00e9s s'ils manquent) et propose auto. En auto, l'unit\u00e9 passe en chauffage sur la consigne basse sous la plage, en froid sur la consigne haute au-dessus, et s'arr\u00eate entre les deux. Demande un lien target_temp, et le chauffage et le froid parmi les modes. La temp\u00e9rature de la pi\u00e8ce est remote_temp_source, sinon current_temp ; tant qu'elle n'est pas \u00e0 jour, l'unit\u00e9 reste telle quelle. Un mode chang\u00e9 sur l'unit\u00e9 elle-m\u00eame suspend auto jusqu'\u00e0 ce qu'il soit choisi de nouveau. auto n'est jamais envoy\u00e9 \u00e0 l'unit\u00e9.",
                     "label": "Double consigne \u00e9mul\u00e9e",
                     "mandatory": "false",
@@ -13784,6 +13814,26 @@
                     "name": "gui_type",
                     "readonly": "true",
                     "type": "string"
+                },
+                {
+                    "default": "17",
+                    "description": "Consigne de chauffage hors des niveaux du programme.",
+                    "label": "Consigne de chauffage par d\u00e9faut",
+                    "mandatory": "false",
+                    "name": "heat_default_setpoint",
+                    "readonly": "false",
+                    "storage": "calaos:param",
+                    "type": "float"
+                },
+                {
+                    "default": "0",
+                    "description": "Programme de chauffage, 0 pour aucun programme. Toute valeur de 1 ou plus donne le maximum de 10 niveaux horaires (un nombre invalide vaut 0). Un niveau est une plage horaire (IO InPlageHoraire) avec sa propre consigne. Les IOs du programme (heat_default, et une plage et une consigne par niveau) sont cr\u00e9\u00e9s masqu\u00e9s au chargement s'ils manquent, et supprim\u00e9s quand ce param\u00e8tre ne les demande plus.",
+                    "label": "Programme de chauffage",
+                    "mandatory": "false",
+                    "name": "heat_levels",
+                    "readonly": "false",
+                    "storage": "calaos:param",
+                    "type": "int"
                 },
                 {
                     "default": "0.5",
@@ -13883,6 +13933,16 @@
                     "name": "name",
                     "readonly": "false",
                     "type": "string"
+                },
+                {
+                    "default": "2",
+                    "description": "Plus petit \u00e9cart entre la consigne basse et la haute que le programme \u00e9crit en auto.",
+                    "label": "\u00c9cart minimal en auto",
+                    "mandatory": "false",
+                    "name": "program_min_gap",
+                    "readonly": "false",
+                    "storage": "calaos:param",
+                    "type": "float"
                 },
                 {
                     "default": "10",
@@ -14085,6 +14145,36 @@
             ],
             "parameters": [
                 {
+                    "default": "false",
+                    "description": "Hors des niveaux du programme, la climatisation s'arr\u00eate au lieu de garder une consigne.",
+                    "label": "Climatisation arr\u00eat\u00e9e par d\u00e9faut",
+                    "mandatory": "false",
+                    "name": "cool_default_off",
+                    "readonly": "false",
+                    "storage": "calaos:param",
+                    "type": "bool"
+                },
+                {
+                    "default": "26",
+                    "description": "Consigne de climatisation hors des niveaux du programme.",
+                    "label": "Consigne de climatisation par d\u00e9faut",
+                    "mandatory": "false",
+                    "name": "cool_default_setpoint",
+                    "readonly": "false",
+                    "storage": "calaos:param",
+                    "type": "float"
+                },
+                {
+                    "default": "0",
+                    "description": "Programme de climatisation, 0 pour aucun programme. Toute valeur de 1 ou plus donne le maximum de 10 niveaux horaires (un nombre invalide vaut 0). Un niveau est une plage horaire (IO InPlageHoraire) avec sa propre consigne. Les IOs du programme (cool_default, cool_default_off, et une plage et une consigne par niveau) sont cr\u00e9\u00e9s masqu\u00e9s au chargement s'ils manquent, et supprim\u00e9s quand ce param\u00e8tre ne les demande plus.",
+                    "label": "Programme de climatisation",
+                    "mandatory": "false",
+                    "name": "cool_levels",
+                    "readonly": "false",
+                    "storage": "calaos:param",
+                    "type": "int"
+                },
+                {
                     "default": "",
                     "description": "Ce que les sorties commandent. Seul floor a un effet : avec un lien humidity, le refroidissement par le sol s'arr\u00eate alors \u00e0 humidity_max (point de ros\u00e9e).",
                     "label": "\u00c9metteur",
@@ -14117,6 +14207,26 @@
                     "name": "gui_type",
                     "readonly": "true",
                     "type": "string"
+                },
+                {
+                    "default": "17",
+                    "description": "Consigne de chauffage hors des niveaux du programme.",
+                    "label": "Consigne de chauffage par d\u00e9faut",
+                    "mandatory": "false",
+                    "name": "heat_default_setpoint",
+                    "readonly": "false",
+                    "storage": "calaos:param",
+                    "type": "float"
+                },
+                {
+                    "default": "0",
+                    "description": "Programme de chauffage, 0 pour aucun programme. Toute valeur de 1 ou plus donne le maximum de 10 niveaux horaires (un nombre invalide vaut 0). Un niveau est une plage horaire (IO InPlageHoraire) avec sa propre consigne. Les IOs du programme (heat_default, et une plage et une consigne par niveau) sont cr\u00e9\u00e9s masqu\u00e9s au chargement s'ils manquent, et supprim\u00e9s quand ce param\u00e8tre ne les demande plus.",
+                    "label": "Programme de chauffage",
+                    "mandatory": "false",
+                    "name": "heat_levels",
+                    "readonly": "false",
+                    "storage": "calaos:param",
+                    "type": "int"
                 },
                 {
                     "default": "65",
@@ -14242,6 +14352,16 @@
                     "name": "name",
                     "readonly": "false",
                     "type": "string"
+                },
+                {
+                    "default": "2",
+                    "description": "Plus petit \u00e9cart entre la consigne basse et la haute que le programme \u00e9crit en auto.",
+                    "label": "\u00c9cart minimal en auto",
+                    "mandatory": "false",
+                    "name": "program_min_gap",
+                    "readonly": "false",
+                    "storage": "calaos:param",
+                    "type": "float"
                 },
                 {
                     "default": "1",
