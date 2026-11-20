@@ -259,6 +259,74 @@
                     "name": "remote_temp_source",
                     "required": false,
                     "type": "io"
+                },
+                {
+                    "default": 0.0,
+                    "description": "1 for a time program of the heating (10 levels), 0 for none.",
+                    "label": "Heating program",
+                    "max": 1.0,
+                    "min": 0.0,
+                    "name": "heat_levels",
+                    "required": true,
+                    "step": 1.0,
+                    "type": "number",
+                    "unit": ""
+                },
+                {
+                    "default": 0.0,
+                    "description": "1 for a time program of the cooling (10 levels), 0 for none.",
+                    "label": "Cooling program",
+                    "max": 1.0,
+                    "min": 0.0,
+                    "name": "cool_levels",
+                    "required": true,
+                    "step": 1.0,
+                    "type": "number",
+                    "unit": ""
+                },
+                {
+                    "default": 17.0,
+                    "description": "Heating setpoint outside the levels of the program.",
+                    "label": "Default heating setpoint",
+                    "max": 50.0,
+                    "min": 0.0,
+                    "name": "heat_default_setpoint",
+                    "required": true,
+                    "step": 0.5,
+                    "type": "number",
+                    "unit": "\u00b0C"
+                },
+                {
+                    "default": 26.0,
+                    "description": "Cooling setpoint outside the levels of the program.",
+                    "label": "Default cooling setpoint",
+                    "max": 50.0,
+                    "min": 0.0,
+                    "name": "cool_default_setpoint",
+                    "required": true,
+                    "step": 0.5,
+                    "type": "number",
+                    "unit": "\u00b0C"
+                },
+                {
+                    "default": false,
+                    "description": "Outside the levels of the program, cooling stops instead of keeping a setpoint.",
+                    "label": "Cooling off by default",
+                    "name": "cool_default_off",
+                    "required": false,
+                    "type": "bool"
+                },
+                {
+                    "default": 2.0,
+                    "description": "Smallest gap between the low and the high setpoint the program writes in auto.",
+                    "label": "Auto minimum gap",
+                    "max": 10.0,
+                    "min": 0.0,
+                    "name": "program_min_gap",
+                    "required": true,
+                    "step": 0.5,
+                    "type": "number",
+                    "unit": "\u00b0C"
                 }
             ],
             "id": "esphome_climate",
@@ -567,6 +635,30 @@
                     "name": "changeover_delay",
                     "value": "600",
                     "when": "emulate_range"
+                },
+                {
+                    "name": "heat_levels",
+                    "value": "{heat_levels}"
+                },
+                {
+                    "name": "cool_levels",
+                    "value": "{cool_levels}"
+                },
+                {
+                    "name": "heat_default_setpoint",
+                    "value": "{heat_default_setpoint}"
+                },
+                {
+                    "name": "cool_default_setpoint",
+                    "value": "{cool_default_setpoint}"
+                },
+                {
+                    "name": "cool_default_off",
+                    "value": "{cool_default_off}"
+                },
+                {
+                    "name": "program_min_gap",
+                    "value": "{program_min_gap}"
                 }
             ]
         },

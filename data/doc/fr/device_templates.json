@@ -259,6 +259,74 @@
                     "name": "remote_temp_source",
                     "required": false,
                     "type": "io"
+                },
+                {
+                    "default": 0.0,
+                    "description": "1 pour un programme horaire du chauffage (10 niveaux), 0 pour aucun.",
+                    "label": "Programme de chauffage",
+                    "max": 1.0,
+                    "min": 0.0,
+                    "name": "heat_levels",
+                    "required": true,
+                    "step": 1.0,
+                    "type": "number",
+                    "unit": ""
+                },
+                {
+                    "default": 0.0,
+                    "description": "1 pour un programme horaire de la climatisation (10 niveaux), 0 pour aucun.",
+                    "label": "Programme de climatisation",
+                    "max": 1.0,
+                    "min": 0.0,
+                    "name": "cool_levels",
+                    "required": true,
+                    "step": 1.0,
+                    "type": "number",
+                    "unit": ""
+                },
+                {
+                    "default": 17.0,
+                    "description": "Consigne de chauffage hors des niveaux du programme.",
+                    "label": "Consigne de chauffage par d\u00e9faut",
+                    "max": 50.0,
+                    "min": 0.0,
+                    "name": "heat_default_setpoint",
+                    "required": true,
+                    "step": 0.5,
+                    "type": "number",
+                    "unit": "\u00b0C"
+                },
+                {
+                    "default": 26.0,
+                    "description": "Consigne de climatisation hors des niveaux du programme.",
+                    "label": "Consigne de climatisation par d\u00e9faut",
+                    "max": 50.0,
+                    "min": 0.0,
+                    "name": "cool_default_setpoint",
+                    "required": true,
+                    "step": 0.5,
+                    "type": "number",
+                    "unit": "\u00b0C"
+                },
+                {
+                    "default": false,
+                    "description": "Hors des niveaux du programme, la climatisation s'arr\u00eate au lieu de garder une consigne.",
+                    "label": "Climatisation arr\u00eat\u00e9e par d\u00e9faut",
+                    "name": "cool_default_off",
+                    "required": false,
+                    "type": "bool"
+                },
+                {
+                    "default": 2.0,
+                    "description": "Plus petit \u00e9cart entre la consigne basse et la haute que le programme \u00e9crit en auto.",
+                    "label": "\u00c9cart minimal en auto",
+                    "max": 10.0,
+                    "min": 0.0,
+                    "name": "program_min_gap",
+                    "required": true,
+                    "step": 0.5,
+                    "type": "number",
+                    "unit": "\u00b0C"
                 }
             ],
             "id": "esphome_climate",
@@ -567,6 +635,30 @@
                     "name": "changeover_delay",
                     "value": "600",
                     "when": "emulate_range"
+                },
+                {
+                    "name": "heat_levels",
+                    "value": "{heat_levels}"
+                },
+                {
+                    "name": "cool_levels",
+                    "value": "{cool_levels}"
+                },
+                {
+                    "name": "heat_default_setpoint",
+                    "value": "{heat_default_setpoint}"
+                },
+                {
+                    "name": "cool_default_setpoint",
+                    "value": "{cool_default_setpoint}"
+                },
+                {
+                    "name": "cool_default_off",
+                    "value": "{cool_default_off}"
+                },
+                {
+                    "name": "program_min_gap",
+                    "value": "{program_min_gap}"
                 }
             ]
         },
