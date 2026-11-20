@@ -553,7 +553,7 @@ void tst_ClimateProgramIds::randomSuffixesSurviveARoundTrip()
     for (quint32 seed = 1;seed <= 24;seed++)
     {
         QRandomGenerator rng(seed);
-        const int heat = rng.bounded(7), cool = rng.bounded(7);
+        const int heat = rng.bounded(11), cool = rng.bounded(7);
         const QHash<QString, QString> ids = randomIds(rng, heat, cool);
         Fixture f;
         f.heat = heat;
@@ -582,7 +582,7 @@ void tst_ClimateProgramIds::loweringNeverTouchesTheKeptIds()
     for (quint32 seed = 100;seed <= 124;seed++)
     {
         QRandomGenerator rng(seed);
-        const int heat = 1 + rng.bounded(6), cool = rng.bounded(7);
+        const int heat = 1 + rng.bounded(10), cool = rng.bounded(11);
         const QHash<QString, QString> ids = randomIds(rng, heat, cool);
         const int heat2 = rng.bounded(heat + 1), cool2 = rng.bounded(cool + 1);
         Fixture f;
@@ -603,7 +603,7 @@ void tst_ClimateProgramIds::loweringNeverTouchesTheKeptIds()
         for (const QString &role: programRoles(heat, cool))
         {
             const std::string id = ids.value(role).toStdString();
-            const QRegularExpressionMatch m = QRegularExpression("^(heat|cool)_level([1-6])").match(role);
+            const QRegularExpressionMatch m = QRegularExpression("^(heat|cool)_level(10|[1-9])").match(role);
             const bool removed =
                 (m.hasMatch() && m.captured(2).toInt() > (m.captured(1) == "heat" ? heat2 : cool2)) ||
                 (role == "heat_default" && heat2 == 0) || (role == "cool_default" && cool2 == 0) ||

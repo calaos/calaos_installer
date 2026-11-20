@@ -464,8 +464,8 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../src/DialogClimateProgram.cpp" line="81"/>
-        <source>The server creates the IOs of new levels at its next start. Lowering a count deletes the levels above it, with their time ranges and the rules using them. Time ranges are saved as soon as their own dialog is accepted, even if this one is cancelled.</source>
-        <translation>Le serveur crée les IO des nouveaux niveaux à son prochain démarrage. Réduire un nombre supprime les niveaux au-dessus, avec leurs plages horaires et les règles qui les utilisent. Les plages horaires sont enregistrées dès que leur propre fenêtre est validée, même si celle-ci est annulée.</translation>
+        <source>The server creates the IOs of a new program at its next start. Unchecking Program deletes its setpoints with their time ranges and the rules using them. Time ranges are saved as soon as their own dialog is accepted, even if this one is cancelled.</source>
+        <translation>Le serveur crée les IO d'un nouveau programme à son prochain démarrage. Décocher Programme supprime ses consignes avec leurs plages horaires et les règles qui les utilisent. Les plages horaires sont enregistrées dès que leur propre fenêtre est validée, même si celle-ci est annulée.</translation>
     </message>
     <message>
         <location filename="../src/DialogClimateProgram.cpp" line="101"/>
@@ -504,8 +504,8 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../src/DialogClimateProgram.cpp" line="161"/>
-        <source>Levels</source>
-        <translation>Niveaux</translation>
+        <source>Setpoints and time ranges of this mode</source>
+        <translation>Consignes et plages horaires de ce mode</translation>
     </message>
     <message>
         <location filename="../src/DialogClimateProgram.cpp" line="172"/>
