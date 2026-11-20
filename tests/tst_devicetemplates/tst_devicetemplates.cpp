@@ -502,6 +502,9 @@ void tst_DeviceTemplates::theNamedVariantsHaveTheirLinksAndParams_data()
                              { "min_off_time", off }, { "sensor_timeout", "9000" }, { "valid_min", "-30" },
                              { "valid_max", "60" }, { "put_back_delay", "1" }, { "put_back_delay_max", "60" } };
     };
+    const QVariantMap program = { { "heat_levels", "0" }, { "cool_levels", "0" }, { "heat_default_setpoint", "17" },
+                                  { "cool_default_setpoint", "26" }, { "cool_default_off", "false" },
+                                  { "program_min_gap", "2" } };
     auto plus = [](QVariantMap m, const QVariantMap &extra)
     {
         for (auto it = extra.constBegin();it != extra.constEnd();++it)
@@ -516,14 +519,14 @@ void tst_DeviceTemplates::theNamedVariantsHaveTheirLinksAndParams_data()
                          { "swing_modes", QStringList { "vertical", "off" } }, { "remote_temp_source", "temp_cave" } }
         << QStringList { "mode", "current_temp", "target_temp_low", "target_temp_high", "action", "fan_mode",
                          "swing_mode", "remote_temp", "remote_temp_source" }
-        << QVariantMap { { "modes", allModes.join(',') }, { "auto_payload", "heat_cool" },
-                         { "fan_modes", "auto,low,high" }, { "swing_modes", "off,vertical" },
-                         { "remote_temp_keepalive", "120" }, { "sensor_timeout", "9000" } };
+        << plus(program, { { "modes", allModes.join(',') }, { "auto_payload", "heat_cool" },
+                           { "fan_modes", "auto,low,high" }, { "swing_modes", "off,vertical" },
+                           { "remote_temp_keepalive", "120" }, { "sensor_timeout", "9000" } });
     QTest::newRow("esphome_minimal") << "esphome_climate"
         << QVariantMap { { "modes", QStringList { "cool", "off", "heat" } }, { "two_point", false },
                          { "with_action", false }, { "remote_temp_source", "" } }
         << QStringList { "mode", "current_temp", "target_temp" }
-        << QVariantMap { { "modes", "off,heat,cool" }, { "auto_payload", "heat_cool" } };
+        << plus(program, { { "modes", "off,heat,cool" }, { "auto_payload", "heat_cool" } });
     QTest::newRow("esphome_ir_full") << "esphome_climate_ir"
         << QVariantMap { { "modes", allModes }, { "with_current_temp", true }, { "temp_step", 1.0 },
                          { "fan_modes", QStringList { "auto", "high" } }, { "swing_modes", QStringList { "off", "both" } } }
