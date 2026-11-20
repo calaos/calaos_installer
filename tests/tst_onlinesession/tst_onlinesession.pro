@@ -14,8 +14,10 @@ RESOURCES += onlinesession.qrc
 SOURCES += \
     $$PWD/../../src/OnlineConfig.cpp \
     $$PWD/../../src/OnlineSession.cpp \
+    $$PWD/../../src/AdminCache.cpp \
     tst_onlinesession.cpp
 
 HEADERS += \
     FakeApi.h \
+    $$PWD/../../src/AdminCache.h \
     $$PWD/../../src/OnlineSession.h

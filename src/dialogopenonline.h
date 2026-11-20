@@ -37,6 +37,7 @@ private:
     QVector<CalaosAuth> auths;
 
     void loadXmlFiles(QString ip);
+    void updateAdminField();
     void saveXMLFile(QString filename, QString data);
     void downloadFinished(bool reached, const QByteArray &body, const QString &networkError);
 

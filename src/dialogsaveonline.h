@@ -40,6 +40,7 @@ private:
     void uploadXmlFiles(QString ip);
     void probeServerFormat();
     void probeFinished(bool reached, const QByteArray &body, const QString &networkError);
+    void updateAdminField();
     void putFiles(const QString &ioXml);
     void uploadFinished(bool reached, const QByteArray &body, const QString &networkError);
     void fail(const QString &message);

@@ -1,6 +1,7 @@
 #include "dialogopenonline.h"
 #include "ui_DialogOpenOnline.h"
 
+#include "AdminCache.h"
 #include "ConfigOptions.h"
 #include "OnlineConfig.h"
 #include "OnlineSession.h"
@@ -31,6 +32,18 @@ DialogOpenOnline::DialogOpenOnline(QString temp, QWidget *parent):
             ui->editPass->setText(auths[i].password);
         }
     }
+
+    connect(ui->comboIP, &QComboBox::editTextChanged, this, &DialogOpenOnline::updateAdminField);
+    connect(ui->editUsername, &QLineEdit::textChanged, this, &DialogOpenOnline::updateAdminField);
+    updateAdminField();
+}
+
+// An unlocked box is not asked again; the field comes back when the password is refused.
+void DialogOpenOnline::updateAdminField()
+{
+    const bool known = AdminCache::instance().has(ui->comboIP->currentText(), ui->editUsername->text());
+    ui->labelAdminPass->setVisible(!known);
+    ui->editAdminPass->setVisible(!known);
 }
 
 DialogOpenOnline::~DialogOpenOnline()
@@ -104,6 +117,7 @@ void DialogOpenOnline::saveXMLFile(QString filename, QString data)
 
 void DialogOpenOnline::downloadFinished(bool reached, const QByteArray &body, const QString &networkError)
 {
+    updateAdminField();
     if (reached)
     {
         const OnlineConfig::GetResult res = OnlineConfig::parseGetResponse(body);
@@ -168,6 +182,7 @@ void DialogOpenOnline::on_pushButtonDelPref_clicked()
     if (ret == QMessageBox::Yes)
     {
         ConfigOptions::Instance().deleteAuth(host);
+        AdminCache::instance().invalidate(host);
         ui->comboIP->removeItem(ui->comboIP->currentIndex());
         auths = ConfigOptions::Instance().getAuthList();
     }
@@ -181,4 +196,5 @@ void DialogOpenOnline::on_comboIP_currentIndexChanged(int index)
     ui->editPass->setText(auths[index].password);
     // Another box has its own admin password.
     ui->editAdminPass->clear();
+    updateAdminField();
 }

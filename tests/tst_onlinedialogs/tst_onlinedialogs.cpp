@@ -2,6 +2,7 @@
 #include <QComboBox>
 #include <QDialogButtonBox>
 #include <QFile>
+#include <QLabel>
 #include <QLineEdit>
 #include <QMessageBox>
 #include <QPushButton>
@@ -13,6 +14,7 @@
 #include <QTemporaryDir>
 #include <QTimer>
 
+#include "AdminCache.h"
 #include "ConfigOptions.h"
 #include "dialogopenonline.h"
 #include "dialogsaveonline.h"
@@ -30,6 +32,9 @@ private slots:
     void openFirstConnectionToNewHost();
     void saveFirstConnectionToNewHost();
     void pickingAnotherHostClearsAdminPassword();
+    void secondSaveDoesNotAskAdminPassword();
+    void adminFieldComesBackWhenPasswordRefused();
+    void forgettingTheHostForgetsTheAdminPassword();
 
 private:
     QSslServer *newHttpsServer();
@@ -73,6 +78,7 @@ void TstOnlineDialogs::initTestCase()
 
 void TstOnlineDialogs::init()
 {
+    AdminCache::instance().clear();
     for (const CalaosAuth &a : ConfigOptions::Instance().getAuthList())
         ConfigOptions::Instance().deleteAuth(a.host);
 }
@@ -148,6 +154,73 @@ void TstOnlineDialogs::pickingAnotherHostClearsAdminPassword()
     admin->setText("secret of box A");
     combo->setCurrentIndex(combo->currentIndex() == 0 ? 1 : 0);
     QVERIFY(admin->text().isEmpty());
+}
+
+void TstOnlineDialogs::secondSaveDoesNotAskAdminPassword()
+{
+    FakeApi api(newHttpsServer(), adminServer);
+    QVERIFY(api.listen());
+    const QString host = QString("https://127.0.0.1:%1/api.php").arg(api.port());
+    QTemporaryDir dir;
+    for (const char *name : { "io.xml", "rules.xml" })
+    {
+        QFile f(dir.filePath(name));
+        QVERIFY(f.open(QIODevice::WriteOnly));
+        f.write("<io/>");
+    }
+
+    {
+        DialogOpenOnline d(dir.path());
+        fill(d, host, "correct horse battery");
+        QVERIFY(!d.findChild<QLineEdit *>("editAdminPass")->isHidden());
+        clickOk(d);
+        QTRY_COMPARE_WITH_TIMEOUT(d.result(), int(QDialog::Accepted), 10000);
+    }
+
+    DialogSaveOnline d(dir.path());
+    fill(d, host, QString());
+    d.show();
+    QVERIFY(d.findChild<QLineEdit *>("editAdminPass")->isHidden());
+    QVERIFY(d.findChild<QLabel *>("labelAdminPass")->isHidden());
+    clickOk(d);
+    QTRY_COMPARE_WITH_TIMEOUT(d.result(), int(QDialog::Accepted), 10000);
+    QCOMPARE(api.count("admin_unlock"), 1);
+    QCOMPARE(api.count("config", "put"), 1);
+}
+
+void TstOnlineDialogs::adminFieldComesBackWhenPasswordRefused()
+{
+    FakeApi api(newHttpsServer(), [](const QJsonObject &req)
+    {
+        return req.value("action").toString() == "admin_unlock" ? refusal("bad_password")
+                                                                : adminServer(req);
+    });
+    QVERIFY(api.listen());
+    const QString host = QString("https://127.0.0.1:%1/api.php").arg(api.port());
+    AdminCache::instance().store(host, "user", "stale", QString());
+    QTemporaryDir dir;
+
+    DialogOpenOnline d(dir.path());
+    d.show();
+    fill(d, host, QString());
+    QVERIFY(d.findChild<QLineEdit *>("editAdminPass")->isHidden());
+    // The refusal opens a modal box: the answerer timer closes it.
+    clickOk(d);
+    QTRY_VERIFY_WITH_TIMEOUT(!d.findChild<QLineEdit *>("editAdminPass")->isHidden(), 10000);
+    QVERIFY(!AdminCache::instance().has(host, "user"));
+}
+
+void TstOnlineDialogs::forgettingTheHostForgetsTheAdminPassword()
+{
+    ConfigOptions::Instance().addAuth({ "user", "pass", "10.0.0.1" });
+    AdminCache::instance().store("10.0.0.1", "user", "pw", "s");
+    QTemporaryDir dir;
+
+    DialogOpenOnline d(dir.path());
+    d.show();
+    QVERIFY(d.findChild<QLineEdit *>("editAdminPass")->isHidden());
+    d.findChild<QPushButton *>("pushButtonDelPref")->click();
+    QTRY_VERIFY_WITH_TIMEOUT(!AdminCache::instance().has("10.0.0.1", "user"), 5000);
 }
 
 QTEST_MAIN(TstOnlineDialogs)

@@ -1,5 +1,6 @@
 #include "OnlineSession.h"
 
+#include "AdminCache.h"
 #include "OnlineConfig.h"
 
 #include <QNetworkReply>
@@ -30,7 +31,25 @@ void OnlineSession::setCredentials(const QString &user, const QString &pass, con
         m_session.clear();
     m_user = user;
     m_pass = pass;
-    m_adminPass = adminPass;
+
+    AdminCache &cache = AdminCache::instance();
+    // The cached password belongs to the user it was typed for.
+    if (!m_host.isEmpty() && !cache.has(m_host, user))
+        cache.invalidate(m_host);
+    const AdminCache::Entry cached = cache.get(m_host, user);
+    if (adminPass.isEmpty())
+    {
+        // Nothing typed: the box was already unlocked in this run.
+        m_adminPass = cached.adminPass;
+        if (m_session.isEmpty())
+            m_session = cached.session;
+    }
+    else
+    {
+        if (adminPass != cached.adminPass)
+            m_session.clear();
+        m_adminPass = adminPass;
+    }
 }
 
 void OnlineSession::getConfig()
@@ -115,6 +134,9 @@ void OnlineSession::replied(QNetworkReply *reply, Step step)
     {
         if (!code.isEmpty())
         {
+            // The remembered password no longer works: the user types it again.
+            AdminCache::instance().invalidate(m_host);
+            m_adminPass.clear();
             finish(true, body);
             return;
         }
@@ -122,15 +144,19 @@ void OnlineSession::replied(QNetworkReply *reply, Step step)
         if (m_session.isEmpty())
             finish(true, R"({"success":"false","error":"no_admin_session"})");
         else
+        {
+            AdminCache::instance().store(m_host, m_user, m_adminPass, m_session);
             send(STEP_CONFIG);
+        }
         return;
     }
 
     if (code == "bad_session")
     {
-        // A session we already held has expired: the user is asked for the password again
-        // rather than unlocking behind their back.
-        if (m_session.isEmpty() && !m_adminPass.isEmpty() && !m_unlockTried)
+        // Sessions last 15 minutes: an expired one is replaced once with the password we hold.
+        m_session.clear();
+        AdminCache::instance().dropSession(m_host);
+        if (!m_adminPass.isEmpty() && !m_unlockTried)
         {
             m_unlockTried = true;
             // The admin password never travels in clear.
@@ -140,7 +166,6 @@ void OnlineSession::replied(QNetworkReply *reply, Step step)
                 finish(true, R"({"success":"false","error":"https_required"})");
             return;
         }
-        m_session.clear();
     }
 
     finish(true, body);

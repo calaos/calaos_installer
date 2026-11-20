@@ -156,7 +156,7 @@
            <string>Only if this box has an admin password</string>
           </property>
           <property name="toolTip">
-           <string>Never saved: asked once each time this window opens</string>
+           <string>Kept in memory until you quit Calaos Installer, never saved</string>
           </property>
          </widget>
         </item>
