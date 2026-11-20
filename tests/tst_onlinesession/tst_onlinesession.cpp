@@ -71,6 +71,9 @@ private slots:
     void secondSessionReusesUnlock();
     void secondSessionKeepsPasswordWhenSessionExpired();
     void wrongPasswordDropsCache();
+    void rateLimitedKeepsCache();
+    void sessionRefusedAfterUnlockForgetsPassword();
+    void cachedSessionNeverSentInClear();
     void otherHostOrUserIsNotServedFromCache();
     void typedPasswordReplacesCached();
     void invalidateAndClear();
@@ -370,6 +373,78 @@ void TstOnlineSession::wrongPasswordDropsCache()
     const int unlocks = api.count("admin_unlock");
     run(session, [&]() { session.getConfig(); });
     QCOMPARE(api.count("admin_unlock"), unlocks);
+}
+
+void TstOnlineSession::rateLimitedKeepsCache()
+{
+    bool limited = false;
+    FakeApi api(newHttpsServer(), [&limited](const QJsonObject &req)
+    {
+        if (limited)
+            return req.value("action").toString() == "admin_unlock" ? refusal("rate_limited")
+                                                                    : refusal("bad_session");
+        return adminServer(req);
+    });
+    QVERIFY(api.listen());
+    const QString host = local(api.port(), "https");
+
+    OnlineSession session;
+    session.setServer(host);
+    session.setCredentials("user", "pass", "correct horse battery");
+    QVERIFY(run(session, [&]() { session.getConfig(); }).reached);
+
+    limited = true;
+    const Outcome o = run(session, [&]() { session.getConfig(); });
+    QCOMPARE(OnlineConfig::refusalCode(o.body), QString("rate_limited"));
+    QVERIFY(AdminCache::instance().has(host, "user"));
+
+    // The password is still held: the next attempt needs no typing.
+    limited = false;
+    session.setCredentials("user", "pass", QString());
+    QVERIFY(OnlineConfig::parseGetResponse(run(session, [&]() { session.getConfig(); }).body).ok);
+}
+
+void TstOnlineSession::sessionRefusedAfterUnlockForgetsPassword()
+{
+    FakeApi api(newHttpsServer(), [](const QJsonObject &req)
+    {
+        if (req.value("action").toString() == "config")
+            return refusal("bad_session");
+        return adminServer(req);
+    });
+    QVERIFY(api.listen());
+    const QString host = local(api.port(), "https");
+
+    OnlineSession session;
+    session.setServer(host);
+    session.setCredentials("user", "pass", "correct horse battery");
+    const Outcome o = run(session, [&]() { session.getConfig(); });
+    QCOMPARE(OnlineConfig::refusalCode(o.body), QString("bad_session"));
+    QCOMPARE(api.count("admin_unlock"), 1);
+    // The dialog asks for the password again instead of replaying the cache.
+    QVERIFY(!AdminCache::instance().has(host, "user"));
+}
+
+void TstOnlineSession::cachedSessionNeverSentInClear()
+{
+    FakeApi plain(new QTcpServer(this), [](const QJsonObject &) { return refusal("https_required"); });
+    QVERIFY(plain.listen());
+    FakeApi https(newHttpsServer(), adminServer);
+    QVERIFY(https.listen());
+    const QString host = local(plain.port());
+    AdminCache::instance().store(host, "user", "correct horse battery", kSession);
+
+    OnlineSession session;
+    session.setHttpsPort(https.port());
+    session.setServer(host);
+    session.setCredentials("user", "pass", QString());
+    QVERIFY(OnlineConfig::parseGetResponse(run(session, [&]() { session.getConfig(); }).body).ok);
+
+    QCOMPARE(plain.requests.size(), 1);
+    QVERIFY(plain.requests[0].body.value("admin_session").toString().isEmpty());
+    QVERIFY(plain.requests[0].body.value("admin_pass").toString().isEmpty());
+    // Over https the cached session is used as usual.
+    QCOMPARE(https.count("admin_unlock"), 0);
 }
 
 void TstOnlineSession::otherHostOrUserIsNotServedFromCache()

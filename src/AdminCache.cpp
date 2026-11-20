@@ -23,17 +23,18 @@ void AdminCache::store(const QString &host, const QString &user, const QString &
 {
     Entry &e = m_entries[host];
     if (e.user != user || e.adminPass != adminPass)
-        wipe(e);
+        wipe(e.adminPass);
+    wipe(e.session);
     e.user = user;
-    e.adminPass = adminPass;
-    e.session = session;
+    e.adminPass = QString(adminPass.constData(), adminPass.size());
+    e.session = QString(session.constData(), session.size());
 }
 
 void AdminCache::dropSession(const QString &host)
 {
     const auto it = m_entries.find(host);
     if (it != m_entries.end())
-        it->session.clear();
+        wipe(it->session);
 }
 
 void AdminCache::invalidate(const QString &host)
@@ -52,10 +53,14 @@ void AdminCache::clear()
     m_entries.clear();
 }
 
+void AdminCache::wipe(QString &s)
+{
+    s.fill(QChar(0));
+    s.clear();
+}
+
 void AdminCache::wipe(Entry &e)
 {
-    e.adminPass.fill(QChar(0));
-    e.session.fill(QChar(0));
-    e.adminPass.clear();
-    e.session.clear();
+    wipe(e.adminPass);
+    wipe(e.session);
 }

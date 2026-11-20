@@ -44,10 +44,14 @@ void DialogOpenOnline::updateAdminField()
     const bool known = AdminCache::instance().has(ui->comboIP->currentText(), ui->editUsername->text());
     ui->labelAdminPass->setVisible(!known);
     ui->editAdminPass->setVisible(!known);
+    // A hidden field must not send what was typed for another host.
+    if (known)
+        ui->editAdminPass->clear();
 }
 
 DialogOpenOnline::~DialogOpenOnline()
 {
+    ui->editAdminPass->clear();
     delete ui;
 }
 
@@ -91,6 +95,7 @@ void DialogOpenOnline::on_buttonBox_accepted()
 
     ConfigOptions::Instance().setCurrentAuthIndex(ui->comboIP->currentIndex());
     ui->editAdminPass->setText(adminPass);
+    updateAdminField();
 
     loadXmlFiles(ui->comboIP->currentText());
 }

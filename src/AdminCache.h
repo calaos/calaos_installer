@@ -17,6 +17,7 @@ public:
     };
 
     static AdminCache &instance();
+    ~AdminCache() { clear(); }
 
     // The entry of this host when it was unlocked as this user; empty adminPass otherwise.
     Entry get(const QString &host, const QString &user) const;
@@ -28,9 +29,11 @@ public:
     void invalidate(const QString &host);
     void clear();
 
+    // Overwrites then releases. Copies made elsewhere (QLineEdit, request bodies) are out of
+    // reach; store() keeps a private deep copy so this hits the buffer the cache owns.
+    static void wipe(QString &s);
+
 private:
-    // QString cannot be wiped for sure (implicit sharing, copies already made); this overwrites
-    // the buffer we own.
     static void wipe(Entry &e);
 
     QHash<QString, Entry> m_entries;

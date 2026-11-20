@@ -16,6 +16,13 @@ OnlineSession::OnlineSession(QObject *parent):
             [](QNetworkReply *reply, const QList<QSslError> &) { reply->ignoreSslErrors(); });
 }
 
+OnlineSession::~OnlineSession()
+{
+    AdminCache::wipe(m_adminPass);
+    AdminCache::wipe(m_session);
+    AdminCache::wipe(m_pass);
+}
+
 void OnlineSession::setServer(const QString &host)
 {
     if (host == m_host && m_url.isValid())
@@ -76,15 +83,20 @@ void OnlineSession::start()
 
 void OnlineSession::send(Step step)
 {
+    // A session is a bearer secret: never on a clear-text connection. The box answers
+    // bad_session or https_required and the exchange moves to https.
+    const QString session = m_url.scheme() == "https" ? m_session : QString();
     QByteArray body;
     if (step == STEP_UNLOCK)
         body = OnlineConfig::buildUnlockRequest(m_user, m_pass, m_adminPass);
     else if (m_put)
-        body = OnlineConfig::buildPutRequest(m_user, m_pass, m_ioXml, m_rulesXml, m_session);
+        body = OnlineConfig::buildPutRequest(m_user, m_pass, m_ioXml, m_rulesXml, session);
     else
-        body = OnlineConfig::buildGetRequest(m_user, m_pass, m_session);
+        body = OnlineConfig::buildGetRequest(m_user, m_pass, session);
 
     QNetworkRequest request(m_url);
+    // A redirect would replay the body (password or session) towards another host.
+    request.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::ManualRedirectPolicy);
     // The contract bounds the unlock answer; config keeps today's behaviour (a put may be slow).
     if (step == STEP_UNLOCK)
         request.setTransferTimeout(kUnlockTimeoutMs);
@@ -134,9 +146,10 @@ void OnlineSession::replied(QNetworkReply *reply, Step step)
     {
         if (!code.isEmpty())
         {
-            // The remembered password no longer works: the user types it again.
-            AdminCache::instance().invalidate(m_host);
-            m_adminPass.clear();
+            // Only a refusal of the password itself makes the remembered one useless; a rate
+            // limit or an unreachable daemon says nothing about it.
+            if (code == "bad_password" || code == "admin_not_set")
+                forgetAdminPassword();
             finish(true, body);
             return;
         }
@@ -166,9 +179,20 @@ void OnlineSession::replied(QNetworkReply *reply, Step step)
                 finish(true, R"({"success":"false","error":"https_required"})");
             return;
         }
+        // The session was refused right after a successful unlock: let the user type the
+        // password again instead of replaying a cache that cannot help.
+        if (m_unlockTried)
+            forgetAdminPassword();
     }
 
     finish(true, body);
+}
+
+void OnlineSession::forgetAdminPassword()
+{
+    AdminCache::wipe(m_adminPass);
+    AdminCache::wipe(m_session);
+    AdminCache::instance().invalidate(m_host);
 }
 
 void OnlineSession::finish(bool reached, const QByteArray &body, const QString &networkError)

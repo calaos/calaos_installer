@@ -14,6 +14,7 @@ class OnlineSession: public QObject
     Q_OBJECT
 public:
     explicit OnlineSession(QObject *parent = nullptr);
+    ~OnlineSession() override;
 
     // Another host drops the admin session and the https rewrite of the previous one.
     void setServer(const QString &host);
@@ -41,6 +42,7 @@ private:
     void send(Step step);
     void replied(QNetworkReply *reply, Step step);
     bool moveToHttps();
+    void forgetAdminPassword();
     void finish(bool reached, const QByteArray &body, const QString &networkError = QString());
 
     QNetworkAccessManager m_network;
