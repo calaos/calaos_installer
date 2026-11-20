@@ -4291,8 +4291,8 @@ HTTP error: </translation>
     </message>
     <message>
         <location filename="../data/DialogOpenOnline.ui" line="142"/>
-        <source>Never saved: asked once each time this window opens</source>
-        <translation>Jamais enregistré : demandé une fois à chaque ouverture de cette fenêtre</translation>
+        <source>Kept in memory until you quit Calaos Installer, never saved</source>
+        <translation>Gardé en mémoire jusqu&apos;à la fermeture de Calaos Installer, jamais enregistré</translation>
     </message>
 </context>
 <context>
@@ -4641,8 +4641,8 @@ Continuer ?</numerusform>
     </message>
     <message>
         <location filename="../data/DialogSaveOnline.ui" line="159"/>
-        <source>Never saved: asked once each time this window opens</source>
-        <translation>Jamais enregistré : demandé une fois à chaque ouverture de cette fenêtre</translation>
+        <source>Kept in memory until you quit Calaos Installer, never saved</source>
+        <translation>Gardé en mémoire jusqu&apos;à la fermeture de Calaos Installer, jamais enregistré</translation>
     </message>
 </context>
 <context>

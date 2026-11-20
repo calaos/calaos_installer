@@ -1,6 +1,7 @@
 #include "dialogsaveonline.h"
 #include "ui_DialogSaveOnline.h"
 
+#include "AdminCache.h"
 #include "ConfigOptions.h"
 #include <Utils.h>
 #include "OnlineConfig.h"
@@ -31,10 +32,26 @@ DialogSaveOnline::DialogSaveOnline(QString temp, QWidget *parent):
             ui->editPass->setText(auths[i].password);
         }
     }
+
+    connect(ui->comboIP, &QComboBox::editTextChanged, this, &DialogSaveOnline::updateAdminField);
+    connect(ui->editUsername, &QLineEdit::textChanged, this, &DialogSaveOnline::updateAdminField);
+    updateAdminField();
+}
+
+// An unlocked box is not asked again; the field comes back when the password is refused.
+void DialogSaveOnline::updateAdminField()
+{
+    const bool known = AdminCache::instance().has(ui->comboIP->currentText(), ui->editUsername->text());
+    ui->labelAdminPass->setVisible(!known);
+    ui->editAdminPass->setVisible(!known);
+    // A hidden field must not send what was typed for another host.
+    if (known)
+        ui->editAdminPass->clear();
 }
 
 DialogSaveOnline::~DialogSaveOnline()
 {
+    ui->editAdminPass->clear();
     delete ui;
 }
 
@@ -78,6 +95,7 @@ void DialogSaveOnline::on_buttonBox_accepted()
 
     ConfigOptions::Instance().setCurrentAuthIndex(ui->comboIP->currentIndex());
     ui->editAdminPass->setText(adminPass);
+    updateAdminField();
 
     uploadXmlFiles(ui->comboIP->currentText());
 }
@@ -126,6 +144,7 @@ void DialogSaveOnline::probeServerFormat()
 
 void DialogSaveOnline::probeFinished(bool reached, const QByteArray &body, const QString &networkError)
 {
+    updateAdminField();
     if (!reached)
     {
         fail(tr("Failed to connect!\nPlease check your credentials.\nHTTP error: ") + networkError);
@@ -180,6 +199,7 @@ void DialogSaveOnline::fail(const QString &message)
 
 void DialogSaveOnline::uploadFinished(bool reached, const QByteArray &body, const QString &networkError)
 {
+    updateAdminField();
     if (!reached)
     {
         fail(tr("Failed to connect!\nPlease check your credentials.\nHTTP error: ") + networkError);
@@ -222,6 +242,7 @@ void DialogSaveOnline::on_pushButtonDelPref_clicked()
     if (ret == QMessageBox::Yes)
     {
         ConfigOptions::Instance().deleteAuth(host);
+        AdminCache::instance().invalidate(host);
         ui->comboIP->removeItem(ui->comboIP->currentIndex());
         auths = ConfigOptions::Instance().getAuthList();
     }
@@ -235,4 +256,5 @@ void DialogSaveOnline::on_comboIP_currentIndexChanged(int index)
     ui->editPass->setText(auths[index].password);
     // Another box has its own admin password.
     ui->editAdminPass->clear();
+    updateAdminField();
 }

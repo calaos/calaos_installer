@@ -76,6 +76,7 @@ SOURCES += src/main.cpp \
     src/qanimationlabel.cpp \
     src/dialogsaveonline.cpp \
     src/OnlineSession.cpp \
+    src/AdminCache.cpp \
     src/BackupArchive.cpp \
     src/formpost.cpp \
     src/dialogiolist.cpp \
@@ -189,6 +190,7 @@ HEADERS += src/mainwindow.h \
     src/qanimationlabel.h \
     src/dialogsaveonline.h \
     src/OnlineSession.h \
+    src/AdminCache.h \
     src/BackupArchive.h \
     src/formpost.h \
     src/dialogiolist.h \

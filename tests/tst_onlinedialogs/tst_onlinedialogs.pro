@@ -21,6 +21,7 @@ FORMS += \
 
 SOURCES += \
     $$PWD/../../src/OnlineSession.cpp \
+    $$PWD/../../src/AdminCache.cpp \
     $$PWD/../../src/dialogopenonline.cpp \
     $$PWD/../../src/dialogsaveonline.cpp \
     $$PWD/../../src/qanimationlabel.cpp \
@@ -28,6 +29,7 @@ SOURCES += \
 
 HEADERS += \
     $$PWD/../tst_onlinesession/FakeApi.h \
+    $$PWD/../../src/AdminCache.h \
     $$PWD/../../src/OnlineSession.h \
     $$PWD/../../src/dialogopenonline.h \
     $$PWD/../../src/dialogsaveonline.h \
